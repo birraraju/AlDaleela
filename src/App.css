@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap');
+
+img {
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Webkit browsers (Chrome, Safari) */
+.categories-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+.font-plus-jakarta {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.categories-scroll::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.categories-scroll::-webkit-scrollbar-thumb {
+  background: #bdbdbd;
+  border-radius: 15px;
+}
+
+.categories-scroll::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.custom-gradient {
+  background: linear-gradient(
+    270.18deg,
+    #036068 -14.27%,
+    #596451 47.55%,
+    #1e7c87 76.37%,
+    #4c7950 107.69%,
+    #1199a8 147.31%
+  );
+}
+
+/* Scrollbar styles */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #b2cacc;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Input Hide */
+input[type="password"]::-webkit-inner-spin-button,
+input[type="password"]::-webkit-outer-spin-button {
+  display: none;
+}
+
+input[type="password"] {
+  -webkit-text-security: disc;
+}
+
+input[type="password"]::-webkit-password-field {
+  display: none;
+}
+
+.btn-gradient {
+  background: linear-gradient(
+    270.18deg,
+    #036068 -14.27%,
+    #596451 47.55%,
+    #1e7c87 76.37%,
+    #4c7950 107.69%,
+    #1199a8 147.31%
+  );
+}
+.font-poppins {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Custom scrollbar container */
+.scroll-container::-webkit-scrollbar {
+  height: 2.64px; /* Set height for the horizontal scrollbar */
+  width:6px;
+  border-radius: 26px; /* Rounded top-left corner */
+  background-color: #EBEBEB; /* Transparent scrollbar track */
+}
+
+/* Custom scrollbar thumb */
+.scroll-container::-webkit-scrollbar-thumb {
+  background-color: #B2CACC; /* Scrollbar thumb color */
+  border-radius: 25px ; /* Rounded top-left corner */
+  opacity: 0; /* Hidden by default */
+}
+
+/* Show scrollbar thumb on hover */
+.scroll-container:hover::-webkit-scrollbar-thumb {
+  opacity: 1; /* Increase opacity on hover */
+}
+
+/* Hide scrollbar arrows */
+.scroll-container::-webkit-scrollbar-button {
+  display: none; /* Hide top/bottom arrows */
+}
+
+/* Optional: Rotate scroll content by -90 degrees */
+.scroll-content {
+  transform: rotate(-90deg); /* Rotate the content */
+  transform-origin: center center; /* Center the rotation */
+}

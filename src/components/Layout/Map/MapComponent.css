@@ -1,0 +1,144 @@
+.arcgis-map-component {
+    position: relative;
+}
+
+.arcgis-map-component #mapDiv {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.arcgis-map-component #mapToolsLeftVertical .controller-wrapper {
+    margin: 6px 0 !important;
+}
+
+.arcgis-map-component .map-tools-left {
+    position: absolute;
+}
+
+.arcgis-map-component .map-tools-left.horizontal {
+    left: 52px;
+    top: 3px;
+    display: flex;
+    align-items: center;
+}
+
+.arcgis-map-component .map-tools-left.horizontal #container {
+    position: absolute;
+    top: 60px;
+    left: 12px;
+}
+
+.arcgis-map-component .map-tools-left.vertical {
+    left: 15px;
+    top: 85px;
+}
+
+.arcgis-map-component .map-tools-left.vertical .controller-wrapper {
+    margin: 6px 0;
+}
+
+.arcgis-map-component .map-tools-left.vertical .controller-wrapper .controller {
+    left: 60px;
+    bottom: 7px;
+    height: calc(100vh - 275px);
+}
+
+.arcgis-map-component .map-tools-left.vertical .controller-wrapper .controller:dir(rtl) {
+    right: 60px;
+    left: unset;
+    /* Adjust position for [dir=rtl] */
+}
+
+.arcgis-map-component .map-tools-left.vertical:dir(rtl) {
+    right: 15px;
+    left: unset;
+}
+
+.arcgis-map-component .Horizontal {
+    position: absolute;
+    left: 65px;
+    top: 15px;
+    display: flex;
+    align-items: center;
+    height: 40px;
+    align-content: center;
+    flex-wrap: nowrap;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.arcgis-map-component .Horizontal .controller-wrapper {
+    margin: 7px;
+}
+
+.arcgis-map-component .Horizontal:dir(rtl) {
+    right: 65px;
+    left: unset;
+}
+
+.arcgis-map-component .map-tools-right {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.arcgis-map-component .map-tools-right .controller-wrapper {
+    margin: 7px 0;
+}
+
+.arcgis-map-component .map-tools-right .controller-wrapper .controller {
+    right: 70px;
+    top: 80px;
+    height: calc(100vh - 95px);
+}
+
+.arcgis-map-component .map-tools-right .controller-wrapper .controller:dir(rtl) {
+    left: 70px;
+    right: unset;
+}
+
+.arcgis-map-component .map-tools-right:dir(rtl) {
+    left: 15px;
+    right: unset;
+}
+
+.controller-wrapper {
+    position: relative;
+    height: 100%;
+    /* overflow-y: auto; */
+    
+}
+
+.controller-wrapper .controller {
+    position: fixed;
+    width: 400px;
+    /* min-height: 200px; */
+    background: #fff;
+    color: #343434;
+    border: 1px solid #c9c9c9;
+    border-radius: 12px;
+    box-shadow: -2px 4px 40px rgba(128, 128, 128, 0.2784313725);
+    overflow: hidden;
+}
+
+.controller-wrapper .controller .content {
+    overflow-y: auto;
+    height: inherit;
+}
+
+.controller-wrapper .controller-btn {
+    color: var(--color-white);
+    background: var(--primary-btn-color);
+    border: 0;
+    padding: 7px;
+    width: 37px;
+    height: 37px;
+}
+
+.controller-wrapper .controller-btn:hover {
+    background: var(--primary-btn-hover-color);
+}

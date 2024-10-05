@@ -1,0 +1,33 @@
+import { useState } from "react";
+import GeneralInformation from "./GeneralInformation/GeneralInformation";
+
+const Location = ({ isHeaderOpen }) => {
+  const [showInfo, setShowInfo] = useState(false);
+
+  const handleClick = () => {
+    setShowInfo(!showInfo);
+    isHeaderOpen();
+  };
+
+  const handleClose = () => {
+    setShowInfo(false);
+  };
+
+  return (
+    <>
+      <div
+        className={`bg-white ${!showInfo && "bg-opacity-5"} flex rounded-full mobile_s:h-9 laptop_m:h-10 mobile_s:w-9 laptop_m:w-10 mobile_s:mr-2 laptop_m:mr-4 justify-center items-center cursor-pointer`}
+        onClick={handleClick}
+      >
+        <img
+          src={`/Header/GeneralInformation/${!showInfo ? "Location.svg" : "Location-color.svg"}`}
+          alt=""
+          className="mobile_s:w-4 laptop_m:w-5"
+        />
+      </div>
+      {showInfo && <GeneralInformation onClose={handleClose} />}
+    </>
+  );
+};
+
+export default Location;

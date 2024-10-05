@@ -1,0 +1,38 @@
+@font-face {
+    font-family: 'Omnes-Black';
+    src: url('./fonts/Omnes-font/Omnes Black.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Omnes-Bold';
+    src: url('./fonts/Omnes-font/Omnes Bold.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Omnes-Light';
+    src: url('./fonts/Omnes-font/Omnes Light.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Omnes-Medium-Italic';
+    src: url('./fonts/Omnes-font/Omnes Medium Italic.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Omnes-Medium';
+    src: url('./fonts/Omnes-font/Omnes Medium.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Omnes-Regular';
+    src: url('./fonts/Omnes-font/Omnes Regular.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Omnes-SemiBold';
+    src: url('./fonts/Omnes-font/Omnes SemiBold.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'Omnes-Thin';
+    src: url('./fonts/Omnes-font/Omnes Thin.ttf') format('truetype');
+  }
