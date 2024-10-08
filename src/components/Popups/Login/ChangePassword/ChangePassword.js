@@ -35,7 +35,7 @@ export default function ChangePassword({ onClose, onSignupClick }) {
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-[#E6F3F7]">
       <div
         ref={modalRef}
-        className="bg-[url('/cloud-background.jpg')] bg-cover bg-center p-6 rounded-lg shadow-lg w-full max-w-[320px] relative"
+        className="bg-[#E6F3F7] bg-cover bg-center p-6 rounded-lg shadow-lg w-full max-w-[320px] relative"
       >
         <button
           onClick={onClose}

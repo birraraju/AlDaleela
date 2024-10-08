@@ -2,7 +2,7 @@ import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { useTranslation } from "react-i18next";
 import { Tooltip } from "react-tooltip";
 import PropTypes from 'prop-types';
-//import "./Footer.css";
+import "./Footer.css";
 
 export default function Footer({ handleMenuItemClick, resetTrigger }) {
   const [currentMenuPosition, setCurrentMenuPosition] = useState(0);
@@ -144,7 +144,7 @@ export default function Footer({ handleMenuItemClick, resetTrigger }) {
 
   return (
     <div
-      className={`sc-bottom-bar sc-bottom-barbgcolor no-select ${isExpanded ? 'expanded' : ''}`}
+      className={`sc-bottom-bar z-10 sc-bottom-barbgcolor no-select ${isExpanded ? 'expanded' : ''}`}
       onMouseLeave={handleMouseLeave}
     >
       {Array.from({ length: 7 }).map((_, index) => (
