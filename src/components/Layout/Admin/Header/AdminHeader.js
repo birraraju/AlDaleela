@@ -1,6 +1,6 @@
 import React from "react";
-import Logo from "@/components/Layout/Admin/Header/logo/Adminlogo";
-import Menus from "@/components/Layout/Admin/Header/AdminMenu/AdminMenu";
+import Logo from "../../Admin/Header/logo/Adminlogo";
+import Menus from "../../Admin/Header/AdminMenu/AdminMenu";
 
 const Header = ({ isFooteropen, isHeaderOpen }) => {
   return (

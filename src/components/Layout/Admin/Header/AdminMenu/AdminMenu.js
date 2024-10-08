@@ -1,6 +1,6 @@
-import Language from "@/components/Layout/Header/Menus/Language/Language";
-import Profile from "@/components/Layout/Header/Menus/Profile/Profile";
-import Stack from "@/components/Layout/Header/Menus/Stack/Stack";
+import Language from "../../../../Layout/Header/Menus/Language/Language";
+import Profile from "../../../../Layout/Header/Menus/Profile/Profile";
+import Stack from "../../../../Layout/Header/Menus/Stack/Stack";
 import { useState } from "react";
 
 const Menus = ({ isFooteropen, isHeaderOpen }) => {

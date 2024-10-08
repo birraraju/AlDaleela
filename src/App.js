@@ -1,31 +1,39 @@
-// src/App.tsx
-
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from "./Providers/AuthProvider/AuthProvider";
-import "./App.css";
-//import AdminLayout from '@/components/Layout/Admin/Layout/AdminLayout';
+import AdminLayout from './components/Layout/Admin/Layout/AdminLayout';
 import DefaultLayout from './components/Layout/DefaultLayout';
 
 const ProtectedRoute = ({ children }) => {
-  const { isAuthenticated } = useAuth(); // Assuming useAuth provides authentication state
+  const { role } = useAuth(); // Using the role to check authentication state
 
-  return isAuthenticated ? children : <Navigate to="/default" />;
+  console.log("Role state:", role); // Log role for debugging
+
+  if (role === null) {
+    return <div>Loading...</div>; // Show loading state while role is being determined
+  }
+
+  return role ? children : <Navigate to="/default" />; // If role exists, allow access to admin routes, otherwise redirect
 };
 
-const App= () => {
+const App = () => {
   return (
     <BrowserRouter>
       <AuthProvider>
         <Routes>
+          {/* Public Route */}
           <Route path="/default" element={<DefaultLayout />} />
-          {/* <Route 
+
+          {/* Protected Route */}
+          <Route 
             path="/admin" 
             element={
               <ProtectedRoute>
                 <AdminLayout />
               </ProtectedRoute>
             } 
-          /> */}
+          />
+
+          {/* Redirect to default for undefined routes */}
           <Route path="*" element={<Navigate to="/default" />} />
         </Routes>
       </AuthProvider>

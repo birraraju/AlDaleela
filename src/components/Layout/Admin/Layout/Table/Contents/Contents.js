@@ -1,5 +1,5 @@
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../../../../ui/table";
+import { Button } from "../../../../../ui/button";
 import { PencilIcon, TrashIcon } from 'lucide-react';
 
 export function Contents({ data, columns, onEdit, onDelete }) {

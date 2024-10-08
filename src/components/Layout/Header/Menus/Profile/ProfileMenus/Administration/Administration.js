@@ -1,3 +1,6 @@
+import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import React from "react";
+
 export default function Administration() {
   return (
     <div className="pt-6 cursor-pointer">
@@ -5,9 +8,9 @@ export default function Administration() {
         <div>
           <img src="/Header/Profile/Administration.svg" alt="Administration Icon" className="w-7" />
         </div>
-        <a href="/admin">
+        <Link to="/admin"> {/* Use Link instead of <a> */}
           <p className="font-medium font-omnes text-[#505050] text-[18px]">Administration</p>
-        </a>
+        </Link>
       </div>
     </div>
   );
