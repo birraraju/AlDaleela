@@ -21,11 +21,12 @@ export default function SideLayout4({ children, width = "454.84px", height = "ca
     onClose();
   };
 
+  // Handle outside click detection (removed the close functionality)
   useEffect(() => {
-    // Detect outside click and close panel
     const handleClickOutside = (event) => {
       if (containerRef.current && !containerRef.current.contains(event.target)) {
-        closePanel(); // Close the panel if clicked outside
+        // Removed closePanel() call here.
+        // You can still handle other logic if needed for outside clicks.
       }
     };
 
@@ -59,7 +60,7 @@ export default function SideLayout4({ children, width = "454.84px", height = "ca
       ref={containerRef}  // Reference to the panel
     >
       <div className="relative h-[65%] w-full bg-white bg-opacity-70 backdrop-blur-lg rounded-2xl shadow-lg overflow-hidden border border-white">
-        {/* X Close Button in the top-right corner */}
+        {/* X Close Button in the top-left corner */}
         <button
           onClick={closePanel}
           className="absolute top-4 left-4 p-2 text-gray-600 hover:text-gray-900 transition-colors cursor-pointer z-50"  // Ensure it's clickable

@@ -49,19 +49,8 @@ export default function SideLayout6({
     }
   }, [isFullyClosed, onClose]);
 
-  // Detect clicks outside the panel
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (panelRef.current && !panelRef.current.contains(event.target)) {
-        closePanel();
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  // You can remove the 'handleClickOutside' logic completely 
+  // to prevent closing when clicking outside of the panel
 
   if (isFullyClosed) return null;
 

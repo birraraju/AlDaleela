@@ -324,7 +324,6 @@ main {
 }
 
 .sc-menu-item {
-    background-color: var(--bright-bg);
     /* Remove default button background */
     border: none;
     /* Remove default button border */
@@ -339,7 +338,6 @@ main {
     cursor: pointer;
     margin: 0px 1px;
     border-radius: 50px;
-    background-color: #ffffff;
     height: 60px;
     width: 60px;
     display: flex;
@@ -2333,7 +2331,6 @@ main {
 }
 
 .sc-menu-item {
-    background-color: var(--bright-bg);
     /* Remove default button background */
     border: none;
     /* Remove default button border */
@@ -2348,7 +2345,6 @@ main {
     cursor: pointer;
     margin: 0px 1px;
     border-radius: 50px;
-    background-color: #ffffff;
     height: 44px;
     width: 44px;
     display: flex;

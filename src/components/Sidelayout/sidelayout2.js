@@ -25,20 +25,19 @@ export default function SideLayout2({ children, width = "454.84px", height = "ca
     onClose();
   };
 
-  // Handle outside click to close the panel
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (layoutRef.current && !layoutRef.current.contains(event.target)) {
-        onClose();
-      }
-    };
+  // Remove the outside click handler to prevent closing on outside clicks
+  // useEffect(() => {
+  //   const handleClickOutside = (event) => {
+  //     if (layoutRef.current && !layoutRef.current.contains(event.target)) {
+  //       onClose();
+  //     }
+  //   };
 
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [onClose]);
+  //   document.addEventListener("mousedown", handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, [onClose]);
 
   // Handle closing animation
   useEffect(() => {
