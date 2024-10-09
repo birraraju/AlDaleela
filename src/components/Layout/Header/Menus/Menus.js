@@ -7,7 +7,7 @@ import { useState } from "react";
 
 
 
-const Menus = ({ isFooteropen, isHeaderOpen }) => {
+const Menus = ({ isFooteropen, isHeaderOpen, mapview }) => {
   const [isStackOpen, setStackOpen] = useState(false);
 
   // Function to toggle the Stack component visibility
@@ -17,11 +17,12 @@ const Menus = ({ isFooteropen, isHeaderOpen }) => {
 
   return (
     <div className="text-white flex justify-between z-10 items-center">
-      <Searchbar />
+      <Searchbar/>
       <Stack
         isFooteropen={isFooteropen}
         isHeaderOpen={isHeaderOpen}
         isStackOpen={toggleStackOpen} // Use the toggle function
+        mapview={mapview}
       />
       <Language isHeaderOpen={isHeaderOpen} />
       <Location isHeaderOpen={isHeaderOpen} />

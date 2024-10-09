@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import LayersList from "./LayersList/LayersList";
 
-const Stack = ({ isFooteropen, isHeaderOpen, isStackOpen }) => {
+const Stack = ({ isFooteropen, isHeaderOpen, isStackOpen, mapview }) => {
   const [showLayers, setShowLayers] = useState(false);
 
   const toggleLayers = () => {
@@ -28,7 +28,7 @@ const Stack = ({ isFooteropen, isHeaderOpen, isStackOpen }) => {
           className="mobile_s:w-5 laptop_m:w-6"
         />
       </div>
-      {showLayers && <LayersList onClose={toggleLayers} />}
+      {showLayers && <LayersList onClose={toggleLayers} mapview={mapview}/>}
     </>
   );
 }

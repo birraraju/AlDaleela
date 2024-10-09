@@ -60,7 +60,7 @@ const DefaultLayout = () => {
 
   return (
     <div className="flex flex-col h-screen bg-blue-100">
-      <Header isFooterOpen={isFooterOpen} isHeaderOpen={handleStackOpen} />
+      <Header isFooterOpen={isFooterOpen} isHeaderOpen={handleStackOpen} mapview={mapview} />
       <SideBar />
       {popup && <div className="absolute z-50">{popup}</div>}
       <div className="flex-1 relative overflow-hidden">
