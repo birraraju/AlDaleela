@@ -4,16 +4,19 @@ import { X } from "lucide-react";
 export default function LayersList({ onClose }) {
   const layersListRef = useRef(null);
 
-  const handleClickOutside = (event) => {
-    if (layersListRef.current && !layersListRef.current.contains(event.target)) {
-      onClose();
-    }
-  };
+  // Removed handleClickOutside as we don't want to close on outside click
+  // const handleClickOutside = (event) => {
+  //   if (layersListRef.current && !layersListRef.current.contains(event.target)) {
+  //     onClose();
+  //   }
+  // };
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
+    // Attach a click event listener if needed
+    // document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      // Clean up if you had any other listeners
+      // document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -33,25 +36,7 @@ export default function LayersList({ onClose }) {
           </button>
         </div>
         <div className="my-2 bg-black bg-opacity-10 h-[1px] w-full"></div>
-        {/* 
-        Uncomment this part if you want to use the Accordion component
-        <Accordion type="single" collapsible>
-          <AccordionItem value="item-1">
-            <AccordionTrigger className="font-omnes font-medium text-[16px]">Place Aldaleela 1</AccordionTrigger>
-            <AccordionContent className="pl-4">
-              <Accordion type="single" collapsible>
-                <AccordionItem value="item-1">
-                  <AccordionTrigger className="font-omnes font-medium text-[16px] bg-[#DFE2E3]">Terrestrial</AccordionTrigger>
-                  <AccordionTrigger className="font-omnes font-medium text-[16px]">Marine</AccordionTrigger>
-                  <AccordionTrigger className="font-omnes font-medium text-[16px]">Island</AccordionTrigger>
-                  <AccordionContent className="pl-4">
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion> 
-        */}
+      
       </div>
     </div>
   );
