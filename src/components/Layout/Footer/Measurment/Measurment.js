@@ -58,7 +58,7 @@ export default function SideLayout({ children }) {
           {children || (
             <>
               <div className="flex flex-row text-black items-center justify-between border-gray-300">
-                <h2 className="text-base font-medium">Measuremen</h2>
+                <h2 className="text-base font-medium">Measurement</h2>
                 <button
                   className="p-2 rounded-md hover:bg-gray-200"
                   onClick={() => setIsOpen(false)}
