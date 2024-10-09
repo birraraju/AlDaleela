@@ -6,7 +6,7 @@ const PrintComponent = ({ mapview }) => {
   const printRef = useRef(null);
 
   useEffect(() => {
-    if (mapview && printRef.current.innerHTML == "") {
+    if (mapview && printRef.current) {
       try {
         const printWidget = new Print({
           view: mapview,
@@ -15,8 +15,9 @@ const PrintComponent = ({ mapview }) => {
         });
 
         return () => {
-          if(printRef.current.innerHTML){
-              printWidget.destroy();
+          if(printRef.current){
+              //printWidget.destroy();
+              printRef.current = null;
           }
           
         };
@@ -24,7 +25,7 @@ const PrintComponent = ({ mapview }) => {
         console.error("Error initializing print widget:", error);
       }
     }
-  }, []);
+  }, [mapview]);
 
   return <div className="Print" id="printDiv" ref={printRef} />;
 };

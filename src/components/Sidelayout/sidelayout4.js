@@ -21,11 +21,12 @@ export default function SideLayout4({ children, width = "454.84px", height = "ca
     onClose();
   };
 
+  // Handle outside click detection (removed the close functionality)
   useEffect(() => {
-    // Detect outside click and close panel
     const handleClickOutside = (event) => {
       if (containerRef.current && !containerRef.current.contains(event.target)) {
-        closePanel(); // Close the panel if clicked outside
+        // Removed closePanel() call here.
+        // You can still handle other logic if needed for outside clicks.
       }
     };
 
@@ -59,25 +60,24 @@ export default function SideLayout4({ children, width = "454.84px", height = "ca
       ref={containerRef}  // Reference to the panel
     >
       <div className="relative h-[65%] w-full bg-white bg-opacity-70 backdrop-blur-lg rounded-2xl shadow-lg overflow-hidden border border-white">
-        {/* X Close Button in the top-right corner */}
-        <button
-          onClick={closePanel}
-          className="absolute top-4 left-4 p-2 text-gray-600 hover:text-gray-900 transition-colors cursor-pointer z-50"  // Ensure it's clickable
-          aria-label="Close side panel"
-          style={{ zIndex: 100 }} // Ensure the "X" button is on top
-        >
-          <X className="h-5 w-6" />
-        </button>
-
         {/* Content */}
         <div className="p-4 overflow-y-auto h-full relative">
           {children || (
-            <div className="absolute top-6 right-4 flex items-center gap-x-2">
+            <div className="absolute top-6 left-4 flex items-center gap-x-2">
               <img src={Location} alt="Location" className="h-5" />
               <p className="text-gray-600 font-medium font-poppins">Dropped pin</p>
             </div>
           )}
         </div>
+        {/* X Close Button in the top-left corner */}
+        <button
+          onClick={closePanel}
+          className="absolute top-4 right-4 p-2 text-gray-600 hover:text-gray-900 transition-colors cursor-pointer z-50"  // Ensure it's clickable
+          aria-label="Close side panel"
+          style={{ zIndex: 100 }} // Ensure the "X" button is on top
+        >
+          <X className="h-5 w-6" />
+        </button>
       </div>
 
       {/* Toggle button */}

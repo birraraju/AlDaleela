@@ -43,22 +43,7 @@ export default function SideLayout3({ children, width = "454.84px", height = "ca
     }
   }, [isFullyClosed, onClose]);
 
-  useEffect(() => {
-    // Function to handle clicks outside the panel
-    const handleClickOutside = (event) => {
-      if (panelRef.current && !panelRef.current.contains(event.target)) {
-        closePanel(); // Close the panel if clicked outside
-      }
-    };
-
-    // Add event listener to detect clicks outside the panel
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      // Cleanup event listener on component unmount
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  // Removed the handleClickOutside function and event listener
 
   if (isFullyClosed) return null;
 
@@ -83,7 +68,7 @@ export default function SideLayout3({ children, width = "454.84px", height = "ca
         <div className="p-6 overflow-y-auto h-full">
           {children || (
             <p className="text-gray-700 font-poppins font-medium">
-              Measurements
+              Measurments
             </p>
           )}
         </div>

@@ -1,21 +1,34 @@
 import { useEffect, useRef } from "react";
 import { X } from "lucide-react";
+import LayerListAPI from "@arcgis/core/widgets/LayerList.js";
 
-export default function LayersList({ onClose }) {
+export default function LayersList({ onClose, mapview }) {
   const layersListRef = useRef(null);
-
-  const handleClickOutside = (event) => {
-    if (layersListRef.current && !layersListRef.current.contains(event.target)) {
-      onClose();
-    }
-  };
+  const layerlistRef = useRef(null);
+  // Removed handleClickOutside as we don't want to close on outside click
+  // const handleClickOutside = (event) => {
+  //   if (layersListRef.current && !layersListRef.current.contains(event.target)) {
+  //     onClose();
+  //   }
+  // };
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+    if (mapview && layerlistRef.current) {
+      const layerListDiv = new LayerListAPI({
+        view: mapview,
+        container: layerlistRef.current
+      });
+
+      // Optional: Cleanup on component unmount
+      return () => {
+        //layerList.destroy(); // Destroy the LayerList when the component unmounts
+        if(layerlistRef.current){
+          //printWidget.destroy();
+          layerlistRef.current = null;
+      }
+      };
+    }
+  }, [mapview]); // Add mapview to the dependency array
 
   return (
     <div className="flex items-center justify-center z-10">
@@ -33,25 +46,7 @@ export default function LayersList({ onClose }) {
           </button>
         </div>
         <div className="my-2 bg-black bg-opacity-10 h-[1px] w-full"></div>
-        {/* 
-        Uncomment this part if you want to use the Accordion component
-        <Accordion type="single" collapsible>
-          <AccordionItem value="item-1">
-            <AccordionTrigger className="font-omnes font-medium text-[16px]">Place Aldaleela 1</AccordionTrigger>
-            <AccordionContent className="pl-4">
-              <Accordion type="single" collapsible>
-                <AccordionItem value="item-1">
-                  <AccordionTrigger className="font-omnes font-medium text-[16px] bg-[#DFE2E3]">Terrestrial</AccordionTrigger>
-                  <AccordionTrigger className="font-omnes font-medium text-[16px]">Marine</AccordionTrigger>
-                  <AccordionTrigger className="font-omnes font-medium text-[16px]">Island</AccordionTrigger>
-                  <AccordionContent className="pl-4">
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion> 
-        */}
+        <div ref={layerlistRef}></div>
       </div>
     </div>
   );

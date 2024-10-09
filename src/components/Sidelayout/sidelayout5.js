@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
-import { X } from "lucide-react"; // X icon import
+import { X } from "lucide-react";
 
 export default function SideLayout5({
   children,
@@ -8,7 +8,7 @@ export default function SideLayout5({
   height = "calc(95vh - 2rem)",
   onClose,
 }) {
-  const [isOpen, setIsOpen] = useState(true);  // Controls panel visibility
+  const [isOpen, setIsOpen] = useState(true); // Controls panel visibility
   const [isFullyClosed, setIsFullyClosed] = useState(false);
   const [toggleCount, setToggleCount] = useState(0);
   const panelRef = useRef(null); // Ref to the side panel div
@@ -34,10 +34,10 @@ export default function SideLayout5({
     onClose();
   };
 
-  // Function to detect clicks outside of the panel
+  // Function to detect clicks outside of the panel, now disabled to prevent automatic closing
   const handleClickOutside = (event) => {
     if (panelRef.current && !panelRef.current.contains(event.target)) {
-      closePanel();  // Close panel when clicking outside
+      // Do nothing here, we no longer close the panel on outside clicks
     }
   };
 
@@ -65,7 +65,7 @@ export default function SideLayout5({
 
   return (
     <div
-      ref={panelRef}  // Assign the ref to the side panel div
+      ref={panelRef} // Assign the ref to the side panel div
       className={`fixed top-16 right-3 transition-transform duration-300 ease-in-out ${
         isOpen ? "translate-x-0" : "translate-x-full"
       }`}
@@ -104,9 +104,9 @@ export default function SideLayout5({
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             style={{
-              position: 'relative',
-              top: '1px',
-              right: '3px',
+              position: "relative",
+              top: "1px",
+              right: "3px",
             }}
           >
             <g clipPath="url(#clip0_4011_11301)">

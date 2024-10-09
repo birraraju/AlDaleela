@@ -39,8 +39,10 @@ export default function SideLayout1({
   // Handle click outside the panel
   useEffect(() => {
     const handleClickOutside = (event) => {
+      // Removed the condition to close the panel on outside clicks
       if (panelRef.current && !panelRef.current.contains(event.target)) {
-        closePanel(); // Close panel when clicked outside
+        // Do nothing when clicking outside
+        // closePanel(); // Commented out to prevent closing
       }
     };
 
