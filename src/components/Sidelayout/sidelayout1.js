@@ -1,12 +1,14 @@
 import { X } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
+import BasemapGallery from "../../components/Widgets/BasemapGallery/BasemapGallery";
 
 export default function SideLayout1({
   children,
   width = "454.84px",
   height = "calc(95vh - 2rem)",
   onClose,
+  mapview
 }) {
   const [isOpen, setIsOpen] = useState(true);
   const [isFullyClosed, setIsFullyClosed] = useState(false);
@@ -86,6 +88,7 @@ export default function SideLayout1({
             </p>
           )}
         </div>
+        <div><BasemapGallery mapview={mapview}/></div>
       </div>
 
       {/* Toggle button */}

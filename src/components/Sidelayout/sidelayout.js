@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 import { X } from 'lucide-react'; // X icon import
 
-export default function SideLayout({ children, width = "454.84px", height = "calc(95vh - 2rem)", onClose }) {
+export default function SideLayout({ children, width = "454.84px", height = "calc(95vh - 2rem)", onClose, mapview }) {
   const [isOpen, setIsOpen] = useState(true); // Controls panel visibility
   const [isFullyClosed, setIsFullyClosed] = useState(false);
   const [toggleCount, setToggleCount] = useState(0); 
