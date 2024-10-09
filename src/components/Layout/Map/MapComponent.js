@@ -1,10 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 // Import ArcGIS modules
-import Map from "@arcgis/core/Map";
-import MapView from "@arcgis/core/views/MapView";
-import Extent from "@arcgis/core/geometry/Extent";
-
-const MapComponent = () => {
+import WebMap from "@arcgis/core/WebMap.js";
+import esriConfig from "@arcgis/core/config.js";
+import Mapview from "@arcgis/core/views/MapView.js";
+const MapComponent = (props) => {
   // Create a ref for the map container
   const mapDiv = useRef(null);
 
@@ -13,40 +12,63 @@ const MapComponent = () => {
   const [lon, setLon] = useState(null);
   const [scale, setScale] = useState(null);
 
+  const {setMapview, MapView} = props;
+
   // useEffect to initialize the map once the component mounts
   useEffect(() => {
     if (mapDiv.current) {
-      // Create a new map
-      const map = new Map({
-        basemap: "streets" // Change this to 'satellite', 'topo', etc., as needed
-      });
+      esriConfig.portalUrl = "https://maps.smartgeoapps.com/portal";  
+        const webMap = new WebMap({
+            portalItem: { // autocasts as new PortalItem()
+                id: '54315566df3f4ad290f535181c9feac2' // Replace with your Web Map ID
+            }
+        });
 
-      // Define the extent for the specified region
-      const customExtent = new Extent({
-        xmin: 48.0,  // Westernmost point
-        ymin: 20.0,  // Southernmost point
-        xmax: 57.5,  // Easternmost point
-        ymax: 30.0,  // Northernmost point
-        spatialReference: { wkid: 4326 } // WGS 84
-      });
+        //const view = new View({
+        //    container: mapRef.current,
+        //    map: webMap,
+        //    //zoom: 5,
+        //    //center: [15, 65] // Change the coordinates as needed
+        //});
+        // Create the view
+        const view = new Mapview({
+            container: mapDiv.current,
+            map: webMap,
+            //center: [-100.33, 25.69], // Adjust to your area of interest
+            //zoom: 5
+        });
+        setMapview(view)
+      // // Create a new map
+      // const map = new Map({
+      //   basemap: "streets" // Change this to 'satellite', 'topo', etc., as needed
+      // });
 
-      // Create a MapView to display the map
-      const view = new MapView({
-        container: mapDiv.current, // Reference to the container element
-        map: map,
-        extent: customExtent, // Set the extent to the specified region
-        scale: 2311162, // Set the initial scale to 2,311,162
-        ui: {
-          components: [] // Remove all default UI widgets including the zoom widget
-        }
-      });
+      // // Define the extent for the specified region
+      // const customExtent = new Extent({
+      //   xmin: 48.0,  // Westernmost point
+      //   ymin: 20.0,  // Southernmost point
+      //   xmax: 57.5,  // Easternmost point
+      //   ymax: 30.0,  // Northernmost point
+      //   spatialReference: { wkid: 4326 } // WGS 84
+      // });
 
-      // Set constraints on the view
-      view.constraints = {
-        minZoom: 5, // Minimum zoom level
-        maxScale: 2311162, // Max scale to prevent zooming out too far
-        geometry: customExtent // Limit the view to this extent
-      };
+      // // Create a MapView to display the map
+      // const view = new MapView({
+      //   container: mapDiv.current, // Reference to the container element
+      //   map: map,
+      //   extent: customExtent, // Set the extent to the specified region
+      //   scale: 2311162, // Set the initial scale to 2,311,162
+      //   ui: {
+      //     components: [] // Remove all default UI widgets including the zoom widget
+      //   }
+      // });
+
+      // // Set constraints on the view
+      // view.constraints = {
+      //   minZoom: 5, // Minimum zoom level
+      //   maxScale: 2311162, // Max scale to prevent zooming out too far
+      //   geometry: customExtent // Limit the view to this extent
+      // };
 
       // Listen for pointer-move event to get latitude and longitude
       view.on("pointer-move", (event) => {
@@ -69,7 +91,7 @@ const MapComponent = () => {
         }
       };
     }
-  }, []);
+  }, [MapView]);
 
   // Function to format the scale value into thousands (e.g., 2,311,162 => 2.3M)
   const formatScale = (scale) => {

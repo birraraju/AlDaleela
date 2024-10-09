@@ -16,6 +16,7 @@ const DefaultLayout = () => {
   const [popup, setPopup] = useState(null);
   const [resetFooter, setResetFooter] = useState(false);
   const [isFooterOpen, setIsFooterOpen] = useState(false);
+  const [mapview, setMapview] = useState(false);
 
   const handleClose = () => {
     setPopup(null);
@@ -26,11 +27,11 @@ const DefaultLayout = () => {
   const renderComponent = (name) => {
     switch (name) {
       case "Home":
-        return <SideLayout1 onClose={handleClose} />;
+        return <SideLayout1 onClose={handleClose} mapview={mapview}/>;
       case "Add":
         return <SideLayout2 onClose={handleClose} />;
       case "Subtract":
-        return <SideLayout3 onClose={handleClose} />;
+        return <SideLayout3 onClose={handleClose} mapview={mapview}/>;
       case "Hand":
         return <SideLayout4 onClose={handleClose} />;
       case "Next":
@@ -38,7 +39,7 @@ const DefaultLayout = () => {
       case "Export":
         return <SideLayout5 onClose={handleClose} />;
       case "Print":
-        return <SideLayout6 onClose={handleClose} />;
+        return <SideLayout6 onClose={handleClose} mapview={mapview}/>;
       default:
         return <></>;
     }
@@ -63,7 +64,7 @@ const DefaultLayout = () => {
       <SideBar />
       {popup && <div className="absolute z-50">{popup}</div>}
       <div className="flex-1 relative overflow-hidden">
-        <MapComponent />
+        <MapComponent setMapview={setMapview} mapview={mapview}/>
         <Footer
           handleMenuItemClick={handleMenuItemClick}
           resetTrigger={resetFooter}
