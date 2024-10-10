@@ -1,23 +1,35 @@
 import { useEffect, useState } from "react";
 import LayersList from "./LayersList/LayersList";
 
-const Stack = ({  isFooterOpen, isHeaderOpen, isStackOpen, mapview }) => {
+const Stack = ({isSearchOpen,isLocationOpen, isFooterOpen,isProfileOpen, isHeaderOpen, isStackOpen, mapview }) => {
   const [showLayers, setShowLayers] = useState(false);
 
   const toggleLayers = () => {
     setShowLayers(!showLayers);
     isHeaderOpen();
-    isStackOpen();
   };
 
+  useEffect(()=>{
+    if(showLayers){
+      isStackOpen(showLayers)
+    }else{
+      isStackOpen(showLayers)
+    }
+  },[showLayers])
+
   useEffect(() => {
-    if ( isFooterOpen) {
+    if (isFooterOpen) {
       setShowLayers(false);
     }
-  }, [ isFooterOpen]);
+  }, [isFooterOpen]);
 
-  console.log("Stack Footer Status:",  isFooterOpen)
+  console.log("Footer status in :",isFooterOpen)
 
+  useEffect(()=>{
+    if(isSearchOpen||isProfileOpen||isLocationOpen){
+      setShowLayers(false)
+    }
+  },[isSearchOpen,isProfileOpen,isLocationOpen])
   return (
     <>
       <div

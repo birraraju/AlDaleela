@@ -1,41 +1,49 @@
-import { Label } from "../../../../../components/ui/label";
+import { Label } from "../../../../ui/label";
 
-export default function Props({ inputClicked, setInputClicked, setIscategory }) {
+export default function Props({
+  inputClicked,
+  setInputClicked,
+  setIscategory,
+  handleCloseResponsiveSearch,
+  iscategory
+}) {
   return (
     <>
       {/* Search Icon */}
       <div className="relative z-[2]">
-        <Label htmlFor="search" className="absolute mobile_s:-top-7 laptop_m:-top-[30px] left-3">
+        <Label htmlFor="search" className="absolute mobile_s:-top-7 laptop_m:-top-[26px] left-3">
           <img
-            src={`/Header/Searchbar/search-${inputClicked ? "black" : "white"}.svg`}
+            src={`/Header/Searchbar/search-${inputClicked || iscategory ? "black.svg" : "white.svg"}`}
             alt=""
+            className="h-4"
           />
         </Label>
 
         {/* Line */}
-        <Label htmlFor="search" className="absolute mobile_s:-top-[30px] laptop_m:-top-[32px] left-12">
+        <Label htmlFor="search" className="absolute mobile_s:-top-[30px] laptop_m:-top-[28px] left-11">
           <img
-            src={`/Header/Searchbar/line-${inputClicked ? "black" : "white"}.svg`}
+            src={`/Header/Searchbar/line-${inputClicked || iscategory ? "black.svg" : "white.svg"}`}
             alt=""
           />
         </Label>
 
         {/* Close */}
-        {inputClicked && (
+        {(inputClicked || iscategory) && (
           <div
             onClick={() => {
               setInputClicked(false);
               setIscategory(false);
+              handleCloseResponsiveSearch();
             }}
-            className="absolute mobile_s:-top-7 laptop_m:-top-[30px] right-36 cursor-pointer"
+            className="absolute mobile_s:-top-7 laptop_m:-top-[26px] sm:right-36 right-32 cursor-pointer"
           >
             <img src="/Header/Searchbar/close.svg" alt="" className="w-5" />
           </div>
         )}
 
         {/* Line */}
-        {inputClicked && (
-          <Label htmlFor="search" className="absolute mobile_s:-top-[30px] laptop_m:-top-[32px] right-32">
+        {(inputClicked || iscategory) && (
+          <Label htmlFor="search" className="absolute mobile_s:-top-[30px] laptop_m:-top-[28px] sm:right-32 right-28">
             <img src="/Header/Searchbar/line-black.svg" alt="" />
           </Label>
         )}

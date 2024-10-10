@@ -4,7 +4,7 @@ import ContactUsSidelayout from "../../../../../components/Sidelayout/ContactusS
 import ContributionSidelayout from "../../../../../components/Sidelayout/ContributionSidelayout/ContributionSidelayout";
 import { Popover, PopoverContent } from "../../../../../components/ui/popover";
 import { useAuth } from "../../../../../Providers/AuthProvider/AuthProvider";
-import { PopoverTrigger } from "@radix-ui/react-popover";
+import { PopoverPortal, PopoverTrigger } from "@radix-ui/react-popover";
 import { AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { HiOutlineLogout } from "react-icons/hi";
@@ -15,7 +15,7 @@ import ProfileMenu from "./ProfileMenus/ProfileDetails/ProfilePage/ProfileMenu/P
 import ProfileMenus from "./ProfileMenus/ProfileMenus";
 import SendFeedBack from "../../../../../components/Sidelayout/FeedLayout/FeedBackMain";
 
-const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen }) => {
+const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileOpen }) => {
   const [showAuthenticator, setShowAuthenticator] = useState(false);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [isLeaderboard, setIsLeaderboard] = useState(false);
@@ -50,6 +50,14 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen }) => {
       setIsProfile(false);
     }
   }, [ isFooterOpen, StackOpen]);
+
+  useEffect(()=>{
+    if(isPopoverOpen){
+      isProfileOpen(isPopoverOpen)
+    }else{
+      isProfileOpen(isPopoverOpen)
+    }
+  },[isPopoverOpen])
 
   const toggleAuthenticator = () => {
     setShowAuthenticator(!showAuthenticator);

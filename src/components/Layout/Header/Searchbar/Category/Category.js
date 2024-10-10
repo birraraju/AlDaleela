@@ -1,9 +1,9 @@
-import { Button } from "../../../../../components/ui/button";
+import { Button } from "../../../../ui/button";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "../../../../../components/ui/popover";
+} from "../../../../ui/popover";
 import { useState } from "react";
 import { FaCaretDown, FaCaretUp } from "react-icons/fa";
 
@@ -19,13 +19,13 @@ export default function Category({ inputClicked, setInputClicked }) {
   return (
     <div
       onClick={() => setInputClicked(false)}
-      className="absolute top-1 right-1.5 z-[2]"
+      className="absolute bottom-1 right-1.5 z-[2]"
     >
       <Popover open={isOpen} onOpenChange={setIsOpen}>
         <PopoverTrigger>
           <Button
             variant={"ghost"}
-            className={`rounded-full mobile_s:px-2 laptop_m:px-4 py-2 h-8 bg-white bg-opacity-50 ${
+            className={`rounded-full mobile_s:px-2 laptop_m:px-4 py-2 sm:h-6 h-7 bg-white bg-opacity-50 ${
               inputClicked ? "text-black" : "text-white"
             }`}
           >

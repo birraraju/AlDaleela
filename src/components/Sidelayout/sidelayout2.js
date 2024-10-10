@@ -3,8 +3,13 @@ import { IoIosArrowForward } from "react-icons/io";
 import { X } from 'lucide-react';
 import BookMarkGreen from '../../assets/bookmarks/imageBookMarkGreen.png';
 import { FaArrowLeft } from "react-icons/fa6";
+import { useTheme } from '../Layout/ThemeContext/ThemeContext'; // Import the theme context
+import DarkBookMarkGreen from '../../assets/bookmarks/Manage Bookmark.svg';
+
+
 
 export default function SideLayout2({ children, width = "454.84px", height = "calc(95vh - 2rem)", onClose }) {
+  const { isDarkMode } = useTheme(); // Access the dark mode state
   const [isOpen, setIsOpen] = useState(true);
   const [isManageVisible, setIsManageVisible] = useState(false);
   const [isContentVisible] = useState(true);
@@ -59,11 +64,17 @@ export default function SideLayout2({ children, width = "454.84px", height = "ca
       style={{ width, height }}
     >
       {isContentVisible && (
-        <div className="relative h-[65%] w-full bg-white bg-opacity-70 backdrop-blur-lg rounded-2xl shadow-lg overflow-hidden border border-white">
+        <div className={`relative h-[65%] sm:w-full float-end sm:float-none w-[67%] rounded-2xl shadow-lg overflow-hidden border ${
+          isDarkMode
+            ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
+            : "bg-white bg-opacity-70 backdrop-blur-lg border-white" // Light mode styles
+        }`}>
           {/* Close Button */}
           <button
             onClick={closePanel}
-            className="absolute top-4 right-4 p-2 text-gray-600 hover:text-gray-900 transition-colors"
+            className={`absolute top-4 right-4 p-2 ${
+              isDarkMode ? "text-white hover:text-gray-300" : "text-gray-600 hover:text-gray-900"
+            } transition-colors`}
             aria-label="Close side panel"
           >
             <X className="h-5 w-6" />
@@ -72,11 +83,13 @@ export default function SideLayout2({ children, width = "454.84px", height = "ca
           <div className="p-6 overflow-y-auto h-full">
             {children || (
               <>
-                <p className="text-gray-700 flex gap-x-2 justify-start items-center font-medium font-poppins">
+                <p className={`flex gap-x-2 justify-start items-center font-medium font-poppins ${
+                  isDarkMode ? "text-white/80" : "text-gray-700"
+                }`}>
                   {isManageVisible && (
                     <FaArrowLeft
                       onClick={() => setIsManageVisible(false)}
-                      className="text-black/70 h-7"
+                      className={`${isDarkMode ? "text-white/70 cursor-pointer" : "text-black/70 cursor-pointer"} h-7`}
                     />
                   )}
                   {isManageVisible ? "Manage Bookmarks" : "Bookmarks"}
@@ -85,7 +98,7 @@ export default function SideLayout2({ children, width = "454.84px", height = "ca
                 {/* Manage Bookmarks Section */}
                 <div className="absolute bottom-4 left-0 w-full px-6">
                   <div className="flex flex-row gap-2 items-center justify-center">
-                    <img src={BookMarkGreen} alt="Bookmark" className="h-5 mb-1" />
+                    <img src={isDarkMode ? DarkBookMarkGreen : BookMarkGreen } alt="Bookmark" className="h-5 mb-1" />
                     <p
                       className="text-[#1365B1] underline text-sm cursor-pointer font-medium"
                       onClick={() => setIsManageVisible(true)}

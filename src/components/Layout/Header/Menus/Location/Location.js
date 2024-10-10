@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GeneralInformation from "./GeneralInformation/GeneralInformation";
 
-const Location = ({ isHeaderOpen }) => {
+const Location = ({ isHeaderOpen,isLocationOpen }) => {
   const [showInfo, setShowInfo] = useState(false);
 
   const handleClick = () => {
@@ -12,6 +12,14 @@ const Location = ({ isHeaderOpen }) => {
   const handleClose = () => {
     setShowInfo(false);
   };
+
+  useEffect(()=>{
+    if(showInfo){
+      isLocationOpen(true)
+    }else{
+      isLocationOpen(false)
+    }
+  },[showInfo])
 
   return (
     <>

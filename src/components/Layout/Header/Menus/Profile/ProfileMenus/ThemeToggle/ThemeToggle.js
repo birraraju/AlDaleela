@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useTheme } from "../../../../../ThemeContext/ThemeContext"; // Adjust the import path as necessary
 
 export default function ThemeToggle() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const { isDarkMode, toggleTheme } = useTheme(); // Access the theme context
 
   return (
     <div className="flex justify-between items-center py-4">
@@ -15,9 +15,9 @@ export default function ThemeToggle() {
       {/* Toggle Switch */}
       <div
         className={`w-14 h-7 flex items-center rounded-full p-1 shadow-md cursor-pointer ${
-          isDarkMode ? "bg-white" : "bg-white"
+          isDarkMode ? "bg-black" : "bg-white"
         }`}
-        onClick={() => setIsDarkMode(!isDarkMode)}
+        onClick={toggleTheme} // Call the toggle function from context
       >
         <div
           className={`bg-[#FFAC4B] w-5 h-5 rounded-full shadow-lg transform duration-300 ease-in-out flex justify-center items-center ${
