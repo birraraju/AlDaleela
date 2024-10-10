@@ -2,12 +2,17 @@ import React, { useEffect, useState, useRef } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 import Location from '../../assets/Droppedpin/Location.svg';
 import { X } from "lucide-react";
+import DarkLocation from '../../assets/Droppedpin/Dropped Pin.svg';
+import { useTheme } from '../Layout/ThemeContext/ThemeContext'; // Import the theme context
+
 
 export default function SideLayout4({ children, width = "454.84px", height = "calc(95vh - 2rem)", onClose }) {
   const [isOpen, setIsOpen] = useState(true);   // Controls slide in/out
   const [isFullyClosed, setIsFullyClosed] = useState(false); // Controls visibility
   const [toggleCount, setToggleCount] = useState(0);
   const containerRef = useRef(null);
+  const { isDarkMode } = useTheme(); // Access the dark mode state
+
 
   // Toggles the side panel sliding in and out
   const toggleSideLayout = () => {
@@ -59,20 +64,28 @@ export default function SideLayout4({ children, width = "454.84px", height = "ca
       style={{ width, height, zIndex: 50 }}  // Ensure it's above other elements
       ref={containerRef}  // Reference to the panel
     >
-      <div className="relative h-[65%] w-full bg-white bg-opacity-70 backdrop-blur-lg rounded-2xl shadow-lg overflow-hidden border border-white">
+      <div className={`relative h-[65%] w-[65%] float-end sm:w-full rounded-2xl shadow-lg overflow-hidden border transition-colors duration-300 ${
+          isDarkMode
+            ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
+            : "bg-white bg-opacity-70 border-white"
+        }`}>
         {/* Content */}
         <div className="p-4 overflow-y-auto h-full relative">
           {children || (
             <div className="absolute top-6 left-4 flex items-center gap-x-2">
-              <img src={Location} alt="Location" className="h-5" />
-              <p className="text-gray-600 font-medium font-poppins">Dropped pin</p>
+              <img src={isDarkMode ? DarkLocation : Location }alt="Location" className="h-5" />
+              <p className={`font-medium font-poppins ${
+                    isDarkMode ? "text-white" : "text-gray-600"
+                  }`}>Dropped pin</p>
             </div>
           )}
         </div>
         {/* X Close Button in the top-left corner */}
         <button
           onClick={closePanel}
-          className="absolute top-4 right-4 p-2 text-gray-600 hover:text-gray-900 transition-colors cursor-pointer z-50"  // Ensure it's clickable
+          className={`absolute top-4  right-4 p-2 transition-colors cursor-pointer z-50 ${
+            isDarkMode ? "text-white hover:text-gray-300" : "text-gray-600 hover:text-gray-900"
+          }`}  // Ensure it's clickable
           aria-label="Close side panel"
           style={{ zIndex: 100 }} // Ensure the "X" button is on top
         >
@@ -102,8 +115,8 @@ export default function SideLayout4({ children, width = "454.84px", height = "ca
             <g clipPath="url(#clip0_4011_11301)">
               <path
                 d="M3.82642 130.396L3.82598 244.617C3.82594 252.779 6.14893 260.773 10.5235 267.664L70.7275 362.497V8.50244L10.1031 108.027C5.99796 114.766 3.82645 122.505 3.82642 130.396Z"
-                fill="#EBEFF2"
-                stroke="#EEF3F7"
+                fill={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "#EBEFF2"} // Updated for dark mode
+                stroke={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "#EEF3F7"}
                 strokeWidth="6"
               />
             </g>
@@ -119,6 +132,7 @@ export default function SideLayout4({ children, width = "454.84px", height = "ca
               className={`text-black text-xl transition-transform duration-300 ${
                 isOpen ? "rotate-360" : ""
               } ${!isOpen && (toggleCount > 0 ? "rotate-180" : "")}`}
+              style={{ color: isDarkMode ? "#fff" : "#000" }}
             />
           </div>
         </button>

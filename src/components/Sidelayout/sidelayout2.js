@@ -131,8 +131,8 @@ export default function SideLayout2({ children, width = "454.84px", height = "ca
             <g clipPath="url(#clip0_4011_11301)">
               <path
                 d="M3.82642 130.396L3.82598 244.617C3.82594 252.779 6.14893 260.773 10.5235 267.664L70.7275 362.497V8.50244L10.1031 108.027C5.99796 114.766 3.82645 122.505 3.82642 130.396Z"
-                fill="#EBEFF2"
-                stroke="#EEF3F7"
+                fill={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "#EBEFF2"} // Updated for dark mode
+                stroke={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "#EEF3F7"}
                 strokeWidth="6"
               />
             </g>
@@ -145,7 +145,11 @@ export default function SideLayout2({ children, width = "454.84px", height = "ca
 
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
             <IoIosArrowForward
-              className={`text-black text-xl transition-transform duration-300 ${isOpen ? "rotate-360" : ""} ${!isOpen && (toggleCount > 0 ? "rotate-180" : "")}`}
+              className={`transition-transform duration-300 ${
+                isOpen ? "rotate-360" : ""
+              } ${!isOpen && toggleCount > 0 ? "rotate-180" : ""} ${
+                isDarkMode ? "text-white" : "text-black"
+              }`}
             />
           </div>
         </button>
