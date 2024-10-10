@@ -1,3 +1,5 @@
+// SearchContent.js
+import { useTheme } from "../../../ThemeContext/ThemeContext";
 import { useState } from "react";
 import FilterBtn from "./FilterBtn/FilterBtn";
 import AudioContent from "./Filters/AudioFilter/AudioContent";
@@ -7,15 +9,25 @@ import PhotoFilter from "./Filters/PhotoFilter/PhotoFilter";
 import VideoContent from "./Filters/VideoFilter/VideoContent";
 import VideoFilter from "./Filters/VideoFilter/VideoFilter";
 
-export default function SearchContent() {
+export default function SearchContent({ inputClicked, iscategory }) {
   const [isFiltersOpen, setIsFiltersOpen] = useState("normal");
   const [selectedItem, setSelectedItem] = useState(null);
 
+  const { isDarkMode } = useTheme(); // Access the theme from context
+
   return (
-    <div className="mobile_s:w-[25rem] laptop_m:w-[45rem] rounded-2xl mb-8 absolute top-0 left-0 h-96 bg-white bg-opacity-70 backdrop-blur-lg z-[1]">
-      <div className="relative mt-10 text-black">
+    <div
+      className={`mobile_s:w-[19rem] ${(inputClicked || iscategory) ? "laptop_m:w-[30rem]" : "laptop_m:w-[30rem]"} rounded-2xl mb-8 absolute top-0 left-0 h-96 ${
+        isDarkMode ? "bg-[#606060CC] text-black" : "bg-white text-black"
+      } bg-opacity-70 backdrop-blur-lg z-[1]`}
+    >
+      <div className="relative mt-10">
         {/* Line */}
-        <div className="absolute top-0 left-0 h-[1px] w-full bg-black bg-opacity-10"></div>
+        <div
+          className={`absolute top-0 left-0 h-[1px] w-full ${
+            isDarkMode ? "bg-[#FFFFFF33]" : "bg-black bg-opacity-10"
+          }`}
+        ></div>
 
         <div>
           {/* Filters */}
