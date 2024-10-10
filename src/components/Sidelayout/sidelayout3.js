@@ -2,8 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 import { X } from 'lucide-react'; // X icon import
 import Measurements from "../../components/Widgets/Measurement/Measurements";
+import { useTheme } from '../Layout/ThemeContext/ThemeContext'; // Import the theme context
+
 
 export default function SideLayout3({ children, width = "454.84px", height = "calc(95vh - 2rem)", onClose, mapview }) {
+  const { isDarkMode } = useTheme(); // Access the dark mode state
   const [isOpen, setIsOpen] = useState(true);  // Controls panel visibility
   const [isFullyClosed, setIsFullyClosed] = useState(false);
   const [toggleCount, setToggleCount] = useState(0);
@@ -55,11 +58,17 @@ export default function SideLayout3({ children, width = "454.84px", height = "ca
       }`}
       style={{ width, height }}
     >
-      <div className="relative h-[65%] w-full bg-white bg-opacity-70 backdrop-blur-lg rounded-2xl shadow-lg overflow-hidden border border-white">
+      <div className={`relative h-[65%] sm:w-full w-[65%] float-end sm:float-none rounded-2xl shadow-lg overflow-hidden border transition-colors duration-300 ${
+          isDarkMode
+          ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
+          : "bg-white bg-opacity-70 border-white text-gray-700"
+        }`}>
         {/* X Close Button to slide the panel out */}
         <button
           onClick={closePanel}
-          className="absolute top-4 right-4 p-1 text-gray-600 hover:text-gray-900 transition-colors"
+          className={`absolute top-4 right-4 p-1 transition-colors ${
+            isDarkMode ? "text-white hover:text-gray-300" : "text-gray-600 hover:text-gray-900"
+          }`}
           aria-label="Close side panel"
         >
           <X className="h-6 w-6" />
@@ -67,7 +76,7 @@ export default function SideLayout3({ children, width = "454.84px", height = "ca
 
         <div className="p-6 overflow-y-auto h-full">
           {children || (
-            <p className="text-gray-700 font-poppins font-medium">
+            <p className={`text-${isDarkMode ? '[#FFFFFFCC] text-opacity-80' : 'black'}  font-poppins font-medium`}>
               Measurments
             </p>
           )}
@@ -97,8 +106,8 @@ export default function SideLayout3({ children, width = "454.84px", height = "ca
             <g clipPath="url(#clip0_4011_11301)">
               <path
                 d="M3.82642 130.396L3.82598 244.617C3.82594 252.779 6.14893 260.773 10.5235 267.664L70.7275 362.497V8.50244L10.1031 108.027C5.99796 114.766 3.82645 122.505 3.82642 130.396Z"
-                fill="#EBEFF2"
-                stroke="#EEF3F7"
+                fill={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "#EBEFF2"} // Updated for dark mode
+      stroke={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "#EEF3F7"}
                 strokeWidth="6"
               />
             </g>
@@ -111,9 +120,10 @@ export default function SideLayout3({ children, width = "454.84px", height = "ca
 
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
             <IoIosArrowForward
-              className={`text-black text-xl transition-transform duration-300 ${
+              className={`text-xl transition-transform duration-300 ${
                 isOpen ? "rotate-360" : ""
               } ${!isOpen && (toggleCount > 0 ? "rotate-180" : "")}`}
+              style={{ color: isDarkMode ? "#fff" : "#000" }}
             />
           </div>
         </button>

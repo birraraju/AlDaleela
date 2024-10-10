@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 import { X } from "lucide-react"; // X icon import
 import Print from "../../components/Widgets/Print/Print";
+import { useTheme } from '../Layout/ThemeContext/ThemeContext'; // Import the theme context
+
 
 export default function SideLayout6({
   children,
@@ -14,6 +16,8 @@ export default function SideLayout6({
   const [isFullyClosed, setIsFullyClosed] = useState(false);
   const [toggleCount, setToggleCount] = useState(0);
   const panelRef = useRef(null); // Create a ref for the side panel
+  const { isDarkMode } = useTheme(); // Access the dark mode state
+
 
   // Toggle function to slide panel in or out
   const toggleSideLayout = () => {
@@ -62,7 +66,11 @@ export default function SideLayout6({
       }`}
       style={{ width, height }}
     >
-      <div className="relative h-[90%] w-full bg-white bg-opacity-70 backdrop-blur-lg rounded-2xl shadow-lg overflow-hidden border border-white">
+      <div className={`relative h-[90%] w-full bg-opacity-70 backdrop-blur-lg rounded-2xl shadow-lg overflow-hidden border ${
+          isDarkMode
+            ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
+            : "bg-white bg-opacity-70 backdrop-blur-lg border-white"
+        }`}>
         {/* X Close Button to slide the panel out */}
         <button
           onClick={closePanel}
@@ -104,8 +112,8 @@ export default function SideLayout6({
             <g clipPath="url(#clip0_4011_11301)">
               <path
                 d="M3.82642 130.396L3.82598 244.617C3.82594 252.779 6.14893 260.773 10.5235 267.664L70.7275 362.497V8.50244L10.1031 108.027C5.99796 114.766 3.82645 122.505 3.82642 130.396Z"
-                fill="#EBEFF2"
-                stroke="#EEF3F7"
+                fill={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "#EBEFF2"}
+                stroke={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "#EEF3F7"}
                 strokeWidth="6"
               />
             </g>
@@ -121,6 +129,7 @@ export default function SideLayout6({
               className={`text-black text-xl transition-transform duration-300 ${
                 isOpen ? "rotate-360" : ""
               } ${!isOpen && (toggleCount > 0 ? "rotate-180" : "")}`}
+              style={{ color: isDarkMode ? "#fff" : "#000" }}
             />
           </div>
         </button>

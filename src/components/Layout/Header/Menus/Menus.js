@@ -78,7 +78,7 @@ const Menus = ({
         isFooterOpen={isFooterOpen}
         StackOpen={isStackOpen} // Pass the current state of Stack
         isHeaderOpen={isHeaderOpen}
-        isProfileOpen={handleProfileOpen} // Control profile state
+        isProfileInOpen={handleProfileOpen} // Control profile state
       />
     </div>
   );

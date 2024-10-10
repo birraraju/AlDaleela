@@ -15,7 +15,7 @@ import ProfileMenu from "./ProfileMenus/ProfileDetails/ProfilePage/ProfileMenu/P
 import ProfileMenus from "./ProfileMenus/ProfileMenus";
 import SendFeedBack from "../../../../../components/Sidelayout/FeedLayout/FeedBackMain";
 
-const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileOpen }) => {
+const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => {
   const [showAuthenticator, setShowAuthenticator] = useState(false);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [isLeaderboard, setIsLeaderboard] = useState(false);
@@ -51,13 +51,12 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileOpen }) => {
     }
   }, [ isFooterOpen, StackOpen]);
 
-  useEffect(()=>{
-    if(isPopoverOpen){
-      isProfileOpen(isPopoverOpen)
-    }else{
-      isProfileOpen(isPopoverOpen)
+  useEffect(() => {
+    if ((isProfileInOpen||isProfileInOpen) && typeof isProfileInOpen === "function") {
+      isProfileInOpen(isPopoverOpen);
     }
-  },[isPopoverOpen])
+  }, [isPopoverOpen]);
+  
 
   const toggleAuthenticator = () => {
     setShowAuthenticator(!showAuthenticator);

@@ -3,6 +3,8 @@ import { useTranslation } from "react-i18next";
 import { Tooltip } from "react-tooltip";
 import PropTypes from 'prop-types';
 import "./Footer.css";
+import { useTheme } from '../../Layout/ThemeContext/ThemeContext'; // Import the theme context
+
 
 export default function Footer({ handleMenuItemClick, resetTrigger }) {
   const [currentMenuPosition, setCurrentMenuPosition] = useState(0);
@@ -13,6 +15,8 @@ export default function Footer({ handleMenuItemClick, resetTrigger }) {
   const menuItemsRef = useRef([]);
   const navIndicatorRef = useRef(null);
   const { t } = useTranslation();
+  const { isDarkMode } = useTheme(); // Access the dark mode state
+
 
   const headingsMap = {
     0: t("Base Map Gallery"),
@@ -136,8 +140,9 @@ export default function Footer({ handleMenuItemClick, resetTrigger }) {
 
 
   return (
+    
     <div
-      className={`sc-bottom-bar z-10 sc-bottom-barbgcolor no-select ${isExpanded ? 'expanded' : ''}`}
+      className={`sc-bottom-bar ${isDarkMode ? 'bg-[#152227CC]' : ''}  no-select ${isExpanded ? 'expanded' : ''}`}
     >
       {Array.from({ length: 7 }).map((_, index) => (
         <React.Fragment key={index}>
@@ -154,7 +159,7 @@ export default function Footer({ handleMenuItemClick, resetTrigger }) {
                 data-tooltip-id={`tooltip-${index}`}
               >
                 <img
-                  src={`/Footer/icon${index + 1}.svg`}
+                  src={isDarkMode ? `/Footer/dark/darkicon${index + 1}.svg` : `/Footer/icon${index + 1}.svg`}
                   className="icon"
                   alt={`Icon ${index + 1}`}
                   style={{ width: '200px', height: '200px' }}
@@ -165,7 +170,7 @@ export default function Footer({ handleMenuItemClick, resetTrigger }) {
                   className="ToolTipEnvi"
                   style={{
                     backgroundColor: 'transparent',
-                    color: 'black',
+                    color: isDarkMode ? 'white':'black',
                     fontFamily: 'Poppins',
                     fontWeight: 'Bold',
                     fontSize: '14px',
@@ -190,7 +195,7 @@ export default function Footer({ handleMenuItemClick, resetTrigger }) {
                 data-tooltip-id={`tooltip-${index}`}
               >
                 <img
-                  src={`/Footer/icon${index + 1}.svg`}
+                  src={isDarkMode ? `/Footer/dark/darkicon${index + 1}.svg` : `/Footer/icon${index + 1}.svg`}
                   className="icon"
                   alt={`Icon ${index + 1}`}
                   style={{ width: '200px', height: '200px' }}
@@ -201,7 +206,7 @@ export default function Footer({ handleMenuItemClick, resetTrigger }) {
                   className="ToolTipEnvi"
                   style={{
                     backgroundColor: 'transparent',
-                    color: 'black',
+                    color: isDarkMode ? 'white':'black',
                     fontFamily: 'Poppins',
                     fontWeight: 'Bold',
                     fontSize: '14px',
@@ -225,7 +230,7 @@ export default function Footer({ handleMenuItemClick, resetTrigger }) {
                 data-tooltip-id={`tooltip-${index}`}
               >
                 <img
-                  src={`/Footer/icon${index + 1}.svg`}
+                  src={isDarkMode ? `/Footer/dark/darkicon${index + 1}.svg` : `/Footer/icon${index + 1}.svg`}
                   className="icon"
                   alt={`Icon ${index + 1}`}
                   style={{ width: '200px', height: '200px' }}
@@ -236,7 +241,7 @@ export default function Footer({ handleMenuItemClick, resetTrigger }) {
                   className="ToolTipEnvi"
                   style={{
                     backgroundColor: 'transparent',
-                    color: 'black',
+                    color: isDarkMode ? 'white':'black',
                     fontFamily: 'Poppins',
                     fontWeight: 'Bold',
                     fontSize: '14px',
