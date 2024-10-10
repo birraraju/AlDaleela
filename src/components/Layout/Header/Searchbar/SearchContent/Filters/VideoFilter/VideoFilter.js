@@ -16,3 +16,9 @@ export default function VideoFilter({ setSelectedItem, setIsFiltersOpen, selecte
     </div>
   );
 }
+
+
+
+
+
+
