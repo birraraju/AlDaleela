@@ -17,8 +17,8 @@ const Menus = ({
   const [isLocationOpen, setLocationOpen] = useState(false); // State for Location visibility
 
   // Function to toggle the Stack component visibility
-  const toggleStackOpen = () => {
-    setStackOpen((prev) => !prev);
+  const toggleStackOpen = (status) => {
+    setStackOpen(status);
   };
 
   // Functions to handle Searchbar visibility
@@ -40,9 +40,7 @@ const Menus = ({
     setLocationOpen(status);
   };
 
-  console.log("Profile status:", isProfileOpen);
-  console.log("Menu Footer Status: ", isFooterOpen); // Debugging output
-
+  console.log("StackStatus:",isStackOpen)
   return (
     <div className="text-white flex justify-between z-10 items-center">
       {/* Searchbar with necessary props */}
@@ -51,6 +49,7 @@ const Menus = ({
         isFooterOpen={isFooterOpen}
         isSearchOpen={handleSearchOpen}
         isSearchClose={handleSearchClose}
+        StackOpen={isStackOpen}
         handleCloseResponsiveSearch={handleCloseResponsiveSearch} // Ensure this prop is passed if needed
       />
 
@@ -58,10 +57,10 @@ const Menus = ({
       <Stack
         isFooterOpen={isFooterOpen}
         isHeaderOpen={isHeaderOpen}
-        isStackOpen={isStackOpen} // Pass the current state of Stack
-        toggleStackOpen={toggleStackOpen} // Pass the toggle function for Stack
+        isStackOpen={toggleStackOpen} // Pass the current state of Stack
         mapview={mapview}
         isProfileOpen={isProfileOpen}
+        isSearchOpen={isSearchOpen}
         isLocationOpen={isLocationOpen}
       />
 
