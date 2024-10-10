@@ -50,17 +50,23 @@ const DefaultLayout = () => {
     setPopup(renderComponent(buttonLabels[index]));
   };
 
-  const handleStackOpen = () => {
-    setPopup(null);
-  };
+  // const handleHeaderOpen = () => {
+  //   setPopup(null);
+  // };
 
   useEffect(() => {
-    setIsFooterOpen(!!popup);
+    if(popup){
+      setIsFooterOpen(true);
+    }else{
+      setIsFooterOpen(false);
+    }
   }, [popup]);
+
+  console.log("Footer Status layout:",isFooterOpen)
 
   return (
     <div className="flex flex-col h-screen bg-blue-100">
-      <Header isFooterOpen={isFooterOpen} isHeaderOpen={handleStackOpen} mapview={mapview} />
+      <Header isFooterOpen={isFooterOpen} isHeaderOpen={handleClose} isSearchOpen={handleClose} mapview={mapview} />
       <SideBar />
       {popup && <div className="absolute z-50">{popup}</div>}
       <div className="flex-1 relative overflow-hidden">

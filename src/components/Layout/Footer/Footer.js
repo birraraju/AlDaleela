@@ -134,18 +134,10 @@ export default function Footer({ handleMenuItemClick, resetTrigger }) {
     }
   };
 
-  const handleMouseLeave = () => {
-    if (selectedIndex === 5 || selectedIndex === 6) {
-      setIsExpanded(true);
-    } else {
-      setIsExpanded(false);
-    }
-  };
 
   return (
     <div
       className={`sc-bottom-bar z-10 sc-bottom-barbgcolor no-select ${isExpanded ? 'expanded' : ''}`}
-      onMouseLeave={handleMouseLeave}
     >
       {Array.from({ length: 7 }).map((_, index) => (
         <React.Fragment key={index}>
@@ -190,7 +182,7 @@ export default function Footer({ handleMenuItemClick, resetTrigger }) {
               ref={el => menuItemsRef.current[index] = el}
               onClick={(e) => handleFooterItemClick(e, index, isExpanded)}
               data-tooltip-id={`tooltip-${index}`}
-              onMouseEnter={handleMouseEnter}
+              onClickCapture={handleMouseEnter}
             >
               <button
                 className="sc-menu-item bg-transparent border-4 w-12"
