@@ -17,7 +17,7 @@ export default function Footer({ handleMenuItemClick, resetTrigger }) {
   const headingsMap = {
     0: t("Base Map Gallery"),
     1: t("Bookmarks"),
-    2: t("Measurement"),
+    2: t("Measurment"),
     3: t('Dropped Pin'),
     4: t("Share"),
     5: t("Export Data"),

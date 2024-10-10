@@ -6,6 +6,8 @@ import Leaderboard from "./Leaderboard/Leaderboard";
 import SendFeedback from "./SendFeedback/SendFeedback";
 import ThemeToggle from "./ThemeToggle/ThemeToggle";
 
+import { useTheme } from "../../../../ThemeContext/ThemeContext";
+
 export default function ProfileMenus({
   role,
   setIsAboutUs,
@@ -13,24 +15,39 @@ export default function ProfileMenus({
   setIsPopoverOpen,
   setIsContactUs,
   setIsContribution,
-  setIsFeedBack,
+  setIsFeedBack // Add setIsContribution
 }) {
+  const { isDarkMode } = useTheme(); // Access isDarkMode from context
+
   return (
     <>
       {/* Divider between the theme toggle and the rest of the menu */}
-      {role !== null && <div className="h-[1px] w-full bg-white my-2"></div>}
+      {role !== null &&  <div
+        className={`h-[1px] w-full  my-2
+          ${isDarkMode ? "bg-[#A2A0A0] " : "bg-[#C4B8B8] "}`}
+      ></div>}
 
       {/* Theme toggle */}
       <ThemeToggle />
 
       {/* Send feedback button */}
-      <SendFeedback setIsFeedBack={setIsFeedBack} setIsPopoverOpen={setIsPopoverOpen} />
-      <AboutUs setIsAboutUs={setIsAboutUs} setIsPopoverOpen={setIsPopoverOpen} />
-      <ContactUs setIsPopoverOpen={setIsPopoverOpen} setIsContactUs={setIsContactUs} />
+      <SendFeedback setIsFeedBack={setIsFeedBack}
+        setIsPopoverOpen={setIsPopoverOpen}/>
+      <AboutUs
+        setIsAboutUs={setIsAboutUs}
+        setIsPopoverOpen={setIsPopoverOpen}
+      />
+      <ContactUs
+        setIsPopoverOpen={setIsPopoverOpen}
+        setIsContactUs={setIsContactUs}
+      />
 
       {role !== null && (
         <>
-          <Leaderboard setIsLeaderboard={setIsLeaderboard} setIsPopoverOpen={setIsPopoverOpen} />
+          <Leaderboard
+            setIsLeaderboard={setIsLeaderboard}
+            setIsPopoverOpen={setIsPopoverOpen}
+          />
           <Contribution 
             setIsPopoverOpen={setIsPopoverOpen}
             setIsContribution={setIsContribution} // Handle Contribution
@@ -38,8 +55,10 @@ export default function ProfileMenus({
           <Administration />
         </>
       )}
-
-      <div className="h-[1px] w-full bg-gray-300 my-4"></div>
+      <div
+        className={`h-[1px] w-full  my-2
+          ${isDarkMode ? "bg-[#A2A0A0] " : "bg-[#C4B8B8] "}`}
+      ></div>
     </>
   );
 }
