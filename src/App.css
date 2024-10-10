@@ -36,7 +36,18 @@ img {
     #1199a8 147.31%
   );
 }
-
+.bg-dark-gradient {
+  background: linear-gradient(270.18deg, #002022 -14.27%, #363D31 47.55%, #243E41 76.37%, #374B39 107.69%, #283A3C 147.31%);
+}
+.dark-gradient {
+  background: linear-gradient(
+    270.18deg, 
+    #002022 -14.27%, 
+    #363D31 47.55%,
+    #243E41 76.37%, 
+    #374B39 107.69%, 
+    #283A3C 147.31%);
+}
 /* Scrollbar styles */
 ::-webkit-scrollbar {
   width: 5px;
