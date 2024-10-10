@@ -17,8 +17,8 @@ export default function SearchContent({ inputClicked, iscategory }) {
 
   return (
     <div
-      className={`mobile_s:w-[19rem] ${(inputClicked || iscategory) ? "laptop_m:w-[40rem]" : "laptop_m:w-[40rem]"} rounded-2xl mb-8 absolute top-0 left-0 h-96 ${
-        isDarkMode ? "bg-[#606060CC] text-[#FFFFFFCC]" : "bg-white text-black"
+      className={`mobile_s:w-[19rem] ${(inputClicked || iscategory) ? "laptop_m:w-[30rem]" : "laptop_m:w-[30rem]"} rounded-2xl mb-8 absolute top-0 left-0 h-96 ${
+        isDarkMode ? "bg-[#606060CC] text-black" : "bg-white text-black"
       } bg-opacity-70 backdrop-blur-lg z-[1]`}
     >
       <div className="relative mt-10">
