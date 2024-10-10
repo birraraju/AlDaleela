@@ -30,19 +30,19 @@ const DefaultLayout = () => {
   const renderComponent = (name) => {
     switch (name) {
       case "Home":
-        return <SideLayout1 onClose={handleClose} />;
+        return <SideLayout1 onClose={handleClose} mapview={mapview} />;
       case "Add":
-        return <SideLayout2 onClose={handleClose} />;
+        return <SideLayout2 onClose={handleClose} mapview={mapview} />;
       case "Subtract":
-        return <SideLayout3 onClose={handleClose} />;
+        return <SideLayout3 onClose={handleClose} mapview={mapview} />;
       case "Hand":
-        return <SideLayout4 onClose={handleClose} />;
+        return <SideLayout4 onClose={handleClose} mapview={mapview} />;
       case "Next":
-        return <SideLayout onClose={handleClose} />;
+        return <SideLayout onClose={handleClose} mapview={mapview} />;
       case "Export":
-        return <SideLayout5 onClose={handleClose} />;
+        return <SideLayout5 onClose={handleClose} mapview={mapview} />;
       case "Print":
-        return <SideLayout6 onClose={handleClose} />;
+        return <SideLayout6 onClose={handleClose}  mapview={mapview}/>;
       default:
         return <></>;
     }
