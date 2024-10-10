@@ -62,7 +62,6 @@ const DefaultLayout = () => {
     }
   }, [popup]);
 
-  console.log("Footer Status layout:",isFooterOpen)
 
   return (
     <div className="flex flex-col h-screen bg-blue-100">
