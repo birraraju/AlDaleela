@@ -7,8 +7,7 @@ export default function VideoContent() {
             <video
               src={`/Header/Searchbar/SearchContent/Video/${video.videoName}`}
               className="w-full h-auto"
-              controls
-            />
+            ></video>
             <button className="absolute inset-0 flex items-center justify-center">
               <img src="/Header/Searchbar/playBtn.svg" alt="" />
             </button>
@@ -21,11 +20,11 @@ export default function VideoContent() {
 
 const videos = [
   { videoName: "video1.mp4" },
-  { videoName: "video2.mp4" },
-  { videoName: "video3.mp4" },
-  { videoName: "video4.mp4" },
-  { videoName: "video5.mp4" },
-  { videoName: "video6.mp4" },
-  { videoName: "video7.mp4" },
-  { videoName: "video8.mp4" },
+  { videoName: "video1.mp4" },
+  { videoName: "video1.mp4" },
+  { videoName: "video1.mp4" },
+  { videoName: "video1.mp4" },
+  { videoName: "video1.mp4" },
+  { videoName: "video1.mp4" },
+  { videoName: "video1.mp4" },
 ];
