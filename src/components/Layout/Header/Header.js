@@ -4,7 +4,18 @@ import Menus from "./Menus/Menus";
 import { useTheme } from '../ThemeContext/ThemeContext'; // Import the theme context
 import Searchbar from './Searchbar/Searchbar';
 
-const Header = ({ isFooteropen, isHeaderOpen }) => {
+// const Header = ({ isFooteropen, isHeaderOpen }) => {
+//   const { isDarkMode } = useTheme(); // Access the dark mode state
+//   const [SearchResponsive, setSearchResponsive] = useState(false);
+//   const ResponsiveSearchHeader = () => {
+//     setSearchResponsive(true);
+//   };
+
+//   const handleResponsiveClose = () => {
+//     setSearchResponsive(false);
+//   };
+
+const Header = ({  isFooteropen, isHeaderOpen}) => {
   const { isDarkMode } = useTheme(); // Access the dark mode state
   const [SearchResponsive, setSearchResponsive] = useState(false);
   const ResponsiveSearchHeader = () => {
@@ -14,8 +25,6 @@ const Header = ({ isFooteropen, isHeaderOpen }) => {
   const handleResponsiveClose = () => {
     setSearchResponsive(false);
   };
-
-const Header = ({  isFooterOpen, isHeaderOpen , mapview}) => {
   return (
     <header
       className={`text-white sm:pr-10 px-2 py-2 flex items-center justify-between z-8 w-screen 
