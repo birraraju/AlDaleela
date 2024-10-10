@@ -7,7 +7,6 @@ import Searchbar from './Searchbar/Searchbar';
 const Header = ({ isFooteropen, isHeaderOpen }) => {
   const { isDarkMode } = useTheme(); // Access the dark mode state
   const [SearchResponsive, setSearchResponsive] = useState(false);
-
   const ResponsiveSearchHeader = () => {
     setSearchResponsive(true);
   };
@@ -34,7 +33,7 @@ const Header = ({ isFooteropen, isHeaderOpen }) => {
           isHeaderOpen={isHeaderOpen} 
           SearchResponsive={SearchResponsive} 
           handleCloseResponsiveSearch={handleResponsiveClose} 
-          handleResponsiveSearchHeader={ResponsiveSearchHeader} 
+          handleResponsiveSearchHeader={ResponsiveSearchHeader}
         />
       </div>
 

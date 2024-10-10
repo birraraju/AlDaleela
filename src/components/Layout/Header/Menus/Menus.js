@@ -7,8 +7,10 @@ import { useState } from "react";
 
 
 
-const Menus = ({ isFooteropen, isHeaderOpen, mapview }) => {
+const Menus = ({  isFooterOpen, isHeaderOpen, mapview }) => {
   const [isStackOpen, setStackOpen] = useState(false);
+  console.log("Menu Footer Status: ",  isFooterOpen)
+
 
   // Function to toggle the Stack component visibility
   const toggleStackOpen = () => {
@@ -17,9 +19,9 @@ const Menus = ({ isFooteropen, isHeaderOpen, mapview }) => {
 
   return (
     <div className="text-white flex justify-between z-10 items-center">
-      <Searchbar/>
+      <Searchbar isHeaderOpen={isHeaderOpen}  isFooterOpen={ isFooterOpen}/>
       <Stack
-        isFooteropen={isFooteropen}
+        isFooterOpen={ isFooterOpen}
         isHeaderOpen={isHeaderOpen}
         isStackOpen={toggleStackOpen} // Use the toggle function
         mapview={mapview}
@@ -27,7 +29,7 @@ const Menus = ({ isFooteropen, isHeaderOpen, mapview }) => {
       <Language isHeaderOpen={isHeaderOpen} />
       <Location isHeaderOpen={isHeaderOpen} />
       <Profile
-        isFooteropen={isFooteropen}
+        isFooterOpen={ isFooterOpen}
         StackOpen={isStackOpen} // Pass the current state of Stack
         isHeaderOpen={isHeaderOpen}
       />
