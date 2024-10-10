@@ -15,7 +15,7 @@ import Searchbar from './Searchbar/Searchbar';
 //     setSearchResponsive(false);
 //   };
 
-const Header = ({  isFooteropen, isHeaderOpen}) => {
+const Header = ({  isFooterOpen, isHeaderOpen}) => {
   const { isDarkMode } = useTheme(); // Access the dark mode state
   const [SearchResponsive, setSearchResponsive] = useState(false);
   const ResponsiveSearchHeader = () => {
@@ -39,7 +39,7 @@ const Header = ({  isFooteropen, isHeaderOpen}) => {
       {/* Menus Section */}
       <div className={`flex items-center ${SearchResponsive ? "hidden" : "flex"}`}>
         <Menus 
-          isFooteropen={isFooteropen} 
+          isFooterOpen={isFooterOpen} 
           isHeaderOpen={isHeaderOpen} 
           SearchResponsive={SearchResponsive} 
           handleCloseResponsiveSearch={handleResponsiveClose} 
