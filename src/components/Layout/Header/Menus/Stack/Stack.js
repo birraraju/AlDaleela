@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import LayersList from "./LayersList/LayersList";
 
-const Stack = ({SearchOpen, isFooterOpen,isProfileOpen, isHeaderOpen, isStackOpen, mapview }) => {
+const Stack = ({SearchOpen,isLocationOpen, isFooterOpen,isProfileOpen, isHeaderOpen, isStackOpen, mapview }) => {
   const [showLayers, setShowLayers] = useState(false);
 
   const toggleLayers = () => {
@@ -17,10 +17,10 @@ const Stack = ({SearchOpen, isFooterOpen,isProfileOpen, isHeaderOpen, isStackOpe
   }, [isFooterOpen]);
 
   useEffect(()=>{
-    if(SearchOpen||isProfileOpen){
+    if(SearchOpen||isProfileOpen||isLocationOpen){
       setShowLayers(false)
     }
-  },[SearchOpen,isProfileOpen])
+  },[SearchOpen,isProfileOpen,isLocationOpen])
   return (
     <>
       <div

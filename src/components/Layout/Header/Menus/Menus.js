@@ -11,6 +11,8 @@ const Menus = ({  isFooterOpen, isHeaderOpen, mapview }) => {
   const [StackOpen,setStackOpen]=useState(false)
   const [SearchOpen,setSearchOpen]=useState(false)
   const [isProfileOpen,setProfileOpen]=useState(false)
+  const [isLocationOpen,setLocationOpen]=useState(false)
+
 
 
 
@@ -32,11 +34,16 @@ const Menus = ({  isFooterOpen, isHeaderOpen, mapview }) => {
     setProfileOpen(status)
    }
 
+   const handleLocationStatus=(status)=>{
+    setLocationOpen(status)
+   }
+
   console.log("Profile status:", isProfileOpen);
   return (
     <div className="text-white flex justify-between z-10 items-center">
       <Searchbar StackOpen={StackOpen} isSearchClose={handleSearchClose} isSearchOpen={handleSearchOpen}  isHeaderOpen={isHeaderOpen}  isFooterOpen={ isFooterOpen}/>
       <Stack
+      isLocationOpen={isLocationOpen}
         isFooterOpen={ isFooterOpen}
         SearchOpen={SearchOpen}
         isHeaderOpen={isHeaderOpen}
@@ -45,7 +52,7 @@ const Menus = ({  isFooterOpen, isHeaderOpen, mapview }) => {
         isProfileOpen={isProfileOpen}
       />
       <Language isHeaderOpen={isHeaderOpen} />
-      <Location isHeaderOpen={isHeaderOpen} />
+      <Location isLocationOpen={handleLocationStatus} isHeaderOpen={isHeaderOpen} />
       <Profile
         isFooterOpen={ isFooterOpen}
         StackOpen={StackOpen} // Pass the current state of Stack
