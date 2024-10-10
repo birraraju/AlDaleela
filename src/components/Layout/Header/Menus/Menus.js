@@ -8,30 +8,49 @@ import { useState } from "react";
 
 
 const Menus = ({  isFooterOpen, isHeaderOpen, mapview }) => {
-  const [isStackOpen, setStackOpen] = useState(false);
-  console.log("Menu Footer Status: ",  isFooterOpen)
+  const [StackOpen,setStackOpen]=useState(false)
+  const [SearchOpen,setSearchOpen]=useState(false)
+  const [isProfileOpen,setProfileOpen]=useState(false)
+
+
 
 
   // Function to toggle the Stack component visibility
-  const toggleStackOpen = () => {
-    setStackOpen((prev) => !prev);
-  };
+  const handleStackOpen =()=>{
+    setStackOpen(!StackOpen)
+  }
 
+  const handleSearchOpen =()=>{
+    setSearchOpen(true)
+   }
+
+   const handleSearchClose =()=>{
+    setSearchOpen(false)
+   }
+
+   const handleProfileOpen=(status)=>{
+    setProfileOpen(status)
+   }
+
+  console.log("Profile status:", isProfileOpen);
   return (
     <div className="text-white flex justify-between z-10 items-center">
-      <Searchbar isHeaderOpen={isHeaderOpen}  isFooterOpen={ isFooterOpen}/>
+      <Searchbar StackOpen={StackOpen} isSearchClose={handleSearchClose} isSearchOpen={handleSearchOpen}  isHeaderOpen={isHeaderOpen}  isFooterOpen={ isFooterOpen}/>
       <Stack
         isFooterOpen={ isFooterOpen}
+        SearchOpen={SearchOpen}
         isHeaderOpen={isHeaderOpen}
-        isStackOpen={toggleStackOpen} // Use the toggle function
+        isStackOpen={handleStackOpen} // Use the toggle function
         mapview={mapview}
+        isProfileOpen={isProfileOpen}
       />
       <Language isHeaderOpen={isHeaderOpen} />
       <Location isHeaderOpen={isHeaderOpen} />
       <Profile
         isFooterOpen={ isFooterOpen}
-        StackOpen={isStackOpen} // Pass the current state of Stack
+        StackOpen={StackOpen} // Pass the current state of Stack
         isHeaderOpen={isHeaderOpen}
+        isProfileOpen={handleProfileOpen}
       />
     </div>
   );

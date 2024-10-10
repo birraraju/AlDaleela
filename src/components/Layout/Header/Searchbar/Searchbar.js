@@ -4,7 +4,7 @@ import Category from "./Category/Category";
 import Props from "./Props/Props";
 import SearchContent from "./SearchContent/SearchContent";
 
-export default function Searchbar({ isFooterOpen,isHeaderOpen}) {
+export default function Searchbar({ isSearchOpen,isSearchClose,isFooterOpen,isHeaderOpen}) {
   const [inputValue, setInputValue] = useState("");
   const [inputClicked, setInputClicked] = useState(false);
   const [iscategory, setIscategory] = useState(false);
@@ -20,10 +20,12 @@ export default function Searchbar({ isFooterOpen,isHeaderOpen}) {
   useEffect(()=>{
     if(inputClicked){
       isHeaderOpen();
+      isSearchOpen()
+    }
+    if(!inputClicked){
+      isSearchClose()
     }
   },[inputClicked])
-
-  console.log("Search Footer Status:",  isFooterOpen)
 
 
   useEffect(() => {
