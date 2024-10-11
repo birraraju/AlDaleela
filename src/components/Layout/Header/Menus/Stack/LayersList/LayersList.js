@@ -1,10 +1,13 @@
 import { useEffect, useRef } from "react";
 import { X } from "lucide-react";
+import { useTheme } from "../../../../ThemeContext/ThemeContext"; // Import ThemeContext
 import LayerListAPI from "@arcgis/core/widgets/LayerList.js";
 
 export default function LayersList({ onClose, mapview }) {
   const layersListRef = useRef(null);
   const layerlistRef = useRef(null);
+  const { isDarkMode } = useTheme(); // Access isDarkMode from context
+
   // Removed handleClickOutside as we don't want to close on outside click
   // const handleClickOutside = (event) => {
   //   if (layersListRef.current && !layersListRef.current.contains(event.target)) {
@@ -34,18 +37,24 @@ export default function LayersList({ onClose, mapview }) {
     <div className="flex items-center justify-center z-10">
       <div
         ref={layersListRef}
-        className="fixed right-12 top-32 h-96 bg-white bg-opacity-95 p-4 rounded-lg shadow-lg text-black w-96"
-      >
+        className={`fixed right-12 top-32 h-96 p-4 rounded-lg shadow-lg w-96 transition-colors duration-300
+          ${isDarkMode ? "bg-[rgba(96,96,96,0.8)] text-white" : "bg-white bg-opacity-95 text-black"}`}      >
         <div>
           <h1 className="font-omnes text-[16px] font-medium">Layer List</h1>
           <button
-            className="absolute top-4 right-4 text-gray-600 hover:text-gray-800"
-            onClick={onClose}
+className={`absolute top-4 right-4 hover:text-gray-800 ${
+  isDarkMode ? "text-[#FFFFFFFF] text-opacity-80" : "text-gray-800"
+}`}            onClick={onClose}
           >
             <X className="h-6 w-6" />
           </button>
         </div>
-        <div className="my-2 bg-black bg-opacity-10 h-[1px] w-full"></div>
+        <div
+ className={`my-2 h-[1px] w-full transition-colors duration-300 ${
+  isDarkMode ? "bg-white bg-opacity-50" : "bg-black bg-opacity-20"
+}`}         >
+
+         </div>
         <div ref={layerlistRef}></div>
       </div>
     </div>
