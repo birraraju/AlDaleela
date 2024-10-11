@@ -6,7 +6,7 @@ import DarkLocation from '../../assets/Droppedpin/Dropped Pin.svg';
 import { useTheme } from '../Layout/ThemeContext/ThemeContext'; // Import the theme context
 
 
-export default function SideLayout4({ children, width = "454.84px", height = "calc(95vh - 2rem)", onClose }) {
+export default function SideLayout4({ children, width = "454.84px",  onClose }) { //height = "calc(95vh - 2rem)",
   const [isOpen, setIsOpen] = useState(true);   // Controls slide in/out
   const [isFullyClosed, setIsFullyClosed] = useState(false); // Controls visibility
   const [toggleCount, setToggleCount] = useState(0);
@@ -58,13 +58,13 @@ export default function SideLayout4({ children, width = "454.84px", height = "ca
 
   return (
     <div
-      className={`fixed top-16 right-3 transition-transform duration-300 ease-in-out ${
+      className={`fixed top-16 w-[${width}] h-[90%] right-3 transition-transform duration-300 ease-in-out ${
         isOpen ? "translate-x-0" : "translate-x-full"
       }`}
-      style={{ width, height, zIndex: 50 }}  // Ensure it's above other elements
+      // style={{ width, height, zIndex: 50 }}  // Ensure it's above other elements
       ref={containerRef}  // Reference to the panel
     >
-      <div className={`relative h-[65%] w-[65%] float-end sm:w-full rounded-2xl shadow-lg overflow-hidden border transition-colors duration-300 ${
+      <div className={`relative sm:h-[65%] h-[98%] w-[65%] float-end sm:w-full rounded-2xl shadow-lg overflow-hidden border transition-colors duration-300 ${
           isDarkMode
             ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
             : "bg-white bg-opacity-70 border-white"

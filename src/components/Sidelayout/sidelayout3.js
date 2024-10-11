@@ -5,7 +5,7 @@ import Measurements from "../../components/Widgets/Measurement/Measurements";
 import { useTheme } from '../Layout/ThemeContext/ThemeContext'; // Import the theme context
 
 
-export default function SideLayout3({ children, width = "454.84px", height = "calc(95vh - 2rem)", onClose, mapview }) {
+export default function SideLayout3({ children, width = "454.84px", onClose, mapview }) {  //height = "calc(95vh - 2rem)",
   const { isDarkMode } = useTheme(); // Access the dark mode state
   const [isOpen, setIsOpen] = useState(true);  // Controls panel visibility
   const [isFullyClosed, setIsFullyClosed] = useState(false);
@@ -53,12 +53,12 @@ export default function SideLayout3({ children, width = "454.84px", height = "ca
   return (
     <div
       ref={panelRef} // Attach ref to the panel
-      className={`fixed top-16 right-3 transition-transform duration-300 ease-in-out ${
+      className={`fixed w-[${width}] h-[90%] top-16 right-3 transition-transform duration-300 ease-in-out ${
         isOpen ? "translate-x-0" : "translate-x-full"
       }`}
-      style={{ width, height }}
+      // style={{ width, height }}
     >
-      <div className={`relative h-[65%] sm:w-full w-[65%] float-end sm:float-none rounded-2xl shadow-lg overflow-hidden border transition-colors duration-300 ${
+      <div className={`relative sm:h-[65%] h-[78%] sm:w-full w-[65%] float-end sm:float-none rounded-2xl shadow-lg overflow-hidden border transition-colors duration-300 ${
           isDarkMode
           ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
           : "bg-white bg-opacity-70 border-white text-gray-700"

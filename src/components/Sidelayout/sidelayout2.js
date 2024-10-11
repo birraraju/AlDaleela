@@ -8,7 +8,7 @@ import DarkBookMarkGreen from '../../assets/bookmarks/Manage Bookmark.svg';
 
 
 
-export default function SideLayout2({ children, width = "454.84px", height = "calc(95vh - 2rem)", onClose }) {
+export default function SideLayout2({ children, width = "454.84px", onClose }) { //w-[${width}]
   const { isDarkMode } = useTheme(); // Access the dark mode state
   const [isOpen, setIsOpen] = useState(true);
   const [isManageVisible, setIsManageVisible] = useState(false);
@@ -60,11 +60,11 @@ export default function SideLayout2({ children, width = "454.84px", height = "ca
   return (
     <div
       ref={layoutRef}
-      className={`fixed top-16 right-3 transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "translate-x-full"}`}
-      style={{ width, height }}
+      className={`fixed w-[${width}] h-[90%] top-16 right-3 transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "translate-x-full"}`}
+      // style={{ width, height }}
     >
       {isContentVisible && (
-        <div className={`relative h-[65%] sm:w-full float-end sm:float-none w-[67%] rounded-2xl shadow-lg overflow-hidden border ${
+        <div className={`relative sm:h-[65%] h-[98%] sm:w-full float-end sm:float-none w-[67%] rounded-2xl shadow-lg overflow-hidden border ${
           isDarkMode
             ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
             : "bg-white bg-opacity-70 backdrop-blur-lg border-white" // Light mode styles
