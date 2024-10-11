@@ -27,7 +27,7 @@ const PrintComponent = ({ mapview }) => {
     }
   }, [mapview]);
 
-  return <div className="Print" id="printDiv" ref={printRef} />;
+  return <div className=" sm:-mt-[510px] -mt-[490px]" id="printDiv" ref={printRef} />;
 };
 
 export default PrintComponent;
