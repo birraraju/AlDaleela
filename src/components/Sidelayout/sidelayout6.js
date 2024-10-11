@@ -61,7 +61,7 @@ export default function SideLayout6({
   return (
     <div
       ref={panelRef} // Attach ref to the panel div
-      className={`fixed top-16 right-3 transition-transform duration-300 ease-in-out ${
+      className={`fixed top-16 right-3  transition-transform duration-300 ease-in-out ${
         isOpen ? "translate-x-0" : "translate-x-full"
       }`}
       style={{ width, height }}
@@ -82,12 +82,12 @@ export default function SideLayout6({
 
         <div className="p-6 overflow-y-auto h-full">
           {children || (
-            <p className="text-gray-700 font-poppins font-medium">
+            <p className={`text-${isDarkMode ? "[#FFFFFFCC] text-opacity-80" : "gray-700"} font-poppins font-medium`}>
               Print
             </p>
           )}
         </div>
-        <div><Print mapview={mapview}/></div>
+        <div ><Print mapview={mapview}/></div>
       </div>
 
       {/* Toggle button to slide panel in and out */}

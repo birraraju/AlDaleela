@@ -15,6 +15,8 @@ import ProfileMenu from "./ProfileMenus/ProfileDetails/ProfilePage/ProfileMenu/P
 import ProfileMenus from "./ProfileMenus/ProfileMenus";
 import SendFeedBack from "../../../../../components/Sidelayout/FeedLayout/FeedBackMain";
 import { useTheme } from '../../../ThemeContext/ThemeContext'; // Import the theme hook
+import SmallLogo from '../../../../../assets/Header/Profile/profileSmalllogo.svg';
+
 
 const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => {
   const [showAuthenticator, setShowAuthenticator] = useState(false);
@@ -85,17 +87,24 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
                         sm:bg-opacity-5 backdrop-blur rounded-full flex justify-between items-center 
                         mobile_s:py-0.5 laptop_m:py-1 cursor-pointer`}
           >
-            <div className="ml-1">
+            <div className="ml-1  sm:hidden grid">
+            <img
+              src={SmallLogo}
+              alt="Profile"
+              className="mobile_s:w-8 block sm:hidden laptop_m:w-9 text-black"
+            />
+            </div>
+            <div className="ml-1 hidden sm:block">
               <img
                 src={`/Header/Profile/${role === "admin" ? "admin.png" : "profile.png"}`}
                 alt="Profile"
                 className="mobile_s:w-8 laptop_m:w-9"
               />
             </div>
-            <div className="mobile_s:ml-2 laptop_m:ml-4">
+            <div className="mobile_s:ml-2 hidden sm:block laptop_m:ml-4">
               {role === "admin" ? "Hamad" : "Profile"}
             </div>
-            <div className="mobile_s:mx-2 laptop_m:mx-4">
+            <div className="mobile_s:mx-2 sm:block hidden laptop_m:mx-4">
               <IoMdArrowDropdown
                 className={`text-xl ${isPopoverOpen && "rotate-360"} transition-all ease-in-out duration-500`}
               />
@@ -104,9 +113,9 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
         </PopoverTrigger>
 
         <PopoverContent
-          className={`  mt-3 border bg-opacity-65 
+          className={` mt-3 border bg-opacity-65 
                       ${isDarkMode ? "bg-gray-900 border-gray-700" : "bg-white border-white"}
-                      backdrop-blur-md p-4 rounded-3xl shadow-lg z-10 mr-8`}
+                      backdrop-blur-md p-4 rounded-3xl shadow-lg z-10 sm:mr-8 mr-2`}
         >
         <ProfileDetails
             role={role}
