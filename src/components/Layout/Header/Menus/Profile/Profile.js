@@ -14,6 +14,7 @@ import ProfileDetails from "./ProfileMenus/ProfileDetails/ProfileDetails";
 import ProfileMenu from "./ProfileMenus/ProfileDetails/ProfilePage/ProfileMenu/ProfileMenu";
 import ProfileMenus from "./ProfileMenus/ProfileMenus";
 import SendFeedBack from "../../../../../components/Sidelayout/FeedLayout/FeedBackMain";
+import { useTheme } from '../../../ThemeContext/ThemeContext'; // Import the theme hook
 
 const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => {
   const [showAuthenticator, setShowAuthenticator] = useState(false);
@@ -29,6 +30,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
   const [isSuccess, setIsSuccess] = useState(false);
   const [isProfile, setIsProfile] = useState(true);
   const { role, setRole } = useAuth();
+  const { isDarkMode } = useTheme(); // Use the theme hook
 
   useEffect(() => {
     if (isPopoverOpen || isLeaderboard || isAboutUs || isProfileData || isContactUs || isContribution || isProfile || isEditProfile || isFeedBack || isChangePassword || isSuccess) {
@@ -68,6 +70,8 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
   };
 
   const handleLogout = () => {
+    localStorage.removeItem("AldaleelaRole");
+
     setRole(null);
   };
 
@@ -75,9 +79,11 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
     <>
       <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
         <PopoverTrigger asChild>
-          <div
+        <div
             onClick={() => setIsPopoverOpen(true)}
-            className="relative w-40 bg-white bg-opacity-5 backdrop-blur rounded-full flex justify-between items-center mobile_s:py-0.5 laptop_m:py-1 cursor-pointer"
+            className={`relative  ${isDarkMode ? "sm:bg-black" : "sm:bg-white"} 
+                        sm:bg-opacity-5 backdrop-blur rounded-full flex justify-between items-center 
+                        mobile_s:py-0.5 laptop_m:py-1 cursor-pointer`}
           >
             <div className="ml-1">
               <img
@@ -97,8 +103,12 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
           </div>
         </PopoverTrigger>
 
-        <PopoverContent className="w-80 bg-white mt-3 border border-white bg-opacity-65 backdrop-blur-md p-4 text-black text-opacity-60 rounded-3xl shadow-lg z-10 mr-8">
-          <ProfileDetails
+        <PopoverContent
+          className={`  mt-3 border bg-opacity-65 
+                      ${isDarkMode ? "bg-gray-900 border-gray-700" : "bg-white border-white"}
+                      backdrop-blur-md p-4 rounded-3xl shadow-lg z-10 mr-8`}
+        >
+        <ProfileDetails
             role={role}
             setIsPopoverOpen={setIsPopoverOpen}
             isProfileData={isProfileData}
@@ -125,8 +135,12 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
             </div>
           ) : (
             <div onClick={handleLogout} className="flex justify-start items-center gap-2">
-              <HiOutlineLogout className="mx-1 text-2xl" />
-              <p className="font-medium font-omnes text-[#505050] text-[18px] cursor-pointer">Logout</p>
+      <HiOutlineLogout
+        className={`mx-1  text-[24px] ${isDarkMode ? "border-white  border-opacity-80 text-white" : ""}`}
+        style={{ color: isDarkMode ? '#FFFFFFCC' : '#505050' }}
+      />
+              <p className={`font-medium  text-[18px] ${isDarkMode ? "text-gray-300" : "text-[#505050]"}`}>
+              Logout</p>
             </div>
           )}
         </PopoverContent>

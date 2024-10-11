@@ -24,8 +24,10 @@ const Location = ({ isHeaderOpen,isLocationOpen }) => {
   return (
     <>
       <div
-        className={`bg-white ${!showInfo && "bg-opacity-5"} flex rounded-full mobile_s:h-9 laptop_m:h-10 mobile_s:w-9 laptop_m:w-10 mobile_s:mr-2 laptop_m:mr-4 justify-center items-center cursor-pointer`}
-        onClick={handleClick}
+  className={`bg-white ${
+    !showInfo && "bg-opacity-5"
+  } sm:flex hidden rounded-full mobile_s:h-9 laptop_m:h-8 mobile_s:w-9 laptop_m:w-8 mobile_s:mr-2 laptop_m:mr-4 justify-center items-center cursor-pointer`} 
+  onClick={handleClick}
       >
         <img
           src={`/Header/GeneralInformation/${!showInfo ? "Location.svg" : "Location-color.svg"}`}

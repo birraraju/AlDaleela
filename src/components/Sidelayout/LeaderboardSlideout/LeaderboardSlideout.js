@@ -7,6 +7,7 @@ import user1 from "../../../assets/leaderBoard/user1.svg";
 import user2 from "../../../assets/leaderBoard/user2.svg";
 import { useState, useEffect, useRef } from "react";
 import { FiChevronRight } from "react-icons/fi";
+import { useTheme } from "../../Layout/ThemeContext/ThemeContext"; // Import the theme context
 
 const users = [
   { id: 1, name: "User-1", points: 43, avatar: men },
@@ -22,8 +23,9 @@ const users = [
 ];
 
 export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard }) {
-  const [isShrink, setIsShrink] = useState(false);
+  const [isOpen, setIsOpen] = useState(true); // Use this for toggling visibility
   const containerRef = useRef(null);
+  const { isDarkMode } = useTheme(); // Access isDarkMode from ThemeContext
 
   // Handle clicks outside the container
   useEffect(() => {
@@ -46,81 +48,30 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
     <motion.div
       ref={containerRef}  // Attach the ref to the container
       initial={{ x: "100%", opacity: 0 }}
-      whileInView={{ x: isShrink ? "110%" : 0, opacity: 1 }}
+      animate={{ x: isOpen ? 0 : "100%", opacity: 1 }} // Animation based on isOpen state
       exit={{ x: "100%", opacity: 0 }}
       transition={{ ease: "easeInOut" }}
-      className="px-8 py-4 fixed top-16 right-10 h-[90vh] w-[27rem] bg-white bg-opacity-80 backdrop-blur rounded-3xl text-black fontFamily-poppins-0"
-    >
+      className={`px-8 py-4 fixed sm:top-16 top-12 sm:right-10 right-1 sm:h-[90vh] h-[90vh] sm:w-[27rem] w-[20rem] ${
+        isDarkMode
+          ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none"
+          : "bg-white bg-opacity-70 backdrop-blur-lg border-white"
+      } rounded-3xl fontFamily-poppins-0`}    >
       <div className="flex relative justify-between items-center">
-        <h1 className="font-semibold text-[#505050] font-poppins text-[16.37px]">Leaderboard</h1>
+      <h1
+          className={`font-semibold ${
+            isDarkMode ? "text-white" : "text-[#505050]"
+          } font-poppins text-[16.37px]`}
+        >          Leaderboard</h1>
         <button
           onClick={() => {
             setIsPopoverOpen(true);
             setIsLeaderboard(false);
           }}
         >
-          <X />
-        </button>
-
-        {isShrink ? (
-          <div onClick={() => setIsShrink(false)} className="absolute top-6 -left-14">
-            <svg
-              width="32"
-              height="128"
-              viewBox="0 0 64 371"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <g clipPath="url(#clip0_4011_11301)">
-                <path
-                  d="M3.82642 130.396L3.82598 244.617C3.82594 252.779 6.14893 260.773 10.5235 267.664L70.7275 362.497V8.50244L10.1031 108.027C5.99796 114.766 3.82645 122.505 3.82642 130.396Z"
-                  fill="#EBEFF2"
-                  stroke="#EEF3F7"
-                  strokeWidth="6"
-                />
-              </g>
-              <defs>
-                <clipPath id="clip0_4011_11301">
-                  <rect width="64" height="371" fill="white" />
-                </clipPath>
-              </defs>
-            </svg>
-          </div>
-        ) : (
-          <div onClick={() => setIsShrink(true)} className="absolute top-6 -left-14">
-            <svg
-              width="32"
-              height="128"
-              viewBox="0 0 64 371"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <g clipPath="url(#clip0_4011_11301)">
-                <path
-                  d="M3.82642 130.396L3.82598 244.617C3.82594 252.779 6.14893 260.773 10.5235 267.664L70.7275 362.497V8.50244L10.1031 108.027C5.99796 114.766 3.82645 122.505 3.82642 130.396Z"
-                  fill="#EBEFF2"
-                  stroke="#EEF3F7"
-                  strokeWidth="6"
-                />
-              </g>
-              <defs>
-                <clipPath id="clip0_4011_11301">
-                  <rect width="64" height="371" fill="white" />
-                </clipPath>
-              </defs>
-            </svg>
-          </div>
-        )}
-
-        {isShrink ? (
-          <div onClick={() => setIsShrink(false)} className="absolute top-[4.7rem] -left-12 text-xl rotate-180">
-            <FiChevronRight />
-          </div>
-        ) : (
-          <div onClick={() => setIsShrink(true)} className="absolute top-[4.7rem] -left-12 text-xl">
-            <FiChevronRight />
-          </div>
-        )}
+ <X className={`${
+            isDarkMode ? "text-white" : "text-[#505050]"
+          }`} />
+                  </button>
       </div>
 
       <div className="flex justify-between items-end relative mt-10">
@@ -138,9 +89,13 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
                 className="w-16 h-18 object-cover rounded-full"
               />
             </div>
-            <p className="mt-2 font-bold text-sm font-plus-jakarta">{user.name}</p>
-            <p className="text-xs text-black font-plus-jakarta">
-              {user.points} Points
+            <h1
+              className={`font-semibold font-plus-jakarta mt-4 ${
+                isDarkMode ? "text-white" : "text-[#505050]"
+              }`}
+            >              {user.name}</h1>
+            <p className={`text-xs font-plus-jakarta ${isDarkMode ? "text-gray-300" : "text-[#898989]"}`}>
+            {user.points} Points
             </p>
           </div>
         ))}
@@ -150,10 +105,15 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
         {users.slice(3).map((user, index) => (
           <div
             key={user.id}
-            className="bg-white rounded-xl py-2 px-4 flex items-center justify-between gap-4"
+            className={`rounded-xl py-2 px-4 flex items-center justify-between gap-4 ${
+              isDarkMode ? "bg-[#505050]" : "bg-white"
+            }`}
           >
             <div className="w-[20%] flex items-center">
-              <span className="w-4 text-[#4F4F4F] font-semibold font-plus-jakarta mr-2">
+              <span
+                 className={`w-4  font-semibold font-plus-jakarta mr-2 ${
+              isDarkMode ? "text-white" : "text-[#4F4F4F]"
+            }`} >
                 {index + 4}
               </span>
               <img
@@ -164,15 +124,60 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
             </div>
 
             <div className="w-[80%] flex justify-between items-center">
-              <span className="text-sm font-semibold text-[#4F4F4F] font-plus-jakarta">
+              <span 
+                 className={`text-sm font-semibold text-[#4F4F4F] font-plus-jakarta ${
+              isDarkMode ? "text-white" : "text-[#4F4F4F]"
+            }`} >
                 {user.name}
               </span>
-              <span className="text-sm text-[#4F4F4F] font-plus-jakarta">
+              <span 
+              className={`text-sm text-[#4F4F4F] font-plus-jakarta ${
+                isDarkMode ? "text-white" : "text-[#4F4F4F]"
+              }`} 
+              >
                 {user.points} Points
               </span>
             </div>
           </div>
         ))}
+      </div>
+      {/* Toggle button */}
+      <div className="absolute top-12 -left-6">
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="relative w-8 h-32 focus:outline-none"
+          aria-label={isOpen ? "Close side panel" : "Open side panel"}
+        >
+          <svg
+            width="32"
+            height="128"
+            viewBox="0 0 64 371"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            style={{ position: "relative", top: "1px", right: "3px" }}
+          >
+            <g clipPath="url(#clip0_4011_11301)">
+              <path
+                d="M3.82642 130.396L3.82598 244.617C3.82594 252.779 6.14893 260.773 10.5235 267.664L70.7275 362.497V8.50244L10.1031 108.027C5.99796 114.766 3.82645 122.505 3.82642 130.396Z"
+                fill={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "#EBEFF2"}
+                stroke={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "#EEF3F7"}
+                strokeWidth="6"
+              />
+            </g>
+            <defs>
+              <clipPath id="clip0_4011_11301">
+                <rect width="64" height="371" fill="white" />
+              </clipPath>
+            </defs>
+          </svg>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+            <FiChevronRight
+              className={`transition-transform duration-300 ${isOpen ? "rotate-0" : "rotate-180"} ${
+                isDarkMode ? "text-white" : "text-black"
+              }`}
+            />
+          </div>
+        </button>
       </div>
     </motion.div>
   );
