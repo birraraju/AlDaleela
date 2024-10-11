@@ -11,22 +11,22 @@ const LanguageSelector = ({ isHeaderOpen }) => {
   return (
     <div
       className={`relative flex items-center
-        mobile_s:w-20 laptop_m:w-24 mobile_s:h-9 laptop_m:h-10 rounded-full
+        mobile_s:w-16 laptop_m:w-20 mobile_s:h-7 laptop_m:h-8 rounded-full
         bg-white bg-opacity-15 hover:bg-opacity-25
         text-white text-base cursor-pointer
-        transition-all duration-350 ease-in-out mobile_s:mr-2 laptop_m:mr-4`}
+        transition-all duration-350 ease-in-out mobile_s:mr-1 laptop_m:mr-4`}
       onClick={toggleLanguage}
     >
       <div
-        className={`absolute top-1 left-1 mobile_s:w-7 laptop_m:w-8 mobile_s:h-7 laptop_m:h-8
+        className={`absolute sm:top-1 left-1 mobile_s:w-5 laptop_m:w-6 mobile_s:h-5 laptop_m:h-6
           bg-white rounded-full opacity-30
           transition-transform duration-350 ease-in-out
-          ${isArabic ? "mobile_s:translate-x-11 laptop_m:translate-x-14" : "translate-x-0"}`}
+          ${isArabic ? "mobile_s:translate-x-9 laptop_m:translate-x-12" : "translate-x-0"}`}
       ></div>
       <span
-        className={`z-10 mobile_s:text-sm laptop_m:text-base
-          ${isArabic ? "ml-auto mobile_s:pr-10 laptop_m:pr-12" : "pl-10"}
-          ${isArabic ? "text-lg font-semibold" : "text-base font-normal"}`}
+        className={`z-10 mobile_s:text-xs laptop_m:text-base
+          ${isArabic ? "ml-auto mobile_s:pr-8 laptop_m:pr-11" : "sm:pl-8 pl-9"}
+          ${isArabic ? "text-sm font-semibold" : "text-xs font-normal"}`}
       >
         {isArabic ? "عربي" : "ENG"}
       </span>

@@ -44,7 +44,7 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
       className={`sm:px-8 px-2 py-4 fixed sm:top-16 top-12 sm:right-10 right-1 bg-opacity-75 backdrop-blur  sm:rounded-3xl rounded-xl ${
         isDarkMode ? "bg-[rgba(96,96,96,0.8)]" : "bg-white bg-opacity-70"
       } text-black backdrop-blur border-none`}    >
-      <div className="flex relative justify-between items-center mb-6">
+      <div className="flex relative justify-between sm:px-0 px-2 items-center">
       <h1 className={`text-[20px] font-semibold ${isDarkMode ? "text-[#FFFFFFCC]" : "text-black"}`}>
       Contribution</h1>
         <div
@@ -81,7 +81,7 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
         </div> */}
       </div>
 
-      <div className="p-1 w-[450px] max-h-[calc(100vh-200px)] overflow-y-auto mt-2">
+      <div className="p-1 sm:w-[450px] w-[300px] max-h-[calc(100vh-200px)] overflow-y-auto mt-2">
         <div 
         className={`grid font-omnes grid-cols-3 gap-4 font-medium text-[14px]  mb-2 px-4 ${isDarkMode ? "text-gray-300" : "text-gray-600 "}`}
 
@@ -103,10 +103,10 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
             <div className={`font-medium font-omnes sm:text-[16px] text-[9px] ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#3E3E3E]"}`}>
               {contribution.poiName}</div>
               <div className="flex justify-between gap-x-2 sm:gap-x-0 items-center">
-              <span className={`${contribution.status === "Approved" ? "bg-custom-gradient font-omnes text-[16px] font-medium bg-clip-text text-transparent" : "text-[#EFB45D] font-omnes text-[16px] font-medium"}`}>
+              <span className={`${contribution.status === "Approved" ? "bg-custom-gradient font-omnes sm:text-[16px] text-[10px] font-medium bg-clip-text text-transparent" : "text-[#EFB45D] font-omnes sm:text-[16px] text-[10px] font-medium"}`}>
                 {contribution.status}
               </span>
-              <img src={loc} alt="Location icon" className="w-7 h-7" />
+              <img src={loc} alt="Location icon" className="sm:w-7 w-5 sm:h-7 h-4" />
             </div>
           </div>
         ))}

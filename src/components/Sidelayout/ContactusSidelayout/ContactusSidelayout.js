@@ -38,7 +38,7 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
     animate={{ x: isOpen ? 0 : "100%", opacity: 1 }}
     exit={{ x: "100%", opacity: 0 }}
     transition={{ ease: "easeInOut" }}
-    className={`p-4  sm:py-4  sm:h-[60vh] h-[60vh]  fixed top-16 sm:right-10 right-1 backdrop-blur rounded-3xl text-black ${
+    className={`p-4  sm:py-4  sm:h-[70vh] h-[80vh]  fixed top-16 sm:right-10 right-1 backdrop-blur rounded-3xl text-black ${
       isDarkMode
         ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none"
         : "bg-white bg-opacity-70 backdrop-blur-lg border-white"

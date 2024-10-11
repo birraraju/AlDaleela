@@ -4,11 +4,14 @@ import Language from "./Language/Language";
 import Location from "./Location/Location";
 import Profile from "./Profile/Profile";
 import Stack from "./Stack/Stack";
+import ResponsiveSearch from '../../../../assets/Header/Searchbar/SearchBar/imageResponsiveSearch.png'
+
 
 const Menus = ({
   isFooterOpen,
   isHeaderOpen,
   mapview,
+  handleResponsiveSearchHeader,
   handleCloseResponsiveSearch, // Accept handleCloseResponsiveSearch if needed
 }) => {
   const [isStackOpen, setStackOpen] = useState(false); // State for Stack visibility
@@ -43,6 +46,10 @@ const Menus = ({
   console.log("StackStatus:",isStackOpen)
   return (
     <div className="text-white flex justify-between z-10 items-center">
+      <div className=" sm:hidden grid" onClick={()=>handleResponsiveSearchHeader()} >
+    <img src={ResponsiveSearch}  alt="" className=" h-8" />
+  </div>
+      
       {/* Searchbar with necessary props */}
       <Searchbar
         isHeaderOpen={isHeaderOpen}

@@ -30,10 +30,16 @@ const Searchbar = ({
   // Manage search open/close state
   useEffect(() => {
     if (inputClicked) {
-      isHeaderOpen();
-      isSearchOpen();
+      if(typeof isHeaderOpen === "function"){
+        isHeaderOpen();
+      }
+      if(typeof isSearchOpen === "function"){
+        isSearchOpen();
+      }
     } else {
-      isSearchClose();
+      if(typeof isSearchClose === "function"){
+        isSearchClose();
+      }
     }
   }, [inputClicked, isHeaderOpen, isSearchOpen, isSearchClose]);
 
