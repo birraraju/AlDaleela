@@ -37,37 +37,37 @@ export default function Footer({ handleMenuItemClick, resetTrigger }) {
 
     if (index === 4) {
       setIsExpanded(true);
-      const index5Element = menuItemsRef.current[5];
-      if (index5Element) {
-        setActiveMenuIndex(5);
-        setSelectedIndex(5);
-        index5Element.classList.add("sc-current");
+      // const index5Element = menuItemsRef.current[5];
+      // if (index5Element) {
+      //   setActiveMenuIndex(5);
+      //   setSelectedIndex(5);
+      //   index5Element.classList.add("sc-current");
 
-        menuItemsRef.current.forEach((item, idx) => {
-          if (item && idx !== 5) {
-            item.classList.remove("sc-current");
-          }
-        });
+      //   menuItemsRef.current.forEach((item, idx) => {
+      //     if (item && idx !== 5) {
+      //       item.classList.remove("sc-current");
+      //     }
+      //   });
 
-        const position = index5Element.offsetLeft;
-        setCurrentMenuPosition(position);
-        setCurrentItemDisplay("block");
+      //   const position = index5Element.offsetLeft;
+      //   setCurrentMenuPosition(position);
+      //   setCurrentItemDisplay("block");
 
-        const menuIndicator = document.querySelector(".sc-nav-indicator");
-        if (menuIndicator) {
-          menuIndicator.style.left = `${position}px`;
-        }
+      //   const menuIndicator = document.querySelector(".sc-nav-indicator");
+      //   if (menuIndicator) {
+      //     menuIndicator.style.left = `${position}px`;
+      //   }
 
-        const menuBar = document.querySelector(".sc-bottom-bar");
-        if (menuBar) {
-          menuBar.style.backgroundPosition = `252px`;
-          menuBar.style.backgroundImage = document.body.classList.contains('theme-dark')
-            ? 'radial-gradient(circle at 38px 4px, transparent 28px, rgba(0, 0, 0, 0.2) 29px)'
-            : 'radial-gradient(circle at 38px 4px, transparent 28px, rgba(18, 69, 41, 0.2) 29px)';
-        }
+      //   const menuBar = document.querySelector(".sc-bottom-bar");
+      //   if (menuBar) {
+      //     menuBar.style.backgroundPosition = `252px`;
+      //     menuBar.style.backgroundImage = document.body.classList.contains('theme-dark')
+      //       ? 'radial-gradient(circle at 38px 4px, transparent 28px, rgba(0, 0, 0, 0.2) 29px)'
+      //       : 'radial-gradient(circle at 38px 4px, transparent 28px, rgba(18, 69, 41, 0.2) 29px)';
+      //   }
 
-        handleMenuItemClick(e, 5);
-      }
+      //   handleMenuItemClick(e, 5);
+      // }
       return;
     }
 
@@ -142,7 +142,7 @@ export default function Footer({ handleMenuItemClick, resetTrigger }) {
   return (
     
     <div
-      className={`sc-bottom-bar ${isDarkMode ? 'bg-[#152227CC]' : ''}  no-select ${isExpanded ? 'expanded' : ''}`}
+      className={`sc-bottom-bar flex justify-between  sm:h-[65px] h-[50px] ${isDarkMode ? 'bg-[#152227CC]' : ''}  no-select ${isExpanded ? 'sm:w-[400px] w-[300px] ' : 'sm:w-[350px] w-[300px]'}`}
     >
       {Array.from({ length: 7 }).map((_, index) => (
         <React.Fragment key={index}>
