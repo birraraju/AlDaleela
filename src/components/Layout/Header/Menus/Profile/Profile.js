@@ -55,11 +55,25 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
     }
   }, [ isFooterOpen, StackOpen]);
 
+  
+
   useEffect(() => {
     if ((isProfileInOpen||isProfileInOpen) && typeof isProfileInOpen === "function") {
       isProfileInOpen(isPopoverOpen);
     }
   }, [isPopoverOpen]);
+
+  useEffect(()=>{
+    if(!isChangePassword || isSuccess){
+      setIsProfileData(false)
+    }
+  },[isChangePassword,isSuccess])
+
+  useEffect(()=>{
+    if(isProfileData){
+      setIsProfile(true);
+    }
+  },[isProfileData])
   
 
   const toggleAuthenticator = () => {
@@ -76,6 +90,8 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
 
     setRole(null);
   };
+
+  // console.log("Profile Data:1",isProfileData," 2",isChangePassword,"3",isSuccess)
 
   return (
     <>
@@ -183,7 +199,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
             setIsContribution={setIsContribution}
           />
         )}
-        {isProfileData && (
+        { isProfileData  && (
           <ProfileMenu
             isProfile={isProfile}
             setIsPopoverOpen={setIsPopoverOpen}

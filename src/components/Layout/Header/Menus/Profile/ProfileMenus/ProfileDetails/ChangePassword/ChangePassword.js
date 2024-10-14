@@ -1,17 +1,27 @@
 import React from "react";
 import { X } from "lucide-react";
 import ChangePasswordForm from "./ChangePasswordForm/ChangePasswordForm";
+import { useTheme } from "../../../../../../../Layout/ThemeContext/ThemeContext"; // Import your theme context
 
-export default function ChangePassword({ setIsChangePassword, setIsSuccess, setIsProfile }) {
+
+export default function ChangePassword({ setIsChangePassword,setIsPopoverOpen, setIsSuccess, setIsProfile }) {
+  const { isDarkMode } = useTheme(); // Access dark mode from theme context
+
   return (
     <>
       <div className="flex justify-between items-center">
-        <h1 className="font-medium text-2xl">Change Password</h1>
+        <h1 className={`font-medium sm:text-2xl text-lg ${
+              isDarkMode ? "text-white" : "text-gray"
+            }`}>Change Password</h1>
         <div
-          onClick={() => setIsChangePassword(false)}
+          onClick={() => {setIsChangePassword(false);
+            setIsPopoverOpen(true);}
+          }
           className="cursor-pointer"
         >
-          <X className="h-5 w-5" />
+          <X className={`${
+            isDarkMode ? "text-white" : "text-[#505050]"
+          }`} />
         </div>
       </div>
 
