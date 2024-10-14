@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import ChangePassword from "../../ChangePassword/ChangePassword";
 import SuccessMessage from "../../SuccessMessage/SuccessMessage";
 import ProfilePage from "../ProfilePage";
+import { useTheme } from '../../../../../../../../Layout/ThemeContext/ThemeContext'; // Import the theme context
 
 export default function ProfileMenu({
   isProfile,
@@ -18,6 +19,8 @@ export default function ProfileMenu({
   setIsProfileData,
 }) {
   const menuRef = useRef(null);
+  const { isDarkMode } = useTheme(); // Access the dark mode state
+
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -37,9 +40,13 @@ export default function ProfileMenu({
   return (
     <div
       ref={menuRef}
-      className="fixed inset-10 flex items-center justify-center"
+      className="fixed sm:inset-10 inset-1 flex items-center justify-center"
     >
-      <div className="bg-white bg-opacity-70 p-4 backdrop-blur w-[40rem] text-black rounded-xl max-w-md">
+      <div className={`-translate-y-5 sm:-translate-y-0 sm:h-auto  p-4 backdrop-blur w-[40rem] text-black rounded-xl max-w-md ${
+        isDarkMode
+          ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none"
+          : "bg-white bg-opacity-70 backdrop-blur-lg border-white"
+      }`}>
         {isProfile && (
           <ProfilePage
             setIsPopoverOpen={setIsPopoverOpen}
