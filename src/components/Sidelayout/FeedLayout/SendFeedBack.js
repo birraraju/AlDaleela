@@ -73,14 +73,14 @@ export default function Feedback() {
           {ratings.map((item) => (
             <button
               key={item.value}
-              className={`flex bg-transparent sm:px-5 px-1 justify-center  py-2 border sm:rounded-xl rounded-lg flex-col items-center sm:space-y-1 space-y-2 transition-colors ${
+              className={`flex bg-transparent sm:px-3 laptop_s:px-3 px-3 justify-center  py-2 border sm:rounded-xl rounded-lg flex-col items-center sm:space-y-1 space-y-2 transition-colors ${
                 isDarkMode ? "bg-[rgba(96,96,96,0.9)] border-none " : " border-transparent outline-none bg-white"
               }`}
               onClick={() => setRating(item.value)}
             >
               {/* Render the corresponding image */}
-              <img src={item.image} alt={item.value} className="w-8 h-10" />
-              <p className={`sm:text-xs text-[9px] w-8 sm:h-6 h-3 ${item.color}`}>
+              <img src={item.image} alt={item.value} className="w-8 sm:w-6 h-10 sm:h-7 laptop_s:h-8 laptop_s:w-6" />
+              <p className={`sm:text-[9px] laptop_s:text-[10px] text-[9px] w-8 sm:h-6 h-3 ${item.color}`}>
                 {item.value}</p>
             </button>
           ))}

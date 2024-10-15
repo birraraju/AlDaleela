@@ -37,7 +37,7 @@ export default function LayersList({ onClose, mapview }) {
     <div className="flex items-center justify-center z-10">
       <div
         ref={layersListRef}
-        className={`fixed right-12 top-32 h-96 p-4 rounded-lg shadow-lg w-96 transition-colors duration-300
+        className={`fixed right-12 top-32 sm:top-14 laptop_s:top-20 h-96 p-4 rounded-lg shadow-lg w-96 transition-colors duration-300
           ${isDarkMode ? "bg-[rgba(96,96,96,0.8)] text-white" : "bg-white bg-opacity-95 text-black"}`}      >
         <div>
           <h1 className="font-omnes text-[16px] font-medium">Layer List</h1>

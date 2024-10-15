@@ -242,17 +242,14 @@ main {
 
 .sc-bottom-bar {
     position: fixed;
-    display: flex;
     padding: 10px 10px;
-    justify-content: space-between;
-    min-width: 350px;
-    max-width: 350px;
+    /* min-width: 350px;
+    max-width: 350px; */
     margin: auto;
     left: 0;
     margin-bottom: 28px;
     bottom: 5px;
     right: 0;
-    height: 65px;
     font-size: 26px;
     /*background-image: radial-gradient(circle at 36px 6px, transparent 36px, rgba(17, 69, 41, 0.4) 37px);*/
     background-image: radial-gradient(circle at 0px 0px, transparent 0px, rgba(74, 117, 74, 0.2) 20px);
@@ -269,9 +266,8 @@ main {
   /* Media query for smaller devices */
   @media (max-width: 600px) {
     .sc-bottom-bar {
-      min-width: 300px;  /* Decrease the width for smaller screens */
-      max-width: 300px;
-      height: 60px;  /* Decrease the height for smaller screens */
+      /* min-width: 300px;  /* Decrease the width for smaller screens */
+      /* max-width: 300px; */ 
       font-size: 20px;  /* Reduce the font size */
       padding: 3px 3px;  /* Adjust the padding */
     }
@@ -284,9 +280,8 @@ main {
   /* Media query for extra small devices */
   @media (max-width: 400px) {
     .sc-bottom-bar {
-      min-width: 250px;  /* Further decrease the width */
-      max-width: 280px;
-      height: 55px;  /* Further decrease the height */
+      /* min-width: 250px;  /* Further decrease the width */
+      /* max-width: 280px; */ 
       font-size: 18px;  /* Further reduce the font size */
       padding: 3px 3px;  /* Adjust padding */
     }
@@ -294,6 +289,13 @@ main {
     .sc-bottom-bar.expanded {
         max-width: 100px;
         min-width: 100px;
+    }
+
+    .sc-menu-item .icon {
+
+        padding: 1px;
+        width: 21px;
+    
     }
   }
   
@@ -384,8 +386,6 @@ main {
 .sc-menu-item .icon {
 
     padding: 1px;
-
-
     width: 31px;
 
 }

@@ -58,7 +58,7 @@ export default function AboutusSidelayout({
         </div>
       </div>
 
-      <div className="relative sm:h-[80vh] h-[60vh] sm:w-[27rem] w-[16rem] overflow-y-scroll">
+      <div className="relative sm:h-[50vh] laptop_s:h-[80vh] h-[70vh] sm:w-[23rem]  laptop_s:w-[20rem] w-[18rem] overflow-y-scroll">
         <AboutDescription />
         <Mottos />
       </div>

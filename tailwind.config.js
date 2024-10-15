@@ -18,7 +18,7 @@ export default {
         screens: {
           mobile_s: "100px",
           mobile_m: "375px",
-          mobile_l: "425px",
+          mobile_l: "425px",tab:"768px",
           laptop_s: "1024px",
           laptop_m: "1440px",
         },

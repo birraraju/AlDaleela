@@ -53,12 +53,12 @@ export default function SideLayout3({ children, width = "454.84px", onClose, map
   return (
     <div
       ref={panelRef} // Attach ref to the panel
-      className={`fixed w-[${width}] h-[90%] top-16 right-3 transition-transform duration-300 ease-in-out ${
+      className={`fixed w-[510px] sm:w-[400px] laptop_s:w-[${width}] h-[98%] top-16 right-3 sm:right-16 transition-transform duration-300 ease-in-out ${
         isOpen ? "translate-x-0" : "translate-x-full"
       }`}
       // style={{ width, height }}
     >
-      <div className={`relative sm:h-[65%] h-[78%] sm:w-full w-[65%] float-end sm:float-none rounded-2xl shadow-lg overflow-hidden border transition-colors duration-300 ${
+      <div className={`relative sm:h-[40%] laptop_s:h-[65%] h-[90%] sm:w-full w-[65%] float-end sm:float-none rounded-2xl shadow-lg overflow-hidden border transition-colors duration-300 ${
           isDarkMode
           ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
           : "bg-white bg-opacity-70 border-white text-gray-700"
