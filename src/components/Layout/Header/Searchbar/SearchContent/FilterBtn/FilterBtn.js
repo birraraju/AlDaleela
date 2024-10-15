@@ -8,7 +8,7 @@ export default function FilterBtn({ isFiltersOpen, setIsFiltersOpen, setSelected
         }}
         className="cursor-pointer"
       >
-        <img src="/Header/Searchbar/filter.svg" alt="" />
+        <img src={`${process.env.PUBLIC_URL}/Header/Searchbar/filter.svg"`} alt="" />
       </div>
     </>
   );

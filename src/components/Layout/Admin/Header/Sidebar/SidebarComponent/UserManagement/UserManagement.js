@@ -41,6 +41,7 @@ export default function UserManagement() {
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [scrollPercentage, setScrollPercentage] = useState(0);
   const tableRef = useRef(null);
+  const [data, setData] = useState([]);
 
   const toggleUserSelection = (index) => {
     setSelectedUsers(prev => 
@@ -74,6 +75,26 @@ export default function UserManagement() {
     };
   }, []);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+          const response = await fetch(`${process.env.REACT_APP_API_URL}/Registration/GetUsers`); // Example API
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+          const result = await response.json();
+          setData(result);
+      } catch (error) {
+          //setError(error.message);
+          console.log(error)
+      } finally {
+          //setLoading(false);
+      }
+  };
+  
+  fetchData();    
+  },[data]);
+
   return (
     <div className="flex h-[calc(100vh-6rem)]">
       <div className="bg-white p-8 rounded-lg shadow-sm flex flex-col flex-grow overflow-hidden">
@@ -102,14 +123,14 @@ export default function UserManagement() {
                   <th className="pb-3 font-medium font-omnes text-[14px] text-[#667085] pr-2">Username</th>
                   <th className="pb-3 font-medium font-omnes text-[14px] text-[#667085] pr-2">Email Id</th>
                   <th className="pb-3 font-medium font-omnes text-[14px] text-[#667085] pr-2">Phone Number</th>
-                  <th className="pb-3 font-medium font-omnes text-[14px] text-[#667085] pr-2">Address</th>
+                  <th className="pb-3 font-medium font-omnes text-[14px] text-[#667085] pr-2">Country</th>
                   <th className="pb-3 font-medium font-omnes text-[14px] text-[#667085] pr-2">User Roles</th>
                   <th className="pb-3 font-medium font-omnes text-[14px] text-[#667085] pr-2">User Activity</th>
                   <th className="pb-3"></th>
                 </tr>
               </thead>
               <tbody>
-                {users.map((user, index) => (
+                {data.map((user, index) => (
                   <tr key={index} className={index % 2 === 0 ? "bg-[#D5E5DE] bg-opacity-30" : "bg-white"}>
                     {isEditing && (
                       <td className="py-4 pl-2">
@@ -121,8 +142,8 @@ export default function UserManagement() {
                     )}
                     <td className="py-4 font-medium font-omnes text-[14px] text-black pl-2">{user.username}</td>
                     <td className="py-4 font-medium font-omnes text-[14px] text-black pr-2">{user.email}</td>
-                    <td className="py-4 font-medium font-omnes text-[14px] text-black pr-2">{user.phone}</td>
-                    <td className="py-4 font-medium font-omnes text-[14px] text-black pr-2">{user.address}</td>
+                    <td className="py-4 font-medium font-omnes text-[14px] text-black pr-2">{user.phoneNumber}</td>
+                    <td className="py-4 font-medium font-omnes text-[14px] text-black pr-2">{user.country}</td>
                     <td className="py-4 font-medium font-omnes text-[14px] text-[#626262] pr-2">
                       {isEditing ? (
                         <Select defaultValue={user.role}>
@@ -130,9 +151,12 @@ export default function UserManagement() {
                             <SelectValue placeholder="Select role" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="Public User">Public User</SelectItem>
+                            {/* <SelectItem value="Public User">Public User</SelectItem>
                             <SelectItem value="Admin User">Admin User</SelectItem>
-                            <SelectItem value="Creator User">Creator User</SelectItem>
+                            <SelectItem value="Creator User">Creator User</SelectItem> */}
+                            <SelectItem value="user">user</SelectItem>
+                            <SelectItem value="admin">admin</SelectItem>
+                            {/* <SelectItem value="Creator User">Creator User</SelectItem> */}
                           </SelectContent>
                         </Select>
                       ) : (

@@ -15,13 +15,13 @@ export default function AudioContent() {
               <div className="flex justify-start items-center gap-2">
                 <div>
                   <img
-                    src="/Header/Searchbar/music.svg"
+                    src={`${process.env.PUBLIC_URL}/Header/Searchbar/music.svg`}
                     alt=""
                     className="w-4"
                   />
                 </div>
                 <div>
-                  <img src="/Header/Searchbar/audioWave.svg" alt="" />
+                  <img src={`${process.env.PUBLIC_URL}/Header/Searchbar/audioWave.svg`} alt="" />
                 </div>
               </div>
 

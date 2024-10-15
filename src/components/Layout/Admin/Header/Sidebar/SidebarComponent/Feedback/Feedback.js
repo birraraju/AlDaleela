@@ -31,6 +31,7 @@ const Feedback = () => {
   const [scrollPercentage, setScrollPercentage] = useState(0);
   const [selectedUser, setSelectedUser] = useState(null);
   const tableRef = useRef(null);
+  const [data, setData] = useState([]);
 
   const toggleUserSelection = (index) => {
     setSelectedUsers((prev) => 
@@ -50,6 +51,25 @@ const Feedback = () => {
   const closeFeedbackData = () => {
     setSelectedUser(null);
   };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+          const response = await fetch(`${process.env.REACT_APP_API_URL}/FeedBack/Getfeedbacks`); // Example API
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+          const result = await response.json();
+          setData(result);
+      } catch (error) {
+          //setError(error.message);
+          console.log(error)
+      } finally {
+          //setLoading(false);
+      }
+  };
+
+  fetchData();    
+  },[data]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -69,7 +89,60 @@ const Feedback = () => {
       tableElement?.removeEventListener('scroll', handleScroll);
     };
   }, []);
-
+  const handleFeedbackDelete = async (id) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/FeedBack/deletemultiplefeedbacks`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify([id]),
+      });
+      if (response.ok) {
+          console.log('Records deleted successfully');
+          const data = await response.text();
+          if(data ==="Records deleted successfully."){
+            console.log(data);
+          }
+          else{
+            console.log(data);
+          }
+      } else {
+          console.log('Error logging activity:', response);
+      }      
+      
+      } catch (error) {
+          console.error('Error submitting form:', error);
+      }
+    //Update state to remove the deleted record
+    setData(data.filter(record => record.id !== id));
+  };
+  
+  const handleselectedDeleted = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/FeedBack/deletemultiplefeedbacks`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(selectedUsers),
+      });
+      if (response.ok) {
+          console.log('Records deleted successfully');
+          const data = await response.text();
+          if(data ==="Records deleted successfully."){
+            console.log(data);
+          }
+          else{
+            console.log(data);
+          }
+      } else {
+          console.log('Error logging activity:', response);
+      }      
+      
+      } catch (error) {
+          console.error('Error submitting form:', error);
+      }
+    //Update state to remove the deleted record
+    //setData(data.filter(record => record.id !== id));
+    setData(data.filter(record => !selectedUsers.includes(record.id)));
+  };
   return (
     <div className="flex h-[calc(100vh-6rem)]">
       <div className="bg-white p-8 rounded-lg shadow-sm flex flex-col flex-grow overflow-hidden">
@@ -101,29 +174,30 @@ const Feedback = () => {
                 </tr>
               </thead>
               <tbody>
-                {users.map((user, index) => (
-                  <tr key={index} className={index % 2 === 0 ? "bg-[#D5E5DE] bg-opacity-40" : "bg-white"}>
+                {data.map((user, index) => (
+                  <tr key={user.id} className={user.id % 2 === 0 ? "bg-[#D5E5DE] bg-opacity-40" : "bg-white"}>
                     <td className="py-4 pl-2">
-                      <span className="inline-block w-3 h-3 bg-green-500 rounded-full" title={user.status}></span>
+                      {/* <span className="inline-block w-3 h-3 bg-green-500 rounded-full" title={user.status}></span> */}
+                      <span className="inline-block w-3 h-3 bg-green-500 rounded-full" title={"Read"}></span>
                     </td>
                     {isEditing && (
                       <td className="py-4 pl-2">
                         <CustomCheckbox
-                          checked={selectedUsers.includes(index)}
-                          onCheckedChange={() => toggleUserSelection(index)}
+                          checked={selectedUsers.includes(user.id)}
+                          onCheckedChange={() => toggleUserSelection(user.id)}
                         />
                       </td>
                     )}
                     <td className="py-4 font-medium text-gray-800 pr-2">{user.username}</td>
                     <td className="py-4 font-medium text-gray-800 pr-2">{user.email}</td>
-                    <td className="py-4 font-medium text-gray-800 pr-2">{user.submissionDate}</td>
+                    <td className="py-4 font-medium text-gray-800 pr-2">{new Date(user.createdDate).toLocaleDateString()}</td>
                     <td className="py-4">
                       <button onClick={() => handleUserDetail(user)}>
                         <Eye className="h-5 w-5 text-gray-800 hover:text-gray-600" />
                       </button>
                     </td>
                     <td className="py-4">
-                      <button>
+                      <button onClick={() => handleFeedbackDelete(user.id)}>
                         <Trash2 className="h-5 w-5 text-red-600" />
                       </button>
                     </td>
@@ -136,7 +210,7 @@ const Feedback = () => {
         </div>
         {isEditing && (
           <div className="mt-4">
-            <button
+            <button onClick={() => handleselectedDeleted()}
               className="bg-[#EDB3B3] text-[#870202] px-4 py-2 rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={selectedUsers.length === 0}
             >

@@ -10,7 +10,7 @@ export default function VideoFilter({ setSelectedItem, setIsFiltersOpen, selecte
       }`}
     >
       <div>
-        <img src="/Header/Searchbar/video.svg" alt="" className="w-6" />
+        <img src={`${process.env.PUBLIC_URL}/Header/Searchbar/video.svg`} alt="" className="w-6" />
       </div>
       <div>Video</div>
     </div>

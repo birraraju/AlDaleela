@@ -10,6 +10,9 @@ import { useTheme } from '../../Layout/ThemeContext/ThemeContext'; // Import the
 export default function Feedback() {
   const [rating, setRating] = useState(null);
   console.log(rating);
+  const [fbname, setfbname] = useState(null);
+  const [fbemail, setfbemail] = useState(null);
+  const [fbcomments, setfbcomments] = useState(null);
   const { isDarkMode } = useTheme(); // Access dark mode from theme context
 
   const ratings = [
@@ -29,7 +32,39 @@ export default function Feedback() {
     { value: "Poor", icon: Frown, color: "text-orange-400", image: poor },
     { value: "Bad", icon: Frown, color: "text-red-500", image: bad },
   ];
-
+  const onSubmitFeedback = async()=>{
+    console.log(fbname,fbemail,fbcomments)
+    const feedbackObj={
+      username: fbname,
+      email: fbemail,
+      feedbackstatus: rating,
+      feedbackinfo: fbcomments
+    }
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/FeedBack/feedbacksent`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(feedbackObj),
+      });
+      if (response.ok) {
+          // Handle successful signup
+          console.log(response);
+         
+      } else {
+          // Handle error
+          console.log(response);
+      }
+      const data = await response.text();
+      if(data === "Data Insert Successfully"){
+        console.log(data);
+      }
+      else{
+        console.log(data)
+      }
+    }catch (error) {
+      console.error('Error submitting form:', error);
+    }
+  }
   return (
     <div className={`z-50 ${isDarkMode ? "text-white" : "text-black"}`}>
       <div className=" sm:space-y-4 space-y-2 max-h-[calc(100vh-100px)] overflow-y-auto">
@@ -62,6 +97,7 @@ export default function Feedback() {
             <input
               type="text"
               id="name"
+              onChange={(e)=> setfbname(e.target.value)}
               placeholder="Enter Your Name"
               className={`w-full px-3 py-3 border rounded-xl outline-none transition-colors${
                 isDarkMode
@@ -80,6 +116,7 @@ export default function Feedback() {
             <input
               type="email"
               id="email"
+              onChange={(e)=> setfbemail(e.target.value)}
               placeholder="Enter Your Email Address"
               className={`w-full px-3 py-3 border rounded-xl outline-none transition-colors${
                 isDarkMode
@@ -99,6 +136,7 @@ export default function Feedback() {
               id="thoughts"
               rows={4}
               placeholder="Share Your Thoughts Here"
+              onChange={(e)=> setfbcomments(e.target.value)}
               className={`w-full px-3 py-2 border rounded-xl outline-none transition-colors${
                 isDarkMode
         ? "bg-[#FFFFFF] bg-opacity-30 text-white border-transparent "
@@ -114,7 +152,7 @@ export default function Feedback() {
           }`}
         >          Cancel
         </button>
-        <button className={`sm:px-14 px-9 sm:py-3 py-2 rounded-md transition-colors ${
+        <button onClick={onSubmitFeedback} className={`sm:px-14 px-9 sm:py-3 py-2 rounded-md transition-colors ${
           isDarkMode ? "bg-custom-gradient text-white" : "bg-custom-gradient text-white"
         }`}>          Submit
         </button>

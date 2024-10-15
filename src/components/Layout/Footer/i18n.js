@@ -1,18 +1,18 @@
-// src/i18n.ts
-import i18n, { InitOptions } from 'i18next';
+// src/i18n.js
+import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import Backend from 'i18next-http-backend';
 
 // Define the initialization options
-const options: InitOptions = {
+const options = {
   fallbackLng: 'en',
   debug: true,
   interpolation: {
     escapeValue: false, // React already handles XSS protection
   },
   backend: {
-    loadPath: `${import.meta.env.REACT_APP_BASE_URL}locales/{{lng}}.json`,
+    loadPath: `${process.env.REACT_APP_BASE_URL}locales/{{lng}}.json`,
   },
   detection: {
     order: ['querystring', 'cookie'], // Use lowercase 'querystring' for consistency
@@ -26,7 +26,7 @@ i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init(options)
-  .catch((error: Error) => {
+  .catch((error) => {
     console.error('i18n initialization error:', error);
   });
 

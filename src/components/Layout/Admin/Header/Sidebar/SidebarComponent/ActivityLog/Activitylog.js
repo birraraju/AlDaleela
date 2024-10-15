@@ -1,4 +1,5 @@
 import { ArrowDown } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 const activityLogs = [
   { userName: "User Name", emailId: "user@gmail.com", dateTime: "2024-10-11 09:22:25", ipAddress: "192.168.125.10", action: "Profile update" },
@@ -21,6 +22,26 @@ const activityLogs = [
 ];
 
 export default function UserActivityLog() {
+  const [data, setData] = useState([]);
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/UserActivityLog/Getuseractivitylogs`); // Example API
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const result = await response.json();
+        setData(result);
+    } catch (error) {
+        //setError(error.message);
+        console.log(error)
+    } finally {
+        //setLoading(false);
+    }
+};
+
+fetchData();    
+},[data]);
   return (
     <div className="bg-white p-8 rounded-lg shadow-sm h-[calc(100vh-6rem)] flex flex-col">
       <div className="flex justify-between items-center mb-6">
@@ -47,12 +68,12 @@ export default function UserActivityLog() {
               </tr>
             </thead>
             <tbody>
-              {activityLogs.map((log, index) => (
+              {data.map((log, index) => (
                 <tr key={index} className={index % 2 === 0 ? "bg-[#D5E5DE] bg-opacity-30" : "bg-white"}>
-                  <td className="py-4 font-medium text-[14px] text-black pl-4">{log.userName}</td>
-                  <td className="py-4 font-medium text-[14px] text-black pr-4">{log.emailId}</td>
-                  <td className="py-4 font-medium text-[14px] text-black pr-4">{log.dateTime}</td>
-                  <td className="py-4 font-medium text-[14px] text-black pr-4">{log.ipAddress}</td>
+                  <td className="py-4 font-medium text-[14px] text-black pl-4">{log.username}</td>
+                  <td className="py-4 font-medium text-[14px] text-black pr-4">{log.email}</td>
+                  <td className="py-4 font-medium text-[14px] text-black pr-4">{new Date(log.createdDate).toLocaleString()}</td>
+                  <td className="py-4 font-medium text-[14px] text-black pr-4">{log.ipaddress}</td>
                   <td className="py-4 font-medium text-[14px] text-black pr-4">{log.action}</td>
                 </tr>
               ))}
