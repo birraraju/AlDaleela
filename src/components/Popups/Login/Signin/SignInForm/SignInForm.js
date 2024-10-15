@@ -16,6 +16,7 @@ import { IoEyeOff } from "react-icons/io5";
 import { z } from "zod"; // Still needed for schema validation
 import { zodResolver } from "@hookform/resolvers/zod";
 import {UserActivityLog} from "../../../../Common/UserActivityLog";
+import { useTheme } from '../../../../Layout/ThemeContext/ThemeContext'; // Import the theme context
 
 const formSchema = z.object({
   username: z.string().min(1, "username is required"),
@@ -26,6 +27,7 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
   const [isPassword, setIsPassword] = useState(false);
   const { setRole } = useAuth();
   const {profiledetails , setprofiledetails} = useAuth()
+  const { isDarkMode } = useTheme(); // Access the dark mode state
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -66,6 +68,7 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
         setprofiledetails(data);
         //setRole("admin");
         setRole(data.role);
+        localStorage.setItem("AldaleelaRole", "admin");
         //setRole("user");
         onClose();
       }      
@@ -78,6 +81,7 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
   }catch (error) {
     console.error('Error submitting form:', error);
   }
+
   }
 
   return (
@@ -95,7 +99,11 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
                     placeholder="Enter Username"
                     type="text"
                     {...field}
-                    className="bg-white text-black h-12 shadow-none border-none outline-none rounded-lg placeholder:font-light placeholder:text-base placeholder:text-black placeholder:tracking-wide"
+                    className={`${
+                      isDarkMode
+              ? "bg-[#FFFFFF] bg-opacity-30 text-white border-transparent placeholder:text-[#FFFFFF]"
+              : "bg-white text-black border-gray-300 placeholder:text-black"
+          } h-12 shadow-none border-none outline-none rounded-lg placeholder:font-light placeholder:text-[14px] placeholder:tracking-wide`}
                   />
                 </div>
               </FormControl>
@@ -116,14 +124,20 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
                     placeholder="Enter Password"
                     type={isPassword ? "text" : "password"}
                     {...field}
-                    className="bg-white text-black h-12 shadow-none border-none outline-none rounded-lg placeholder:font-light placeholder:text-base placeholder:text-black placeholder:tracking-wide"
+                    className={`${
+                      isDarkMode
+              ? "bg-[#FFFFFF] bg-opacity-30 text-white border-transparent placeholder:text-[#FFFFFF]"
+              : "bg-white text-black border-gray-300 placeholder:text-black"
+          } h-12 shadow-none border-none outline-none rounded-lg placeholder:font-[300] placeholder:text-[14px] placeholder:tracking-wide`}
                   />
                   <button
                     type="button"
                     onClick={() => setIsPassword(!isPassword)}
                     className="absolute right-3 top-3"
                   >
-                    <IoEyeOff className="text-2xl opacity-50 text-black" />
+                    <IoEyeOff className={`text-2xl ${
+                        isDarkMode ? "text-[#FFFFFF]" : "text-black"
+                      } opacity-50`} />
                   </button>
                 </div>
               </FormControl>
@@ -135,8 +149,8 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
         {/* Forget Password & Stay logged in */}
         <div className="flex justify-between items-center">
           <div className="flex items-center space-x-2">
-            <Checkbox className="bg-white" id="stay_logged_in" />
-            <Label className="text-gray-400 text-[14px] font-omnes font-light">
+            <Checkbox className={`${isDarkMode ? "bg-gray-400 border-gray-700" : "bg-white"}`} />
+            <Label className={`text-${isDarkMode ? '[#FFFFFFCC]' : '[#000000CC]'} text-[14px] font-[400]`}>
               {form.formState.isValid ? "Remember me" : "Stay logged in"}
             </Label>
           </div>
@@ -145,6 +159,8 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
             onClick={onForgotPasswordClick}
             className={`${
               form.formState.isValid
+                ? "text-[#196162] text-[14px] font-medium cursor-pointer"
+                : isDarkMode
                 ? "text-[#196162] text-[14px] font-medium cursor-pointer"
                 : "text-[#004987] text-[14px] font-medium cursor-pointer"
             }`}
@@ -156,21 +172,29 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
         {/* SignIn Button */}
         <Button
           disabled={!form.formState.isValid}
-          className={`w-full h-12 rounded-xl ${
-            form.formState.isValid
-              ? "bg-gradient-to-r from-[#036068] text-[14px] via-[#596451] to-[#1199A8] text-white"
-              : "bg-[#828282] opacity-50 text-white text-[14px]"
-          }`}
+          className={`w-full h-12 rounded-xl transition-all duration-200
+            ${
+              form.formState.isValid
+                ? isDarkMode
+                  ? "bg-gradient-to-r from-[#036068] via-[#596451] to-[#1199A8] text-white"
+                  : "bg-gradient-to-r from-[#036068] via-[#596451] to-[#1199A8] text-white"
+                : isDarkMode
+                ? "bg-[white] bg-opacity-40 text-white"
+                : "bg-[#636262]  text-white"
+            }
+          `}
         >
           Sign in
         </Button>
       </form>
 
-      <div className="flex justify-center items-center space-x-2 mt-12 text-black">
+      <div className={`flex justify-center items-center space-x-2 mt-12 text-${isDarkMode ? '[#FFFFFFCC]' : 'gray-600'}`}>
         Don't have an account?
         <div
           onClick={onSignupClick}
-          className="ml-2 text-[#004987] underline cursor-pointer"
+          className={`ml-2 ${
+            isDarkMode ? "text-[#004987]" : "text-[#004987]"
+          } underline cursor-pointer`}
         >
           Sign Up
         </div>

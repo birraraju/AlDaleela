@@ -1,10 +1,18 @@
 import { ChevronLeft } from "lucide-react";
 import SideBarImg from '../../../../../assets/Admin/logo/imageSideBar.png';
+import { useTheme } from '../../../../Layout/ThemeContext/ThemeContext';
 
 export default function Sidebar({ activeItem, onItemClick }) {
+  const { isDarkMode } = useTheme();
+
   return (
-    <div className="w-[190px] bg-teal-800 h-[calc(100vh-4rem)] text-white py-8 fixed top-16 left-0 z-10">
-      <a href="/default">
+    <div
+    className={`w-[190px]  h-[calc(100vh-4rem)] text-white py-8 fixed top-16 left-0 z-10 ${
+      isDarkMode
+        ? 'bg-[#1F302B] '
+        : 'bg-teal-800'
+    }`}
+  >      <a href="/default">
         <button className="flex px-7 items-center text-[#D1FAFF] text-[14px] mb-1">
           <ChevronLeft className="w-4 h-6" />
           Back

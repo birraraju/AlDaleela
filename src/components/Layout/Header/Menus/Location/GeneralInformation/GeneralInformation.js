@@ -23,11 +23,11 @@ export default function GeneralInformation({ onClose }) {
   }, []);
 
   return (
-    <div className="fixed inset-10 flex items-center justify-center z-10">
-      <div className="fixed inset-10" onClick={onClose}></div> {/* Overlay to close on click */}
+    <div className="fixed inset-10 sm:inset-5 laptop_s:inset-10 z-50 flex items-center justify-center ">
+      <div className="fixed inset-10 z-50 " onClick={onClose}></div> {/* Overlay to close on click */}
       <div
         ref={modalRef} // Attach the ref to the modal
-        className={`p-4 rounded-lg shadow-lg relative w-[800px] mb-10 transition-colors duration-300 ${
+        className={`p-4 rounded-lg shadow-lg relative z-50 w-[800px] mb-10 transition-colors duration-300 ${
           isDarkMode
             ? "bg-[rgba(96,96,96,0.9)] text-white border-white" // Dark mode styles
             : "bg-white bg-opacity-98 text-black border-white" // Light mode styles
@@ -37,7 +37,7 @@ export default function GeneralInformation({ onClose }) {
           <h1
            className="text-[24px] font-omnes font-medium">General Information</h1>
           <button
- className={`absolute top-4 right-4 hover:text-gray-800 ${
+ className={`absolute top-4   right-4 hover:text-gray-800 ${
   isDarkMode ? "text-gray-400" : "text-gray-600"
 }`}            onClick={onClose}
           >
