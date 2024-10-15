@@ -44,6 +44,7 @@ export default function UserManagement() {
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [scrollPercentage, setScrollPercentage] = useState(0);
   const tableRef = useRef(null);
+  const [data, setData] = useState([]);
   const { isDarkMode } = useTheme(); // Access dark mode from theme context
 
   const toggleUserSelection = (index) => {
@@ -78,6 +79,26 @@ export default function UserManagement() {
     };
   }, []);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+          const response = await fetch(`${process.env.REACT_APP_API_URL}/Registration/GetUsers`); // Example API
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+          const result = await response.json();
+          setData(result);
+      } catch (error) {
+          //setError(error.message);
+          console.log(error)
+      } finally {
+          //setLoading(false);
+      }
+  };
+  
+  fetchData();    
+  },[data]);
+
   return (
     <div className="flex h-[calc(100vh-6rem)]">
  <div  className={`p-8 rounded-lg shadow-sm flex flex-col flex-grow overflow-hidden ${
@@ -108,25 +129,18 @@ export default function UserManagement() {
             <thead className={`sticky top-0   z-10 ${isDarkMode ? "bg-[#303031] " : "bg-white"}`}>
             <tr className="text-left text-sm font-medium text-gray-500 border-b">
                   {isEditing && <th className="pb-3 w-8"></th>}
-                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
-                    Username</th>
-                    <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
-                    Email Id</th>
-                    <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
-                    Phone Number</th>
-                    <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
-                    Address</th>
-                    <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
-                    User Roles</th>
-                    <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
-                    User Activity</th>
+                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>Username</th>
+                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>Email Id</th>
+                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>Phone Number</th>
+                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>Country</th>
+                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>User Roles</th>
+                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>User Activity</th>
                   <th className="pb-3"></th>
                 </tr>
               </thead>
               <tbody>
-                {users.map((user, index) => (
-                  <tr key={index} 
-                  className={`${
+                {data.map((user, index) => (
+                  <tr key={index} className={`${
                     isDarkMode
                       ? index % 2 === 0
                         ? "bg-transparent"
@@ -134,7 +148,8 @@ export default function UserManagement() {
                       : index % 2 === 0
                       ? "bg-[#D5E5DE] bg-opacity-30"
                       : "bg-white"
-                  }`}                  >
+                  }`} >
+
                     {isEditing && (
                       <td className="py-4 pl-2">
                         <CustomCheckbox
@@ -143,24 +158,24 @@ export default function UserManagement() {
                         />
                       </td>
                     )}
+                    <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{user.username}</td>
+                    <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{user.email}</td>
+                    <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{user.phoneNumber}</td>
+                    <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{user.country}</td>
                     <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
-                    {user.username}</td>
-                    <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
-                      {user.email}</td>
-                      <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
-                      {user.phone}</td>
-                      <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
-                      {user.address}</td>
-                      <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
+
                       {isEditing ? (
                         <Select defaultValue={user.role}>
                           <SelectTrigger className="w-[140px]">
                             <SelectValue placeholder="Select role" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="Public User">Public User</SelectItem>
+                            {/* <SelectItem value="Public User">Public User</SelectItem>
                             <SelectItem value="Admin User">Admin User</SelectItem>
-                            <SelectItem value="Creator User">Creator User</SelectItem>
+                            <SelectItem value="Creator User">Creator User</SelectItem> */}
+                            <SelectItem value="user">user</SelectItem>
+                            <SelectItem value="admin">admin</SelectItem>
+                            {/* <SelectItem value="Creator User">Creator User</SelectItem> */}
                           </SelectContent>
                         </Select>
                       ) : (
