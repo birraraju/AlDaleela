@@ -71,7 +71,7 @@ export default function SideLayout1({
   return (
     <div
       ref={panelRef} // Attach the ref to the panel
-      className={`fixed w-[${width}] h-[90%] top-16 right-3 transition-transform duration-300 ease-in-out ${
+      className={`fixed w-[510px] sm:w-[430px] laptop_s:w-[${width}] h-[90%] sm:h-[80%] top-16 right-3 sm:right-16 laptop_s:right-3 transition-transform duration-300 ease-in-out ${
         isOpen ? "translate-x-0" : "translate-x-full"
       }`}
       // style={{ width, height }} // Set height to 80% of viewport height

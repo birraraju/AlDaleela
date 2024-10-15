@@ -51,13 +51,13 @@ export default function SendFeedBack({
   return (
     <div
       ref={feedbackRef}
-      className={`fixed sm:top-16 top-12 right-3 transition-transform duration-300 ease-in-out ${
+      className={`fixed sm:top-16 w-[510px] sm:w-[400px] top-14 right-3 sm:right-16 laptop_s:right-3 transition-transform duration-300 ease-in-out ${
         isOpen ? "translate-x-0" : "translate-x-full"
       }`}
-      style={{ width, height }}
+      style={{  height }}
     >
       <div
-        className={`relative sm:h-[620px] h-[560px] sm:w-full sm:float-none w-[67%] float-end rounded-2xl shadow-lg overflow-hidden border ${
+        className={`relative sm:h-[620px] h-[590px] sm:w-full sm:float-none w-[67%] float-end rounded-2xl shadow-lg overflow-hidden border ${
           isDarkMode
             ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
             : "bg-white bg-opacity-70 backdrop-blur-lg border-white" // Light mode styles

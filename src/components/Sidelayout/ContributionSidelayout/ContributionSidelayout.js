@@ -41,11 +41,11 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
       animate={{ x: isOpen ? 0 : "100%", opacity: 1 }}
       exit={{ x: "100%", opacity: 0 }}
       transition={{ ease: "easeInOut" }}
-      className={`sm:px-8 px-2 py-4 fixed sm:top-16 top-12 sm:right-10 right-1 bg-opacity-75 backdrop-blur  sm:rounded-3xl rounded-xl ${
+      className={`sm:px-8 px-2 py-4 fixed sm:top-16 laptop_s:top-16 top-14 sm:right-10 right-3 bg-opacity-75 backdrop-blur  sm:rounded-3xl rounded-xl ${
         isDarkMode ? "bg-[rgba(96,96,96,0.8)]" : "bg-white bg-opacity-70"
       } text-black backdrop-blur border-none`}    >
       <div className="flex relative justify-between sm:px-0 px-2 items-center">
-      <h1 className={`text-[20px] font-semibold ${isDarkMode ? "text-[#FFFFFFCC]" : "text-black"}`}>
+      <h1 className={`text-[15px] sm:text-[17px] laptop_s:text-[19px] font-semibold ${isDarkMode ? "text-[#FFFFFFCC]" : "text-black"}`}>
       Contribution</h1>
         <div
           className={`p-2 cursor-pointer ${isDarkMode ? "text-white hover:text-gray-300" : "text-gray-600 hover:text-gray-900"} transition-colors`}
@@ -81,7 +81,7 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
         </div> */}
       </div>
 
-      <div className="p-1 sm:w-[450px] w-[300px] max-h-[calc(100vh-200px)] overflow-y-auto mt-2">
+      <div className="p-1 sm:w-[350px] laptop_s:[450px] w-[320px] max-h-[calc(100vh-200px)] overflow-y-auto mt-2">
         <div 
         className={`grid font-omnes grid-cols-3 gap-4 font-medium text-[14px]  mb-2 px-4 ${isDarkMode ? "text-gray-300" : "text-gray-600 "}`}
 
@@ -98,12 +98,12 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
               index % 2 === 0 ? "bg-[#D5E5DE] bg-opacity-30" : "bg-transparent"
             }`}
           >
-            <div className={`font-medium font-omnes sm:text-[16px] text-[10px] ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#101828]"}`}>
+            <div className={`font-medium font-omnes sm:text-[13px] text-[10px] ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#101828]"}`}>
             {contribution.date}</div>
-            <div className={`font-medium font-omnes sm:text-[16px] text-[9px] ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#3E3E3E]"}`}>
+            <div className={`font-medium font-omnes sm:text-[12px] laptop_s:text-[13px] text-[9px] ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#3E3E3E]"}`}>
               {contribution.poiName}</div>
-              <div className="flex justify-between gap-x-2 sm:gap-x-0 items-center">
-              <span className={`${contribution.status === "Approved" ? "bg-custom-gradient font-omnes sm:text-[16px] text-[10px] font-medium bg-clip-text text-transparent" : "text-[#EFB45D] font-omnes sm:text-[16px] text-[10px] font-medium"}`}>
+              <div className="flex justify-between gap-x-2 sm:gap-x-3 laptop_s:gap-x-0 items-center">
+              <span className={`${contribution.status === "Approved" ? "bg-custom-gradient font-omnes sm:text-[13px] text-[10px] font-medium bg-clip-text text-transparent" : "text-[#EFB45D] font-omnes sm:text-[13px] text-[10px] font-medium"}`}>
                 {contribution.status}
               </span>
               <img src={loc} alt="Location icon" className="sm:w-7 w-5 sm:h-7 h-4" />
@@ -112,7 +112,7 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
         ))}
       </div>
        {/* Toggle button */}
-       <div className="absolute top-12 -left-6">
+       <div className="absolute top-12 -left-6 sm:block hidden">
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="relative w-8 h-32 focus:outline-none"

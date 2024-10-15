@@ -38,7 +38,7 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
     animate={{ x: isOpen ? 0 : "100%", opacity: 1 }}
     exit={{ x: "100%", opacity: 0 }}
     transition={{ ease: "easeInOut" }}
-    className={`p-4  sm:py-4  sm:h-[70vh] h-[80vh]  fixed top-16 sm:right-10 right-1 backdrop-blur rounded-3xl text-black ${
+    className={`p-4  sm:py-4  sm:h-[42vh] laptop_s:h-[70vh] h-[70vh]  fixed top-16 sm:right-16 laptop_s:right-10 right-1 backdrop-blur rounded-3xl text-black ${
       isDarkMode
         ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none"
         : "bg-white bg-opacity-70 backdrop-blur-lg border-white"
@@ -57,7 +57,7 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
     </div>
 
       {/* Contact Details */}
-    <div className="relative   sm:w-[23rem] w-[18rem] sm:mt-4 mt-3 sm:overflow-hidden  ">
+    <div className="relative   sm:w-[21rem] laptop_s:w-[21rem] w-[20rem] sm:mt-4 mt-3 sm:overflow-hidden  ">
       <div className="space-y-4">
         <div>
           <h3 className="flex items-center mb-2 font-bold">
@@ -113,7 +113,7 @@ Abu Dhabi
     </div>
 
     {/* Toggle button */}
-    <div className="absolute top-12 -left-6">
+    <div className="absolute hidden sm:block top-12 -left-6">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="relative w-8 h-32 focus:outline-none"

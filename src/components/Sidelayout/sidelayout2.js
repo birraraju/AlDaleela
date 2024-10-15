@@ -60,7 +60,7 @@ export default function SideLayout2({ children, width = "454.84px", onClose }) {
   return (
     <div
       ref={layoutRef}
-      className={`fixed w-[${width}] h-[90%] top-16 right-3 transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "translate-x-full"}`}
+      className={`fixed w-[510px] sm:w-[400px] laptop_s:w-[${width}] h-[90%] sm:h-[59%] laptop_s:h-[90%]  top-16 right-3 sm:right-16 laptop_s:right-3 transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "translate-x-full"}`}
       // style={{ width, height }}
     >
       {isContentVisible && (
