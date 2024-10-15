@@ -10,7 +10,7 @@ export default function AudioFilter({ setSelectedItem, setIsFiltersOpen, selecte
       }`}
     >
       <div>
-        <img src="/Header/Searchbar/audio.svg" alt="" className="w-6" />
+        <img src={`${process.env.PUBLIC_URL}/Header/Searchbar/audio.svg`} alt="" className="w-6" />
       </div>
       <div>Audio</div>
     </div>

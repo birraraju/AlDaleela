@@ -1,4 +1,5 @@
 import { ArrowDown } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { useTheme } from "../../../../../ThemeContext/ThemeContext"; // Importing the theme context
 
 const activityLogs = [
@@ -22,8 +23,28 @@ const activityLogs = [
 ];
 
 export default function UserActivityLog() {
+  const [data, setData] = useState([]);
   const { isDarkMode } = useTheme(); // Access dark mode from theme context
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/UserActivityLog/Getuseractivitylogs`); // Example API
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const result = await response.json();
+        setData(result);
+    } catch (error) {
+        //setError(error.message);
+        console.log(error)
+    } finally {
+        //setLoading(false);
+    }
+};
 
+fetchData();    
+},[data]);
+  
   return (
 <div  className={`p-8 rounded-lg shadow-sm h-[calc(100vh-6rem)] flex flex-col ${
         isDarkMode ? "bg-[#303031] bg-opacity-90" : "bg-white "
@@ -58,9 +79,8 @@ export default function UserActivityLog() {
               </tr>
             </thead>
             <tbody>
-              {activityLogs.map((log, index) => (
-                <tr key={index} 
-                className={`${
+              {data.map((log, index) => (
+                <tr key={index} className={`${
                   isDarkMode
                     ? index % 2 === 0
                       ? "bg-transparent"
@@ -68,17 +88,13 @@ export default function UserActivityLog() {
                     : index % 2 === 0
                     ? "bg-[#D5E5DE] bg-opacity-30"
                     : "bg-white"
-                }`}                >
-                    <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
-                    {log.userName}</td>
-                    <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
-                    {log.emailId}</td>
-                    <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
-                    {log.dateTime}</td>
-                    <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
-                    {log.ipAddress}</td>
-                    <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
-                    {log.action}</td>
+                }`} >
+                  <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{log.username}</td>
+                  <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{log.email}</td>
+                  <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{new Date(log.createdDate).toLocaleString()}</td>
+                  <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{log.ipaddress}</td>
+
+             
                 </tr>
               ))}
             </tbody>

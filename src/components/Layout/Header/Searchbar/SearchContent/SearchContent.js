@@ -67,7 +67,7 @@ export default function SearchContent({ inputClicked, iscategory }) {
                 >
                   <div>
                     <img
-                      src="/Header/Searchbar/direction.svg"
+                      src={`${process.env.PUBLIC_URL}/Header/Searchbar/direction.svg`}
                       alt=""
                       className="w-6"
                     />

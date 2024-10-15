@@ -12,9 +12,8 @@ export default function Signup({ onClose, onSigninClick }) {
     username: '',
     firstName: '',
     password: '',
-    confirmPassword: '',
-    emailAddress: '',
-    phoneNumber: '',
+    email: '',
+    phoneNumber: 0,
     organization: '',
     country: '',
   });
@@ -51,6 +50,39 @@ export default function Signup({ onClose, onSigninClick }) {
   const isFormFilled = () => {
     return Object.values(formData).every(value => value !== '');
   };
+
+  const onSignupClick = async() =>{    
+    try {
+      const signupObj ={
+        username: formData.username,
+        firstName: formData.firstName,
+        password: formData.password,
+        email: formData.email,
+        phoneNumber: formData.phoneNumber,
+        organization: formData.organization,
+        country: formData.country,
+        role: "user"
+      }
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/Registration/signup`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(signupObj),
+      });
+      if (response.ok) {
+          // Handle successful signup
+          console.log(response);
+      } else {
+          // Handle error
+          console.log(response);
+      }
+      const data = await response.text();
+      if(data){
+        console.log(data)
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
+  }
 
   return (
     <div className="fixed sm:inset-10 inset-1 flex items-center justify-center z-50 mb-6">
@@ -138,7 +170,7 @@ export default function Signup({ onClose, onSigninClick }) {
               <div className="grid sm:grid-cols-2 grid-cols-1 gap-2">
                 <Input
                   type="email"
-                  name="emailAddress"
+                  name="email"
                   placeholder="Email Address"
                   required
                   onChange={handleChange}
@@ -167,6 +199,7 @@ export default function Signup({ onClose, onSigninClick }) {
           }`}
                     onChange={handleChange}
                   >
+
                     <option className={`${
                       isDarkMode
               ? "text-black"
@@ -176,17 +209,17 @@ export default function Signup({ onClose, onSigninClick }) {
                       isDarkMode
               ? "text-black"
               :  "text-black"
-          }`} value="UAE">United Arab Emirates</option>
+          }`} value="United Arab Emirates">United Arab Emirates</option>
                     <option className={`${
                       isDarkMode
               ? "text-black"
               :  "text-black"
-          }`} value="USA">United States</option>
+          }`} value="United States">United States</option>
                     <option className={`${
                       isDarkMode
               ? "text-black"
               :  "text-black"
-          }`} value="UK">United Kingdom</option>
+          }`} value="United Kingdom">United Kingdom</option>
                   </select>
                   <img src={CountryDropdown} alt="Dropdown" className="absolute top-1/2 right-3 -translate-y-1/2" />
                 </div>
@@ -208,6 +241,7 @@ export default function Signup({ onClose, onSigninClick }) {
                 }
               `}
               disabled={!isFormFilled()}
+              onClick={onSignupClick}
             >
               Sign Up
             </button>

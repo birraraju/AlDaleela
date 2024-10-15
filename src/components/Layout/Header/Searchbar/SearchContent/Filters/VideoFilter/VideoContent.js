@@ -5,11 +5,11 @@ export default function VideoContent() {
         {videos.map((video, videoIndex) => (
           <div key={videoIndex} className="relative bg-black rounded-xl overflow-hidden">
             <video
-              src={`/Header/Searchbar/SearchContent/Video/${video.videoName}`}
+              src={`${process.env.PUBLIC_URL}/Header/Searchbar/SearchContent/Video/${video.videoName}`}
               className="w-full h-auto"
             ></video>
             <button className="absolute inset-0 flex items-center justify-center">
-              <img src="/Header/Searchbar/playBtn.svg" alt="" />
+              <img src={`${process.env.PUBLIC_URL}/Header/Searchbar/playBtn.svg`} alt="" />
             </button>
           </div>
         ))}

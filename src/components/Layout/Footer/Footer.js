@@ -159,7 +159,7 @@ export default function Footer({ handleMenuItemClick, resetTrigger }) {
                 data-tooltip-id={`tooltip-${index}`}
               >
                 <img
-                  src={isDarkMode ? `/Footer/dark/darkicon${index + 1}.svg` : `/Footer/icon${index + 1}.svg`}
+                  src={isDarkMode ? `${process.env.PUBLIC_URL}/Footer/dark/darkicon${index + 1}.svg` : `${process.env.PUBLIC_URL}/Footer/icon${index + 1}.svg`}
                   className="icon"
                   alt={`Icon ${index + 1}`}
                   style={{ width: '200px', height: '200px' }}
@@ -195,7 +195,7 @@ export default function Footer({ handleMenuItemClick, resetTrigger }) {
                 data-tooltip-id={`tooltip-${index}`}
               >
                 <img
-                  src={isDarkMode ? `/Footer/dark/darkicon${index + 1}.svg` : `/Footer/icon${index + 1}.svg`}
+                  src={isDarkMode ? `${process.env.PUBLIC_URL}/Footer/dark/darkicon${index + 1}.svg` : `${process.env.PUBLIC_URL}/Footer/icon${index + 1}.svg`}
                   className="icon"
                   alt={`Icon ${index + 1}`}
                   style={{ width: '200px', height: '200px' }}
@@ -230,7 +230,7 @@ export default function Footer({ handleMenuItemClick, resetTrigger }) {
                 data-tooltip-id={`tooltip-${index}`}
               >
                 <img
-                  src={isDarkMode ? `/Footer/dark/darkicon${index + 1}.svg` : `/Footer/icon${index + 1}.svg`}
+                  src={isDarkMode ? `${process.env.PUBLIC_URL}/Footer/dark/darkicon${index + 1}.svg` : `${process.env.PUBLIC_URL}/Footer/icon${index + 1}.svg`}
                   className="icon"
                   alt={`Icon ${index + 1}`}
                   style={{ width: '200px', height: '200px' }}

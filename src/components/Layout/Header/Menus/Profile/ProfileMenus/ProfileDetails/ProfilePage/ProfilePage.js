@@ -1,6 +1,8 @@
+import { useEffect } from "react";
 import BasicInformation from "./ProfileMenu/BasicInformation/BasicInformation";
 import ProfileContent from "./ProfileMenu/ProfileContent/ProfileContent";
 import ProfileHeader from "./ProfileMenu/ProfileHeader/ProfileHeader";
+import { useAuth } from "../../../../../../../../Providers/AuthProvider/AuthProvider";
 
 export default function ProfilePage({
   setIsPopoverOpen,
@@ -11,6 +13,10 @@ export default function ProfilePage({
   setIsProfile,
   setIsProfileData
 }) {
+  const {profiledetails} = useAuth()
+  useEffect(() => {
+
+  },[profiledetails]);
   return (
     <div>
       <ProfileHeader

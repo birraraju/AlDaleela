@@ -1,4 +1,4 @@
-import { createContext, useContext, useState,useEffect } from "react";
+import { createContext, useContext, useState } from "react";
 
 const AuthContext = createContext(undefined);
 
@@ -12,18 +12,10 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [role, setRole] = useState(null);
-  
-   // Set role from localStorage when the component mounts
-  useEffect(() => {
-    const storedRole = localStorage.getItem("AldaleelaRole");
-    if (storedRole) {
-      setRole(storedRole); // Set role from localStorage if available
-    }else{
-      setRole(null);
-    }
-  }, []);
+  const [profiledetails , setprofiledetails] = useState(null);
+
   return (
-    <AuthContext.Provider value={{ role, setRole }}>
+    <AuthContext.Provider value={{ role, setRole, profiledetails , setprofiledetails }}>
       {children}
     </AuthContext.Provider>
   );

@@ -13,8 +13,9 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react"; // Import useState
 import { IoEyeOff,IoEye } from "react-icons/io5"; // Import icons
+import { useAuth } from "../../../../../../../../../Providers/AuthProvider/AuthProvider";
+import {UserActivityLog} from "../../../../../../../../Common/UserActivityLog";
 import { useTheme } from "../../../../../../../../Layout/ThemeContext/ThemeContext"; // Import your theme context
-
 
 const formSchema = z
   .object({
@@ -28,6 +29,7 @@ const formSchema = z
   });
 
 export default function ChangePasswordForm({ setIsChangePassword, setIsSuccess, setIsProfile }) {
+  const {profiledetails } = useAuth()
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -43,11 +45,45 @@ export default function ChangePasswordForm({ setIsChangePassword, setIsSuccess, 
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  function onSubmit(values) {
-    console.log(values);
-    setIsSuccess(true);
-    setIsProfile(false);
-    setIsChangePassword(false);
+  const onSubmit = async(values) => {
+    try {
+      const signupObj ={
+        email:profiledetails.email,
+        oldpassword:values.currentPassword,
+        newpassword:values.newPassword
+      }
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/Registration/updatepassword`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(signupObj),
+      });
+      if (response.ok) {
+          // Handle successful signup
+          console.log(response);
+         
+      } else {
+          // Handle error
+          console.log(response);
+      }
+      const data = await response.text();
+      if(data == "Data Updated Successfully"){
+        console.log(values);
+        UserActivityLog(profiledetails, "Change Password")
+        setIsSuccess(true);
+        setIsProfile(false);
+        setIsChangePassword(false);
+      }
+      else{
+        console.log(data)
+        setIsSuccess(false);
+        setIsProfile(false);
+        setIsChangePassword(true);
+      }
+      // setRole("admin");
+      // onClose();
+    }catch (error) {
+      console.error('Error submitting form:', error);
+    }    
   }
 
   const onCancel = () => {

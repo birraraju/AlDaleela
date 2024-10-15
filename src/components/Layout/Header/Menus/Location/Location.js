@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import GeneralInformation from "./GeneralInformation/GeneralInformation";
+import LocationLogo from '../../../../../assets/Header/GeneralInformation/Location.svg';
+import LocationColorLogo from '../../../../../assets/Header/GeneralInformation/Location-color.svg';
 
 const Location = ({ isHeaderOpen,isLocationOpen }) => {
   const [showInfo, setShowInfo] = useState(false);
@@ -30,7 +32,7 @@ const Location = ({ isHeaderOpen,isLocationOpen }) => {
   onClick={handleClick}
       >
         <img
-          src={`/Header/GeneralInformation/${!showInfo ? "Location.svg" : "Location-color.svg"}`}
+          src={`${!showInfo ? LocationLogo: LocationColorLogo}`}
           alt=""
           className="mobile_s:w-4 laptop_m:w-5"
         />

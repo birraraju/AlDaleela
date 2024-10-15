@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "../../../../../../../../../../components/ui/button";
+import { useAuth } from "../../../../../../../../../../Providers/AuthProvider/AuthProvider";
 import { useTheme } from '../../../../../../../../../Layout/ThemeContext/ThemeContext'; // Import the theme context
-
 
 export default function ProfileContent({ 
   isEditProfile, 
@@ -9,15 +9,15 @@ export default function ProfileContent({
   setIsChangePassword, 
   setIsProfile 
 }) {
+  const {profiledetails} = useAuth()
   const { isDarkMode } = useTheme(); // Access the dark mode state
-
   return (
     <>
       {!isEditProfile ? (
         <div className="flex justify-between items-center gap-4">
           <div className="w-[20%]">
             <img
-              src="/Header/Profile/ProfileDetails/Profile.svg"
+              src={`${process.env.PUBLIC_URL}/Header/Profile/ProfileDetails/Profile.svg`}
               alt="Profile"
               className="sm:w-20 w-18"
             />
@@ -25,8 +25,9 @@ export default function ProfileContent({
 
           <div className="w-[80%]">
             <div className="tracking-wide">
-              <h1 className={`sm:text-lg text-sm font-medium text-${isDarkMode ? 'white' : 'gray-600'} `}>Hamad</h1>
-              <p className={`sm:text-base text-xs font-light text-${isDarkMode ? '[#FFFFFFCC]' : 'gray-600'} `}>useremailid@gmail.com</p>
+              <h1 className={`sm:text-lg text-sm font-medium text-${isDarkMode ? 'white' : 'gray-600'} `}>{profiledetails.username}</h1>
+              <p className={`sm:text-base text-xs font-light text-${isDarkMode ? '[#FFFFFFCC]' : 'gray-600'} `}>{profiledetails.email}</p>
+
             </div>
 
             <div className="flex justify-between items-center gap-4">

@@ -20,6 +20,7 @@ const BasicInformationForm = () => {
   const handleUpdate = () => {
     // Perform update logic here
     console.log('Updated user info:', userInfo);
+    alert("test")
     // Example: You could make an API call here to save the updated information
   };
 
