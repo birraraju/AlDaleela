@@ -51,7 +51,7 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
       animate={{ x: isOpen ? 0 : "100%", opacity: 1 }} // Animation based on isOpen state
       exit={{ x: "100%", opacity: 0 }}
       transition={{ ease: "easeInOut" }}
-      className={`px-8 py-4 fixed sm:top-16 top-12 sm:right-10 right-1 sm:h-[90vh] h-[90vh] sm:w-[27rem] w-[20rem] ${
+      className={`px-8 py-4 fixed sm:top-16 top-12 sm:right-10 laptop_s:right-3 right-4 sm:h-[45vh] laptop_s:h-[80vh] h-[85vh] sm:w-[20rem] laptop_s:w-[22rem] w-[21rem] ${
         isDarkMode
           ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none"
           : "bg-white bg-opacity-70 backdrop-blur-lg border-white"
@@ -101,7 +101,7 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
         ))}
       </div>
 
-      <div className="space-y-4 mt-10 overflow-y-auto sm:h-[60%] h-[49%]">
+      <div className="space-y-4 mt-10 sm:mt-7 laptop_s:mt-10 overflow-y-auto sm:h-[48%] laptop_s:h-[55%] h-[55%]">
         {users.slice(3).map((user, index) => (
           <div
             key={user.id}
@@ -142,7 +142,7 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
         ))}
       </div>
       {/* Toggle button */}
-      <div className="absolute top-12 -left-6">
+      <div className="absolute hidden sm:block top-12 -left-6">
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="relative w-8 h-32 focus:outline-none"

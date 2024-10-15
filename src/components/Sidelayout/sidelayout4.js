@@ -58,13 +58,13 @@ export default function SideLayout4({ children, width = "454.84px",  onClose }) 
 
   return (
     <div
-      className={`fixed top-16 w-[${width}] h-[90%] right-3 transition-transform duration-300 ease-in-out ${
+      className={`fixed top-16 w-[510px] h-[90%] sm:w-[400px] laptop_s:w-[${width}]  right-3 sm:right-16 laptop_s:right-3 transition-transform duration-300 ease-in-out ${
         isOpen ? "translate-x-0" : "translate-x-full"
       }`}
       // style={{ width, height, zIndex: 50 }}  // Ensure it's above other elements
       ref={containerRef}  // Reference to the panel
     >
-      <div className={`relative sm:h-[65%] h-[98%] w-[65%] float-end sm:w-full rounded-2xl shadow-lg overflow-hidden border transition-colors duration-300 ${
+      <div className={`relative sm:h-[80%] laptop_s:h-[89%] h-[98%]  w-[65%] float-end sm:w-full rounded-2xl shadow-lg overflow-hidden border transition-colors duration-300 ${
           isDarkMode
             ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
             : "bg-white bg-opacity-70 border-white"

@@ -142,7 +142,7 @@ export default function Footer({ handleMenuItemClick, resetTrigger }) {
   return (
     
     <div
-      className={`sc-bottom-bar flex justify-between  sm:h-[65px] h-[50px] ${isDarkMode ? 'bg-[#152227CC]' : ''}  no-select ${isExpanded ? 'sm:w-[400px] w-[300px] ' : 'sm:w-[350px] w-[300px]'}`}
+      className={`sc-bottom-bar flex justify-between tab:h-[65px]  sm:h-[60px] h-[50px] ${isDarkMode ? 'bg-[#152227CC]' : ''}  no-select ${isExpanded ? ' tab:w-[400px] sm:w-[300px] w-[300px] ' : ' tab:w-[350px] sm:w-[300px] w-[300px]'}`}
     >
       {Array.from({ length: 7 }).map((_, index) => (
         <React.Fragment key={index}>

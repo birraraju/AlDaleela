@@ -29,7 +29,7 @@ const Header = ({  isFooterOpen, isHeaderOpen, mapview}) => {
   };
   return (
     <header
-      className={`text-white sm:pr-10 px-2 py-2 flex items-center justify-between z-8 w-screen 
+      className={`text-white sm:pr-10 px-2 py-2 z-30 flex items-center justify-between z-8 w-screen 
         ${isDarkMode ? 'bg-dark-gradient' : 'bg-custom-gradient'}`
       }
     >
