@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import LayersList from "./LayersList/LayersList";
 import StackLogo from '../../../../../assets/Header/Layerlist/Stack.svg';
+import StackLogoColor from '../../../../../assets/Header/Layerlist/StackColor.svg';
 
 const Stack = ({isSearchOpen,isLocationOpen, isFooterOpen,isProfileOpen, isHeaderOpen, isStackOpen, mapview }) => {
   const [showLayers, setShowLayers] = useState(false);
@@ -33,12 +34,12 @@ const Stack = ({isSearchOpen,isLocationOpen, isFooterOpen,isProfileOpen, isHeade
   },[isSearchOpen,isProfileOpen,isLocationOpen])
   return (
     <>
-      <div
-        className="bg-white bg-opacity-5 sm:flex hidden rounded-full mobile_s:h-9 mobile_s:w-9 laptop_m:h-10 laptop_m:w-10 mobile_s:mr-2 laptop_m:mr-4 justify-center items-center cursor-pointer"
+       <div
+        className={`bg-white ${!showLayers && "bg-opacity-5"}  sm:flex hidden rounded-full mobile_s:h-9 mobile_s:w-9 laptop_m:h-9 laptop_m:w-9 mobile_s:mr-2 laptop_m:mr-2 justify-center items-center cursor-pointer`}
         onClick={toggleLayers}
       >
         <img
-          src={StackLogo}
+          src={showLayers ?StackLogoColor:StackLogo}
           alt=""
           className="mobile_s:w-5 laptop_m:w-6"
         />

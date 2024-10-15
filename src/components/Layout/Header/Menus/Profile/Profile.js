@@ -118,13 +118,13 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
               <img
                 src={`${role === "admin" ? AdminLogo : ProfileLogo}`}
                 alt="Profile"
-                className="mobile_s:w-8 laptop_m:w-9"
+                className="mobile_s:w-8 laptop_m:w-8"
               />
             </div>
-            <div className="mobile_s:ml-2 hidden sm:block laptop_m:ml-4">
+            <div className="mobile_s:ml-2 hidden sm:block laptop_m:ml-2">
               {role ? profiledetails.username : "Profile"}
             </div>
-            <div className="mobile_s:mx-2 sm:block hidden laptop_m:mx-4">
+            <div className="mobile_s:mx-2 sm:block hidden laptop_m:mx-2">
               <IoMdArrowDropdown
                 className={`text-xl ${isPopoverOpen && "rotate-360"} transition-all ease-in-out duration-500`}
               />
