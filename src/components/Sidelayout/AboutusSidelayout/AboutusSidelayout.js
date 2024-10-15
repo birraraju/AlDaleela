@@ -42,7 +42,7 @@ export default function AboutusSidelayout({
       }`} // Adjust background color based on dark mode
     >
       <div className="flex relative justify-between items-center">
-        <h1 className={`text-[20px] font-semibold text-${isDarkMode ? '[#FFFFFFCC] text-opacity-80' : 'black'}`}>
+        <h1 className={`text-[16.37px] font-semibold ${isDarkMode ? 'text-[#FFFFFFCC] text-opacity-80' : 'text-[#505050]'}`}>
           About us
         </h1>
         <div

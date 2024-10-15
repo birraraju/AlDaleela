@@ -103,11 +103,11 @@ Abu Dhabi
         </div>
 
         <div className="flex justify-center space-x-4 pt-4 border-t border-gray-400">
-          <img src={fb} alt="Facebook" className="h-6 w-6" />
-          <img src={twitter} alt="Twitter" className="h-6 w-6" />
-          <img src={x} alt="X" className="h-6 w-6" />
-          <img src={linkedin} alt="LinkedIn" className="h-6 w-6" />
-          <img src={insta} alt="Instagram" className="h-6 w-6" />
+          <a href="https://www.facebook.com/EnvironmentAbuDhabi/ "  target="_blank" rel="noopener noreferrer"><img src={fb} alt="Facebook" className="h-6 w-6" /></a>
+          <a href="https://x.com/EADTweets"  target="_blank" rel="noopener noreferrer"><img src={twitter} alt="Twitter" className="h-6 w-6" /></a>
+          <a href="https://x.com/EADTweets"  target="_blank" rel="noopener noreferrer" ><img src={x} alt="X" className="h-6 w-6" /></a>
+          <a href="https://www.linkedin.com/company/environment-agency-abu-dhabi/"  target="_blank" rel="noopener noreferrer"><img src={linkedin} alt="LinkedIn" className="h-6 w-6" /></a>
+          <a href="https://www.instagram.com/Environmentabudhabi/"  target="_blank" rel="noopener noreferrer"><img src={insta} alt="Instagram" className="h-6 w-6" /></a>
         </div>
       </div>
     </div>

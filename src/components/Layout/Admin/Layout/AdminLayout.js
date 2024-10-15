@@ -25,6 +25,7 @@ const AdminLayout = () => {
         return <Activitylog />;
       default:
         return <UserManagement />;
+        
     }
   };
 
@@ -48,6 +49,7 @@ const AdminLayout = () => {
         : 'bg-[#f5f7f6]' // Apply default background
     }`}
   >      {/* Header */}
+  
       <Header isFooterOpen={isFooterOpen} isHeaderOpen={handleStackOpen} />
 
       <div className="flex flex-1 overflow-hidden">
