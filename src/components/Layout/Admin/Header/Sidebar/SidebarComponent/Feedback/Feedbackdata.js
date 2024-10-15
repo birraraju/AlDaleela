@@ -21,33 +21,41 @@ const FeedbackData = ({ user, onClose }) => {
           <div className="flex flex-wrap gap-6 md:gap-28">
             <div>
               <p className="text-sm font-medium text-gray-500">Sender Name</p>
-              <p className="text-sm font-semibold">{user.senderName}</p>
+              <p className="text-sm font-semibold">{user.username}</p>
             </div>
             <div>
               <p className="text-sm font-medium text-gray-500">Sender Email ID</p>
-              <p className="text-sm font-semibold">{user.senderEmail}</p>
+              <p className="text-sm font-semibold">{user.email}</p>
             </div>
             <div>
               <p className="text-sm font-medium text-gray-500">Submission Date</p>
               <p className="text-sm font-semibold">
-                {new Date(user.submissionDate).toLocaleDateString()}
+                {new Date(user.createdDate).toLocaleDateString()}
               </p>
             </div>
             <div>
               <p className="text-sm font-medium text-gray-500">Status</p>
-              <Badge
+              {/* <Badge
                 variant={user.status === "Read" ? "success" : "error"}
                 className={`mt-1 font-semibold ${
                   user.status === "Read" ? "text-green-400" : "text-red-400"
                 }`}
               >
                 {user.status}
+              </Badge> */}
+              <Badge
+                variant={"Read" === "Read" ? "success" : "error"}
+                className={`mt-1 font-semibold ${
+                  "Read" === "Read" ? "text-green-400" : "text-red-400"
+                }`}
+              >
+                {"Read"}
               </Badge>
             </div>
           </div>
           <div className="mt-4">
             <p className="text-sm font-medium text-gray-500">Feedback</p>
-            <p className="mt-1 text-sm font-bold">{user.feedback}</p>
+            <p className="mt-1 text-sm font-bold">{user.feedbackinfo}</p>
           </div>
         </CardContent>
       </Card>

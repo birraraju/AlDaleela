@@ -13,7 +13,7 @@ export default function Props({
       <div className="relative z-[2]">
         <Label htmlFor="search" className="absolute mobile_s:-top-7 laptop_m:-top-[26px] left-3">
           <img
-            src={`/Header/Searchbar/search-${inputClicked || iscategory ? "black.svg" : "white.svg"}`}
+            src={`${process.env.PUBLIC_URL}/Header/Searchbar/search-${inputClicked || iscategory ? "black.svg" : "white.svg"}`}
             alt=""
             className="h-4"
           />
@@ -22,7 +22,7 @@ export default function Props({
         {/* Line */}
         <Label htmlFor="search" className="absolute mobile_s:-top-[30px] laptop_m:-top-[28px] left-11">
           <img
-            src={`/Header/Searchbar/line-${inputClicked || iscategory ? "black.svg" : "white.svg"}`}
+            src={`${process.env.PUBLIC_URL}/Header/Searchbar/line-${inputClicked || iscategory ? "black.svg" : "white.svg"}`}
             alt=""
           />
         </Label>
@@ -37,14 +37,14 @@ export default function Props({
             }}
             className="absolute mobile_s:-top-7 laptop_m:-top-[26px] sm:right-36 right-32 cursor-pointer"
           >
-            <img src="/Header/Searchbar/close.svg" alt="" className="w-5" />
+            <img src={`${process.env.PUBLIC_URL}/Header/Searchbar/close.svg`} alt="" className="w-5" />
           </div>
         )}
 
         {/* Line */}
         {(inputClicked || iscategory) && (
           <Label htmlFor="search" className="absolute mobile_s:-top-[30px] laptop_m:-top-[28px] sm:right-32 right-28">
-            <img src="/Header/Searchbar/line-black.svg" alt="" />
+            <img src={`${process.env.PUBLIC_URL}/Header/Searchbar/line-black.svg`} alt="" />
           </Label>
         )}
       </div>

@@ -5,7 +5,7 @@ export default function PhotoContent() {
         {images.map((image, imageIndex) => (
           <div key={imageIndex} className="rounded-xl overflow-hidden">
             <img
-              src={`/Header/Searchbar/SearchContent/Photo/${image.imageName}`}
+              src={`${process.env.PUBLIC_URL}/Header/Searchbar/SearchContent/Photo/${image.imageName}`}
               alt=""
             />
           </div>

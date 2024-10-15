@@ -52,7 +52,8 @@ export default function ProfileMenus({
             setIsPopoverOpen={setIsPopoverOpen}
             setIsContribution={setIsContribution} // Handle Contribution
           />
-          <Administration />
+          {role !== "user" && <Administration />}
+          
         </>
       )}
       <div

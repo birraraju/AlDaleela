@@ -11,12 +11,14 @@ import { HiOutlineLogout } from "react-icons/hi";
 import { IoMdArrowDropdown } from "react-icons/io";
 import Login from "../../../../Popups/Login/Login";
 import ProfileDetails from "./ProfileMenus/ProfileDetails/ProfileDetails";
+import {UserActivityLog} from "../../../../Common/UserActivityLog";
 import ProfileMenu from "./ProfileMenus/ProfileDetails/ProfilePage/ProfileMenu/ProfileMenu";
 import ProfileMenus from "./ProfileMenus/ProfileMenus";
 import SendFeedBack from "../../../../../components/Sidelayout/FeedLayout/FeedBackMain";
 import { useTheme } from '../../../ThemeContext/ThemeContext'; // Import the theme hook
 import SmallLogo from '../../../../../assets/Header/Profile/profileSmalllogo.svg';
-
+import AdminLogo from '../../../../../assets/Header/Profile/admin.png';
+import ProfileLogo from '../../../../../assets/Header/Profile/profile.png';
 
 const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => {
   const [showAuthenticator, setShowAuthenticator] = useState(false);
@@ -32,13 +34,14 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
   const [isSuccess, setIsSuccess] = useState(false);
   const [isProfile, setIsProfile] = useState(true);
   const { role, setRole } = useAuth();
+  const {profiledetails , setprofiledetails} = useAuth()
   const { isDarkMode } = useTheme(); // Use the theme hook
 
   useEffect(() => {
     if (isPopoverOpen || isLeaderboard || isAboutUs || isProfileData || isContactUs || isContribution || isProfile || isEditProfile || isFeedBack || isChangePassword || isSuccess) {
       isHeaderOpen();
     }
-  }, [isAboutUs, isChangePassword, isContactUs, isContribution, isEditProfile, isFeedBack, isLeaderboard, isPopoverOpen, isProfile, isProfileData, isSuccess]);
+  }, [profiledetails,isAboutUs, isChangePassword, isContactUs, isContribution, isEditProfile, isFeedBack, isLeaderboard, isPopoverOpen, isProfile, isProfileData, isSuccess]);
 
   useEffect(() => {
     if ( isFooterOpen || StackOpen) {
@@ -75,6 +78,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
     localStorage.removeItem("AldaleelaRole");
 
     setRole(null);
+    UserActivityLog(profiledetails, "Logged out")
   };
 
   return (
@@ -96,13 +100,13 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
             </div>
             <div className="ml-1 hidden sm:block">
               <img
-                src={`/Header/Profile/${role === "admin" ? "admin.png" : "profile.png"}`}
+                src={`${role === "admin" ? AdminLogo : ProfileLogo}`}
                 alt="Profile"
                 className="mobile_s:w-8 laptop_m:w-9"
               />
             </div>
             <div className="mobile_s:ml-2 hidden sm:block laptop_m:ml-4">
-              {role === "admin" ? "Hamad" : "Profile"}
+              {role ? profiledetails.username : "Profile"}
             </div>
             <div className="mobile_s:mx-2 sm:block hidden laptop_m:mx-4">
               <IoMdArrowDropdown

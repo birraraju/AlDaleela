@@ -12,9 +12,10 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [role, setRole] = useState(null);
+  const [profiledetails , setprofiledetails] = useState(null);
 
   return (
-    <AuthContext.Provider value={{ role, setRole }}>
+    <AuthContext.Provider value={{ role, setRole, profiledetails , setprofiledetails }}>
       {children}
     </AuthContext.Provider>
   );

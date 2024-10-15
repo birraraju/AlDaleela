@@ -15,6 +15,7 @@ import { useForm } from "react-hook-form";
 import { IoEyeOff } from "react-icons/io5";
 import { z } from "zod"; // Still needed for schema validation
 import { zodResolver } from "@hookform/resolvers/zod";
+import {UserActivityLog} from "../../../../Common/UserActivityLog";
 
 const formSchema = z.object({
   username: z.string().min(1, "username is required"),
@@ -24,6 +25,7 @@ const formSchema = z.object({
 export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClose }) {
   const [isPassword, setIsPassword] = useState(false);
   const { setRole } = useAuth();
+  const {profiledetails , setprofiledetails} = useAuth()
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -34,10 +36,48 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
     },
   });
 
-  function onSubmit(values) {
+  const onSubmit = async(values) => {
+    
     console.log(values);
-    setRole("admin");
-    onClose();
+    try {
+    const signupObj ={
+      email:values.username,
+      password:values.password
+    }
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/Registration/signin`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(signupObj),
+    });
+    if (response.ok) {
+        // Handle successful signup
+        //console.log(response);
+       
+    } else {
+        // Handle error
+        console.log(response);
+    }
+    const data = await response.json();
+    if(data){
+      //UserActivityLog(data, "Logged in")
+      if(data.email){
+        //console.log(data)
+        UserActivityLog(data, "Logged in")
+        setprofiledetails(data);
+        //setRole("admin");
+        setRole(data.role);
+        //setRole("user");
+        onClose();
+      }      
+      else{
+        console.log(data)
+      }
+    }
+    // setRole("admin");
+    // onClose();
+  }catch (error) {
+    console.error('Error submitting form:', error);
+  }
   }
 
   return (

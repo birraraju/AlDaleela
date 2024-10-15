@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "../../../../../../../../../../components/ui/button";
+import { useAuth } from "../../../../../../../../../../Providers/AuthProvider/AuthProvider";
 
 export default function ProfileContent({ 
   isEditProfile, 
@@ -7,13 +8,14 @@ export default function ProfileContent({
   setIsChangePassword, 
   setIsProfile 
 }) {
+  const {profiledetails} = useAuth()
   return (
     <>
       {!isEditProfile ? (
         <div className="flex justify-between items-center gap-4">
           <div className="w-[20%]">
             <img
-              src="/Header/Profile/ProfileDetails/Profile.svg"
+              src={`${process.env.PUBLIC_URL}/Header/Profile/ProfileDetails/Profile.svg`}
               alt="Profile"
               className="w-20"
             />
@@ -21,8 +23,8 @@ export default function ProfileContent({
 
           <div className="w-[80%]">
             <div className="tracking-wide">
-              <h1 className="text-lg font-medium">Hamad</h1>
-              <p className="text-base font-light">useremailid@gmail.com</p>
+              <h1 className="text-lg font-medium">{profiledetails.username}</h1>
+              <p className="text-base font-light">{profiledetails.email}</p>
             </div>
 
             <div className="flex justify-between items-center gap-4">

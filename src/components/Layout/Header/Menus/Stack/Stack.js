@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import LayersList from "./LayersList/LayersList";
+import StackLogo from '../../../../../assets/Header/Layerlist/Stack.svg';
 
 const Stack = ({isSearchOpen,isLocationOpen, isFooterOpen,isProfileOpen, isHeaderOpen, isStackOpen, mapview }) => {
   const [showLayers, setShowLayers] = useState(false);
@@ -37,7 +38,7 @@ const Stack = ({isSearchOpen,isLocationOpen, isFooterOpen,isProfileOpen, isHeade
         onClick={toggleLayers}
       >
         <img
-          src="/Header/Layerlist/Stack.svg"
+          src={StackLogo}
           alt=""
           className="mobile_s:w-5 laptop_m:w-6"
         />
