@@ -14,7 +14,7 @@ const LanguageSelector = ({ isHeaderOpen }) => {
         mobile_s:w-16 laptop_m:w-20 mobile_s:h-7 laptop_m:h-8 rounded-full
         bg-white bg-opacity-15 hover:bg-opacity-25
         text-white text-base cursor-pointer
-        transition-all duration-350 ease-in-out mobile_s:mr-1 laptop_m:mr-4`}
+        transition-all duration-350 ease-in-out mobile_s:mr-1 laptop_m:mr-2`}
       onClick={toggleLanguage}
     >
       <div

@@ -5,13 +5,13 @@ export default function AboutDescription() {
 
   return (
     <>
-      <p className={`font-omnes text-lg font-semibold my-6 ${isDarkMode ? 'text-[#FFFFFFCC] text-opacity-80' : 'text-gray-600'} leading-5 mb-6`}>
+      <p className={`font-omnes text-[14px] font-semibold my-6 laptop_s:my-2 ${isDarkMode ? 'text-[#FFFFFFCC] text-opacity-80' : 'text-[#505050]'} leading-5 mb-3`}>
         Safeguarding Abu Dhabi's natural resources for a sustainable future.
       </p>
 
-      <div>
+      <div className="">
         {content.map((item, index) => (
-          <p key={index} className={`font-omnes text-base ${isDarkMode ? 'text-[#FFFFFFCC]' : 'text-gray-600'} leading-5 mb-6`}>
+          <p key={index} className={`bg-fontFamily-poppins-0 font-[400px] text-[12px] ${isDarkMode ? 'text-[#FFFFFFCC]' : 'text-[#505050]'} leading-5`}>
             {item.description}
           </p>
         ))}
