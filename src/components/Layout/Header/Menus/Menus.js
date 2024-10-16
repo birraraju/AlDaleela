@@ -72,7 +72,7 @@ const Menus = ({
       />
 
       {/* Language Component */}
-      <Language isHeaderOpen={isHeaderOpen} />
+      <Language  />
 
       {/* Location with status management */}
       <Location

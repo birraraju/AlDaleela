@@ -1,6 +1,8 @@
 import { ArrowDown } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTheme } from "../../../../../ThemeContext/ThemeContext"; // Importing the theme context
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 const activityLogs = [
   { userName: "User Name", emailId: "user@gmail.com", dateTime: "2024-10-11 09:22:25", ipAddress: "192.168.125.10", action: "Profile update" },
@@ -44,6 +46,23 @@ useEffect(() => {
 
 fetchData();    
 },[data]);
+
+const handleExport = () => {
+  const filename = "User-Activity-Logs"
+  // Create a new workbook and a worksheet
+  const ws = XLSX.utils.json_to_sheet(data);
+  const wb = XLSX.utils.book_new();
+  
+  // Append the worksheet to the workbook
+  XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+  
+  // Generate a binary string
+  const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+  
+  // Create a Blob and save it as an Excel file
+  const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+  saveAs(blob, `${filename}.xlsx`);
+};
   
   return (
 <div  className={`p-8 rounded-lg shadow-sm h-[calc(100vh-6rem)] flex flex-col ${
@@ -52,7 +71,7 @@ fetchData();
               <div className="flex justify-between items-center mb-6">
               <h2 className={`text-[22px] font-medium  ${isDarkMode ? "text-[#FFFFFFCC]" : "text-gray-800"}`}>
               User Activity Log</h2>
-        <button 
+        <button  onClick={handleExport}
           className="bg-[#3B8686] text-white px-4 py-2 rounded-lg font-medium text-sm flex items-center"
         >
           Export log
@@ -93,6 +112,7 @@ fetchData();
                   <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{log.email}</td>
                   <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{new Date(log.createdDate).toLocaleString()}</td>
                   <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{log.ipaddress}</td>
+                  <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{log.action}</td>
 
              
                 </tr>
