@@ -12,7 +12,7 @@ export default function AboutusSidelayout({
 }) {
   const [isOpen, setIsOpen] = useState(true); // Changed from isShrink to isOpen
   const containerRef = useRef(null);
-  const { isDarkMode } = useTheme(); // Access dark mode from theme context
+  const { isDarkMode,isLangArab } = useTheme(); // Access dark mode from theme context
 
   // Handle clicks outside the component
   useEffect(() => {
@@ -43,7 +43,7 @@ export default function AboutusSidelayout({
     >
       <div className="flex relative justify-between items-center">
         <h1 className={`text-[16.37px] font-semibold ${isDarkMode ? 'text-[#FFFFFFCC] text-opacity-80' : 'text-[#505050]'}`}>
-          About us
+          {isLangArab?"حولنا":"About us"}
         </h1>
         <div
           className={`p-2 cursor-pointer ${

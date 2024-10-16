@@ -4,7 +4,7 @@ import Brush from "../../../../../../../assets/Header/Profile/Brush.svg"
 import ToggleCircle from "../../../../../../../assets/Header/Profile/ThemeToggle/switch-dark.svg"
 
 export default function ThemeToggle() {
-  const { isDarkMode, toggleTheme } = useTheme(); // Access the theme context
+  const { isDarkMode, isLangArab,toggleTheme } = useTheme(); // Access the theme context
 
   return (
     <div className="flex justify-between items-center py-2">
@@ -17,7 +17,7 @@ export default function ThemeToggle() {
           className={`font-medium font-omnes text-[18px]  ${
             isDarkMode ? "text-gray-300" : "text-[#505050]"
           }`}
-        >           Dark mode</p>
+        >           {isLangArab?"الوضع الداكن":"Dark mode"}</p>
       </div>
 
       {/* Toggle Switch */}

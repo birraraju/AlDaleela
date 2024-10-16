@@ -4,7 +4,7 @@ import DarkLeaderboard from "../../../../../../../assets/DarkLeaderboard.svg"; /
 import { useTheme } from '../../../../../ThemeContext/ThemeContext'; // Import the theme hook
 
 export default function Leaderboard({ setIsLeaderboard, setIsPopoverOpen }) {
-  const { isDarkMode } = useTheme(); // Use the theme hook to get dark mode state
+  const { isDarkMode,isLangArab } = useTheme(); // Use the theme hook to get dark mode state
 
   return (
     <div className="py-2 cursor-pointer">
@@ -24,7 +24,7 @@ export default function Leaderboard({ setIsLeaderboard, setIsPopoverOpen }) {
           className={`font-medium font-omnes text-[18px] ${
             isDarkMode ? "text-gray-300" : "text-[#505050]"
           }`}
-        >          Leaderboard</p>
+        >          {isLangArab?"لوحة المتصدرين":"Leaderboard"}</p>
       </div>
     </div>
   );

@@ -13,24 +13,24 @@ export default function Feedback() {
   const [fbname, setfbname] = useState(null);
   const [fbemail, setfbemail] = useState(null);
   const [fbcomments, setfbcomments] = useState(null);
-  const { isDarkMode } = useTheme(); // Access dark mode from theme context
+  const { isDarkMode,isLangArab } = useTheme(); // Access dark mode from theme context
 
   const ratings = [
     {
-      value: "Excellent",
+      value: isLangArab ?"ممتاز":"Excellent",
       icon: SmilePlus,
       color: "text-green-500",
       image: excellent,
     },
-    { value: "Good", icon: Smile, color: "text-green-400", image: good },
+    { value: isLangArab?"جيد":"Good", icon: Smile, color: "text-green-400", image: good },
     {
-      value: "Average",
+      value: isLangArab?"متوسط":"Average",
       icon: Meh,
       color: "text-yellow-400",
       image: average,
     },
-    { value: "Poor", icon: Frown, color: "text-orange-400", image: poor },
-    { value: "Bad", icon: Frown, color: "text-red-500", image: bad },
+    { value: isLangArab?"ضعيف":"Poor", icon: Frown, color: "text-orange-400", image: poor },
+    { value: isLangArab?"سيء":"Bad", icon: Frown, color: "text-red-500", image: bad },
   ];
   const onSubmitFeedback = async()=>{
     console.log(fbname,fbemail,fbcomments)
@@ -92,13 +92,13 @@ export default function Feedback() {
               className={`block text-sm font-medium mb-1 transition-colors ${
                 isDarkMode ? "text-white" : "text-black"
               }`}
-            >              Name
+            >              {isLangArab?"سيء":"Name"}
             </label>
             <input
               type="text"
               id="name"
               onChange={(e)=> setfbname(e.target.value)}
-              placeholder="Enter Your Name"
+              placeholder={isLangArab?"أدخل اسم المستخدم":"Enter Your Name"}
               className={`w-full px-3 py-3 border rounded-xl outline-none transition-colors${
                 isDarkMode
         ? "bg-[#FFFFFF] bg-opacity-30 text-black border-transparent "
@@ -111,13 +111,13 @@ export default function Feedback() {
               className={`block text-sm font-medium mb-1 transition-colors ${
                 isDarkMode ? "text-white" : "text-black"
               }`}
-            >              Email
+            >              {isLangArab?"البريد الإلكتروني":"Email"}
             </label>
             <input
               type="email"
               id="email"
               onChange={(e)=> setfbemail(e.target.value)}
-              placeholder="Enter Your Email Address"
+              placeholder=  {isLangArab?"أدخل بريدك الإلكتروني":"Enter Your Email Address"}
               className={`w-full px-3 py-3 border rounded-xl outline-none transition-colors${
                 isDarkMode
         ? "bg-[#FFFFFF] bg-opacity-30 text-white border-transparent "
@@ -130,12 +130,12 @@ export default function Feedback() {
               className={`block text-sm font-medium mb-1 transition-colors ${
                 isDarkMode ? "text-white" : "text-black"
               }`}
-            >              Please share your thoughts to improve
+            >              {isLangArab?"يرجى مشاركة أفكارك للتحسين": "Please share your thoughts to improve"}
             </label>
             <textarea
               id="thoughts"
               rows={4}
-              placeholder="Share Your Thoughts Here"
+              placeholder={ isLangArab?"شارك أفكارك هنا":"Share Your Thoughts Here"}
               onChange={(e)=> setfbcomments(e.target.value)}
               className={`w-full px-3 py-2 border rounded-xl outline-none transition-colors${
                 isDarkMode
@@ -150,11 +150,11 @@ export default function Feedback() {
           className={`sm:px-14 px-9 sm:py-3 py-2 border rounded-md transition-colors ${
             isDarkMode ? "bg-[rgba(96,96,96,0.8)] border-none text-white" : "border-gray-300 text-gray-700"
           }`}
-        >          Cancel
+        >          { isLangArab?"إلغاء":"Cancel"}
         </button>
         <button onClick={onSubmitFeedback} className={`sm:px-14 px-9 sm:py-3 py-2 rounded-md transition-colors ${
           isDarkMode ? "bg-custom-gradient text-white" : "bg-custom-gradient text-white"
-        }`}>          Submit
+        }`}>          {isLangArab?"إرسال":"Submit"}
         </button>
       </div>
     </div>

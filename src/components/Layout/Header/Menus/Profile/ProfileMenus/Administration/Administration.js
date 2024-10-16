@@ -4,7 +4,7 @@ import { useTheme } from '../../../../../ThemeContext/ThemeContext'; // Import t
 import DarkAdministration from "../../../../../../../assets/DarkAdminstration.svg"; // Import the DarkAdministration
 import administration from "../../../../../../../assets/Header/Profile/Administration.svg"; // Import the administration
 export default function Administration() {
-  const { isDarkMode } = useTheme(); // Use the theme hook to get dark mode state
+  const { isDarkMode,isLangArab } = useTheme(); // Use the theme hook to get dark mode state
 
   return (
     <div className="pt-2 pb-2 cursor-pointer">
@@ -20,7 +20,7 @@ export default function Administration() {
             className={`font-medium font-omnes text-[18px] ${
               isDarkMode ? "text-gray-300" : "text-[#505050]"
             }`}
-          >            Administration</p>
+          >            {isLangArab?"الإدارة":"Administration"}</p>
         </Link>
       </div>
     </div>
