@@ -15,6 +15,7 @@ import EditIcon from '../../../../../../../assets/Admin/logo/edit.svg';
 import DarkEditIcon from '../../../../../../../assets/Admin/logo/darkedit.svg';
 
 import { useTheme } from "../../../../../ThemeContext/ThemeContext"; // Importing the theme context
+import { useAuth } from "../../../../../../../Providers/AuthProvider/AuthProvider";
 
 const users = [
   { username: "User name", email: "user@gmail.com", phone: "+971 500001010", address: "Rabdan - Abu Dhabi", role: "Public User", activity: "Today" },
@@ -46,6 +47,8 @@ export default function UserManagement() {
   const tableRef = useRef(null);
   const [data, setData] = useState([]);
   const { isDarkMode } = useTheme(); // Access dark mode from theme context
+  const [latestDate, setLatestDate] = useState(null);
+  const {profiledetails} = useAuth()
 
   const toggleUserSelection = (index) => {
     setSelectedUsers(prev => 
@@ -94,11 +97,131 @@ export default function UserManagement() {
       } finally {
           //setLoading(false);
       }
+
+      try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/UserActivityLog/latest-date/${profiledetails.username}`);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        //setLatestDate(data); // Assuming the response is just the date
+        const loginTime = data;
+        if (!loginTime) return "User has not logged in yet."; // No login time available
+
+        const lastLoginDate = new Date(loginTime);
+        const today = new Date();
+
+        // Calculate the difference in milliseconds
+        const diffTime = today - lastLoginDate;
+
+        // Calculate time differences
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+        const diffMonths = Math.floor(diffDays / 30); // Approximate for simplicity
+        const diffYears = Math.floor(diffDays / 365);
+
+        // Determine the output string
+        if (diffYears > 0) {
+          setLatestDate(`${diffYears} year${diffYears > 1 ? 's' : ''} ago`);
+        } else if (diffMonths > 0) {
+           setLatestDate(`${diffMonths} month${diffMonths > 1 ? 's' : ''} ago`);
+        } else if (diffDays > 0) {
+            setLatestDate(`${diffDays} day${diffDays > 1 ? 's' : ''} ago`);
+        } else {
+          setLatestDate( "Logged in today");
+        }
+    } catch (err) {
+        console.log(err.message);
+    }
   };
   
   fetchData();    
   },[data]);
 
+  const handleFeedbackDelete = async (id) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/Registration/deletemultipleusers`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify([id]),
+      });
+      if (response.ok) {
+          console.log('Records deleted successfully');
+          const data = await response.text();
+          if(data ==="Records deleted successfully."){
+            console.log(data);
+          }
+          else{
+            console.log(data);
+          }
+      } else {
+          console.log('Error logging activity:', response);
+      }      
+      
+      } catch (error) {
+          console.error('Error submitting form:', error);
+      }
+    //Update state to remove the deleted record
+    setData(data.filter(record => record.id !== id));
+  };
+
+  const handleselectedDeleted = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/Registration/deletemultipleusers`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(selectedUsers),
+      });
+      if (response.ok) {
+          console.log('Records deleted successfully');
+          const data = await response.text();
+          if(data ==="Records deleted successfully."){
+            console.log(data);
+          }
+          else{
+            console.log(data);
+          }
+      } else {
+          console.log('Error logging activity:', response);
+      }      
+      
+      } catch (error) {
+          console.error('Error submitting form:', error);
+      }
+    //Update state to remove the deleted record
+    //setData(data.filter(record => record.id !== id));
+    setData(data.filter(record => !selectedUsers.includes(record.id)));
+  };
+
+  const handleUserRoleChange = async(userId, role) => {
+    // Update user role logic here
+    try {
+      const userRoleObj ={
+        id:userId,
+        role:role
+      }
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/Registration/updateuserrole`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(userRoleObj),
+      });
+      if (response.ok) {
+          const data = await response.text();
+          if(data == "Role Updated Successfully"){
+            console.log(data);
+            //UserActivityLog(profiledetails, "Change Password")
+          }
+          else{
+            console.log(data)            
+          }
+         
+      } else {
+          // Handle error
+          console.log(response);
+      }
+    }catch (error) {
+      console.error('Error submitting form:', error);
+    }  
+};
   return (
     <div className="flex h-[calc(100vh-6rem)]">
  <div  className={`p-8 rounded-lg shadow-sm flex flex-col flex-grow overflow-hidden ${
@@ -140,12 +263,12 @@ export default function UserManagement() {
               </thead>
               <tbody>
                 {data.map((user, index) => (
-                  <tr key={index} className={`${
+                  <tr key={user.id} className={`${
                     isDarkMode
-                      ? index % 2 === 0
+                      ? user.id % 2 === 0
                         ? "bg-transparent"
                         : "bg-white bg-opacity-10"
-                      : index % 2 === 0
+                      : user.id % 2 === 0
                       ? "bg-[#D5E5DE] bg-opacity-30"
                       : "bg-white"
                   }`} >
@@ -153,8 +276,8 @@ export default function UserManagement() {
                     {isEditing && (
                       <td className="py-4 pl-2">
                         <CustomCheckbox
-                          checked={selectedUsers.includes(index)}
-                          onCheckedChange={() => toggleUserSelection(index)}
+                          checked={selectedUsers.includes(user.id)}
+                          onCheckedChange={() => toggleUserSelection(user.id)}
                         />
                       </td>
                     )}
@@ -165,7 +288,9 @@ export default function UserManagement() {
                     <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
 
                       {isEditing ? (
-                        <Select defaultValue={user.role}>
+                        <Select defaultValue={user.role} onValueChange={(value) => {
+                          handleUserRoleChange(user.id, value);
+                      }}>
                           <SelectTrigger className="w-[140px]">
                             <SelectValue placeholder="Select role" />
                           </SelectTrigger>
@@ -183,9 +308,9 @@ export default function UserManagement() {
                       )}
                     </td>
                     <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
-                      {user.activity}</td>
+                      {latestDate}</td>
                     <td className="py-4">
-                    <button className={` aria-label="Delete user" ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-red-500 hover:text-red-600"}`}>
+                    <button className={` aria-label="Delete user" ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-red-500 hover:text-red-600"}`} onClick={() => handleFeedbackDelete(user.id)}>
                         <Trash2 className="w-5 h-5" />
                       </button>
                     </td>
@@ -198,7 +323,7 @@ export default function UserManagement() {
 
         {isEditing && (
           <div className="mt-4">
-            <button
+            <button onClick={() => handleselectedDeleted()}
               className="bg-[#EDB3B3] text-[#870202] px-4 py-2 rounded-lg font-medium font-omnes text-[16px] disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={selectedUsers.length === 0}
             >
