@@ -5,6 +5,11 @@ import good from "../../../assets/FeedBack/good.svg";
 import average from "../../../assets/FeedBack/average.svg";
 import poor from "../../../assets/FeedBack/poor.svg";
 import bad from "../../../assets/FeedBack/bad.svg";
+import excellentDark from "../../../assets/FeedBack/ExcellentDark.svg";
+import goodDark from "../../../assets/FeedBack/goodDark.svg";
+import averageDark from "../../../assets/FeedBack/averageDark.svg";
+import poorDark from "../../../assets/FeedBack/poorDark.svg";
+import badDark from "../../../assets/FeedBack/badDark.svg";
 import { useTheme } from '../../Layout/ThemeContext/ThemeContext'; // Import theme context
 
 export default function Feedback() {
@@ -20,17 +25,17 @@ export default function Feedback() {
       value: isLangArab ?"ممتاز":"Excellent",
       icon: SmilePlus,
       color: "text-green-500",
-      image: excellent,
+      image:  isDarkMode ? excellentDark:excellent,
     },
-    { value: isLangArab?"جيد":"Good", icon: Smile, color: "text-green-400", image: good },
+    { value: isLangArab?"جيد":"Good", icon: Smile, color: "text-green-400", image: isDarkMode?goodDark:good },
     {
       value: isLangArab?"متوسط":"Average",
       icon: Meh,
       color: "text-yellow-400",
-      image: average,
+      image: isDarkMode?averageDark:average,
     },
-    { value: isLangArab?"ضعيف":"Poor", icon: Frown, color: "text-orange-400", image: poor },
-    { value: isLangArab?"سيء":"Bad", icon: Frown, color: "text-red-500", image: bad },
+    { value: isLangArab?"ضعيف":"Poor", icon: Frown, color: "text-orange-400", image: isDarkMode?poorDark: poor },
+    { value: isLangArab?"سيء":"Bad", icon: Frown, color: "text-red-500", image:isDarkMode?badDark: bad },
   ];
   const onSubmitFeedback = async()=>{
     console.log(fbname,fbemail,fbcomments)
@@ -74,9 +79,9 @@ export default function Feedback() {
             <button
               key={item.value}
               className={`flex bg-transparent sm:px-3 laptop_s:px-3 px-3 justify-center  py-2 border sm:rounded-xl rounded-lg flex-col items-center sm:space-y-1 space-y-2 transition-colors ${
-                isDarkMode ? "bg-[rgba(96,96,96,0.9)] border-none " : " border-transparent outline-none bg-white"
+                isDarkMode ? "  border-transparent bg-[#444646] " : " border-transparent outline-none bg-white"
               }`}
-              onClick={() => setRating(item.value)}
+              onClick={() => setRating(item.value)} 
             >
               {/* Render the corresponding image */}
               <img src={item.image} alt={item.value} className="w-8 sm:w-6 h-10 sm:h-7 laptop_s:h-8 laptop_s:w-6" />
@@ -90,7 +95,7 @@ export default function Feedback() {
           <label
               htmlFor="name"
               className={`block text-sm font-medium mb-1 transition-colors ${
-                isDarkMode ? "text-white" : "text-black"
+                isDarkMode ? "text-[#FFFFFF] bg-opacity-70" : "text-black"
               }`}
             >              {isLangArab?"سيء":"Name"}
             </label>
@@ -99,9 +104,9 @@ export default function Feedback() {
               id="name"
               onChange={(e)=> setfbname(e.target.value)}
               placeholder={isLangArab?"أدخل اسم المستخدم":"Enter Your Name"}
-              className={`w-full px-3 py-3 border rounded-xl outline-none transition-colors${
+              className={`w-full px-3 py-3 border rounded-xl outline-none transition-colors ${
                 isDarkMode
-        ? "bg-[#FFFFFF] bg-opacity-30 text-black border-transparent "
+        ? "bg-[#444646]  text-[white] border-transparent "
         : "bg-white text-black border-gray-300"
     }`}            />
           </div>
@@ -109,7 +114,7 @@ export default function Feedback() {
           <label
               htmlFor="email"
               className={`block text-sm font-medium mb-1 transition-colors ${
-                isDarkMode ? "text-white" : "text-black"
+                isDarkMode ? "text-[#FFFFFF] bg-opacity-70" : "text-black"
               }`}
             >              {isLangArab?"البريد الإلكتروني":"Email"}
             </label>
@@ -118,9 +123,9 @@ export default function Feedback() {
               id="email"
               onChange={(e)=> setfbemail(e.target.value)}
               placeholder=  {isLangArab?"أدخل بريدك الإلكتروني":"Enter Your Email Address"}
-              className={`w-full px-3 py-3 border rounded-xl outline-none transition-colors${
+              className={`w-full px-3 py-3 border rounded-xl outline-none transition-colors ${
                 isDarkMode
-        ? "bg-[#FFFFFF] bg-opacity-30 text-white border-transparent "
+        ? "bg-[#444646]  text-white border-transparent "
         : "bg-white text-black border-gray-300"
     }`}            />
           </div>
@@ -128,7 +133,7 @@ export default function Feedback() {
           <label
               htmlFor="thoughts"
               className={`block text-sm font-medium mb-1 transition-colors ${
-                isDarkMode ? "text-white" : "text-black"
+                isDarkMode ? "text-[#FFFFFF] bg-opacity-70" : "text-black"
               }`}
             >              {isLangArab?"يرجى مشاركة أفكارك للتحسين": "Please share your thoughts to improve"}
             </label>
@@ -137,9 +142,9 @@ export default function Feedback() {
               rows={4}
               placeholder={ isLangArab?"شارك أفكارك هنا":"Share Your Thoughts Here"}
               onChange={(e)=> setfbcomments(e.target.value)}
-              className={`w-full px-3 py-2 border rounded-xl outline-none transition-colors${
+              className={`w-full px-3 py-2 border rounded-xl outline-none transition-colors ${
                 isDarkMode
-        ? "bg-[#FFFFFF] bg-opacity-30 text-white border-transparent "
+        ? "bg-[#444646]  text-white border-transparent "
         : "bg-white text-black border-gray-300"
     }`}            ></textarea>
           </div>
@@ -148,7 +153,7 @@ export default function Feedback() {
       <div className="flex pt-6 justify-between items-baseline px-2">
       <button
           className={`sm:px-14 px-9 sm:py-3 py-2 border rounded-md transition-colors ${
-            isDarkMode ? "bg-[rgba(96,96,96,0.8)] border-none text-white" : "border-gray-300 text-gray-700"
+            isDarkMode ? "bg-transparent  border border-white text-white" : "border-gray-300 text-gray-700"
           }`}
         >          { isLangArab?"إلغاء":"Cancel"}
         </button>

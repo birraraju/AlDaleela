@@ -15,7 +15,7 @@ export default function Footer({ handleMenuItemClick, resetTrigger }) {
   const menuItemsRef = useRef([]);
   const navIndicatorRef = useRef(null);
   const { t } = useTranslation();
-  const { isDarkMode } = useTheme(); // Access the dark mode state
+  const { isDarkMode,isLangArab } = useTheme(); // Access the dark mode state
 
 
   const headingsMap = {
@@ -144,8 +144,121 @@ export default function Footer({ handleMenuItemClick, resetTrigger }) {
     <div
       className={`sc-bottom-bar flex justify-between tab:h-[65px]  sm:h-[60px] h-[50px] ${isDarkMode ? 'bg-[#152227CC]' : ''}  no-select ${isExpanded ? ' tab:w-[400px] sm:w-[300px] w-[300px] ' : ' tab:w-[350px] sm:w-[300px] w-[300px]'}`}
     >
-      {Array.from({ length: 7 }).map((_, index) => (
+      {isLangArab? (Array.from({ length: 7 })
+    .map((_, index) => index) // Create an array of indices
+    .reverse() // Reverse the order
+    .map((index) => (
+      <React.Fragment key={index}>
+        {index < 4 && (
+          <div
+            className={`sc-menu-wrp ${selectedIndex === index ? 'sc-current' : ''}`}
+            ref={el => menuItemsRef.current[index] = el}
+            onClick={(e) => handleFooterItemClick(e, index, isExpanded)}
+            data-tooltip-id={`tooltip-${index}`}
+          >
+            <button
+              className="sc-menu-item"
+              data-tooltip-content={headingsMap[index]}
+              data-tooltip-id={`tooltip-${index}`}
+            >
+              <img
+                src={isDarkMode ? `${process.env.PUBLIC_URL}/Footer/dark/darkicon${index + 1}.svg` : `${process.env.PUBLIC_URL}/Footer/icon${index + 1}.svg`}
+                className="icon"
+                alt={`Icon ${index + 1}`}
+                style={{ width: '200px', height: '200px' }}
+              />
+              <Tooltip
+                id={`tooltip-${index}`}
+                place="top"
+                className="ToolTipEnvi"
+                style={{
+                  backgroundColor: 'transparent',
+                  color: isDarkMode ? 'white' : 'black',
+                  fontFamily: 'Poppins',
+                  fontWeight: 'Bold',
+                  fontSize: '14px',
+                  padding: '0',
+                  boxShadow: 'none',
+                }}
+              />
+            </button>
+          </div>
+        )}
+        {index === 4 && (
+          <div
+            className={`sc-menu-wrp ${isExpanded ? 'hidden' : ''}`}
+            ref={el => menuItemsRef.current[index] = el}
+            onClick={(e) => handleFooterItemClick(e, index, isExpanded)}
+            data-tooltip-id={`tooltip-${index}`}
+            onClickCapture={handleMouseEnter}
+          >
+            <button
+              className="sc-menu-item bg-transparent border-4 w-12"
+              data-tooltip-content={headingsMap[index]}
+              data-tooltip-id={`tooltip-${index}`}
+            >
+              <img
+                src={isDarkMode ? `${process.env.PUBLIC_URL}/Footer/dark/darkicon${index + 1}.svg` : `${process.env.PUBLIC_URL}/Footer/icon${index + 1}.svg`}
+                className="icon"
+                alt={`Icon ${index + 1}`}
+                style={{ width: '200px', height: '200px' }}
+              />
+              <Tooltip
+                id={`tooltip-${index}`}
+                place="top"
+                className="ToolTipEnvi"
+                style={{
+                  backgroundColor: 'transparent',
+                  color: isDarkMode ? 'white' : 'black',
+                  fontFamily: 'Poppins',
+                  fontWeight: 'Bold',
+                  fontSize: '14px',
+                  padding: '0',
+                  boxShadow: 'none',
+                }}
+              />
+            </button>
+          </div>
+        )}
+        {index > 4 && (
+          <div
+            className={`sc-menu-wrp ${isExpanded ? 'visible' : 'hidden'} ${selectedIndex === index ? 'sc-current' : ''}`}
+            ref={el => menuItemsRef.current[index] = el}
+            onClick={(e) => handleFooterItemClick(e, index, isExpanded)}
+            data-tooltip-id={`tooltip-${index}`}
+          >
+            <button
+              className="sc-menu-item"
+              data-tooltip-content={headingsMap[index]}
+              data-tooltip-id={`tooltip-${index}`}
+            >
+              <img
+                src={isDarkMode ? `${process.env.PUBLIC_URL}/Footer/dark/darkicon${index + 1}.svg` : `${process.env.PUBLIC_URL}/Footer/icon${index + 1}.svg`}
+                className="icon"
+                alt={`Icon ${index + 1}`}
+                style={{ width: '200px', height: '200px' }}
+              />
+              <Tooltip
+                id={`tooltip-${index}`}
+                place="top"
+                className="ToolTipEnvi"
+                style={{
+                  backgroundColor: 'transparent',
+                  color: isDarkMode ? 'white' : 'black',
+                  fontFamily: 'Poppins',
+                  fontWeight: 'Bold',
+                  fontSize: '14px',
+                  padding: '0',
+                  boxShadow: 'none',
+                }}
+              />
+            </button>
+          </div>
+        )}
+      </React.Fragment>
+    ))):(Array.from({ length: 7 }).map((_, index) => (
         <React.Fragment key={index}>
+          
           {index < 4 && (
             <div
               className={`sc-menu-wrp ${selectedIndex === index ? 'sc-current' : ''}`}
@@ -253,7 +366,7 @@ export default function Footer({ handleMenuItemClick, resetTrigger }) {
             </div>
           )}
         </React.Fragment>
-      ))}
+      )))}
       <button
         ref={navIndicatorRef}
         className="sc-nav-indicator"
