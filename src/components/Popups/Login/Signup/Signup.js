@@ -19,6 +19,8 @@ export default function Signup({ onClose, onSigninClick }) {
   });
   const [showPassword, setShowPassword] = useState(false);
   const { isDarkMode } = useTheme(); // Access the dark mode state
+  const [txtusername, settxtUsername] = useState('');
+  const [usernameExists, setUsernameExists] = useState(false);
 
 
   const modalRef = useRef(null);
@@ -52,37 +54,69 @@ export default function Signup({ onClose, onSigninClick }) {
   };
 
   const onSignupClick = async() =>{    
-    try {
-      const signupObj ={
-        username: formData.username,
-        firstName: formData.firstName,
-        password: formData.password,
-        email: formData.email,
-        phoneNumber: formData.phoneNumber,
-        organization: formData.organization,
-        country: formData.country,
-        role: "user"
+    if (!usernameExists) {
+      try {
+        const signupObj ={
+          username: formData.username,
+          firstName: formData.firstName,
+          password: formData.password,
+          email: formData.email,
+          phoneNumber: formData.phoneNumber,
+          organization: formData.organization,
+          country: formData.country,
+          role: "user"
+        }
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/Registration/signup`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(signupObj),
+        });
+        if (response.ok) {
+            // Handle successful signup
+            console.log(response);
+        } else {
+            // Handle error
+            console.log(response);
+        }
+        const data = await response.text();
+        if(data){
+          console.log(data)
+        }
+      } catch (error) {
+        console.error('Error submitting form:', error);
       }
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/Registration/signup`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(signupObj),
-      });
-      if (response.ok) {
-          // Handle successful signup
-          console.log(response);
-      } else {
-          // Handle error
-          console.log(response);
-      }
-      const data = await response.text();
-      if(data){
-        console.log(data)
-      }
-    } catch (error) {
-      console.error('Error submitting form:', error);
+    } else {
+      alert('Username already exists');
     }
+    
   }
+
+  useEffect(() => {
+    const checkUsername = async () => {
+        if (txtusername) {
+            try {
+                //const response = await fetch(`${process.env.REACT_APP_API_URL}/Registration/check-username/${txtusername}`);
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/Registration/check-username`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(txtusername),
+              });
+                const exists = await response.json();
+                setUsernameExists(exists);
+            } catch (err) {
+                console.log('Error checking username');
+            }
+        } else {
+            setUsernameExists(false);
+        }
+    };
+
+    const delayDebounceFn = setTimeout(() => {
+        checkUsername();
+    }, 500); // Debounce the API call
+
+    return () => clearTimeout(delayDebounceFn);
+}, [txtusername]);
 
   return (
     <div className="fixed sm:inset-10 inset-1 flex items-center justify-center z-50 mb-6">
@@ -117,8 +151,10 @@ export default function Signup({ onClose, onSigninClick }) {
                   name="username"
                   placeholder="Username"
                   required
-                  onChange={handleChange}
+                  onChange={(e)=>{handleChange(e); settxtUsername(e.target.value)}}
                 />
+                {/* {usernameExists && <p style={{ color: 'red' }}>Username already exists</p>} */}
+                {/* {error && <p style={{ color: 'red' }}>{error}</p>} */}
                 <Input
                   type="text"
                   name="firstName"
