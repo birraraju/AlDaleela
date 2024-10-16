@@ -1,13 +1,17 @@
-import { useState } from "react";
+// import { useState } from "react";
+import { useTheme } from "../Layout/ThemeContext/ThemeContext"; // Adjust the import path as necessary
 
-const LanguageSelector = ({ isHeaderOpen }) => {
-  const [isArabic, setIsArabic] = useState(false);
 
-  const toggleLanguage = () => {
-    setIsArabic(!isArabic);
-    isHeaderOpen();
-  };
+const LanguageSelector = () => {
+  // const [isArabic, setIsArabic] = useState(false);
+  const { isLangArab, toggleLanguage } = useTheme(); // Access the theme context
 
+
+  // const toggleLanguage = () => {
+  //   setIsArabic(!isArabic);
+  //   isHeaderOpen();
+  // };
+  console.log("Lang Toggle status:", isLangArab)
   return (
     <div
       className={`relative flex items-center
@@ -21,14 +25,14 @@ const LanguageSelector = ({ isHeaderOpen }) => {
         className={`absolute sm:top-1 left-1 mobile_s:w-5 laptop_m:w-6 mobile_s:h-5 laptop_m:h-6
           bg-white rounded-full opacity-30
           transition-transform duration-350 ease-in-out
-          ${isArabic ? "mobile_s:translate-x-9 laptop_m:translate-x-12" : "translate-x-0"}`}
+          ${isLangArab ? "mobile_s:translate-x-9 laptop_m:translate-x-12" : "translate-x-0"}`}
       ></div>
       <span
         className={`z-10 mobile_s:text-xs laptop_m:text-base
-          ${isArabic ? "ml-auto mobile_s:pr-8 laptop_m:pr-11" : "sm:pl-8 pl-9"}
-          ${isArabic ? "text-sm font-semibold" : "text-xs font-normal"}`}
+          ${isLangArab ? "ml-auto mobile_s:pr-8 laptop_m:pr-11" : "sm:pl-8 pl-9"}
+          ${isLangArab ? "text-sm font-semibold" : "text-xs font-normal"}`}
       >
-        {isArabic ? "عربي" : "ENG"}
+        {isLangArab ? "عربي" : "ENG"}
       </span>
     </div>
   );

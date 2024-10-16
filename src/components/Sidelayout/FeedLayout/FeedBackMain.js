@@ -12,7 +12,7 @@ export default function SendFeedBack({
   const [isOpen, setIsOpen] = useState(true);
   const [isFullyClosed, setIsFullyClosed] = useState(false);
   const feedbackRef = useRef(null); // Ref for the feedback panel
-  const { isDarkMode } = useTheme(); // Access dark mode from theme context
+  const { isDarkMode ,isLangArab} = useTheme(); // Access dark mode from theme context
 
   const toggleSideLayout = () => {
     setIsOpen(!isOpen);
@@ -66,7 +66,7 @@ export default function SendFeedBack({
         {/* Header with Feedback Text and Close Button */}
         <div className="flex items-center justify-between p-4">
           <span className={`text-lg font-semibold text-${isDarkMode ? '[#FFFFFFCC] text-opacity-80' : 'black'}`}>
-            Feedback
+            {isLangArab?"ملاحظات":"Feedback"}
           </span>
           <button
             onClick={closePanel}

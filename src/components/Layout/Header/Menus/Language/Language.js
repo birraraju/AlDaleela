@@ -1,7 +1,7 @@
 import LanguageSelector from "../../../../Common/Toggle";
 
-const Language = ({ isHeaderOpen }) => {
-  return <LanguageSelector isHeaderOpen={isHeaderOpen} />;
+const Language = () => {
+  return <LanguageSelector />;
 };
 
 export default Language;

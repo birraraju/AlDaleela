@@ -3,7 +3,7 @@ import DarkFeedback from "../../../../../../../assets/DarkFeedback.svg";
 import { useTheme } from '../../../../../ThemeContext/ThemeContext'; // Import the theme hook
 
 export default function SendFeedback({ setIsFeedBack, setIsPopoverOpen }) {
-  const { isDarkMode } = useTheme(); // Use the theme hook to get dark mode state
+  const { isDarkMode,isLangArab } = useTheme(); // Use the theme hook to get dark mode state
 
   return (
     <div
@@ -18,12 +18,12 @@ export default function SendFeedback({ setIsFeedBack, setIsPopoverOpen }) {
         <img 
           src={isDarkMode ? DarkFeedback : feedback }
 
-           alt="Logo" className=" w-7" />        </div>
+           alt="Logo" className=" w-6 " />        </div>
         <p
           className={`font-medium font-omnes  text-[18px] ${
             isDarkMode ? "text-gray-300" : "text-[#505050]"
           }`}
-        >          Send Feedback</p>
+        >          {isLangArab?"إرسال الملاحظات":"Send Feedback"}</p>
       </div>
     </div>
   );

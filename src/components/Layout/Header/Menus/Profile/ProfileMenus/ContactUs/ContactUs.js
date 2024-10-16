@@ -4,7 +4,7 @@ import DarkContactIcon from "../../../../../../../assets/DarkContactIcon.svg"; /
 import { useTheme } from '../../../../../ThemeContext/ThemeContext'; // Import the theme hook
 
 export default function ContactUs({ setIsContactUs, setIsPopoverOpen }) {
-  const { isDarkMode } = useTheme(); // Use the theme hook to get dark mode state
+  const { isDarkMode,isLangArab } = useTheme(); // Use the theme hook to get dark mode state
 
   return (
     <div className="py-4 cursor-pointer">
@@ -24,7 +24,7 @@ export default function ContactUs({ setIsContactUs, setIsPopoverOpen }) {
           className={`font-medium font-omnes  text-[18px] ${
             isDarkMode ? "text-gray-300" : "text-[#505050]"
           }`}
-        >          Contact Us</p>
+        >          {isLangArab?"اتصل بنا":"Contact Us"}</p>
       </div>
     </div>
   );
