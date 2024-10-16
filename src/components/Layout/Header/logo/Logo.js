@@ -6,7 +6,7 @@ export default function Logo() {
       <img
         src={logo}
         alt="Company Logo" // Update this to a meaningful description
-        className="w-full h-full object-contain"
+        className="sm:translate-x-3 -translate-x-5 w-full h-full object-contain"
         onError={(e) => {
           e.target.onerror = null; // Prevent infinite loop
           e.target.src = "path/to/fallback/logo.svg"; // Fallback logo path

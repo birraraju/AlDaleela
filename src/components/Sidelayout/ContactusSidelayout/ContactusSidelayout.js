@@ -8,10 +8,12 @@ import twitter from "../../../assets/Contact/twitter.svg";
 import x from "../../../assets/Contact/x.svg";
 import linkedin from "../../../assets/Contact/linkedin.svg";
 import insta from "../../../assets/Contact/instagram.svg";
+import { useTheme } from "../../Layout/ThemeContext/ThemeContext"; // Import your theme context
 
 export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
-  const [isShrink, setIsShrink] = useState(false);
   const containerRef = useRef(null);
+  const { isDarkMode } = useTheme(); // Access dark mode from theme context
+  const [isOpen, setIsOpen] = useState(true);
 
   // Handle outside click
   useEffect(() => {
@@ -28,104 +30,152 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
     };
   }, [setIsPopoverOpen, setIsContactUs]);
 
-  const toggleShrink = () => setIsShrink((prev) => !prev);
 
   return (
     <motion.div
-      ref={containerRef}
-      initial={{ x: "100%", opacity: 0 }}
-      whileInView={{ x: isShrink ? "110%" : 0, opacity: 1 }}
-      exit={{ x: "100%", opacity: 0 }}
-      transition={{ ease: "easeInOut" }}
-      className="px-8 py-4 fixed top-16 right-10 bg-white bg-opacity-75 backdrop-blur rounded-3xl text-black"
-    >
-      <div className="flex relative justify-between items-center mb-6">
-        <h1 className="font-semibold text-[#505050] text-lg">Contact us</h1>
-        <div
-          className="cursor-pointer"
-          onClick={() => {
-            setIsPopoverOpen(false);
-            setIsContactUs(false);
-          }}
-        >
-          <X />
-        </div>
-        <div onClick={toggleShrink} className="absolute top-6 -left-14">
-          <svg width="32" height="128" viewBox="0 0 64 371" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g clipPath="url(#clip0)">
-              <path
-                d="M3.82642 130.396L3.82598 244.617C3.82594 252.779 6.14893 260.773 10.5235 267.664L70.7275 362.497V8.50244L10.1031 108.027C5.99796 114.766 3.82645 122.505 3.82642 130.396Z"
-                fill="#EBEFF2"
-                stroke="#EEF3F7"
-                strokeWidth="6"
-              />
-            </g>
-            <defs>
-              <clipPath id="clip0">
-                <rect width="64" height="371" fill="white" />
-              </clipPath>
-            </defs>
-          </svg>
-        </div>
-        <div onClick={toggleShrink} className="absolute top-[4.7rem] -left-12 text-xl">
-          <FiChevronRight className={isShrink ? "rotate-180" : ""} />
-        </div>
+    ref={containerRef}
+    initial={{ x: "100%", opacity: 0 }}
+    animate={{ x: isOpen ? 0 : "100%", opacity: 1 }}
+    exit={{ x: "100%", opacity: 0 }}
+    transition={{ ease: "easeInOut" }}
+    className={`p-4  sm:py-4  sm:h-[46vh] laptop_s:h-[70vh] h-[70vh]  fixed top-16 sm:right-16 laptop_s:right-10 right-1 backdrop-blur rounded-3xl text-black ${
+      isDarkMode
+        ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none"
+        : "bg-white bg-opacity-70 backdrop-blur-lg border-white"
+    }`} // Adjust background color based on dark mode
+  >
+    <div className="flex relative justify-between items-center">
+      <h1 className={`text-[20px] font-semibold ${isDarkMode ? "text-[#FFFFFFCC]" : "text-black"}`}>
+        Contact Us
+      </h1>
+      <div
+        className={`p-2 cursor-pointer ${isDarkMode ? "text-white hover:text-gray-300" : "text-gray-600 hover:text-gray-900"} transition-colors`}
+        onClick={() => setIsContactUs(false)}
+      >
+        <X />
       </div>
+    </div>
 
-      <div className="relative h-[45vh] w-[23rem] overflow-y-scroll">
-        <div className="space-y-4">
-          <ContactDetail 
-            icon={loc} 
-            title="Abu Dhabi" 
-            subtitle="Location" 
-            description="Headquarters Al Mamoura building (A), Building (G2) Al Mamoura St, Al Nahyan, Abu Dhabi, UAE, Postal Code: 22221, P.O Box: 45553" 
-          />
-          <ContactDetail 
-            title="Opening Hours" 
-            description="7:30 AM to 3:30 PM | Sunday-Thursday" 
-          />
-          <ContactDetail 
-            title="Phone" 
-            description="+971 2 693 4444" 
-          />
-          <ContactDetail 
-            title="Email" 
-            description="customerhappiness@ead.gov.ae" 
-          />
-          <div className="flex justify-center space-x-4 pt-4 border-t border-gray-400">
-            <SocialIcon src={fb} alt="Facebook" />
-            <SocialIcon src={twitter} alt="Twitter" />
-            <SocialIcon src={x} alt="X" />
-            <SocialIcon src={linkedin} alt="LinkedIn" />
-            <SocialIcon src={insta} alt="Instagram" />
-          </div>
+      {/* Contact Details */}
+    <div className="relative   sm:w-[21rem] laptop_s:w-[21rem] w-[20rem] sm:mt-4 mt-3 sm:overflow-hidden  ">
+      <div className="space-y-4">
+        <div>
+          <h3 className="flex items-center mb-2 font-bold">
+            <img src={loc} alt="Location" className="h-5 w-5 mr-2" />
+            <span className={`text-lg  ${isDarkMode ? "text-[#FFFFFFCC]" : "bg-gradient-to-r from-[#036068] via-[#596451] to-[#036068] bg-clip-text text-transparent"}`}>
+
+Abu Dhabi
+</span>
+          </h3>
+          <h4 className={`font-medium mb-1 text-[14px] ${isDarkMode ? "text-[#FFFFFFCC]" : "text-gray-600"}`}>
+            Location
+          </h4>
+          <p className={`text-[16px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]" : "text-black"}`}>
+            Headquarters Al Mamoura building (A), Building (G2) Al Mamoura St, Al Nahyan, Abu Dhabi, UAE, Postal Code: 22221, P.O Box: 45553
+          </p>
+        </div>
+
+        <div>
+          <h4 className={`font-medium mb-1 text-[14px] ${isDarkMode ? "text-[#FFFFFFCC]" : "text-gray-600"}`}>
+            Opening Hours
+          </h4>
+          <p className={`text-[16px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]" : "text-black"}`}>
+            7:30 AM to 3:30 PM | Sunday-Thursday
+          </p>
+        </div>
+
+        <div>
+          <h4 className={`font-medium mb-1 text-[14px] ${isDarkMode ? "text-[#FFFFFFCC]" : "text-gray-600"}`}>
+            Phone
+          </h4>
+          <p className={`text-[16px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]" : "text-black"}`}>
+            +971 2 693 4444
+          </p>
+        </div>
+
+        <div>
+          <h4 className={`font-medium mb-1 text-[14px] ${isDarkMode ? "text-[#FFFFFFCC]" : "text-gray-600"}`}>
+            Email
+          </h4>
+          <p className={`text-[16px]  font-medium ${isDarkMode ? "text-[#FFFFFFCC]" : "text-black"}`}>
+            customerhappiness@ead.gov.ae
+          </p>
+        </div>
+
+        <div className="flex justify-center space-x-4 pt-4 border-t border-gray-400">
+          <a href="https://www.facebook.com/EnvironmentAbuDhabi/ "  target="_blank" rel="noopener noreferrer"><img src={fb} alt="Facebook" className="h-6 w-6" /></a>
+          <a href="https://x.com/EADTweets"  target="_blank" rel="noopener noreferrer"><img src={twitter} alt="Twitter" className="h-6 w-6" /></a>
+          <a href="https://x.com/EADTweets"  target="_blank" rel="noopener noreferrer" ><img src={x} alt="X" className="h-6 w-6" /></a>
+          <a href="https://www.linkedin.com/company/environment-agency-abu-dhabi/"  target="_blank" rel="noopener noreferrer"><img src={linkedin} alt="LinkedIn" className="h-6 w-6" /></a>
+          <a href="https://www.instagram.com/Environmentabudhabi/"  target="_blank" rel="noopener noreferrer"><img src={insta} alt="Instagram" className="h-6 w-6" /></a>
         </div>
       </div>
-    </motion.div>
+    </div>
+
+    {/* Toggle button */}
+    <div className="absolute hidden sm:block top-12 -left-6">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="relative w-8 h-32 focus:outline-none"
+        aria-label={isOpen ? "Close side panel" : "Open side panel"}
+      >
+        <svg
+          width="32"
+          height="128"
+          viewBox="0 0 64 371"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          style={{ position: "relative", top: "1px", right: "3px" }}
+        >
+          <g clipPath="url(#clip0_4011_11301)">
+            <path
+              d="M3.82642 130.396L3.82598 244.617C3.82594 252.779 6.14893 260.773 10.5235 267.664L70.7275 362.497V8.50244L10.1031 108.027C5.99796 114.766 3.82645 122.505 3.82642 130.396Z"
+              fill={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "#EBEFF2"}
+              stroke={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "#EEF3F7"}
+              strokeWidth="6"
+            />
+          </g>
+          <defs>
+            <clipPath id="clip0_4011_11301">
+              <rect width="64" height="371" fill="white" />
+            </clipPath>
+          </defs>
+        </svg>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+          <FiChevronRight
+            className={`transition-transform duration-300 ${isOpen ? "rotate-0" : "rotate-180"} ${
+              isDarkMode ? "text-white" : "text-black"
+            }`}
+          />
+        </div>
+      </button>
+    </div>
+  </motion.div>
   );
 }
 
-const ContactDetail = ({ icon, title, subtitle, description }) => (
-  <div>
-    {icon && (
-      <h3 className="flex items-center mb-2 font-bold">
-        <img src={icon} alt={title} className="h-5 w-5 mr-2" />
-        <span className="font-omnes bg-custom-gradient bg-clip-text text-transparent text-lg">
-          {title}
-        </span>
-      </h3>
-    )}
-    {subtitle && (
-      <h4 className="flex items-center text-[#667085] font-medium mb-1 text-[14px]">
-        {subtitle}
-      </h4>
-    )}
-    <p className="text-[16px] font-omnes text-black font-medium">
-      {description}
-    </p>
-  </div>
-);
+// const ContactDetail = ({ icon, title, subtitle, description }) => (
 
-const SocialIcon = ({ src, alt }) => (
-  <img src={src} alt={alt} className="h-6 w-6" />
-);
+//   <div>
+//     {icon && (
+//       <h3 className="flex items-center mb-2 font-bold">
+//         <img src={icon} alt={title} className="h-5 w-5 mr-2" />
+//         <span className="font-omnes bg-custom-gradient bg-clip-text text-transparent text-lg">
+//           {title}
+//         </span>
+//       </h3>
+//     )}
+//     {subtitle && (
+//             <h4 className={`font-medium mb-1 text-[14px] ${isDarkMode ? "text-[#FFFFFFCC]" : "text-gray-600"}`}>
+//         {subtitle}
+//       </h4>
+//     )}
+//             <p className={`text-[16px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]" : "text-black"}`}>
+//             {description}
+//     </p>
+//   </div>
+// );
+
+// const SocialIcon = ({ src, alt }) => (
+//   <img src={src} alt={alt} className="h-6 w-6" />
+// );

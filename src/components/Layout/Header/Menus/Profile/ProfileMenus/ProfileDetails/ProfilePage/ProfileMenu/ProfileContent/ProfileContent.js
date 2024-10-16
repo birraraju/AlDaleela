@@ -1,5 +1,7 @@
 import React from "react";
 import { Button } from "../../../../../../../../../../components/ui/button";
+import { useAuth } from "../../../../../../../../../../Providers/AuthProvider/AuthProvider";
+import { useTheme } from '../../../../../../../../../Layout/ThemeContext/ThemeContext'; // Import the theme context
 
 export default function ProfileContent({ 
   isEditProfile, 
@@ -7,22 +9,25 @@ export default function ProfileContent({
   setIsChangePassword, 
   setIsProfile 
 }) {
+  const {profiledetails} = useAuth()
+  const { isDarkMode } = useTheme(); // Access the dark mode state
   return (
     <>
       {!isEditProfile ? (
         <div className="flex justify-between items-center gap-4">
           <div className="w-[20%]">
             <img
-              src="/Header/Profile/ProfileDetails/Profile.svg"
+              src={`${process.env.PUBLIC_URL}/Header/Profile/ProfileDetails/Profile.svg`}
               alt="Profile"
-              className="w-20"
+              className="sm:w-20 w-18"
             />
           </div>
 
           <div className="w-[80%]">
             <div className="tracking-wide">
-              <h1 className="text-lg font-medium">Hamad</h1>
-              <p className="text-base font-light">useremailid@gmail.com</p>
+              <h1 className={`sm:text-lg text-sm font-medium text-${isDarkMode ? 'white' : 'gray-600'} `}>{profiledetails.username}</h1>
+              <p className={`sm:text-base text-xs font-light text-${isDarkMode ? '[#FFFFFFCC]' : 'gray-600'} `}>{profiledetails.email}</p>
+
             </div>
 
             <div className="flex justify-between items-center gap-4">
@@ -38,8 +43,7 @@ export default function ProfileContent({
                   setIsProfile(false);
                 }}
                 variant="outline"
-                className="w-1/2 h-10 bg-none shadow-none rounded-xl mt-4 tracking-wide font-normal text-sm border border-[#909090]"
-              >
+                className={`w-1/2 sm:h-10 h-9 bg-none shadow-none sm:rounded-xl rounded-md mt-4 tracking-wide font-normal sm:text-sm text-xs border border-[#909090] text-${isDarkMode ? '[#FFFFFFCC]' : 'gray-600'} `}              >
                 Change Password
               </Button>
             </div>

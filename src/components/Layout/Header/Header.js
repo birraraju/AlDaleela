@@ -3,6 +3,8 @@ import Logo from "./logo/Logo";
 import Menus from "./Menus/Menus";
 import { useTheme } from '../ThemeContext/ThemeContext'; // Import the theme context
 import Searchbar from './Searchbar/Searchbar';
+// import ResponsiveSearch from '../../../assets/Header/Searchbar/SearchBar/imageResponsiveSearch.png'
+
 
 // const Header = ({ isFooteropen, isHeaderOpen }) => {
 //   const { isDarkMode } = useTheme(); // Access the dark mode state
@@ -27,17 +29,17 @@ const Header = ({  isFooterOpen, isHeaderOpen, mapview}) => {
   };
   return (
     <header
-      className={`text-white sm:pr-10 px-2 py-2 flex items-center justify-between z-8 w-screen 
+      className={`text-white sm:pr-10 px-2 py-2 z-30 flex items-center justify-between z-8 w-screen 
         ${isDarkMode ? 'bg-dark-gradient' : 'bg-custom-gradient'}`
       }
     >
       {/* Logo Section */}
-      <div className={`flex items-center ${SearchResponsive ? "hidden" : "flex"}`}>
+     {!SearchResponsive && <div className={` items-center space-x-4 ${SearchResponsive ? "hidden" : "flex"}`}>
         <Logo />
-      </div>
+      </div>}
 
       {/* Menus Section */}
-      <div className={`flex items-center ${SearchResponsive ? "hidden" : "flex"}`}>
+     {!SearchResponsive && <div className={`flex items-center`}>
         <Menus 
           isFooterOpen={isFooterOpen} 
           isHeaderOpen={isHeaderOpen} 
@@ -46,7 +48,7 @@ const Header = ({  isFooterOpen, isHeaderOpen, mapview}) => {
           handleResponsiveSearchHeader={ResponsiveSearchHeader}
           mapview={mapview}
         />
-      </div>
+      </div>}
 
       {/* Searchbar Section */}
       {SearchResponsive && (
@@ -56,14 +58,12 @@ const Header = ({  isFooterOpen, isHeaderOpen, mapview}) => {
         />
       )}
 
-      {/* Responsive Search Toggle Button */}
-      <button
-        className={`sm:hidden text-white p-2`}
+      {/* <button
+        className={`sm:hidden flex text-white p-2`}
         onClick={ResponsiveSearchHeader}
       >
-        {/* Optional icon or text for opening search */}
-        <img src="/path/to/search-icon.svg" alt="Search" />
-      </button>
+        <img src={ResponsiveSearch} alt="Search" />
+      </button> */}
     </header>
   );
 };

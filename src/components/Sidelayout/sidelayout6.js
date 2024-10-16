@@ -7,8 +7,8 @@ import { useTheme } from '../Layout/ThemeContext/ThemeContext'; // Import the th
 
 export default function SideLayout6({
   children,
-  width = "454.84px",
-  height = "calc(95vh - 2rem)",
+  width = "430px",
+  // height = "calc(95vh - 2rem)",
   onClose,
   mapview
 }) {
@@ -61,12 +61,12 @@ export default function SideLayout6({
   return (
     <div
       ref={panelRef} // Attach ref to the panel div
-      className={`fixed top-16 right-3 transition-transform duration-300 ease-in-out ${
+      className={`fixed top-16 right-3 sm:right-16 laptop_s:right-3 w-[500px] sm:w-[400px] laptop_s:w-[${width}] h-[90%] sm:h-[60%] laptop_s:h-[90%]  transition-transform duration-300 ease-in-out ${
         isOpen ? "translate-x-0" : "translate-x-full"
       }`}
-      style={{ width, height }}
+      // style={{ width, height }}
     >
-      <div className={`relative h-[90%] w-full bg-opacity-70 backdrop-blur-lg rounded-2xl shadow-lg overflow-hidden border ${
+      <div className={`relative sm:h-[90%] h-[98%] sm:w-[80%] tab:w-full w-[67%] bg-opacity-70 float-end sm:float-none backdrop-blur-lg rounded-2xl shadow-lg overflow-hidden border ${
           isDarkMode
             ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
             : "bg-white bg-opacity-70 backdrop-blur-lg border-white"
@@ -82,12 +82,12 @@ export default function SideLayout6({
 
         <div className="p-6 overflow-y-auto h-full">
           {children || (
-            <p className="text-gray-700 font-poppins font-medium">
+            <p className={`text-${isDarkMode ? "[#FFFFFFCC] text-opacity-80" : "gray-700"} font-poppins font-medium`}>
               Print
             </p>
           )}
         </div>
-        <div><Print mapview={mapview}/></div>
+        <div ><Print mapview={mapview}/></div>
       </div>
 
       {/* Toggle button to slide panel in and out */}

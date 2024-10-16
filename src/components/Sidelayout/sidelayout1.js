@@ -8,7 +8,7 @@ import { useTheme } from '../Layout/ThemeContext/ThemeContext'; // Import the th
 export default function SideLayout1({
   children,
   width = "454.84px",
-  height = "calc(95vh - 2rem)",
+  // height = "calc(95vh - 2rem)",
   onClose,
   mapview
 }) {
@@ -71,12 +71,12 @@ export default function SideLayout1({
   return (
     <div
       ref={panelRef} // Attach the ref to the panel
-      className={`fixed top-16 right-3 transition-transform duration-300 ease-in-out ${
+      className={`fixed w-[510px] sm:w-[430px] laptop_s:w-[${width}] h-[90%] sm:h-[80%] top-16 right-3 sm:right-16 laptop_s:right-3 transition-transform duration-300 ease-in-out ${
         isOpen ? "translate-x-0" : "translate-x-full"
       }`}
-      style={{ width, height }} // Set height to 80% of viewport height
+      // style={{ width, height }} // Set height to 80% of viewport height
     >
-      <div className={`relative h-[65%] sm:w-full sm:float-none w-[67%] float-end rounded-2xl shadow-lg overflow-hidden border ${
+      <div className={`relative sm:h-[80%] h-[98%] sm:w-full sm:float-none w-[67%] float-end rounded-2xl shadow-lg overflow-hidden border ${
           isDarkMode
             ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
             : "bg-white bg-opacity-70 backdrop-blur-lg border-white" // Light mode styles

@@ -3,6 +3,7 @@ import { Check } from 'lucide-react';
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
 import PinPoint from '../../../../../../../assets/Admin/logo/imageContentMangePin.png';
 import MediaPinPoint from '../../../../../../../assets/Admin/logo/imagePinMedia.png';
+import { useTheme } from "../../../../../ThemeContext/ThemeContext"; // Importing the theme context
 
 const users = [
   { username: "User name", email: "user@gmail.com", Datetime: "2024-10-11 09:22:25", poiName: "Al Makhtabshah", Organization: "DMT", classification: "Marine", municipality: "Abu Dhabi", media: "3" },
@@ -29,6 +30,7 @@ CustomCheckbox.displayName = CheckboxPrimitive.Root.displayName;
 export default function UserManagement() {
   const [scrollPercentage, setScrollPercentage] = useState(0);
   const tableRef = useRef(null);
+  const { isDarkMode } = useTheme(); // Access dark mode from theme context
 
   useEffect(() => {
     const handleScroll = () => {
@@ -53,40 +55,68 @@ export default function UserManagement() {
 
   return (
     <div className="flex h-[calc(100vh-6rem)]">
-      <div className="bg-white p-8 rounded-lg shadow-sm gap-y-2 flex flex-col flex-grow overflow-hidden">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-[22px] bg-fontFamily-omnes-0 text-[#464646]">Content Management</h2>
+ <div  className={`p-8 rounded-lg shadow-sm flex flex-col flex-grow overflow-hidden ${
+        isDarkMode ? "bg-[#303031] bg-opacity-90" : "bg-white "
+      } text-black backdrop-blur border-none`}>
+                <div className="flex justify-between items-center mb-6">
+                <h2 className={`text-[22px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]" : "text-gray-800"}`}>
+                Content Management</h2>
         </div>
 
-        <hr className="border-t border-gray-300 my-4" />
+        <hr className={`border-t  my-4 ${isDarkMode ? "border-[#FFFFFF] border-opacity-10" : "border-gray-300"}`} />
 
         <div className="overflow-hidden flex-grow relative">
           <div ref={tableRef} className="overflow-x-auto overflow-y-auto absolute inset-0 pr-4">
             <table className="w-full">
-              <thead className="sticky top-0 bg-white z-10">
+            <thead className={`sticky top-0   z-10 ${isDarkMode ? "bg-[#303031] " : "bg-white"}`}>
                 <tr className="text-left text-sm font-medium text-gray-500 border-b">
-                  <th className="pb-3 font-medium font-omnes text-[14px] text-[#667085] pl-3">Username</th>
-                  <th className="pb-3 font-medium font-omnes text-[14px] text-[#667085] pr-4">Email id</th>
-                  <th className="pb-3 font-medium font-omnes text-[14px] text-[#667085] pr-4">Date & time</th>
-                  <th className="pb-3 font-medium font-omnes text-[14px] text-[#667085] pr-4">POI Name</th>
-                  <th className="pb-3 font-medium font-omnes text-[14px] text-[#667085] pr-4">Organization</th>
-                  <th className="pb-3 font-medium font-omnes text-[14px] text-[#667085] pr-4">Classification</th>
-                  <th className="pb-3 font-medium font-omnes text-[14px] text-[#667085] pr-4">Municipality</th>
-                  <th className="pb-3 font-medium font-omnes text-[14px] text-[#667085] flex gap-x-1 pr-4">Media<img src={MediaPinPoint} className='h-4' alt="" /></th>
+                <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+                Username</th>
+                <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+                Email id</th>
+                <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+                Date & time</th>
+                <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+                POI Name</th>
+                <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+                Organization</th>
+                <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+                Classification</th>
+                <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+                Municipality</th>
+                <th className={`pb-3 p-2 font-medium font-omnes text-[14px]   flex gap-x-1 pr-4 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+                Media<img src={MediaPinPoint} className='h-4' alt="" /></th>
                   <th className="pb-3"></th>
                 </tr>
               </thead>
               <tbody>
                 {users.map((user, index) => (
-                  <tr key={index} className={index % 2 === 0 ? "bg-[#D5E5DE] bg-opacity-30" : "bg-white"}>
-                    <td className="py-2 font-medium text-[14px] text-[#101828] font-omnes pl-3">{user.username}</td>
-                    <td className="py-2 font-medium text-[14px] text-[#101828] font-omnes pr-4">{user.email}</td>
-                    <td className="py-2 font-medium text-[14px] text-[#101828] font-omnes pr-4">{user.Datetime}</td>
-                    <td className="py-2 font-medium text-[14px] text-[#101828] font-omnes pr-4">{user.poiName}</td>
-                    <td className="py-2 font-medium text-[14px] text-[#101828] font-omnes pr-4">{user.Organization}</td>
-                    <td className="py-2 font-medium text-[14px] text-[#101828] font-omnes pr-4">{user.classification}</td>
-                    <td className="py-2 font-medium text-[14px] text-[#101828] font-omnes pr-4">{user.municipality}</td>
-                    <td className="py-2 font-medium text-[14px] text-[#101828] font-omnes pr-4">{user.media}</td>
+                  <tr key={index} 
+                  className={`${
+                    isDarkMode
+                      ? index % 2 === 0
+                        ? "bg-transparent"
+                        : "bg-white bg-opacity-10"
+                      : index % 2 === 0
+                      ? "bg-[#D5E5DE] bg-opacity-30"
+                      : "bg-white"
+                  }`}                  >
+<td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
+{user.username}</td>
+<td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
+                      {user.email}</td>
+                      <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
+                      {user.Datetime}</td>
+                      <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
+                      {user.poiName}</td>
+                      <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
+                      {user.Organization}</td>
+                      <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
+                      {user.classification}</td>
+                      <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
+                      {user.municipality}</td>
+                      <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
+                      {user.media}</td>
                     <td className="py-2">
                       <button className="text-red-500 hover:text-red-600">
                         <img src={PinPoint} alt="" className='h-7' />
@@ -99,8 +129,10 @@ export default function UserManagement() {
           </div>
         </div>
       </div>
-      <div className="w-2 bg-gray-200 rounded-full mr-3 mt-12 mb-10 relative">
-        <div 
+      <div className={`w-2 rounded-full mr-3 mt-12 mb-10 ml-2 relative ${
+        isDarkMode ? "bg-[rgba(96,96,96,0.8)]" : "bg-[rgba(96,96,96,0.8)]"
+      } text-black backdrop-blur border-none`}>
+                <div 
           className="w-full bg-[#B2CACC] absolute rounded-full transition-all duration-300 ease-out"
           style={{
             height: `${scrollPercentage}%`,

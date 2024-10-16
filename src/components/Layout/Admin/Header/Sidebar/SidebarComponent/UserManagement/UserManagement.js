@@ -12,6 +12,9 @@ import { cn } from "../../../../../../../lib/utils";
 import React from 'react';
 import Xicon from '../../../../../../../assets/Admin/logo/xicon.svg';
 import EditIcon from '../../../../../../../assets/Admin/logo/edit.svg';
+import DarkEditIcon from '../../../../../../../assets/Admin/logo/darkedit.svg';
+
+import { useTheme } from "../../../../../ThemeContext/ThemeContext"; // Importing the theme context
 
 const users = [
   { username: "User name", email: "user@gmail.com", phone: "+971 500001010", address: "Rabdan - Abu Dhabi", role: "Public User", activity: "Today" },
@@ -41,6 +44,8 @@ export default function UserManagement() {
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [scrollPercentage, setScrollPercentage] = useState(0);
   const tableRef = useRef(null);
+  const [data, setData] = useState([]);
+  const { isDarkMode } = useTheme(); // Access dark mode from theme context
 
   const toggleUserSelection = (index) => {
     setSelectedUsers(prev => 
@@ -74,11 +79,34 @@ export default function UserManagement() {
     };
   }, []);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+          const response = await fetch(`${process.env.REACT_APP_API_URL}/Registration/GetUsers`); // Example API
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+          const result = await response.json();
+          setData(result);
+      } catch (error) {
+          //setError(error.message);
+          console.log(error)
+      } finally {
+          //setLoading(false);
+      }
+  };
+  
+  fetchData();    
+  },[data]);
+
   return (
     <div className="flex h-[calc(100vh-6rem)]">
-      <div className="bg-white p-8 rounded-lg shadow-sm flex flex-col flex-grow overflow-hidden">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-[22px] font-medium text-gray-800">User Management</h2>
+ <div  className={`p-8 rounded-lg shadow-sm flex flex-col flex-grow overflow-hidden ${
+        isDarkMode ? "bg-[#303031] bg-opacity-90" : "bg-white "
+      } text-black backdrop-blur border-none`}>
+    <div className="flex justify-between items-center mb-6">
+    <h2 className={`text-[22px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]" : "text-gray-800"}`}>
+    User Management</h2>
           <button 
             onClick={toggleEdit} 
             className={isEditing ? "text-gray-500 hover:text-gray-700" : "text-teal-600 hover:text-teal-700"} 
@@ -87,30 +115,41 @@ export default function UserManagement() {
             {isEditing ? (
               <img src={Xicon} alt="Edit" className="w-6 h-6" />
             ) : (
-              <img src={EditIcon} alt="Edit" className="w-6 h-6" />
+              <img 
+              src={isDarkMode ? DarkEditIcon : EditIcon }
+              alt="Edit" className="w-6 h-6" />
             )}
           </button>
         </div>
 
-        <hr className="border-t border-gray-300 my-4" />
+        <hr className={`border-t  my-4 ${isDarkMode ? "border-[#FFFFFF] border-opacity-10" : "border-gray-300"}`} />
         <div className="overflow-hidden flex-grow relative">
           <div ref={tableRef} className="overflow-x-auto overflow-y-auto absolute inset-0 pr-4">
             <table className="w-full">
-              <thead className="sticky top-0 bg-white z-10">
-                <tr className="text-left text-sm font-medium text-gray-500 border-b">
+            <thead className={`sticky top-0   z-10 ${isDarkMode ? "bg-[#303031] " : "bg-white"}`}>
+            <tr className="text-left text-sm font-medium text-gray-500 border-b">
                   {isEditing && <th className="pb-3 w-8"></th>}
-                  <th className="pb-3 font-medium font-omnes text-[14px] text-[#667085] pr-2">Username</th>
-                  <th className="pb-3 font-medium font-omnes text-[14px] text-[#667085] pr-2">Email Id</th>
-                  <th className="pb-3 font-medium font-omnes text-[14px] text-[#667085] pr-2">Phone Number</th>
-                  <th className="pb-3 font-medium font-omnes text-[14px] text-[#667085] pr-2">Address</th>
-                  <th className="pb-3 font-medium font-omnes text-[14px] text-[#667085] pr-2">User Roles</th>
-                  <th className="pb-3 font-medium font-omnes text-[14px] text-[#667085] pr-2">User Activity</th>
+                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>Username</th>
+                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>Email Id</th>
+                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>Phone Number</th>
+                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>Country</th>
+                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>User Roles</th>
+                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>User Activity</th>
                   <th className="pb-3"></th>
                 </tr>
               </thead>
               <tbody>
-                {users.map((user, index) => (
-                  <tr key={index} className={index % 2 === 0 ? "bg-[#D5E5DE] bg-opacity-30" : "bg-white"}>
+                {data.map((user, index) => (
+                  <tr key={index} className={`${
+                    isDarkMode
+                      ? index % 2 === 0
+                        ? "bg-transparent"
+                        : "bg-white bg-opacity-10"
+                      : index % 2 === 0
+                      ? "bg-[#D5E5DE] bg-opacity-30"
+                      : "bg-white"
+                  }`} >
+
                     {isEditing && (
                       <td className="py-4 pl-2">
                         <CustomCheckbox
@@ -119,29 +158,34 @@ export default function UserManagement() {
                         />
                       </td>
                     )}
-                    <td className="py-4 font-medium font-omnes text-[14px] text-black pl-2">{user.username}</td>
-                    <td className="py-4 font-medium font-omnes text-[14px] text-black pr-2">{user.email}</td>
-                    <td className="py-4 font-medium font-omnes text-[14px] text-black pr-2">{user.phone}</td>
-                    <td className="py-4 font-medium font-omnes text-[14px] text-black pr-2">{user.address}</td>
-                    <td className="py-4 font-medium font-omnes text-[14px] text-[#626262] pr-2">
+                    <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{user.username}</td>
+                    <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{user.email}</td>
+                    <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{user.phoneNumber}</td>
+                    <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{user.country}</td>
+                    <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
+
                       {isEditing ? (
                         <Select defaultValue={user.role}>
                           <SelectTrigger className="w-[140px]">
                             <SelectValue placeholder="Select role" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="Public User">Public User</SelectItem>
+                            {/* <SelectItem value="Public User">Public User</SelectItem>
                             <SelectItem value="Admin User">Admin User</SelectItem>
-                            <SelectItem value="Creator User">Creator User</SelectItem>
+                            <SelectItem value="Creator User">Creator User</SelectItem> */}
+                            <SelectItem value="user">user</SelectItem>
+                            <SelectItem value="admin">admin</SelectItem>
+                            {/* <SelectItem value="Creator User">Creator User</SelectItem> */}
                           </SelectContent>
                         </Select>
                       ) : (
                         user.role
                       )}
                     </td>
-                    <td className="py-4 font-medium font-omnes text-[16px] text-black pr-2">{user.activity}</td>
+                    <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
+                      {user.activity}</td>
                     <td className="py-4">
-                      <button className="text-red-500 hover:text-red-600" aria-label="Delete user">
+                    <button className={` aria-label="Delete user" ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-red-500 hover:text-red-600"}`}>
                         <Trash2 className="w-5 h-5" />
                       </button>
                     </td>
@@ -163,8 +207,10 @@ export default function UserManagement() {
           </div>
         )}
       </div>
-      <div className="w-2 bg-gray-200 rounded-full mt-20 ml-4 relative">
-        <div 
+      <div className={`w-2 rounded-full mr-3 mt-12 mb-10 ml-2 relative ${
+        isDarkMode ? "bg-[rgba(96,96,96,0.8)]" : "bg-[rgba(96,96,96,0.8)]"
+      } text-black backdrop-blur border-none`}>       
+       <div 
           className="w-full bg-[#B2CACC] absolute rounded-full transition-all duration-300 ease-out"
           style={{
             height: `${scrollPercentage}%`,

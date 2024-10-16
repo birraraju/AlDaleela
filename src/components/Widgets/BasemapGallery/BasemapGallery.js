@@ -26,7 +26,7 @@ const BasemapGalleryComponent = ({ mapview }) => {
   }, [mapview]); // Include mapview in the dependency array
 
   return (
-    <div id="basemapDiv" className="basemap">
+    <div id="basemapDiv" className=" sm:-mt-[610px] laptop_s:-mt-[400px]   -mt-[570px]">
       <div ref={mapRef1} />
     </div>
   );

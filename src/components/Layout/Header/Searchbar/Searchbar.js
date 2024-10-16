@@ -30,10 +30,16 @@ const Searchbar = ({
   // Manage search open/close state
   useEffect(() => {
     if (inputClicked) {
-      isHeaderOpen();
-      isSearchOpen();
+      if(typeof isHeaderOpen === "function"){
+        isHeaderOpen();
+      }
+      if(typeof isSearchOpen === "function"){
+        isSearchOpen();
+      }
     } else {
-      isSearchClose();
+      if(typeof isSearchClose === "function"){
+        isSearchClose();
+      }
     }
   }, [inputClicked, isHeaderOpen, isSearchOpen, isSearchClose]);
 
@@ -65,7 +71,7 @@ const Searchbar = ({
   };
 
   return (
-    <div className={`mobile_s:mr-2 ${SearchResponsive ? "grid" : "sm:grid hidden"} laptop_m:mr-4 mr-4`}>
+    <div className={`mobile_s:mr-2 ${SearchResponsive ? "grid" : "sm:grid hidden"} laptop_m:mr-2 mr-4`}>
       <div className="relative" ref={contentRef}>
         <Input
           id="search"
@@ -76,7 +82,7 @@ const Searchbar = ({
           }}
           onChange={handleInputChange}
           className={`mobile_s:w-[19rem] ${
-            inputClicked || iscategory ? "laptop_m:w-[30rem]" : "laptop_m:w-[30rem]"
+            inputClicked || iscategory ? "laptop_m:w-[30rem]" : "laptop_m:w-[25rem]"
           } mobile_s:h-9 laptop_m:h-9 border-none outline-none focus-visible:ring-0 focus-visible:ring-offset-0 bg-white rounded-full pl-16 relative z-[2] ${
             inputValue
               ? "text-black border-none shadow-none"

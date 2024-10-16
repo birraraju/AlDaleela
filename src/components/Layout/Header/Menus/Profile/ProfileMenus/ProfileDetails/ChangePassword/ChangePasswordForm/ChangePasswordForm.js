@@ -12,7 +12,10 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react"; // Import useState
-import { IoEyeOff } from "react-icons/io5"; // Import icons
+import { IoEyeOff,IoEye } from "react-icons/io5"; // Import icons
+import { useAuth } from "../../../../../../../../../Providers/AuthProvider/AuthProvider";
+import {UserActivityLog} from "../../../../../../../../Common/UserActivityLog";
+import { useTheme } from "../../../../../../../../Layout/ThemeContext/ThemeContext"; // Import your theme context
 
 const formSchema = z
   .object({
@@ -26,6 +29,7 @@ const formSchema = z
   });
 
 export default function ChangePasswordForm({ setIsChangePassword, setIsSuccess, setIsProfile }) {
+  const {profiledetails } = useAuth()
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -34,16 +38,52 @@ export default function ChangePasswordForm({ setIsChangePassword, setIsSuccess, 
       confirmNewPassword: "",
     },
   });
+  const { isDarkMode } = useTheme(); // Access dark mode from theme context
+
 
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  function onSubmit(values) {
-    console.log(values);
-    setIsSuccess(true);
-    setIsProfile(false);
-    setIsChangePassword(false);
+  const onSubmit = async(values) => {
+    try {
+      const signupObj ={
+        email:profiledetails.email,
+        oldpassword:values.currentPassword,
+        newpassword:values.newPassword
+      }
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/Registration/updatepassword`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(signupObj),
+      });
+      if (response.ok) {
+          // Handle successful signup
+          console.log(response);
+         
+      } else {
+          // Handle error
+          console.log(response);
+      }
+      const data = await response.text();
+      if(data == "Data Updated Successfully"){
+        console.log(values);
+        UserActivityLog(profiledetails, "Change Password")
+        setIsSuccess(true);
+        setIsProfile(false);
+        setIsChangePassword(false);
+      }
+      else{
+        console.log(data)
+        setIsSuccess(false);
+        setIsProfile(false);
+        setIsChangePassword(true);
+      }
+      // setRole("admin");
+      // onClose();
+    }catch (error) {
+      console.error('Error submitting form:', error);
+    }    
   }
 
   const onCancel = () => {
@@ -57,14 +97,16 @@ export default function ChangePasswordForm({ setIsChangePassword, setIsSuccess, 
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-7 p-2">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="sm:space-y-7 space-y-6 sm:p-4 p-3">
         {/* Current Password */}
         <FormField
           control={form.control}
           name="currentPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-[400] font-omes text-gray-800 text-[14px] tracking-wide">
+              <FormLabel className={`font-[400] font-omes text-gray-800 sm:text-[14px] tracking-wide ${
+              isDarkMode ? "text-white" : "text-gray"
+            }`}>
                 Current Password
               </FormLabel>
               <FormControl>
@@ -79,7 +121,11 @@ export default function ChangePasswordForm({ setIsChangePassword, setIsSuccess, 
                     onClick={() => setShowCurrentPassword(!showCurrentPassword)}
                     className="absolute right-3 top-3"
                   >
-                    <IoEyeOff className="text-2xl opacity-50" />
+                     {showCurrentPassword ? (
+                  <IoEye className={`text-2xl ${isDarkMode ? 'text-black' : 'text-black'} opacity-50`} />
+                ) : (
+                  <IoEyeOff className={`text-2xl ${isDarkMode ? 'text-black' : 'text-black'} opacity-50`} />
+                    )}
                   </button>
                 </div>
               </FormControl>
@@ -109,7 +155,11 @@ export default function ChangePasswordForm({ setIsChangePassword, setIsSuccess, 
                     onClick={() => setShowNewPassword(!showNewPassword)}
                     className="absolute right-3 top-3"
                   >
-                    <IoEyeOff className="text-2xl opacity-50" />
+                     {showNewPassword ? (
+                  <IoEye className={`text-2xl ${isDarkMode ? 'text-black' : 'text-black'} opacity-50`} />
+                ) : (
+                  <IoEyeOff className={`text-2xl ${isDarkMode ? 'text-black' : 'text-black'} opacity-50`} />
+                    )}
                   </button>
                 </div>
               </FormControl>
@@ -139,7 +189,11 @@ export default function ChangePasswordForm({ setIsChangePassword, setIsSuccess, 
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                     className="absolute right-3 top-3"
                   >
-                    <IoEyeOff className="text-2xl opacity-50" />
+                     {showConfirmPassword ? (
+                  <IoEye className={`text-2xl ${isDarkMode ? 'text-black' : 'text-black'} opacity-50`} />
+                ) : (
+                  <IoEyeOff className={`text-2xl ${isDarkMode ? 'text-black' : 'text-black'} opacity-50`} />
+                    )}
                   </button>
                 </div>
               </FormControl>

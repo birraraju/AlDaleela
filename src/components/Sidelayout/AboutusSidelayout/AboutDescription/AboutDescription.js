@@ -1,13 +1,17 @@
+import { useTheme } from "../../../Layout/ThemeContext/ThemeContext"; // Import the theme context
+
 export default function AboutDescription() {
+  const { isDarkMode } = useTheme(); // Access dark mode state
+
   return (
     <>
-      <p className="font-semibold text-[#505050] text-lg my-6">
+      <p className={`font-omnes text-[14px] font-semibold my-6 laptop_s:my-2 ${isDarkMode ? 'text-[#FFFFFFCC] text-opacity-80' : 'text-[#505050]'} leading-5 mb-3`}>
         Safeguarding Abu Dhabi's natural resources for a sustainable future.
       </p>
 
-      <div>
+      <div className="">
         {content.map((item, index) => (
-          <p key={index} className="text-base text-[#505050] font-normal">
+          <p key={index} className={`bg-fontFamily-poppins-0 font-[400px] text-[12px] ${isDarkMode ? 'text-[#FFFFFFCC]' : 'text-[#505050]'} leading-5`}>
             {item.description}
           </p>
         ))}

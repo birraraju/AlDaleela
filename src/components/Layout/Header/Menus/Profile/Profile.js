@@ -11,9 +11,14 @@ import { HiOutlineLogout } from "react-icons/hi";
 import { IoMdArrowDropdown } from "react-icons/io";
 import Login from "../../../../Popups/Login/Login";
 import ProfileDetails from "./ProfileMenus/ProfileDetails/ProfileDetails";
+import {UserActivityLog} from "../../../../Common/UserActivityLog";
 import ProfileMenu from "./ProfileMenus/ProfileDetails/ProfilePage/ProfileMenu/ProfileMenu";
 import ProfileMenus from "./ProfileMenus/ProfileMenus";
 import SendFeedBack from "../../../../../components/Sidelayout/FeedLayout/FeedBackMain";
+import { useTheme } from '../../../ThemeContext/ThemeContext'; // Import the theme hook
+import SmallLogo from '../../../../../assets/Header/Profile/profileSmalllogo.svg';
+import AdminLogo from '../../../../../assets/Header/Profile/admin.png';
+import ProfileLogo from '../../../../../assets/Header/Profile/profile.png';
 
 const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => {
   const [showAuthenticator, setShowAuthenticator] = useState(false);
@@ -29,12 +34,14 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
   const [isSuccess, setIsSuccess] = useState(false);
   const [isProfile, setIsProfile] = useState(true);
   const { role, setRole } = useAuth();
+  const {profiledetails , setprofiledetails} = useAuth()
+  const { isDarkMode } = useTheme(); // Use the theme hook
 
   useEffect(() => {
     if (isPopoverOpen || isLeaderboard || isAboutUs || isProfileData || isContactUs || isContribution || isProfile || isEditProfile || isFeedBack || isChangePassword || isSuccess) {
       isHeaderOpen();
     }
-  }, [isAboutUs, isChangePassword, isContactUs, isContribution, isEditProfile, isFeedBack, isLeaderboard, isPopoverOpen, isProfile, isProfileData, isSuccess]);
+  }, [profiledetails,isAboutUs, isChangePassword, isContactUs, isContribution, isEditProfile, isFeedBack, isLeaderboard, isPopoverOpen, isProfile, isProfileData, isSuccess]);
 
   useEffect(() => {
     if ( isFooterOpen || StackOpen) {
@@ -51,11 +58,25 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
     }
   }, [ isFooterOpen, StackOpen]);
 
+  
+
   useEffect(() => {
     if ((isProfileInOpen||isProfileInOpen) && typeof isProfileInOpen === "function") {
       isProfileInOpen(isPopoverOpen);
     }
   }, [isPopoverOpen]);
+
+  useEffect(()=>{
+    if(!isChangePassword || isSuccess){
+      setIsProfileData(false)
+    }
+  },[isChangePassword,isSuccess])
+
+  useEffect(()=>{
+    if(isProfileData){
+      setIsProfile(true);
+    }
+  },[isProfileData])
   
 
   const toggleAuthenticator = () => {
@@ -68,28 +89,42 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
   };
 
   const handleLogout = () => {
+    localStorage.removeItem("AldaleelaRole");
+
     setRole(null);
+    UserActivityLog(profiledetails, "Logged out")
   };
+
+  // console.log("Profile Data:1",isProfileData," 2",isChangePassword,"3",isSuccess)
 
   return (
     <>
       <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
         <PopoverTrigger asChild>
-          <div
+        <div
             onClick={() => setIsPopoverOpen(true)}
-            className="relative w-40 bg-white bg-opacity-5 backdrop-blur rounded-full flex justify-between items-center mobile_s:py-0.5 laptop_m:py-1 cursor-pointer"
+            className={`relative  ${isDarkMode ? "sm:bg-black" : "sm:bg-white"} 
+                        sm:bg-opacity-5 backdrop-blur rounded-full flex justify-between items-center 
+                        mobile_s:py-0.5 laptop_m:py-1 cursor-pointer`}
           >
-            <div className="ml-1">
+            <div className="ml-1  sm:hidden grid">
+            <img
+              src={SmallLogo}
+              alt="Profile"
+              className="mobile_s:w-8 block sm:hidden laptop_m:w-9 text-black"
+            />
+            </div>
+            <div className="ml-1 hidden sm:block">
               <img
-                src={`/Header/Profile/${role === "admin" ? "admin.png" : "profile.png"}`}
+                src={`${role === "admin" ? AdminLogo : ProfileLogo}`}
                 alt="Profile"
-                className="mobile_s:w-8 laptop_m:w-9"
+                className="mobile_s:w-8 laptop_m:w-8"
               />
             </div>
-            <div className="mobile_s:ml-2 laptop_m:ml-4">
-              {role === "admin" ? "Hamad" : "Profile"}
+            <div className="mobile_s:ml-2 hidden sm:block laptop_m:ml-2">
+              {role ? profiledetails.username : "Profile"}
             </div>
-            <div className="mobile_s:mx-2 laptop_m:mx-4">
+            <div className="mobile_s:mx-2 sm:block hidden laptop_m:mx-2">
               <IoMdArrowDropdown
                 className={`text-xl ${isPopoverOpen && "rotate-360"} transition-all ease-in-out duration-500`}
               />
@@ -97,8 +132,12 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
           </div>
         </PopoverTrigger>
 
-        <PopoverContent className="w-80 bg-white mt-3 border border-white bg-opacity-65 backdrop-blur-md p-4 text-black text-opacity-60 rounded-3xl shadow-lg z-10 mr-8">
-          <ProfileDetails
+        <PopoverContent
+          className={` mt-3 border bg-opacity-65 
+                      ${isDarkMode ? "bg-gray-900 border-gray-700" : "bg-white border-white"}
+                      backdrop-blur-md p-4 rounded-3xl shadow-lg z-10 sm:mr-8 mr-2`}
+        >
+        <ProfileDetails
             role={role}
             setIsPopoverOpen={setIsPopoverOpen}
             isProfileData={isProfileData}
@@ -125,8 +164,12 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
             </div>
           ) : (
             <div onClick={handleLogout} className="flex justify-start items-center gap-2">
-              <HiOutlineLogout className="mx-1 text-2xl" />
-              <p className="font-medium font-omnes text-[#505050] text-[18px] cursor-pointer">Logout</p>
+      <HiOutlineLogout
+        className={`mx-1  text-[24px] ${isDarkMode ? "border-white  border-opacity-80 text-white" : ""}`}
+        style={{ color: isDarkMode ? '#FFFFFFCC' : '#505050' }}
+      />
+              <p className={`font-medium  text-[18px] ${isDarkMode ? "text-gray-300" : "text-[#505050]"}`}>
+              Logout</p>
             </div>
           )}
         </PopoverContent>
@@ -160,7 +203,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
             setIsContribution={setIsContribution}
           />
         )}
-        {isProfileData && (
+        { isProfileData  && (
           <ProfileMenu
             isProfile={isProfile}
             setIsPopoverOpen={setIsPopoverOpen}
