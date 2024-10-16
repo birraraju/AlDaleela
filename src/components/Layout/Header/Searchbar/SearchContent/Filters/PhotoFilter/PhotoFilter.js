@@ -1,3 +1,6 @@
+import PhotoSvg from "../../../../../../../assets/Header/Searchbar/photo.svg"
+
+
 export default function PhotoFilter({ setSelectedItem, setIsFiltersOpen, selectedItem }) {
   return (
     <div
@@ -10,7 +13,9 @@ export default function PhotoFilter({ setSelectedItem, setIsFiltersOpen, selecte
       }`}
     >
       <div>
-        <img src="/Header/Searchbar/photo.svg" alt="" className="w-6" />
+        {/* <img src="/Header/Searchbar/photo.svg" alt="" className="w-6" /> */}
+        <img src={PhotoSvg} alt="" className="w-6" />
+
       </div>
       <div>Photo</div>
     </div>
