@@ -43,7 +43,7 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
     console.log(values);
     try {
     const signupObj ={
-      email:values.username,
+      username:values.username,
       password:values.password
     }
     const response = await fetch(`${process.env.REACT_APP_API_URL}/Registration/signin`, {
