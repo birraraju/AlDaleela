@@ -3,7 +3,7 @@ import { X } from 'lucide-react';
 import Logo from "../../../../assets/GreenLogo.svg";
 import Input from "../Input/Input";
 import CountryDropdown from "../../../../../src/assets/CountryDropdown.svg";
-import { IoEyeOff } from "react-icons/io5";
+import { IoEyeOff,IoEye } from "react-icons/io5";
 import { useTheme } from '../../../Layout/ThemeContext/ThemeContext'; // Import the theme context
 
 
@@ -18,6 +18,8 @@ export default function Signup({ onClose, onSigninClick }) {
     country: '',
   });
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const { isDarkMode } = useTheme(); // Access the dark mode state
 
 
@@ -130,7 +132,7 @@ export default function Signup({ onClose, onSigninClick }) {
               <div className="grid sm:grid-cols-2 grid-cols-1 gap-2">
                 <div className='relative'>
                   <Input
-                    type="password"
+                    type={`${ showPassword?"text":"password"}`}
                     name="password"
                     placeholder="Password"
                     required
@@ -142,14 +144,16 @@ export default function Signup({ onClose, onSigninClick }) {
                     onClick={() => setShowPassword(!showPassword)}
                     aria-label={showPassword ? 'Hide password' : 'Show password'}
                   >
-                    <IoEyeOff className={`text-2xl ${
+                    {showPassword?<IoEye className={`text-2xl ${
                         isDarkMode ? "text-black" : "text-black"
-                      } opacity-50`} />
+                      } opacity-50`} />:<IoEyeOff className={`text-2xl ${
+                        isDarkMode ? "text-black" : "text-black"
+                      } opacity-50`} />}
                   </button>
                 </div>
                 <div className='relative'>
                   <Input
-                    type="password"
+                    type={`${ showConfirmPassword?"text":"password"}`}
                     name="confirmPassword"
                     placeholder="Confirm Password"
                     required
@@ -158,12 +162,14 @@ export default function Signup({ onClose, onSigninClick }) {
                   <button
                     type="button"
                     className="absolute right-3 top-1/2 transform -translate-y-1/2"
-                    onClick={() => setShowPassword(!showPassword)}
-                    aria-label={showPassword ? 'Hide password' : 'Show password'}
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    // aria-label={showPassword ? 'Hide password' : 'Show password'}
                   >
-                    <IoEyeOff className={`text-2xl ${
+                    {showConfirmPassword?<IoEye className={`text-2xl ${
                         isDarkMode ? "text-black" : "text-black"
-                      } opacity-50`}/>
+                      } opacity-50`}/>:<IoEyeOff className={`text-2xl ${
+                        isDarkMode ? "text-black" : "text-black"
+                      } opacity-50`}/>}
                   </button>
                 </div>
               </div>

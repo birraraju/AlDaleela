@@ -5,6 +5,8 @@ import Location from "./Location/Location";
 import Profile from "./Profile/Profile";
 import Stack from "./Stack/Stack";
 import ResponsiveSearch from '../../../../assets/Header/Searchbar/SearchBar/imageResponsiveSearch.png'
+import { useTheme } from '../../../Layout/ThemeContext/ThemeContext'; // Import the theme context
+
 
 
 const Menus = ({
@@ -18,6 +20,8 @@ const Menus = ({
   const [isSearchOpen, setSearchOpen] = useState(false); // State for Searchbar visibility
   const [isProfileOpen, setProfileOpen] = useState(false); // State for Profile visibility
   const [isLocationOpen, setLocationOpen] = useState(false); // State for Location visibility
+  const { isLangArab } = useTheme(); // Access the dark mode state
+
 
   // Function to toggle the Stack component visibility
   const toggleStackOpen = (status) => {
@@ -50,7 +54,47 @@ const Menus = ({
     <img src={ResponsiveSearch}  alt="" className=" h-8" />
   </div>
       
+      {isLangArab?(<>
+
+      {/* Profile with necessary props */}
+      <Profile
+        isFooterOpen={isFooterOpen}
+        StackOpen={isStackOpen} // Pass the current state of Stack
+        isHeaderOpen={isHeaderOpen}
+        isProfileInOpen={handleProfileOpen} // Control profile state
+      />
+      {/* Location with status management */}
+      <Location
+        isHeaderOpen={isHeaderOpen}
+        isLocationOpen={handleLocationStatus}
+      />
+
+      {/* Language Component */}
+      <Language  />
+
+      {/* Stack with necessary props */}
+      <Stack
+        isFooterOpen={isFooterOpen}
+        isHeaderOpen={isHeaderOpen}
+        isStackOpen={toggleStackOpen} // Pass the current state of Stack
+        mapview={mapview}
+        isProfileOpen={isProfileOpen}
+        isSearchOpen={isSearchOpen}
+        isLocationOpen={isLocationOpen}
+      />
+      
       {/* Searchbar with necessary props */}
+      <Searchbar
+        isHeaderOpen={isHeaderOpen}
+        isFooterOpen={isFooterOpen}
+        isSearchOpen={handleSearchOpen}
+        isSearchClose={handleSearchClose}
+        StackOpen={isStackOpen}
+        handleCloseResponsiveSearch={handleCloseResponsiveSearch} // Ensure this prop is passed if needed
+      />
+      
+      </>):
+      (<>{/* Searchbar with necessary props */}
       <Searchbar
         isHeaderOpen={isHeaderOpen}
         isFooterOpen={isFooterOpen}
@@ -86,7 +130,7 @@ const Menus = ({
         StackOpen={isStackOpen} // Pass the current state of Stack
         isHeaderOpen={isHeaderOpen}
         isProfileInOpen={handleProfileOpen} // Control profile state
-      />
+      /></>)}
     </div>
   );
 };
