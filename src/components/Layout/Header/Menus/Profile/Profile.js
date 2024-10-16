@@ -77,6 +77,36 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
       setIsProfile(true);
     }
   },[isProfileData])
+
+  const HandleLocalDetails = () => {
+    // Retrieve the user details from localStorage
+    const Userdetails = localStorage.getItem("AldaleelaUserDetails:");
+  
+    // Check if Userdetails exist and parse it to an object
+    if (Userdetails) {
+      const parsedDetails = JSON.parse(Userdetails);
+  
+      // If the role is not set and exists in the local storage data, set it
+      if (role == null && parsedDetails.role) {
+        setRole(parsedDetails.role);
+      }
+
+      if(profiledetails == null){
+        setprofiledetails(parsedDetails)
+      }
+  
+      // Log the user's role
+      console.log("User Local Details:", parsedDetails.role);
+    }
+  };
+  
+  useEffect(() => {
+    // Call HandleLocalDetails if the role is not already set
+    if (role == null) {
+      HandleLocalDetails();
+    }
+  }, [role]);
+  
   
 
   const toggleAuthenticator = () => {
@@ -90,12 +120,14 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
 
   const handleLogout = () => {
     localStorage.removeItem("AldaleelaRole");
+    localStorage.removeItem("AldaleelaUserDetails:");
 
     setRole(null);
     UserActivityLog(profiledetails, "Logged out")
   };
 
   // console.log("Profile Data:1",isProfileData," 2",isChangePassword,"3",isSuccess)
+  console.log("Role Profile:",role)
 
   return (
     <>
@@ -116,13 +148,13 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
             </div>
             <div className="ml-1 hidden sm:block">
               <img
-                src={`${role === "admin" ? AdminLogo : ProfileLogo}`} // الملف الشخصي
+                src={`${((role === "admin")||(role === "user")) ? AdminLogo : ProfileLogo}`} // الملف الشخصي
                 alt="Profile"
                 className="mobile_s:w-8 laptop_m:w-8"
               />
             </div>
             <div className="mobile_s:ml-2 hidden sm:block laptop_m:ml-2">
-              {role ? profiledetails.username : (isLangArab ? "الملف الشخصي":"Profile")}
+              {role !== null ? (profiledetails.username  ? profiledetails.username : profiledetails.firstName) : (isLangArab ? "الملف الشخصي":"Profile")}
             </div>
             <div className="mobile_s:mx-2 sm:block hidden laptop_m:mx-2">
               <IoMdArrowDropdown
@@ -163,7 +195,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
               Login
             </div>
           ) : (
-            <div onClick={handleLogout} className="flex justify-start items-center gap-2">
+            <div onClick={handleLogout} className="flex cursor-pointer justify-start items-center gap-2">
       <HiOutlineLogout
         className={`mx-1  text-[24px] ${isDarkMode ? "border-white  border-opacity-80 text-white" : ""}`}
         style={{ color: isDarkMode ? '#FFFFFFCC' : '#505050' }}

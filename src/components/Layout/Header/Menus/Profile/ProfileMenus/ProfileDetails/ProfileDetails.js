@@ -4,24 +4,24 @@ export default function ProfileDetails({
   setIsPopoverOpen,
   setIsProfileData,
 }) {
-  const {profiledetails , setprofiledetails} = useAuth()
+  const {profiledetails} = useAuth()
   return (
     <>
-      {role !== null && (
+      {((role !== null)&&(profiledetails !== null)) && (
         <div
           onClick={() => {
             setIsPopoverOpen(false);
             setIsProfileData(true);
           }}
-          className="flex justify-start items-center gap-4"
+          className="flex justify-start items-center gap-2"
         >
-          <div>
-            <img src={`${process.env.PUBLIC_URL}/Header/Profile/ProfileDetails/Profile.svg`} alt="" />
+          <div className=" w-8 h-7">
+            <img src={`${process.env.PUBLIC_URL}/Header/Profile/ProfileDetails/Profile.svg`} alt="" className=" w-full h-full" />
           </div>
 
           <div className="flex flex-col cursor-pointer gap-1">
             <p className="font-bold text-black text-opacity-100 text-lg tracking-wider">
-              {profiledetails.username}
+              {profiledetails.username ? profiledetails.username : profiledetails.firstName}
             </p>
             <p className="text-base">{profiledetails.email}</p>
           </div>

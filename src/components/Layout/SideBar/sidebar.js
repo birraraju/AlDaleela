@@ -12,10 +12,10 @@ import DashSign from '../../../assets/navigations/image.png';
 import { useTheme } from "../ThemeContext/ThemeContext";
 
 export default function Sidebar() {
-  const { isDarkMode } = useTheme(); // Access the theme from context
+  const { isDarkMode,isLangArab } = useTheme(); // Access the theme from context
 
   return (
-    <div className="fixed left-4 ml-3 laptop_s:top-1/2 sm:top-64 sm:mt-2 laptop_s:mt-0 laptop_s:-translate-y-1/2 z-10 sm:flex hidden flex-col items-center space-y-2 bg-transparent p-2 rounded-full">
+    <div className={`fixed ${isLangArab? "right-4" :"left-4"}  ml-3 laptop_s:top-1/2 sm:top-64 sm:mt-2 laptop_s:mt-0 laptop_s:-translate-y-1/2 z-10 sm:flex hidden flex-col items-center space-y-2 bg-transparent p-2 rounded-full`}>
       {/* Home Button */}
       <button className="w-12 h-12 text-white rounded-full flex items-center justify-center transition-colors duration-200">
         <img src={isDarkMode ? HomeDark : Home} alt="Home Icon" className="w-10 h-10" />
