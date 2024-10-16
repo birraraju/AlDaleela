@@ -1,5 +1,9 @@
 import { useTheme } from '../../../Layout/ThemeContext/ThemeContext'; // Import your theme context
 
+import vision from "../../../../assets/Header/Profile/Aboutus/vision.png"
+import Mission from "../../../../assets/Header/Profile/Aboutus/mission.png"
+import Values from "../../../../assets/Header/Profile/Aboutus/values.png"
+
 export default function Mottos() {
   const { isDarkMode } = useTheme(); // Access dark mode from theme context
 
@@ -14,7 +18,7 @@ export default function Mottos() {
         >
           <div className="w-[20%]">
             <img
-              src={`/Header/Profile/Aboutus/${content.image}`}
+              src={content.image}
               alt=""
               className="w-12"
             />
@@ -36,19 +40,19 @@ export default function Mottos() {
 
 const aboutContent = [
   {
-    image: "vision.png",
+    image: vision,
     title: "Our Vision",
     description:
       "A sustainable, well-protected and healthy environment that enhances quality of life.",
   },
   {
-    image: "mission.png",
+    image: Mission,
     title: "Our Mission",
     description:
       "To protect the environment and promote sustainability through innovative environmental management, and impact-oriented policies and regulations, in collaboration with our partners and the broader community.",
   },
   {
-    image: "values.png",
+    image: Values,
     title: "Our Values",
     description:
       "Partnership & Teamwork, Initiative with Innovation, Excellence, Results-Oriented, Resilience, Ownership & Accountability",

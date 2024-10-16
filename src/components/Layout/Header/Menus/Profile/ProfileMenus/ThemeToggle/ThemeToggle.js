@@ -1,5 +1,8 @@
 import { useTheme } from "../../../../../ThemeContext/ThemeContext"; // Adjust the import path as necessary
 import DarkBrush from "../../../../../../../assets/DarkBrush.svg"
+import Brush from "../../../../../../../assets/Header/Profile/Brush.svg"
+import ToggleCircle from "../../../../../../../assets/Header/Profile/ThemeToggle/switch-dark.svg"
+
 export default function ThemeToggle() {
   const { isDarkMode, toggleTheme } = useTheme(); // Access the theme context
 
@@ -8,7 +11,7 @@ export default function ThemeToggle() {
       <div className="flex justify-start items-center gap-2">
         <div>
         <img
-         src={isDarkMode ? DarkBrush : "/Header/Profile/Brush.svg"}
+         src={isDarkMode ? DarkBrush : Brush}
            alt="" className=" w-7" />        </div>
         <p
           className={`font-medium font-omnes text-[18px]  ${
@@ -30,7 +33,7 @@ export default function ThemeToggle() {
           }`}
         >
           <img
-            src="/Header/Profile/ThemeToggle/switch-dark.svg"
+            src={ToggleCircle}
             alt=""
             className="w-7"
           />
