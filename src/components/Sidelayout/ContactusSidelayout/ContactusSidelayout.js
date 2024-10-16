@@ -38,7 +38,7 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
     animate={{ x: isOpen ? 0 : "100%", opacity: 1 }}
     exit={{ x: "100%", opacity: 0 }}
     transition={{ ease: "easeInOut" }}
-    className={`p-4  sm:py-4  sm:h-[42vh] laptop_s:h-[70vh] h-[70vh]  fixed top-16 sm:right-16 laptop_s:right-10 right-1 backdrop-blur rounded-3xl text-black ${
+    className={`p-4  sm:py-4  sm:h-[46vh] laptop_s:h-[70vh] h-[70vh]  fixed top-16 sm:right-16 laptop_s:right-10 right-1 backdrop-blur rounded-3xl text-black ${
       isDarkMode
         ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none"
         : "bg-white bg-opacity-70 backdrop-blur-lg border-white"
@@ -97,7 +97,7 @@ Abu Dhabi
           <h4 className={`font-medium mb-1 text-[14px] ${isDarkMode ? "text-[#FFFFFFCC]" : "text-gray-600"}`}>
             Email
           </h4>
-          <p className={`text-[16px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]" : "text-black"}`}>
+          <p className={`text-[16px]  font-medium ${isDarkMode ? "text-[#FFFFFFCC]" : "text-black"}`}>
             customerhappiness@ead.gov.ae
           </p>
         </div>
