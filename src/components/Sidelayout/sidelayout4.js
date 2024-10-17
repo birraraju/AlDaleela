@@ -11,7 +11,7 @@ export default function SideLayout4({ children, width = "454.84px",  onClose }) 
   const [isFullyClosed, setIsFullyClosed] = useState(false); // Controls visibility
   const [toggleCount, setToggleCount] = useState(0);
   const containerRef = useRef(null);
-  const { isDarkMode } = useTheme(); // Access the dark mode state
+  const { isDarkMode, isLangArab } = useTheme(); // Access the dark mode state
 
 
   // Toggles the side panel sliding in and out
@@ -58,8 +58,8 @@ export default function SideLayout4({ children, width = "454.84px",  onClose }) 
 
   return (
     <div
-      className={`fixed top-16 w-[510px] h-[90%] sm:w-[400px] laptop_s:w-[${width}]  right-3 sm:right-16 laptop_s:right-3 transition-transform duration-300 ease-in-out ${
-        isOpen ? "translate-x-0" : "translate-x-full"
+      className={`fixed top-16 w-[510px] h-[90%] sm:w-[400px] laptop_s:w-[${width}]  ${ isLangArab?"left-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
+        isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-full":"translate-x-full")
       }`}
       // style={{ width, height, zIndex: 50 }}  // Ensure it's above other elements
       ref={containerRef}  // Reference to the panel
@@ -76,7 +76,7 @@ export default function SideLayout4({ children, width = "454.84px",  onClose }) 
               <img src={isDarkMode ? DarkLocation : Location }alt="Location" className="h-5" />
               <p className={`font-medium font-poppins ${
                     isDarkMode ? "text-white" : "text-gray-600"
-                  }`}>Dropped pin</p>
+                  }`}>{ isLangArab?"دبوس مُنقَطِع":"Dropped pin"}</p>
             </div>
           )}
         </div>
@@ -94,13 +94,41 @@ export default function SideLayout4({ children, width = "454.84px",  onClose }) 
       </div>
 
       {/* Toggle button */}
-      <div className="absolute top-4 -left-6">
+      <div className={`absolute top-4 ${isLangArab?"-right-7":"-left-6"}`}>
         <button
           onClick={toggleSideLayout}
           className="relative w-8 h-32 focus:outline-none cursor-pointer" // Ensure cursor pointer
           aria-label={isOpen ? "Close side panel" : "Open side panel"}
         >
-          <svg
+          {isLangArab ?<svg
+      width="32"
+      height="128"
+      viewBox="0 0 64 371"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      style={{
+        position: 'relative',
+        top: '1px',
+        right: '3px',
+      }}
+    >
+      <g
+        clipPath="url(#clip0_4011_11301)"
+        transform="scale(-1, 1) translate(-64, 0)" // Flipping horizontally
+      >
+        <path
+          d="M3.82642 130.396L3.82598 244.617C3.82594 252.779 6.14893 260.773 10.5235 267.664L70.7275 362.497V8.50244L10.1031 108.027C5.99796 114.766 3.82645 122.505 3.82642 130.396Z"
+          fill={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "#EBEFF2"}
+          stroke={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "#EEF3F7"}
+          strokeWidth="6"
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_4011_11301">
+          <rect width="64" height="371" fill="white" />
+        </clipPath>
+      </defs>
+    </svg>:<svg
             width="32"
             height="128"
             viewBox="0 0 64 371"
@@ -125,7 +153,7 @@ export default function SideLayout4({ children, width = "454.84px",  onClose }) 
                 <rect width="64" height="371" fill="white" />
               </clipPath>
             </defs>
-          </svg>
+          </svg>}
 
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
             <IoIosArrowForward

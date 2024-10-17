@@ -14,7 +14,7 @@ import {UserActivityLog} from "../../../../../../../../../Common/UserActivityLog
 
 export default function BasicInformation({ isEditProfile, setIsEditProfile }) {
   const {profiledetails} = useAuth()
-  const { isDarkMode } = useTheme(); // Access dark mode from theme context
+  const { isDarkMode,isLangArab } = useTheme(); // Access dark mode from theme context
   const [userInfo1, setUserInfo1] = useState([])
   const [finaluserInfo, setfinaluserInfo] = useState({
     username: "",
@@ -58,23 +58,23 @@ export default function BasicInformation({ isEditProfile, setIsEditProfile }) {
 useEffect(() => {
   const basicInformation = [
       {
-          heading: "Name",
+          heading: isLangArab?"الاسم":"Name",
           value: profiledetails.username,
       },
       {
-          heading: "Email",
+          heading: isLangArab?"البريد الإلكتروني":"Email",
           value: profiledetails.email,
       },
       {
-          heading: "Phone Number",
+          heading: isLangArab?"رقم الهاتف":"Phone Number",
           value: profiledetails.phoneNumber,
       },
       {
-          heading: "Organization",
+          heading: isLangArab?"المنظمة":"Organization",
           value: profiledetails.organization,
       },
       {
-          heading: "Country",
+          heading: isLangArab?"الدولة":"Country",
           value: profiledetails.country,
       },
   ];
@@ -175,7 +175,7 @@ const handleInputChange = (e) => {
       }`}>
         <h1 className={`font-medium tracking-wider sm:text-lg text-sm ${
               isDarkMode ? "text-white" : "text-black"
-            }`}>Basic Information</h1>
+            }`}>{isLangArab?"المعلومات الأساسية":"Basic Information"}</h1>
 
         {/* Divider */}
         <div className="h-[1px] w-full bg-[#0000001A] my-4"></div>
@@ -231,7 +231,7 @@ const handleInputChange = (e) => {
                 onClick={() => handleUpdate()}
                 className="h-12 sm:py-5 py-1 cursor-pointer btn-gradient text-white text-base sm:rounded-xl rounded-md mt-4 tracking-wide"
               >
-                Update
+                 {isLangArab?"تحديث":"Update"}
               </div>
             </Button>
           )}

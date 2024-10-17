@@ -13,7 +13,7 @@ export default function SearchContent({ inputClicked, iscategory }) {
   const [isFiltersOpen, setIsFiltersOpen] = useState("normal");
   const [selectedItem, setSelectedItem] = useState(null);
 
-  const { isDarkMode } = useTheme(); // Access the theme from context
+  const { isDarkMode,isLangArab } = useTheme(); // Access the theme from context
 
   return (
     <div
@@ -36,21 +36,25 @@ export default function SearchContent({ inputClicked, iscategory }) {
               isFiltersOpen={isFiltersOpen}
               setIsFiltersOpen={setIsFiltersOpen}
               setSelectedItem={setSelectedItem}
+              isLangArab={isLangArab}
             />
 
             <div className="flex justify-between items-center ml-4 bg-[#ececec99] rounded-full p-2 text-sm cursor-pointer select-none">
               <PhotoFilter
                 setSelectedItem={setSelectedItem}
                 selectedItem={selectedItem}
+                isLangArab={isLangArab}
                 setIsFiltersOpen={setIsFiltersOpen}
               />
               <VideoFilter
                 setSelectedItem={setSelectedItem}
                 selectedItem={selectedItem}
+                isLangArab={isLangArab}
                 setIsFiltersOpen={setIsFiltersOpen}
               />
               <AudioFilter
                 setSelectedItem={setSelectedItem}
+                isLangArab={isLangArab}
                 selectedItem={selectedItem}
                 setIsFiltersOpen={setIsFiltersOpen}
               />

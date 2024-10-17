@@ -5,14 +5,14 @@ import { useTheme } from "../../../../../../../Layout/ThemeContext/ThemeContext"
 
 
 export default function ChangePassword({ setIsChangePassword,setIsPopoverOpen, setIsSuccess, setIsProfile }) {
-  const { isDarkMode } = useTheme(); // Access dark mode from theme context
+  const { isDarkMode,isLangArab } = useTheme(); // Access dark mode from theme context
 
   return (
     <>
       <div className="flex justify-between items-center">
         <h1 className={`font-medium sm:text-2xl text-lg ${
               isDarkMode ? "text-white" : "text-gray"
-            }`}>Change Password</h1>
+            }`}>{isLangArab ?"تغيير كلمة المرور":"Change Password"}</h1>
         <div
           onClick={() => {setIsChangePassword(false);
             setIsPopoverOpen(true);}

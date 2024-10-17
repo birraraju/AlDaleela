@@ -10,7 +10,7 @@ export default function ProfileContent({
   setIsProfile 
 }) {
   const {profiledetails} = useAuth()
-  const { isDarkMode } = useTheme(); // Access the dark mode state
+  const { isDarkMode,isLangArab } = useTheme(); // Access the dark mode state
   return (
     <>
       {!isEditProfile ? (
@@ -33,7 +33,7 @@ export default function ProfileContent({
             <div className="flex justify-between items-center gap-4">
               <Button onClick={() => setIsEditProfile(true)} asChild>
                 <div className="w-1/2 h-12 py-5 cursor-pointer btn-gradient text-white text-base rounded-xl mt-4 tracking-wide">
-                  Edit Info
+                  {isLangArab?"تعديل المعلومات":"Edit Info"}
                 </div>
               </Button>
 
@@ -44,7 +44,7 @@ export default function ProfileContent({
                 }}
                 variant="outline"
                 className={`w-1/2 sm:h-10 h-9 bg-none shadow-none sm:rounded-xl rounded-md mt-4 tracking-wide font-normal sm:text-sm text-xs border border-[#909090] text-${isDarkMode ? '[#FFFFFFCC]' : 'gray-600'} `}              >
-                Change Password
+                {isLangArab?"تغيير كلمة المرور":"Change Password"}
               </Button>
             </div>
           </div>
@@ -74,7 +74,7 @@ export default function ProfileContent({
                 />
               </svg>
             </div>
-            <p className="text-white absolute bottom-2 left-10">Edit</p>
+            <p className="text-white absolute bottom-2 left-10">{isLangArab?"تعديل":"Edit"}</p>
           </div>
         </div>
       )}
