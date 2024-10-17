@@ -17,7 +17,7 @@ export default function SearchContent({ inputClicked, iscategory, inputValue, se
   const [selectedItem, setSelectedItem] = useState(null);
   const [suggestionNames, setSuggestionNames] = useState([]);
   const {contextMapView} = useAuth();
-  const { isDarkMode } = useTheme(); // Access the theme from context
+  const { isDarkMode,isLangArab } = useTheme(); // Access the theme from context
 
   useEffect(()=>{
     const locatorUrl = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer"; // Use your geocoder URL
@@ -90,21 +90,25 @@ export default function SearchContent({ inputClicked, iscategory, inputValue, se
               isFiltersOpen={isFiltersOpen}
               setIsFiltersOpen={setIsFiltersOpen}
               setSelectedItem={setSelectedItem}
+              isLangArab={isLangArab}
             />
 
             <div className="flex justify-between items-center ml-4 bg-[#ececec99] rounded-full p-2 text-sm cursor-pointer select-none">
               <PhotoFilter
                 setSelectedItem={setSelectedItem}
                 selectedItem={selectedItem}
+                isLangArab={isLangArab}
                 setIsFiltersOpen={setIsFiltersOpen}
               />
               <VideoFilter
                 setSelectedItem={setSelectedItem}
                 selectedItem={selectedItem}
+                isLangArab={isLangArab}
                 setIsFiltersOpen={setIsFiltersOpen}
               />
               <AudioFilter
                 setSelectedItem={setSelectedItem}
+                isLangArab={isLangArab}
                 selectedItem={selectedItem}
                 setIsFiltersOpen={setIsFiltersOpen}
               />

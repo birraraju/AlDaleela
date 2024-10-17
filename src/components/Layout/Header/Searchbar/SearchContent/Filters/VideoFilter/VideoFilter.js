@@ -1,4 +1,4 @@
-export default function VideoFilter({ setSelectedItem, setIsFiltersOpen, selectedItem }) {
+export default function VideoFilter({ setSelectedItem,isLangArab, setIsFiltersOpen, selectedItem }) {
   return (
     <div
       onClick={() => {
@@ -12,7 +12,7 @@ export default function VideoFilter({ setSelectedItem, setIsFiltersOpen, selecte
       <div>
         <img src={`${process.env.PUBLIC_URL}/Header/Searchbar/video.svg`} alt="" className="w-6" />
       </div>
-      <div>Video</div>
+      <div>{isLangArab?"فيديو":"Video"}</div>
     </div>
   );
 }
