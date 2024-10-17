@@ -23,7 +23,7 @@ export default function ProfileDetails({
             <p className="font-bold text-black text-opacity-100 text-lg tracking-wider">
               {profiledetails.username ? profiledetails.username : profiledetails.firstName}
             </p>
-            <p className="text-base">{profiledetails.email}</p>
+            <p className="text-base sm:text-sm">{profiledetails.email}</p>
           </div>
         </div>
       )}
