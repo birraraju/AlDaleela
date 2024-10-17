@@ -9,7 +9,7 @@ import { FaCaretDown, FaCaretUp } from "react-icons/fa";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer.js";
 import { useAuth } from "../../../../../Providers/AuthProvider/AuthProvider";
 
-export default function Category({ inputClicked, setInputClicked }) {
+export default function Category({ inputClicked,isLangArab, setInputClicked }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("Category");
   const [categoryClasas, setcategoryClasas] = useState([])
@@ -63,7 +63,7 @@ export default function Category({ inputClicked, setInputClicked }) {
               inputClicked ? "text-black" : "text-white"
             }`}
           >
-            {selectedCategory}
+            {(selectedCategory === "Category") ?(isLangArab?"الفئة":selectedCategory):selectedCategory}
             {isOpen ? (
               <FaCaretUp className="ml-2" />
             ) : (

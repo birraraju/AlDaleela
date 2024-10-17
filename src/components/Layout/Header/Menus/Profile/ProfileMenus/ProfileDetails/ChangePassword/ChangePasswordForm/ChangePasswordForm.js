@@ -38,7 +38,7 @@ export default function ChangePasswordForm({ setIsChangePassword, setIsSuccess, 
       confirmNewPassword: "",
     },
   });
-  const { isDarkMode } = useTheme(); // Access dark mode from theme context
+  const { isDarkMode,isLangArab } = useTheme(); // Access dark mode from theme context
 
 
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
@@ -107,12 +107,14 @@ export default function ChangePasswordForm({ setIsChangePassword, setIsSuccess, 
               <FormLabel className={`font-[400] font-omes text-gray-800 sm:text-[14px] tracking-wide ${
               isDarkMode ? "text-white" : "text-gray"
             }`}>
-                Current Password
+                 
+                {isLangArab?"كلمة المرور الحالية  ":"Current Password "}
               </FormLabel>
               <FormControl>
                 <div className="relative">
                   <Input
-                    placeholder="Current Password"
+                    placeholder={isLangArab?"كلمة المرور الحالية  ":"Current Password "}
+
                     type={showCurrentPassword ? "text" : "password"}
                     {...field}
                   />
@@ -141,12 +143,15 @@ export default function ChangePasswordForm({ setIsChangePassword, setIsSuccess, 
           render={({ field }) => (
             <FormItem>
               <FormLabel className="font-[400] font-omes text-gray-800 text-[14px] tracking-wide">
-                New Password
+                
+                {isLangArab?"كلمة المرور الجديدة":"New Password"}
+
+              
               </FormLabel>
               <FormControl>
                 <div className="relative">
                   <Input
-                    placeholder="New Password"
+                    placeholder={isLangArab?"كلمة المرور الجديدة":"New Password"}
                     type={showNewPassword ? "text" : "password"}
                     {...field}
                   />
@@ -175,12 +180,13 @@ export default function ChangePasswordForm({ setIsChangePassword, setIsSuccess, 
           render={({ field }) => (
             <FormItem>
               <FormLabel className="font-[400] font-omes text-gray-800 text-[14px] tracking-wide">
-                Confirm New Password
+               
+                {isLangArab?"تأكيد كلمة المرور الجديدة":" Confirm New Password"}
               </FormLabel>
               <FormControl>
                 <div className="relative">
                   <Input
-                    placeholder="Confirm New Password"
+                    placeholder={isLangArab?"تأكيد كلمة المرور الجديدة":" Confirm New Password"}
                     type={showConfirmPassword ? "text" : "password"}
                     {...field}
                   />
@@ -210,11 +216,12 @@ export default function ChangePasswordForm({ setIsChangePassword, setIsSuccess, 
             variant="outline"
             className="w-1/2 h-12 font-medium font-omes text-black text-[14px] rounded-xl bg-white shadow-none border border-black"
           >
-            Cancel
+             {isLangArab?"إلغاء":"Cancel"}
+            
           </Button>
 
           <Button type="submit" className="w-1/2 h-12 rounded-xl btn-gradient text-lg">
-            Update
+            {isLangArab?"تحديث":"Update"}
           </Button>
         </div>
       </form>

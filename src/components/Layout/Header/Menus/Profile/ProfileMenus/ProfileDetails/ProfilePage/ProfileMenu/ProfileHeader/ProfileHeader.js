@@ -4,12 +4,12 @@ import { useTheme } from '../../../../../../../../../Layout/ThemeContext/ThemeCo
 
 
 export default function ProfileHeader({ setIsPopoverOpen, setIsProfileData }) {
-  const { isDarkMode } = useTheme(); // Access the dark mode state
+  const { isDarkMode,isLangArab } = useTheme(); // Access the dark mode state
 
   return (
     <>
       <div className="flex justify-between items-center">
-        <h1 className={`font-medium sm:text-2xl text-lg text-${isDarkMode ? '[#FFFFFFCC]' : 'gray-600'} `}>My Info</h1>
+        <h1 className={`font-medium sm:text-2xl text-lg text-${isDarkMode ? '[#FFFFFFCC]' : 'gray-600'} `}>{isLangArab?"معلوماتي":"My Info"}</h1>
         <div
           onClick={() => {
             setIsProfileData(false);

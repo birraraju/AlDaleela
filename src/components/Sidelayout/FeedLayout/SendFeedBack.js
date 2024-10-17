@@ -11,8 +11,9 @@ import averageDark from "../../../assets/FeedBack/averageDark.svg";
 import poorDark from "../../../assets/FeedBack/poorDark.svg";
 import badDark from "../../../assets/FeedBack/badDark.svg";
 import { useTheme } from '../../Layout/ThemeContext/ThemeContext'; // Import theme context
-
-export default function Feedback() {
+ 
+export default function Feedback({
+  setIsFeedBack, setIsPopoverOpen }) {
   const [rating, setRating] = useState(null);
   console.log(rating);
   const [fbname, setfbname] = useState(null);
@@ -70,6 +71,12 @@ export default function Feedback() {
       console.error('Error submitting form:', error);
     }
   }
+ 
+  // Handle cancel action
+  const handleCancel = () => {
+    setIsFeedBack(false);  // Close feedback panel
+    setIsPopoverOpen(true);  // Open popover
+  };
   return (
     <div className={`z-50 ${isDarkMode ? "text-white" : "text-black"}`}>
       <div className=" sm:space-y-4 space-y-2 max-h-[calc(100vh-100px)] overflow-y-auto">
@@ -155,6 +162,9 @@ export default function Feedback() {
           className={`sm:px-14 px-9 sm:py-3 py-2 border rounded-md transition-colors ${
             isDarkMode ? "bg-transparent  border border-white text-white" : "border-gray-300 text-gray-700"
           }`}
+          onClick={handleCancel}
+          // Attach the click handler
+ 
         >          { isLangArab?"إلغاء":"Cancel"}
         </button>
         <button onClick={onSubmitFeedback} className={`sm:px-14 px-9 sm:py-3 py-2 rounded-md transition-colors ${
