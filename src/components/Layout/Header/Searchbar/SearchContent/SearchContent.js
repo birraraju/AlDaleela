@@ -1,6 +1,6 @@
 // SearchContent.js
 import { useTheme } from "../../../ThemeContext/ThemeContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FilterBtn from "./FilterBtn/FilterBtn";
 import AudioContent from "./Filters/AudioFilter/AudioContent";
 import AudioFilter from "./Filters/AudioFilter/AudioFilter";
@@ -8,12 +8,66 @@ import PhotoContent from "./Filters/PhotoFilter/PhotoContent";
 import PhotoFilter from "./Filters/PhotoFilter/PhotoFilter";
 import VideoContent from "./Filters/VideoFilter/VideoContent";
 import VideoFilter from "./Filters/VideoFilter/VideoFilter";
+import * as locator from "@arcgis/core/rest/locator.js";
+import { useAuth } from "../../../../../Providers/AuthProvider/AuthProvider";
+import Point from "@arcgis/core/geometry/Point.js";
 
-export default function SearchContent({ inputClicked, iscategory }) {
+export default function SearchContent({ inputClicked, iscategory, inputValue, setInputValue, setInputClicked }) {
   const [isFiltersOpen, setIsFiltersOpen] = useState("normal");
   const [selectedItem, setSelectedItem] = useState(null);
-
+  const [suggestionNames, setSuggestionNames] = useState([]);
+  const {contextMapView} = useAuth();
   const { isDarkMode } = useTheme(); // Access the theme from context
+
+  useEffect(()=>{
+    const locatorUrl = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer"; // Use your geocoder URL
+    if (inputValue.length > 2) {
+      // Use the input value for geocoding
+      locator.addressToLocations(locatorUrl, {
+          address: { "SingleLine": inputValue },
+          maxLocations: 10,
+          outFields: ["*"]
+      }).then(results => {
+          setSuggestionNames([])
+          //suggestionsList.innerHTML = '';
+          const locatorAddress = [];
+          results.forEach(suggestion => {
+            locatorAddress.push(suggestion);
+              setSuggestionNames(locatorAddress);
+          });          
+          
+      }).catch(err => {
+          console.error(err);
+      });
+  }
+  },[inputValue])
+
+  const handleSeachAddress = (selectedAddress) =>{
+    //alert(selectedAddress)
+                  // Get the location (latitude and longitude) of the selected suggestion
+                  const location = selectedAddress.location;
+
+
+                  contextMapView.goTo({
+                      target: new Point({
+                          longitude: location.x,
+                          latitude: location.y
+                      }),
+                      zoom: 15
+                  }).then(() => {
+
+                    contextMapView.popup.open({
+                          title: "Selected Location",
+                          location: new Point({
+                              longitude: location.x,
+                              latitude: location.y
+                          }),
+                          content: `Address: ${selectedAddress.address}`
+                      });
+                  });
+                  setInputValue(selectedAddress.address);
+                  setInputClicked(false)
+  }
 
   return (
     <div
@@ -60,9 +114,10 @@ export default function SearchContent({ inputClicked, iscategory }) {
           {/* Searched Content */}
           {isFiltersOpen === "normal" ? (
             <div className="h-[17rem] overflow-y-scroll px-4">
-              {locations.map((location, locationIndex) => (
+              {suggestionNames.map((location, locationIndex) => (
                 <div
                   key={locationIndex}
+                  onClick={()=>handleSeachAddress(location)}
                   className="flex justify-start items-center gap-2 mt-4 cursor-default"
                 >
                   <div>
@@ -73,7 +128,7 @@ export default function SearchContent({ inputClicked, iscategory }) {
                     />
                   </div>
 
-                  <div>{location.name}</div>
+                  <div>{location.address}</div>
                 </div>
               ))}
             </div>

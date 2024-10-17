@@ -4,17 +4,51 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "../../../../ui/popover";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaCaretDown, FaCaretUp } from "react-icons/fa";
+import FeatureLayer from "@arcgis/core/layers/FeatureLayer.js";
+import { useAuth } from "../../../../../Providers/AuthProvider/AuthProvider";
 
 export default function Category({ inputClicked, setInputClicked }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("Category");
+  const [categoryClasas, setcategoryClasas] = useState([])
+  const {contextMapView} = useAuth();
 
   const handleCategorySelect = (categoryName) => {
-    setSelectedCategory(categoryName);
-    setIsOpen(false);
+    alert(categoryName)
+    contextMapView.map.layers.items.forEach(function(layer){
+      layer.definitionExpression = `Class = '${categoryName}'`
+    })    
+    //setSelectedCategory(categoryName);
+    //setIsOpen(false);
   };
+
+  useEffect(()=>{
+    const loadCatrgoryClasses = async() =>{
+      const featureLayer = new FeatureLayer({
+        url: "https://maps.smartgeoapps.com/server/rest/services/AlDaleela/IslandNamingProject_v2/FeatureServer/0",
+        outFields: ["*"]
+      });
+  
+      try {
+          const query = featureLayer.createQuery();
+          query.where = "1=1";
+          query.returnGeometry = true;
+          query.outFields = ["*"];
+          const results = await featureLayer.queryFeatures(query);
+          const features = results.features;
+          const categorySearch = [...new Set(features.map(feature => feature.attributes.Class))];
+          const classNameList = categorySearch.map(category => category); // Create array directly
+          setcategoryClasas(classNameList);
+  
+      } catch (error) {
+          console.error("Error querying feature layer:", error);
+      }    
+    }
+    loadCatrgoryClasses();
+    
+  },[categoryClasas])
 
   return (
     <div
@@ -39,13 +73,13 @@ export default function Category({ inputClicked, setInputClicked }) {
         </PopoverTrigger>
         <PopoverContent className="w-32 h-52 overflow-y-scroll categories-scroll">
           <div>
-            {categories.map((category) => (
+            {categoryClasas.map((category) => (
               <div
                 key={category.name}
                 className="text-sm py-2 cursor-pointer hover:bg-gray-100"
-                onClick={() => handleCategorySelect(category.name)}
+                onChange={() => handleCategorySelect(category)}
               >
-                {category.name}
+                {category}
               </div>
             ))}
           </div>
