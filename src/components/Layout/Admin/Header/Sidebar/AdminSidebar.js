@@ -12,7 +12,7 @@ export default function Sidebar({ activeItem, onItemClick }) {
         ? 'bg-[#1F302B] '
         : 'bg-teal-800'
     }`}
-  >      <a href="/default">
+  >      <a href={`/${process.env.REACT_APP_BASE_URL}`}>
         <button className="flex px-7 items-center text-[#D1FAFF] text-[14px] mb-1">
           <ChevronLeft className="w-4 h-6" />
           Back
