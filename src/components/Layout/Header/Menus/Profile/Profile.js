@@ -32,6 +32,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
   const [isChangePassword, setIsChangePassword] = useState(false);
   const [isFeedBack, setIsFeedBack] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isFailure, setIsFailure] = useState(false);
   const [isProfile, setIsProfile] = useState(true);
   const { role, setRole } = useAuth();
   const {profiledetails , setprofiledetails} = useAuth()
@@ -248,6 +249,8 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
             setIsSuccess={setIsSuccess}
             isSuccess={isSuccess}
             setIsProfileData={setIsProfileData}
+            setIsFailure={setIsFailure}
+            isFailure={isFailure}
           />
         )}
         {isFeedBack && (
