@@ -66,11 +66,11 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
     }
   }, [isPopoverOpen]);
 
-  useEffect(()=>{
-    if(!isChangePassword || isSuccess){
-      setIsProfileData(false)
-    }
-  },[isChangePassword,isSuccess])
+  // useEffect(()=>{
+  //   if(!isChangePassword || isSuccess){
+  //     setIsProfileData(false)
+  //   }
+  // },[isChangePassword,isSuccess])
 
   useEffect(()=>{
     if(isProfileData){
@@ -184,6 +184,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
             setIsContribution={setIsContribution}
             setIsPopoverOpen={setIsPopoverOpen}
             setIsFeedBack={setIsFeedBack}
+            
           />
 
           {/* Login Button */}
