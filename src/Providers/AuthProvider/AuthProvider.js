@@ -13,8 +13,9 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [role, setRole] = useState(null);
   const [profiledetails , setprofiledetails] = useState(null);
+  const [contextMapView , setconrextMapView] = useState(null);
   return (
-    <AuthContext.Provider value={{ role, setRole, profiledetails , setprofiledetails }}>
+    <AuthContext.Provider value={{ role, setRole, profiledetails , setprofiledetails , contextMapView, setconrextMapView}}>
       {children}
     </AuthContext.Provider>
   );

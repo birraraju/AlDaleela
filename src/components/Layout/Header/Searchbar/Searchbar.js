@@ -109,7 +109,7 @@ const Searchbar = ({
         )}
 
         {inputClicked && (
-          <SearchContent iscategory={iscategory}  inputClicked={inputClicked} />
+          <SearchContent iscategory={iscategory} inputClicked={inputClicked} inputValue={inputValue} setInputValue={setInputValue} setInputClicked={setInputClicked}/>
         )}
       </div>
     </div>
