@@ -44,7 +44,7 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
     opacity: 0 
   }}
   transition={{ ease: "easeInOut" }}
-    className={`p-4  sm:py-4  sm:h-[46vh] laptop_s:h-[70vh] h-[70vh]  fixed top-16 ${isLangArab?"left-1 sm:left-16 laptop_s:left-10":"right-1 sm:right-16 laptop_s:right-10"}  backdrop-blur rounded-3xl text-black ${
+    className={`p-4  sm:py-4  sm:h-[46vh] laptop_s:h-[75vh] h-[70vh]  fixed top-16 ${isLangArab?"left-1 sm:left-16 laptop_s:left-10":"right-1 sm:right-16 laptop_s:right-10"}  backdrop-blur rounded-3xl text-black ${
       isDarkMode
         ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none"
         : "bg-white bg-opacity-70 backdrop-blur-lg border-white"
@@ -56,7 +56,11 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
       </h1>
       <div
         className={`p-2 cursor-pointer ${isDarkMode ? "text-white hover:text-gray-300" : "text-gray-600 hover:text-gray-900"} transition-colors`}
-        onClick={() => setIsContactUs(false)}
+        onClick={() =>{
+          setIsPopoverOpen(true);
+          setIsContactUs(false)
+        }
+        }
       >
         <X />
       </div>
@@ -86,7 +90,7 @@ Abu Dhabi
             Opening Hours
           </h4>
           <p className={`text-[16px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]" : "text-black"}`}>
-            7:30 AM to 3:30 PM | Sunday-Thursday
+            7:30 AM to 3:30 PM | Monday-Friday
           </p>
         </div>
 
@@ -107,7 +111,15 @@ Abu Dhabi
             customerhappiness@ead.gov.ae
           </p>
         </div>
-
+        <div>
+          <h4 className={`font-medium mb-1 text-[14px] ${isDarkMode ? "text-[#FFFFFFCC]" : "text-gray-600"}`}>
+            Website
+          </h4>
+          <p className={`text-[16px]  font-medium ${isDarkMode ? "text-[#FFFFFFCC]" : "text-black"}`}>
+            https://www.ead.gov.ae/
+          </p>
+        </div>
+ 
         <div className="flex justify-center space-x-4 pt-4 border-t border-gray-400">
           <a href="https://www.facebook.com/EnvironmentAbuDhabi/ "  target="_blank" rel="noopener noreferrer"><img src={fb} alt="Facebook" className="h-6 w-6" /></a>
           <a href="https://x.com/EADTweets"  target="_blank" rel="noopener noreferrer"><img src={twitter} alt="Twitter" className="h-6 w-6" /></a>

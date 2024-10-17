@@ -56,7 +56,7 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
         <div
           className={`p-2 cursor-pointer ${isDarkMode ? "text-white hover:text-gray-300" : "text-gray-600 hover:text-gray-900"} transition-colors`}
           onClick={() => {
-            setIsPopoverOpen(false);
+            setIsPopoverOpen(true);
             setIsContribution(false);
           }}
         >

@@ -5,6 +5,7 @@ import FeedBackBody from './SendFeedBack'; // Assuming this component contains t
 import { useTheme } from '../../Layout/ThemeContext/ThemeContext'; // Import your theme context
 
 export default function SendFeedBack({
+  setIsPopoverOpen,
   setIsFeedBack,
   width = "454.84px",
   height = "calc(95vh - 2rem)"
@@ -69,7 +70,11 @@ export default function SendFeedBack({
             {isLangArab?"ملاحظات":"Feedback"}
           </span>
           <button
-            onClick={closePanel}
+           
+            onClick={() => {
+              setIsPopoverOpen(true);
+              setIsFeedBack(false)            }}
+ 
             className={`p-2 ${
               isDarkMode ? "text-white hover:text-gray-300" : "text-gray-600 hover:text-gray-900"
             } transition-colors`}
@@ -80,7 +85,10 @@ export default function SendFeedBack({
         </div>
 
         <div className="sm:p-6 p-2 overflow-y-auto h-full">
-          <FeedBackBody />
+          <FeedBackBody
+           setIsPopoverOpen={setIsPopoverOpen}
+           setIsFeedBack={setIsFeedBack}
+          />
         </div>
       </div>
 
