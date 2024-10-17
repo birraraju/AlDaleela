@@ -18,7 +18,7 @@ import Searchbar from './Searchbar/Searchbar';
 //   };
 
 const Header = ({  isFooterOpen, isHeaderOpen, mapview}) => {
-  const { isDarkMode } = useTheme(); // Access the dark mode state
+  const { isDarkMode,isLangArab } = useTheme(); // Access the dark mode state
   const [SearchResponsive, setSearchResponsive] = useState(false);
   const ResponsiveSearchHeader = () => {
     setSearchResponsive(true);
@@ -28,7 +28,44 @@ const Header = ({  isFooterOpen, isHeaderOpen, mapview}) => {
     setSearchResponsive(false);
   };
   return (
-    <header
+    <>
+    {isLangArab ?(<header
+      className={`text-white  px-2 ${isLangArab ?" pl-7":"sm:pr-10"} py-2 z-30 flex items-center justify-between z-8 w-screen 
+        ${isDarkMode ? 'bg-dark-gradient' : 'bg-custom-gradient'}`
+      }
+    >
+
+      {/* Menus Section */}
+     {!SearchResponsive && <div className={`flex items-center`}>
+        <Menus 
+          isFooterOpen={isFooterOpen} 
+          isHeaderOpen={isHeaderOpen} 
+          SearchResponsive={SearchResponsive} 
+          handleCloseResponsiveSearch={handleResponsiveClose} 
+          handleResponsiveSearchHeader={ResponsiveSearchHeader}
+          mapview={mapview}
+        />
+      </div>}
+
+      {/* Searchbar Section */}
+      {SearchResponsive && (
+        <Searchbar 
+          SearchResponsive={SearchResponsive} 
+          handleCloseResponsiveSearch={handleResponsiveClose} 
+        />
+      )}
+
+      {/* Logo Section */}
+     {!SearchResponsive && <div className={` items-center space-x-4 ${SearchResponsive ? "hidden" : "flex"}`}>
+        <Logo />
+      </div>}
+      {/* <button
+        className={`sm:hidden flex text-white p-2`}
+        onClick={ResponsiveSearchHeader}
+      >
+        <img src={ResponsiveSearch} alt="Search" />
+      </button> */}
+    </header>) :(<header
       className={`text-white sm:pr-10 px-2 py-2 z-30 flex items-center justify-between z-8 w-screen 
         ${isDarkMode ? 'bg-dark-gradient' : 'bg-custom-gradient'}`
       }
@@ -64,7 +101,8 @@ const Header = ({  isFooterOpen, isHeaderOpen, mapview}) => {
       >
         <img src={ResponsiveSearch} alt="Search" />
       </button> */}
-    </header>
+    </header>)}
+    </>
   );
 };
 

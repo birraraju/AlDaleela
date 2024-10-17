@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const AuthContext = createContext(undefined);
 
@@ -13,7 +13,6 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [role, setRole] = useState(null);
   const [profiledetails , setprofiledetails] = useState(null);
-
   return (
     <AuthContext.Provider value={{ role, setRole, profiledetails , setprofiledetails }}>
       {children}

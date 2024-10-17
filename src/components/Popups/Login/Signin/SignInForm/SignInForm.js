@@ -12,7 +12,7 @@ import { Label } from "../../../../../components/ui/label";
 import { useAuth } from "../../../../../Providers/AuthProvider/AuthProvider";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { IoEyeOff } from "react-icons/io5";
+import { IoEyeOff,IoEye } from "react-icons/io5";
 import { z } from "zod"; // Still needed for schema validation
 import { zodResolver } from "@hookform/resolvers/zod";
 import {UserActivityLog} from "../../../../Common/UserActivityLog";
@@ -43,7 +43,7 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
     console.log(values);
     try {
     const signupObj ={
-      email:values.username,
+      username:values.username,
       password:values.password
     }
     const response = await fetch(`${process.env.REACT_APP_API_URL}/Registration/signin`, {
@@ -68,7 +68,8 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
         setprofiledetails(data);
         //setRole("admin");
         setRole(data.role);
-        localStorage.setItem("AldaleelaRole", "admin");
+        localStorage.setItem("AldaleelaRole", data.role);
+        localStorage.setItem("AldaleelaUserDetails:",JSON.stringify(data))
         //setRole("user");
         onClose();
       }      
@@ -135,9 +136,11 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
                     onClick={() => setIsPassword(!isPassword)}
                     className="absolute right-3 top-3"
                   >
-                    <IoEyeOff className={`text-2xl ${
+                    {isPassword?<IoEye className={`text-2xl ${
                         isDarkMode ? "text-[#FFFFFF]" : "text-black"
-                      } opacity-50`} />
+                      } opacity-50`} />:<IoEyeOff className={`text-2xl ${
+                        isDarkMode ? "text-[#FFFFFF]" : "text-black"
+                      } opacity-50`} />}
                   </button>
                 </div>
               </FormControl>

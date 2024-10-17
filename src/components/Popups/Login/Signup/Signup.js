@@ -3,7 +3,7 @@ import { X } from 'lucide-react';
 import Logo from "../../../../assets/GreenLogo.svg";
 import Input from "../Input/Input";
 import CountryDropdown from "../../../../../src/assets/CountryDropdown.svg";
-import { IoEyeOff } from "react-icons/io5";
+import { IoEyeOff,IoEye } from "react-icons/io5";
 import { useTheme } from '../../../Layout/ThemeContext/ThemeContext'; // Import the theme context
 
 
@@ -18,7 +18,11 @@ export default function Signup({ onClose, onSigninClick }) {
     country: '',
   });
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const { isDarkMode } = useTheme(); // Access the dark mode state
+  const [txtusername, settxtUsername] = useState('');
+  const [usernameExists, setUsernameExists] = useState(false);
 
 
   const modalRef = useRef(null);
@@ -52,37 +56,69 @@ export default function Signup({ onClose, onSigninClick }) {
   };
 
   const onSignupClick = async() =>{    
-    try {
-      const signupObj ={
-        username: formData.username,
-        firstName: formData.firstName,
-        password: formData.password,
-        email: formData.email,
-        phoneNumber: formData.phoneNumber,
-        organization: formData.organization,
-        country: formData.country,
-        role: "user"
+    if (!usernameExists) {
+      try {
+        const signupObj ={
+          username: formData.username,
+          firstName: formData.firstName,
+          password: formData.password,
+          email: formData.email,
+          phoneNumber: formData.phoneNumber,
+          organization: formData.organization,
+          country: formData.country,
+          role: "user"
+        }
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/Registration/signup`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(signupObj),
+        });
+        if (response.ok) {
+            // Handle successful signup
+            console.log(response);
+        } else {
+            // Handle error
+            console.log(response);
+        }
+        const data = await response.text();
+        if(data){
+          console.log(data)
+        }
+      } catch (error) {
+        console.error('Error submitting form:', error);
       }
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/Registration/signup`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(signupObj),
-      });
-      if (response.ok) {
-          // Handle successful signup
-          console.log(response);
-      } else {
-          // Handle error
-          console.log(response);
-      }
-      const data = await response.text();
-      if(data){
-        console.log(data)
-      }
-    } catch (error) {
-      console.error('Error submitting form:', error);
+    } else {
+      alert('Username already exists');
     }
+    
   }
+
+  useEffect(() => {
+    const checkUsername = async () => {
+        if (txtusername) {
+            try {
+                //const response = await fetch(`${process.env.REACT_APP_API_URL}/Registration/check-username/${txtusername}`);
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/Registration/check-username`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(txtusername),
+              });
+                const exists = await response.json();
+                setUsernameExists(exists);
+            } catch (err) {
+                console.log('Error checking username');
+            }
+        } else {
+            setUsernameExists(false);
+        }
+    };
+
+    const delayDebounceFn = setTimeout(() => {
+        checkUsername();
+    }, 500); // Debounce the API call
+
+    return () => clearTimeout(delayDebounceFn);
+}, [txtusername]);
 
   return (
     <div className="fixed sm:inset-10 inset-1 flex items-center justify-center z-50 mb-6">
@@ -117,8 +153,10 @@ export default function Signup({ onClose, onSigninClick }) {
                   name="username"
                   placeholder="Username"
                   required
-                  onChange={handleChange}
+                  onChange={(e)=>{handleChange(e); settxtUsername(e.target.value)}}
                 />
+                {/* {usernameExists && <p style={{ color: 'red' }}>Username already exists</p>} */}
+                {/* {error && <p style={{ color: 'red' }}>{error}</p>} */}
                 <Input
                   type="text"
                   name="firstName"
@@ -130,7 +168,7 @@ export default function Signup({ onClose, onSigninClick }) {
               <div className="grid sm:grid-cols-2 grid-cols-1 gap-2">
                 <div className='relative'>
                   <Input
-                    type="password"
+                    type={`${ showPassword?"text":"password"}`}
                     name="password"
                     placeholder="Password"
                     required
@@ -142,14 +180,16 @@ export default function Signup({ onClose, onSigninClick }) {
                     onClick={() => setShowPassword(!showPassword)}
                     aria-label={showPassword ? 'Hide password' : 'Show password'}
                   >
-                    <IoEyeOff className={`text-2xl ${
+                    {showPassword?<IoEye className={`text-2xl ${
                         isDarkMode ? "text-black" : "text-black"
-                      } opacity-50`} />
+                      } opacity-50`} />:<IoEyeOff className={`text-2xl ${
+                        isDarkMode ? "text-black" : "text-black"
+                      } opacity-50`} />}
                   </button>
                 </div>
                 <div className='relative'>
                   <Input
-                    type="password"
+                    type={`${ showConfirmPassword?"text":"password"}`}
                     name="confirmPassword"
                     placeholder="Confirm Password"
                     required
@@ -158,12 +198,14 @@ export default function Signup({ onClose, onSigninClick }) {
                   <button
                     type="button"
                     className="absolute right-3 top-1/2 transform -translate-y-1/2"
-                    onClick={() => setShowPassword(!showPassword)}
-                    aria-label={showPassword ? 'Hide password' : 'Show password'}
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    // aria-label={showPassword ? 'Hide password' : 'Show password'}
                   >
-                    <IoEyeOff className={`text-2xl ${
+                    {showConfirmPassword?<IoEye className={`text-2xl ${
                         isDarkMode ? "text-black" : "text-black"
-                      } opacity-50`}/>
+                      } opacity-50`}/>:<IoEyeOff className={`text-2xl ${
+                        isDarkMode ? "text-black" : "text-black"
+                      } opacity-50`}/>}
                   </button>
                 </div>
               </div>
