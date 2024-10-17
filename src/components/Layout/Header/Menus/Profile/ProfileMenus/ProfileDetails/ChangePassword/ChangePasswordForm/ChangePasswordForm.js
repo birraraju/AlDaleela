@@ -28,7 +28,7 @@ const formSchema = z
     path: ["confirmNewPassword"],
   });
 
-export default function ChangePasswordForm({ setIsChangePassword, setIsSuccess, setIsProfile }) {
+export default function ChangePasswordForm({ setIsChangePassword,setIsFailure, setChangeCloseProfile,setIsSuccess, setIsProfile }) {
   const {profiledetails } = useAuth()
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -76,8 +76,9 @@ export default function ChangePasswordForm({ setIsChangePassword, setIsSuccess, 
       else{
         console.log(data)
         setIsSuccess(false);
+        setIsFailure(true)
         setIsProfile(false);
-        setIsChangePassword(true);
+        setChangeCloseProfile(false);
       }
       // setRole("admin");
       // onClose();
@@ -89,7 +90,7 @@ export default function ChangePasswordForm({ setIsChangePassword, setIsSuccess, 
   const onCancel = () => {
     const confirmCancel = window.confirm("Are you sure you want to cancel? Your unsaved changes may be lost.");
     if (confirmCancel) {
-      setIsChangePassword(false);
+      setChangeCloseProfile(false);
       setIsProfile(true);
       form.reset();
     }

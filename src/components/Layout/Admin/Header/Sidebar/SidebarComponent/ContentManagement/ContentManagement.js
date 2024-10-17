@@ -4,6 +4,7 @@ import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
 import PinPoint from '../../../../../../../assets/Admin/logo/imageContentMangePin.png';
 import MediaPinPoint from '../../../../../../../assets/Admin/logo/imagePinMedia.png';
 import { useTheme } from "../../../../../ThemeContext/ThemeContext"; // Importing the theme context
+import { useNavigate } from 'react-router-dom';
 
 const users = [
   { username: "User name", email: "user@gmail.com", Datetime: "2024-10-11 09:22:25", poiName: "Al Makhtabshah", Organization: "DMT", classification: "Marine", municipality: "Abu Dhabi", media: "3" },
@@ -32,6 +33,8 @@ export default function UserManagement() {
   const tableRef = useRef(null);
   const { isDarkMode } = useTheme(); // Access dark mode from theme context
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     const handleScroll = () => {
       if (tableRef.current) {
@@ -52,6 +55,14 @@ export default function UserManagement() {
       }
     };
   }, []);
+
+  const handleDropPin=()=>{
+    navigate({
+      pathname: `/${process.env.REACT_APP_BASE_URL}`,
+      search: `?sides=Hand`,
+    });
+    console.log("Admin DroppedPin clicked");
+  }
 
   return (
     <div className="flex h-[calc(100vh-6rem)]">
@@ -118,7 +129,7 @@ export default function UserManagement() {
                       <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
                       {user.media}</td>
                     <td className="py-2">
-                      <button className="text-red-500 hover:text-red-600">
+                      <button onClick={handleDropPin} className="text-red-500 hover:text-red-600">
                         <img src={PinPoint} alt="" className='h-7' />
                       </button>
                     </td>

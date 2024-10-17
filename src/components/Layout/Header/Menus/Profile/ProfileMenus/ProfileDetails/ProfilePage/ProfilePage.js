@@ -11,7 +11,8 @@ export default function ProfilePage({
   isChangePassword,
   setIsChangePassword,
   setIsProfile,
-  setIsProfileData
+  setIsProfileData,
+  setChangeCloseProfile
 }) {
   const {profiledetails} = useAuth()
   useEffect(() => {
@@ -21,7 +22,10 @@ export default function ProfilePage({
     <div>
       <ProfileHeader
         setIsProfileData={setIsProfileData}
+        setIsProfile={setIsProfile}
+        isEditProfile={isEditProfile}
         setIsPopoverOpen={setIsPopoverOpen}
+        setIsEditProfile={setIsEditProfile}
       />
       <ProfileContent
         setIsProfile={setIsProfile}
@@ -29,6 +33,7 @@ export default function ProfilePage({
         isEditProfile={isEditProfile}
         isChangePassword={isChangePassword}
         setIsChangePassword={setIsChangePassword}
+        setChangeCloseProfile={setChangeCloseProfile}
       />
       <BasicInformation
         setIsProfile={setIsProfile}

@@ -3,17 +3,25 @@ import { X } from "lucide-react";
 import { useTheme } from '../../../../../../../../../Layout/ThemeContext/ThemeContext'; // Import the theme context
 
 
-export default function ProfileHeader({ setIsPopoverOpen, setIsProfileData }) {
+export default function ProfileHeader({ setIsPopoverOpen,setIsEditProfile,setIsProfile,isEditProfile, setIsProfileData }) {
   const { isDarkMode,isLangArab } = useTheme(); // Access the dark mode state
+
+  const handleProfileClose=()=>{
+    if(isEditProfile){
+      setIsEditProfile(false);
+            setIsProfile(true);
+    }else{
+      setIsProfileData(false);
+      setIsPopoverOpen(true);
+    }
+  }
 
   return (
     <>
       <div className="flex justify-between items-center">
         <h1 className={`font-medium sm:text-2xl text-lg text-${isDarkMode ? '[#FFFFFFCC]' : 'gray-600'} `}>{isLangArab?"معلوماتي":"My Info"}</h1>
         <div
-          onClick={() => {
-            setIsProfileData(false);
-            setIsPopoverOpen(true);
+          onClick={() => {handleProfileClose()          
           }}
           className="cursor-pointer"
         >
