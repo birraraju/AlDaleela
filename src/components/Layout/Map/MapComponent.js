@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import WebMap from "@arcgis/core/WebMap.js";
 import esriConfig from "@arcgis/core/config.js";
 import Mapview from "@arcgis/core/views/MapView.js";
+import { useAuth } from "../../../Providers/AuthProvider/AuthProvider";
 const MapComponent = (props) => {
   // Create a ref for the map container
   const mapDiv = useRef(null);
@@ -11,6 +12,7 @@ const MapComponent = (props) => {
   const [lat, setLat] = useState(null);
   const [lon, setLon] = useState(null);
   const [scale, setScale] = useState(null);
+  const {setconrextMapView} = useAuth();
 
   const {setMapview, MapView} = props;
 
@@ -20,7 +22,7 @@ const MapComponent = (props) => {
       esriConfig.portalUrl = "https://maps.smartgeoapps.com/portal";  
         const webMap = new WebMap({
             portalItem: { // autocasts as new PortalItem()
-                id: '54315566df3f4ad290f535181c9feac2' // Replace with your Web Map ID
+                id: '03158d995380489995e7d26bcbfc92be' // Replace with your Web Map ID
             }
         });
 
@@ -38,6 +40,7 @@ const MapComponent = (props) => {
             //zoom: 5
         });
         setMapview(view)
+        setconrextMapView(view)
       // // Create a new map
       // const map = new Map({
       //   basemap: "streets" // Change this to 'satellite', 'topo', etc., as needed
