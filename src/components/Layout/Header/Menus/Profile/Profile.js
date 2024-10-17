@@ -192,7 +192,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
               onClick={toggleAuthenticator}
               className="py-3 w-full flex items-center justify-center custom-gradient text-white font-semibold text-lg rounded-2xl cursor-pointer"
             >
-              Login
+              {isLangArab?"تسجيل الدخول" :"Login"}
             </div>
           ) : (
             <div onClick={handleLogout} className="flex cursor-pointer justify-start items-center gap-2">
@@ -201,7 +201,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
         style={{ color: isDarkMode ? '#FFFFFFCC' : '#505050' }}
       />
               <p className={`font-medium  text-[18px] ${isDarkMode ? "text-gray-300" : "text-[#505050]"}`}>
-              Logout</p>
+              {isLangArab?"تسجيل الخروج":"Logout"}</p>
             </div>
           )}
         </PopoverContent>

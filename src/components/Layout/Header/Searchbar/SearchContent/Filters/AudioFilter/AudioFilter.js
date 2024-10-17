@@ -1,4 +1,4 @@
-export default function AudioFilter({ setSelectedItem, setIsFiltersOpen, selectedItem }) {
+export default function AudioFilter({ setSelectedItem, isLangArab,setIsFiltersOpen, selectedItem }) {
   return (
     <div
       onClick={() => {
@@ -12,7 +12,7 @@ export default function AudioFilter({ setSelectedItem, setIsFiltersOpen, selecte
       <div>
         <img src={`${process.env.PUBLIC_URL}/Header/Searchbar/audio.svg`} alt="" className="w-6" />
       </div>
-      <div>Audio</div>
+      <div>{isLangArab?"صوت":"Audio"}</div>
     </div>
   );
 }

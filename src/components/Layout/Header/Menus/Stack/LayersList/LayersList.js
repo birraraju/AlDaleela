@@ -6,7 +6,7 @@ import LayerListAPI from "@arcgis/core/widgets/LayerList.js";
 export default function LayersList({ onClose, mapview }) {
   const layersListRef = useRef(null);
   const layerlistRef = useRef(null);
-  const { isDarkMode } = useTheme(); // Access isDarkMode from context
+  const { isDarkMode,isLangArab } = useTheme(); // Access isDarkMode from context
 
   // Removed handleClickOutside as we don't want to close on outside click
   // const handleClickOutside = (event) => {
@@ -37,10 +37,10 @@ export default function LayersList({ onClose, mapview }) {
     <div className="flex items-center justify-center z-10">
       <div
         ref={layersListRef}
-        className={`fixed right-12 top-32 sm:top-14 laptop_s:top-20 h-96 p-4 rounded-lg shadow-lg w-96 transition-colors duration-300
+        className={`fixed ${isLangArab?"left-12":"right-12"} top-32 sm:top-14 laptop_s:top-20 h-96 p-4 rounded-lg shadow-lg w-96 transition-colors duration-300
           ${isDarkMode ? "bg-[rgba(96,96,96,0.8)] text-white" : "bg-white bg-opacity-95 text-black"}`}      >
         <div>
-          <h1 className="font-omnes text-[16px] font-medium">Layer List</h1>
+          <h1 className="font-omnes text-[16px] font-medium">{isLangArab?"قائمة الطبقات":"Layer List"}</h1>
           <button
 className={`absolute top-4 right-4 hover:text-gray-800 ${
   isDarkMode ? "text-[#FFFFFFFF] text-opacity-80" : "text-gray-800"

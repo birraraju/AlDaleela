@@ -7,7 +7,7 @@ import {
 import { useState } from "react";
 import { FaCaretDown, FaCaretUp } from "react-icons/fa";
 
-export default function Category({ inputClicked, setInputClicked }) {
+export default function Category({ inputClicked,isLangArab, setInputClicked }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("Category");
 
@@ -29,7 +29,7 @@ export default function Category({ inputClicked, setInputClicked }) {
               inputClicked ? "text-black" : "text-white"
             }`}
           >
-            {selectedCategory}
+            {(selectedCategory === "Category") ?(isLangArab?"الفئة":selectedCategory):selectedCategory}
             {isOpen ? (
               <FaCaretUp className="ml-2" />
             ) : (

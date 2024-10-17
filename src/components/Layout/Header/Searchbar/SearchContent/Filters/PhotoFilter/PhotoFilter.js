@@ -1,7 +1,7 @@
 import PhotoSvg from "../../../../../../../assets/Header/Searchbar/photo.svg"
 
 
-export default function PhotoFilter({ setSelectedItem, setIsFiltersOpen, selectedItem }) {
+export default function PhotoFilter({ setSelectedItem, isLangArab,setIsFiltersOpen, selectedItem }) {
   return (
     <div
       onClick={() => {
@@ -17,7 +17,7 @@ export default function PhotoFilter({ setSelectedItem, setIsFiltersOpen, selecte
         <img src={PhotoSvg} alt="" className="w-6" />
 
       </div>
-      <div>Photo</div>
+      <div>{isLangArab?"صوت":"Photo"}</div>
     </div>
   );
 }
