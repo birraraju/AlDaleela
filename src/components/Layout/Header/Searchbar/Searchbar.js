@@ -18,7 +18,7 @@ const Searchbar = ({
   const [iscategory, setIscategory] = useState(false);
 
   const contentRef = useRef(null);
-  const { isDarkMode } = useTheme(); // Access the dark mode state
+  const { isDarkMode,isLangArab } = useTheme(); // Access the dark mode state
 
   // Close search when the footer opens
   useEffect(() => {
@@ -104,11 +104,12 @@ const Searchbar = ({
           <Category
             inputClicked={inputClicked}
             setInputClicked={setInputClicked}
+            isLangArab={isLangArab}
           />
         )}
 
         {inputClicked && (
-          <SearchContent iscategory={iscategory} inputClicked={inputClicked} />
+          <SearchContent iscategory={iscategory} inputClicked={inputClicked} inputValue={inputValue} setInputValue={setInputValue} setInputClicked={setInputClicked}/>
         )}
       </div>
     </div>

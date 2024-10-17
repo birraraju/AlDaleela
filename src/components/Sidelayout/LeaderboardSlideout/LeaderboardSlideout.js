@@ -25,7 +25,7 @@ const users = [
 export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard }) {
   const [isOpen, setIsOpen] = useState(true); // Use this for toggling visibility
   const containerRef = useRef(null);
-  const { isDarkMode } = useTheme(); // Access isDarkMode from ThemeContext
+  const { isDarkMode,isLangArab } = useTheme(); // Access isDarkMode from ThemeContext
 
   // Handle clicks outside the container
   useEffect(() => {
@@ -46,12 +46,18 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
 
   return (
     <motion.div
-      ref={containerRef}  // Attach the ref to the container
-      initial={{ x: "100%", opacity: 0 }}
-      animate={{ x: isOpen ? 0 : "100%", opacity: 1 }} // Animation based on isOpen state
-      exit={{ x: "100%", opacity: 0 }}
-      transition={{ ease: "easeInOut" }}
-      className={`px-8 py-4 fixed sm:top-16 top-12 sm:right-10 laptop_s:right-3 right-4 sm:h-[45vh] laptop_s:h-[80vh] h-[85vh] sm:w-[20rem] laptop_s:w-[22rem] w-[21rem] ${
+    ref={containerRef}
+    initial={{ x: "100%", opacity: 0 }}
+    whileInView={{ 
+      x: isOpen ? 0 : isLangArab ? "-100%" : "100%", // Move to left if Arabic
+      opacity: 1 
+    }}
+    exit={{ 
+      x: isLangArab ? "-90%" : "100%", // Exit to left for Arabic, right for others
+      opacity: 0 
+    }}
+    transition={{ ease: "easeInOut" }}
+      className={`px-8 py-4 fixed sm:top-16 top-12 ${isLangArab?"sm:left-10 laptop_s:left-3 left-4":"sm:right-10 laptop_s:right-3 right-4"} sm:h-[45vh] laptop_s:h-[80vh] h-[85vh] sm:w-[20rem] laptop_s:w-[22rem] w-[21rem] ${
         isDarkMode
           ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none"
           : "bg-white bg-opacity-70 backdrop-blur-lg border-white"
@@ -61,7 +67,7 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
           className={`font-semibold ${
             isDarkMode ? "text-white" : "text-[#505050]"
           } font-poppins text-[16.37px]`}
-        >          Leaderboard</h1>
+        >          {isLangArab?"لوحة المتصدرين":"Leaderboard"}</h1>
         <button
           onClick={() => {
             setIsPopoverOpen(true);
@@ -142,13 +148,41 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
         ))}
       </div>
       {/* Toggle button */}
-      <div className="absolute hidden sm:block top-12 -left-6">
+      <div className={`absolute hidden sm:block top-12 ${isLangArab?"-right-7":"-left-6"}`}>
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="relative w-8 h-32 focus:outline-none"
           aria-label={isOpen ? "Close side panel" : "Open side panel"}
         >
-          <svg
+          {isLangArab?<svg
+      width="32"
+      height="128"
+      viewBox="0 0 64 371"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      style={{
+        position: 'relative',
+        top: '1px',
+        right: '3px',
+      }}
+    >
+      <g
+        clipPath="url(#clip0_4011_11301)"
+        transform="scale(-1, 1) translate(-64, 0)" // Flipping horizontally
+      >
+        <path
+          d="M3.82642 130.396L3.82598 244.617C3.82594 252.779 6.14893 260.773 10.5235 267.664L70.7275 362.497V8.50244L10.1031 108.027C5.99796 114.766 3.82645 122.505 3.82642 130.396Z"
+          fill={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "#EBEFF2"}
+          stroke={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "#EEF3F7"}
+          strokeWidth="6"
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_4011_11301">
+          <rect width="64" height="371" fill="white" />
+        </clipPath>
+      </defs>
+    </svg>:<svg
             width="32"
             height="128"
             viewBox="0 0 64 371"
@@ -169,7 +203,7 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
                 <rect width="64" height="371" fill="white" />
               </clipPath>
             </defs>
-          </svg>
+          </svg>}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
             <FiChevronRight
               className={`transition-transform duration-300 ${isOpen ? "rotate-0" : "rotate-180"} ${

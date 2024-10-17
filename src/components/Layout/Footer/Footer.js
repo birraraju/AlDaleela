@@ -19,13 +19,13 @@ export default function Footer({ handleMenuItemClick, resetTrigger }) {
 
 
   const headingsMap = {
-    0: t("Base Map Gallery"),
-    1: t("Bookmarks"),
-    2: t("Measurment"),
-    3: t('Dropped Pin'),
-    4: t("Share"),
-    5: t("Export Data"),
-    6: t("Print Data"),
+    0: t( isLangArab?"معرض الخريطة الأساسية":"Base Map Gallery"),
+    1: t(isLangArab?"علامات مرجعية":"Bookmarks"),
+    2: t( isLangArab?"القياس":"Measurment"),
+    3: t( isLangArab? "دبوس مُنقَطِع":'Dropped Pin'),
+    4: t( isLangArab? "مشاركة": "Share"),
+    5: t( isLangArab?"تصدير البيانات": "Export Data"),
+    6: t( isLangArab?"طباعة البيانات": "Print Data"),
   };
 
   const handleFooterItemClick = useCallback((e, index, isExpanded) => {
