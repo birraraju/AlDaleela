@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import ChangePassword from "../../ChangePassword/ChangePassword";
 import SuccessMessage from "../../SuccessMessage/SuccessMessage";
 import ProfilePage from "../ProfilePage";
@@ -20,6 +20,7 @@ export default function ProfileMenu({
 }) {
   const menuRef = useRef(null);
   const { isDarkMode } = useTheme(); // Access the dark mode state
+  const [ChangeCloseProfile,setChangeCloseProfile] = useState(false);
 
 
   useEffect(() => {
@@ -47,7 +48,7 @@ export default function ProfileMenu({
           ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none"
           : "bg-white bg-opacity-70 backdrop-blur-lg border-white"
       }`}>
-        {isProfile && (
+        {(isProfile&& !ChangeCloseProfile) && (
           <ProfilePage
             setIsPopoverOpen={setIsPopoverOpen}
             setIsEditProfile={setIsEditProfile}
@@ -56,12 +57,14 @@ export default function ProfileMenu({
             setIsChangePassword={setIsChangePassword}
             setIsProfile={setIsProfile}
             setIsProfileData={setIsProfileData}
+            setChangeCloseProfile={setChangeCloseProfile}
           />
         )}
 
-        {isChangePassword && (
+        {(isChangePassword && ChangeCloseProfile) && (
           <ChangePassword
             setIsPopoverOpen={setIsPopoverOpen}
+            setChangeCloseProfile={setChangeCloseProfile}
             setIsEditProfile={setIsEditProfile}
             isEditProfile={isEditProfile}
             isChangePassword={isChangePassword}
