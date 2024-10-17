@@ -7,7 +7,8 @@ export default function ProfileContent({
   isEditProfile, 
   setIsEditProfile, 
   setIsChangePassword, 
-  setIsProfile 
+  setIsProfile ,
+  setChangeCloseProfile
 }) {
   const {profiledetails} = useAuth()
   const { isDarkMode,isLangArab } = useTheme(); // Access the dark mode state
@@ -31,7 +32,7 @@ export default function ProfileContent({
             </div>
 
             <div className="flex justify-between items-center gap-4">
-              <Button onClick={() => setIsEditProfile(true)} asChild>
+              <Button onClick={() => {setIsEditProfile(true);}} asChild>
                 <div className="w-1/2 h-12 py-5 cursor-pointer btn-gradient text-white text-base rounded-xl mt-4 tracking-wide">
                   {isLangArab?"تعديل المعلومات":"Edit Info"}
                 </div>
@@ -41,6 +42,7 @@ export default function ProfileContent({
                 onClick={() => {
                   setIsChangePassword(true);
                   setIsProfile(false);
+                  setChangeCloseProfile(true);
                 }}
                 variant="outline"
                 className={`w-1/2 sm:h-10 h-9 bg-none shadow-none sm:rounded-xl rounded-md mt-4 tracking-wide font-normal sm:text-sm text-xs border border-[#909090] text-${isDarkMode ? '[#FFFFFFCC]' : 'gray-600'} `}              >

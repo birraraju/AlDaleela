@@ -4,7 +4,7 @@ import ChangePasswordForm from "./ChangePasswordForm/ChangePasswordForm";
 import { useTheme } from "../../../../../../../Layout/ThemeContext/ThemeContext"; // Import your theme context
 
 
-export default function ChangePassword({ setIsChangePassword,setIsPopoverOpen, setIsSuccess, setIsProfile }) {
+export default function ChangePassword({ setIsChangePassword,setIsFailure,setIsPopoverOpen,setChangeCloseProfile, setIsSuccess, setIsProfile }) {
   const { isDarkMode,isLangArab } = useTheme(); // Access dark mode from theme context
 
   return (
@@ -14,8 +14,8 @@ export default function ChangePassword({ setIsChangePassword,setIsPopoverOpen, s
               isDarkMode ? "text-white" : "text-gray"
             }`}>{isLangArab ?"تغيير كلمة المرور":"Change Password"}</h1>
         <div
-          onClick={() => {setIsChangePassword(false);
-            setIsPopoverOpen(true);}
+          onClick={() => {setChangeCloseProfile(false);
+            setIsProfile(true);}
           }
           className="cursor-pointer"
         >
@@ -29,7 +29,9 @@ export default function ChangePassword({ setIsChangePassword,setIsPopoverOpen, s
       <div className="h-[1px] w-full bg-[#0000001A] my-4"></div>
 
       <ChangePasswordForm
+      setIsFailure={setIsFailure}
         setIsChangePassword={setIsChangePassword}
+        setChangeCloseProfile={setChangeCloseProfile}
         setIsSuccess={setIsSuccess}
         setIsProfile={setIsProfile}
       />

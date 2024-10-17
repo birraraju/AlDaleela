@@ -12,7 +12,7 @@ import {
 import { useTheme } from "../../../../../../../../../Layout/ThemeContext/ThemeContext"; // Import your theme context
 import {UserActivityLog} from "../../../../../../../../../Common/UserActivityLog";
 
-export default function BasicInformation({ isEditProfile, setIsEditProfile }) {
+export default function BasicInformation({ isEditProfile, setIsEditProfile,setIsProfile }) {
   const {profiledetails} = useAuth()
   const { isDarkMode,isLangArab } = useTheme(); // Access dark mode from theme context
   const [userInfo1, setUserInfo1] = useState([])
@@ -133,6 +133,7 @@ const handleUpdate = async(e) => {
     if (response.ok) {
         // Handle successful signup
         console.log(response);
+        
        
     } else {
         // Handle error
@@ -148,6 +149,7 @@ const handleUpdate = async(e) => {
       UserActivityLog(profiledetails, "Profile Updated")
       //console.log(values);
       setIsEditProfile(false)
+      setIsProfile(true)
     }
     else{
       console.log(data)
