@@ -35,7 +35,7 @@ export default function SearchContent({ inputClicked, iscategory, inputValue, se
             locatorAddress.push(suggestion);
               setSuggestionNames(locatorAddress);
           });          
-          
+        
       }).catch(err => {
           console.error(err);
       });
