@@ -23,7 +23,7 @@ const MainRoutes = () => {
   return (
     <div >
       <Routes>
-        <Route path={process.env.REACT_APP_BASE_URL} element={<DefaultLayout />} />
+        <Route path={`/${process.env.REACT_APP_BASE_URL}`} element={<DefaultLayout />} />
         <Route path="/admin" element={<AdminLayout />} />
         <Route path="*" element={<Navigate to={process.env.REACT_APP_BASE_URL} replace />} />
       </Routes>

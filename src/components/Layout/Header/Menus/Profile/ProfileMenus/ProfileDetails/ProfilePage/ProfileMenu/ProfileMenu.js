@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import ChangePassword from "../../ChangePassword/ChangePassword";
 import SuccessMessage from "../../SuccessMessage/SuccessMessage";
+import FailureMessage from "../../SuccessMessage/FailureMessage/FailureMessage";
+
 import ProfilePage from "../ProfilePage";
 import { useTheme } from '../../../../../../../../Layout/ThemeContext/ThemeContext'; // Import the theme context
 
@@ -17,6 +19,8 @@ export default function ProfileMenu({
   setIsSuccess,
   isSuccess,
   setIsProfileData,
+  setIsFailure,
+  isFailure
 }) {
   const menuRef = useRef(null);
   const { isDarkMode } = useTheme(); // Access the dark mode state
@@ -71,6 +75,7 @@ export default function ProfileMenu({
             setIsChangePassword={setIsChangePassword}
             setIsSuccess={setIsSuccess}
             setIsProfile={setIsProfile}
+            setIsFailure={setIsFailure}
           />
         )}
 
@@ -80,6 +85,9 @@ export default function ProfileMenu({
             setIsSuccess={setIsSuccess}
           />
         )}
+        {isFailure &&
+          (<FailureMessage setIsProfile={setIsProfile} setIsFailure={setIsFailure} />)
+        }
       </div>
     </div>
   );

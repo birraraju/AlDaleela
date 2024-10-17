@@ -28,7 +28,7 @@ const formSchema = z
     path: ["confirmNewPassword"],
   });
 
-export default function ChangePasswordForm({ setIsChangePassword, setChangeCloseProfile,setIsSuccess, setIsProfile }) {
+export default function ChangePasswordForm({ setIsChangePassword,setIsFailure, setChangeCloseProfile,setIsSuccess, setIsProfile }) {
   const {profiledetails } = useAuth()
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -76,8 +76,9 @@ export default function ChangePasswordForm({ setIsChangePassword, setChangeClose
       else{
         console.log(data)
         setIsSuccess(false);
+        setIsFailure(true)
         setIsProfile(false);
-        setIsChangePassword(true);
+        setChangeCloseProfile(false);
       }
       // setRole("admin");
       // onClose();

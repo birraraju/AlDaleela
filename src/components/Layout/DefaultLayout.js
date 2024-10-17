@@ -14,12 +14,28 @@ import MapComponent from "../Layout/Map/MapComponent";
 import SideLayout5 from "../Sidelayout/sidelayout5";
 import SideLayout6 from "../Sidelayout/sidelayout6";
 
+import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
+
 const DefaultLayout = () => {
   const buttonLabels = ["Home", "Add", "Subtract", "Hand", "Next", "Export", "Print"];
   const [popup, setPopup] = useState(null);
   const [resetFooter, setResetFooter] = useState(false);
   const [isFooterOpen, setIsFooterOpen] = useState(false);
   const [mapview, setMapview] = useState(false);
+
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+
+  const sides = queryParams.get('sides');
+  const navigate = useNavigate();
+    
+  useEffect(()=>{
+    if(sides){
+      setPopup(renderComponent(sides));
+    }
+  },[sides])
  
   const handleClose = () => {
     setPopup(null);
@@ -51,7 +67,18 @@ const DefaultLayout = () => {
   const handleMenuItemClick = (_event, index) => {
     console.log(`Menu item clicked: ${buttonLabels[index]}`);
     setPopup(renderComponent(buttonLabels[index]));
+    handleClearDropInAdmin(buttonLabels[index])
   };
+
+  const handleClearDropInAdmin=(index)=>{
+    console.log("Sides Admin Footer Index Data:", index);
+    if(sides && (sides !== index)){
+      console.log("Sides Footer clicked Data:",sides)
+      navigate({
+        pathname: `/${process.env.REACT_APP_BASE_URL}`,
+      });
+    }
+  }
 
   // const handleHeaderOpen = () => {
   //   setPopup(null);
