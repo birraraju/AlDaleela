@@ -18,7 +18,7 @@ import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 
-const DefaultLayout = () => {
+const DefaultLayout = ({role}) => {
   const buttonLabels = ["Home", "Add", "Subtract", "Hand", "Next", "Export", "Print"];
   const [popup, setPopup] = useState(null);
   const [resetFooter, setResetFooter] = useState(false);
@@ -29,13 +29,18 @@ const DefaultLayout = () => {
   const queryParams = new URLSearchParams(location.search);
 
   const sides = queryParams.get('sides');
+  const AdminParamRole = queryParams.get("role")
   const navigate = useNavigate();
     
   useEffect(()=>{
-    if(sides){
+    if(sides && AdminParamRole === role){
       setPopup(renderComponent(sides));
+    }else if(sides && AdminParamRole !== role){
+      navigate({
+        pathname: `/${process.env.REACT_APP_BASE_URL}`,
+      });
     }
-  },[sides])
+  },[sides,AdminParamRole])
  
   const handleClose = () => {
     setPopup(null);
@@ -80,6 +85,7 @@ const DefaultLayout = () => {
     }
   }
 
+
   // const handleHeaderOpen = () => {
   //   setPopup(null);
   // };
@@ -104,6 +110,7 @@ const DefaultLayout = () => {
         <Footer
           handleMenuItemClick={handleMenuItemClick}
           resetTrigger={resetFooter}
+          setPopup={setPopup}
         />
       </div>
     </div>
