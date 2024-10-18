@@ -16,6 +16,8 @@ import SideLayout6 from "../Sidelayout/sidelayout6";
 
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import RoleServices from '../servicces/RoleServices';
+
 
 
 const DefaultLayout = ({role}) => {
@@ -29,18 +31,21 @@ const DefaultLayout = ({role}) => {
   const queryParams = new URLSearchParams(location.search);
 
   const sides = queryParams.get('sides');
-  const AdminParamRole = queryParams.get("role")
   const navigate = useNavigate();
     
   useEffect(()=>{
-    if(sides && AdminParamRole === role){
-      setPopup(renderComponent(sides));
-    }else if(sides && AdminParamRole !== role){
+    handleDropbinAdmin(sides)
+  },[sides])
+
+  const handleDropbinAdmin=(sides)=>{
+    if(sides && !role === "admin"){
       navigate({
         pathname: `/${process.env.REACT_APP_BASE_URL}`,
       });
+    }else if(sides && RoleServices.isAdmin){
+      setPopup(renderComponent(sides));
     }
-  },[sides,AdminParamRole])
+  }
  
   const handleClose = () => {
     setPopup(null);

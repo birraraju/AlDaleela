@@ -5,6 +5,8 @@ import PinPoint from '../../../../../../../assets/Admin/logo/imageContentMangePi
 import MediaPinPoint from '../../../../../../../assets/Admin/logo/imagePinMedia.png';
 import { useTheme } from "../../../../../ThemeContext/ThemeContext"; // Importing the theme context
 import { useNavigate } from 'react-router-dom';
+import RoleServices from '../../../../../../servicces/RoleServices';
+
 
 const users = [
   { username: "User name", email: "user@gmail.com", Datetime: "2024-10-11 09:22:25", poiName: "Al Makhtabshah", Organization: "DMT", classification: "Marine", municipality: "Abu Dhabi", media: "3" },
@@ -58,17 +60,11 @@ export default function UserManagement({role}) {
   }, []);
 
   const handleDropPin = () => {
-    if(role === "user"){
       navigate({
         pathname: `/${process.env.REACT_APP_BASE_URL}`,
-        search: `?sides=Hand&role=${role}`,
+        search: `?sides=Hand`,
       });
-      // `?sides=Hand&role=${role}`,  -> use for admin in production on obove
-    }
-    // navigate({
-    //   pathname: `/${process.env.REACT_APP_BASE_URL}`,
-    //   search: `?sides=Hand&role=`,
-    // });
+   
     console.log("Admin DroppedPin clicked");
   };
   
