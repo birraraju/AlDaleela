@@ -6,7 +6,7 @@ import "./Footer.css";
 import { useTheme } from '../../Layout/ThemeContext/ThemeContext'; // Import the theme context
 
 
-export default function Footer({ handleMenuItemClick, resetTrigger }) {
+export default function Footer({ handleMenuItemClick,setPopup, resetTrigger }) {
   const [currentMenuPosition, setCurrentMenuPosition] = useState(0);
   const [currentItemDisplay, setCurrentItemDisplay] = useState("none");
   const [activeMenuIndex, setActiveMenuIndex] = useState(null);
@@ -35,78 +35,72 @@ export default function Footer({ handleMenuItemClick, resetTrigger }) {
       setIsExpanded(false);
     }
 
-    if (index === 4) {
-      setIsExpanded(true);
-      // const index5Element = menuItemsRef.current[5];
-      // if (index5Element) {
-      //   setActiveMenuIndex(5);
-      //   setSelectedIndex(5);
-      //   index5Element.classList.add("sc-current");
+    if (index >= 4) {
+      if(index === 4){
+        setCurrentMenuPosition(0);
+      setCurrentItemDisplay("none");
+      setActiveMenuIndex(0);
+      setSelectedIndex(null);
+      setPopup(null)
+      setIsExpanded(true)
 
-      //   menuItemsRef.current.forEach((item, idx) => {
-      //     if (item && idx !== 5) {
-      //       item.classList.remove("sc-current");
-      //     }
-      //   });
-
-      //   const position = index5Element.offsetLeft;
-      //   setCurrentMenuPosition(position);
-      //   setCurrentItemDisplay("block");
-
-      //   const menuIndicator = document.querySelector(".sc-nav-indicator");
-      //   if (menuIndicator) {
-      //     menuIndicator.style.left = `${position}px`;
-      //   }
-
-      //   const menuBar = document.querySelector(".sc-bottom-bar");
-      //   if (menuBar) {
-      //     menuBar.style.backgroundPosition = `252px`;
-      //     menuBar.style.backgroundImage = document.body.classList.contains('theme-dark')
-      //       ? 'radial-gradient(circle at 38px 4px, transparent 28px, rgba(0, 0, 0, 0.2) 29px)'
-      //       : 'radial-gradient(circle at 38px 4px, transparent 28px, rgba(18, 69, 41, 0.2) 29px)';
-      //   }
-
-      //   handleMenuItemClick(e, 5);
-      // }
-      return;
-    }
-
-    const clickedElement = e.currentTarget;
-    const position = clickedElement.offsetLeft;
-    setCurrentMenuPosition(position);
-    setCurrentItemDisplay("block");
-
-    const menuIndicator = document.querySelector(".sc-nav-indicator");
-    if (menuIndicator) {
-      menuIndicator.style.left = `${position}px`;
-    }
-
-    const menuBar = document.querySelector(".sc-bottom-bar");
-    if (menuBar) {
-      let size = position - 11;
-      if (isExpanded && (index === 5 || index === 6)) {
-        size = position - 11;
-      } else if (isExpanded && (index === 2)) {
-        size = position + 4;
-      } else if (isExpanded && (index === 3)) {
-        size = position + 11;
-      } else if (isExpanded && (index === 1)) {
-        size = position - 3;
-      } else if (isExpanded && (index === 0)) {
-        size = position - 11;
+      const menuBar = document.querySelector(".sc-bottom-bar");
+      if (menuBar) {
+        menuBar.style.backgroundPosition = ``;
+        menuBar.style.backgroundImage = document.body.classList.contains('theme-dark') ? '' : '';
       }
-      menuBar.style.backgroundPosition = `${size}px`;
-      menuBar.style.backgroundImage = document.body.classList.contains('theme-dark')
-        ? 'radial-gradient(circle at 38px 4px, transparent 28px, rgba(0, 0, 0, 0.2) 29px)'
-        : 'radial-gradient(circle at 38px 4px, transparent 28px, rgba(18, 69, 41, 0.2) 29px)';
+
+      menuItemsRef.current.forEach(item => item && item.classList.remove("sc-current"));
+
+      const menuIndicator = document.querySelector(".sc-nav-indicator");
+      if (menuIndicator) {
+        menuIndicator.style.left = '0px';
+      }
+
+      }
     }
 
-    setActiveMenuIndex(index);
-    setSelectedIndex(index);
-    menuItemsRef.current.forEach(item => item && item.classList.remove("sc-current"));
-    clickedElement.classList.add("sc-current");
+    if(index < 4 || index === 5 || index === 6){
+      const clickedElement = e.currentTarget;
+      const position = clickedElement.offsetLeft;
+      setCurrentMenuPosition(position);
+      setCurrentItemDisplay("block");
+  
+      const menuIndicator = document.querySelector(".sc-nav-indicator");
+      if (menuIndicator) {
+        menuIndicator.style.left = `${position}px`;
+      }
+  
+      const menuBar = document.querySelector(".sc-bottom-bar");
+      if (menuBar) {
+        let size = position - 11;
+        if (isExpanded && (index === 5 || index === 6)) {
+          size = position - 11;
+        } else if (isExpanded && (index === 2)) {
+          size = position - 3;
+        } else if (isExpanded && (index === 3)) {
+          size = position + 3;
+        } else if (isExpanded && (index === 1)) {
+          size = position - 7;
+        } else if (isExpanded && (index === 0)) {
+          size = position - 11;
+        }
+        menuBar.style.backgroundPosition = `${size}px`;
+        menuBar.style.backgroundImage = document.body.classList.contains('theme-dark')
+          ? 'radial-gradient(circle at 38px 4px, transparent 28px, rgba(0, 0, 0, 0.2) 29px)'
+          : 'radial-gradient(circle at 38px 4px, transparent 28px, rgba(18, 69, 41, 0.2) 29px)';
+      }
+  
+      setActiveMenuIndex(index);
+      setSelectedIndex(index);
+      menuItemsRef.current.forEach(item => item && item.classList.remove("sc-current"));
+      clickedElement.classList.add("sc-current");
+    }
 
-    handleMenuItemClick(e, index);
+
+    if(index !== 4){
+      handleMenuItemClick(e, index);
+    }
   }, [handleMenuItemClick]);
 
   useEffect(() => {
@@ -132,11 +126,7 @@ export default function Footer({ handleMenuItemClick, resetTrigger }) {
     }
   }, [resetTrigger]);
 
-  const handleMouseEnter = () => {
-    if (selectedIndex === null || selectedIndex >= 5) {
-      setIsExpanded(true);
-    }
-  };
+ 
 
 
   return (
@@ -190,7 +180,7 @@ export default function Footer({ handleMenuItemClick, resetTrigger }) {
             ref={el => menuItemsRef.current[index] = el}
             onClick={(e) => handleFooterItemClick(e, index, isExpanded)}
             data-tooltip-id={`tooltip-${index}`}
-            onClickCapture={handleMouseEnter}
+            // onClickCapture={handleMouseEnter}
           >
             <button
               className="sc-menu-item bg-transparent border-4 w-12"
@@ -300,7 +290,7 @@ export default function Footer({ handleMenuItemClick, resetTrigger }) {
               ref={el => menuItemsRef.current[index] = el}
               onClick={(e) => handleFooterItemClick(e, index, isExpanded)}
               data-tooltip-id={`tooltip-${index}`}
-              onClickCapture={handleMouseEnter}
+              // onClickCapture={handleMouseEnter}
             >
               <button
                 className="sc-menu-item bg-transparent border-4 w-12"

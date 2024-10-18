@@ -28,10 +28,11 @@ const CustomCheckbox = React.forwardRef(({ className, ...props }, ref) => (
 ));
 CustomCheckbox.displayName = CheckboxPrimitive.Root.displayName;
 
-export default function UserManagement() {
+export default function UserManagement({role}) {
   const [scrollPercentage, setScrollPercentage] = useState(0);
   const tableRef = useRef(null);
   const { isDarkMode } = useTheme(); // Access dark mode from theme context
+
 
   const navigate = useNavigate();
 
@@ -56,13 +57,21 @@ export default function UserManagement() {
     };
   }, []);
 
-  const handleDropPin=()=>{
-    navigate({
-      pathname: `/${process.env.REACT_APP_BASE_URL}`,
-      search: `?sides=Hand`,
-    });
+  const handleDropPin = () => {
+    if(role === "user"){
+      navigate({
+        pathname: `/${process.env.REACT_APP_BASE_URL}`,
+        search: `?sides=Hand&role=${role}`,
+      });
+      // `?sides=Hand&role=${role}`,  -> use for admin in production on obove
+    }
+    // navigate({
+    //   pathname: `/${process.env.REACT_APP_BASE_URL}`,
+    //   search: `?sides=Hand&role=`,
+    // });
     console.log("Admin DroppedPin clicked");
-  }
+  };
+  
 
   return (
     <div className="flex h-[calc(100vh-6rem)]">
