@@ -84,12 +84,19 @@ export default function Feedback({
       {/* Map over ratings to display the images */}
           {ratings.map((item) => (
             <button
-              key={item.value}
-              className={`flex bg-transparent sm:px-3 laptop_s:px-3 px-3 justify-center  py-2 border sm:rounded-xl rounded-lg flex-col items-center sm:space-y-1 space-y-2 transition-colors ${
-                isDarkMode ? "  border-transparent bg-[#444646] " : " border-transparent outline-none bg-white"
-              }`}
-              onClick={() => setRating(item.value)} 
-            >
+            key={item.value}
+            className={`flex bg-transparent sm:px-3 laptop_s:px-3 px-3 justify-center py-2 border sm:rounded-xl rounded-lg flex-col items-center sm:space-y-1 space-y-2 transition-colors ${
+              isDarkMode
+                ? rating === item.value
+                  ? "border-transparent bg-[#444646] "
+                  :   "bg-black text-white border-white"
+                : rating === item.value
+                ? "bg-white text-white"
+                : "border-transparent border border-white bg-black"
+            }`}
+            onClick={() => setRating(item.value)} 
+          >
+
               {/* Render the corresponding image */}
               <img src={item.image} alt={item.value} className="w-8 sm:w-6 h-10 sm:h-7 laptop_s:h-8 laptop_s:w-6" />
               <p className={`sm:text-[9px] laptop_s:text-[10px] text-[9px] w-8 sm:h-6 h-3 ${item.color}`}>
