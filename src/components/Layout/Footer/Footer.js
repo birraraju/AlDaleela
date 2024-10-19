@@ -30,7 +30,7 @@ export default function Footer({ handleMenuItemClick,setPopup, resetTrigger }) {
 
   const handleFooterItemClick = useCallback((e, index, isExpanded) => {
     e.preventDefault();
-
+    console.log("Current footer index:", index);
     if (index <= 4) {
       setIsExpanded(false);
     }
@@ -72,24 +72,41 @@ export default function Footer({ handleMenuItemClick,setPopup, resetTrigger }) {
       }
   
       const menuBar = document.querySelector(".sc-bottom-bar");
-      if (menuBar) {
-        let size = position - 11;
-        if (isExpanded && (index === 5 || index === 6)) {
-          size = position - 11;
-        } else if (isExpanded && (index === 2)) {
-          size = position - 3;
-        } else if (isExpanded && (index === 3)) {
-          size = position + 3;
-        } else if (isExpanded && (index === 1)) {
-          size = position - 7;
-        } else if (isExpanded && (index === 0)) {
-          size = position - 11;
-        }
-        menuBar.style.backgroundPosition = `${size}px`;
-        menuBar.style.backgroundImage = document.body.classList.contains('theme-dark')
-          ? 'radial-gradient(circle at 38px 4px, transparent 28px, rgba(0, 0, 0, 0.2) 29px)'
-          : 'radial-gradient(circle at 38px 4px, transparent 28px, rgba(18, 69, 41, 0.2) 29px)';
-      }
+if (menuBar) {
+  let size = position - 11; // Default size assignment
+
+  // Check if the menu is expanded and set the position based on index and language
+  if (isExpanded) {
+    switch (index) {
+      case 0:
+        size = isLangArab ? position - 60 : position - 11;
+        break;
+      case 1:
+        size = isLangArab ? position - 65 : position - 7;
+        break;
+      case 2:
+        size = isLangArab ? position - 70 : position - 3;
+        break;
+      case 3:
+        size = isLangArab ? position - 75 : position + 3;
+        break;
+      case 4:
+      case 5:
+      case 6:
+        size = position - 11; // Same for indexes 4, 5, and 6
+        break;
+      default:
+        break;
+    }
+  }
+
+  // Apply the calculated size to the menuBar's background position
+  menuBar.style.backgroundPosition = `${size}px`;
+  menuBar.style.backgroundImage = document.body.classList.contains('theme-dark')
+    ? 'radial-gradient(circle at 38px 4px, transparent 28px, rgba(0, 0, 0, 0.2) 29px)'
+    : 'radial-gradient(circle at 38px 4px, transparent 28px, rgba(18, 69, 41, 0.2) 29px)';
+}
+
   
       setActiveMenuIndex(index);
       setSelectedIndex(index);
