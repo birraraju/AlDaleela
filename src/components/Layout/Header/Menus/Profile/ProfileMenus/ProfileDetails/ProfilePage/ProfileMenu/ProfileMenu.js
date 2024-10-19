@@ -2,8 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import ChangePassword from "../../ChangePassword/ChangePassword";
-import SuccessMessage from "../../SuccessMessage/SuccessMessage";
-import FailureMessage from "../../SuccessMessage/FailureMessage/FailureMessage";
+// import SuccessMessage from "../../SuccessMessage/SuccessMessage";
+// import FailureMessage from "../../SuccessMessage/FailureMessage/FailureMessage";
+
 
 import ProfilePage from "../ProfilePage";
 import { useTheme } from '../../../../../../../../Layout/ThemeContext/ThemeContext'; // Import the theme context
@@ -20,11 +21,14 @@ export default function ProfileMenu({
   isSuccess,
   setIsProfileData,
   setIsFailure,
-  isFailure
+  isFailure,
+  setIsMsgStatus,
+  setModalMessage
 }) {
   const menuRef = useRef(null);
   const { isDarkMode } = useTheme(); // Access the dark mode state
   const [ChangeCloseProfile,setChangeCloseProfile] = useState(false);
+
 
 
   useEffect(() => {
@@ -62,12 +66,19 @@ export default function ProfileMenu({
             setIsProfile={setIsProfile}
             setIsProfileData={setIsProfileData}
             setChangeCloseProfile={setChangeCloseProfile}
+            setIsSuccess={setIsSuccess}
+            setIsFailure={setIsFailure}
+            setIsMsgStatus={setIsMsgStatus}
+            setModalMessage={setModalMessage}
+            
           />
         )}
 
         {(isChangePassword && ChangeCloseProfile) && (
           <ChangePassword
             setIsPopoverOpen={setIsPopoverOpen}
+            setModalMessage={setModalMessage}
+            setIsMsgStatus={setIsMsgStatus}
             setChangeCloseProfile={setChangeCloseProfile}
             setIsEditProfile={setIsEditProfile}
             isEditProfile={isEditProfile}
@@ -76,10 +87,11 @@ export default function ProfileMenu({
             setIsSuccess={setIsSuccess}
             setIsProfile={setIsProfile}
             setIsFailure={setIsFailure}
+            setIsProfileData={setIsProfileData}
           />
         )}
 
-        {isSuccess && (
+        {/* {isSuccess && (
           <SuccessMessage
             setIsProfile={setIsProfile}
             setIsSuccess={setIsSuccess}
@@ -87,7 +99,8 @@ export default function ProfileMenu({
         )}
         {isFailure &&
           (<FailureMessage setIsProfile={setIsProfile} setIsFailure={setIsFailure} />)
-        }
+        } */}
+          
       </div>
     </div>
   );

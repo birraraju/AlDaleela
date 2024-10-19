@@ -50,9 +50,6 @@ const Menus = ({
   console.log("StackStatus:",isStackOpen)
   return (
     <div className="text-white flex justify-between z-10 items-center">
-      <div className=" sm:hidden grid" onClick={()=>handleResponsiveSearchHeader()} >
-    <img src={ResponsiveSearch}  alt="" className=" h-8" />
-  </div>
       
       {isLangArab?(<>
 
@@ -92,9 +89,18 @@ const Menus = ({
         StackOpen={isStackOpen}
         handleCloseResponsiveSearch={handleCloseResponsiveSearch} // Ensure this prop is passed if needed
       />
+
+    <div className=" sm:hidden grid" onClick={()=>handleResponsiveSearchHeader()} >
+    <img src={ResponsiveSearch}  alt="" className=" h-8" />
+    </div>
       
       </>):
       (<>{/* Searchbar with necessary props */}
+
+    <div className=" sm:hidden grid" onClick={()=>handleResponsiveSearchHeader()} >
+    <img src={ResponsiveSearch}  alt="" className=" h-8" />
+    </div>
+
       <Searchbar
         isHeaderOpen={isHeaderOpen}
         isFooterOpen={isFooterOpen}
@@ -130,7 +136,8 @@ const Menus = ({
         StackOpen={isStackOpen} // Pass the current state of Stack
         isHeaderOpen={isHeaderOpen}
         isProfileInOpen={handleProfileOpen} // Control profile state
-      /></>)}
+      />
+      </>)}
     </div>
   );
 };

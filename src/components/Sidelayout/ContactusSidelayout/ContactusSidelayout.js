@@ -44,7 +44,7 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
     opacity: 0 
   }}
   transition={{ ease: "easeInOut" }}
-    className={`p-4  sm:py-4  sm:h-[46vh] laptop_s:h-[75vh] h-[70vh]  fixed top-16 ${isLangArab?"left-1 sm:left-16 laptop_s:left-10":"right-1 sm:right-16 laptop_s:right-10"}  backdrop-blur rounded-3xl text-black ${
+    className={`p-4  sm:py-4  sm:h-[46vh] laptop_s:h-[75vh] h-[79vh]  fixed top-16 ${isLangArab?"left-1 sm:left-16 laptop_s:left-10":"right-1 sm:right-16 laptop_s:right-10"}  backdrop-blur rounded-3xl text-black ${
       isDarkMode
         ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none"
         : "bg-white bg-opacity-70 backdrop-blur-lg border-white"
@@ -122,7 +122,7 @@ Abu Dhabi
  
         <div className="flex justify-center space-x-4 pt-4 border-t border-gray-400">
           <a href="https://www.facebook.com/EnvironmentAbuDhabi/ "  target="_blank" rel="noopener noreferrer"><img src={fb} alt="Facebook" className="h-6 w-6" /></a>
-          <a href="https://x.com/EADTweets"  target="_blank" rel="noopener noreferrer"><img src={twitter} alt="Twitter" className="h-6 w-6" /></a>
+          {/* <a href="https://x.com/EADTweets"  target="_blank" rel="noopener noreferrer"><img src={twitter} alt="Twitter" className="h-6 w-6" /></a> */}
           <a href="https://x.com/EADTweets"  target="_blank" rel="noopener noreferrer" ><img src={x} alt="X" className="h-6 w-6" /></a>
           <a href="https://www.linkedin.com/company/environment-agency-abu-dhabi/"  target="_blank" rel="noopener noreferrer"><img src={linkedin} alt="LinkedIn" className="h-6 w-6" /></a>
           <a href="https://www.instagram.com/Environmentabudhabi/"  target="_blank" rel="noopener noreferrer"><img src={insta} alt="Instagram" className="h-6 w-6" /></a>

@@ -70,7 +70,7 @@ export default function AboutusSidelayout({
       </div>
 
       {/* Toggle button */}
-      <div className={`absolute top-12 ${isLangArab?"-right-7":"-left-6"}`}>
+      <div className={`absolute hidden sm:block top-12 ${isLangArab?"-right-7":"-left-6"}`}>
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="relative w-8 h-32 focus:outline-none"

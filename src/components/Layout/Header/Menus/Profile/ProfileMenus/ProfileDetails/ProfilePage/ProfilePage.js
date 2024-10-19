@@ -12,7 +12,8 @@ export default function ProfilePage({
   setIsChangePassword,
   setIsProfile,
   setIsProfileData,
-  setChangeCloseProfile
+        setModalMessage,
+        setChangeCloseProfile,setIsSuccess,setIsFailure,setIsMsgStatus,
 }) {
   const {profiledetails} = useAuth()
   useEffect(() => {
@@ -39,6 +40,11 @@ export default function ProfilePage({
         setIsProfile={setIsProfile}
         setIsEditProfile={setIsEditProfile}
         isEditProfile={isEditProfile}
+        setIsSuccess={setIsSuccess}
+        setIsFailure={setIsFailure}
+        setIsMsgStatus={setIsMsgStatus}
+        setModalMessage={setModalMessage}
+        setIsProfileData={setIsProfileData}
       />
     </div>
   );

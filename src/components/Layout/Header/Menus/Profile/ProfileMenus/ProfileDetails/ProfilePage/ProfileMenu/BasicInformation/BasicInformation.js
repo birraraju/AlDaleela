@@ -12,7 +12,7 @@ import {
 import { useTheme } from "../../../../../../../../../Layout/ThemeContext/ThemeContext"; // Import your theme context
 import {UserActivityLog} from "../../../../../../../../../Common/UserActivityLog";
 
-export default function BasicInformation({ isEditProfile, setIsEditProfile,setIsProfile }) {
+export default function BasicInformation({ isEditProfile,setIsSuccess,setIsFailure,setIsMsgStatus,setModalMessage,setIsProfileData, setIsEditProfile,setIsProfile }) {
   const {profiledetails} = useAuth()
   const { isDarkMode,isLangArab } = useTheme(); // Access dark mode from theme context
   const [userInfo1, setUserInfo1] = useState([])
@@ -140,7 +140,7 @@ const handleUpdate = async(e) => {
         console.log(response);
     }
     const data = await response.text();
-    if(data == "Data Updated Successfully"){
+    if(data === "Data Updated Successfully"){
       profiledetails.username = finaluserInfo.username;
       profiledetails.phoneNumber = finaluserInfo.phoneNumber;
       profiledetails.email = finaluserInfo.email;
@@ -149,10 +149,20 @@ const handleUpdate = async(e) => {
       UserActivityLog(profiledetails, "Profile Updated")
       //console.log(values);
       setIsEditProfile(false)
-      setIsProfile(true)
+      setIsMsgStatus("Success")
+      setModalMessage("Profile updated Successfully !")
+      // setIsProfile(true)
+      setIsSuccess(true)
+      setIsProfileData(false)
     }
     else{
       console.log(data)
+      setIsFailure(true)
+      setIsEditProfile(false)
+      setIsMsgStatus("Failure")
+      setModalMessage("Failed to updated Profile Data !")
+      // setIsProfile(true)
+      setIsProfileData(false)
     }
     // setRole("admin");
     // onClose();
