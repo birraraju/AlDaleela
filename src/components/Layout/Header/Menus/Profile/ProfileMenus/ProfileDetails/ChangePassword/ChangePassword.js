@@ -4,7 +4,7 @@ import ChangePasswordForm from "./ChangePasswordForm/ChangePasswordForm";
 import { useTheme } from "../../../../../../../Layout/ThemeContext/ThemeContext"; // Import your theme context
 
 
-export default function ChangePassword({ setIsChangePassword,setIsFailure,setIsPopoverOpen,setChangeCloseProfile, setIsSuccess, setIsProfile }) {
+export default function ChangePassword({ setIsProfileData,setModalMessage,setIsChangePassword,setIsFailure,setIsMsgStatus,setIsPopoverOpen,setChangeCloseProfile, setIsSuccess, setIsProfile }) {
   const { isDarkMode,isLangArab } = useTheme(); // Access dark mode from theme context
 
   return (
@@ -30,10 +30,13 @@ export default function ChangePassword({ setIsChangePassword,setIsFailure,setIsP
 
       <ChangePasswordForm
       setIsFailure={setIsFailure}
+      setIsProfileData={setIsProfileData}
+      setIsMsgStatus={setIsMsgStatus}
         setIsChangePassword={setIsChangePassword}
         setChangeCloseProfile={setChangeCloseProfile}
         setIsSuccess={setIsSuccess}
         setIsProfile={setIsProfile}
+        setModalMessage={setModalMessage}
       />
     </>
   );

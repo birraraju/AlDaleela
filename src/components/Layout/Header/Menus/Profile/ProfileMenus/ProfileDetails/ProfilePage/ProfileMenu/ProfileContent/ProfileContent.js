@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "../../../../../../../../../../components/ui/button";
 import { useAuth } from "../../../../../../../../../../Providers/AuthProvider/AuthProvider";
 import { useTheme } from '../../../../../../../../../Layout/ThemeContext/ThemeContext'; // Import the theme context
+import SampleImageProfile from "../../../../../../../../../../assets/Header/Profile/ProfileDetails/Profile.svg"
 
 export default function ProfileContent({ 
   isEditProfile, 
@@ -26,7 +27,8 @@ export default function ProfileContent({
 
           <div className="w-[80%]">
             <div className="tracking-wide">
-              <h1 className={`sm:text-lg text-sm font-medium text-${isDarkMode ? 'white' : 'gray-600'} `}>{profiledetails.username}</h1>
+              <h1 className={`sm:text-lg text-sm font-medium text-${isDarkMode ? 'white' : 'gray-600'} `}>{profiledetails.username ? profiledetails.username: profiledetails.username === "" && profiledetails.firstName}
+              </h1>
               <p className={`sm:text-base text-xs font-light text-${isDarkMode ? '[#FFFFFFCC]' : 'gray-600'} `}>{profiledetails.email}</p>
 
             </div>
@@ -55,7 +57,7 @@ export default function ProfileContent({
         <div className="flex justify-center items-center">
           <div className="relative h-28 w-28 rounded-full overflow-hidden">
             <img
-              src="/Header/Profile/admin.png"
+              src={SampleImageProfile}
               alt="Admin"
               className="w-full h-full rounded-full"
             />

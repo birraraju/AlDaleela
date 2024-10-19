@@ -16,9 +16,11 @@ import SideLayout6 from "../Sidelayout/sidelayout6";
 
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import RoleServices from '../servicces/RoleServices';
 
 
-const DefaultLayout = () => {
+
+const DefaultLayout = ({role}) => {
   const buttonLabels = ["Home", "Add", "Subtract", "Hand", "Next", "Export", "Print"];
   const [popup, setPopup] = useState(null);
   const [resetFooter, setResetFooter] = useState(false);
@@ -32,10 +34,18 @@ const DefaultLayout = () => {
   const navigate = useNavigate();
     
   useEffect(()=>{
-    if(sides){
+    handleDropbinAdmin(sides)
+  },[sides])
+
+  const handleDropbinAdmin=(sides)=>{
+    if(sides && !role === "admin"){
+      navigate({
+        pathname: `/${process.env.REACT_APP_BASE_URL}`,
+      });
+    }else if(sides && RoleServices.isAdmin){
       setPopup(renderComponent(sides));
     }
-  },[sides])
+  }
  
   const handleClose = () => {
     setPopup(null);
@@ -80,6 +90,7 @@ const DefaultLayout = () => {
     }
   }
 
+
   // const handleHeaderOpen = () => {
   //   setPopup(null);
   // };
@@ -104,6 +115,7 @@ const DefaultLayout = () => {
         <Footer
           handleMenuItemClick={handleMenuItemClick}
           resetTrigger={resetFooter}
+          setPopup={setPopup}
         />
       </div>
     </div>

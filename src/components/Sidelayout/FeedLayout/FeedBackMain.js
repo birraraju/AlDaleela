@@ -52,7 +52,7 @@ export default function SendFeedBack({
   return (
     <div
       ref={feedbackRef}
-      className={`fixed sm:top-16 w-[510px] sm:w-[400px] top-14 ${ isLangArab?"left-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
+      className={`fixed sm:top-16 w-[510px] sm:w-[400px] top-14 ${ isLangArab?" right-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
         isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-full":"translate-x-full")
       }`}
       style={{  height }}
@@ -93,7 +93,7 @@ export default function SendFeedBack({
       </div>
 
       {/* Toggle button */}
-      <div className={`absolute top-4 ${isLangArab?"-right-7":"-left-6"}`}>
+      <div className={`absolute hidden sm:block top-4 ${isLangArab?"-right-7":"-left-6"}`}>
         <button
           onClick={toggleSideLayout}
           className="relative w-8 h-32 focus:outline-none"

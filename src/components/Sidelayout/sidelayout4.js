@@ -4,9 +4,10 @@ import Location from '../../assets/Droppedpin/Location.svg';
 import { X } from "lucide-react";
 import DarkLocation from '../../assets/Droppedpin/Dropped Pin.svg';
 import { useTheme } from '../Layout/ThemeContext/ThemeContext'; // Import the theme context
+import Editor from '../../components/Widgets/Editor/Editor'
 
 
-export default function SideLayout4({ children, width = "454.84px",  onClose }) { //height = "calc(95vh - 2rem)",
+export default function SideLayout4({ children, width = "454.84px",  onClose, mapview }) { //height = "calc(95vh - 2rem)",
   const [isOpen, setIsOpen] = useState(true);   // Controls slide in/out
   const [isFullyClosed, setIsFullyClosed] = useState(false); // Controls visibility
   const [toggleCount, setToggleCount] = useState(0);
@@ -80,6 +81,7 @@ export default function SideLayout4({ children, width = "454.84px",  onClose }) 
             </div>
           )}
         </div>
+        <div><Editor mapview={mapview}/> </div>
         {/* X Close Button in the top-left corner */}
         <button
           onClick={closePanel}

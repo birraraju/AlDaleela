@@ -27,7 +27,7 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
   const [isPassword, setIsPassword] = useState(false);
   const { setRole } = useAuth();
   const {profiledetails , setprofiledetails} = useAuth()
-  const { isDarkMode } = useTheme(); // Access the dark mode state
+  const { isDarkMode, isLangArab } = useTheme(); // Access the dark mode state
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -97,7 +97,7 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
               <FormControl>
                 <div className="relative">
                   <Input
-                    placeholder="Enter Username"
+                    placeholder= {isLangArab ?"أدخل اسم المستخدم":"Enter Username"}
                     type="text"
                     {...field}
                     className={`${
@@ -122,7 +122,7 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
               <FormControl>
                 <div className="relative">
                   <Input
-                    placeholder="Enter Password"
+                    placeholder={isLangArab?"أدخل كلمة المرور":"Enter Password"}
                     type={isPassword ? "text" : "password"}
                     {...field}
                     className={`${
@@ -154,7 +154,7 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
           <div className="flex items-center space-x-2">
             <Checkbox className={`${isDarkMode ? "bg-gray-400 border-gray-700" : "bg-white"}`} />
             <Label className={`text-${isDarkMode ? '[#FFFFFFCC]' : '[#000000CC]'} text-[14px] font-[400]`}>
-              {form.formState.isValid ? "Remember me" : "Stay logged in"}
+              {form.formState.isValid ? "Remember me" : isLangArab ? "البقاء مسجلًا":"Stay logged in"}
             </Label>
           </div>
 

@@ -52,7 +52,7 @@ export default function ProfileMenus({
             setIsPopoverOpen={setIsPopoverOpen}
             setIsContribution={setIsContribution} // Handle Contribution
           />
-          {role !== "user" && <Administration />}
+          {role === "admin" && <Administration />}
           
         </>
       )}

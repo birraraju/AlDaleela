@@ -6,19 +6,25 @@ import Feedback from "../Header/Sidebar/SidebarComponent/Feedback/Feedback";
 import ContentManagement from "../Header/Sidebar/SidebarComponent/ContentManagement/ContentManagement";
 import Activitylog from "../Header/Sidebar/SidebarComponent/ActivityLog/Activitylog";
 import { useTheme } from '../../ThemeContext/ThemeContext'; // Import the theme context
+import { useNavigate } from 'react-router-dom';
+import RoleServices from '../../../servicces/RoleServices';
 
-const AdminLayout = () => {
+
+
+const AdminLayout = ({role}) => {
   const [popup, setPopup] = useState(null);
   const [isFooterOpen, setIsFooterOpen] = useState(false);
   const [activeItem, setActiveItem] = useState("User Management");
   const { isDarkMode } = useTheme(); // Access the dark mode state
+  const navigate = useNavigate();
+
 
   const renderContent = () => {
     switch (activeItem) {
       case "User Management":
         return <UserManagement />;
       case "Content Management":
-        return <ContentManagement />;
+        return <ContentManagement role={role} />;
       case "Feedback":
         return <Feedback />;
       case "User Activity Log":
@@ -28,6 +34,26 @@ const AdminLayout = () => {
         
     }
   };
+
+
+  const handleAdminAuth=()=>{
+    if(!RoleServices.isAdmin()){
+      navigate({
+              pathname: `/${process.env.REACT_APP_BASE_URL}`,
+            });
+    }
+  }
+
+  useEffect(()=>{
+    handleAdminAuth()
+  },[])
+  // useEffect(()=>{
+  //   if(role !== "user"){
+  //     navigate({
+  //       pathname: `/${process.env.REACT_APP_BASE_URL}`,
+  //     });
+  //   }
+  // },[role])
 
   const handleStackOpen = () => {
     setPopup(null);

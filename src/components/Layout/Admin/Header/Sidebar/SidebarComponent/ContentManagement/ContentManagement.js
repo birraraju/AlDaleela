@@ -5,6 +5,8 @@ import PinPoint from '../../../../../../../assets/Admin/logo/imageContentMangePi
 import MediaPinPoint from '../../../../../../../assets/Admin/logo/imagePinMedia.png';
 import { useTheme } from "../../../../../ThemeContext/ThemeContext"; // Importing the theme context
 import { useNavigate } from 'react-router-dom';
+import RoleServices from '../../../../../../servicces/RoleServices';
+
 
 const users = [
   { username: "User name", email: "user@gmail.com", Datetime: "2024-10-11 09:22:25", poiName: "Al Makhtabshah", Organization: "DMT", classification: "Marine", municipality: "Abu Dhabi", media: "3" },
@@ -28,10 +30,11 @@ const CustomCheckbox = React.forwardRef(({ className, ...props }, ref) => (
 ));
 CustomCheckbox.displayName = CheckboxPrimitive.Root.displayName;
 
-export default function UserManagement() {
+export default function UserManagement({role}) {
   const [scrollPercentage, setScrollPercentage] = useState(0);
   const tableRef = useRef(null);
   const { isDarkMode } = useTheme(); // Access dark mode from theme context
+
 
   const navigate = useNavigate();
 
@@ -56,13 +59,15 @@ export default function UserManagement() {
     };
   }, []);
 
-  const handleDropPin=()=>{
-    navigate({
-      pathname: `/${process.env.REACT_APP_BASE_URL}`,
-      search: `?sides=Hand`,
-    });
+  const handleDropPin = () => {
+      navigate({
+        pathname: `/${process.env.REACT_APP_BASE_URL}`,
+        search: `?sides=Hand`,
+      });
+   
     console.log("Admin DroppedPin clicked");
-  }
+  };
+  
 
   return (
     <div className="flex h-[calc(100vh-6rem)]">
