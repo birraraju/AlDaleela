@@ -11,12 +11,70 @@ import RightArrow from '../../../assets/navigations/imagesideRigthArrow.png'; //
 import DashSign from '../../../assets/navigations/image.png';
 import { useTheme } from "../ThemeContext/ThemeContext";
 import { useAuth } from "../../../Providers/AuthProvider/AuthProvider";
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import * as reactiveUtils from "@arcgis/core/core/reactiveUtils.js";
 
 export default function Sidebar() {
   const { isDarkMode,isLangArab } = useTheme(); // Access the theme from context
   const {contextMapView, initialExtent, extentHistory, setExtentHistory, currentExtentIndex, setCurrentExtentIndex} = useAuth();
   const [panmode, setpanmode] = useState(true)
+
+    // Mutable refs for extent history
+    const _prevExtent = useRef(false);
+    const _preExtent = useRef(null);
+    const _currentExtent = useRef(null);
+    const _extentHistory = useRef([]);
+    const _extentHistoryIndx = useRef(0);
+    const _nextExtent = useRef(false);
+    const zoomPrevBtn = useRef(null);
+    const zoomNextBtn = useRef(null);
+
+
+  useEffect(()=>{
+    if(contextMapView){
+      // Handle extent change
+      reactiveUtils.when(
+        () => contextMapView.stationary,
+        () => {
+            extentChangeHandler(contextMapView.extent);
+        }
+      );
+    }
+    
+  },[contextMapView])
+
+  // Handle extent change and history
+  const extentChangeHandler = (evt) => {
+    console.log('extent changed', evt);
+    if (_prevExtent.current || _nextExtent.current) {
+        _currentExtent.current = evt;
+    } else {
+        _preExtent.current = _currentExtent.current;
+        _currentExtent.current = evt;
+        _extentHistory.current.push({
+            preExtent: _preExtent.current,
+            currentExtent: _currentExtent.current
+        });
+        _extentHistoryIndx.current = _extentHistory.current.length - 1;
+    }
+    _prevExtent.current = _nextExtent.current = false;
+    extentHistoryChange();
+  }
+
+  // Update button states
+  const extentHistoryChange = () => {
+    if (_extentHistory.current.length === 0 || _extentHistoryIndx.current === 0) {
+        if (zoomPrevBtn.current) zoomPrevBtn.current.classList.add("disabled");
+    } else {
+        if (zoomPrevBtn.current) zoomPrevBtn.current.classList.remove("disabled");
+    }
+    if (_extentHistory.current.length === 0 || _extentHistoryIndx.current === _extentHistory.current.length - 1) {
+        if (zoomNextBtn.current) zoomNextBtn.current.classList.add("disabled");
+    } else {
+        if (zoomNextBtn.current) zoomNextBtn.current.classList.remove("disabled");
+    }
+}
+
   var handleHomeClick = () =>{
     if(contextMapView) {
       contextMapView.goTo({
@@ -26,18 +84,19 @@ export default function Sidebar() {
     }
   }
   var handleNextLevelClick = () =>{
-    if (currentExtentIndex < extentHistory.length - 1) {
-      const nextExtent = extentHistory[currentExtentIndex + 1];
-      contextMapView.goTo(nextExtent);
-      setCurrentExtentIndex(currentExtentIndex + 1);
+    _nextExtent.current = true;
+    _extentHistoryIndx.current++;
+    if (_extentHistoryIndx.current > _extentHistory.current.length - 1) {
+        _extentHistoryIndx.current = _extentHistory.current.length - 1;
     }
+    contextMapView.goTo(_extentHistory.current[_extentHistoryIndx.current].currentExtent);
   }
   var handlePrivousLevelClick = () =>{
-    if (currentExtentIndex > 0) {
-      const previousExtent = extentHistory[currentExtentIndex - 1];
-      contextMapView.goTo(previousExtent);
-      setCurrentExtentIndex(currentExtentIndex - 1);
-    }
+    if (_extentHistory.current.length > 0 && _extentHistory.current[_extentHistoryIndx.current].preExtent) {
+      _prevExtent.current = true;
+      contextMapView.goTo(_extentHistory.current[_extentHistoryIndx.current].preExtent);
+      _extentHistoryIndx.current--;
+  }
   }
   const handlePanModeClick = () =>{
     if(panmode){
@@ -80,7 +139,7 @@ export default function Sidebar() {
       </button>
 
       {/* Right Arrow Button */}
-      <button onClick={handleNextLevelClick} className="w-12 h-12 text-white rounded-full flex items-center justify-center transition-colors duration-200">
+      <button onClick={handleNextLevelClick} ref={zoomNextBtn} className="w-12 h-12 text-white rounded-full flex items-center justify-center transition-colors duration-200">
         <img src={isDarkMode ? HomeDark : Home} alt="Right Arrow Icon" className="w-10 h-10" />
         <div className="absolute py-6 flex-1 justify-between">
           <img src={RightArrow} alt="Right Arrow" className="w-3" />
@@ -88,7 +147,7 @@ export default function Sidebar() {
       </button>
 
       {/* Left Arrow Button */}
-      <button onClick={handlePrivousLevelClick} className="w-12 h-12 text-white rounded-full flex items-center justify-center transition-colors duration-200">
+      <button onClick={handlePrivousLevelClick} ref={zoomPrevBtn} className="w-12 h-12 text-white rounded-full flex items-center justify-center transition-colors duration-200">
         <img src={isDarkMode ? HomeDark : Home} alt="Left Arrow Icon" className="w-10 h-10" />
         <div className="absolute py-6 flex-1 justify-between">
           <img src={LeftArrow} alt="Left Arrow" className="w-3 mr-1" />
