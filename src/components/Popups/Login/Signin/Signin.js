@@ -7,7 +7,7 @@ import { useTheme } from '../../../Layout/ThemeContext/ThemeContext'; // Import 
 
 export default function Signin({ onClose, onSignupClick, onForgotPasswordClick }) {
   const modalRef = useRef(null);
-  const { isDarkMode } = useTheme(); // Access the dark mode state
+  const { isDarkMode, isLangArab } = useTheme(); // Access the dark mode state
 
 
   useEffect(() => {
@@ -43,10 +43,10 @@ export default function Signin({ onClose, onSignupClick, onForgotPasswordClick }
           <img src={Logo} alt="Logo" className="h-12" />
         </div>
         <h2 className={`font-omnes text-[28px] leading-tight text-${isDarkMode ? '[#FFFFFFCC] text-opacity-80' : 'black'} mb-1 font-medium`}>
-          Welcome Back
+          {isLangArab?"مرحبًا بعودتك":"Welcome Back"}
         </h2>
         <p className={`font-omnes text-[14px] font-[400] text-${isDarkMode ? '[#FFFFFFCC]' : 'gray-500'} leading-5 mb-6`}>
-          Please sign in to your account
+          {isLangArab?"يرجى تسجيل الدخول إلى حسابك":"Please sign in to your account"}
         </p>
 
         <SignInForm

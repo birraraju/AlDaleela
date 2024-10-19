@@ -19,6 +19,7 @@ import { useTheme } from '../../../ThemeContext/ThemeContext'; // Import the the
 import SmallLogo from '../../../../../assets/Header/Profile/profileSmalllogo.svg';
 import AdminLogo from '../../../../../assets/Header/Profile/admin.png';
 import ProfileLogo from '../../../../../assets/Header/Profile/profile.png';
+import PopModal from "../../../../Common/SuccessFailureMessageModel";
 
 const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => {
   const [showAuthenticator, setShowAuthenticator] = useState(false);
@@ -37,6 +38,8 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
   const { role, setRole } = useAuth();
   const {profiledetails , setprofiledetails} = useAuth()
   const { isDarkMode,isLangArab } = useTheme(); // Use the theme hook
+  const [isMsgStatus, setIsMsgStatus] = useState("");
+  const [modalMessage, setModalMessage] = useState("")
 
   useEffect(() => {
     if (isPopoverOpen || isLeaderboard || isAboutUs || isProfileData || isContactUs || isContribution || isProfile || isEditProfile || isFeedBack || isChangePassword || isSuccess) {
@@ -155,7 +158,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
               />
             </div>
             <div className="mobile_s:ml-2 hidden sm:block laptop_m:ml-2">
-              {role !== null ? (profiledetails.username  ? profiledetails.username : profiledetails.firstName) : (isLangArab ? "الملف الشخصي":"Profile")}
+              {role !== null ? (profiledetails.username ? profiledetails.username: profiledetails.username === "" && profiledetails.firstName) : (isLangArab ? "الملف الشخصي":"Profile")}
             </div>
             <div className="mobile_s:mx-2 sm:block hidden laptop_m:mx-2">
               <IoMdArrowDropdown
@@ -251,11 +254,25 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
             setIsProfileData={setIsProfileData}
             setIsFailure={setIsFailure}
             isFailure={isFailure}
+            setIsMsgStatus={setIsMsgStatus}
+            setModalMessage={setModalMessage}
           />
         )}
         {isFeedBack && (
           <SendFeedBack setIsPopoverOpen={setIsPopoverOpen} setIsFeedBack={setIsFeedBack} />
         )}
+
+          <PopModal
+            message={modalMessage} // Pass the message from state
+            success={isMsgStatus} // Pass "Success" or "Failed" status
+            isOpenModal={isSuccess || isFailure} // Modal is open if either isSuccess or isFailure is true
+            onClose={() => {
+              setIsSuccess(false); // Close success modal
+              setIsFailure(false);
+              setIsProfileData(true)
+              setIsProfile(true) // Close failure modal
+            }}
+          />
       </AnimatePresence>
     </>
   );

@@ -28,7 +28,7 @@ const formSchema = z
     path: ["confirmNewPassword"],
   });
 
-export default function ChangePasswordForm({ setIsChangePassword,setIsFailure, setChangeCloseProfile,setIsSuccess, setIsProfile }) {
+export default function ChangePasswordForm({setIsProfileData,setModalMessage,setIsMsgStatus, setIsChangePassword,setIsFailure, setChangeCloseProfile,setIsSuccess, setIsProfile }) {
   const {profiledetails } = useAuth()
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -66,23 +66,33 @@ export default function ChangePasswordForm({ setIsChangePassword,setIsFailure, s
           console.log(response);
       }
       const data = await response.text();
-      if(data == "Data Updated Successfully"){
+      if(data === "Data Updated Successfully"){
         console.log(values);
         UserActivityLog(profiledetails, "Change Password")
         setIsSuccess(true);
+        setModalMessage("Password Change Scuccessfully")
+
         setIsProfile(false);
         setIsChangePassword(false);
+        setIsMsgStatus("Success")
+        setIsProfileData(false)
       }
       else{
         console.log(data)
         setIsSuccess(false);
+        setIsMsgStatus("Failure");
+        setModalMessage("Failed to Change Password !")
+        setIsProfileData(false)
         setIsFailure(true)
         setIsProfile(false);
         setChangeCloseProfile(false);
+       
+
       }
       // setRole("admin");
       // onClose();
     }catch (error) {
+      setIsMsgStatus("Failed")
       console.error('Error submitting form:', error);
     }    
   }

@@ -28,7 +28,7 @@ export default function ProfileDetails({
               className={` font-bold text-lg tracking-wider ${
                 isDarkMode ? "text-gray-200" : "text-[#505050]"
               }`}
-            >              {profiledetails.username ? profiledetails.username : profiledetails.firstName}
+            >              {profiledetails.username ? profiledetails.username: profiledetails.username === "" && profiledetails.firstName}
             </p>
             <p
               className={`  text-base tracking-wider ${

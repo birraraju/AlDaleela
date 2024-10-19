@@ -17,13 +17,22 @@ export default function Signup({ onClose, onSigninClick }) {
     organization: '',
     country: '',
   });
+
+  // State variables for error messages
+  const [errorMessages, setErrorMessages] = useState({
+    password: '',
+    confirmPassword: '',
+    phoneNumber: '',
+    username: '',
+  });
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const { isDarkMode } = useTheme(); // Access the dark mode state
   const [txtusername, settxtUsername] = useState('');
   const [usernameExists, setUsernameExists] = useState(false);
-
+  const [formIsValid, setFormIsValid] = useState(false); // Track form validity
 
   const modalRef = useRef(null);
 
@@ -44,15 +53,63 @@ export default function Signup({ onClose, onSigninClick }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
+    validateForm({ ...formData, [name]: value }); // Validate form on input change
+  };
+
+  const validateForm = (data) => {
+    const { password, confirmPassword, phoneNumber } = data;
+    setErrorMessages({
+      password: '',
+      confirmPassword: '',
+      phoneNumber: '',
+      username: '',
+    });
+
+    let valid = true;
+
+    // Check if all fields are filled
+    const allFieldsFilled = Object.values(data).every(value => value !== '');
+    if (!allFieldsFilled) {
+      valid = false;
+      // Optionally set error messages for specific fields
+    }
+
+    // Check password length
+    const isPasswordValid = password.length >= 8;
+    if (!isPasswordValid) {
+      valid = false;
+      setErrorMessages(prev => ({ ...prev, password: 'Password must be at least 8 characters long.' }));
+    }
+
+    // Check if passwords match
+    const doPasswordsMatch = password === confirmPassword;
+    if (!doPasswordsMatch) {
+      valid = false;
+      setErrorMessages(prev => ({ ...prev, confirmPassword: 'Passwords do not match.' }));
+    }
+
+    // Check if the username already exists
+    const isUsernameAvailable = !usernameExists; // Ensure username does not exist
+    if (!isUsernameAvailable) {
+      valid = false;
+      setErrorMessages(prev => ({ ...prev, username: 'Username already exists.' }));
+    }
+
+    // Check if phone number is exactly 10 digits and contains only numbers
+    const isPhoneNumberValid = phoneNumber.length === 10 && /^\d+$/.test(phoneNumber);
+    if (!isPhoneNumberValid) {
+      valid = false;
+      setErrorMessages(prev => ({ ...prev, phoneNumber: 'Phone number must be exactly 10 digits.' }));
+    }
+
+    setFormIsValid(valid); // Update form validity state
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
-  };
-
-  const isFormFilled = () => {
-    return Object.values(formData).every(value => value !== '');
+    if (formIsValid) {
+      onSignupClick();
+    }
   };
 
   const onSignupClick = async() =>{    
@@ -76,6 +133,7 @@ export default function Signup({ onClose, onSigninClick }) {
         if (response.ok) {
             // Handle successful signup
             console.log(response);
+            onClose();
         } else {
             // Handle error
             console.log(response);
@@ -148,35 +206,38 @@ export default function Signup({ onClose, onSigninClick }) {
             </p>
             <form onSubmit={handleSubmit} className="space-y-2">
               <div className="grid sm:grid-cols-2 grid-cols-1 gap-2">
+                <span>
                 <Input
                   type="text"
                   name="username"
-                  placeholder="Username"
+                  placeholder="First Name"
                   required
                   onChange={(e)=>{handleChange(e); settxtUsername(e.target.value)}}
                 />
-                {/* {usernameExists && <p style={{ color: 'red' }}>Username already exists</p>} */}
-                {/* {error && <p style={{ color: 'red' }}>{error}</p>} */}
+                {errorMessages.username && <p className=' text-sm' style={{ color: 'red' }}>{errorMessages.username}</p>} {/* Username error message */}
+                </span>
                 <Input
                   type="text"
                   name="firstName"
-                  placeholder="First Name"
+                  placeholder="Last Name"
                   required
                   onChange={handleChange}
                 />
               </div>
               <div className="grid sm:grid-cols-2 grid-cols-1 gap-2">
                 <div className='relative'>
+                <span>
                   <Input
                     type={`${ showPassword?"text":"password"}`}
                     name="password"
                     placeholder="Password"
                     required
+                    minLength={8} 
                     onChange={handleChange}
                   />
                   <button
                     type="button"
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2"
+                    className={`absolute right-3 ${errorMessages.password ?"top-6":"top-1/2"}  transform -translate-y-1/2`}
                     onClick={() => setShowPassword(!showPassword)}
                     aria-label={showPassword ? 'Hide password' : 'Show password'}
                   >
@@ -186,6 +247,9 @@ export default function Signup({ onClose, onSigninClick }) {
                         isDarkMode ? "text-black" : "text-black"
                       } opacity-50`} />}
                   </button>
+                 </span>
+                  {errorMessages.password && <p className=' text-sm' style={{ color: 'red' }}>{errorMessages.password}</p>} {/* Confirm password error message */}
+
                 </div>
                 <div className='relative'>
                   <Input
@@ -197,7 +261,7 @@ export default function Signup({ onClose, onSigninClick }) {
                   />
                   <button
                     type="button"
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2"
+                    className={`absolute right-3 ${errorMessages.confirmPassword ?"top-6":"top-1/2"}  transform -translate-y-1/2`}
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                     // aria-label={showPassword ? 'Hide password' : 'Show password'}
                   >
@@ -207,6 +271,8 @@ export default function Signup({ onClose, onSigninClick }) {
                         isDarkMode ? "text-black" : "text-black"
                       } opacity-50`}/>}
                   </button>
+                  {errorMessages.confirmPassword && <p className=' text-sm' style={{ color: 'red' }}>{errorMessages.confirmPassword}</p>} {/* Confirm password error message */}
+
                 </div>
               </div>
               <div className="grid sm:grid-cols-2 grid-cols-1 gap-2">
@@ -217,18 +283,23 @@ export default function Signup({ onClose, onSigninClick }) {
                   required
                   onChange={handleChange}
                 />
+                <span>
                 <Input
                   type="tel"
                   name="phoneNumber"
                   placeholder="Phone Number"
+                  required
                   onChange={handleChange}
                 />
+                {errorMessages.phoneNumber && <p className=' text-sm' style={{ color: 'red' }}>{errorMessages.phoneNumber}</p>} {/* Phone number error message */}
+                </span>
               </div>
               <div className="grid sm:grid-cols-2 grid-cols-1 gap-2">
                 <Input
                   type="text"
                   name="organization"
                   placeholder="Organization"
+                  required
                   onChange={handleChange}
                 />
                 <div className="relative">
@@ -273,7 +344,7 @@ export default function Signup({ onClose, onSigninClick }) {
               type="submit"
               className={`sm:w-[308px] w-[270px] h-[48px] mx-auto block py-2 rounded-xl transition duration-300 text-sm mt-10
                 ${
-                  isFormFilled()
+                  formIsValid
                   ? isDarkMode
                       ? "bg-gradient-to-r from-[#036068] via-[#596451] to-[#1199A8] text-white"
                       : "bg-gradient-to-r from-[#036068] via-[#596451] to-[#1199A8] text-white"
@@ -282,7 +353,7 @@ export default function Signup({ onClose, onSigninClick }) {
                     : "bg-[#828282] opacity-50 text-white"
                 }
               `}
-              disabled={!isFormFilled()}
+              disabled={!formIsValid}
               onClick={onSignupClick}
             >
               Sign Up
