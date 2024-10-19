@@ -41,6 +41,7 @@ const MapComponent = (props) => {
         });
         setMapview(view)
         setconrextMapView(view)
+        view.on("click", handleMapClick(view));
       // // Create a new map
       // const map = new Map({
       //   basemap: "streets" // Change this to 'satellite', 'topo', etc., as needed
@@ -95,6 +96,17 @@ const MapComponent = (props) => {
       };
     }
   }, [MapView]);
+
+  const handleMapClick = (view) => (event) => {
+    view.hitTest(event).then((response) => {
+      const results = response.results;
+      if (results.length > 0) {
+        //const layer = results[0].layer;
+        //const graphic = results[0].graphic;
+        alert("Map Onlick Event")
+      }
+    });
+  };
 
   // Function to format the scale value into thousands (e.g., 2,311,162 => 2.3M)
   const formatScale = (scale) => {
