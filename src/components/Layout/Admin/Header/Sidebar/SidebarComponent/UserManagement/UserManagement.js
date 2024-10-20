@@ -85,57 +85,54 @@ export default function UserManagement() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-          const response = await fetch(`${process.env.REACT_APP_API_URL}/Registration/GetUsers`); // Example API
-          if (!response.ok) {
-              throw new Error('Network response was not ok');
-          }
-          const result = await response.json();
-          setData(result);
-      } catch (error) {
-          //setError(error.message);
-          console.log(error)
-      } finally {
-          //setLoading(false);
-      }
-
-      try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/UserActivityLog/latest-date/${profiledetails.username}`);
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/Registration/GetUsers`);
         if (!response.ok) {
-            throw new Error('Network response was not ok');
+          throw new Error('Network response was not ok');
         }
-        const data = await response.json();
-        //setLatestDate(data); // Assuming the response is just the date
-        const loginTime = data;
-        if (!loginTime) return "User has not logged in yet."; // No login time available
+        const result = await response.json();
+        
+        if (result.success) {
+          const newItems = result.data.map(user => {
+            const loginTime = user.lastlogin;
+            if (!loginTime) return { ...user, lastlogin: "User has not logged in yet." };
 
-        const lastLoginDate = new Date(loginTime);
-        const today = new Date();
+            const lastLoginDate = new Date(loginTime);
+            const today = new Date();
 
-        // Calculate the difference in milliseconds
-        const diffTime = today - lastLoginDate;
+            // Calculate the difference in milliseconds
+            const diffTime = today - lastLoginDate;
 
-        // Calculate time differences
-        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-        const diffMonths = Math.floor(diffDays / 30); // Approximate for simplicity
-        const diffYears = Math.floor(diffDays / 365);
+            // Calculate time differences
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            const diffMonths = Math.floor(diffDays / 30); // Approximate for simplicity
+            const diffYears = Math.floor(diffDays / 365);
+            let lastdateString;
 
-        // Determine the output string
-        if (diffYears > 0) {
-          setLatestDate(`${diffYears} year${diffYears > 1 ? 's' : ''} ago`);
-        } else if (diffMonths > 0) {
-           setLatestDate(`${diffMonths} month${diffMonths > 1 ? 's' : ''} ago`);
-        } else if (diffDays > 0) {
-            setLatestDate(`${diffDays} day${diffDays > 1 ? 's' : ''} ago`);
+            // Determine the output string
+            if (diffYears > 0) {
+              lastdateString = `${diffYears} year${diffYears > 1 ? 's' : ''} ago`;
+            } else if (diffMonths > 0) {
+              lastdateString = `${diffMonths} month${diffMonths > 1 ? 's' : ''} ago`;
+            } else if (diffDays > 0) {
+              lastdateString = `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+            } else {
+              lastdateString = "Logged in today";
+            }
+
+            return { ...user, lastlogin: lastdateString };
+          });
+
+          setData(newItems);
         } else {
-          setLatestDate( "Logged in today");
+          console.log(result.message);
         }
-    } catch (err) {
-        console.log(err.message);
-    }
-  };
-  
-  fetchData();    
-  },[data]);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+
+    fetchData();
+  }, [data]); 
 
   const handleFeedbackDelete = async (id) => {
     try {
@@ -144,18 +141,13 @@ export default function UserManagement() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify([id]),
       });
-      if (response.ok) {
-          console.log('Records deleted successfully');
-          const data = await response.text();
-          if(data ==="Records deleted successfully."){
-            console.log(data);
+      const data = await response.json();
+          if(data.success){
+            console.log(data.message);
           }
           else{
-            console.log(data);
+            console.log(data.message);
           }
-      } else {
-          console.log('Error logging activity:', response);
-      }      
       
       } catch (error) {
           console.error('Error submitting form:', error);
@@ -171,18 +163,13 @@ export default function UserManagement() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(selectedUsers),
       });
-      if (response.ok) {
-          console.log('Records deleted successfully');
-          const data = await response.text();
-          if(data ==="Records deleted successfully."){
-            console.log(data);
-          }
-          else{
-            console.log(data);
-          }
-      } else {
-          console.log('Error logging activity:', response);
-      }      
+      const data = await response.json();
+        if(data.success){
+          console.log(data.message);
+        }
+        else{
+          console.log(data.message);
+        }
       
       } catch (error) {
           console.error('Error submitting form:', error);
@@ -204,20 +191,13 @@ export default function UserManagement() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(userRoleObj),
       });
-      if (response.ok) {
-          const data = await response.text();
-          if(data == "Role Updated Successfully"){
-            console.log(data);
-            //UserActivityLog(profiledetails, "Change Password")
-          }
-          else{
-            console.log(data)            
-          }
-         
-      } else {
-          // Handle error
-          console.log(response);
-      }
+      const data = await response.json();
+        if(data.success){
+          console.log(data.message);
+        }
+        else{
+          console.log(data.message);
+        }     
     }catch (error) {
       console.error('Error submitting form:', error);
     }  
@@ -308,7 +288,7 @@ export default function UserManagement() {
                       )}
                     </td>
                     <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
-                      {latestDate}</td>
+                      {user.lastlogin}</td>
                     <td className="py-4">
                     <button className={` aria-label="Delete user" ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-red-500 hover:text-red-600"}`} onClick={() => handleFeedbackDelete(user.id)}>
                         <Trash2 className="w-5 h-5" />

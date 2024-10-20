@@ -322,8 +322,8 @@ export default function BasicInformation({ isEditProfile, setIsSuccess, setIsFai
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(finaluserInfo),
       });
-      const data = await response.text();
-      if (data === "Data Updated Successfully") {
+      const data = await response.json();
+      if (data.success) {
         profiledetails.username = finaluserInfo.username;
         profiledetails.phoneNumber = finaluserInfo.phoneNumber;
         profiledetails.email = finaluserInfo.email;

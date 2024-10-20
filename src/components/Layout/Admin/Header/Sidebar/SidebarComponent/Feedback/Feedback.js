@@ -62,7 +62,12 @@ const Feedback = () => {
               throw new Error('Network response was not ok');
           }
           const result = await response.json();
-          setData(result);
+          if(result.success){
+            setData(result.data);
+          }
+          else{
+            console.log(result.message)
+          }
       } catch (error) {
           //setError(error.message);
           console.log(error)
@@ -99,18 +104,13 @@ const Feedback = () => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify([id]),
       });
-      if (response.ok) {
-          console.log('Records deleted successfully');
-          const data = await response.text();
-          if(data ==="Records deleted successfully."){
-            console.log(data);
-          }
-          else{
-            console.log(data);
-          }
-      } else {
-          console.log('Error logging activity:', response);
-      }      
+      const data = await response.json();
+        if(data.success){
+          console.log(data.message);
+        }
+        else{
+          console.log(data.message);
+        }
       
       } catch (error) {
           console.error('Error submitting form:', error);
@@ -126,18 +126,13 @@ const Feedback = () => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(selectedUsers),
       });
-      if (response.ok) {
-          console.log('Records deleted successfully');
-          const data = await response.text();
-          if(data ==="Records deleted successfully."){
-            console.log(data);
-          }
-          else{
-            console.log(data);
-          }
-      } else {
-          console.log('Error logging activity:', response);
-      }      
+      const data = await response.json();
+        if(data.success){
+          console.log(data.message);
+        }
+        else{
+          console.log(data.message);
+        }
       
       } catch (error) {
           console.error('Error submitting form:', error);
