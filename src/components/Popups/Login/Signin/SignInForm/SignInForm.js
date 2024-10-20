@@ -51,34 +51,21 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(signupObj),
     });
-    if (response.ok) {
-        // Handle successful signup
-        //console.log(response);
-       
-    } else {
-        // Handle error
-        console.log(response);
-    }
     const data = await response.json();
-    if(data){
-      //UserActivityLog(data, "Logged in")
-      if(data.email){
-        //console.log(data)
-        UserActivityLog(data, "Logged in")
-        setprofiledetails(data);
-        //setRole("admin");
-        setRole(data.role);
-        localStorage.setItem("AldaleelaRole", data.role);
-        localStorage.setItem("AldaleelaUserDetails:",JSON.stringify(data))
-        //setRole("user");
-        onClose();
-      }      
-      else{
-        console.log(data)
-      }
+    if(data.success){
+      //console.log(data)
+      UserActivityLog(data.data, "Logged in")
+      setprofiledetails(data.data);
+      //setRole("admin");
+      setRole(data.data.role);
+      localStorage.setItem("AldaleelaRole", data.data.role);
+      localStorage.setItem("AldaleelaUserDetails:",JSON.stringify(data.data))
+      //setRole("user");
+      onClose();
+    }      
+    else{
+      console.log(data.message)
     }
-    // setRole("admin");
-    // onClose();
   }catch (error) {
     console.error('Error submitting form:', error);
   }

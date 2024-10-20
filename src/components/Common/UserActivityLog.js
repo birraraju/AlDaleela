@@ -31,14 +31,14 @@ export const UserActivityLog = async (userDetails, activity) => {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(usaObj),
-            });
-            if (response.ok) {
-                console.log('Activity logged successfully');
-            } else {
-                console.log('Error logging activity:', response);
-            }
-            const data = await response.text();
-            console.log(data);
+            });            
+            const data = await response.json();
+          if(data.success){
+            console.log('Activity logged successfully');
+          }
+          else{
+            console.log('Error logging activity:', response);         
+          }
         } catch (error) {
             console.error('Error submitting form:', error);
         }
