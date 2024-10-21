@@ -14,7 +14,7 @@ export default function ThemeToggle() {
          src={isDarkMode ? DarkBrush : Brush}
            alt="" className=" w-7" />        </div>
         <p
-          className={`font-medium font-omnes text-[18px]  ${
+          className={`font-medium  font-omnes text-[18px]  ${
             isDarkMode ? "text-gray-300" : "text-[#505050]"
           }`}
         >           {isLangArab?"الوضع الداكن":"Dark mode"}</p>
