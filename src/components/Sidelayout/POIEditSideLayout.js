@@ -5,9 +5,11 @@ import PoiEditShare from '../../assets/POIEdit/PoiEditShare.svg';
 import POIEditWrite from '../../assets/POIEdit/POIEditWrite.svg';
 import POILabelMark from '../../assets/POIEdit/POILabelMark.svg';
 import  POIEditForm from '../Layout/POIEdit/POIEditForm'
+import  POIEditFileUploader from '../Layout/POIEdit/POIFileUploader'
 
 
-// import { X } from "lucide-react";
+
+import { X } from "lucide-react";
 import DarkLocation from '../../assets/Droppedpin/Dropped Pin.svg';
 import { useTheme } from '../Layout/ThemeContext/ThemeContext'; // Import the theme context
 import { useAuth } from "../../Providers/AuthProvider/AuthProvider";
@@ -21,6 +23,9 @@ export default function POIEditSideLayout({ children, mapview }) { //height = "c
   const containerRef = useRef(null);
   const { isDarkMode, isLangArab } = useTheme(); // Access the dark mode state
   const {setIsEditPOI} = useAuth();
+  const [POIFormShow , setPOIFormShow]=useState(true);
+  const [POIFormUploader , setPOIUploaderShow]=useState(false);
+
 
 
 
@@ -79,7 +84,7 @@ export default function POIEditSideLayout({ children, mapview }) { //height = "c
         }`}>
         {/* Content */}
         <div className="p-2 overflow-y-auto h-full relative">
-          {children || (
+          {children || (<>
             <div className="absolute top-6 left-4 flex  gap-x-1">
               <img src={isDarkMode ? DarkLocation : Location }alt="Location" className="h-8" />
               <p className={`font-semibold font-poppins ${
@@ -87,23 +92,29 @@ export default function POIEditSideLayout({ children, mapview }) { //height = "c
                   }`}> <h1 className=" text-[12px]">برقة رشيد</h1>
                   <h2 className=" text-[12px]">Barqa Rashid</h2></p>
             </div>
+            <div className=" mt-20 overflow-y-auto">
+            <POIEditForm POIFormShow={POIFormShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow} />
+            <POIEditFileUploader POIFormUploader={POIFormUploader} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow}/>
+            </div>
+            </>
           )}
         </div>
+        
+        <div className={`absolute  top-4 flex right-2 p-2 transition-colors h-10 cursor-pointer z-50`}>
+        <img src={isDarkMode ? PoiEditShare : PoiEditShare }alt="Location" className="h-full" />
+        <img src={isDarkMode ? POIEditWrite : POIEditWrite }alt="Location" className="h-full" />
+        <img src={isDarkMode ? POILabelMark : POILabelMark }alt="Location" className="h-full" />
         {/* X Close Button in the top-left corner */}
-        {/* <button
+        <button
           onClick={()=> setIsEditPOI(false)}
-          className={`absolute top-4  right-4 p-2 transition-colors cursor-pointer z-50 ${
-            isDarkMode ? "text-white hover:text-gray-300" : "text-gray-600 hover:text-gray-900"
+          className={` transition-colors cursor-pointer z-50 ${
+            isDarkMode ? "  hover:text-gray-300" : "text-green-900"
           }`}  // Ensure it's clickable
           aria-label="Close side panel"
           style={{ zIndex: 100 }} // Ensure the "X" button is on top
         >
           <X className="h-5 w-6" />
-        </button> */}
-        <div className={`absolute  top-4 flex right-2 p-2 transition-colors h-10 cursor-pointer z-50`}>
-        <img src={isDarkMode ? PoiEditShare : PoiEditShare }alt="Location" className="h-full" />
-        <img src={isDarkMode ? POIEditWrite : POIEditWrite }alt="Location" className="h-full" />
-        <img src={isDarkMode ? POILabelMark : POILabelMark }alt="Location" className="h-full" />
+        </button>
         </div>
       </div>
 
