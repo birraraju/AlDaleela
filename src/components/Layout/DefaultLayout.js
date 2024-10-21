@@ -8,6 +8,8 @@ import SideLayout2 from "../Sidelayout/sidelayout2";
 import SideLayout3 from "../Sidelayout/sidelayout3";
 import SideLayout4 from "../Sidelayout/sidelayout4";
 import SideLayout1 from "../Sidelayout/sidelayout1";
+import POIEditLayout1 from "../Sidelayout/POIEditSideLayout";
+
 // import Contribution from "../Sidelayout/ContributionSidelayout/ContributionSidelayout";
 // import ContactusSidelayout from "../Sidelayout/ContactusSidelayout/ContactusSidelayout";
 import MapComponent from "../Layout/Map/MapComponent";
@@ -17,6 +19,9 @@ import SideLayout6 from "../Sidelayout/sidelayout6";
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import RoleServices from '../servicces/RoleServices';
+import { useAuth } from "../../Providers/AuthProvider/AuthProvider";
+
+
 
 
 
@@ -26,6 +31,10 @@ const DefaultLayout = ({role}) => {
   const [resetFooter, setResetFooter] = useState(false);
   const [isFooterOpen, setIsFooterOpen] = useState(false);
   const [mapview, setMapview] = useState(false);
+  const {isEditPOI} = useAuth();
+   
+  console.log("POI status Default:", isEditPOI);
+
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -69,6 +78,8 @@ const DefaultLayout = ({role}) => {
         return <SideLayout5 onClose={handleClose} mapview={mapview} />;
       case "Print":
         return <SideLayout6 onClose={handleClose}  mapview={mapview}/>;
+        case "POIEdit":
+        return <POIEditLayout1   mapview={mapview}/>;
       default:
         return <></>;
     }
@@ -90,6 +101,13 @@ const DefaultLayout = ({role}) => {
     }
   }
 
+  useEffect(()=>{
+    if(isEditPOI){
+      setPopup(renderComponent("POIEdit"));
+    }else{
+      setPopup(renderComponent(""));
+    }
+  },[isEditPOI])
 
   // const handleHeaderOpen = () => {
   //   setPopup(null);
@@ -110,6 +128,7 @@ const DefaultLayout = ({role}) => {
       <SideBar />
 
       {popup && <div className="absolute z-50">{popup}</div>}
+      {/* {isEditPOI && <POIEditLayout1/>} */}
       <div className="flex-1 relative overflow-hidden">
         <MapComponent setMapview={setMapview} mapview={mapview}/>
         <Footer

@@ -1,18 +1,27 @@
 import React, { useEffect, useState, useRef } from "react";
 import { IoIosArrowForward } from "react-icons/io";
-import Location from '../../assets/Droppedpin/Location.svg';
-import { X } from "lucide-react";
+import Location from '../../assets/POIEdit/POIBIN.svg';
+import PoiEditShare from '../../assets/POIEdit/PoiEditShare.svg';
+import POIEditWrite from '../../assets/POIEdit/POIEditWrite.svg';
+import POILabelMark from '../../assets/POIEdit/POILabelMark.svg';
+import  POIEditForm from '../Layout/POIEdit/POIEditForm'
+
+
+// import { X } from "lucide-react";
 import DarkLocation from '../../assets/Droppedpin/Dropped Pin.svg';
 import { useTheme } from '../Layout/ThemeContext/ThemeContext'; // Import the theme context
-import Editor from '../../components/Widgets/Editor/Editor'
+import { useAuth } from "../../Providers/AuthProvider/AuthProvider";
 
 
-export default function SideLayout4({ children, width = "454.84px",  onClose, mapview }) { //height = "calc(95vh - 2rem)",
+
+export default function POIEditSideLayout({ children, mapview }) { //height = "calc(95vh - 2rem)",
   const [isOpen, setIsOpen] = useState(true);   // Controls slide in/out
   const [isFullyClosed, setIsFullyClosed] = useState(false); // Controls visibility
   const [toggleCount, setToggleCount] = useState(0);
   const containerRef = useRef(null);
   const { isDarkMode, isLangArab } = useTheme(); // Access the dark mode state
+  const {setIsEditPOI} = useAuth();
+
 
 
   // Toggles the side panel sliding in and out
@@ -24,7 +33,6 @@ export default function SideLayout4({ children, width = "454.84px",  onClose, ma
   // Completely closes the side panel
   const closePanel = () => {
     setIsFullyClosed(true);
-    onClose();
   };
 
   // Handle outside click detection (removed the close functionality)
@@ -47,19 +55,18 @@ export default function SideLayout4({ children, width = "454.84px",  onClose, ma
     // If the panel is fully closed, call onClose after a short delay
     if (isFullyClosed) {
       const timer = setTimeout(() => {
-        onClose();
       }, 300); // Adjust this timing to match your transition duration
  
       return () => clearTimeout(timer);
     }
-  }, [isFullyClosed, onClose]);
+  }, [isFullyClosed]);
 
   // If the panel is fully closed, don't render anything
   if (isFullyClosed) return null;
 
   return (
     <div
-      className={`fixed top-16 w-[510px] h-[90%] sm:w-[400px] laptop_s:w-[${width}]  ${ isLangArab?"left-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
+      className={`fixed top-16 w-[510px] h-[90%] sm:w-[400px] laptop_s:w-[330px]  ${ isLangArab?"left-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
         isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-full":"translate-x-full")
       }`}
       // style={{ width, height, zIndex: 50 }}  // Ensure it's above other elements
@@ -71,20 +78,20 @@ export default function SideLayout4({ children, width = "454.84px",  onClose, ma
             : "bg-white bg-opacity-70 border-white"
         }`}>
         {/* Content */}
-        <div className="p-4 overflow-y-auto h-full relative">
+        <div className="p-2 overflow-y-auto h-full relative">
           {children || (
-            <div className="absolute top-6 left-4 flex items-center gap-x-2">
-              <img src={isDarkMode ? DarkLocation : Location }alt="Location" className="h-5" />
-              <p className={`font-medium font-poppins ${
+            <div className="absolute top-6 left-4 flex  gap-x-1">
+              <img src={isDarkMode ? DarkLocation : Location }alt="Location" className="h-8" />
+              <p className={`font-semibold font-poppins ${
                     isDarkMode ? "text-white" : "text-gray-600"
-                  }`}>{ isLangArab?"دبوس مُنقَطِع":"Dropped pin"}</p>
+                  }`}> <h1 className=" text-[12px]">برقة رشيد</h1>
+                  <h2 className=" text-[12px]">Barqa Rashid</h2></p>
             </div>
           )}
         </div>
-        {/* <div><Editor mapview={mapview}/> </div> */}
         {/* X Close Button in the top-left corner */}
-        <button
-          onClick={closePanel}
+        {/* <button
+          onClick={()=> setIsEditPOI(false)}
           className={`absolute top-4  right-4 p-2 transition-colors cursor-pointer z-50 ${
             isDarkMode ? "text-white hover:text-gray-300" : "text-gray-600 hover:text-gray-900"
           }`}  // Ensure it's clickable
@@ -92,7 +99,12 @@ export default function SideLayout4({ children, width = "454.84px",  onClose, ma
           style={{ zIndex: 100 }} // Ensure the "X" button is on top
         >
           <X className="h-5 w-6" />
-        </button>
+        </button> */}
+        <div className={`absolute  top-4 flex right-2 p-2 transition-colors h-10 cursor-pointer z-50`}>
+        <img src={isDarkMode ? PoiEditShare : PoiEditShare }alt="Location" className="h-full" />
+        <img src={isDarkMode ? POIEditWrite : POIEditWrite }alt="Location" className="h-full" />
+        <img src={isDarkMode ? POILabelMark : POILabelMark }alt="Location" className="h-full" />
+        </div>
       </div>
 
       {/* Toggle button */}
