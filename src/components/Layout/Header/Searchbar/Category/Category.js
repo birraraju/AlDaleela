@@ -10,7 +10,6 @@ export default function Category({ inputClicked, isLangArab, setInputClicked }) 
   const { contextMapView } = useAuth();
 
   const handleCategorySelect = (categoryName) => {
-    alert(categoryName);
     contextMapView.map.layers.items.forEach(function (layer) {
       layer.definitionExpression = `Class = '${categoryName}'`;
     });

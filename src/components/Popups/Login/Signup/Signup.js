@@ -30,8 +30,8 @@ export default function Signup({ onClose, onSigninClick }) {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const { isDarkMode } = useTheme(); // Access the dark mode state
-  const [txtusername, settxtUsername] = useState('');
   const [usernameExists, setUsernameExists] = useState(false);
+  const [emailExists, setEmailExists] = useState(false);
   const [formIsValid, setFormIsValid] = useState(false); // Track form validity
 
   const modalRef = useRef(null);
@@ -62,7 +62,7 @@ export default function Signup({ onClose, onSigninClick }) {
       password: '',
       confirmPassword: '',
       phoneNumber: '',
-      username: '',
+      username: ''
     });
 
     let valid = true;
@@ -89,11 +89,11 @@ export default function Signup({ onClose, onSigninClick }) {
     }
 
     // Check if the username already exists
-    const isUsernameAvailable = !usernameExists; // Ensure username does not exist
-    if (!isUsernameAvailable) {
-      valid = false;
-      setErrorMessages(prev => ({ ...prev, username: 'Username already exists.' }));
-    }
+    // const isUsernameAvailable = !usernameExists; // Ensure username does not exist
+    // if (!isUsernameAvailable) {
+    //   valid = false;
+    //   setErrorMessages(prev => ({ ...prev, username: 'Username already exists.' }));
+    // }
 
     // Check if phone number is exactly 10 digits and contains only numbers
     const isPhoneNumberValid = phoneNumber.length === 10 && /^\d+$/.test(phoneNumber);
@@ -113,70 +113,43 @@ export default function Signup({ onClose, onSigninClick }) {
   };
 
   const onSignupClick = async() =>{    
-    if (!usernameExists) {
-      try {
-        const signupObj ={
-          username: formData.username,
-          firstName: formData.firstName,
-          password: formData.password,
-          email: formData.email,
-          phoneNumber: formData.phoneNumber,
-          organization: formData.organization,
-          country: formData.country,
-          role: "user"
-        }
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/Registration/signup`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(signupObj),
-        });
-        if (response.ok) {
-            // Handle successful signup
-            console.log(response);
-            onClose();
-        } else {
-            // Handle error
-            console.log(response);
-        }
-        const data = await response.text();
-        if(data){
-          console.log(data)
-        }
-      } catch (error) {
-        console.error('Error submitting form:', error);
+    try {
+      const signupObj ={
+        username: formData.username + formData.firstName,
+        firstName: formData.username,
+        lastname: formData.firstName,
+        password: formData.password,
+        email: formData.email,
+        phoneNumber: formData.phoneNumber,
+        organization: formData.organization,
+        country: formData.country,
+        role: "user"
       }
-    } else {
-      alert('Username already exists');
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/Registration/signup`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(signupObj),
+      });
+      const data = await response.json();
+          if(data.success){
+            //console.log(data)
+            setUsernameExists(false);
+            setEmailExists(false);
+            onClose();
+          }
+          else{
+            if(data.message == "Username already exists."){
+              setUsernameExists(true);
+            }
+            if(data.message == "Email already exists."){
+              setEmailExists(true);
+            }            
+          }
+    } catch (error) {
+      console.error('Error submitting form:', error);
     }
     
   }
-
-  useEffect(() => {
-    const checkUsername = async () => {
-        if (txtusername) {
-            try {
-                //const response = await fetch(`${process.env.REACT_APP_API_URL}/Registration/check-username/${txtusername}`);
-                const response = await fetch(`${process.env.REACT_APP_API_URL}/Registration/check-username`, {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify(txtusername),
-              });
-                const exists = await response.json();
-                setUsernameExists(exists);
-            } catch (err) {
-                console.log('Error checking username');
-            }
-        } else {
-            setUsernameExists(false);
-        }
-    };
-
-    const delayDebounceFn = setTimeout(() => {
-        checkUsername();
-    }, 500); // Debounce the API call
-
-    return () => clearTimeout(delayDebounceFn);
-}, [txtusername]);
 
   return (
     <div className="fixed sm:inset-10 inset-1 flex items-center justify-center z-50 mb-6">
@@ -212,9 +185,10 @@ export default function Signup({ onClose, onSigninClick }) {
                   name="username"
                   placeholder="First Name"
                   required
-                  onChange={(e)=>{handleChange(e); settxtUsername(e.target.value)}}
+                  // onChange={(e)=>{handleChange(e); settxtUsername(e.target.value)}}
+                  onChange={(e)=>{handleChange(e);}}
                 />
-                {errorMessages.username && <p className=' text-sm' style={{ color: 'red' }}>{errorMessages.username}</p>} {/* Username error message */}
+                {usernameExists && <p className=' text-sm' style={{ color: 'red' }}>{'Username already exists.'}</p>} {/* Username error message */}
                 </span>
                 <Input
                   type="text"
@@ -276,6 +250,7 @@ export default function Signup({ onClose, onSigninClick }) {
                 </div>
               </div>
               <div className="grid sm:grid-cols-2 grid-cols-1 gap-2">
+              <span>
                 <Input
                   type="email"
                   name="email"
@@ -283,6 +258,8 @@ export default function Signup({ onClose, onSigninClick }) {
                   required
                   onChange={handleChange}
                 />
+                {emailExists && <p className=' text-sm' style={{ color: 'red' }}>{'Email already exists.'}</p>} {/* Email error message */}
+                </span>
                 <span>
                 <Input
                   type="tel"

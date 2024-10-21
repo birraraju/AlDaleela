@@ -12,7 +12,7 @@ const MapComponent = (props) => {
   const [lat, setLat] = useState(null);
   const [lon, setLon] = useState(null);
   const [scale, setScale] = useState(null);
-  const {setconrextMapView} = useAuth();
+  const {setconrextMapView, setinitialExtent} = useAuth();
 
   const {setMapview, MapView} = props;
 
@@ -41,6 +41,12 @@ const MapComponent = (props) => {
         });
         setMapview(view)
         setconrextMapView(view)
+        view.when(() => {
+          setinitialExtent({
+            center:view.center,
+            zoom:view.zoom
+          })
+        })        
         view.on("click", handleMapClick(view));
       // // Create a new map
       // const map = new Map({
