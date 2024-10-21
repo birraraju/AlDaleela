@@ -57,17 +57,9 @@ export default function ChangePasswordForm({setIsProfileData,setModalMessage,set
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(signupObj),
       });
-      if (response.ok) {
-          // Handle successful signup
-          console.log(response);
-         
-      } else {
-          // Handle error
-          console.log(response);
-      }
-      const data = await response.text();
-      if(data === "Data Updated Successfully"){
-        console.log(values);
+      const data = await response.json();
+      if(data.success){
+        //console.log(values);
         UserActivityLog(profiledetails, "Change Password")
         setIsSuccess(true);
         setModalMessage("Password Change Scuccessfully")
@@ -78,19 +70,16 @@ export default function ChangePasswordForm({setIsProfileData,setModalMessage,set
         setIsProfileData(false)
       }
       else{
-        console.log(data)
+        //console.log(data)
         setIsSuccess(false);
         setIsMsgStatus("Failure");
-        setModalMessage("Failed to Change Password !")
+        setModalMessage(data.message)
         setIsProfileData(false)
         setIsFailure(true)
         setIsProfile(false);
-        setChangeCloseProfile(false);
-       
+        setChangeCloseProfile(false);      
 
       }
-      // setRole("admin");
-      // onClose();
     }catch (error) {
       setIsMsgStatus("Failed")
       console.error('Error submitting form:', error);

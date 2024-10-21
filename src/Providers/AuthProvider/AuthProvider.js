@@ -14,8 +14,11 @@ export const AuthProvider = ({ children }) => {
   const [role, setRole] = useState(null);
   const [profiledetails , setprofiledetails] = useState(null);
   const [contextMapView , setconrextMapView] = useState(null);
+  const [initialExtent , setinitialExtent] = useState(null);
+  
   return (
-    <AuthContext.Provider value={{ role, setRole, profiledetails , setprofiledetails , contextMapView, setconrextMapView}}>
+    <AuthContext.Provider value={{ role, setRole, profiledetails , setprofiledetails , 
+    contextMapView, setconrextMapView, initialExtent, setinitialExtent}}>
       {children}
     </AuthContext.Provider>
   );

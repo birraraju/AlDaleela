@@ -51,21 +51,13 @@ export default function Feedback({
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(feedbackObj),
-      });
-      if (response.ok) {
-          // Handle successful signup
-          console.log(response);
-         
-      } else {
-          // Handle error
-          console.log(response);
-      }
-      const data = await response.text();
-      if(data === "Data Insert Successfully"){
-        console.log(data);
+      });      
+      const data = await response.json();
+      if(data.success){
+        console.log(data.success);
       }
       else{
-        console.log(data)
+        console.log(data.success)
       }
     }catch (error) {
       console.error('Error submitting form:', error);
