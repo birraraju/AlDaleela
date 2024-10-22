@@ -25,6 +25,8 @@ export default function POIEditSideLayout({ children, mapview }) { //height = "c
   const {setIsEditPOI} = useAuth();
   const [POIFormShow , setPOIFormShow]=useState(true);
   const [POIFormUploader , setPOIUploaderShow]=useState(false);
+  const [isEditShowPOI, setIsShowEditPOI] = useState(false); // Default value is false
+
 
 
 
@@ -69,6 +71,8 @@ export default function POIEditSideLayout({ children, mapview }) { //height = "c
   // If the panel is fully closed, don't render anything
   if (isFullyClosed) return null;
 
+  console.log("Edit POI Status:", isEditShowPOI)
+
   return (
     <div
       className={`fixed top-16 w-[510px] h-[90%] sm:w-[400px] laptop_s:w-[330px]  ${ isLangArab?"left-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
@@ -93,7 +97,7 @@ export default function POIEditSideLayout({ children, mapview }) { //height = "c
                   <h2 className=" text-[12px]">Barqa Rashid</h2></p>
             </div>
             <div className=" mt-20 overflow-y-auto">
-            <POIEditForm POIFormShow={POIFormShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow} />
+            <POIEditForm isEditShowPOI={isEditShowPOI} setIsShowEditPOI={setIsShowEditPOI}  POIFormShow={POIFormShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow} />
             <POIEditFileUploader POIFormUploader={POIFormUploader} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow}/>
             </div>
             </>
@@ -102,8 +106,19 @@ export default function POIEditSideLayout({ children, mapview }) { //height = "c
         
         <div className={`absolute  top-4 flex right-2 p-2 transition-colors h-10 cursor-pointer z-50`}>
         <img src={isDarkMode ? PoiEditShare : PoiEditShare }alt="Location" className="h-full" />
-        <img src={isDarkMode ? POIEditWrite : POIEditWrite }alt="Location" className="h-full" />
-        <img src={isDarkMode ? POILabelMark : POILabelMark }alt="Location" className="h-full" />
+        <button
+    onClick={() => setIsShowEditPOI(prev => !prev)}  // Toggle the state here
+    aria-label="Edit POI"
+    className="h-full"
+    style={{ border: 'none', background: 'none' }} // No button styles, only for functionality
+  >
+    <img
+      src={isDarkMode ? POIEditWrite : POIEditWrite}
+      alt="Edit POI"
+      className="h-full"
+    />
+  </button>
+          <img src={isDarkMode ? POILabelMark : POILabelMark }alt="Location" className="h-full" />
         {/* X Close Button in the top-left corner */}
         <button
           onClick={()=> setIsEditPOI(false)}
