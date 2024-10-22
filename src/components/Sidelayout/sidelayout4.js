@@ -4,10 +4,11 @@ import Location from '../../assets/Droppedpin/Location.svg';
 import { X } from "lucide-react";
 import DarkLocation from '../../assets/Droppedpin/Dropped Pin.svg';
 import { useTheme } from '../Layout/ThemeContext/ThemeContext'; // Import the theme context
-import Editor from '../../components/Widgets/Editor/Editor'
+// import Editor from '../../components/Widgets/Editor/Editor'
+import AddPOI from '../DropBin/DropbinPOIAdd'
 
 
-export default function SideLayout4({ children, width = "454.84px",  onClose, mapview }) { //height = "calc(95vh - 2rem)",
+export default function SideLayout4({ children,onClose, mapview }) { //height = "calc(95vh - 2rem)",
   const [isOpen, setIsOpen] = useState(true);   // Controls slide in/out
   const [isFullyClosed, setIsFullyClosed] = useState(false); // Controls visibility
   const [toggleCount, setToggleCount] = useState(0);
@@ -59,7 +60,7 @@ export default function SideLayout4({ children, width = "454.84px",  onClose, ma
 
   return (
     <div
-      className={`fixed top-16 w-[510px] h-[90%] sm:w-[400px] laptop_s:w-[${width}]  ${ isLangArab?"left-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
+      className={`fixed top-16 w-[510px] h-[90%] sm:w-[400px] laptop_s:w-[330px]  ${ isLangArab?"left-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
         isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-full":"translate-x-full")
       }`}
       // style={{ width, height, zIndex: 50 }}  // Ensure it's above other elements
@@ -73,12 +74,17 @@ export default function SideLayout4({ children, width = "454.84px",  onClose, ma
         {/* Content */}
         <div className="p-4 overflow-y-auto h-full relative">
           {children || (
+            <>
             <div className="absolute top-6 left-4 flex items-center gap-x-2">
               <img src={isDarkMode ? DarkLocation : Location }alt="Location" className="h-5" />
               <p className={`font-medium font-poppins ${
                     isDarkMode ? "text-white" : "text-gray-600"
                   }`}>{ isLangArab?"دبوس مُنقَطِع":"Dropped pin"}</p>
             </div>
+            <div className=" mt-11 overflow-y-auto">
+            <AddPOI/>  
+             </div>
+            </>
           )}
         </div>
         {/* <div><Editor mapview={mapview}/> </div> */}
