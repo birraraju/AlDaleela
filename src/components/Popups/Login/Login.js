@@ -1,12 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Signin from "./Signin/Signin";
 import Signup from "./Signup/Signup";
 import Forgetpassword from "./ForgetPass/ForgetPassword";
 import ResetPassword from "./NewPassword/NewPassword";
+import { useTheme } from '../../Layout/ThemeContext/ThemeContext'; // Import the theme hook
+
 
 export default function Login({ onClose }) {
   const [currentView, setCurrentView] = useState("signin");
   const [email, setEmail] = useState("");
+  const {isLogin,isSignup } = useTheme(); // Use the theme hook
+
+  useEffect(()=>{
+    if(isLogin){
+      setCurrentView("signin")
+    }else if(isSignup){
+      setCurrentView("signup")
+    }
+  },[isLogin,isSignup])
 
   const handleViewChange = (view) => {
     setCurrentView(view);
