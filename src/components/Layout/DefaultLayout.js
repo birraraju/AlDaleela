@@ -118,7 +118,6 @@ const DefaultLayout = ({role}) => {
       setIsFooterOpen(true);
     }else{
       setIsFooterOpen(false);
-      setIsEditPOI(true);
     }
   }, [popup]);
 
