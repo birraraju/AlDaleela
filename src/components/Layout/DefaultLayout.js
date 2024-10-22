@@ -31,7 +31,7 @@ const DefaultLayout = ({role}) => {
   const [resetFooter, setResetFooter] = useState(false);
   const [isFooterOpen, setIsFooterOpen] = useState(false);
   const [mapview, setMapview] = useState(false);
-  const {isEditPOI} = useAuth();
+  const {isEditPOI,setIsEditPOI} = useAuth();
    
   console.log("POI status Default:", isEditPOI);
 
@@ -118,6 +118,7 @@ const DefaultLayout = ({role}) => {
       setIsFooterOpen(true);
     }else{
       setIsFooterOpen(false);
+      setIsEditPOI(true);
     }
   }, [popup]);
 
