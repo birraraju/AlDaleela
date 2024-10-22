@@ -22,6 +22,7 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI,setPOIFor
     classification: "Marine",
     municipality: "Al Dhafra",
     emirate: "Abu Dhabi",
+    city:"Western Region"
   });
 
   if (!POIFormShow) return null;
@@ -80,6 +81,9 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI,setPOIFor
         {renderFieldOrText("classification", "Classification", poiData.classification, "select")}
         {renderFieldOrText("municipality", "Municipality", poiData.municipality, "select")}
         {renderFieldOrText("emirate", "Emirate", poiData.emirate)}
+        {renderFieldOrText("city", "City", poiData.city)}
+
+        
 
         {/* Photos Section */}
         <div className="px-3 py-6 border border-none rounded-lg bg-white space-y-4">
