@@ -6,18 +6,19 @@ import UploadImage from "../../assets/Droppedpin/Upload.svg";
 
 const Component = ({setFormShow,setPOIFormsuccessShow,setmessage,setPOIFormisOpenModalShow,isFormShow}) => {
   const [poiData, setPoiData] = useState({
-    organization: "DMT",
-    name: "Al Buwam",
-    class: "Zubara",
-    classD: "DMT",
-    status: "Needs Review",
-    comment: "Imported from UAEU Atlas",
-    description: "Eastern and western",
-    poems: "بيت الزوم وبه ... ما جرى الاحسان بالي شوالك بحر ... ما هو ما",
+    organization: "",
+    name: "",
+    class: "",
+    classD: "",
+    status: "",
+    comment: "",
+    description: "",
+    poems: "",
     stories: "",
-    classification: "Marine",
-    municipality: "Al Dhafra",
-    emirate: "Abu Dhabi",
+    classification: "",
+    municipality: "",
+    emirate: "",
+    city: "",
   });
 
 
@@ -130,7 +131,7 @@ const Component = ({setFormShow,setPOIFormsuccessShow,setmessage,setPOIFormisOpe
   );
 
   return (
-    <div className="w-full max-w-md bg-transparent overflow-y-auto">
+    <div className="w-full max-w-md bg-transparent text-black overflow-y-auto">
       <div className="p-1 space-y-4">
         {renderField("organization", "Organization", poiData.organization, "select")}
         {renderField("name", "Name", poiData.name)}
@@ -144,6 +145,7 @@ const Component = ({setFormShow,setPOIFormsuccessShow,setmessage,setPOIFormisOpe
         {renderField("classification", "Classification", poiData.classification, "select")}
         {renderField("municipality", "Municipality", poiData.municipality, "select")}
         {renderField("emirate", "Emirate", poiData.emirate)}
+        {renderField("city", "City", poiData.city)}
 
         {/* File Upload Section */}
         <div className="bg-white p-4 grid grid-cols-1 gap-4 border border-none rounded-lg">

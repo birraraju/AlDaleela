@@ -66,7 +66,7 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
 
   return (
     <div
-      className={`fixed top-16 w-[510px] ${POIFormisOpenModalShow?"h-[63%]":"h-[90%] "} sm:w-[400px] laptop_s:w-[330px]  ${ isLangArab?"left-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
+      className={`fixed top-16 w-[600px] ${POIFormisOpenModalShow?"h-[63%]":"h-[90%] "} sm:w-[400px] laptop_s:w-[330px]  ${ isLangArab?"left-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
         isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-full":"translate-x-full")
       }`}
       // style={{ width, height, zIndex: 50 }}  // Ensure it's above other elements
@@ -77,45 +77,56 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
             ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
             : "bg-white bg-opacity-70 border-white"
         }`}>
-        {/* Content */}
-        <div className="p-1 overflow-y-auto h-full relative">
+        {/* Sticky Dropped Pin */}
+        <div className="sticky top-0  p-4 bg-opacity-70">
+          <div className="flex items-center gap-x-2">
+            <img src={isDarkMode ? DarkLocation : Location} alt="Location" className="h-5" />
+            <p
+              className={`font-medium font-poppins ${
+                isDarkMode ? "text-white" : "text-gray-600"
+              }`}
+            >
+              {isLangArab ? "دبوس مُنقَطِع" : "Dropped pin"}
+            </p>
+          </div>
+          <button
+            onClick={closePanel}
+            className={`absolute top-4  right-4 p-2 transition-colors cursor-pointer z-50 ${
+              isDarkMode ? "text-white hover:text-gray-300" : "text-gray-600 hover:text-gray-900"
+            }`}
+            aria-label="Close side panel"
+            style={{ zIndex: 100 }}
+          >
+            <X className="h-5 w-6" />
+          </button>
+        </div>
+
+        {/* Scrollable Content */}
+        <div className="p-4 overflow-y-auto h-full relative">
           {children || (
             <>
-            <div className="absolute top-6 left-4 flex items-center gap-x-2">
-              <img src={isDarkMode ? DarkLocation : Location }alt="Location" className="h-5" />
-              <p className={`font-medium font-poppins ${
-                    isDarkMode ? "text-white" : "text-gray-600"
-                  }`}>{ isLangArab?"دبوس مُنقَطِع":"Dropped pin"}</p>
-            </div>
-            <div className=" mt-11 overflow-y-auto">
-            <AddPOI isFormShow={isFormShow} setPOIFormsuccessShow={setPOIFormsuccessShow} setPOIFormisOpenModalShow={setPOIFormisOpenModalShow} setmessage={setmessage} setFormShow={setFormShow} />  
-            <POIEditFileUploaderStatusMOdel  
-      message={message} 
-      success={POIFormsuccessShow} 
-      isOpenModal={POIFormisOpenModalShow} 
-      onClose={() => { 
-        setFormShow(true);
-        setPOIFormisOpenModalShow(false);
-      }} 
-    />
-             </div>
+              <div className=" overflow-y-auto">
+                <AddPOI
+                  isFormShow={isFormShow}
+                  setPOIFormsuccessShow={setPOIFormsuccessShow}
+                  setPOIFormisOpenModalShow={setPOIFormisOpenModalShow}
+                  setmessage={setmessage}
+                  setFormShow={setFormShow}
+                />
+                <POIEditFileUploaderStatusMOdel
+                  message={message}
+                  success={POIFormsuccessShow}
+                  isOpenModal={POIFormisOpenModalShow}
+                  onClose={() => {
+                    setFormShow(true);
+                    setPOIFormisOpenModalShow(false);
+                  }}
+                />
+              </div>
             </>
           )}
         </div>
-        {/* <div><Editor mapview={mapview}/> </div> */}
-        {/* X Close Button in the top-left corner */}
-        <button
-          onClick={closePanel}
-          className={`absolute top-4  right-4 p-2 transition-colors cursor-pointer z-50 ${
-            isDarkMode ? "text-white hover:text-gray-300" : "text-gray-600 hover:text-gray-900"
-          }`}  // Ensure it's clickable
-          aria-label="Close side panel"
-          style={{ zIndex: 100 }} // Ensure the "X" button is on top
-        >
-          <X className="h-5 w-6" />
-        </button>
       </div>
-
       {/* Toggle button */}
       <div className={`absolute top-4 ${isLangArab?"-right-7":"-left-6"}`}>
         <button
