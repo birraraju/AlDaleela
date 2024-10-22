@@ -132,7 +132,7 @@ import { useState, useRef } from 'react';
 import { ImageIcon, FileIcon } from 'lucide-react';
 import { ChevronLeft } from 'lucide-react';
 
-const FileUploader = ({ POIFormUploader, setPOIFormShow, setPOIUploaderShow }) => {
+const FileUploader = ({ POIFormUploader,setPOIFormisOpenModalShow,setPOImessageShow,setPOIFormsuccessShow, setPOIFormShow, setPOIUploaderShow }) => {
   const [files, setFiles] = useState([]); // Store the selected files
   const [uploadedFiles, setUploadedFiles] = useState([]); // Store the uploaded files
   const [isDragging, setIsDragging] = useState(false);
@@ -199,6 +199,18 @@ const FileUploader = ({ POIFormUploader, setPOIFormShow, setPOIUploaderShow }) =
     setUploadedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
   };
 
+  const handleUploadFile = () => {
+    if (uploadedFiles.length > 0) { // Ensure there are uploaded files
+      setPOImessageShow("Your file has been uploaded successfully!");
+      setPOIFormsuccessShow("Success"); // or "Failure" based on your logic
+      setPOIFormisOpenModalShow(true); // Show the modal
+      setPOIUploaderShow(false);
+      setUploadedFiles([]); // Clear the uploaded files if necessary
+    } else {
+      alert('Please upload files before proceeding.'); // Optional alert for user feedback
+    }
+  };
+  
   return (
     <>
       <div>
@@ -313,9 +325,7 @@ const FileUploader = ({ POIFormUploader, setPOIFormShow, setPOIUploaderShow }) =
           Cancel
         </button>
         <button
-          onClick={() => {
-            setPOIFormShow(true);
-            setPOIUploaderShow(false);
+          onClick={() => { handleUploadFile()
           }}
           className="w-auto m-3 py-3 px-9 bg-custom-gradient text-xs border border-gray-300 rounded-lg"
         >
