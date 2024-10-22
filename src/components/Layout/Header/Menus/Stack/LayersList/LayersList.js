@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { X } from "lucide-react";
 import { useTheme } from "../../../../ThemeContext/ThemeContext"; // Import ThemeContext
 import LayerListAPI from "@arcgis/core/widgets/LayerList.js";
-
+import "../Stack.css" // Import  CSS file
 export default function LayersList({ onClose, mapview }) {
   const layersListRef = useRef(null);
   const layerlistRef = useRef(null);
@@ -55,7 +55,9 @@ className={`absolute top-4 right-4 hover:text-gray-800 ${
 }`}         >
 
          </div>
-        <div ref={layerlistRef}></div>
+        <div 
+  className={`esri-layer-list__item-content ${isLangArab ? "text-right" : ""} esri-layer-list__visible-toggle ${isLangArab ? "hover:bg-gray-900" : ""}`}
+  ref={layerlistRef}></div>
       </div>
     </div>
   );
