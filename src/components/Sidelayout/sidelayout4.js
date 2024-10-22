@@ -104,7 +104,7 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
         </div>
         {/* <div><Editor mapview={mapview}/> </div> */}
         {/* X Close Button in the top-left corner */}
-        <button
+        {!POIFormisOpenModalShow && <button
           onClick={closePanel}
           className={`absolute top-4  right-4 p-2 transition-colors cursor-pointer z-50 ${
             isDarkMode ? "text-white hover:text-gray-300" : "text-gray-600 hover:text-gray-900"
@@ -113,7 +113,7 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
           style={{ zIndex: 100 }} // Ensure the "X" button is on top
         >
           <X className="h-5 w-6" />
-        </button>
+        </button>}
       </div>
 
       {/* Toggle button */}
