@@ -1,210 +1,231 @@
-import React, { useEffect, useState, useRef } from "react";
-import { IoIosArrowForward } from "react-icons/io";
-import Location from '../../assets/POIEdit/POIBIN.svg';
-import PoiEditShare from '../../assets/POIEdit/PoiEditShare.svg';
-import POIEditWrite from '../../assets/POIEdit/POIEditWrite.svg';
-import POILabelMark from '../../assets/POIEdit/POILabelMark.svg';
-import  POIEditForm from '../Layout/POIEdit/POIEditForm'
-import  POIEditFileUploader from '../Layout/POIEdit/POIFileUploader'
+  import React, { useEffect, useState, useRef } from "react";
+  import { IoIosArrowForward } from "react-icons/io";
+  import Location from '../../assets/POIEdit/POIBIN.svg';
+  import PoiEditShare from '../../assets/POIEdit/PoiEditShare.svg';
+  import POIEditWrite from '../../assets/POIEdit/POIEditWrite.svg';
+  import POILabelMark from '../../assets/POIEdit/POILabelMark.svg';
+  import  POIEditForm from '../Layout/POIEdit/POIEditForm'
+  import  POIEditFileUploader from '../Layout/POIEdit/POIFileUploader'
+  import  POIEditFileUploaderStatusMOdel from '../Layout/POIEdit/POIEditSucessFailure'
 
 
 
-import { X } from "lucide-react";
-import DarkLocation from '../../assets/Droppedpin/Dropped Pin.svg';
-import { useTheme } from '../Layout/ThemeContext/ThemeContext'; // Import the theme context
-import { useAuth } from "../../Providers/AuthProvider/AuthProvider";
+  import { X } from "lucide-react";
+  import DarkLocation from '../../assets/Droppedpin/Dropped Pin.svg';
+  import { useTheme } from '../Layout/ThemeContext/ThemeContext'; // Import the theme context
+  import { useAuth } from "../../Providers/AuthProvider/AuthProvider";
 
 
 
-export default function POIEditSideLayout({ children, mapview }) { //height = "calc(95vh - 2rem)",
-  const [isOpen, setIsOpen] = useState(true);   // Controls slide in/out
-  const [isFullyClosed, setIsFullyClosed] = useState(false); // Controls visibility
-  const [toggleCount, setToggleCount] = useState(0);
-  const containerRef = useRef(null);
-  const { isDarkMode, isLangArab } = useTheme(); // Access the dark mode state
-  const {setIsEditPOI} = useAuth();
-  const [POIFormShow , setPOIFormShow]=useState(true);
-  const [POIFormUploader , setPOIUploaderShow]=useState(false);
-  const [isEditShowPOI, setIsShowEditPOI] = useState(false); // Default value is false
+  export default function POIEditSideLayout({ children, mapview }) { //height = "calc(95vh - 2rem)",
+    const [isOpen, setIsOpen] = useState(true);   // Controls slide in/out
+    const [isFullyClosed, setIsFullyClosed] = useState(false); // Controls visibility
+    const [toggleCount, setToggleCount] = useState(0);
+    const containerRef = useRef(null);
+    const { isDarkMode, isLangArab } = useTheme(); // Access the dark mode state
+    const {setIsEditPOI} = useAuth();
+    const [POIFormShow , setPOIFormShow]=useState(true);
+    const [POIFormUploader , setPOIUploaderShow]=useState(false);
+    const [isEditShowPOI, setIsShowEditPOI] = useState(false); // Default value is false
+    const [message , setPOImessageShow]=useState("");
+    const [POIFormsuccessShow , setPOIFormsuccessShow]=useState("");
+    const [POIFormisOpenModalShow , setPOIFormisOpenModalShow]=useState(false);
 
 
 
+    console.log("IsSucess POI open:", POIFormisOpenModalShow)
+    console.log("Message POI open:", message)
+
+    console.log("Status POI open:", POIFormisOpenModalShow)
 
 
-  // Toggles the side panel sliding in and out
-  const toggleSideLayout = () => {
-    setIsOpen(prev => !prev); // Toggle visibility
-    setToggleCount(prev => prev + 1); // Increment toggle count
-  };
 
-  // Completely closes the side panel
-  const closePanel = () => {
-    setIsFullyClosed(true);
-  };
+    // Toggles the side panel sliding in and out
+    const toggleSideLayout = () => {
+      setIsOpen(prev => !prev); // Toggle visibility
+      setToggleCount(prev => prev + 1); // Increment toggle count
+    };
 
-  // Handle outside click detection (removed the close functionality)
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (containerRef.current && !containerRef.current.contains(event.target)) {
-        // Removed closePanel() call here.
-        // You can still handle other logic if needed for outside clicks.
+    // Completely closes the side panel
+    const closePanel = () => {
+      setIsFullyClosed(true);
+    };
+
+    // Handle outside click detection (removed the close functionality)
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (containerRef.current && !containerRef.current.contains(event.target)) {
+          // Removed closePanel() call here.
+          // You can still handle other logic if needed for outside clicks.
+        }
+      };
+
+      document.addEventListener("mousedown", handleClickOutside);
+      
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [containerRef]);
+
+    useEffect(() => {
+      // If the panel is fully closed, call onClose after a short delay
+      if (isFullyClosed) {
+        const timer = setTimeout(() => {
+        }, 300); // Adjust this timing to match your transition duration
+  
+        return () => clearTimeout(timer);
       }
-    };
+    }, [isFullyClosed]);
 
-    document.addEventListener("mousedown", handleClickOutside);
-    
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [containerRef]);
+    // If the panel is fully closed, don't render anything
+    if (isFullyClosed) return null;
 
-  useEffect(() => {
-    // If the panel is fully closed, call onClose after a short delay
-    if (isFullyClosed) {
-      const timer = setTimeout(() => {
-      }, 300); // Adjust this timing to match your transition duration
- 
-      return () => clearTimeout(timer);
-    }
-  }, [isFullyClosed]);
+    console.log("Edit POI Status:", isEditShowPOI)
 
-  // If the panel is fully closed, don't render anything
-  if (isFullyClosed) return null;
-
-  console.log("Edit POI Status:", isEditShowPOI)
-
-  return (
-    <div
-      className={`fixed top-16 w-[510px] h-[90%] sm:w-[400px] laptop_s:w-[330px]  ${ isLangArab?"left-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
-        isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-full":"translate-x-full")
-      }`}
-      // style={{ width, height, zIndex: 50 }}  // Ensure it's above other elements
-      ref={containerRef}  // Reference to the panel
-    >
-      <div className={`relative sm:h-[80%] laptop_s:h-[89%] h-[98%]  w-[65%] float-end sm:w-full rounded-2xl shadow-lg overflow-hidden border transition-colors duration-300 ${
-          isDarkMode
-            ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
-            : "bg-white bg-opacity-70 border-white"
-        }`}>
-        {/* Content */}
-        <div className="p-2 overflow-y-auto h-full relative">
-          {children || (<>
-            <div className="absolute top-6 left-4 flex  gap-x-1">
-              <img src={isDarkMode ? DarkLocation : Location }alt="Location" className="h-8" />
-              <p className={`font-semibold font-poppins ${
-                    isDarkMode ? "text-white" : "text-gray-600"
-                  }`}> <h1 className=" text-[12px]">برقة رشيد</h1>
-                  <h2 className=" text-[12px]">Barqa Rashid</h2></p>
-            </div>
-            <div className=" mt-20 overflow-y-auto">
-            <POIEditForm isEditShowPOI={isEditShowPOI} setIsShowEditPOI={setIsShowEditPOI}  POIFormShow={POIFormShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow} />
-            <POIEditFileUploader POIFormUploader={POIFormUploader} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow}/>
-            </div>
-            </>
-          )}
-        </div>
-        
-        <div className={`absolute  top-4 flex right-2 p-2 transition-colors h-10 cursor-pointer z-50`}>
-        <img src={isDarkMode ? PoiEditShare : PoiEditShare }alt="Location" className="h-full" />
-        <button
-    onClick={() => setIsShowEditPOI(prev => !prev)}  // Toggle the state here
-    aria-label="Edit POI"
-    className="h-full"
-    style={{ border: 'none', background: 'none' }} // No button styles, only for functionality
-  >
-    <img
-      src={isDarkMode ? POIEditWrite : POIEditWrite}
-      alt="Edit POI"
-      className="h-full"
-    />
-  </button>
-          <img src={isDarkMode ? POILabelMark : POILabelMark }alt="Location" className="h-full" />
-        {/* X Close Button in the top-left corner */}
-        <button
-          onClick={()=> setIsEditPOI(false)}
-          className={` transition-colors cursor-pointer z-50 ${
-            isDarkMode ? "  hover:text-gray-300" : "text-green-900"
-          }`}  // Ensure it's clickable
-          aria-label="Close side panel"
-          style={{ zIndex: 100 }} // Ensure the "X" button is on top
-        >
-          <X className="h-5 w-6" />
-        </button>
-        </div>
-      </div>
-
-      {/* Toggle button */}
-      <div className={`absolute top-4 ${isLangArab?"-right-7":"-left-6"}`}>
-        <button
-          onClick={toggleSideLayout}
-          className="relative w-8 h-32 focus:outline-none cursor-pointer" // Ensure cursor pointer
-          aria-label={isOpen ? "Close side panel" : "Open side panel"}
-        >
-          {isLangArab ?<svg
-      width="32"
-      height="128"
-      viewBox="0 0 64 371"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      style={{
-        position: 'relative',
-        top: '1px',
-        right: '3px',
-      }}
-    >
-      <g
-        clipPath="url(#clip0_4011_11301)"
-        transform="scale(-1, 1) translate(-64, 0)" // Flipping horizontally
+    return (
+      <div
+        className={`fixed top-16 w-[510px] h-[90%] sm:w-[400px] laptop_s:w-[330px]  ${ isLangArab?"left-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
+          isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-full":"translate-x-full")
+        }`}
+        // style={{ width, height, zIndex: 50 }}  // Ensure it's above other elements
+        ref={containerRef}  // Reference to the panel
       >
-        <path
-          d="M3.82642 130.396L3.82598 244.617C3.82594 252.779 6.14893 260.773 10.5235 267.664L70.7275 362.497V8.50244L10.1031 108.027C5.99796 114.766 3.82645 122.505 3.82642 130.396Z"
-          fill={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "#EBEFF2"}
-          stroke={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "#EEF3F7"}
-          strokeWidth="6"
-        />
-      </g>
-      <defs>
-        <clipPath id="clip0_4011_11301">
-          <rect width="64" height="371" fill="white" />
-        </clipPath>
-      </defs>
-    </svg>:<svg
-            width="32"
-            height="128"
-            viewBox="0 0 64 371"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            style={{
-              position: 'relative',
-              top: '1px',
-              right: '3px',
-            }}
-          >
-            <g clipPath="url(#clip0_4011_11301)">
-              <path
-                d="M3.82642 130.396L3.82598 244.617C3.82594 252.779 6.14893 260.773 10.5235 267.664L70.7275 362.497V8.50244L10.1031 108.027C5.99796 114.766 3.82645 122.505 3.82642 130.396Z"
-                fill={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "#EBEFF2"} // Updated for dark mode
-                stroke={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "#EEF3F7"}
-                strokeWidth="6"
-              />
-            </g>
-            <defs>
-              <clipPath id="clip0_4011_11301">
-                <rect width="64" height="371" fill="white" />
-              </clipPath>
-            </defs>
-          </svg>}
-
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-            <IoIosArrowForward
-              className={`text-black text-xl transition-transform duration-300 ${
-                isOpen ? "rotate-360" : ""
-              } ${!isOpen && (toggleCount > 0 ? "rotate-180" : "")}`}
-              style={{ color: isDarkMode ? "#fff" : "#000" }}
-            />
+        <div className={`relative sm:h-[80%] laptop_s:h-[89%] h-[98%]  w-[65%] float-end sm:w-full rounded-2xl shadow-lg overflow-hidden border transition-colors duration-300 ${
+            isDarkMode
+              ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
+              : "bg-white bg-opacity-70 border-white"
+          }`}>
+          {/* Content */}
+          <div className="p-2 overflow-y-auto h-full relative">
+            {children || (<>
+              <div className="absolute top-6 left-4 flex  gap-x-1">
+                <img src={isDarkMode ? DarkLocation : Location }alt="Location" className="h-8" />
+                <p className={`font-semibold font-poppins ${
+                      isDarkMode ? "text-white" : "text-gray-600"
+                    }`}> <h1 className=" text-[12px]">برقة رشيد</h1>
+                    <h2 className=" text-[12px]">Barqa Rashid</h2></p>
+              </div>
+              <div className=" mt-20 overflow-y-auto">
+             {(isEditShowPOI||POIFormShow) && <POIEditForm isEditShowPOI={isEditShowPOI}  setIsShowEditPOI={setIsShowEditPOI}  POIFormShow={POIFormShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow} />}
+              <POIEditFileUploader setPOImessageShow={setPOImessageShow} setPOIFormsuccessShow={setPOIFormsuccessShow} POIFormUploader={POIFormUploader} setPOIFormisOpenModalShow={setPOIFormisOpenModalShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow}/>
+               {/* Render the modal only when the state is true */}
+  {POIFormisOpenModalShow && (
+    <POIEditFileUploaderStatusMOdel  
+      message={message} 
+      success={POIFormsuccessShow} 
+      isOpenModal={POIFormisOpenModalShow} 
+      onClose={() => { 
+        setPOIFormShow(true);
+        setPOIFormisOpenModalShow(false);
+      }} 
+    />
+  )}
+           </div>
+              </>
+            )}
           </div>
-        </button>
+          
+          <div className={`absolute  top-4 flex right-2 p-2 transition-colors h-10 cursor-pointer z-50`}>
+          <img src={isDarkMode ? PoiEditShare : PoiEditShare }alt="Location" className="h-full" />
+          <button
+      onClick={() => setIsShowEditPOI(prev => !prev)}  // Toggle the state here
+      aria-label="Edit POI"
+      className="h-full"
+      style={{ border: 'none', background: 'none' }} // No button styles, only for functionality
+    >
+      <img
+        src={isDarkMode ? POIEditWrite : POIEditWrite}
+        alt="Edit POI"
+        className="h-full"
+      />
+    </button>
+            <img src={isDarkMode ? POILabelMark : POILabelMark }alt="Location" className="h-full" />
+          {/* X Close Button in the top-left corner */}
+          <button
+            onClick={()=> setIsEditPOI(false)}
+            className={` transition-colors cursor-pointer z-50 ${
+              isDarkMode ? "  hover:text-gray-300" : "text-green-900"
+            }`}  // Ensure it's clickable
+            aria-label="Close side panel"
+            style={{ zIndex: 100 }} // Ensure the "X" button is on top
+          >
+            <X className="h-5 w-6" />
+          </button>
+          </div>
+        </div>
+
+        {/* Toggle button */}
+        <div className={`absolute top-4 ${isLangArab?"-right-7":"-left-6"}`}>
+          <button
+            onClick={toggleSideLayout}
+            className="relative w-8 h-32 focus:outline-none cursor-pointer" // Ensure cursor pointer
+            aria-label={isOpen ? "Close side panel" : "Open side panel"}
+          >
+            {isLangArab ?<svg
+        width="32"
+        height="128"
+        viewBox="0 0 64 371"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        style={{
+          position: 'relative',
+          top: '1px',
+          right: '3px',
+        }}
+      >
+        <g
+          clipPath="url(#clip0_4011_11301)"
+          transform="scale(-1, 1) translate(-64, 0)" // Flipping horizontally
+        >
+          <path
+            d="M3.82642 130.396L3.82598 244.617C3.82594 252.779 6.14893 260.773 10.5235 267.664L70.7275 362.497V8.50244L10.1031 108.027C5.99796 114.766 3.82645 122.505 3.82642 130.396Z"
+            fill={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "#EBEFF2"}
+            stroke={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "#EEF3F7"}
+            strokeWidth="6"
+          />
+        </g>
+        <defs>
+          <clipPath id="clip0_4011_11301">
+            <rect width="64" height="371" fill="white" />
+          </clipPath>
+        </defs>
+      </svg>:<svg
+              width="32"
+              height="128"
+              viewBox="0 0 64 371"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              style={{
+                position: 'relative',
+                top: '1px',
+                right: '3px',
+              }}
+            >
+              <g clipPath="url(#clip0_4011_11301)">
+                <path
+                  d="M3.82642 130.396L3.82598 244.617C3.82594 252.779 6.14893 260.773 10.5235 267.664L70.7275 362.497V8.50244L10.1031 108.027C5.99796 114.766 3.82645 122.505 3.82642 130.396Z"
+                  fill={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "#EBEFF2"} // Updated for dark mode
+                  stroke={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "#EEF3F7"}
+                  strokeWidth="6"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_4011_11301">
+                  <rect width="64" height="371" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>}
+
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+              <IoIosArrowForward
+                className={`text-black text-xl transition-transform duration-300 ${
+                  isOpen ? "rotate-360" : ""
+                } ${!isOpen && (toggleCount > 0 ? "rotate-180" : "")}`}
+                style={{ color: isDarkMode ? "#fff" : "#000" }}
+              />
+            </div>
+          </button>
+        </div>
       </div>
-    </div>
-  );
-}
+    );
+  }

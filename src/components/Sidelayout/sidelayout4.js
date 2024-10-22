@@ -6,6 +6,8 @@ import DarkLocation from '../../assets/Droppedpin/Dropped Pin.svg';
 import { useTheme } from '../Layout/ThemeContext/ThemeContext'; // Import the theme context
 // import Editor from '../../components/Widgets/Editor/Editor'
 import AddPOI from '../DropBin/DropbinPOIAdd'
+import  POIEditFileUploaderStatusMOdel from '../Layout/POIEdit/POIEditSucessFailure'
+
 
 
 export default function SideLayout4({ children,onClose, mapview }) { //height = "calc(95vh - 2rem)",
@@ -14,6 +16,10 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
   const [toggleCount, setToggleCount] = useState(0);
   const containerRef = useRef(null);
   const { isDarkMode, isLangArab } = useTheme(); // Access the dark mode state
+  const [isFormShow,setFormShow]=useState(true)
+  const [message,setmessage]= useState("")
+  const [POIFormsuccessShow,setPOIFormsuccessShow]=useState("")
+  const [POIFormisOpenModalShow,setPOIFormisOpenModalShow]=useState(false)
 
 
   // Toggles the side panel sliding in and out
@@ -60,7 +66,7 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
 
   return (
     <div
-      className={`fixed top-16 w-[510px] h-[90%] sm:w-[400px] laptop_s:w-[330px]  ${ isLangArab?"left-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
+      className={`fixed top-16 w-[510px] ${POIFormisOpenModalShow?"h-[63%]":"h-[90%] "} sm:w-[400px] laptop_s:w-[330px]  ${ isLangArab?"left-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
         isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-full":"translate-x-full")
       }`}
       // style={{ width, height, zIndex: 50 }}  // Ensure it's above other elements
@@ -72,7 +78,7 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
             : "bg-white bg-opacity-70 border-white"
         }`}>
         {/* Content */}
-        <div className="p-4 overflow-y-auto h-full relative">
+        <div className="p-1 overflow-y-auto h-full relative">
           {children || (
             <>
             <div className="absolute top-6 left-4 flex items-center gap-x-2">
@@ -82,7 +88,16 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
                   }`}>{ isLangArab?"دبوس مُنقَطِع":"Dropped pin"}</p>
             </div>
             <div className=" mt-11 overflow-y-auto">
-            <AddPOI/>  
+            <AddPOI isFormShow={isFormShow} setPOIFormsuccessShow={setPOIFormsuccessShow} setPOIFormisOpenModalShow={setPOIFormisOpenModalShow} setmessage={setmessage} setFormShow={setFormShow} />  
+            <POIEditFileUploaderStatusMOdel  
+      message={message} 
+      success={POIFormsuccessShow} 
+      isOpenModal={POIFormisOpenModalShow} 
+      onClose={() => { 
+        setFormShow(true);
+        setPOIFormisOpenModalShow(false);
+      }} 
+    />
              </div>
             </>
           )}
