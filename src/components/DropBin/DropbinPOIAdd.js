@@ -399,7 +399,7 @@ const Component = ({setFormShow,setPOIFormsuccessShow,setmessage,setPOIFormisOpe
         )}
 
         {/* Action Buttons */}
-        <div className="flex justify-center space-x-8 items-center">
+        <div className="flex justify-center space-x-8 items-center pt-4 pb-16">
             <button className="w-auto py-3 px-9 bg-transparent text-xs border border-black rounded-lg">
               Cancel
             </button>
