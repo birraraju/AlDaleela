@@ -17,6 +17,9 @@ import Graphic from '@arcgis/core/Graphic';
 
 const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsManageVisible, isManageVisible,onclose}) => {
   const [bookmarks, setBookmarks] = useState([]);
+  const [condtioncheck, setCondtionCheck] = useState(true);
+  const [count, setCount] = useState(0);
+  const [ids, setIds] = useState([]); // State to hold the array of IDs
   const {profiledetails, contextMapView} = useAuth();
   // Array of images with icons
   const images = [
@@ -27,31 +30,30 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
     { src: Book5, title: 'Jazeerat Um Al Nar', icon: [{ iconBg: CemaraBg, Icon: CameraIcon }] },
   ];
   const [selectedMarks, setSelectedMarks] = useState({}); // Store selection state for each image
-  console.log("Select Bookmark:", selectedMarks)
+  
+  const fetchBookmarks = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/Bookmarks/${profiledetails.email}`);
 
-
-  useEffect(() => {
-    const fetchBookmarks = async () => {
-      try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/Bookmarks/${profiledetails.email}`);
-
-        // Check if the response is ok (status code 200-299)
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        if(data.success){              
-          getAttachements(data);
-        }
-        else{
-          //console.log(data)          
-        }
-        
-      } catch (err) {
-        console.log(err.message);
+      // Check if the response is ok (status code 200-299)
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
-    };
+
+      const data = await response.json();
+      if(data.success){              
+        getAttachements(data);
+      }
+      else{
+        //console.log(data)          
+      }
+      
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  useEffect(() => {   
 
     fetchBookmarks();
   }, []); // Empty dependency array means this effect runs once on mount
@@ -68,26 +70,28 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
       // Step 4: Loop through features and their corresponding attachments
       res.data.forEach(feature => {
           const objectId = feature.objectid;
-          const nameEng = feature.tittle;
+          const nameEng = feature.title;
+          setCount(0); // Correct way to update state
           if (attachments[objectId] && attachments[objectId].length > 0) {
               attachments[objectId].forEach(attachment => {
                   //addMediaToContainer(attachment.contentType, attachment.url, objectId, nameEng);
+                  setCount(prevCount => prevCount + 1); // Correct way to update state
                   if(attachment.contentType.includes("image")){
+                    setCondtionCheck(false)
                     localbookmarks.push({
                       src:attachment.url,
                       title:nameEng,
                       id: feature.id,
-                      objectid: feature.objectid,
-                      extent: feature.extent
+                      objectid: feature.objectid
                     })
                   }
-                  else{
+                  if(res.data.length === count && condtioncheck){
+                    setCondtionCheck(true)
                     localbookmarks.push({
                       src:Book1,
                       title:nameEng,
                       id: feature.id,
-                      objectid: feature.objectid,
-                      extent: feature.extent
+                      objectid: feature.objectid
                     })
                   }
               });
@@ -97,8 +101,7 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
               src:Book1,
               title:nameEng,
               id: feature.id,
-              objectid: feature.objectid,
-              extent: feature.extent
+              objectid: feature.objectid
             })
           }
         });
@@ -163,13 +166,43 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
         [index]: !prev[index], // Toggle the state for the selected image
       };
       console.log('Updated Marks:', newMarks); // Check if state is being updated
+      setIds((prevIds) => {
+        // Check if the ID is already in the array
+        if (prevIds.includes(index)) {
+          // If it exists, remove it
+          return prevIds.filter((existingId) => existingId !== index);
+        } else {
+          // If it doesn't exist, add it
+          return [...prevIds, index];
+        }
+      });
+      //console.log("ids",ids);
       return newMarks;
     });
   };
 
-  const handleSave = () => {
-    setIsManageVisible(false); // Close management view
-    setSelectedMarks({}); // Reset the selected marks
+  const handleSave = async() => {
+    console.log("ids",ids);
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/Bookmarks/deletemultiplebookmarks`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(ids),
+      });
+      const data = await response.json();
+          if(data.success){
+            console.log(data.message);
+            fetchBookmarks();
+            setIsManageVisible(false); // Close management view
+            setSelectedMarks({}); // Reset the selected marks
+          }
+          else{
+            console.log(data.message);
+          }
+      
+      } catch (error) {
+          console.error('Error submitting form:', error);
+      }    
   };
 
   const handleClose = () => {
@@ -180,10 +213,10 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
   return (
     <div className="relative grid grid-cols-1 ">
       <div className="grid grid-cols-3 justify-start pt-3 items-start gap-y-4 gap-x-0">
-  {images.map((image, index) => (
-    <div key={index} className="relative flex flex-col items-center">
+  {bookmarks.map((image, index) => (
+    <div key={image.id} className="relative flex flex-col items-center">
       {/* Image and title section */}
-      <div onClick={() => handleZoomtoLocation(index, image.objectid)} className=" relative w-28 h-24 flex flex-col items-center">
+      <div onClick={() => handleZoomtoLocation(image.id, image.objectid)} className=" relative w-28 h-24 flex flex-col items-center">
         <img
           src={image.src}
           alt={image.title}
@@ -210,14 +243,14 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
         <div className="mt-1">
           <button
             onClick={() => {
-              handleSelectMark(index); // Toggle selection on click
+              handleSelectMark(image.id); // Toggle selection on click
             }}
             className=" absolute top-2 right-3"
           >
             <img
               src={BookYellow}
               className={`h-5 shadow-black cursor-pointer 
-                          ${selectedMarks[index] ? 'invert brightness-0' : ''}`} // Apply filters conditionally
+                          ${selectedMarks[image.id] ? 'invert brightness-0' : ''}`} // Apply filters conditionally
               alt="Mark"
             />
           </button>
