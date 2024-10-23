@@ -39,16 +39,24 @@ export default function LayersList({ onClose, mapview }) {
         ref={layersListRef}
         className={`fixed ${isLangArab?"left-12":"right-12"} top-32 sm:top-14 laptop_s:top-20 h-96 p-4 rounded-lg shadow-lg w-96 transition-colors duration-300
           ${isDarkMode ? "bg-[rgba(96,96,96,0.8)] text-white" : "bg-white bg-opacity-95 text-black"}`}      >
-        <div>
-          <h1 className="font-omnes text-[16px] font-medium">{isLangArab?"قائمة الطبقات":"Layer List"}</h1>
-          <button
-className={`absolute top-4 right-4 hover:text-gray-800 ${
-  isDarkMode ? "text-[#FFFFFFFF] text-opacity-80" : "text-gray-800"
-}`}            onClick={onClose}
-          >
-            <X className="h-6 w-6" />
-          </button>
-        </div>
+       <div>
+  <h1
+    className={`font-omnes text-[16px] font-medium ${
+      isLangArab ? "text-right" : "text-left"
+    }`}
+  >
+    {isLangArab ? "قائمة الطبقات" : "Layer List"}
+  </h1>
+  <button
+    className={`absolute top-4 ${isLangArab ? "left-4" : "right-4"} hover:text-gray-800 ${
+      isDarkMode ? "text-[#FFFFFFFF] text-opacity-80" : "text-gray-800"
+    }`}
+    onClick={onClose}
+  >
+    <X className="h-6 w-6" />
+  </button>
+</div>
+
         <div
  className={`my-2 h-[1px] w-full transition-colors duration-300 ${
   isDarkMode ? "bg-white bg-opacity-50" : "bg-black bg-opacity-20"

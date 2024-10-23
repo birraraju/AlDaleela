@@ -8,8 +8,6 @@ import { useTheme } from '../Layout/ThemeContext/ThemeContext'; // Import the th
 import AddPOI from '../DropBin/DropbinPOIAdd'
 import  POIEditFileUploaderStatusMOdel from '../Layout/POIEdit/POIEditSucessFailure'
 
-
-
 export default function SideLayout4({ children,onClose, mapview }) { //height = "calc(95vh - 2rem)",
   const [isOpen, setIsOpen] = useState(true);   // Controls slide in/out
   const [isFullyClosed, setIsFullyClosed] = useState(false); // Controls visibility
@@ -78,7 +76,7 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
             : "bg-white bg-opacity-70 border-white"
         }`}>
         {/* Sticky Dropped Pin */}
-        <div className="sticky top-0 z-10 p-4 bg-opacity-70">
+        <div className="sticky top-4 z-10 p-4 bg-opacity-70">
           <div className="flex items-center gap-x-2">
             <img src={isDarkMode ? DarkLocation : Location} alt="Location" className="h-5" />
             <p

@@ -140,8 +140,8 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
     {contribution.status === "Pending" &&
       (isLangArab ? "قيد الانتظار" : "Pending")}
   </span>
-  <img src={loc} alt="Location icon" className="sm:w-7 w-5 sm:h-7 h-4" />
-</div>
+  <img src={loc} alt="Location icon" className="sm:w-7 w-5 sm:h-7 h-4 cursor-pointer" />
+  </div>
 
           </div>
         ))}
@@ -206,7 +206,7 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
           )}
 
           <FiChevronRight
-            className={`absolute left-2 top-4 w-4 h-4 ${
+            className={`absolute left-2 top-14 w-4 h-4 ${
               isOpen ? "" : "rotate-180"
             }`}
           />
