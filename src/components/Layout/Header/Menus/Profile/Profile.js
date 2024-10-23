@@ -141,6 +141,8 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
 
   return (
     <>
+    <div dir={isLangArab ? "rtl" : "ltr"}>
+
       <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
         <PopoverTrigger asChild>
         <div
@@ -196,6 +198,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
             setIsFeedBack={setIsFeedBack}
             
           />
+    <div dir={isLangArab ? "rtl" : "ltr"}>
 
           {/* Login Button */}
           {role === null ? (
@@ -215,6 +218,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
               {isLangArab?"تسجيل الخروج":"Logout"}</p>
             </div>
           )}
+          </div>
         </PopoverContent>
       </Popover>
 
@@ -280,6 +284,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
             }}
           />
       </AnimatePresence>
+      </div>
     </>
   );
 };
