@@ -88,7 +88,7 @@ const Popup1 = ({ isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMan
           </div>
         ))}
       </div>
-      <div className={`grid space-y-3 ${isManageVisible ? 'mt-20' : 'mt-24'}`}>
+      <div className={`grid space-y-3 ${isManageVisible ? 'mt-6' : 'mt-10'}`}>
             <hr className='mx-2' />
             {!isManageVisible ? (
               <span className="flex gap-x-1 justify-center items-center">
