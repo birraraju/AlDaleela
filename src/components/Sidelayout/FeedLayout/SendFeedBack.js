@@ -73,29 +73,29 @@ export default function Feedback({
     <div className={`z-50 ${isDarkMode ? "text-white" : "text-black"}`}>
       <div className=" sm:space-y-4 space-y-2 max-h-[calc(100vh-100px)] overflow-y-auto">
       <div className="flex gap-2 items-center justify-between">
-      {/* Map over ratings to display the images */}
-          {ratings.map((item) => (
-            <button
-            key={item.value}
-            className={`flex bg-transparent sm:px-3 laptop_s:px-3 px-3 justify-center py-2 border sm:rounded-xl rounded-lg flex-col items-center sm:space-y-1 space-y-2 transition-colors ${
-              isDarkMode
-                ? rating === item.value
-                  ? "border-transparent bg-[#444646] "
-                  :   "bg-black text-white border-white"
-                : rating === item.value
-                ? "bg-white text-white"
-                : "border-transparent border border-white bg-black"
-            }`}
-            onClick={() => setRating(item.value)} 
-          >
+  {ratings.map((item) => (
+    <button
+      key={item.value}
+      className={`flex bg-transparent sm:px-3 laptop_s:px-3 px-3 justify-center py-2 border sm:rounded-xl rounded-lg flex-col items-center sm:space-y-1 space-y-2 transition-colors ${
+        isDarkMode
+          ? rating === item.value
+            ? "bg-black text-white border-white"
+            : "border-transparent bg-[#444646]"
+          : rating === item.value
+          ? "bg-white text-white"
+          : "border-transparent border bg-black"
+      }`}
+      onClick={() => setRating(item.value)} // Ensure onClick works
+    >
+      {/* Render the corresponding image */}
+      <img src={item.image} alt={item.value} className="w-8 sm:w-6 h-10 sm:h-7 laptop_s:h-8 laptop_s:w-6" />
+      <p className={`text-[12px] sm:text-[12px] laptop_s:text-[12px] w-8 sm:h-6 h-3 ${item.color}`}>
+        {item.value} {/* Directly display the text */}
+      </p>
+    </button>
+  ))}
+</div>
 
-              {/* Render the corresponding image */}
-              <img src={item.image} alt={item.value} className="w-8 sm:w-6 h-10 sm:h-7 laptop_s:h-8 laptop_s:w-6" />
-              <p className={`sm:text-[9px] laptop_s:text-[10px] text-[9px] w-8 sm:h-6 h-3 ${item.color}`}>
-                {item.value}</p>
-            </button>
-          ))}
-        </div>
         <div className="space-y-4">
           <div>
           <label
