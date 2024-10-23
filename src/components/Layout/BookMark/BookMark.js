@@ -172,37 +172,27 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
     setSelectedMarks({}); // Reset the selected marks
   };
 
+  const handleClose = () => {
+    setIsManageVisible(false); // Close management view
+    setSelectedMarks({}); // Reset the selected marks
+  };
+
   return (
     <div className="relative grid grid-cols-1 ">
       <div className="grid grid-cols-3 justify-start pt-3 items-start gap-y-4 gap-x-0">
-        {bookmarks.map((image, index) => (
-          <div key={image.id} onClick={()=>handleZoomtoLocation(image.id, image.objectid)} className="relative w-28 h-24 flex flex-col items-center">
-            <img
-              src={image.src}
-              alt={image.title}
-              className="w-full h-full object-cover shadow-xl rounded-md"
-            />
-            <h3 className="text-start w-full border text-white text-xs border-transparent rounded-md absolute bg-[#504848] h-6 justify-start items-center pl-2 flex bottom-0 text-[9px] leading-4 break-words">
-              {image.title}
-            </h3>
-
-            {isManageVisible && (
-              <button
-                className="absolute top-1 right-3"
-                onClick={() => {
-                  handleSelectMark(image.id); // Toggle selection on click
-                }}
-              >
-                <img
-                  src={BookYellow} // Same image source
-                  className={`h-5 shadow-black cursor-pointer 
-                              ${selectedMarks[image.id] ? 'invert brightness-0' : ''}`} // Apply filters conditionally
-                  alt="Mark"
-                />
-              </button>
-            )}
-
-            {/* <div className="absolute w-full pl-1 bottom-4 flex">
+  {images.map((image, index) => (
+    <div key={index} className="relative flex flex-col items-center">
+      {/* Image and title section */}
+      <div onClick={() => handleZoomtoLocation(index, image.objectid)} className=" relative w-28 h-24 flex flex-col items-center">
+        <img
+          src={image.src}
+          alt={image.title}
+          className="w-full h-full object-cover shadow-xl rounded-md"
+        />
+        <h3 className="text-start w-full border text-white text-xs border-transparent rounded-md absolute bg-[#504848] h-6 justify-start items-center pl-2 flex bottom-0 text-[9px] leading-4 break-words">
+          {image.title}
+        </h3>
+        {/* <div className="absolute w-full pl-1 bottom-4 flex">
               {image.icon.map((icons, iconIndex) => (
                 <span
                   className="relative p-[3%] bg-[#504848] border-[#504848] rounded-full"
@@ -213,10 +203,29 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
                 </span>
               ))}
             </div> */}
-          </div>
-          
-        ))}
       </div>
+
+      {/* Bookmark button outside image wrapper */}
+      {isManageVisible && (
+        <div className="mt-1">
+          <button
+            onClick={() => {
+              handleSelectMark(index); // Toggle selection on click
+            }}
+            className=" absolute top-2 right-3"
+          >
+            <img
+              src={BookYellow}
+              className={`h-5 shadow-black cursor-pointer 
+                          ${selectedMarks[index] ? 'invert brightness-0' : ''}`} // Apply filters conditionally
+              alt="Mark"
+            />
+          </button>
+        </div>
+      )}
+    </div>
+  ))}
+</div>
       <div className={`grid space-y-3 ${isManageVisible ? 'mt-6' : 'mt-10'}`}>
             <hr className='mx-2' />
             {!isManageVisible ? (
@@ -226,14 +235,14 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
               </span>
             ) : (
               <div className="flex justify-center space-x-9 items-center">
-                <button
+                <button onClick={handleClose}
                   className="w-auto py-3 px-14 bg-white text-xs border border-gray-300 rounded-lg"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleSave}
-                  className="w-auto py-3 px-14 bg-custom-gradient text-xs border border-gray-300 rounded-lg"
+                  className="w-auto py-3 px-10 bg-custom-gradient text-[12px] border border-gray-300 rounded-lg"
                 >
                   Save Changes
                 </button>
