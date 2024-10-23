@@ -97,32 +97,9 @@ export default function SideLayout2({ children, width = "454.84px", onClose }) {
                 </p>
 
                 {/* Manage Bookmarks Section */}
-                <Popup1 isManageVisible={isManageVisible} />
+                <Popup1 setIsManageVisible={setIsManageVisible} BookMarkGreen={BookMarkGreen} isLangArab={isLangArab} DarkBookMarkGreen={DarkBookMarkGreen} isDarkMode={isDarkMode} isManageVisible={isManageVisible} />
                 {/* Footer with 'Manage bookmarks' */}
 
-          <div className={`grid space-y-3 ${isManageVisible ? 'mt-20' : 'mt-24'}`}>
-            <hr className='mx-2' />
-            {!isManageVisible ? (
-              <span className="flex gap-x-1 justify-center items-center">
-                <img src={isDarkMode ? DarkBookMarkGreen : BookMarkGreen } alt="" className="h-5" />
-                <p className="text-[#1365B1] underline text-sm cursor-pointer font-medium" onClick={() => setIsManageVisible(true)}>{ isLangArab?"إدارة العلامات المرجعية":"Manage Bookmarks"}</p>
-              </span>
-            ) : (
-              <div className="flex justify-center space-x-9 items-center">
-                <button
-                  className="w-auto py-3 px-14 bg-white text-xs border border-gray-300 rounded-lg"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={() => setIsManageVisible(false)}
-                  className="w-auto py-3 px-14 bg-custom-gradient text-xs border border-gray-300 rounded-lg"
-                >
-                  Save
-                </button>
-              </div>
-            )}
-          </div>
               </>
             )}
           </div>
