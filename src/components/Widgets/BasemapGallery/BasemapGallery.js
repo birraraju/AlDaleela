@@ -26,9 +26,13 @@ const BasemapGalleryComponent = ({ mapview }) => {
   }, [mapview]); // Include mapview in the dependency array
 
   return (
-    <div id="basemapDiv" className=" sm:-mt-[610px] laptop_s:-mt-[400px]   -mt-[520px]">
-      <div ref={mapRef1} />
-    </div>
+    <div
+    id="basemapDiv"
+    className="sm:-mt-[480px] laptop_s:-mt-[480px] -mt-[480px] bg-transparent overflow-auto" // Add overflow-auto for scrollability
+    style={{ height: '700px' }} // Set a fixed height for the scrollable area
+  >
+    <div ref={mapRef1} />
+  </div>
   );
 };
 
