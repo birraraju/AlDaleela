@@ -45,6 +45,8 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
   }, [setIsLeaderboard]);
 
   return (
+    <div dir={isLangArab ? "rtl" : "ltr"}>
+
     <motion.div
     ref={containerRef}
     initial={{ x: "100%", opacity: 0 }}
@@ -214,5 +216,6 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
         </button>
       </div>
     </motion.div>
+    </div>
   );
 }

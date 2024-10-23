@@ -17,10 +17,12 @@ export default function ProfileMenus({
   setIsContribution,
   setIsFeedBack // Add setIsContribution
 }) {
-  const { isDarkMode } = useTheme(); // Access isDarkMode from context
+  const { isDarkMode, isLangArab } = useTheme(); // Access isDarkMode from context
 
   return (
     <>
+    <div dir={isLangArab ? "rtl" : "ltr"}>
+
       {/* Divider between the theme toggle and the rest of the menu */}
       {role !== null &&  <div
         className={`h-[1px] w-full  my-2
@@ -60,6 +62,7 @@ export default function ProfileMenus({
         className={`h-[1px] w-full  my-2
           ${isDarkMode ? "bg-[#A2A0A0] " : "bg-[#C4B8B8] "}`}
       ></div>
+      </div>
     </>
   );
 }
