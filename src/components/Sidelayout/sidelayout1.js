@@ -76,19 +76,22 @@ export default function SideLayout1({
       }`}
       // style={{ width, height }} // Set height to 80% of viewport height
     >
-      <div className={`relative sm:h-[80%] h-[98%] sm:w-full sm:float-none w-[67%] float-end rounded-2xl shadow-lg overflow-hidden border ${
-          isDarkMode
-            ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
-            : "bg-white bg-opacity-70 backdrop-blur-lg border-white" // Light mode styles
-        }`}>
-        {/* Close Button */}
-        <button
-          onClick={closePanel} // Only hide the content
-          className={`absolute top-4 right-4 p-2 ${isDarkMode ? "text-white hover:text-gray-300" : "text-gray-600 hover:text-gray-900"} transition-colors`}
-          aria-label="Close side panel"
-        >
-          <X className="h-5 w-6" />
-        </button>
+     <div
+  className={`relative sm:h-[80%] h-[98%] sm:w-full sm:float-none w-[67%] float-end rounded-2xl shadow-lg overflow-hidden border ${
+    isDarkMode
+      ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
+      : "bg-white bg-opacity-70 backdrop-blur-lg border-white" // Light mode styles
+  } ${isLangArab ? "text-right" : "text-left"}`} // Change text alignment based on language
+>
+  {/* Close Button */}
+  <button
+    onClick={closePanel} // Only hide the content
+    className={`absolute top-4 ${isLangArab ? "left-4" : "right-4"} p-2 ${isDarkMode ? "text-white hover:text-gray-300" : "text-gray-600 hover:text-gray-900"} transition-colors`}
+    aria-label="Close side panel"
+  >
+    <X className="h-5 w-6" />
+  </button>
+
 
         <div className="p-6 overflow-y-auto h-full">
           {children || (

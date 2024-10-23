@@ -109,8 +109,10 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
             <div className={`font-medium font-omnes sm:text-[12px] laptop_s:text-[13px] text-[9px] ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#3E3E3E]"}`}>
               {contribution.poiName}</div>
               <div className="flex justify-between gap-x-2 sm:gap-x-3 laptop_s:gap-x-0 items-center">
-              <span className={`${contribution.status === "Approved" ? "bg-custom-gradient font-omnes sm:text-[13px] text-[10px] font-medium bg-clip-text text-transparent" : "text-[#EFB45D] font-omnes sm:text-[13px] text-[10px] font-medium"}`}>
-                {(contribution.status === "Approved") && (isLangArab ?"معتمد":"Approved") }
+              <span className={`${contribution.status === "Approved" 
+  ? `${isDarkMode ? "text-white/70" : "bg-custom-gradient"} font-omnes sm:text-[23px] text-[24px] font-medium bg-clip-text text-transparent` 
+  : `${isDarkMode ? "text-black/80" : "text-[#EFB45D]"} font-omnes sm:text-[13px] text-[14px] font-medium`}`}>
+                    {(contribution.status === "Approved") && (isLangArab ?"معتمد":"Approved") }
                 {(contribution.status === "Pending") && (isLangArab ?"قيد الانتظار":"Pending") }
               </span>
               <img src={loc} alt="Location icon" className="sm:w-7 w-5 sm:h-7 h-4" />

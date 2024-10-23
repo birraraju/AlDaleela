@@ -44,7 +44,7 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
     opacity: 0 
   }}
   transition={{ ease: "easeInOut" }}
-    className={`p-4  sm:py-4  sm:h-[46vh] laptop_s:h-[75vh] h-[79vh]  fixed top-16 ${isLangArab?"left-1 sm:left-16 laptop_s:left-10":"right-1 sm:right-16 laptop_s:right-10"}  backdrop-blur rounded-3xl text-black ${
+    className={`p-4  sm:py-4  sm:h-[66vh] laptop_s:h-[65vh] h-[79vh]  fixed top-16 ${isLangArab?"left-1 sm:left-16 laptop_s:left-10":"right-1 sm:right-16 laptop_s:right-10"}  backdrop-blur rounded-3xl text-black ${
       isDarkMode
         ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none"
         : "bg-white bg-opacity-70 backdrop-blur-lg border-white"
@@ -77,45 +77,45 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
 Abu Dhabi
 </span>
           </h3>
-          <h4 className={`font-medium mb-1 text-[14px] ${isDarkMode ? "text-[#FFFFFFCC]" : "text-gray-600"}`}>
+          <h4 className={`font-medium mb-1 text-[14px] ${isDarkMode ? "text-white" : "text-gray-600"}`}>
             Location
           </h4>
-          <p className={`text-[16px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]" : "text-black"}`}>
+          <p className={`text-[16px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-black"}`}>
             Headquarters Al Mamoura building (A), Building (G2) Al Mamoura St, Al Nahyan, Abu Dhabi, UAE, Postal Code: 22221, P.O Box: 45553
           </p>
         </div>
 
         <div>
-          <h4 className={`font-medium mb-1 text-[14px] ${isDarkMode ? "text-[#FFFFFFCC]" : "text-gray-600"}`}>
+          <h4 className={`font-medium mb-1 text-[14px] ${isDarkMode ? "text-white" : "text-gray-600"}`}>
             Opening Hours
           </h4>
-          <p className={`text-[16px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]" : "text-black"}`}>
+          <p className={`text-[16px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-black"}`}>
             7:30 AM to 3:30 PM | Monday-Friday
           </p>
         </div>
 
         <div>
-          <h4 className={`font-medium mb-1 text-[14px] ${isDarkMode ? "text-[#FFFFFFCC]" : "text-gray-600"}`}>
+          <h4 className={`font-medium mb-1 text-[14px] ${isDarkMode ? "text-white" : "text-gray-600"}`}>
             Phone
           </h4>
-          <p className={`text-[16px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]" : "text-black"}`}>
+          <p className={`text-[16px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-black"}`}>
             +971 2 693 4444
           </p>
         </div>
 
         <div>
-          <h4 className={`font-medium mb-1 text-[14px] ${isDarkMode ? "text-[#FFFFFFCC]" : "text-gray-600"}`}>
+          <h4 className={`font-medium mb-1 text-[14px] ${isDarkMode ? "text-white/100" : "text-gray-600"}`}>
             Email
           </h4>
-          <p className={`text-[16px]  font-medium ${isDarkMode ? "text-[#FFFFFFCC]" : "text-black"}`}>
+          <p className={`text-[16px]  font-medium ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-black"}`}>
             customerhappiness@ead.gov.ae
           </p>
         </div>
         <div>
-          <h4 className={`font-medium mb-1 text-[14px] ${isDarkMode ? "text-[#FFFFFFCC]" : "text-gray-600"}`}>
+          <h4 className={`font-medium mb-1 text-[14px] ${isDarkMode ? "text-white" : "text-gray-600"}`}>
             Website
           </h4>
-          <p className={`text-[16px]  font-medium ${isDarkMode ? "text-[#FFFFFFCC]" : "text-black"}`}>
+          <p className={`text-[16px]  font-medium ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-black"}`}>
             https://www.ead.gov.ae/
           </p>
         </div>
