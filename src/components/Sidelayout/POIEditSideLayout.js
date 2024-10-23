@@ -8,8 +8,9 @@
   import  POShareForm from '../Layout/POIEdit/POIShareForm'
   import  POIEditFileUploader from '../Layout/POIEdit/POIFileUploader'
   import  POIEditFileUploaderStatusMOdel from '../Layout/POIEdit/POIEditSucessFailure'
-
-
+  import FeatureLayer from "@arcgis/core/layers/FeatureLayer";  
+  import * as projection from "@arcgis/core/geometry/projection.js";
+  
 
   import { X } from "lucide-react";
   import DarkLocation from '../../assets/Droppedpin/Dropped Pin.svg';
@@ -24,7 +25,7 @@
     const [toggleCount, setToggleCount] = useState(0);
     const containerRef = useRef(null);
     const { isDarkMode, isLangArab } = useTheme(); // Access the dark mode state
-    const {setIsEditPOI} = useAuth();
+    const {setIsEditPOI, popupselectedgeo, profiledetails} = useAuth();
     const [POIFormShow , setPOIFormShow]=useState(true);
     const [POIFormUploader , setPOIUploaderShow]=useState(false);
     const [isEditShowPOI, setIsShowEditPOI] = useState(false); // Default value is false
@@ -80,6 +81,87 @@
         return () => clearTimeout(timer);
       }
     }, [isFullyClosed]);
+
+    const handleInsertBookmarkData = async(res)=>{
+      if(res){
+        try {
+          const bookmarkObj ={
+            email:profiledetails.email,
+            username:profiledetails.username,
+            tittle:res.features[0].attributes.name_en,
+            extent:res.features[0].geometry.x +","+res.features[0].geometry.y,
+            objectid:res.features[0].attributes.OBJECTID
+          }
+          const response = await fetch(`${process.env.REACT_APP_API_URL}/Bookmarks/bookmarksent`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(bookmarkObj),
+          });
+          const data = await response.json();
+          if(data.success){
+            //console.log(values);
+            //UserActivityLog(profiledetails, "Forget Password")  
+            alert(data.message);
+          }
+          else{
+            //console.log(data)          
+          }
+        }catch (error) {
+          console.error('Error submitting form:', error);
+        } 
+      }
+    }
+
+    const handleBookmarkEvent = async() =>{
+      //alert(popupselectedgeo.graphic[0].geometry.x)
+      let layerUrl =''
+      if(popupselectedgeo.layer.layerId != null && popupselectedgeo.layer.layerId != 'undefined'){
+        layerUrl = popupselectedgeo.layer.url+"/"+popupselectedgeo.layer.layerId
+      }else{
+        layerUrl = popupselectedgeo.layer.url
+
+      }
+      let featureLayer = new FeatureLayer({
+        url : layerUrl
+      })
+      // Wait for the layer to load
+      featureLayer.load().then(() => {
+        // Now you can safely access spatialReference
+        const projectedPoint = projection.project(popupselectedgeo.mapPoint, featureLayer.spatialReference);
+
+        let query = featureLayer.createQuery();
+        //query.geometry = projectedPoint;
+        query.where = "OBJECTID="+popupselectedgeo.graphic.attributes.OBJECTID
+        query.returnGeometry = true;
+        //query.spatialRelationship = "intersects"; 
+        query.outFields = ['*'];
+        //query.outSpatialReference = { wkid: featureLayer.spatialReference.wkid };
+
+        // Execute the query
+        featureLayer.queryFeatures(query).then(function(response) {
+          console.log('Features found:', response.features);
+          handleInsertBookmarkData(response);
+        });
+      }).catch(error => {
+        console.error('Feature layer failed to load:', error);
+      });
+
+      // const query = new Query();
+      // query.geometry = popupselectedgeo.mapPoint; // Use the clicked map point
+      // query.spatialRelationship = 'intersects'; // Define the spatial relationship
+      // query.returnGeometry = true; // Return geometry
+      // query.outFields = ['*']; // Specify fields to return
+      // query.outSpatialReference = { wkid: 3857 };
+      // // Execute the query
+      // try {
+      //   const response = await featureLayer.queryFeatures(query);
+      //   console.log('Features found:', response.features);
+      //   // Handle the features (e.g., display them on the map)
+      //   handleInsertBookmarkData(response);
+      // } catch (error) {
+      //   console.error('Query failed:', error);
+      // }
+    }
 
     // If the panel is fully closed, don't render anything
     if (isFullyClosed) return null;
@@ -161,11 +243,14 @@
   </button>
 
   {/* POI Label Mark */}
+  <button onClick={handleBookmarkEvent}>
   <img
     src={POILabelMark} // isDarkMode check was redundant here too
     alt="Location Mark"
     className="h-full"
   />
+  </button>
+  
 
   {/* Close Button (X) */}
   <button

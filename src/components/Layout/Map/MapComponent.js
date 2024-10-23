@@ -12,7 +12,7 @@ const MapComponent = (props) => {
   const [lat, setLat] = useState(null);
   const [lon, setLon] = useState(null);
   const [scale, setScale] = useState(null);
-  const {setconrextMapView, setinitialExtent,setIsEditPOI} = useAuth();
+  const {setconrextMapView, setinitialExtent,setIsEditPOI, setPopupSelectedGeo} = useAuth();
 
   const {setMapview, MapView} = props;
 
@@ -112,7 +112,9 @@ const MapComponent = (props) => {
         // const graphic = results[0].graphic;
   
         // Trigger an alert, then proceed to set isEditPOI
-        alert("Map Click Event");
+        //alert("Map Click Event");
+        //view.popup.destroy()
+        setPopupSelectedGeo(results[0])//.graphic)
         setIsEditPOI(true);
       }
     });
