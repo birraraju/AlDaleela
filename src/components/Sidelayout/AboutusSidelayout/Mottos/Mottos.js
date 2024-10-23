@@ -5,7 +5,7 @@ import Mission from "../../../../assets/Header/Profile/Aboutus/mission.png"
 import Values from "../../../../assets/Header/Profile/Aboutus/values.png"
 
 export default function Mottos() {
-  const { isDarkMode } = useTheme(); // Access dark mode from theme context
+  const { isDarkMode, isLangArab } = useTheme(); // Access dark mode from theme context
 
   return (
     <div className="space-y-4 mt-4">
@@ -26,10 +26,10 @@ export default function Mottos() {
 
           <div className="w-[80%]">
             <h1 className={`font-semibold ${isDarkMode ? 'text-[#FFFFFFCC] text-opacity-80': 'text-gray-600'} `}>
-              {content.title}
+            {isLangArab ? content.arabicTitle : content.title} {/* Display Arabic or English based on language state */}
             </h1>
             <p className={`text-sm font-normal mt-1 ${isDarkMode ? 'text-[#FFFFFFCC]' : 'text-gray-600'}`}>
-              {content.description}
+            {isLangArab ? content.arabicDescription : content.description} {/* Display Arabic or English based on language state */}
             </p>
           </div>
         </div>
@@ -42,19 +42,29 @@ const aboutContent = [
   {
     image: vision,
     title: "Our Vision",
+    arabicTitle: "الرؤية",
     description:
       "A sustainable, well-protected and healthy environment that enhances quality of life.",
-  },
+   arabicDescription:
+   "الحياة جودة تعزز وصحية ومصانة مستدامة بيئة",
+    },
   {
     image: Mission,
     title: "Our Mission",
+    arabicTitle: 
+    "الرسالة",
     description:
       "To protect the environment and promote sustainability through innovative environmental management, and impact-oriented policies and regulations, in collaboration with our partners and the broader community.",
-  },
+      arabicDescription:
+      "حماية البيئة وتعزيز الاستدامة من خلال الإدارة البيئية المبتكرة والسياسات والأنظمة الفعالة جنباً إلى جنب مع شركائنا والمجتمع"
+    },
   {
     image: Values,
     title: "Our Values",
+    arabicTitle: "القيــم",
     description:
       "Partnership & Teamwork, Initiative with Innovation, Excellence, Results-Oriented, Resilience, Ownership & Accountability",
-  },
+      arabicDescription:
+      "الشراكة والعمل الجماعي المبادرة والابتكار التميز العمل لتحقيق النتائج التكيف والمرونة المسؤولية والمساءلة"
+    },
 ];

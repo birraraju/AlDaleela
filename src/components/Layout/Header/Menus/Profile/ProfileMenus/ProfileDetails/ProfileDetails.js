@@ -6,10 +6,11 @@ export default function ProfileDetails({
   setIsProfileData,
 }) {
   const {profiledetails} = useAuth()
-  const { isDarkMode } = useTheme(); // Access dark mode state
+  const { isDarkMode, isLangArab } = useTheme(); // Access dark mode state
 
   return (
     <>
+    <div dir={isLangArab ? "rtl" : "ltr"}>
       {((role !== null)&&(profiledetails !== null)) && (
         <div
           onClick={() => {
@@ -31,13 +32,14 @@ export default function ProfileDetails({
             >              {profiledetails.username ? profiledetails.username: profiledetails.username === "" && profiledetails.firstName}
             </p>
             <p
-              className={`  text-base tracking-wider ${
+              className={`  text-sm tracking-wider ${
                 isDarkMode ? "text-gray-200" : "text-[#505050]"
               }`}
             >               {profiledetails.email}</p>
           </div>
         </div>
       )}
+      </div>
     </>
   );
 }

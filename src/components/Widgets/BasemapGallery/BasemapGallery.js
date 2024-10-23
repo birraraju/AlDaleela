@@ -2,10 +2,14 @@ import React, { useEffect, useRef } from "react";
 import BasemapGallery from "@arcgis/core/widgets/BasemapGallery";
 import MapView from "@arcgis/core/views/MapView"; // Import the correct MapView type
 import './BasemapGallery.css';
+import { useTheme } from '../../Layout/ThemeContext/ThemeContext'; // Import the theme context
+
 // import '@arcgis/core/assets/esri/themes/light/main.css';
 
 const BasemapGalleryComponent = ({ mapview }) => {
   const mapRef1 = useRef(null); // Specify type for useRef
+  const { isDarkMode } = useTheme(); // Access the dark mode state
+
 
   useEffect(() => {
     if (mapview && mapRef1.current) {
@@ -26,7 +30,10 @@ const BasemapGalleryComponent = ({ mapview }) => {
   }, [mapview]); // Include mapview in the dependency array
 
   return (
-    <div id="basemapDiv" className=" sm:-mt-[610px] laptop_s:-mt-[400px]   -mt-[520px]">
+    <div
+      id="basemapDiv"
+      className={`sm:-mt-[480px] laptop_s:-mt-[450px] laptop_s:h-[500px] -mt-[480px] bg-transparent overflow-auto ${isDarkMode ? 'dark-mode' : ''}`}
+    >
       <div ref={mapRef1} />
     </div>
   );

@@ -14,7 +14,7 @@ export default function ThemeToggle() {
          src={isDarkMode ? DarkBrush : Brush}
            alt="" className=" w-7" />        </div>
         <p
-          className={`font-medium font-omnes text-[18px]  ${
+          className={`font-medium  font-omnes text-[18px]  ${
             isDarkMode ? "text-gray-300" : "text-[#505050]"
           }`}
         >           {isLangArab?"الوضع الداكن":"Dark mode"}</p>
@@ -30,6 +30,8 @@ export default function ThemeToggle() {
         <div
           className={`bg-[#FFAC4B] w-5 h-5 rounded-full shadow-lg transform duration-300 ease-in-out flex justify-center items-center ${
             isDarkMode ? "translate-x-7" : ""
+          }${
+            isLangArab ? "translate-x-[-1.75rem]" : "translate-x-7"
           }`}
         >
           <img

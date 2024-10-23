@@ -5,7 +5,7 @@ import { useTheme } from "../../../../ThemeContext/ThemeContext"; // Import useT
 
 export default function GeneralInformation({ onClose }) {
   const modalRef = useRef(null); // Create a ref for the modal
-  const { isDarkMode,isLangArab } = useTheme(); // Access isDarkMode from context
+  const { isDarkMode, isLangArab } = useTheme(); // Access isDarkMode and isLangArab from context
 
   // Function to handle clicks outside the modal
   const handleClickOutside = (event) => {
@@ -16,11 +16,19 @@ export default function GeneralInformation({ onClose }) {
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside); // Add event listener for clicks
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside); // Cleanup on unmount
     };
   }, []);
+
+  // Function to convert numbers to Arabic-Indic numerals
+  const convertToArabicNumerals = (num) => {
+    const arabicNumerals = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
+    return String(num)
+      .split("")
+      .map((digit) => arabicNumerals[digit])
+      .join("");
+  };
 
   return (
     <div className="fixed inset-10 sm:inset-5 laptop_s:inset-10 z-50 flex items-center justify-center ">
@@ -31,50 +39,152 @@ export default function GeneralInformation({ onClose }) {
           isDarkMode
             ? "bg-[rgba(96,96,96,0.9)] text-white border-white" // Dark mode styles
             : "bg-white bg-opacity-98 text-black border-white" // Light mode styles
-        }`}      >
+        }`}
+      >
         {/* Heading & close button */}
         <div>
-          <h1
-           className="text-[24px] font-omnes font-medium">{isLangArab?"معلومات عامة":"General Information"}</h1>
-          <button
- className={`absolute top-4   right-4 hover:text-gray-800 ${
-  isDarkMode ? "text-gray-400" : "text-gray-600"
-}`}            onClick={onClose}
-          >
-            <X className="h-6 w-6" />
-          </button>
-        </div>
+  <h1
+    className={`text-[24px] font-omnes font-medium ${
+      isLangArab ? "text-right" : "text-left"
+    }`}
+  >
+    {isLangArab ? "معلومات عامة" : "General Information"}
+  </h1>
+  <button
+    className={`absolute top-4 ${isLangArab ? "left-4" : "right-4"} hover:text-gray-800 ${
+      isDarkMode ? "text-gray-400" : "text-gray-600"
+    }`}
+    onClick={onClose}
+  >
+    <X className="h-6 w-6" />
+  </button>
+</div>
+
 
         {/* Divider */}
         <div
-className={`my-2 h-[1px] w-full transition-colors duration-300 ${
-  isDarkMode ? "bg-white bg-opacity-20" : "bg-black bg-opacity-10"
-}`}         ></div>
+          className={`my-2 h-[1px] w-full transition-colors duration-300 ${
+            isDarkMode ? "bg-white bg-opacity-20" : "bg-black bg-opacity-10"
+          }`}
+        ></div>
 
         {/* Scrollable table with visible scrollbar */}
         <div className="scroll-container mr-1 h-[25rem] overflow-y-scroll">
           <table className="w-full mt-2 text-sm">
             <thead>
               <tr>
-              <th className={`px-4 py-2 text-left font-medium text-[14px] ${isDarkMode ? "text-gray-200" : "text-[#667085]"}`}>
-              S.No</th>
-              <th className={`px-4 py-2 text-left font-medium text-[14px] ${isDarkMode ? "text-gray-200" : "text-[#667085]"}`}>
-              {isLangArab?"التصنيف":"Class"}</th>
-              <th className={`px-4 py-2 text-left font-medium text-[14px] ${isDarkMode ? "text-gray-200" : "text-[#667085]"}`}>
-              {isLangArab?"التصنيف":"Description"}</th>
+                {isLangArab ? (
+                  <>
+                    <th
+                      className={`px-4 py-2 text-left font-medium text-[14px] ${
+                        isDarkMode ? "text-gray-200" : "text-[#667085]"
+                      }`}
+                    >
+                      الوصف
+                    </th>
+                    <th
+                      className={`px-4 py-2 text-left font-medium text-[14px] ${
+                        isDarkMode ? "text-gray-200" : "text-[#667085]"
+                      }`}
+                    >
+                      التصنيف
+                    </th>
+                    <th
+                      className={`px-4 py-2 text-left font-medium text-[14px] ${
+                        isDarkMode ? "text-gray-200" : "text-[#667085]"
+                      }`}
+                    >
+                      رقم التسلسل
+                    </th>
+                  </>
+                ) : (
+                  <>
+                    <th
+                      className={`px-4 py-2 text-left font-medium text-[14px] ${
+                        isDarkMode ? "text-gray-200" : "text-[#667085]"
+                      }`}
+                    >
+                      S.No
+                    </th>
+                    <th
+                      className={`px-4 py-2 text-left font-medium text-[14px] ${
+                        isDarkMode ? "text-gray-200" : "text-[#667085]"
+                      }`}
+                    >
+                      Class
+                    </th>
+                    <th
+                      className={`px-4 py-2 text-left font-medium text-[14px] ${
+                        isDarkMode ? "text-gray-200" : "text-[#667085]"
+                      }`}
+                    >
+                      Description
+                    </th>
+                  </>
+                )}
               </tr>
             </thead>
             <tbody>
-              {(isLangArab?tableArabicsData:tableData).map((row, index) => (
-                <tr key={index}
-                className={index % 2 === 0 ? (isDarkMode ? "bg-[#D5E5DE] bg-opacity-30" : "bg-[#D5E5DE] bg-opacity-30") : ""}
+              {(isLangArab ? tableArabicsData : tableData).map((row, index) => (
+                <tr
+                  key={index}
+                  className={
+                    index % 2 === 0
+                      ? isDarkMode
+                        ? "bg-[#D5E5DE] bg-opacity-30"
+                        : "bg-[#D5E5DE] bg-opacity-30"
+                      : ""
+                  }
                 >
-                  <td className={`px-4 py-2 font-omnes font-medium text-[16px] ${isDarkMode ? "text-white" : "text-black"}`}>
-                  {index + 1}</td>
-                  <td className={`px-4 py-2 font-omnes font-medium text-[16px] ${isDarkMode ? "text-white" : "text-black"}`}>
-                    {row.class}</td>
-                    <td className={`px-4 py-2 font-omnes font-medium text-[16px] ${isDarkMode ? "text-white" : "text-black"}`}>
-                    {row.description}</td>
+                  {isLangArab ? (
+                    <>
+                      <td
+                        className={`px-4 py-2 font-omnes font-medium text-[16px] ${
+                          isDarkMode ? "text-white" : "text-black"
+                        }`}
+                      >
+                        {row.description}
+                      </td>
+                      <td
+                        className={`px-4 py-2 font-omnes font-medium text-[16px] ${
+                          isDarkMode ? "text-white" : "text-black"
+                        }`}
+                      >
+                        {row.class}
+                      </td>
+                      <td
+                        className={`px-4 py-2 font-omnes font-medium text-[16px] ${
+                          isDarkMode ? "text-white" : "text-black"
+                        }`}
+                      >
+                        {convertToArabicNumerals(index + 1)}
+                      </td>
+                    </>
+                  ) : (
+                    <>
+                      <td
+                        className={`px-4 py-2 font-omnes font-medium text-[16px] ${
+                          isDarkMode ? "text-white" : "text-black"
+                        }`}
+                      >
+                        {index + 1}
+                      </td>
+                      <td
+                        className={`px-4 py-2 font-omnes font-medium text-[16px] ${
+                          isDarkMode ? "text-white" : "text-black"
+                        }`}
+                      >
+                        {row.class}
+                      </td>
+                      <td
+                        className={`px-4 py-2 font-omnes font-medium text-[16px] ${
+                          isDarkMode ? "text-white" : "text-black"
+                        }`}
+                      >
+                        {row.description}
+                      </td>
+                    </>
+                  )}
                 </tr>
               ))}
             </tbody>
@@ -84,6 +194,8 @@ className={`my-2 h-[1px] w-full transition-colors duration-300 ${
     </div>
   );
 }
+
+
 
 // Define table data
 const tableData = [

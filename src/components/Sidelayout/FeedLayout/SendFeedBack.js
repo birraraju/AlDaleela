@@ -70,40 +70,44 @@ export default function Feedback({
     setIsPopoverOpen(true);  // Open popover
   };
   return (
-    <div className={`z-50 ${isDarkMode ? "text-white" : "text-black"}`}>
+    <div dir={isLangArab ? "rtl" : "ltr"}>
+    <div className={`z-50  ${isDarkMode ? "text-white" : "text-black"}`}>
       <div className=" sm:space-y-4 space-y-2 max-h-[calc(100vh-100px)] overflow-y-auto">
       <div className="flex gap-2 items-center justify-between">
-      {/* Map over ratings to display the images */}
-          {ratings.map((item) => (
-            <button
-            key={item.value}
-            className={`flex bg-transparent sm:px-3 laptop_s:px-3 px-3 justify-center py-2 border sm:rounded-xl rounded-lg flex-col items-center sm:space-y-1 space-y-2 transition-colors ${
-              isDarkMode
-                ? rating === item.value
-                  ? "border-transparent bg-[#444646] "
-                  :   "bg-black text-white border-white"
-                : rating === item.value
-                ? "bg-white text-white"
-                : "border-transparent border border-white bg-black"
-            }`}
-            onClick={() => setRating(item.value)} 
-          >
+  {ratings.map((item) => (
+    <button
+      key={item.value}
+      className={`flex bg-transparent sm:px-3 laptop_s:px-3 px-3 justify-center py-2 border sm:rounded-xl rounded-lg flex-col items-center sm:space-y-1 space-y-2 transition-colors ${
+        isDarkMode
+          ? rating === item.value
+            ? "bg-black text-white border-white"
+            : "border-transparent bg-[#444646]"
+          : rating === item.value
+          ? "bg-white text-white"
+          : "border-transparent border bg-black"
+      }`}
+      onClick={() => setRating(item.value)} // Ensure onClick works
+    >
+      {/* Render the corresponding image */}
+      <img src={item.image} alt={item.value} className="w-8 sm:w-6 h-10 sm:h-7 laptop_s:h-8 laptop_s:w-6" />
+      <p className={` w-8 sm:h-6 h-3 ${
+    isLangArab ? "text-xl " : "text-[12px]" // Increased text size for Arabic
+  } ${item.color}`}>
+        {item.value} {/* Directly display the text */}
+      </p>
+    </button>
+  ))}
+</div>
 
-              {/* Render the corresponding image */}
-              <img src={item.image} alt={item.value} className="w-8 sm:w-6 h-10 sm:h-7 laptop_s:h-8 laptop_s:w-6" />
-              <p className={`sm:text-[9px] laptop_s:text-[10px] text-[9px] w-8 sm:h-6 h-3 ${item.color}`}>
-                {item.value}</p>
-            </button>
-          ))}
-        </div>
         <div className="space-y-4">
           <div>
           <label
-              htmlFor="name"
-              className={`block text-sm font-medium mb-1 transition-colors ${
-                isDarkMode ? "text-[#FFFFFF] bg-opacity-70" : "text-black"
-              }`}
-            >              {isLangArab?"سيء":"Name"}
+  htmlFor="name"
+  className={`block  font-medium mb-1 transition-colors ${
+    isLangArab ? "text-xl mr-2" : "text-sm" // Increased text size for Arabic
+  } ${isDarkMode ? "text-[#FFFFFF] bg-opacity-70" : "text-black"}`}
+>
+  {isLangArab?"سيء":"Name"}
             </label>
             <input
               type="text"
@@ -119,7 +123,9 @@ export default function Feedback({
           <div>
           <label
               htmlFor="email"
-              className={`block text-sm font-medium mb-1 transition-colors ${
+              className={`block  font-medium mb-1 transition-colors${
+                isLangArab ? "text-xl mr-2" : "text-sm" // Increased text size for Arabic
+              } ${
                 isDarkMode ? "text-[#FFFFFF] bg-opacity-70" : "text-black"
               }`}
             >              {isLangArab?"البريد الإلكتروني":"Email"}
@@ -138,7 +144,9 @@ export default function Feedback({
           <div>
           <label
               htmlFor="thoughts"
-              className={`block text-sm font-medium mb-1 transition-colors ${
+              className={`block  font-medium mb-1 transition-colors ${
+                isLangArab ? "text-xl mr-2" : "text-sm" // Increased text size for Arabic
+              } ${
                 isDarkMode ? "text-[#FFFFFF] bg-opacity-70" : "text-black"
               }`}
             >              {isLangArab?"يرجى مشاركة أفكارك للتحسين": "Please share your thoughts to improve"}
@@ -159,6 +167,8 @@ export default function Feedback({
       <div className="flex pt-6 justify-between items-baseline px-2">
       <button
           className={`sm:px-14 px-9 sm:py-3 py-2 border rounded-md transition-colors ${
+    isLangArab ? "text-sm " : "text-sm" // Increased text size for Arabic
+  } ${
             isDarkMode ? "bg-transparent  border border-white text-white" : "border-gray-300 text-gray-700"
           }`}
           onClick={handleCancel}
@@ -171,6 +181,7 @@ export default function Feedback({
         }`}>          {isLangArab?"إرسال":"Submit"}
         </button>
       </div>
+    </div>
     </div>
   );
 }

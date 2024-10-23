@@ -12,7 +12,7 @@ const MapComponent = (props) => {
   const [lat, setLat] = useState(null);
   const [lon, setLon] = useState(null);
   const [scale, setScale] = useState(null);
-  const {setconrextMapView, setinitialExtent} = useAuth();
+  const {setconrextMapView, setinitialExtent,setIsEditPOI, setPopupSelectedGeo} = useAuth();
 
   const {setMapview, MapView} = props;
 
@@ -107,12 +107,19 @@ const MapComponent = (props) => {
     view.hitTest(event).then((response) => {
       const results = response.results;
       if (results.length > 0) {
-        //const layer = results[0].layer;
-        //const graphic = results[0].graphic;
-        alert("Map Onlick Event")
+        // Uncomment if you need the layer or graphic for further use
+        // const layer = results[0].layer;
+        // const graphic = results[0].graphic;
+  
+        // Trigger an alert, then proceed to set isEditPOI
+        //alert("Map Click Event");
+        //view.popup.destroy()
+        setPopupSelectedGeo(results[0])//.graphic)
+        setIsEditPOI(true);
       }
     });
   };
+  
 
   // Function to format the scale value into thousands (e.g., 2,311,162 => 2.3M)
   const formatScale = (scale) => {

@@ -8,6 +8,8 @@ import SideLayout2 from "../Sidelayout/sidelayout2";
 import SideLayout3 from "../Sidelayout/sidelayout3";
 import SideLayout4 from "../Sidelayout/sidelayout4";
 import SideLayout1 from "../Sidelayout/sidelayout1";
+import POIEditLayout1 from "../Sidelayout/POIEditSideLayout";
+
 // import Contribution from "../Sidelayout/ContributionSidelayout/ContributionSidelayout";
 // import ContactusSidelayout from "../Sidelayout/ContactusSidelayout/ContactusSidelayout";
 import MapComponent from "../Layout/Map/MapComponent";
@@ -17,6 +19,10 @@ import SideLayout6 from "../Sidelayout/sidelayout6";
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import RoleServices from '../servicces/RoleServices';
+import { useAuth } from "../../Providers/AuthProvider/AuthProvider";
+import AthenticatePopLogin from '../../components/Popups/Login/Footerpopups/Footerlogin/footerlogin'
+
+
 
 
 
@@ -26,6 +32,10 @@ const DefaultLayout = ({role}) => {
   const [resetFooter, setResetFooter] = useState(false);
   const [isFooterOpen, setIsFooterOpen] = useState(false);
   const [mapview, setMapview] = useState(false);
+  const {isEditPOI,setIsEditPOI} = useAuth();
+   
+  console.log("POI status Default:", isEditPOI);
+
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -50,10 +60,30 @@ const DefaultLayout = ({role}) => {
   const handleClose = () => {
     setPopup(null);
     setResetFooter(true);
+    setIsEditPOI(false)
     setTimeout(() => setResetFooter(false), 100);
   };
-
+  //  AthenticatePopLogin
   const renderComponent = (name) => {
+    if (role === null) {
+      // If role is null, show the login popup for the specific components
+      switch (name) {
+        case "Add":
+        case "Hand":
+        case "POIEdit":
+          return <AthenticatePopLogin setPopup={setPopup} setResetFooter={setResetFooter} />;
+        default:
+          // For other cases, show the component even if the role is null
+          return renderSideLayout(name);
+      }
+    } else {
+      // If role is not null, show the corresponding side layouts
+      return renderSideLayout(name);
+    }
+  };
+  
+  // Extracted function to handle side layout rendering based on component name
+  const renderSideLayout = (name) => {
     switch (name) {
       case "Home":
         return <SideLayout1 onClose={handleClose} mapview={mapview} />;
@@ -68,11 +98,14 @@ const DefaultLayout = ({role}) => {
       case "Export":
         return <SideLayout5 onClose={handleClose} mapview={mapview} />;
       case "Print":
-        return <SideLayout6 onClose={handleClose}  mapview={mapview}/>;
+        return <SideLayout6 onClose={handleClose} mapview={mapview} />;
+      case "POIEdit":
+        return <POIEditLayout1 mapview={mapview} />;
       default:
         return <></>;
     }
   };
+  
 
   const handleMenuItemClick = (_event, index) => {
     console.log(`Menu item clicked: ${buttonLabels[index]}`);
@@ -90,6 +123,14 @@ const DefaultLayout = ({role}) => {
     }
   }
 
+  useEffect(()=>{
+    if(isEditPOI){
+      setPopup(renderComponent("POIEdit"));
+    }else{
+      setPopup(renderComponent(""));
+      setIsEditPOI(false)
+    }
+  },[isEditPOI])
 
   // const handleHeaderOpen = () => {
   //   setPopup(null);
@@ -110,6 +151,7 @@ const DefaultLayout = ({role}) => {
       <SideBar />
 
       {popup && <div className="absolute z-50">{popup}</div>}
+      {/* {isEditPOI && <POIEditLayout1/>} */}
       <div className="flex-1 relative overflow-hidden">
         <MapComponent setMapview={setMapview} mapview={mapview}/>
         <Footer

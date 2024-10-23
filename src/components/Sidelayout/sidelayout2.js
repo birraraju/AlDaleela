@@ -5,6 +5,7 @@ import BookMarkGreen from '../../assets/bookmarks/imageBookMarkGreen.png';
 import { FaArrowLeft } from "react-icons/fa6";
 import { useTheme } from '../Layout/ThemeContext/ThemeContext'; // Import the theme context
 import DarkBookMarkGreen from '../../assets/bookmarks/Manage Bookmark.svg';
+import Popup1 from "../Layout/BookMark/BookMark";
 
 
 
@@ -60,7 +61,7 @@ export default function SideLayout2({ children, width = "454.84px", onClose }) {
   return (
     <div
       ref={layoutRef}
-      className={`fixed w-[510px] sm:w-[400px] laptop_s:w-[${width}] h-[90%] sm:h-[59%] laptop_s:h-[90%]  top-16 ${ isLangArab?"left-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-full":"translate-x-full")}`}
+      className={`fixed w-[510px] sm:w-[400px] laptop_s:w-[${width}] h-[90%] sm:h-[80%] laptop_s:h-[80%]  top-16 ${ isLangArab?"left-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-full":"translate-x-full")}`}
       // style={{ width, height }}
     >
       {isContentVisible && (
@@ -96,17 +97,9 @@ export default function SideLayout2({ children, width = "454.84px", onClose }) {
                 </p>
 
                 {/* Manage Bookmarks Section */}
-                <div className="absolute bottom-4 left-0 w-full px-6">
-                  <div className="flex flex-row gap-2 items-center justify-center">
-                    <img src={isDarkMode ? DarkBookMarkGreen : BookMarkGreen } alt="Bookmark" className="h-5 mb-1" />
-                    <p
-                      className="text-[#1365B1] underline text-sm cursor-pointer font-medium"
-                      onClick={() => setIsManageVisible(true)}
-                    >
-                      { isLangArab?"إدارة العلامات المرجعية":"Manage Bookmarks"}
-                    </p>
-                  </div>
-                </div>
+                <Popup1 setIsManageVisible={setIsManageVisible} BookMarkGreen={BookMarkGreen} isLangArab={isLangArab} DarkBookMarkGreen={DarkBookMarkGreen} isDarkMode={isDarkMode} isManageVisible={isManageVisible} />
+                {/* Footer with 'Manage bookmarks' */}
+
               </>
             )}
           </div>
@@ -141,7 +134,7 @@ export default function SideLayout2({ children, width = "454.84px", onClose }) {
           fill={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "#EBEFF2"}
           stroke={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "#EEF3F7"}
           strokeWidth="6"
-        />
+        />  
       </g>
       <defs>
         <clipPath id="clip0_4011_11301">

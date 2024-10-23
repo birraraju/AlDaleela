@@ -9,10 +9,12 @@ export default function VideoFilter({ setSelectedItem,isLangArab, setIsFiltersOp
         selectedItem === "video" ? "bg-white" : "bg-none opacity-50"
       }`}
     >
+      <div className={`flex items-center ${isLangArab ? "flex-row-reverse" : ""}`}>
       <div>
         <img src={`${process.env.PUBLIC_URL}/Header/Searchbar/video.svg`} alt="" className="w-6" />
       </div>
-      <div>{isLangArab?"فيديو":"Video"}</div>
+      <div className={`${isLangArab ? "mr-2" : "ml-2"}`}>{isLangArab?"فيديو":"Video"}</div>
+    </div>
     </div>
   );
 }

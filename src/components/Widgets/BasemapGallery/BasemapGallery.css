@@ -1,4 +1,61 @@
+/* Common styles */
+.esri-basemap-gallery {
+    background-color: transparent;
+}
+.esri-basemap-gallery__item {
+    background-color: transparent;
+}
 
-.basemap{
-    margin-top: -375px;
+.MapGallerycontent .card-wrapper, 
+.esri-basemap-gallery__item-container .esri-basemap-gallery__item {
+    display: flex;
+    flex-direction: column; /* Ensures the content stacks vertically */
+    justify-content: center; /* Centers content vertically */
+    align-items: center; /* Centers content horizontally */
+    flex-grow: 0;
+    flex-shrink: 1;
+    flex-basis: calc(50% - 10px);
+    margin-bottom: 10px;
+    background-color: transparent;
+    border-radius: 10px;
+    border: 1px solid var(--dark-color5);
+    padding: 6px;
+    font-size: 12px;
+    text-align: center;
+}
+
+.MapGallerycontent .card-wrapper img, 
+.esri-basemap-gallery__item-container .esri-basemap-gallery__item img {
+    max-width: 100%;
+    border: 3px solid white;
+    border-radius: 8px;
+}
+
+/* Default (light mode) text color */
+.esri-basemap-gallery__item-title {
+    color: #6e6e6e;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 80%; /* Ensures the title fills the height of its container */
+    padding: 2px;
+    font-size: 11px;
+    transition: color .25s ease-in-out, font-weight .25s ease-in-out;
+    display: flex;
+    text-align: center; /* Centers the text horizontally */
+    justify-content: center; /* Centers the text horizontally */
+    align-items: center; /* Centers the text vertically */
+}
+
+/* Dark mode overrides */
+.dark-mode .esri-basemap-gallery__item-title {
+    color: white; /* Change text color to white in dark mode */
+}
+
+.esri-basemap-gallery--grid .esri-basemap-gallery__item-container {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 5px;
+    padding-block: px;
+    padding-inline: 10px;
+    display: grid;
 }

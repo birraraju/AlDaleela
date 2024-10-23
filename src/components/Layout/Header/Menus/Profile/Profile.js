@@ -35,9 +35,9 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
   const [isSuccess, setIsSuccess] = useState(false);
   const [isFailure, setIsFailure] = useState(false);
   const [isProfile, setIsProfile] = useState(true);
-  const { role, setRole } = useAuth();
+  const { role, setRole ,setIsEditPOI} = useAuth();
   const {profiledetails , setprofiledetails} = useAuth()
-  const { isDarkMode,isLangArab } = useTheme(); // Use the theme hook
+  const { isDarkMode,isLangArab,setIsLogin,isLogin,isSignup,setsSignup } = useTheme(); // Use the theme hook
   const [isMsgStatus, setIsMsgStatus] = useState("");
   const [modalMessage, setModalMessage] = useState("")
 
@@ -80,7 +80,13 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
     if(isProfileData){
       setIsProfile(true);
     }
-  },[isProfileData])
+
+    if(isLogin || isSignup){
+      setShowAuthenticator(true);
+    setIsPopoverOpen(false);
+    }
+    
+  },[isProfileData,isLogin,isSignup])
 
   const HandleLocalDetails = () => {
     // Retrieve the user details from localStorage
@@ -135,6 +141,8 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
 
   return (
     <>
+    <div dir={isLangArab ? "rtl" : "ltr"}>
+
       <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
         <PopoverTrigger asChild>
         <div
@@ -190,6 +198,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
             setIsFeedBack={setIsFeedBack}
             
           />
+    <div dir={isLangArab ? "rtl" : "ltr"}>
 
           {/* Login Button */}
           {role === null ? (
@@ -209,12 +218,13 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
               {isLangArab?"تسجيل الخروج":"Logout"}</p>
             </div>
           )}
+          </div>
         </PopoverContent>
       </Popover>
 
       <AnimatePresence>
         {showAuthenticator && (
-          <Login onClose={() => setShowAuthenticator(false)} />
+          <Login onClose={() => {setIsLogin();setIsEditPOI();setsSignup();setShowAuthenticator(false);}} />
         )}
         {isLeaderboard && (
           <LeaderboardSlideout
@@ -274,6 +284,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
             }}
           />
       </AnimatePresence>
+      </div>
     </>
   );
 };
