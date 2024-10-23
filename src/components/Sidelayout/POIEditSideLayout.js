@@ -85,11 +85,14 @@
     const handleInsertBookmarkData = async(res)=>{
       if(res){
         try {
+          if(res.features[0].attributes.name_en === undefined){
+            res.features[0].attributes.name_en= "Bookmarks"
+          }
           const bookmarkObj ={
             email:profiledetails.email,
             username:profiledetails.username,
-            tittle:res.features[0].attributes.name_en,
-            extent:res.features[0].geometry.x +","+res.features[0].geometry.y,
+            title:res.features[0].attributes.name_en,
+            // extent:res.features[0].geometry.x +","+res.features[0].geometry.y,
             objectid:res.features[0].attributes.OBJECTID
           }
           const response = await fetch(`${process.env.REACT_APP_API_URL}/Bookmarks/bookmarksent`, {
