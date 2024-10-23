@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Book1 from '../../../assets/bookmarks/imageBook1.png';
 import Book2 from '../../../assets/bookmarks/imageBook2.png';
 import Book3 from '../../../assets/bookmarks/imageBook3.png';
@@ -11,8 +11,13 @@ import AudioIcon from '../../../assets/bookmarks/imageMusicIcon.png';
 import VideoBg from '../../../assets/bookmarks/imageVideoBg.png';
 import AudioBg from '../../../assets/bookmarks/imageMusicBg.png';
 import BookYellow from '../../../assets/bookmarks/imageBookYellow.png';
+import { useAuth } from "../../../Providers/AuthProvider/AuthProvider";
+import FeatureLayer from "@arcgis/core/layers/FeatureLayer";  
+import Graphic from '@arcgis/core/Graphic';
 
-const Popup1 = ({ isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsManageVisible, isManageVisible,onclose }) => {
+const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsManageVisible, isManageVisible,onclose}) => {
+  const [bookmarks, setBookmarks] = useState([]);
+  const {profiledetails, contextMapView} = useAuth();
   // Array of images with icons
   const images = [
     { src: Book1, title: 'Maskar Al Hidaybah', icon: [{ iconBg: CemaraBg, Icon: CameraIcon }, { iconBg: VideoBg, Icon: VideoIcon }, { iconBg: AudioBg, Icon: AudioIcon }] },
@@ -23,6 +28,133 @@ const Popup1 = ({ isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMan
   ];
   const [selectedMarks, setSelectedMarks] = useState({}); // Store selection state for each image
   console.log("Select Bookmark:", selectedMarks)
+
+
+  useEffect(() => {
+    const fetchBookmarks = async () => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/Bookmarks/${profiledetails.email}`);
+
+        // Check if the response is ok (status code 200-299)
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        if(data.success){              
+          getAttachements(data);
+        }
+        else{
+          //console.log(data)          
+        }
+        
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
+
+    fetchBookmarks();
+  }, []); // Empty dependency array means this effect runs once on mount
+
+  const getAttachements = async(res) =>{
+    try {
+      const featureLayer = new FeatureLayer({
+        url: "https://maps.smartgeoapps.com/server/rest/services/AlDaleela/IslandNamingProject_v2/FeatureServer/0",
+        outFields: ["*"]
+      });
+      const objectIds = res.data.map(feature => feature.objectid);
+      const attachments = await featureLayer.queryAttachments({ objectIds: objectIds });
+      const localbookmarks =[]
+      // Step 4: Loop through features and their corresponding attachments
+      res.data.forEach(feature => {
+          const objectId = feature.objectid;
+          const nameEng = feature.tittle;
+          if (attachments[objectId] && attachments[objectId].length > 0) {
+              attachments[objectId].forEach(attachment => {
+                  //addMediaToContainer(attachment.contentType, attachment.url, objectId, nameEng);
+                  if(attachment.contentType.includes("image")){
+                    localbookmarks.push({
+                      src:attachment.url,
+                      title:nameEng,
+                      id: feature.id,
+                      objectid: feature.objectid,
+                      extent: feature.extent
+                    })
+                  }
+                  else{
+                    localbookmarks.push({
+                      src:Book1,
+                      title:nameEng,
+                      id: feature.id,
+                      objectid: feature.objectid,
+                      extent: feature.extent
+                    })
+                  }
+              });
+          }
+          else{
+            localbookmarks.push({
+              src:Book1,
+              title:nameEng,
+              id: feature.id,
+              objectid: feature.objectid,
+              extent: feature.extent
+            })
+          }
+        });
+        setBookmarks(localbookmarks); // Assuming the API returns an array of bookmarks  
+      } catch (error) {
+          console.error("Error querying attachments:", error);
+      }
+  }
+
+  const handleZoomtoLocation=(id, objectId)=>{
+    //alert(id, objectId);
+    const featureLayer = new FeatureLayer({
+      url: "https://maps.smartgeoapps.com/server/rest/services/AlDaleela/IslandNamingProject_v2/FeatureServer/0",
+      outFields: ["*"]
+    });
+    let query = featureLayer.createQuery();
+    //query.geometry = projectedPoint;
+    query.where = "OBJECTID="+objectId
+    query.returnGeometry = true;
+    //query.spatialRelationship = "intersects"; 
+    query.outFields = ['*'];
+    //query.outSpatialReference = { wkid: featureLayer.spatialReference.wkid };
+
+    // Execute the query
+    featureLayer.queryFeatures(query).then(function(response) {
+      console.log('Features found:', response.features);
+      //var latandlon = extent.split(",")
+      contextMapView.goTo({
+        target: response.features[0].geometry,
+        zoom: 15 // Adjust the zoom level as needed
+      });
+      // let point = {
+      //   type: "point", // autocasts as new Point()
+      //   x: parseFloat(latandlon[0]),
+      //   y: parseFloat(latandlon[1])
+      // };
+      
+      // Create a symbol for drawing the point
+      let markerSymbol = {
+        type: "simple-marker",
+        outline: {
+          color: [0, 255, 255, 4],
+          width: 1
+        }
+      }
+      
+      // Create a graphic and add the geometry and symbol to it
+      let pointGraphic = new Graphic({
+        geometry: response.features[0].geometry,
+        symbol: markerSymbol
+      });
+      contextMapView.graphics.add(pointGraphic);
+    });
+
+    
+  }
 
   const handleSelectMark = (index) => {
     setSelectedMarks((prev) => {
@@ -39,15 +171,12 @@ const Popup1 = ({ isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMan
     setIsManageVisible(false); // Close management view
     setSelectedMarks({}); // Reset the selected marks
   };
-  
-
-  
 
   return (
     <div className="relative grid grid-cols-1 ">
       <div className="grid grid-cols-3 justify-start pt-3 items-start gap-y-4 gap-x-0">
-        {images.map((image, index) => (
-          <div key={index} className="relative w-28 h-24 flex flex-col items-center">
+        {bookmarks.map((image, index) => (
+          <div key={image.id} onClick={()=>handleZoomtoLocation(image.id, image.objectid)} className="relative w-28 h-24 flex flex-col items-center">
             <img
               src={image.src}
               alt={image.title}
@@ -61,20 +190,19 @@ const Popup1 = ({ isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMan
               <button
                 className="absolute top-1 right-3"
                 onClick={() => {
-                  handleSelectMark(index); // Toggle selection on click
+                  handleSelectMark(image.id); // Toggle selection on click
                 }}
               >
                 <img
                   src={BookYellow} // Same image source
                   className={`h-5 shadow-black cursor-pointer 
-                              ${selectedMarks[index] ? 'invert brightness-0' : ''}`} // Apply filters conditionally
+                              ${selectedMarks[image.id] ? 'invert brightness-0' : ''}`} // Apply filters conditionally
                   alt="Mark"
                 />
               </button>
             )}
 
-            <div className="absolute w-full pl-1 bottom-4 flex">
-              {/* Render icons */}
+            {/* <div className="absolute w-full pl-1 bottom-4 flex">
               {image.icon.map((icons, iconIndex) => (
                 <span
                   className="relative p-[3%] bg-[#504848] border-[#504848] rounded-full"
@@ -84,8 +212,9 @@ const Popup1 = ({ isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMan
                   <img src={icons.Icon} className="absolute top-1.5 left-1.5 h-2 w-2.5" alt="Icon" />
                 </span>
               ))}
-            </div>
+            </div> */}
           </div>
+          
         ))}
       </div>
       <div className={`grid space-y-3 ${isManageVisible ? 'mt-6' : 'mt-10'}`}>
@@ -106,7 +235,7 @@ const Popup1 = ({ isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMan
                   onClick={handleSave}
                   className="w-auto py-3 px-14 bg-custom-gradient text-xs border border-gray-300 rounded-lg"
                 >
-                  Save
+                  Save Changes
                 </button>
               </div>
             )}
@@ -114,5 +243,5 @@ const Popup1 = ({ isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMan
     </div>
   );
 };
-
-export default Popup1;
+export default Popup1
+ 
