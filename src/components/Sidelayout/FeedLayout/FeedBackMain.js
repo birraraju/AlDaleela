@@ -65,6 +65,8 @@ export default function SendFeedBack({
         }`}
       >
         {/* Header with Feedback Text and Close Button */}
+        <div dir={isLangArab ? "rtl" : "ltr"}>
+
         <div className="flex items-center justify-between p-4">
           <span className={`text-lg font-semibold text-${isDarkMode ? '[#FFFFFFCC] text-opacity-80' : 'black'}`}>
             {isLangArab?"ملاحظات":"Feedback"}
@@ -82,6 +84,7 @@ export default function SendFeedBack({
           >
             <X className="h-5 w-6" />
           </button>
+        </div>
         </div>
 
         <div className="sm:p-6 p-2 overflow-y-auto h-full">

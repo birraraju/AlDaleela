@@ -9,10 +9,13 @@ export default function AudioFilter({ setSelectedItem, isLangArab,setIsFiltersOp
         selectedItem === "audio" ? "bg-white" : "bg-none opacity-50"
       }`}
     >
+      <div className={`flex items-center ${isLangArab ? "flex-row-reverse" : ""}`}>
+
       <div>
         <img src={`${process.env.PUBLIC_URL}/Header/Searchbar/audio.svg`} alt="" className="w-6" />
       </div>
-      <div>{isLangArab?"صوت":"Audio"}</div>
+      <div className={`${isLangArab ? "mr-2" : "ml-2"}`}>{isLangArab?"صوت":"Audio"}</div>
+    </div>
     </div>
   );
 }
