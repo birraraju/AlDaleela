@@ -5,9 +5,10 @@ import Input from '../Input/Input';
 import PasswordChangeSuccess from './PasswordPopup/PasswordPopup';
 import { IoEyeOff } from "react-icons/io5";
 import { useTheme } from '../../../Layout/ThemeContext/ThemeContext'; // Import the theme context
+import {UserActivityLog} from "../../../Common/UserActivityLog";
 
 
-export default function ResetPassword({ onClose, onBackToLogin, onSignup, onPasswordSet }) {
+export default function ResetPassword({ email, onClose, onBackToLogin, onSignup, onPasswordSet }) {
   const [formData, setFormData] = useState({
     password: '',
     confirmPassword: '',
@@ -40,11 +41,32 @@ export default function ResetPassword({ onClose, onBackToLogin, onSignup, onPass
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     if (formData.password === formData.confirmPassword) {
-      setShowResetForm(false);
-      setShowSuccessPopup(true);
+      try {
+        const forgetObj ={
+          email:email,
+          password:formData.password
+        }
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/Registration/forgetpassword`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(forgetObj),
+        });
+        const data = await response.json();
+        if(data.success){
+          //console.log(values);
+          //UserActivityLog(profiledetails, "Forget Password")   
+          setShowResetForm(false);
+          setShowSuccessPopup(true);       
+        }
+        else{
+          //console.log(data)          
+        }
+      }catch (error) {
+        console.error('Error submitting form:', error);
+      } 
     } else {
       console.error('Passwords do not match');
     }
