@@ -43,18 +43,23 @@ export default function GeneralInformation({ onClose }) {
       >
         {/* Heading & close button */}
         <div>
-          <h1 className="text-[24px] font-omnes font-medium">
-            {isLangArab ? "معلومات عامة" : "General Information"}
-          </h1>
-          <button
-            className={`absolute top-4 right-4 hover:text-gray-800 ${
-              isDarkMode ? "text-gray-400" : "text-gray-600"
-            }`}
-            onClick={onClose}
-          >
-            <X className="h-6 w-6" />
-          </button>
-        </div>
+  <h1
+    className={`text-[24px] font-omnes font-medium ${
+      isLangArab ? "text-right" : "text-left"
+    }`}
+  >
+    {isLangArab ? "معلومات عامة" : "General Information"}
+  </h1>
+  <button
+    className={`absolute top-4 ${isLangArab ? "left-4" : "right-4"} hover:text-gray-800 ${
+      isDarkMode ? "text-gray-400" : "text-gray-600"
+    }`}
+    onClick={onClose}
+  >
+    <X className="h-6 w-6" />
+  </button>
+</div>
+
 
         {/* Divider */}
         <div

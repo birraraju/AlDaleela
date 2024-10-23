@@ -155,7 +155,7 @@ export default function PhotoContent() {
         {mediaItems.map((item) => (
           <div key={item.objectId} className="rounded-xl overflow-hidden" onClick={() => handleImageClick(item.objectId)}>
             {item.type.startsWith('image/') && (
-              <img src={item.url} alt="Media content" />
+              <img src={item.url} alt="Media content" className="w-full h-full object-cover"/>
             )}
           </div>
         ))}
