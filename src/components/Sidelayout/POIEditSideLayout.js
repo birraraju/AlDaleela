@@ -5,6 +5,7 @@
   import POIEditWrite from '../../assets/POIEdit/POIEditWrite.svg';
   import POILabelMark from '../../assets/POIEdit/POILabelMark.svg';
   import  POIEditForm from '../Layout/POIEdit/POIEditForm'
+  import  POShareForm from '../Layout/POIEdit/POIShareForm'
   import  POIEditFileUploader from '../Layout/POIEdit/POIFileUploader'
   import  POIEditFileUploaderStatusMOdel from '../Layout/POIEdit/POIEditSucessFailure'
   import FeatureLayer from "@arcgis/core/layers/FeatureLayer";  
@@ -31,6 +32,9 @@
     const [message , setPOImessageShow]=useState("");
     const [POIFormsuccessShow , setPOIFormsuccessShow]=useState("");
     const [POIFormisOpenModalShow , setPOIFormisOpenModalShow]=useState(false);
+    const [POIShareShow , setPOIShareShow]=useState(false);
+    console.log("POI Share status:", POIShareShow)
+
 
 
 
@@ -166,7 +170,7 @@
 
     return (
       <div
-        className={`fixed top-16 w-[510px] h-[90%] sm:w-[400px] laptop_s:w-[330px]  ${ isLangArab?"left-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
+        className={`fixed top-16 w-[510px] ${POIShareShow?"-[65%] laptop_s:w-[370px]":"h-[90%]"} sm:w-[400px] laptop_s:w-[330px]  ${ isLangArab?"left-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-full":"translate-x-full")
         }`}
         // style={{ width, height, zIndex: 50 }}  // Ensure it's above other elements
@@ -180,14 +184,15 @@
           {/* Content */}
           <div className="p-2 overflow-y-auto h-full relative">
             {children || (<>
-              <div className="absolute top-6 left-4 flex  gap-x-1">
+              {!POIShareShow && <div className="absolute top-6 left-4 flex  gap-x-1">
                 <img src={isDarkMode ? DarkLocation : Location }alt="Location" className="h-8" />
                 <p className={`font-semibold font-poppins ${
                       isDarkMode ? "text-white" : "text-gray-600"
                     }`}> <h1 className=" text-[12px]">برقة رشيد</h1>
                     <h2 className=" text-[12px]">Barqa Rashid</h2></p>
-              </div>
-              <div className=" mt-20 overflow-y-auto">
+              </div>}
+              <div className={`${POIShareShow?"mt-3":"mt-20"} overflow-y-auto`}>
+              {POIShareShow && <POShareForm  onClose={()=>{setPOIFormShow(true);setPOIShareShow(false);}}/>}
              {(isEditShowPOI||POIFormShow) && <POIEditForm isEditShowPOI={isEditShowPOI}  setIsShowEditPOI={setIsShowEditPOI}  POIFormShow={POIFormShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow} />}
               <POIEditFileUploader setPOImessageShow={setPOImessageShow} setPOIFormsuccessShow={setPOIFormsuccessShow} POIFormUploader={POIFormUploader} setPOIFormisOpenModalShow={setPOIFormisOpenModalShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow}/>
                {/* Render the modal only when the state is true */}
@@ -207,36 +212,58 @@
             )}
           </div>
           
-          <div className={`absolute  top-4 flex right-2 p-2 transition-colors h-10 cursor-pointer z-50`}>
-          <img src={isDarkMode ? PoiEditShare : PoiEditShare }alt="Location" className="h-full" />
-          <button
-      onClick={() => setIsShowEditPOI(prev => !prev)}  // Toggle the state here
-      aria-label="Edit POI"
+          {!POIShareShow && <div className="absolute top-4 flex right-2 p-2 transition-colors h-10 cursor-pointer z-50">
+  {/* POI Share Icon */}
+  <button
+    onClick={() => {setPOIShareShow(true);setPOIFormShow(false);setPOIFormisOpenModalShow(false)}} // Toggle the state
+    aria-label="Edit POI"
+    className="h-full"
+    style={{ border: 'none', background: 'none' }} // No styles, functionality only
+  >
+  <img
+    
+    src={PoiEditShare} // isDarkMode check was redundant as both conditions had the same value
+    alt="Share Location"
+    className="h-full"
+  />
+  </button>
+
+  {/* Edit POI Button */}
+  <button
+    onClick={() => setIsShowEditPOI((prev) => !prev)} // Toggle the state
+    aria-label="Edit POI"
+    className="h-full"
+    style={{ border: 'none', background: 'none' }} // No styles, functionality only
+  >
+    <img
+      src={POIEditWrite} // isDarkMode check was redundant here as well
+      alt="Edit POI"
       className="h-full"
-      style={{ border: 'none', background: 'none' }} // No button styles, only for functionality
-    >
-      <img
-        src={isDarkMode ? POIEditWrite : POIEditWrite}
-        alt="Edit POI"
-        className="h-full"
-      />
-    </button>
-    <button onClick={handleBookmarkEvent}>
-      <img src={isDarkMode ? POILabelMark : POILabelMark }alt="Location" className="h-full" />
-    </button>
-            
-          {/* X Close Button in the top-left corner */}
-          <button
-            onClick={()=> setIsEditPOI(false)}
-            className={` transition-colors cursor-pointer z-50 ${
-              isDarkMode ? "  hover:text-gray-300" : "text-green-900"
-            }`}  // Ensure it's clickable
-            aria-label="Close side panel"
-            style={{ zIndex: 100 }} // Ensure the "X" button is on top
-          >
-            <X className="h-5 w-6" />
-          </button>
-          </div>
+    />
+  </button>
+
+  {/* POI Label Mark */}
+  <button onClick={handleBookmarkEvent}>
+  <img
+    src={POILabelMark} // isDarkMode check was redundant here too
+    alt="Location Mark"
+    className="h-full"
+  />
+  </button>
+  
+
+  {/* Close Button (X) */}
+  <button
+    onClick={() => setIsEditPOI(false)}
+    className={`transition-colors cursor-pointer z-50 ${
+      isDarkMode ? "hover:text-gray-300" : "text-green-900"
+    }`}  // Ensure it's clickable
+    aria-label="Close side panel"
+    style={{ zIndex: 100 }} // Ensure the "X" button is on top
+  >
+    <X className="h-5 w-6" />
+  </button>
+</div>}
         </div>
 
         {/* Toggle button */}
