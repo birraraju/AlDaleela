@@ -32,6 +32,8 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
 
 
   return (
+    <div dir={isLangArab ? "rtl" : "ltr"}>
+
     <motion.div
   ref={containerRef}
   initial={{ x: "100%", opacity: 0 }}
@@ -44,7 +46,7 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
     opacity: 0 
   }}
   transition={{ ease: "easeInOut" }}
-    className={`p-4  sm:py-4  sm:h-[66vh] laptop_s:h-[65vh] h-[79vh]  fixed top-16 ${isLangArab?"left-1 sm:left-16 laptop_s:left-10":"right-1 sm:right-16 laptop_s:right-10"}  backdrop-blur rounded-3xl text-black ${
+    className={`p-4  sm:py-4  sm:h-[66vh] laptop_s:h-[65vh] h-[79vh]  fixed top-16 ${isLangArab?"left-1 sm:left-16 laptop_s:left-2":"right-1 sm:right-16 laptop_s:right-2"}  backdrop-blur rounded-3xl text-black ${
       isDarkMode
         ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none"
         : "bg-white bg-opacity-70 backdrop-blur-lg border-white"
@@ -74,38 +76,44 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
             <img src={loc} alt="Location" className="h-5 w-5 mr-2" />
             <span className={`text-lg  ${isDarkMode ? "text-[#FFFFFFCC]" : "bg-gradient-to-r from-[#036068] via-[#596451] to-[#036068] bg-clip-text text-transparent"}`}>
 
-Abu Dhabi
-</span>
+            {isLangArab ? "أبو ظبي" : "Abu Dhabi"}
+            </span>
           </h3>
           <h4 className={`font-medium mb-1 text-[14px] ${isDarkMode ? "text-white" : "text-gray-600"}`}>
-            Location
+          {isLangArab ? "الموقع" : "Location"}
           </h4>
           <p className={`text-[16px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-black"}`}>
-            Headquarters Al Mamoura building (A), Building (G2) Al Mamoura St, Al Nahyan, Abu Dhabi, UAE, Postal Code: 22221, P.O Box: 45553
+          {isLangArab ?
+          "المقر الرئيسي مبنى المعمورة (أ) مبنى رقم (62) ، شارع المعمورة ، آل نهيان ، أبوظبي ، الإمارات العربية المتحدة، الرمز البريدي: 22221، ص.ب : 45553"
+           : 
+              "Headquarters Al Mamoura building (A), Building (G2) Al Mamoura St, Al Nahyan, Abu Dhabi, UAE, Postal Code: 22221, P.O Box: 45553"}          </p>
+        </div>
+
+        <div>
+          <h4 className={`font-medium mb-1 text-[14px] ${isDarkMode ? "text-white" : "text-gray-600"}`}>
+          {isLangArab ? "ساعات العمل" : "Opening Hours"}
+          </h4>
+          <p className={`text-[16px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-black"}`}>
+          {isLangArab ? 
+          "من الساعة 7:30 صباحًا – 3:30 ظهرًا | الاثنين  ل جمعة"
+          : "7:30 AM to 3:30 PM | Monday-Friday"}
           </p>
         </div>
 
         <div>
           <h4 className={`font-medium mb-1 text-[14px] ${isDarkMode ? "text-white" : "text-gray-600"}`}>
-            Opening Hours
-          </h4>
-          <p className={`text-[16px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-black"}`}>
-            7:30 AM to 3:30 PM | Monday-Friday
-          </p>
-        </div>
+          {isLangArab ? "الهاتف" : "Phone"}
 
-        <div>
-          <h4 className={`font-medium mb-1 text-[14px] ${isDarkMode ? "text-white" : "text-gray-600"}`}>
-            Phone
           </h4>
           <p className={`text-[16px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-black"}`}>
-            +971 2 693 4444
+          {isLangArab ? "+971 2 693 4444" : "+971 2 693 4444"}
           </p>
         </div>
 
         <div>
           <h4 className={`font-medium mb-1 text-[14px] ${isDarkMode ? "text-white/100" : "text-gray-600"}`}>
-            Email
+          {isLangArab ? "البريد الإلكتروني" : "Email"}
+
           </h4>
           <p className={`text-[16px]  font-medium ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-black"}`}>
             customerhappiness@ead.gov.ae
@@ -113,7 +121,8 @@ Abu Dhabi
         </div>
         <div>
           <h4 className={`font-medium mb-1 text-[14px] ${isDarkMode ? "text-white" : "text-gray-600"}`}>
-            Website
+          {isLangArab ? "الموقع الإلكتروني" : "Website"}
+
           </h4>
           <p className={`text-[16px]  font-medium ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-black"}`}>
             https://www.ead.gov.ae/
@@ -197,6 +206,7 @@ Abu Dhabi
       </button>
     </div>
   </motion.div>
+  </div>
   );
 }
 
