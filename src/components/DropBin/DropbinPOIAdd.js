@@ -1,101 +1,143 @@
-"use client";
+'use client'
 
-import React, { useState, useRef } from "react";
-import { ImageIcon, FileIcon, XCircleIcon } from "lucide-react";
-import UploadImage from "../../assets/Droppedpin/Upload.svg";
+import React, { useState, useRef } from "react"
+import { ImageIcon, FileIcon, XCircleIcon } from "lucide-react"
+import UploadImage from "../../assets/Droppedpin/Upload.svg"
 
 const Component = ({setFormShow,setPOIFormsuccessShow,setmessage,setPOIFormisOpenModalShow,isFormShow}) => {
   const [poiData, setPoiData] = useState({
-    organization: "DMT",
-    name: "Al Buwam",
-    class: "Zubara",
-    classD: "DMT",
-    status: "Needs Review",
-    comment: "Imported from UAEU Atlas",
-    description: "Eastern and western",
-    poems: "بيت الزوم وبه ... ما جرى الاحسان بالي شوالك بحر ... ما هو ما",
+    organization: "",
+    name: "",
+    class: "",
+    classD: "",
+    status: "",
+    comment: "",
+    description: "",
+    poems: "",
     stories: "",
-    classification: "Marine",
-    municipality: "Al Dhafra",
-    emirate: "Abu Dhabi",
-  });
-
-
+    classification: "",
+    municipality: "",
+    emirate: "",
+    city: "",
+    coordinateType: "dms",
+    dms: {
+      point_x: { degrees: "", minutes: "", seconds: "" },
+      point_y: { degrees: "", minutes: "", seconds: "" },
+    },
+    decimal: {
+      point_x: "",
+      point_y: "",
+    },
+  })
 
   const handleChange = (e) => {
-    const { id, value } = e.target;
+    const { id, value } = e.target
     setPoiData((prevData) => ({
       ...prevData,
       [id]: value,
-    }));
-  };
+    }))
+  }
 
-  const [files, setFiles] = useState([]); // Store selected files
-  const [uploadedFiles, setUploadedFiles] = useState([]); // Store uploaded files
-  const [isDragging, setIsDragging] = useState(false);
-  const fileInputRef = useRef(null);
+  const handleCoordinateTypeChange = (e) => {
+    setPoiData((prevData) => ({
+      ...prevData,
+      coordinateType: e.target.value,
+    }))
+  }
 
-  if(!isFormShow) return null;
+  const handleCoordinateChange = (e) => {
+    const { id, value } = e.target
+    const [type, point, unit] = id.split('_')
+    setPoiData((prevData) => ({
+      ...prevData,
+      [type]: {
+        ...prevData[type],
+        [point]: {
+          ...prevData[type][point],
+          [unit]: value,
+        },
+      },
+    }))
+  }
+
+  const handleDecimalCoordinateChange = (e) => {
+    const { id, value } = e.target
+    const [type, point] = id.split('_')
+    setPoiData((prevData) => ({
+      ...prevData,
+      [type]: {
+        ...prevData[type],
+        [point]: value,
+      },
+    }))
+  }
+
+  const [files, setFiles] = useState([])
+  const [uploadedFiles, setUploadedFiles] = useState([])
+  const [isDragging, setIsDragging] = useState(false)
+  const fileInputRef = useRef(null)
+
+  if(!isFormShow) return null
 
   // Handle file selection
   const handleFileChange = (e) => {
-    const selectedFiles = e.target.files ? Array.from(e.target.files) : [];
+    const selectedFiles = e.target.files ? Array.from(e.target.files) : []
     const validFiles = selectedFiles.filter(
       (file) => file.type.startsWith("image/") || file.type.startsWith("video/")
-    );
+    )
 
     if (validFiles.length !== selectedFiles.length) {
-      alert("Only images or videos are allowed.");
+      alert("Only images or videos are allowed.")
     }
 
-    setFiles((prevFiles) => [...prevFiles, ...validFiles]);
-  };
+    setFiles((prevFiles) => [...prevFiles, ...validFiles])
+  }
 
   // Handle file drop
   const handleDrop = (e) => {
-    e.preventDefault();
-    setIsDragging(false);
-    const droppedFiles = Array.from(e.dataTransfer.files);
+    e.preventDefault()
+    setIsDragging(false)
+    const droppedFiles = Array.from(e.dataTransfer.files)
     const validFiles = droppedFiles.filter(
       (file) => file.type.startsWith("image/") || file.type.startsWith("video/")
-    );
+    )
 
     if (validFiles.length !== droppedFiles.length) {
-      alert("Only images or videos are allowed.");
+      alert("Only images or videos are allowed.")
     }
 
-    setFiles((prevFiles) => [...prevFiles, ...validFiles]);
-  };
+    setFiles((prevFiles) => [...prevFiles, ...validFiles])
+  }
 
   const handleDragEnter = (e) => {
-    e.preventDefault();
-    setIsDragging(true);
-  };
+    e.preventDefault()
+    setIsDragging(true)
+  }
 
   const handleDragLeave = (e) => {
-    e.preventDefault();
-    setIsDragging(false);
-  };
+    e.preventDefault()
+    setIsDragging(false)
+  }
 
   const handleBrowse = () => {
-    fileInputRef.current?.click();
-  };
+    fileInputRef.current?.click()
+  }
 
   // Remove individual file
   const removeFile = (index) => {
-    setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
-  };
+    setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index))
+  }
 
   // Move files to uploaded state and clear current selection
   const handleDone = () => {
-    setUploadedFiles([...uploadedFiles, ...files]);
-    setFiles([]);
-  };
+    setUploadedFiles([...uploadedFiles, ...files])
+    setFiles([])
+  }
 
   // Remove uploaded file
   const handleRemoveUploadedFile = (index) => {
-    setUploadedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
-  };
+    setUploadedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index))
+  }
 
   const handleFormSubmit=()=>{
     setPOIFormsuccessShow("Success")
@@ -127,10 +169,10 @@ const Component = ({setFormShow,setPOIFormsuccessShow,setmessage,setPOIFormisOpe
         />
       )}
     </div>
-  );
+  )
 
   return (
-    <div className="w-full max-w-md bg-transparent overflow-y-auto">
+    <div className="w-full max-w-md bg-transparent text-black overflow-y-auto">
       <div className="p-1 space-y-4">
         {renderField("organization", "Organization", poiData.organization, "select")}
         {renderField("name", "Name", poiData.name)}
@@ -144,6 +186,120 @@ const Component = ({setFormShow,setPOIFormsuccessShow,setmessage,setPOIFormisOpe
         {renderField("classification", "Classification", poiData.classification, "select")}
         {renderField("municipality", "Municipality", poiData.municipality, "select")}
         {renderField("emirate", "Emirate", poiData.emirate)}
+        {renderField("city", "City", poiData.city)}
+
+        {/* Coordinates Section */}
+        <div className="space-y-2">
+          <div className="flex items-center space-x-4">
+            <label className="block text-sm font-medium text-gray-700">Coordinates</label>
+            <label className="inline-flex items-center">
+              <input
+                type="radio"
+                className="form-radio"
+                name="coordinateType"
+                value="dms"
+                checked={poiData.coordinateType === "dms"}
+                onChange={handleCoordinateTypeChange}
+              />
+              <span className="ml-2 text-[14px]">Degrees Minutes Seconds</span>
+            </label>
+            <label className="inline-flex items-center">
+              <input
+                type="radio"
+                className="form-radio"
+                name="coordinateType"
+                value="decimal"
+                checked={poiData.coordinateType === "decimal"}
+                onChange={handleCoordinateTypeChange}
+              />
+              <span className="ml-2 text-[14px]">Decimal Degrees</span>
+            </label>
+          </div>
+          {poiData.coordinateType === "dms" && (
+            <div className="space-y-2">
+              <div className="flex items-center space-x-2">
+                <label className="w-16">Point_X</label>
+                <input
+                  type="text"
+                  id="dms_point_x_degrees"
+                  value={poiData.dms.point_x.degrees}
+                  onChange={handleCoordinateChange}
+                  placeholder="eg:54"
+                  className="w-20 p-2 border rounded"
+                />
+                <input
+                  type="text"
+                  id="dms_point_x_minutes"
+                  value={poiData.dms.point_x.minutes}
+                  onChange={handleCoordinateChange}
+                  placeholder="eg:13"
+                  className="w-20 p-2 border rounded"
+                />
+                <input
+                  type="text"
+                  id="dms_point_x_seconds"
+                  value={poiData.dms.point_x.seconds}
+                  onChange={handleCoordinateChange}
+                  placeholder="eg:25.3"
+                  className="w-20 p-2 border rounded"
+                />
+              </div>
+              <div className="flex items-center space-x-2">
+                <label className="w-16">Point_Y</label>
+                <input
+                  type="text"
+                  id="dms_point_y_degrees"
+                  value={poiData.dms.point_y.degrees}
+                  onChange={handleCoordinateChange}
+                  placeholder="eg:23"
+                  className="w-20 p-2 border rounded"
+                />
+                <input
+                  type="text"
+                  id="dms_point_y_minutes"
+                  value={poiData.dms.point_y.minutes}
+                  onChange={handleCoordinateChange}
+                  placeholder="eg:50"
+                  className="w-20 p-2 border rounded"
+                />
+                <input
+                  type="text"
+                  id="dms_point_y_seconds"
+                  value={poiData.dms.point_y.seconds}
+                  onChange={handleCoordinateChange}
+                  placeholder="eg:20.3"
+                  className="w-20 p-2 border rounded"
+                />
+              </div>
+            </div>
+          )}
+          {poiData.coordinateType === "decimal" && (
+            <div className="space-y-2">
+              <div className="flex items-center space-x-2">
+                <label className="w-16">Point_X</label>
+                <input
+                  type="text"
+                  id="decimal_point_x"
+                  value={poiData.decimal.point_x}
+                  onChange={handleDecimalCoordinateChange}
+                  placeholder="e.g. 54.373"
+                  className="w-40 p-2 border rounded"
+                />
+              </div>
+              <div className="flex items-center space-x-2">
+                <label className="w-16">Point_Y</label>
+                <input
+                  type="text"
+                  id="decimal_point_y"
+                  value={poiData.decimal.point_y}
+                  onChange={handleDecimalCoordinateChange}
+                  placeholder="e.g. 24.466"
+                  className="w-40 p-2 border rounded"
+                />
+              </div>
+            </div>
+          )}
+        </div>
 
         {/* File Upload Section */}
         <div className="bg-white p-4 grid grid-cols-1 gap-4 border border-none rounded-lg">
@@ -223,12 +379,12 @@ const Component = ({setFormShow,setPOIFormsuccessShow,setmessage,setPOIFormisOpe
                   <img
                     src={URL.createObjectURL(file)}
                     alt={file.name}
-                    className="w-80% h-[80%] object-cover rounded-md"
+                    className="w-[80%] h-[80%] object-cover rounded-md"
                   />
                 ) : (
                   <div className="flex items-center">
                     <FileIcon className="h-8 w-8 text-gray-600" />
-                    <span className="ml-2 text-gray-700">{file.name}</span>
+                    <span className="ml-2  text-gray-700">{file.name}</span>
                   </div>
                 )}
                 <button
@@ -243,20 +399,20 @@ const Component = ({setFormShow,setPOIFormsuccessShow,setmessage,setPOIFormisOpe
         )}
 
         {/* Action Buttons */}
-        <div className="flex justify-center space-x-8 items-center">
-            <button  className="w-auto py-3 px-9 bg-transparent text-xs border border-black rounded-lg">
+        <div className="flex justify-center space-x-8 items-center pt-4 pb-16">
+            <button className="w-auto py-3 px-9 bg-transparent text-xs border border-black rounded-lg">
               Cancel
             </button>
-            <button onClick={()=>{handleFormSubmit()}}  className="w-auto py-3 px-9 bg-custom-gradient text-xs border border-gray-300 rounded-lg">
+            <button onClick={handleFormSubmit} className="w-auto py-3 px-9 bg-custom-gradient text-xs border border-gray-300 rounded-lg">
               Submit
             </button>
           </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Component;
+export default Component
 
 
 
