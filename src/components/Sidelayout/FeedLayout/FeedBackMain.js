@@ -53,7 +53,7 @@ export default function SendFeedBack({
     <div
       ref={feedbackRef}
       className={`fixed sm:top-16 w-[510px] sm:w-[400px] top-14 ${ isLangArab?" right-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
-        isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-full":"translate-x-full")
+        isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%]":"translate-x-[103%]")
       }`}
       style={{  height }}
     >

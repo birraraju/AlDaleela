@@ -54,7 +54,7 @@ export default function SideLayout3({ children, width = "454.84px", onClose, map
     <div
       ref={panelRef} // Attach ref to the panel
       className={`fixed w-[510px] sm:w-[400px] laptop_s:w-[${width}] h-[98%] top-16  ${ isLangArab?"left-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
-        isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-full":"translate-x-full")
+        isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%]":"translate-x-[103%]")
       }`}
       // style={{ width, height }}
     >
@@ -75,13 +75,15 @@ export default function SideLayout3({ children, width = "454.84px", onClose, map
         </button>
 
         <div className="p-6 overflow-y-auto h-full">
-          {children || (
+          {children || (<>
             <p className={`text-${isDarkMode ? '[#FFFFFFCC] text-opacity-80' : 'black'}  font-poppins font-medium`}>
               { isLangArab?"القياس": "Measurments"}
             </p>
+            
+            </>
           )}
+          <div><Measurements mapview={mapview}/></div>
         </div>
-        <div><Measurements mapview={mapview}/></div>
       </div>
 
       {/* Toggle button to slide panel in and out */}
