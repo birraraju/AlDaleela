@@ -65,7 +65,7 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
   return (
     <div
       className={`fixed top-16 w-[510px] ${POIFormisOpenModalShow?"h-[63%]":"h-[90%] "} sm:w-[400px] laptop_s:w-[380px]  ${ isLangArab?"left-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
-        isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-full":"translate-x-full")
+        isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%]":"translate-x-[103%]")
       }`}
       // style={{ width, height, zIndex: 50 }}  // Ensure it's above other elements
       ref={containerRef}  // Reference to the panel

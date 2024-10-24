@@ -38,7 +38,7 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
   ref={containerRef}
   initial={{ x: "100%", opacity: 0 }}
   whileInView={{ 
-    x: isOpen ? 0 : isLangArab ? "-100%" : "100%", // Move to left if Arabic
+    x: isOpen ? 0 : (isLangArab ? "-102%" : "102%"), // Move to left if Arabic
     opacity: 1 
   }}
   exit={{ 
@@ -46,7 +46,7 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
     opacity: 0 
   }}
   transition={{ ease: "easeInOut" }}
-    className={`p-4  sm:py-4  sm:h-[66vh] laptop_s:h-[65vh] h-[79vh]  fixed top-16 ${isLangArab?"left-1 sm:left-16 laptop_s:left-2":"right-1 sm:right-16 laptop_s:right-2"}  backdrop-blur rounded-3xl text-black ${
+    className={`p-4  sm:py-4  sm:h-[66vh] laptop_s:h-[73vh] h-[79vh]  fixed top-16 ${isLangArab?"left-1 sm:left-16 laptop_s:left-2":"right-1 sm:right-16 laptop_s:right-2"}  backdrop-blur rounded-3xl text-black ${
       isDarkMode
         ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none"
         : "bg-white bg-opacity-70 backdrop-blur-lg border-white"
