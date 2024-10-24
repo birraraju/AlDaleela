@@ -71,7 +71,7 @@ export default function SideLayout5({
     <div
       ref={panelRef} // Assign the ref to the side panel div
       className={`fixed top-16 w-[500px] sm:w-[400px] laptop_s:w-[${width}] h-[90%] sm:h-[50%] laptop_s:h-[90%] ${ isLangArab?"left-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
-        isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-full":"translate-x-full")
+        isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%]":"translate-x-[103%]")
       }`}
       // style={{ width, height }}
     >

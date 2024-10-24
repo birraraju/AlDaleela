@@ -62,7 +62,7 @@ export default function SideLayout6({
     <div
       ref={panelRef} // Attach ref to the panel div
       className={`fixed top-16 ${ isLangArab?"left-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} w-[500px] sm:w-[400px] laptop_s:w-[${width}] h-[90%] sm:h-[60%] laptop_s:h-[90%]  transition-transform duration-300 ease-in-out ${
-        isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-full":"translate-x-full")
+        isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%]":"translate-x-[103%]")
       }`}
       // style={{ width, height }}
     >
