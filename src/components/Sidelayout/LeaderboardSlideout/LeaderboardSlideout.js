@@ -51,7 +51,7 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
     ref={containerRef}
     initial={{ x: "100%", opacity: 0 }}
     whileInView={{ 
-      x: isOpen ? 0 : isLangArab ? "-100%" : "100%", // Move to left if Arabic
+      x: isOpen ? 0 : isLangArab ? "-103%" : "103%", // Move to left if Arabic
       opacity: 1 
     }}
     exit={{ 

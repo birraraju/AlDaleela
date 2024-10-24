@@ -4,6 +4,7 @@ import WebMap from "@arcgis/core/WebMap.js";
 import esriConfig from "@arcgis/core/config.js";
 import Mapview from "@arcgis/core/views/MapView.js";
 import { useAuth } from "../../../Providers/AuthProvider/AuthProvider";
+import './MapComponent.css'
 const MapComponent = (props) => {
   // Create a ref for the map container
   const mapDiv = useRef(null);
