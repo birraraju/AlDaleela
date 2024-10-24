@@ -33,6 +33,7 @@
     const [POIFormsuccessShow , setPOIFormsuccessShow]=useState("");
     const [POIFormisOpenModalShow , setPOIFormisOpenModalShow]=useState(false);
     const [POIShareShow , setPOIShareShow]=useState(false);
+    const [queryresults , setQueryResults]=useState("");
     console.log("POI Share status:", POIShareShow)
 
 
@@ -82,6 +83,10 @@
       }
     }, [isFullyClosed]);
 
+    useEffect(()=>{
+      handleBookmarkEvent("onload");
+    },[popupselectedgeo])
+
     const handleInsertBookmarkData = async(res)=>{
       if(res){
         try {
@@ -115,7 +120,7 @@
       }
     }
 
-    const handleBookmarkEvent = async() =>{
+    const handleBookmarkEvent = async(e) =>{
       //alert(popupselectedgeo.graphic[0].geometry.x)
       let layerUrl =''
       if(popupselectedgeo.layer.layerId != null && popupselectedgeo.layer.layerId != 'undefined'){
@@ -143,7 +148,12 @@
         // Execute the query
         featureLayer.queryFeatures(query).then(function(response) {
           console.log('Features found:', response.features);
-          handleInsertBookmarkData(response);
+          if(e !== "onload"){
+            handleInsertBookmarkData(response);
+          }
+          else{
+            setQueryResults(response)
+          }          
         });
       }).catch(error => {
         console.error('Feature layer failed to load:', error);
@@ -187,16 +197,16 @@
           {/* Content */}
           <div className="p-2 overflow-y-auto h-full relative">
             {children || (<>
-              {!POIShareShow && <div className="absolute top-6 left-4 flex  gap-x-1">
+              {!POIShareShow && queryresults !== "" && <div className="absolute top-6 left-4 flex  gap-x-1">
                 <img src={isDarkMode ? DarkLocation : Location }alt="Location" className="h-8" />
                 <p className={`font-semibold font-poppins ${
                       isDarkMode ? "text-white" : "text-gray-600"
-                    }`}> <h1 className=" text-[12px]">برقة رشيد</h1>
-                    <h2 className=" text-[12px]">Barqa Rashid</h2></p>
+                    }`}> <h1 className=" text-[12px]">{queryresults.features[0].attributes.name_ar}</h1>
+                    <h2 className=" text-[12px]">{queryresults.features[0].attributes.name_en}</h2></p>
               </div>}
               <div className={`${POIShareShow?"mt-3":"mt-20"} overflow-y-auto`}>
               {POIShareShow && <POShareForm  onClose={()=>{setPOIFormShow(true);setPOIShareShow(false);}}/>}
-             {(isEditShowPOI||POIFormShow) && <POIEditForm isEditShowPOI={isEditShowPOI}  setIsShowEditPOI={setIsShowEditPOI}  POIFormShow={POIFormShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow} />}
+             {(isEditShowPOI||POIFormShow) && <POIEditForm isEditShowPOI={isEditShowPOI}  setIsShowEditPOI={setIsShowEditPOI}  POIFormShow={POIFormShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow} queryresults={queryresults}/>}
               <POIEditFileUploader setPOImessageShow={setPOImessageShow} setPOIFormsuccessShow={setPOIFormsuccessShow} POIFormUploader={POIFormUploader} setPOIFormisOpenModalShow={setPOIFormisOpenModalShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow}/>
                {/* Render the modal only when the state is true */}
   {POIFormisOpenModalShow && (
