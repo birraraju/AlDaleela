@@ -9,7 +9,7 @@ import AudioLineStylePOI from '../../../assets/POIEdit/AudioLineStyle.svg';
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";  
 import sucessModel from "../../../components/Common/SuccessFailureMessageModel"
 
-const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFormShow, isEditShowPOI, queryresults,setIsEditPOI }) => {
+const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFormShow, isEditShowPOI, queryresults, setIsEditPOI, uploadedFiles, setPOImessageShow, setPOIFormsuccessShow, setPOIFormisOpenModalShow, setUploadedFiles }) => {
   const [poiData, setPoiData] = useState({
     organization_En: "DMT",
     name_en: "Al Buwam",
@@ -119,6 +119,7 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
     const objectid = queryresults.features[0].attributes.OBJECTID
     // Use updated poiAttributes for updating attributes
     const updatedFields = { ...poiData, OBJECTID: objectid };
+    //console.log(files);
     updateAttributes(featureLayerURL, objectid, updatedFields);
   }
   
@@ -133,10 +134,20 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
     try {
       const result = await featureLayer.applyEdits({ updateFeatures: updateData });
 
-      if (result.updateFeatureResults.length > 0) {
-        setPOIUploaderShow(true); 
+      if (result.updateFeatureResults.length > 0) {  
+        if (uploadedFiles.length > 0) { 
+          handleUploadFile();   
+        }
+        else{
+          setPOImessageShow("Your data has been updated successfully!");
+          setPOIFormsuccessShow("Success"); // or "Failure" based on your logic
+          setPOIFormisOpenModalShow(true); // Show the modal
+          setPOIFormShow(false);
+          setPOIUploaderShow(false);
+        }
+        setIsShowEditPOI(false);   
         //setIsEditPOI(false);
-        sucessModel("Sucessfully Data Updated","Success", true)
+        //sucessModel("Sucessfully Data Updated","Success", true)
         console.log('Update successful:', result.updateFeatureResults);
       } else {
         console.error('Update failed:', result);
@@ -145,6 +156,49 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
       console.error('Error updating feature:', error);
     }
   }
+
+  const handleUploadFile = async() => {
+    if (uploadedFiles.length > 0) { // Ensure there are uploaded files
+      const attachmentUrl = `https://maps.smartgeoapps.com/server/rest/services/AlDaleela/IslandNamingProject_v2/FeatureServer/0/${queryresults.features[0].attributes.OBJECTID}/addAttachment`;
+      //const attachmentUrl = `https://maps.smartgeoapps.com/server/rest/services/AlDaleela/IslandNamingProject_v2/FeatureServer/0/addAttachment`;
+      const promises = Array.from(uploadedFiles).map(file => {
+        const formData = new FormData();
+        formData.append("attachment", file);
+        formData.append("f", "json"); // Specify the response format
+
+        return fetch(attachmentUrl, {
+          method: 'POST',
+          body: formData,
+        });
+      });
+
+      try {
+        const results = await Promise.all(promises);
+        
+        // Check for errors in each response
+        const responses = await Promise.all(results.map(async res => {
+          if (!res.ok) {
+            // If the response is not OK, throw an error
+            const errorData = await res.json();
+            throw new Error(`Error: ${errorData.message || 'Unknown error'}`);
+          }
+          return res.json(); // Parse and return the response JSON
+        }));
+
+        console.log("Attachments added successfully:", responses);
+      } catch (error) {
+        console.error("Error adding attachments:", error);
+      }
+      setPOImessageShow("Your file and data has been uploaded successfully!");
+      setPOIFormsuccessShow("Success"); // or "Failure" based on your logic
+      setPOIFormisOpenModalShow(true); // Show the modal
+      setPOIFormShow(false);
+      setPOIUploaderShow(false);
+      setUploadedFiles([]); // Clear the uploaded files if necessary
+    } else {
+      alert('Please upload files before proceeding.'); // Optional alert for user feedback
+    }
+  };
 
   if (!POIFormShow) return null;
 
@@ -201,12 +255,18 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
             {renderFieldOrText("Class", "Class", queryresults.features[0].attributes.Class,classOptions, "select")}
             {renderFieldOrText("ClassD", "ClassD", queryresults.features[0].attributes.ClassD)}
             {renderFieldOrText("Status", "Status", queryresults.features[0].attributes.Status,statusOptions, "select")}
+
             {renderFieldOrText("Comment", "Comment", queryresults.features[0].attributes.Comment)}
             {renderFieldOrText("description", "Description", queryresults.features[0].attributes.description)}
             {renderFieldOrText("poems", "Poems", queryresults.features[0].attributes.poems)}
             {renderFieldOrText("stories", "Stories", queryresults.features[0].attributes.stories)}
+
             {renderFieldOrText("Classification", "Classification", queryresults.features[0].attributes.Classification,classificationOptions, "select")}
             {renderFieldOrText("Municipality", "Municipality", queryresults.features[0].attributes.Municipality, municipalityOptions,"select")}
+
+            {renderFieldOrText("Classification", "Classification", queryresults.features[0].attributes.Classification || "None", "select")}
+            {renderFieldOrText("Municipality", "Municipality", queryresults.features[0].attributes.Municipality || "None", "select")}
+
             {renderFieldOrText("Emirate", "Emirate", queryresults.features[0].attributes.Emirate)}
             {renderFieldOrText("City", "City", queryresults.features[0].attributes.City)}
 
@@ -272,7 +332,7 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
                 <button onClick={() => setIsShowEditPOI(false)} className="w-auto py-3 px-9 bg-transparent text-xs border border-black rounded-lg">
                   Cancel
                 </button>
-                <button onClick={() => {setIsShowEditPOI(false); handleAttributesUpdate()}} className="w-auto py-3 px-9 bg-custom-gradient text-xs border border-gray-300 rounded-lg">
+                <button onClick={() => { handleAttributesUpdate()}} className="w-auto py-3 px-9 bg-custom-gradient text-xs border border-gray-300 rounded-lg">
                   Update
                 </button>
               </div>
@@ -286,7 +346,7 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
                   <p className="flex justify-center text-sm items-center">Please click the upload button.</p>
                 </div>
                 <div className="flex justify-center items-center">
-                  <p onClick={() => { setPOIFormShow(false); }} className="cursor-pointer text-blue-500 hover:text-blue-800 underline">
+                  <p onClick={() => { setPOIUploaderShow(true); setPOIFormShow(false); }} className="cursor-pointer text-blue-500 hover:text-blue-800 underline">
                     Upload a file
                   </p>
                 </div>

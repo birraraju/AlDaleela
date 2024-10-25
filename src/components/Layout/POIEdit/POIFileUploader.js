@@ -131,10 +131,11 @@
 import { useState, useRef } from 'react';
 import { ImageIcon, FileIcon } from 'lucide-react';
 import { ChevronLeft } from 'lucide-react';
+import FeatureLayer from "@arcgis/core/layers/FeatureLayer"; 
 
-const FileUploader = ({ POIFormUploader,setPOIFormisOpenModalShow,setPOImessageShow,setPOIFormsuccessShow, setPOIFormShow, setPOIUploaderShow }) => {
+const FileUploader = ({ POIFormUploader,setPOIFormisOpenModalShow,setPOImessageShow,setPOIFormsuccessShow, setPOIFormShow, setPOIUploaderShow, queryresults, uploadedFiles, setUploadedFiles }) => {
   const [files, setFiles] = useState([]); // Store the selected files
-  const [uploadedFiles, setUploadedFiles] = useState([]); // Store the uploaded files
+  //const [uploadedFiles, setUploadedFiles] = useState([]); // Store the uploaded files
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef(null);
 
@@ -199,13 +200,44 @@ const FileUploader = ({ POIFormUploader,setPOIFormisOpenModalShow,setPOImessageS
     setUploadedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
   };
 
-  const handleUploadFile = () => {
+  const handleUploadFile = async() => {
     if (uploadedFiles.length > 0) { // Ensure there are uploaded files
-      setPOImessageShow("Your file has been uploaded successfully!");
-      setPOIFormsuccessShow("Success"); // or "Failure" based on your logic
-      setPOIFormisOpenModalShow(true); // Show the modal
+      // const attachmentUrl = `https://maps.smartgeoapps.com/server/rest/services/AlDaleela/IslandNamingProject_v2/FeatureServer/0/${queryresults.features[0].attributes.OBJECTID}/addAttachment`;
+      // //const attachmentUrl = `https://maps.smartgeoapps.com/server/rest/services/AlDaleela/IslandNamingProject_v2/FeatureServer/0/addAttachment`;
+      // const promises = Array.from(uploadedFiles).map(file => {
+      //   const formData = new FormData();
+      //   formData.append("attachment", file);
+      //   formData.append("f", "json"); // Specify the response format
+
+      //   return fetch(attachmentUrl, {
+      //     method: 'POST',
+      //     body: formData,
+      //   });
+      // });
+
+      // try {
+      //   const results = await Promise.all(promises);
+        
+      //   // Check for errors in each response
+      //   const responses = await Promise.all(results.map(async res => {
+      //     if (!res.ok) {
+      //       // If the response is not OK, throw an error
+      //       const errorData = await res.json();
+      //       throw new Error(`Error: ${errorData.message || 'Unknown error'}`);
+      //     }
+      //     return res.json(); // Parse and return the response JSON
+      //   }));
+
+      //   console.log("Attachments added successfully:", responses);
+      // } catch (error) {
+      //   console.error("Error adding attachments:", error);
+      // }
+      //setPOImessageShow("Your file has been uploaded successfully!");
+      //setPOIFormsuccessShow("Success"); // or "Failure" based on your logic
+      //setPOIFormisOpenModalShow(true); // Show the modal
+      setPOIFormShow(true);
       setPOIUploaderShow(false);
-      setUploadedFiles([]); // Clear the uploaded files if necessary
+      //setUploadedFiles([]); // Clear the uploaded files if necessary
     } else {
       alert('Please upload files before proceeding.'); // Optional alert for user feedback
     }
@@ -329,7 +361,7 @@ const FileUploader = ({ POIFormUploader,setPOIFormisOpenModalShow,setPOImessageS
           }}
           className="w-auto m-3 py-3 px-9 bg-custom-gradient text-xs border border-gray-300 rounded-lg"
         >
-          Update
+          Upload
         </button>
       </div>
     </>
