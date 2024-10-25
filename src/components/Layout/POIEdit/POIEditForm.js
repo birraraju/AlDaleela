@@ -9,7 +9,7 @@ import AudioLineStylePOI from '../../../assets/POIEdit/AudioLineStyle.svg';
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";  
 import sucessModel from "../../../components/Common/SuccessFailureMessageModel"
 
-const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFormShow, isEditShowPOI, queryresults, setIsEditPOI, files }) => {
+const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFormShow, isEditShowPOI, queryresults, setIsEditPOI, uploadedFiles, setPOImessageShow, setPOIFormsuccessShow, setPOIFormisOpenModalShow, setUploadedFiles }) => {
   const [poiData, setPoiData] = useState({
     organization_En: "DMT",
     name_en: "Al Buwam",
@@ -111,7 +111,7 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
     const objectid = queryresults.features[0].attributes.OBJECTID
     // Use updated poiAttributes for updating attributes
     const updatedFields = { ...poiData, OBJECTID: objectid };
-    console.log(files);
+    //console.log(files);
     updateAttributes(featureLayerURL, objectid, updatedFields);
   }
   
@@ -126,7 +126,17 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
     try {
       const result = await featureLayer.applyEdits({ updateFeatures: updateData });
 
-      if (result.updateFeatureResults.length > 0) {     
+      if (result.updateFeatureResults.length > 0) {  
+        if (uploadedFiles.length > 0) { 
+          handleUploadFile();   
+        }
+        else{
+          setPOImessageShow("Your data has been updated successfully!");
+          setPOIFormsuccessShow("Success"); // or "Failure" based on your logic
+          setPOIFormisOpenModalShow(true); // Show the modal
+          setPOIFormShow(false);
+          setPOIUploaderShow(false);
+        }
         setIsShowEditPOI(false);   
         //setIsEditPOI(false);
         //sucessModel("Sucessfully Data Updated","Success", true)
@@ -138,6 +148,49 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
       console.error('Error updating feature:', error);
     }
   }
+
+  const handleUploadFile = async() => {
+    if (uploadedFiles.length > 0) { // Ensure there are uploaded files
+      const attachmentUrl = `https://maps.smartgeoapps.com/server/rest/services/AlDaleela/IslandNamingProject_v2/FeatureServer/0/${queryresults.features[0].attributes.OBJECTID}/addAttachment`;
+      //const attachmentUrl = `https://maps.smartgeoapps.com/server/rest/services/AlDaleela/IslandNamingProject_v2/FeatureServer/0/addAttachment`;
+      const promises = Array.from(uploadedFiles).map(file => {
+        const formData = new FormData();
+        formData.append("attachment", file);
+        formData.append("f", "json"); // Specify the response format
+
+        return fetch(attachmentUrl, {
+          method: 'POST',
+          body: formData,
+        });
+      });
+
+      try {
+        const results = await Promise.all(promises);
+        
+        // Check for errors in each response
+        const responses = await Promise.all(results.map(async res => {
+          if (!res.ok) {
+            // If the response is not OK, throw an error
+            const errorData = await res.json();
+            throw new Error(`Error: ${errorData.message || 'Unknown error'}`);
+          }
+          return res.json(); // Parse and return the response JSON
+        }));
+
+        console.log("Attachments added successfully:", responses);
+      } catch (error) {
+        console.error("Error adding attachments:", error);
+      }
+      setPOImessageShow("Your file and data has been uploaded successfully!");
+      setPOIFormsuccessShow("Success"); // or "Failure" based on your logic
+      setPOIFormisOpenModalShow(true); // Show the modal
+      setPOIFormShow(false);
+      setPOIUploaderShow(false);
+      setUploadedFiles([]); // Clear the uploaded files if necessary
+    } else {
+      alert('Please upload files before proceeding.'); // Optional alert for user feedback
+    }
+  };
 
   if (!POIFormShow) return null;
 
