@@ -34,6 +34,7 @@
     const [POIFormisOpenModalShow , setPOIFormisOpenModalShow]=useState(false);
     const [POIShareShow , setPOIShareShow]=useState(false);
     const [queryresults , setQueryResults]=useState("");
+    const [files, setFiles] = useState([]); // Store the selected files
     console.log("POI Share status:", POIShareShow)
 
 
@@ -206,8 +207,8 @@
               </div>}
               <div className={`${POIShareShow?"mt-3":"mt-20"} overflow-y-auto`}>
               {POIShareShow && <POShareForm  onClose={()=>{setPOIFormShow(true);setPOIShareShow(false);}}/>}
-             {(isEditShowPOI||POIFormShow) && <POIEditForm isEditShowPOI={isEditShowPOI}  setIsShowEditPOI={setIsShowEditPOI}  POIFormShow={POIFormShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow} queryresults={queryresults} setIsEditPOI={setIsEditPOI}/>}
-              <POIEditFileUploader setPOImessageShow={setPOImessageShow} setPOIFormsuccessShow={setPOIFormsuccessShow} POIFormUploader={POIFormUploader} setPOIFormisOpenModalShow={setPOIFormisOpenModalShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow}/>
+             {(isEditShowPOI||POIFormShow) && <POIEditForm isEditShowPOI={isEditShowPOI}  setIsShowEditPOI={setIsShowEditPOI}  POIFormShow={POIFormShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow} queryresults={queryresults} setIsEditPOI={setIsEditPOI} files={files}/>}
+              <POIEditFileUploader setPOImessageShow={setPOImessageShow} setPOIFormsuccessShow={setPOIFormsuccessShow} POIFormUploader={POIFormUploader} setPOIFormisOpenModalShow={setPOIFormisOpenModalShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow} queryresults={queryresults} files={files} setFiles={setFiles}/>
                {/* Render the modal only when the state is true */}
   {POIFormisOpenModalShow && (
     <POIEditFileUploaderStatusMOdel  

@@ -9,7 +9,7 @@ import AudioLineStylePOI from '../../../assets/POIEdit/AudioLineStyle.svg';
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";  
 import sucessModel from "../../../components/Common/SuccessFailureMessageModel"
 
-const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFormShow, isEditShowPOI, queryresults,setIsEditPOI }) => {
+const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFormShow, isEditShowPOI, queryresults, setIsEditPOI, files }) => {
   const [poiData, setPoiData] = useState({
     organization_En: "DMT",
     name_en: "Al Buwam",
@@ -111,6 +111,7 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
     const objectid = queryresults.features[0].attributes.OBJECTID
     // Use updated poiAttributes for updating attributes
     const updatedFields = { ...poiData, OBJECTID: objectid };
+    console.log(files);
     updateAttributes(featureLayerURL, objectid, updatedFields);
   }
   
@@ -125,10 +126,10 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
     try {
       const result = await featureLayer.applyEdits({ updateFeatures: updateData });
 
-      if (result.updateFeatureResults.length > 0) {
-        setPOIUploaderShow(true); 
+      if (result.updateFeatureResults.length > 0) {     
+        setIsShowEditPOI(false);   
         //setIsEditPOI(false);
-        sucessModel("Sucessfully Data Updated","Success", true)
+        //sucessModel("Sucessfully Data Updated","Success", true)
         console.log('Update successful:', result.updateFeatureResults);
       } else {
         console.error('Update failed:', result);
@@ -187,17 +188,17 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
           <p>No results found.</p> // Display message if there are no features
         ) : (
           <>
-            {renderFieldOrText("organization_En", "Organization", queryresults.features[0].attributes.organization_En, "select")}
+            {renderFieldOrText("organization_En", "Organization", queryresults.features[0].attributes.organization_En || "None", "select")}
             {renderFieldOrText("name_en", "Name", queryresults.features[0].attributes.name_en)}
-            {renderFieldOrText("Class", "Class", queryresults.features[0].attributes.Class, "select")}
+            {renderFieldOrText("Class", "Class", queryresults.features[0].attributes.Class || "None", "select")}
             {renderFieldOrText("ClassD", "ClassD", queryresults.features[0].attributes.ClassD)}
-            {renderFieldOrText("Status", "Status", queryresults.features[0].attributes.Status, "select")}
+            {renderFieldOrText("Status", "Status", queryresults.features[0].attributes.Status || "None", "select")}
             {renderFieldOrText("Comment", "Comment", queryresults.features[0].attributes.Comment)}
             {renderFieldOrText("description", "Description", queryresults.features[0].attributes.description)}
             {renderFieldOrText("poems", "Poems", queryresults.features[0].attributes.poems)}
             {renderFieldOrText("stories", "Stories", queryresults.features[0].attributes.stories)}
-            {renderFieldOrText("Classification", "Classification", queryresults.features[0].attributes.Classification, "select")}
-            {renderFieldOrText("Municipality", "Municipality", queryresults.features[0].attributes.Municipality, "select")}
+            {renderFieldOrText("Classification", "Classification", queryresults.features[0].attributes.Classification || "None", "select")}
+            {renderFieldOrText("Municipality", "Municipality", queryresults.features[0].attributes.Municipality || "None", "select")}
             {renderFieldOrText("Emirate", "Emirate", queryresults.features[0].attributes.Emirate)}
             {renderFieldOrText("City", "City", queryresults.features[0].attributes.City)}
 
@@ -263,7 +264,7 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
                 <button onClick={() => setIsShowEditPOI(false)} className="w-auto py-3 px-9 bg-transparent text-xs border border-black rounded-lg">
                   Cancel
                 </button>
-                <button onClick={() => {setIsShowEditPOI(false); handleAttributesUpdate()}} className="w-auto py-3 px-9 bg-custom-gradient text-xs border border-gray-300 rounded-lg">
+                <button onClick={() => { handleAttributesUpdate()}} className="w-auto py-3 px-9 bg-custom-gradient text-xs border border-gray-300 rounded-lg">
                   Update
                 </button>
               </div>
@@ -277,7 +278,7 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
                   <p className="flex justify-center text-sm items-center">Please click the upload button.</p>
                 </div>
                 <div className="flex justify-center items-center">
-                  <p onClick={() => { setPOIFormShow(false); }} className="cursor-pointer text-blue-500 hover:text-blue-800 underline">
+                  <p onClick={() => { setPOIUploaderShow(true); setPOIFormShow(false); }} className="cursor-pointer text-blue-500 hover:text-blue-800 underline">
                     Upload a file
                   </p>
                 </div>

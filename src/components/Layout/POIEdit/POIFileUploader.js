@@ -131,9 +131,10 @@
 import { useState, useRef } from 'react';
 import { ImageIcon, FileIcon } from 'lucide-react';
 import { ChevronLeft } from 'lucide-react';
+import FeatureLayer from "@arcgis/core/layers/FeatureLayer"; 
 
-const FileUploader = ({ POIFormUploader,setPOIFormisOpenModalShow,setPOImessageShow,setPOIFormsuccessShow, setPOIFormShow, setPOIUploaderShow }) => {
-  const [files, setFiles] = useState([]); // Store the selected files
+const FileUploader = ({ POIFormUploader,setPOIFormisOpenModalShow,setPOImessageShow,setPOIFormsuccessShow, setPOIFormShow, setPOIUploaderShow, queryresults, files, setFiles }) => {
+  //const [files, setFiles] = useState([]); // Store the selected files
   const [uploadedFiles, setUploadedFiles] = useState([]); // Store the uploaded files
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef(null);
@@ -199,8 +200,52 @@ const FileUploader = ({ POIFormUploader,setPOIFormisOpenModalShow,setPOImessageS
     setUploadedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
   };
 
-  const handleUploadFile = () => {
+  const handleUploadFile = async() => {
     if (uploadedFiles.length > 0) { // Ensure there are uploaded files
+      const attachmentUrl = `https://maps.smartgeoapps.com/server/rest/services/AlDaleela/IslandNamingProject_v2/FeatureServer/0/${queryresults.features[0].attributes.OBJECTID}/addAttachment`;
+      //const attachmentUrl = `https://maps.smartgeoapps.com/server/rest/services/AlDaleela/IslandNamingProject_v2/FeatureServer/0/addAttachment`;
+      const promises = Array.from(uploadedFiles).map(file => {
+        const formData = new FormData();
+        formData.append("attachment", file);
+        formData.append("f", "json"); // Specify the response format
+
+        return fetch(attachmentUrl, {
+          method: 'POST',
+          body: formData,
+        });
+      });
+
+      try {
+        const results = await Promise.all(promises);
+        
+        // Check for errors in each response
+        const responses = await Promise.all(results.map(async res => {
+          if (!res.ok) {
+            // If the response is not OK, throw an error
+            const errorData = await res.json();
+            throw new Error(`Error: ${errorData.message || 'Unknown error'}`);
+          }
+          return res.json(); // Parse and return the response JSON
+        }));
+
+        console.log("Attachments added successfully:", responses);
+      } catch (error) {
+        console.error("Error adding attachments:", error);
+      }
+      // // Create the feature layer
+      // const featureLayer = new FeatureLayer({
+      //   url: "https://maps.smartgeoapps.com/server/rest/services/AlDaleela/IslandNamingProject_v2/FeatureServer/0"
+      // });
+      // try {
+      //   const attachmentPromises = uploadedFiles.map(file => {
+      //     return featureLayer.addAttachment(queryresults.features[0].attributes.OBJECTID, file);
+      //   });
+  
+      //   const results = await Promise.all(attachmentPromises);
+      //   console.log("Attachments added successfully:", results);
+      // } catch (error) {
+      //   console.error("Error adding attachments:", error);
+      // }
       setPOImessageShow("Your file has been uploaded successfully!");
       setPOIFormsuccessShow("Success"); // or "Failure" based on your logic
       setPOIFormisOpenModalShow(true); // Show the modal
