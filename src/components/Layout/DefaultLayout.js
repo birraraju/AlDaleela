@@ -32,7 +32,7 @@ const DefaultLayout = ({role}) => {
   const [resetFooter, setResetFooter] = useState(false);
   const [isFooterOpen, setIsFooterOpen] = useState(false);
   const [mapview, setMapview] = useState(false);
-  const {isEditPOI,setIsEditPOI} = useAuth();
+  const {isEditPOI,setIsEditPOI,isAuthPopUp} = useAuth();
    
   console.log("POI status Default:", isEditPOI);
 
@@ -70,7 +70,7 @@ const DefaultLayout = ({role}) => {
       switch (name) {
         case "Add":
         case "Hand":
-        case "POIEdit":
+        case "Subtract":
           return <AthenticatePopLogin setPopup={setPopup} setResetFooter={setResetFooter} />;
         default:
           // For other cases, show the component even if the role is null
@@ -101,6 +101,8 @@ const DefaultLayout = ({role}) => {
         return <SideLayout6 onClose={handleClose} mapview={mapview} />;
       case "POIEdit":
         return <POIEditLayout1 mapview={mapview} />;
+        case "AuthPopUp":
+          return <AthenticatePopLogin setPopup={setPopup} setResetFooter={setResetFooter} />;
       default:
         return <></>;
     }
@@ -131,6 +133,12 @@ const DefaultLayout = ({role}) => {
       setIsEditPOI(false)
     }
   },[isEditPOI])
+
+  useEffect(()=>{
+    if(isAuthPopUp){
+      setPopup(renderComponent("AuthPopUp"));
+    }
+  },[isAuthPopUp])
 
   // const handleHeaderOpen = () => {
   //   setPopup(null);

@@ -10,7 +10,7 @@ export default function ForgetPassword({ onClose, onBackToLogin, onSignup, onNex
   });
 
   const modalRef = useRef(null);
-  const { isDarkMode } = useTheme(); // Access the dark mode state
+  const { isDarkMode, isLangArab } = useTheme(); // Access the dark mode state
 
 
   useEffect(() => {
@@ -62,17 +62,17 @@ export default function ForgetPassword({ onClose, onBackToLogin, onSignup, onNex
               onClick={onBackToLogin}
             >
               <ChevronLeft className={`w-6 h-6 mr-1 ${isDarkMode ? 'text-white' : 'text-black'}`} />
-              Back to sign in
+              {isLangArab?"Back to sign in":"Back to sign in"}
             </button>
             <h2 className={`text-[24px] sm:text-[28px] font-medium ${isDarkMode ? 'text-white' : 'text-black'} mb-2`}>Forgot Password</h2>
             <p className={`text-[14px] font-omnes font-regular text-${isDarkMode ? '[#FFFFFFCC]' : 'gray-600'} mb-4`}>
-              Enter your email and we'll send you a link to reset your password
+              {isLangArab?"Enter your email and we'll send you a link to reset your password":"Enter your email and we'll send you a link to reset your password"}
             </p>
             <form onSubmit={handleSubmit} className="space-y-4 flex-grow">
               <Input
                 type="email"
                 name="email"
-                placeholder="Enter your Email id"
+                placeholder={isLangArab?"أدخل بريدك الإلكتروني":"Enter your Email id"}
                 onChange={handleChange}
               />
               <button
@@ -89,9 +89,9 @@ export default function ForgetPassword({ onClose, onBackToLogin, onSignup, onNex
             </form>
             <div className="mt-auto pt-4 text-center">
               <p className={`text-sm text-${isDarkMode ? '[#FFFFFFCC]' : 'gray-600'} text-center mt-10`}>
-                Don't have an account?{' '}
+              {isLangArab ? "ليس لديك حساب":"Don't have an account?"}{' '}
                 <button onClick={onSignup} className={`text-${isDarkMode ? '[#004987]' : '[#004987]'} font-medium underline`}>
-                  Sign up
+                {isLangArab?"تسجيل":"Sign Up"}
                 </button>
               </p>
             </div>

@@ -16,10 +16,11 @@ export const AuthProvider = ({ children }) => {
   const [contextMapView , setconrextMapView] = useState(null);
   const [initialExtent , setinitialExtent] = useState(null);
   const [isEditPOI,setIsEditPOI]=useState(false);
+  const [isAuthPopUp,setIsAuthPopUp]=useState(false);
   const [popupselectedgeo, setPopupSelectedGeo] = useState();
   
   return (
-    <AuthContext.Provider value={{ role, setRole, profiledetails ,setIsEditPOI,isEditPOI, setprofiledetails , 
+    <AuthContext.Provider value={{ role, setRole,isAuthPopUp, setIsAuthPopUp,profiledetails ,setIsEditPOI,isEditPOI, setprofiledetails , 
     contextMapView, setconrextMapView, initialExtent, setinitialExtent, popupselectedgeo, setPopupSelectedGeo}}>
       {children}
     </AuthContext.Provider>
