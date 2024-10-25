@@ -10,6 +10,8 @@
   import  POIEditFileUploaderStatusMOdel from '../Layout/POIEdit/POIEditSucessFailure'
   import FeatureLayer from "@arcgis/core/layers/FeatureLayer";  
   import * as projection from "@arcgis/core/geometry/projection.js";
+  import RoleServices from '../servicces/RoleServices';
+
   
 
   import { X } from "lucide-react";
@@ -25,7 +27,7 @@
     const [toggleCount, setToggleCount] = useState(0);
     const containerRef = useRef(null);
     const { isDarkMode, isLangArab } = useTheme(); // Access the dark mode state
-    const {setIsEditPOI, popupselectedgeo, profiledetails} = useAuth();
+    const {setIsEditPOI,setIsAuthPopUp, popupselectedgeo, profiledetails} = useAuth();
     const [POIFormShow , setPOIFormShow]=useState(true);
     const [POIFormUploader , setPOIUploaderShow]=useState(false);
     const [isEditShowPOI, setIsShowEditPOI] = useState(false); // Default value is false
@@ -159,6 +161,8 @@
         console.error('Feature layer failed to load:', error);
       });
 
+      
+
       // const query = new Query();
       // query.geometry = popupselectedgeo.mapPoint; // Use the clicked map point
       // query.spatialRelationship = 'intersects'; // Define the spatial relationship
@@ -178,7 +182,13 @@
 
     // If the panel is fully closed, don't render anything
     if (isFullyClosed) return null;
-
+    const handleShowPOIEdit=()=>{
+      if(RoleServices.isAuth()){
+        setIsShowEditPOI((prev) => !prev)
+      }else{
+        setIsAuthPopUp(true);
+      }
+    }
     console.log("Edit POI Status:", isEditShowPOI)
 
     return (
@@ -243,7 +253,7 @@
 
   {/* Edit POI Button */}
   <button
-    onClick={() => setIsShowEditPOI((prev) => !prev)} // Toggle the state
+    onClick={() => handleShowPOIEdit()} // Toggle the state
     aria-label="Edit POI"
     className="h-full"
     style={{ border: 'none', background: 'none' }} // No styles, functionality only

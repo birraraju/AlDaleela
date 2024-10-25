@@ -25,6 +25,14 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
     Emirate: "Abu Dhabi",
     City: "Western Region"
   });
+
+
+  const organizationOptions = ["DMT", "Org 2", "Org 3", "Org 4"];
+  const classOptions = ["Zubara", "Option 2", "Option 3"];
+  const statusOptions = ["Needs Review", "Approved", "Rejected"];
+  const classificationOptions = ["Marine", "Terrestrial", "Aerial"];
+  const municipalityOptions = ["Al Dhafra", "Municipality 2", "Municipality 3"];
+
   const [images, setimages] = useState([])
   const [videos, setvideos] = useState([])
   const [audios, setAudios] = useState([])
@@ -150,7 +158,7 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
 
   console.log("POI Data:", poiData);
 
-  const renderFieldOrText = (id, label, value, inputType = "text") => (
+  const renderFieldOrText = (id, label, value,options = [], inputType = "text") => (
     <div className="space-y-2">
       <label htmlFor={id} className="block text-sm font-medium text-gray-700">
         {label}
@@ -163,8 +171,9 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
             onChange={handleChange}
             className="block w-full p-2 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
           >
-            <option value={value}>{value}</option>
-            {/* Add additional options here if needed */}
+            {options.map((option, index) => (
+              <option key={index} value={option}>{option}</option>
+            ))}
           </select>
         ) : (
           <input
@@ -175,7 +184,7 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
           />
         )
       ) : (
-        <p className="p-2 border rounded-md bg-gray-100">{value}</p>
+        <p className={` border ${value? "p-2": "p-5" } rounded-md bg-gray-100`}>{value}</p>
       )}
     </div>
   );
@@ -187,17 +196,17 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
           <p>No results found.</p> // Display message if there are no features
         ) : (
           <>
-            {renderFieldOrText("organization_En", "Organization", queryresults.features[0].attributes.organization_En, "select")}
+            {renderFieldOrText("organization_En", "Organization", queryresults.features[0].attributes.organization_En,organizationOptions, "select")}
             {renderFieldOrText("name_en", "Name", queryresults.features[0].attributes.name_en)}
-            {renderFieldOrText("Class", "Class", queryresults.features[0].attributes.Class, "select")}
+            {renderFieldOrText("Class", "Class", queryresults.features[0].attributes.Class,classOptions, "select")}
             {renderFieldOrText("ClassD", "ClassD", queryresults.features[0].attributes.ClassD)}
-            {renderFieldOrText("Status", "Status", queryresults.features[0].attributes.Status, "select")}
+            {renderFieldOrText("Status", "Status", queryresults.features[0].attributes.Status,statusOptions, "select")}
             {renderFieldOrText("Comment", "Comment", queryresults.features[0].attributes.Comment)}
             {renderFieldOrText("description", "Description", queryresults.features[0].attributes.description)}
             {renderFieldOrText("poems", "Poems", queryresults.features[0].attributes.poems)}
             {renderFieldOrText("stories", "Stories", queryresults.features[0].attributes.stories)}
-            {renderFieldOrText("Classification", "Classification", queryresults.features[0].attributes.Classification, "select")}
-            {renderFieldOrText("Municipality", "Municipality", queryresults.features[0].attributes.Municipality, "select")}
+            {renderFieldOrText("Classification", "Classification", queryresults.features[0].attributes.Classification,classificationOptions, "select")}
+            {renderFieldOrText("Municipality", "Municipality", queryresults.features[0].attributes.Municipality, municipalityOptions,"select")}
             {renderFieldOrText("Emirate", "Emirate", queryresults.features[0].attributes.Emirate)}
             {renderFieldOrText("City", "City", queryresults.features[0].attributes.City)}
 

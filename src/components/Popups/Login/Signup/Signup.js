@@ -29,7 +29,7 @@ export default function Signup({ onClose, onSigninClick }) {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const { isDarkMode } = useTheme(); // Access the dark mode state
+  const { isDarkMode,isLangArab } = useTheme(); // Access the dark mode state
   const [usernameExists, setUsernameExists] = useState(false);
   const [emailExists, setEmailExists] = useState(false);
   const [formIsValid, setFormIsValid] = useState(false); // Track form validity
@@ -172,7 +172,7 @@ export default function Signup({ onClose, onSigninClick }) {
             <h2 className={`font-omnes text-[28px] font-medium leading-tight text-left mb-1 ${
               isDarkMode ? "text-white" : "text-black"
             }`}>
-              Sign Up
+              {isLangArab?"تسجيل":"Sign Up"}
             </h2>
             <p className={`font-omnes text-[15px] font-light leading-tight text-left mb-3 text-${isDarkMode ? '[#FFFFFFCC]' : 'gray-600'} `}>
               Please create your account
@@ -183,8 +183,10 @@ export default function Signup({ onClose, onSigninClick }) {
                 <Input
                   type="text"
                   name="username"
-                  placeholder="First Name"
+                  placeholder= {isLangArab?"الاسم الأول":"First Name"}
                   required
+                  className={`${isLangArab ? "text-right" : "text-left"}`}
+                  style={{ direction: isLangArab ? "rtl" : "ltr", textAlign: isLangArab ? "right" : "left" }}            
                   // onChange={(e)=>{handleChange(e); settxtUsername(e.target.value)}}
                   onChange={(e)=>{handleChange(e);}}
                 />
@@ -195,20 +197,26 @@ export default function Signup({ onClose, onSigninClick }) {
                   name="firstName"
                   placeholder="Last Name"
                   required
+                  className={`${isLangArab ? "text-right rtl" : "text-left ltr"}`}
                   onChange={handleChange}
                 />
               </div>
               <div className="grid sm:grid-cols-2 grid-cols-1 gap-2">
                 <div className='relative'>
                 <span>
-                  <Input
-                    type={`${ showPassword?"text":"password"}`}
-                    name="password"
-                    placeholder="Password"
-                    required
-                    minLength={8} 
-                    onChange={handleChange}
-                  />
+                <Input
+    type={`${showPassword ? "text" : "password"}`}
+    name="password"
+    placeholder={isLangArab ? "نسيت كلمة المرور" : "Password"}
+    required
+    minLength={8}
+    onChange={handleChange}
+    className={`${isLangArab ? "text-right" : "text-left"}`}
+    style={{
+      direction: isLangArab ? "rtl" : "ltr",
+      textAlign: isLangArab ? "right" : "left",
+    }}
+  />
                   <button
                     type="button"
                     className={`absolute right-3 ${errorMessages.password ?"top-6":"top-1/2"}  transform -translate-y-1/2`}
@@ -229,7 +237,8 @@ export default function Signup({ onClose, onSigninClick }) {
                   <Input
                     type={`${ showConfirmPassword?"text":"password"}`}
                     name="confirmPassword"
-                    placeholder="Confirm Password"
+                    placeholder={isLangArab?"رقم الهاتف":"Confirm Password"}
+                    
                     required
                     onChange={handleChange}
                   />
@@ -254,7 +263,7 @@ export default function Signup({ onClose, onSigninClick }) {
                 <Input
                   type="email"
                   name="email"
-                  placeholder="Email Address"
+                  placeholder={isLangArab?"أدخل بريدك الإلكتروني":"Email Address"}
                   required
                   onChange={handleChange}
                 />
@@ -264,7 +273,7 @@ export default function Signup({ onClose, onSigninClick }) {
                 <Input
                   type="tel"
                   name="phoneNumber"
-                  placeholder="Phone Number"
+                  placeholder={isLangArab?"رقم الهاتف":"Phone Number"}
                   required
                   onChange={handleChange}
                 />
@@ -275,7 +284,7 @@ export default function Signup({ onClose, onSigninClick }) {
                 <Input
                   type="text"
                   name="organization"
-                  placeholder="Organization"
+                  placeholder={isLangArab?"المنظمة":"Organization"}
                   required
                   onChange={handleChange}
                 />
@@ -294,7 +303,7 @@ export default function Signup({ onClose, onSigninClick }) {
                       isDarkMode
               ? "text-black"
               :  "text-black"
-          }`} value="">Country</option>
+          }`} value="">{isLangArab?"الدولة":"Country"}</option>
                     <option className={`${
                       isDarkMode
               ? "text-black"
@@ -311,7 +320,7 @@ export default function Signup({ onClose, onSigninClick }) {
               :  "text-black"
           }`} value="United Kingdom">United Kingdom</option>
                   </select>
-                  <img src={CountryDropdown} alt="Dropdown" className="absolute top-1/2 right-3 -translate-y-1/2" />
+                  <img src={CountryDropdown} alt="Dropdown" className={`absolute top-1/2 ${isLangArab?"left-3":"right-3"} -translate-y-1/2`} />
                 </div>
               </div>
             </form>
@@ -333,13 +342,13 @@ export default function Signup({ onClose, onSigninClick }) {
               disabled={!formIsValid}
               onClick={onSignupClick}
             >
-              Sign Up
+               {isLangArab?"تسجيل":"Sign Up"}
             </button>
             <p className={`text-center mt-2 text-[14px] text-${isDarkMode ? '[#FFFFFFCC]' : 'gray-600'} `}>
               Already have an account?{' '}
               <button onClick={onSigninClick} className={`bg-clip-text text-transparent bg-gradient-to-r from-[#036068] via-[#1199A8] to-[#036068] text-[14px] font-medium hover:underline`}
               >
-                Sign In
+                {isLangArab?"تسجيل الدخول":"Sign in"}
               </button>
             </p>
           </div>

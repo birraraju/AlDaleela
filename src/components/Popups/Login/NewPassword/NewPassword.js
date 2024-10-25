@@ -17,7 +17,7 @@ export default function ResetPassword({ email, onClose, onBackToLogin, onSignup,
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const [showResetForm, setShowResetForm] = useState(true);
-  const { isDarkMode } = useTheme(); // Access the dark mode state
+  const { isDarkMode,isLangArab } = useTheme(); // Access the dark mode state
 
 
   const modalRef = useRef(null);
@@ -175,9 +175,9 @@ export default function ResetPassword({ email, onClose, onBackToLogin, onSignup,
             </button>
             <div className="mt-6 text-center">
               <p className="text-sm text-black">
-                Don't have an account?{' '}
-                <button onClick={onSignup} className="text-[#004987] font-medium underline">
-                  Sign Up
+              {isLangArab ? "ليس لديك حساب":"Don't have an account?"}{' '}
+                <button onClick={onSignup} className="text-[#004987] ml-2 font-medium underline">
+                {isLangArab?"تسجيل":"Sign Up"}
                 </button>
               </p>
             </div>

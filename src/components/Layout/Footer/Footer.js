@@ -139,6 +139,7 @@ if (menuBar) {
       const menuIndicator = document.querySelector(".sc-nav-indicator");
       if (menuIndicator) {
         menuIndicator.style.left = '0px';
+        
       }
     }
   }, [resetTrigger]);
@@ -378,7 +379,7 @@ if (menuBar) {
         ref={navIndicatorRef}
         className="sc-nav-indicator"
         style={{
-          left: `${currentMenuPosition}px`,
+          bottom: `${currentMenuPosition}px`,
           display: currentItemDisplay,
         }}
       />

@@ -10,7 +10,7 @@ export default function FooterLogin({setPopup,setResetFooter}) {
   // const [isLogin, setIsLogin] = useState(true); // State to toggle between login and signup forms
   const [showPopup, setShowPopup] = useState(true); // State to control popup visibility
   const { setIsLogin,setsSignup } = useTheme(); // Access the dark mode state
-  const {setIsEditPOI} = useAuth();
+  const {setIsEditPOI,setIsAuthPopUp} = useAuth();
 
 
   if (!showPopup) return null; // If popup is not shown, render nothing
@@ -18,6 +18,7 @@ export default function FooterLogin({setPopup,setResetFooter}) {
   const handleClose = () => {
     setPopup(null);
     setIsEditPOI(false)
+    setIsAuthPopUp(false)
     setResetFooter(true);
     setTimeout(() => setResetFooter(false), 100);
     setShowPopup(false)
