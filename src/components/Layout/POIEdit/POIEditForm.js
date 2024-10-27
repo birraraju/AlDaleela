@@ -8,6 +8,7 @@ import AudioPlayPOI from '../../../assets/POIEdit/AudioPlay.svg';
 import AudioLineStylePOI from '../../../assets/POIEdit/AudioLineStyle.svg';
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";  
 import { useAuth } from "../../../Providers/AuthProvider/AuthProvider";
+import config from '../../Common/config'; // Import your config file
 
 const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFormShow, isEditShowPOI, queryresults, setIsEditPOI, uploadedFiles, setPOImessageShow, setPOIFormsuccessShow, setPOIFormisOpenModalShow, setUploadedFiles }) => {
   const [poiData, setPoiData] = useState({
@@ -69,8 +70,10 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
           setimages([]);
           setvideos([]);
           setAudios([]);
+          // Finding the corresponding URL in the config
+          const LayerConfig = config.featureServices.find(service => queryresults.features[0].layer.title.includes(service.name));
           const featureLayer = new FeatureLayer({
-            url: "https://maps.smartgeoapps.com/server/rest/services/AlDaleela/IslandNamingProject_v2/FeatureServer/0",
+            url: LayerConfig.url,
             outFields: ["*"]
           });
           const imageArray =[];
@@ -115,7 +118,9 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
   },[queryresults])
 
   const handleAttributesUpdate =() =>{
-    const featureLayerURL = "https://maps.smartgeoapps.com/server/rest/services/AlDaleela/IslandNamingProject_v2/FeatureServer/0"
+    // Find the URL for the layer that includes "Terrestrial" in its name
+    const LayerConfig = config.featureServices.find(service => queryresults.features[0].layer.title.includes(service.name));
+    const featureLayerURL = LayerConfig.url;
     const objectid = queryresults.features[0].attributes.OBJECTID
     // Use updated poiAttributes for updating attributes
     const updatedFields = { ...poiData, OBJECTID: objectid };
@@ -124,9 +129,11 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
   }
   
   const updateAttributes = async (featureServiceURL, objectId, updatedFields) => {
+    // Find the URL for the layer that includes "Terrestrial" in its name
+    const LayerConfig = config.featureServices.find(service => queryresults.features[0].layer.title.includes(service.name));
     // Create the feature layer
     const featureLayer = new FeatureLayer({
-      url: "https://maps.smartgeoapps.com/server/rest/services/AlDaleela/IslandNamingProject_v2/FeatureServer/0"
+      url: LayerConfig.url
     });
     const updateData = [{
           attributes: updatedFields
@@ -155,8 +162,9 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
 
   const handleUploadFile = async() => {
     if (uploadedFiles.length > 0) { // Ensure there are uploaded files
-      const attachmentUrl = `https://maps.smartgeoapps.com/server/rest/services/AlDaleela/IslandNamingProject_v2/FeatureServer/0/${queryresults.features[0].attributes.OBJECTID}/addAttachment`;
-      //const attachmentUrl = `https://maps.smartgeoapps.com/server/rest/services/AlDaleela/IslandNamingProject_v2/FeatureServer/0/addAttachment`;
+      // Find the URL for the layer that includes "Terrestrial" in its name
+      const LayerConfig = config.featureServices.find(service => queryresults.features[0].layer.title.includes(service.name));
+      const attachmentUrl = `${LayerConfig.url}/${queryresults.features[0].attributes.OBJECTID}/addAttachment`;
       const promises = Array.from(uploadedFiles).map(file => {
         const formData = new FormData();
         formData.append("attachment", file);

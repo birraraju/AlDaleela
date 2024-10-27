@@ -5,6 +5,10 @@ import esriConfig from "@arcgis/core/config.js";
 import Mapview from "@arcgis/core/views/MapView.js";
 import { useAuth } from "../../../Providers/AuthProvider/AuthProvider";
 import './MapComponent.css'
+import * as identify from '@arcgis/core/rest/identify';
+import IdentifyParameters from "@arcgis/core/rest/support/IdentifyParameters.js";// Import IdentifyParameters
+import config from "../../Common/config"
+
 const MapComponent = (props) => {
   // Create a ref for the map container
   const mapDiv = useRef(null);
@@ -20,10 +24,10 @@ const MapComponent = (props) => {
   // useEffect to initialize the map once the component mounts
   useEffect(() => {
     if (mapDiv.current) {
-      esriConfig.portalUrl = "https://maps.smartgeoapps.com/portal";  
+      esriConfig.portalUrl = config.PortalUrl;  
         const webMap = new WebMap({
             portalItem: { // autocasts as new PortalItem()
-                id: '03158d995380489995e7d26bcbfc92be' // Replace with your Web Map ID
+                id: config.ItemWebMapID // Replace with your Web Map ID
             }
         });
 
@@ -104,22 +108,72 @@ const MapComponent = (props) => {
     }
   }, [MapView]);
 
-  const handleMapClick = (view) => (event) => {
-    view.hitTest(event).then((response) => {
-      const results = response.results;
-      if (results.length > 0) {
-        // Uncomment if you need the layer or graphic for further use
-        // const layer = results[0].layer;
-        // const graphic = results[0].graphic;
+
+
+// Function to handle identify based on the event
+const handleIdentify = async(event, mapview) => {
+  // Define the fixed identify URL and layer IDs
+  const identifyURL = config.BaseUrl;
+  const layerIds = [91, 0, 93];
+
+  const groupedResults = {}; // Object to hold results grouped by layer name
+
+  // Create IdentifyParameters
+  const identifyParams = new IdentifyParameters();
+  identifyParams.layerIds = layerIds; // Use static layer IDs
+  identifyParams.returnGeometry = true; // Return geometry of identified features
+  identifyParams.tolerance = 3; // Set tolerance for identifying features
+  identifyParams.layerOption = 'visible'; // Option to identify only visible layers
+  identifyParams.geometry = event.geometry ?? event.mapPoint; // Use the provided geometry or map point
+  identifyParams.mapExtent = mapview.extent; // Set the map extent
+
+  // Execute the identify operation
+  // Execute the identify operation
+  const response = await identify.identify(identifyURL, identifyParams);
+  return response.results;
+  // return identify.identify(identifyURL, identifyParams) // Use the identify module
+  //     .then((response) => {
+  //         const results = response.results;
+  //         // Group results by layer name
+  //         results.forEach(result => {
+  //             const layerName = result.layerName; // Get the name of the layer
+  //             if (!groupedResults[layerName]) {
+  //                 groupedResults[layerName] = { iresults: [] }; // Initialize array for this layer
+  //             }
+  //             groupedResults[layerName].iresults.push(result); // Push result into the layer's array
+  //         });
+  //     });
+};
+
+// Handle map click events
+const handleMapClick = (view) => async(event) => {
+  try {
+    const results = await handleIdentify(event, view);
+    console.log("Results:", results); // Log the results returned from handleIdentify
+    setPopupSelectedGeo(results[0])//.graphic)
+    setIsEditPOI(true);
+  } catch (error) {
+      console.error("Error during identify operation:", error);
+  }
+};
+
+
+  // const handleMapClick = (view) => (event) => {
+  //   view.hitTest(event).then((response) => {
+  //     const results = response.results;
+  //     if (results.length > 0) {
+  //       // Uncomment if you need the layer or graphic for further use
+  //       // const layer = results[0].layer;
+  //       // const graphic = results[0].graphic;
   
-        // Trigger an alert, then proceed to set isEditPOI
-        //alert("Map Click Event");
-        //view.popup.destroy()
-        setPopupSelectedGeo(results[0])//.graphic)
-        setIsEditPOI(true);
-      }
-    });
-  };
+  //       // Trigger an alert, then proceed to set isEditPOI
+  //       //alert("Map Click Event");
+  //       //view.popup.destroy()
+  //       setPopupSelectedGeo(results[0])//.graphic)
+  //       setIsEditPOI(true);
+  //     }
+  //   });
+  // };
   
 
   // Function to format the scale value into thousands (e.g., 2,311,162 => 2.3M)

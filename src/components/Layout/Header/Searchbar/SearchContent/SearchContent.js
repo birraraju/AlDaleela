@@ -13,181 +13,130 @@ import { useAuth } from "../../../../../Providers/AuthProvider/AuthProvider";
 import Point from "@arcgis/core/geometry/Point.js";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer.js";
 import Graphic from "@arcgis/core/Graphic";
+import config from '../../../../Common/config'; // Import your config file
 
 export default function SearchContent({ inputClicked, iscategory, inputValue, setInputValue, setInputClicked }) {
   const [isFiltersOpen, setIsFiltersOpen] = useState("normal");
   const [selectedItem, setSelectedItem] = useState(null);
   const [suggestionNames, setSuggestionNames] = useState([]);
-  const {contextMapView} = useAuth();
+  const {contextMapView, setPopupSelectedGeo, setIsEditPOI} = useAuth();
   const { isDarkMode,isLangArab } = useTheme(); // Access the theme from context
   const [featureLayer, setFeatureLayer] = useState(null);
+  const [allNames, setAllNames] = useState([]);  // Stores all names from all layers
+  const [filteredNames, setFilteredNames] = useState([]); // Stores filtered names based on search
 
-  useEffect(()=>{
-    // const locatorUrl = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer"; // Use your geocoder URL
-    // if (inputValue.length > 2) {
-    //   // Use the input value for geocoding
-    //   locator.addressToLocations(locatorUrl, {
-    //       address: { "SingleLine": inputValue },
-    //       maxLocations: 10,
-    //       outFields: ["*"]
-    //   }).then(results => {
-    //       setSuggestionNames([])
-    //       //suggestionsList.innerHTML = '';
-    //       const locatorAddress = [];
-    //       results.forEach(suggestion => {
-    //         locatorAddress.push(suggestion);
-    //           setSuggestionNames(locatorAddress);
-    //       });          
-        
-    //   }).catch(err => {
-    //       console.error(err);
-    //   });
-    const loadAttachments = async () => {
-      const layer = new FeatureLayer({
-        url: "https://maps.smartgeoapps.com/server/rest/services/AlDaleela/IslandNamingProject_v2/FeatureServer/0",
-        outFields: ["*"]
-      });
-      setFeatureLayer(layer);
+  useEffect(() => {
+    // Load all feature layer names on component mount
+    const loadAllNames = async () => {
+      const namesArray = [];  // Collect all names from all layers
 
-      try {
-        const query = layer.createQuery();
-        query.where = `name_en LIKE '%${inputValue}%'`;
-        query.returnGeometry = true;
-        query.outFields = ["*"];
-        const results = await layer.queryFeatures(query);
-        setSuggestionNames([])
-        const arrayNamesObject = [];
-        const Names = results.features.map(feature => feature.attributes.name_en);
-        results.features.forEach(feature => {
-          const searchobject = {
-            Name:feature.attributes.name_en,
-            Objectid: feature.attributes.OBJECTID
-          }
-          arrayNamesObject.push(searchobject);
-        });
-        
-        setSuggestionNames(arrayNamesObject);
-      } catch (error) {
-        console.error("Error querying feature layer or attachments:", error);
-        //setError("Failed to load media items.");
-      } finally {
-        //setLoading(false);
+      for (const service of config.featureServices) {
+        try {
+          // Create a FeatureLayer instance for each URL
+          const layer = new FeatureLayer({
+            url: service.url,
+            outFields: ["*"]
+          });
+
+          // Query to get all features from each layer
+          const query = layer.createQuery();
+          query.where = "1=1"; // Retrieve all records
+          query.outFields = ["name_en", "OBJECTID"]; // Fields to retrieve
+
+          // Perform the query
+          const results = await layer.queryFeatures(query);
+
+          // Map the results to the desired format
+          const layerNames = results.features.map(feature => ({
+            Name: feature.attributes.name_en,
+            Objectid: feature.attributes.OBJECTID,
+            LayerName: service.name
+          }));
+
+          // Push the layer names into the namesArray
+          namesArray.push(...layerNames);
+
+        } catch (error) {
+          console.error(`Error querying layer "${service.name}":`, error);
+        }
       }
+
+      // Update state with the collected names
+      setAllNames(namesArray);
     };
 
-      loadAttachments();
-    
-  },[inputValue])
+    loadAllNames(); // Call the function to load all names once on mount
+  }, []);
 
-  const queryAttachments = async (objectId) => {
-    return await featureLayer.queryAttachments({ objectIds: [objectId] });
-  };
-
-  const openPopup = async (feature, objectId) => {
-    const attributes = feature.attributes;
-    const attachments = await queryAttachments(objectId);
-
-    let popupContent = `<h3>${attributes.name_ar}</h3><table class="popup-table"><tbody>`;
-    let rowIndex = 0;
-
-    for (const key in attributes) {
-      if (attributes.hasOwnProperty(key)) {
-        const value = attributes[key];
-        popupContent += `
-          <tr style="background-color: ${rowIndex++ % 2 === 0 ? '#f2f2f2' : '#ffffff'};">
-            <td style="border-right: 3px solid #0000000d;">${key}</td>
-            <td>${value !== null && value !== '' ? (key.includes('date') ? new Date(value).toLocaleDateString() : value) : ''}</td>
-          </tr>`;
-      }
-    }
-
-    popupContent += '</tbody></table>';
-
-    if (attachments[objectId] && attachments[objectId].length > 0) {
-      popupContent += '<h4>Attachments:</h4>';
-      attachments[objectId].forEach(attachment => {
-        const mediaUrl = attachment.url;
-        const mediaType = attachment.contentType;
-
-        if (mediaType.includes('image')) {
-          popupContent += `<img src="${mediaUrl}" alt="Image" style="max-width: 100%; height: auto;"/>`;
-        } else if (mediaType.includes('video')) {
-          popupContent += `<video controls style="max-width: 100%; height: auto;">
-            <source src="${mediaUrl}" type="${mediaType}">Your browser does not support the video tag.
-          </video>`;
-        } else if (mediaType.includes('audio')) {
-          popupContent += `<audio controls style="max-width: 100%; height: auto;">
-            <source src="${mediaUrl}" type="${mediaType}">Your browser does not support the audio element.
-          </audio>`;
-        }
-      });
+  useEffect(() => {
+    // Filter names based on user input when inputValue changes
+    if (inputValue) {
+      const filtered = allNames.filter(item =>
+        item.Name && item.Name.toLowerCase().includes(inputValue.toLowerCase())
+      );
+      setFilteredNames(filtered);
     } else {
-      popupContent += '<p>No attachments available for this feature.</p>';
+      setFilteredNames([]); // Clear filtered names if input is empty
     }
+  }, [inputValue, allNames]);
 
-    const pointGraphic = new Graphic({
-      geometry: feature.geometry,
-      symbol: {
-        type: "simple-marker",
-        outline: {
-          color: [0, 255, 255, 4],
-          width: 1
-        }
+  const handleSearchAddress = async (objectId, selectedName, selectedLayerName) => {
+    // Find the layer based on selected name
+    const selectedLayerConfig = config.featureServices.find(
+      service => service.name === selectedLayerName
+    );
+  
+    if (!selectedLayerConfig) {
+      console.error(`Layer with name ${selectedLayerName} not found in configuration.`);
+      return;
+    }
+  
+    try {
+      // Create a FeatureLayer instance for the selected layer
+      const featureLayer = new FeatureLayer({
+        url: selectedLayerConfig.url,
+        outFields: ["*"]
+      });
+  
+      // Query the selected layer using the OBJECTID
+      const feature = await featureLayer.queryFeatures({
+        where: `OBJECTID = ${objectId}`,
+        outFields: ["*"],
+        returnGeometry: true
+      });
+  
+      // Check if any features are found and handle accordingly
+      if (feature.features.length > 0) {
+        //openPopup(feature.features[0], objectId); // Open popup with feature info
+        
+        setInputValue(selectedName); // Set the input value to the selected name
+        setInputClicked(false); // Close the suggestions dropdown or related UI
+        const pointGraphic = new Graphic({
+          geometry: feature.features[0].geometry,
+          symbol: {
+            type: "simple-marker",
+            outline: {
+              color: [0, 255, 255, 4],
+              width: 1
+            }
+          }
+        });
+    
+        contextMapView.graphics.add(pointGraphic);
+        await contextMapView.goTo({
+          target: feature.features[0].geometry,
+          center: feature.features[0].geometry,  // Centers on the feature's geometry
+          zoom: 15  // Sets the zoom level
+        });
+        setPopupSelectedGeo(feature.features[0])
+        setIsEditPOI(true);
+      } else {
+        console.log(`No feature found with OBJECTID: ${objectId}`);
       }
-    });
-
-    contextMapView.graphics.add(pointGraphic);
-
-    contextMapView.openPopup({
-      title: "Feature Details",
-      location: feature.geometry,
-      content: popupContent
-    });
-
-    await contextMapView.goTo({
-      target: feature.geometry,
-      zoom: 15 // Adjust the zoom level as needed
-    });
-  };
-
-  const handleSeachAddress = async(objectId, selectedName) =>{
-    const feature = await featureLayer.queryFeatures({
-      where: `OBJECTID = ${objectId}`,
-      outFields: ["*"],
-      returnGeometry: true
-    });
-
-    if (feature.features.length > 0) {
-      openPopup(feature.features[0], objectId);
-      setInputValue(selectedName);
-      setInputClicked(false)
+    } catch (error) {
+      console.error(`Error querying layer ${selectedLayerName}:`, error);
     }
-
-    //alert(selectedAddress)
-                  // Get the location (latitude and longitude) of the selected suggestion
-                  // const location = selectedAddress.location;
-
-
-                  // contextMapView.goTo({
-                  //     target: new Point({
-                  //         longitude: location.x,
-                  //         latitude: location.y
-                  //     }),
-                  //     zoom: 15
-                  // }).then(() => {
-
-                  //   contextMapView.popup.open({
-                  //         title: "Selected Location",
-                  //         location: new Point({
-                  //             longitude: location.x,
-                  //             latitude: location.y
-                  //         }),
-                  //         content: `Address: ${selectedAddress.address}`
-                  //     });
-                  // });
-                  // setInputValue(selectedAddress.address);
-                  // setInputClicked(false)
-  }
+  };
 
   return (
     <div
@@ -238,10 +187,10 @@ export default function SearchContent({ inputClicked, iscategory, inputValue, se
           {/* Searched Content */}
           {isFiltersOpen === "normal" ? (
             <div className="h-[17rem] overflow-y-scroll px-4">
-              {suggestionNames.map((location, locationIndex) => (
+              {filteredNames.map((location, locationIndex) => (
                 <div
                   key={location.Objectid}
-                  onClick={()=>handleSeachAddress(location.Objectid, location.Name)}
+                  onClick={()=>handleSearchAddress(location.Objectid, location.Name, location.LayerName)}
                   className="flex justify-start items-center gap-2 mt-4 cursor-default"
                 >
                   <div>
