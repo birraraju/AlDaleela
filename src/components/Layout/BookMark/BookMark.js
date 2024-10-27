@@ -14,6 +14,7 @@ import BookYellow from '../../../assets/bookmarks/imageBookYellow.png';
 import { useAuth } from "../../../Providers/AuthProvider/AuthProvider";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";  
 import Graphic from '@arcgis/core/Graphic';
+import config from '../../Common/config'; // Import your config file
 
 const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsManageVisible, isManageVisible,onclose}) => {
   const [bookmarks, setBookmarks] = useState([]);
@@ -58,63 +59,82 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
     fetchBookmarks();
   }, []); // Empty dependency array means this effect runs once on mount
 
-  const getAttachements = async(res) =>{
+  const getAttachements = async (res) => {
     try {
-      const featureLayer = new FeatureLayer({
-        url: "https://maps.smartgeoapps.com/server/rest/services/AlDaleela/IslandNamingProject_v2/FeatureServer/0",
-        outFields: ["*"]
-      });
       const objectIds = res.data.map(feature => feature.objectid);
-      const attachments = await featureLayer.queryAttachments({ objectIds: objectIds });
-      const localbookmarks =[]
-      // Step 4: Loop through features and their corresponding attachments
-      res.data.forEach(feature => {
+      const localbookmarks = [];
+      let imageAdded = false;
+      for (const layer of config.featureServices) {
+        const featureLayer = new FeatureLayer({
+          url: layer.url,
+          outFields: ["*"]
+        });
+  
+        // Query attachments for the current layer
+        const attachments = await featureLayer.queryAttachments({ objectIds: objectIds });
+  
+        // Loop through features and their corresponding attachments
+        res.data.forEach(feature => {
           const objectId = feature.objectid;
           const nameEng = feature.title;
-          setCount(0); // Correct way to update state
-          if (attachments[objectId] && attachments[objectId].length > 0) {
+          
+          // Check if the feature's layername matches the current layer's name
+          if (feature.layername.includes(layer.name)) {
+            setCount(0); // Initialize count for each feature
+  
+            if (attachments[objectId] && attachments[objectId].length > 0) {
               attachments[objectId].forEach(attachment => {
-                  //addMediaToContainer(attachment.contentType, attachment.url, objectId, nameEng);
-                  setCount(prevCount => prevCount + 1); // Correct way to update state
-                  if(attachment.contentType.includes("image")){
-                    setCondtionCheck(false)
-                    localbookmarks.push({
-                      src:attachment.url,
-                      title:nameEng,
-                      id: feature.id,
-                      objectid: feature.objectid
-                    })
-                  }
-                  if(res.data.length === count && condtioncheck){
-                    setCondtionCheck(true)
-                    localbookmarks.push({
-                      src:Book1,
-                      title:nameEng,
-                      id: feature.id,
-                      objectid: feature.objectid
-                    })
-                  }
+                setCount(prevCount => prevCount + 1); // Increment count
+  
+                if (!imageAdded && attachment.contentType.includes("image") && condtioncheck) {
+                  setCondtionCheck(false);
+                  localbookmarks.push({
+                    src: attachment.url,
+                    title: nameEng,
+                    id: feature.id,
+                    objectid: feature.objectid,
+                    layername: feature.layername
+                  });
+                  imageAdded = true; // Mark that an image has been added
+                }
+  
+                // if (res.data.length === count && condtioncheck) {
+                //   setCondtionCheck(true);
+                //   localbookmarks.push({
+                //     src: Book1,
+                //     title: nameEng,
+                //     id: feature.id,
+                //     objectid: feature.objectid,
+                //     layername: feature.layername
+                //   });
+                // }
               });
-          }
-          else{
-            localbookmarks.push({
-              src:Book1,
-              title:nameEng,
-              id: feature.id,
-              objectid: feature.objectid
-            })
+            } else {
+              localbookmarks.push({
+                src: Book1,
+                title: nameEng,
+                id: feature.id,
+                objectid: feature.objectid,
+                layername: feature.layername
+              });
+            }
           }
         });
-        setBookmarks(localbookmarks); // Assuming the API returns an array of bookmarks  
-      } catch (error) {
-          console.error("Error querying attachments:", error);
       }
-  }
+  
+      setBookmarks(localbookmarks); // Update bookmarks with accumulated results
+    } catch (error) {
+      console.error("Error querying attachments:", error);
+    }
+  };
+  
+  
 
-  const handleZoomtoLocation=(id, objectId)=>{
-    //alert(id, objectId);
+  const handleZoomtoLocation=(id, objectId, LayerName)=>{
+    // Find the correct layer URL from the config based on the provided LayerName
+    const layerConfig = config.featureServices.find(layer => LayerName.includes(layer.name));
     const featureLayer = new FeatureLayer({
-      url: "https://maps.smartgeoapps.com/server/rest/services/AlDaleela/IslandNamingProject_v2/FeatureServer/0",
+      url: layerConfig.url,
       outFields: ["*"]
     });
     let query = featureLayer.createQuery();
@@ -216,7 +236,7 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
   {bookmarks.map((image, index) => (
     <div key={image.id} className="relative flex flex-col items-center">
       {/* Image and title section */}
-      <div onClick={() => handleZoomtoLocation(image.id, image.objectid)} className=" relative w-28 h-24 flex flex-col items-center">
+      <div onClick={() => handleZoomtoLocation(image.id, image.objectid, image.layername)} className=" relative w-28 h-24 flex flex-col items-center">
         <img
           src={image.src}
           alt={image.title}
