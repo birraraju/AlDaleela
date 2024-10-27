@@ -9,6 +9,8 @@ import SideLayout3 from "../Sidelayout/sidelayout3";
 import SideLayout4 from "../Sidelayout/sidelayout4";
 import SideLayout1 from "../Sidelayout/sidelayout1";
 import POIEditLayout1 from "../Sidelayout/POIEditSideLayout";
+import POIApproval from "../Sidelayout/POIApprovalStatus";
+
 
 // import Contribution from "../Sidelayout/ContributionSidelayout/ContributionSidelayout";
 // import ContactusSidelayout from "../Sidelayout/ContactusSidelayout/ContactusSidelayout";
@@ -26,6 +28,7 @@ import AthenticatePopLogin from '../../components/Popups/Login/Footerpopups/Foot
 
 
 
+
 const DefaultLayout = ({role}) => {
   const buttonLabels = ["Home", "Add", "Subtract", "Hand", "Next", "Export", "Print"];
   const [popup, setPopup] = useState(null);
@@ -33,6 +36,7 @@ const DefaultLayout = ({role}) => {
   const [isFooterOpen, setIsFooterOpen] = useState(false);
   const [mapview, setMapview] = useState(false);
   const {isEditPOI,setIsEditPOI,isAuthPopUp} = useAuth();
+  const [lastRendered, setLastRendered] = useState("");  // Track last rendered component
    
   console.log("POI status Default:", isEditPOI);
 
@@ -43,19 +47,28 @@ const DefaultLayout = ({role}) => {
   const sides = queryParams.get('sides');
   const navigate = useNavigate();
     
-  useEffect(()=>{
-    handleDropbinAdmin(sides)
-  },[sides])
+   // Only trigger if `sides` has changed and is different from `lastRendered`
+   useEffect(() => {
+    if (sides && sides !== lastRendered) {
+      handleDropbinAdmin(sides);
+    }
+  }, [sides]);
 
-  const handleDropbinAdmin=(sides)=>{
-    if(sides && !role === "admin"){
+  const handleDropbinAdmin = (sides) => {
+    console.log("Data Sides data:", sides);
+
+    if (!RoleServices.isUser()) {
       navigate({
         pathname: `/${process.env.REACT_APP_BASE_URL}`,
       });
-    }else if(sides && RoleServices.isAdmin){
-      setPopup(renderComponent(sides));
+    } else {
+      const newPopup = renderComponent(sides);
+      if (newPopup !== popup) {  // Avoid re-rendering the same component
+        setPopup(newPopup);
+        setLastRendered(sides);
+      }
     }
-  }
+  };
  
   const handleClose = () => {
     setPopup(null);
@@ -63,14 +76,24 @@ const DefaultLayout = ({role}) => {
     setIsEditPOI(false)
     setTimeout(() => setResetFooter(false), 100);
   };
+
+  const handlePOIUpdateClose=()=>{
+    handleClose()
+    navigate({
+      pathname: `/${process.env.REACT_APP_BASE_URL}`,
+    });
+  }
   //  AthenticatePopLogin
   const renderComponent = (name) => {
+    if (!name) return null;   // Prevent empty name render override
+    console.log("Rendering component for name:", name, "and role:", role);
     if (role === null) {
       // If role is null, show the login popup for the specific components
       switch (name) {
         case "Add":
         case "Hand":
         case "Subtract":
+          console.log("Rendering Auth Popup for:", name);
           return <AthenticatePopLogin setPopup={setPopup} setResetFooter={setResetFooter} />;
         default:
           // For other cases, show the component even if the role is null
@@ -84,6 +107,7 @@ const DefaultLayout = ({role}) => {
   
   // Extracted function to handle side layout rendering based on component name
   const renderSideLayout = (name) => {
+    console.log("Render Side Layout for name:", name);
     switch (name) {
       case "Home":
         return <SideLayout1 onClose={handleClose} mapview={mapview} />;
@@ -92,6 +116,7 @@ const DefaultLayout = ({role}) => {
       case "Subtract":
         return <SideLayout3 onClose={handleClose} mapview={mapview} />;
       case "Hand":
+        console.log("Rendering SideLayout4");
         return <SideLayout4 onClose={handleClose} mapview={mapview} />;
       case "Next":
         return <SideLayout onClose={handleClose} mapview={mapview} />;
@@ -100,8 +125,10 @@ const DefaultLayout = ({role}) => {
       case "Print":
         return <SideLayout6 onClose={handleClose} mapview={mapview} />;
       case "POIEdit":
-        return <POIEditLayout1 mapview={mapview} />;
-        case "AuthPopUp":
+        return <POIEditLayout1  mapview={mapview} />;
+      case "POIApproval":
+          return <POIApproval onClose={handlePOIUpdateClose} mapview={mapview} />;
+      case "AuthPopUp":
           return <AthenticatePopLogin setPopup={setPopup} setResetFooter={setResetFooter} />;
       default:
         return <></>;
@@ -128,9 +155,8 @@ const DefaultLayout = ({role}) => {
   useEffect(()=>{
     if(isEditPOI){
       setPopup(renderComponent("POIEdit"));
-    }else{
+    }else if(!isEditPOI && !sides){
       setPopup(renderComponent(""));
-      setIsEditPOI(false)
     }
   },[isEditPOI])
 
@@ -151,7 +177,6 @@ const DefaultLayout = ({role}) => {
       setIsFooterOpen(false);
     }
   }, [popup]);
-
 
   return (
     <div className="flex flex-col h-screen bg-blue-100">
