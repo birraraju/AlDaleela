@@ -62,7 +62,7 @@ export default function UserManagement({role}) {
   const handleDropPin = () => {
       navigate({
         pathname: `/${process.env.REACT_APP_BASE_URL}`,
-        search: `?sides=Hand`,
+        search: `?sides=POIApproval`,
       });
    
     console.log("Admin DroppedPin clicked");

@@ -123,44 +123,38 @@
       }
     }
 
-    const handleBookmarkEvent = async(e) =>{
-      //alert(popupselectedgeo.graphic[0].geometry.x)
-      let layerUrl =''
-      if(popupselectedgeo.layer.layerId != null && popupselectedgeo.layer.layerId != 'undefined'){
-        layerUrl = popupselectedgeo.layer.url+"/"+popupselectedgeo.layer.layerId
-      }else{
-        layerUrl = popupselectedgeo.layer.url
-
-      }
-      let featureLayer = new FeatureLayer({
-        url : layerUrl
-      })
-      // Wait for the layer to load
-      featureLayer.load().then(() => {
-        // Now you can safely access spatialReference
+    const handleBookmarkEvent = async (e) => {
+      try {
+        let layerUrl = popupselectedgeo.layer.layerId != null && popupselectedgeo.layer.layerId !== 'undefined' 
+          ? `${popupselectedgeo.layer.url}/${popupselectedgeo.layer.layerId}` 
+          : popupselectedgeo.layer.url;
+    
+        let featureLayer = new FeatureLayer({ url: layerUrl });
+    
+        // Wait for the layer to load
+        await featureLayer.load();
+        
+        // Project the point using the featureLayer's spatialReference
         const projectedPoint = projection.project(popupselectedgeo.mapPoint, featureLayer.spatialReference);
-
+    
         let query = featureLayer.createQuery();
-        //query.geometry = projectedPoint;
-        query.where = "OBJECTID="+popupselectedgeo.graphic.attributes.OBJECTID
+        query.where = `OBJECTID=${popupselectedgeo.graphic.attributes.OBJECTID}`;
         query.returnGeometry = true;
-        //query.spatialRelationship = "intersects"; 
         query.outFields = ['*'];
-        //query.outSpatialReference = { wkid: featureLayer.spatialReference.wkid };
-
+    
         // Execute the query
-        featureLayer.queryFeatures(query).then(function(response) {
-          console.log('Features found:', response.features);
-          if(e !== "onload"){
-            handleInsertBookmarkData(response);
-          }
-          else{
-            setQueryResults(response)
-          }          
-        });
-      }).catch(error => {
-        console.error('Feature layer failed to load:', error);
-      });
+        const response = await featureLayer.queryFeatures(query);
+        console.log('Features found:', response.features);
+    
+        if (e !== "onload") {
+          handleInsertBookmarkData(response);
+        } else {
+          setQueryResults(response);
+        }
+      } catch (error) {
+        console.error('Feature layer failed to load or query error:', error);
+      }
+    
 
       
 
@@ -179,7 +173,7 @@
       // } catch (error) {
       //   console.error('Query failed:', error);
       // }
-    }
+    };
 
     // If the panel is fully closed, don't render anything
     if (isFullyClosed) return null;
