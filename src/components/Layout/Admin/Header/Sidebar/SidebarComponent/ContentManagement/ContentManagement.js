@@ -34,6 +34,7 @@ export default function UserManagement({role}) {
   const [scrollPercentage, setScrollPercentage] = useState(0);
   const tableRef = useRef(null);
   const { isDarkMode } = useTheme(); // Access dark mode from theme context
+  const [data, setData] = useState([]);
 
 
   const navigate = useNavigate();
@@ -58,6 +59,27 @@ export default function UserManagement({role}) {
       }
     };
   }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/FeatureServiceData/GetFeatureServiceData`);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const result = await response.json();        
+        if (result.success) {
+          setData(result.data);
+        } else {
+          console.log(result.message);
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+
+    fetchData();
+  }, [data]); 
 
   const handleDropPin = () => {
       navigate({
@@ -106,7 +128,7 @@ export default function UserManagement({role}) {
                 </tr>
               </thead>
               <tbody>
-                {users.map((user, index) => (
+                {data.map((user, index) => (
                   <tr key={index} 
                   className={`${
                     isDarkMode
@@ -118,15 +140,15 @@ export default function UserManagement({role}) {
                       : "bg-white"
                   }`}                  >
 <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
-{user.username}</td>
+{user.email}</td>
 <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
-                      {user.email}</td>
+                      {user.username}</td>
                       <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
-                      {user.Datetime}</td>
+                      {user.createdAt}</td>
                       <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
-                      {user.poiName}</td>
+                      {user.nameEn}</td>
                       <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
-                      {user.Organization}</td>
+                      {user.organizationEn}</td>
                       <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
                       {user.classification}</td>
                       <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
