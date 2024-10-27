@@ -9,9 +9,8 @@
   import  POIEditFileUploader from '../Layout/POIEdit/POIFileUploader'
   import  POIEditFileUploaderStatusMOdel from '../Layout/POIEdit/POIEditSucessFailure'
   import FeatureLayer from "@arcgis/core/layers/FeatureLayer";  
-  import * as projection from "@arcgis/core/geometry/projection.js";
   import RoleServices from '../servicces/RoleServices';
-
+  import config from '../Common/config'; // Import your config file
   
 
   import { X } from "lucide-react";
@@ -100,7 +99,7 @@
             email:profiledetails.email,
             username:profiledetails.username,
             title:res.features[0].attributes.name_en,
-            // extent:res.features[0].geometry.x +","+res.features[0].geometry.y,
+            layername:res.features[0].layer.title,
             objectid:res.features[0].attributes.OBJECTID
           }
           const response = await fetch(`${process.env.REACT_APP_API_URL}/Bookmarks/bookmarksent`, {
@@ -126,28 +125,35 @@
     const handleBookmarkEvent = async(e) =>{
       //alert(popupselectedgeo.graphic[0].geometry.x)
       let layerUrl =''
-      if(popupselectedgeo.layer.layerId != null && popupselectedgeo.layer.layerId != 'undefined'){
-        layerUrl = popupselectedgeo.layer.url+"/"+popupselectedgeo.layer.layerId
+      let Objectid =''
+      if(popupselectedgeo.layerName){
+        // Find the URL for the "Terrestrial"
+        const terrestrialLayerConfig = config.featureServices.find(service => 
+          service.name === popupselectedgeo.layerName // Find the service by name
+        );
+        layerUrl = terrestrialLayerConfig.url;
+        Objectid = "OBJECTID="+popupselectedgeo.feature.attributes.OBJECTID;
+      }
+      else if(popupselectedgeo.layer.layerId !== null && popupselectedgeo.layer.layerId !== 'undefined'){
+        layerUrl = popupselectedgeo.layer.url+"/"+popupselectedgeo.layer.layerId;
+        Objectid = "OBJECTID="+popupselectedgeo.attributes.OBJECTID;
       }else{
         layerUrl = popupselectedgeo.layer.url
-
+        Objectid = "OBJECTID="+popupselectedgeo.attributes.OBJECTID;
       }
       let featureLayer = new FeatureLayer({
         url : layerUrl
       })
-      // Wait for the layer to load
-      featureLayer.load().then(() => {
-        // Now you can safely access spatialReference
-        const projectedPoint = projection.project(popupselectedgeo.mapPoint, featureLayer.spatialReference);
+      // Now you can safely access spatialReference
+        //const projectedPoint = projection.project(popupselectedgeo.mapPoint, featureLayer.spatialReference);
 
         let query = featureLayer.createQuery();
         //query.geometry = projectedPoint;
-        query.where = "OBJECTID="+popupselectedgeo.graphic.attributes.OBJECTID
+        query.where = Objectid
+        //query.where = "OBJECTID="+popupselectedgeo.graphic.attributes.OBJECTID
         query.returnGeometry = true;
-        //query.spatialRelationship = "intersects"; 
         query.outFields = ['*'];
-        //query.outSpatialReference = { wkid: featureLayer.spatialReference.wkid };
-
+    
         // Execute the query
         featureLayer.queryFeatures(query).then(function(response) {
           console.log('Features found:', response.features);
@@ -155,14 +161,11 @@
             handleInsertBookmarkData(response);
           }
           else{
+            //setIsEditPOI(true);
             setQueryResults(response)
           }          
         });
-      }).catch(error => {
-        console.error('Feature layer failed to load:', error);
-      });
-
-      
+      // Wait for the layer to load     
 
       // const query = new Query();
       // query.geometry = popupselectedgeo.mapPoint; // Use the clicked map point
@@ -179,7 +182,7 @@
       // } catch (error) {
       //   console.error('Query failed:', error);
       // }
-    }
+    };
 
     // If the panel is fully closed, don't render anything
     if (isFullyClosed) return null;

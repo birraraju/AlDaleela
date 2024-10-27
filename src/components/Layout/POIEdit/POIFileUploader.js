@@ -201,40 +201,7 @@ const FileUploader = ({ POIFormUploader,setPOIFormisOpenModalShow,setPOImessageS
   };
 
   const handleUploadFile = async() => {
-    if (uploadedFiles.length > 0) { // Ensure there are uploaded files
-      // const attachmentUrl = `https://maps.smartgeoapps.com/server/rest/services/AlDaleela/IslandNamingProject_v2/FeatureServer/0/${queryresults.features[0].attributes.OBJECTID}/addAttachment`;
-      // //const attachmentUrl = `https://maps.smartgeoapps.com/server/rest/services/AlDaleela/IslandNamingProject_v2/FeatureServer/0/addAttachment`;
-      // const promises = Array.from(uploadedFiles).map(file => {
-      //   const formData = new FormData();
-      //   formData.append("attachment", file);
-      //   formData.append("f", "json"); // Specify the response format
-
-      //   return fetch(attachmentUrl, {
-      //     method: 'POST',
-      //     body: formData,
-      //   });
-      // });
-
-      // try {
-      //   const results = await Promise.all(promises);
-        
-      //   // Check for errors in each response
-      //   const responses = await Promise.all(results.map(async res => {
-      //     if (!res.ok) {
-      //       // If the response is not OK, throw an error
-      //       const errorData = await res.json();
-      //       throw new Error(`Error: ${errorData.message || 'Unknown error'}`);
-      //     }
-      //     return res.json(); // Parse and return the response JSON
-      //   }));
-
-      //   console.log("Attachments added successfully:", responses);
-      // } catch (error) {
-      //   console.error("Error adding attachments:", error);
-      // }
-      //setPOImessageShow("Your file has been uploaded successfully!");
-      //setPOIFormsuccessShow("Success"); // or "Failure" based on your logic
-      //setPOIFormisOpenModalShow(true); // Show the modal
+    if (uploadedFiles.length > 0) { 
       setPOIFormShow(true);
       setPOIUploaderShow(false);
       //setUploadedFiles([]); // Clear the uploaded files if necessary
