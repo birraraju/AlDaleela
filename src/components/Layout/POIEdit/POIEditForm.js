@@ -7,7 +7,7 @@ import PlayThumbPOI from '../../../assets/POIEdit/POIVideoThumb.png';
 import AudioPlayPOI from '../../../assets/POIEdit/AudioPlay.svg';
 import AudioLineStylePOI from '../../../assets/POIEdit/AudioLineStyle.svg';
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";  
-import sucessModel from "../../../components/Common/SuccessFailureMessageModel"
+import { useAuth } from "../../../Providers/AuthProvider/AuthProvider";
 
 const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFormShow, isEditShowPOI, queryresults, setIsEditPOI, uploadedFiles, setPOImessageShow, setPOIFormsuccessShow, setPOIFormisOpenModalShow, setUploadedFiles }) => {
   const [poiData, setPoiData] = useState({
@@ -25,7 +25,7 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
     Emirate: "Abu Dhabi",
     City: "Western Region"
   });
-
+  const { profiledetails } = useAuth();
 
   const organizationOptions = ["DMT", "Org 2", "Org 3", "Org 4"];
   const classOptions = ["Zubara", "Option 2", "Option 3"];
@@ -139,11 +139,7 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
           handleUploadFile();   
         }
         else{
-          setPOImessageShow("Your data has been updated successfully!");
-          setPOIFormsuccessShow("Success"); // or "Failure" based on your logic
-          setPOIFormisOpenModalShow(true); // Show the modal
-          setPOIFormShow(false);
-          setPOIUploaderShow(false);
+          handleStoreFeatureData("")
         }
         setIsShowEditPOI(false);   
         //setIsEditPOI(false);
@@ -184,21 +180,71 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
           }
           return res.json(); // Parse and return the response JSON
         }));
+        if(responses.length >0){
 
+          const attachmentIds = responses.map(response => 
+            response.addAttachmentResult ? response.addAttachmentResult.objectId : null
+          ).filter(id => id !== null);
+
+          handleStoreFeatureData(String(attachmentIds))
+        }
         console.log("Attachments added successfully:", responses);
       } catch (error) {
         console.error("Error adding attachments:", error);
       }
-      setPOImessageShow("Your file and data has been uploaded successfully!");
-      setPOIFormsuccessShow("Success"); // or "Failure" based on your logic
-      setPOIFormisOpenModalShow(true); // Show the modal
-      setPOIFormShow(false);
-      setPOIUploaderShow(false);
-      setUploadedFiles([]); // Clear the uploaded files if necessary
     } else {
       alert('Please upload files before proceeding.'); // Optional alert for user feedback
     }
   };
+
+  const handleStoreFeatureData = async(attachmentIds) =>{
+    const attributes = queryresults.features[0].attributes;
+      
+          // Extract only the fields you want to update in poiData
+          const FeatureData = {
+            Username: profiledetails.username,
+            Email: profiledetails.email,
+            FeatureObjectId: attributes.OBJECTID,
+            OrganizationEn: attributes.organization_En || "",
+            NameEn: attributes.name_en || "",
+            Class: attributes.Class || "",
+            ClassD: attributes.ClassD || "",
+            Status: attributes.Status || "",
+            Comment: attributes.Comment || "",
+            Description: attributes.description || "",
+            Poems: attributes.poems || "",
+            stories: attributes.stories || "",
+            Classification: attributes.Classification || "",
+            Municipality: attributes.Municipality || "",
+            Emirate: attributes.Emirate || "",
+            City: attributes.City || "",
+            AttachementsObjectIds:attachmentIds,
+            ApprovalStatus: "Pending"
+          };
+          try {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/FeatureServiceData/featureservicedatainsert`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(FeatureData),
+            });
+            const data = await response.json();
+                if(data.success){
+                  console.log(data.message);                  
+                  setPOImessageShow("Your file and data has been uploaded successfully!");
+                  setPOIFormsuccessShow("Success"); // or "Failure" based on your logic
+                  setPOIFormisOpenModalShow(true); // Show the modal
+                  setPOIFormShow(false);
+                  setPOIUploaderShow(false);
+                  setUploadedFiles([]); // Clear the uploaded files if necessary
+                }
+                else{
+                  console.log(data.message);
+                }
+            
+            } catch (error) {
+                console.error('Error submitting form:', error);
+            }   
+  }
 
   if (!POIFormShow) return null;
 
