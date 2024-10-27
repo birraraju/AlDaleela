@@ -152,10 +152,8 @@
         query.where = Objectid
         //query.where = "OBJECTID="+popupselectedgeo.graphic.attributes.OBJECTID
         query.returnGeometry = true;
-        //query.spatialRelationship = "intersects"; 
         query.outFields = ['*'];
-        //query.outSpatialReference = { wkid: featureLayer.spatialReference.wkid };
-
+    
         // Execute the query
         featureLayer.queryFeatures(query).then(function(response) {
           console.log('Features found:', response.features);
@@ -167,9 +165,7 @@
             setQueryResults(response)
           }          
         });
-      // Wait for the layer to load
-      
-      
+      // Wait for the layer to load     
 
       // const query = new Query();
       // query.geometry = popupselectedgeo.mapPoint; // Use the clicked map point
@@ -186,7 +182,7 @@
       // } catch (error) {
       //   console.error('Query failed:', error);
       // }
-    }
+    };
 
     // If the panel is fully closed, don't render anything
     if (isFullyClosed) return null;
