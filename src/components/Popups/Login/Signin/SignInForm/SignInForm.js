@@ -121,7 +121,7 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
                   <button
                     type="button"
                     onClick={() => setIsPassword(!isPassword)}
-                    className="absolute right-3 top-3"
+                    className={`absolute ${isLangArab?"left-3":"right-3"} top-3`}
                   >
                     {isPassword?<IoEye className={`text-2xl ${
                         isDarkMode ? "text-[#FFFFFF]" : "text-black"
@@ -155,7 +155,7 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
                 : "text-[#004987] text-[14px] font-medium cursor-pointer"
             }`}
           >
-            Forget Password?
+            {isLangArab ?"نسيت كلمة المرور":"Forget Password?"}
           </div>
         </div>
 
@@ -174,19 +174,19 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
             }
           `}
         >
-          Sign in
+          {isLangArab?"تسجيل الدخول":"Sign in"}
         </Button>
       </form>
 
       <div className={`flex justify-center items-center space-x-2 mt-12 text-${isDarkMode ? '[#FFFFFFCC]' : 'gray-600'}`}>
-        Don't have an account?
+        {isLangArab ? "ليس لديك حساب":"Don't have an account?"}
         <div
           onClick={onSignupClick}
-          className={`ml-2 ${
+          className={` ${isLangArab?"mr-2":"ml-2"} ${
             isDarkMode ? "text-[#004987]" : "text-[#004987]"
           } underline cursor-pointer`}
         >
-          Sign Up
+          {isLangArab?"تسجيل":"Sign Up"}
         </div>
       </div>
     </Form>

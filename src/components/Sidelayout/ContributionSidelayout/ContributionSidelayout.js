@@ -38,7 +38,7 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
       ref={containerRef}
       initial={{ x: "100%", opacity: 0 }}
       whileInView={{
-        x: isOpen ? 0 : isLangArab ? "-100%" : "100%", // Move to left if Arabic
+        x: isOpen ? 0 : isLangArab ? "-109%" : "109%", // Move to left if Arabic
         opacity: 1,
       }}
       exit={{

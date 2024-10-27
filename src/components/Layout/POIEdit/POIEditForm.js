@@ -7,26 +7,60 @@ import PlayThumbPOI from '../../../assets/POIEdit/POIVideoThumb.png';
 import AudioPlayPOI from '../../../assets/POIEdit/AudioPlay.svg';
 import AudioLineStylePOI from '../../../assets/POIEdit/AudioLineStyle.svg';
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";  
+import { useAuth } from "../../../Providers/AuthProvider/AuthProvider";
 
-const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFormShow, isEditShowPOI, queryresults }) => {
+const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFormShow, isEditShowPOI, queryresults, setIsEditPOI, uploadedFiles, setPOImessageShow, setPOIFormsuccessShow, setPOIFormisOpenModalShow, setUploadedFiles }) => {
   const [poiData, setPoiData] = useState({
-    organization: "DMT",
-    name: "Al Buwam",
-    class: "Zubara",
-    classD: "DMT",
-    status: "Needs Review",
-    comment: "Imported from UAEU Atlas",
+    organization_En: "DMT",
+    name_en: "Al Buwam",
+    Class: "Zubara",
+    ClassD: "DMT",
+    Status: "Needs Review",
+    Comment: "Imported from UAEU Atlas",
     description: "Eastern and western",
     poems: "بيت الزوم وبه ... ما جرى الاحسان بالي شوالك بحر ... ما هو ما",
     stories: "",
-    classification: "Marine",
-    municipality: "Al Dhafra",
-    emirate: "Abu Dhabi",
-    city: "Western Region"
+    Classification: "Marine",
+    Municipality: "Al Dhafra",
+    Emirate: "Abu Dhabi",
+    City: "Western Region"
   });
+  const { profiledetails } = useAuth();
+
+  const organizationOptions = ["DMT", "Org 2", "Org 3", "Org 4"];
+  const classOptions = ["Zubara", "Option 2", "Option 3"];
+  const statusOptions = ["Needs Review", "Approved", "Rejected"];
+  const classificationOptions = ["Marine", "Terrestrial", "Aerial"];
+  const municipalityOptions = ["Al Dhafra", "Municipality 2", "Municipality 3"];
+
   const [images, setimages] = useState([])
   const [videos, setvideos] = useState([])
   const [audios, setAudios] = useState([])
+
+  useEffect(() => {
+    if (queryresults && queryresults.features && queryresults.features.length > 0) {
+      const attributes = queryresults.features[0].attributes;
+      
+      // Extract only the fields you want to update in poiData
+      const updatedData = {
+        organization_En: attributes.organization_En,
+        name_en: attributes.name_en,
+        Class: attributes.Class,
+        ClassD: attributes.ClassD,
+        Status: attributes.Status,
+        Comment: attributes.Comment,
+        description: attributes.description,
+        poems: attributes.poems,
+        stories: attributes.stories,
+        Classification: attributes.Classification,
+        Municipality: attributes.Municipality,
+        Emirate: attributes.Emirate,
+        City: attributes.City,
+      };
+
+      setPoiData(updatedData);
+    }
+  }, [queryresults]);
 
   useEffect(()=>{
     const featchattachments = async() =>{
@@ -80,6 +114,138 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
     featchattachments()
   },[queryresults])
 
+  const handleAttributesUpdate =() =>{
+    const featureLayerURL = "https://maps.smartgeoapps.com/server/rest/services/AlDaleela/IslandNamingProject_v2/FeatureServer/0"
+    const objectid = queryresults.features[0].attributes.OBJECTID
+    // Use updated poiAttributes for updating attributes
+    const updatedFields = { ...poiData, OBJECTID: objectid };
+    //console.log(files);
+    updateAttributes(featureLayerURL, objectid, updatedFields);
+  }
+  
+  const updateAttributes = async (featureServiceURL, objectId, updatedFields) => {
+    // Create the feature layer
+    const featureLayer = new FeatureLayer({
+      url: "https://maps.smartgeoapps.com/server/rest/services/AlDaleela/IslandNamingProject_v2/FeatureServer/0"
+    });
+    const updateData = [{
+          attributes: updatedFields
+      }];
+    try {
+      const result = await featureLayer.applyEdits({ updateFeatures: updateData });
+
+      if (result.updateFeatureResults.length > 0) {  
+        if (uploadedFiles.length > 0) { 
+          handleUploadFile();   
+        }
+        else{
+          handleStoreFeatureData("")
+        }
+        setIsShowEditPOI(false);   
+        //setIsEditPOI(false);
+        //sucessModel("Sucessfully Data Updated","Success", true)
+        console.log('Update successful:', result.updateFeatureResults);
+      } else {
+        console.error('Update failed:', result);
+      }
+    } catch (error) {
+      console.error('Error updating feature:', error);
+    }
+  }
+
+  const handleUploadFile = async() => {
+    if (uploadedFiles.length > 0) { // Ensure there are uploaded files
+      const attachmentUrl = `https://maps.smartgeoapps.com/server/rest/services/AlDaleela/IslandNamingProject_v2/FeatureServer/0/${queryresults.features[0].attributes.OBJECTID}/addAttachment`;
+      //const attachmentUrl = `https://maps.smartgeoapps.com/server/rest/services/AlDaleela/IslandNamingProject_v2/FeatureServer/0/addAttachment`;
+      const promises = Array.from(uploadedFiles).map(file => {
+        const formData = new FormData();
+        formData.append("attachment", file);
+        formData.append("f", "json"); // Specify the response format
+
+        return fetch(attachmentUrl, {
+          method: 'POST',
+          body: formData,
+        });
+      });
+
+      try {
+        const results = await Promise.all(promises);
+        
+        // Check for errors in each response
+        const responses = await Promise.all(results.map(async res => {
+          if (!res.ok) {
+            // If the response is not OK, throw an error
+            const errorData = await res.json();
+            throw new Error(`Error: ${errorData.message || 'Unknown error'}`);
+          }
+          return res.json(); // Parse and return the response JSON
+        }));
+        if(responses.length >0){
+
+          const attachmentIds = responses.map(response => 
+            response.addAttachmentResult ? response.addAttachmentResult.objectId : null
+          ).filter(id => id !== null);
+
+          handleStoreFeatureData(String(attachmentIds))
+        }
+        console.log("Attachments added successfully:", responses);
+      } catch (error) {
+        console.error("Error adding attachments:", error);
+      }
+    } else {
+      alert('Please upload files before proceeding.'); // Optional alert for user feedback
+    }
+  };
+
+  const handleStoreFeatureData = async(attachmentIds) =>{
+    const attributes = queryresults.features[0].attributes;
+      
+          // Extract only the fields you want to update in poiData
+          const FeatureData = {
+            Username: profiledetails.username,
+            Email: profiledetails.email,
+            FeatureObjectId: attributes.OBJECTID,
+            OrganizationEn: attributes.organization_En || "",
+            NameEn: attributes.name_en || "",
+            Class: attributes.Class || "",
+            ClassD: attributes.ClassD || "",
+            Status: attributes.Status || "",
+            Comment: attributes.Comment || "",
+            Description: attributes.description || "",
+            Poems: attributes.poems || "",
+            stories: attributes.stories || "",
+            Classification: attributes.Classification || "",
+            Municipality: attributes.Municipality || "",
+            Emirate: attributes.Emirate || "",
+            City: attributes.City || "",
+            AttachementsObjectIds:attachmentIds,
+            ApprovalStatus: "Pending"
+          };
+          try {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/FeatureServiceData/featureservicedatainsert`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(FeatureData),
+            });
+            const data = await response.json();
+                if(data.success){
+                  console.log(data.message);                  
+                  setPOImessageShow("Your file and data has been uploaded successfully!");
+                  setPOIFormsuccessShow("Success"); // or "Failure" based on your logic
+                  setPOIFormisOpenModalShow(true); // Show the modal
+                  setPOIFormShow(false);
+                  setPOIUploaderShow(false);
+                  setUploadedFiles([]); // Clear the uploaded files if necessary
+                }
+                else{
+                  console.log(data.message);
+                }
+            
+            } catch (error) {
+                console.error('Error submitting form:', error);
+            }   
+  }
+
   if (!POIFormShow) return null;
 
   const handleChange = (e) => {
@@ -92,7 +258,7 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
 
   console.log("POI Data:", poiData);
 
-  const renderFieldOrText = (id, label, value, inputType = "text") => (
+  const renderFieldOrText = (id, label, value,options = [], inputType = "text") => (
     <div className="space-y-2">
       <label htmlFor={id} className="block text-sm font-medium text-gray-700">
         {label}
@@ -101,23 +267,24 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
         inputType === "select" ? (
           <select
             id={id}
-            value={value}
+            value={poiData[id]}
             onChange={handleChange}
             className="block w-full p-2 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
           >
-            <option value={value}>{value}</option>
-            {/* Add additional options here if needed */}
+            {options.map((option, index) => (
+              <option key={index} value={option}>{option}</option>
+            ))}
           </select>
         ) : (
           <input
             id={id}
-            value={value}
+            value={poiData[id]}
             onChange={handleChange}
             className="block w-full rounded-md p-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
           />
         )
       ) : (
-        <p className="p-2 border rounded-md bg-gray-100">{value}</p>
+        <p className={` border ${value? "p-2": "p-5" } rounded-md bg-gray-100`}>{value}</p>
       )}
     </div>
   );
@@ -129,19 +296,25 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
           <p>No results found.</p> // Display message if there are no features
         ) : (
           <>
-            {renderFieldOrText("organization", "Organization", queryresults.features[0].attributes.organization_En, "select")}
-            {renderFieldOrText("name", "Name", queryresults.features[0].attributes.name_en)}
-            {renderFieldOrText("class", "Class", queryresults.features[0].attributes.Class, "select")}
-            {renderFieldOrText("classD", "ClassD", queryresults.features[0].attributes.ClassD)}
-            {renderFieldOrText("status", "Status", queryresults.features[0].attributes.Status, "select")}
-            {renderFieldOrText("comment", "Comment", queryresults.features[0].attributes.Comment)}
+            {renderFieldOrText("organization_En", "Organization", queryresults.features[0].attributes.organization_En,organizationOptions, "select")}
+            {renderFieldOrText("name_en", "Name", queryresults.features[0].attributes.name_en)}
+            {renderFieldOrText("Class", "Class", queryresults.features[0].attributes.Class,classOptions, "select")}
+            {renderFieldOrText("ClassD", "ClassD", queryresults.features[0].attributes.ClassD)}
+            {renderFieldOrText("Status", "Status", queryresults.features[0].attributes.Status,statusOptions, "select")}
+
+            {renderFieldOrText("Comment", "Comment", queryresults.features[0].attributes.Comment)}
             {renderFieldOrText("description", "Description", queryresults.features[0].attributes.description)}
             {renderFieldOrText("poems", "Poems", queryresults.features[0].attributes.poems)}
             {renderFieldOrText("stories", "Stories", queryresults.features[0].attributes.stories)}
-            {renderFieldOrText("classification", "Classification", queryresults.features[0].attributes.Classification, "select")}
-            {renderFieldOrText("municipality", "Municipality", queryresults.features[0].attributes.Municipality, "select")}
-            {renderFieldOrText("emirate", "Emirate", queryresults.features[0].attributes.Emirate)}
-            {renderFieldOrText("city", "City", queryresults.features[0].attributes.City)}
+
+            {renderFieldOrText("Classification", "Classification", queryresults.features[0].attributes.Classification,classificationOptions, "select")}
+            {renderFieldOrText("Municipality", "Municipality", queryresults.features[0].attributes.Municipality, municipalityOptions,"select")}
+
+            {renderFieldOrText("Classification", "Classification", queryresults.features[0].attributes.Classification || "None", "select")}
+            {renderFieldOrText("Municipality", "Municipality", queryresults.features[0].attributes.Municipality || "None", "select")}
+
+            {renderFieldOrText("Emirate", "Emirate", queryresults.features[0].attributes.Emirate)}
+            {renderFieldOrText("City", "City", queryresults.features[0].attributes.City)}
 
              {/* Photos Section */}
              <div className="px-3 py-6 border border-none rounded-lg bg-white space-y-4">
@@ -205,7 +378,7 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
                 <button onClick={() => setIsShowEditPOI(false)} className="w-auto py-3 px-9 bg-transparent text-xs border border-black rounded-lg">
                   Cancel
                 </button>
-                <button onClick={() => setIsShowEditPOI(false)} className="w-auto py-3 px-9 bg-custom-gradient text-xs border border-gray-300 rounded-lg">
+                <button onClick={() => { handleAttributesUpdate()}} className="w-auto py-3 px-9 bg-custom-gradient text-xs border border-gray-300 rounded-lg">
                   Update
                 </button>
               </div>

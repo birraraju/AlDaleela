@@ -10,6 +10,8 @@
   import  POIEditFileUploaderStatusMOdel from '../Layout/POIEdit/POIEditSucessFailure'
   import FeatureLayer from "@arcgis/core/layers/FeatureLayer";  
   import * as projection from "@arcgis/core/geometry/projection.js";
+  import RoleServices from '../servicces/RoleServices';
+
   
 
   import { X } from "lucide-react";
@@ -25,7 +27,7 @@
     const [toggleCount, setToggleCount] = useState(0);
     const containerRef = useRef(null);
     const { isDarkMode, isLangArab } = useTheme(); // Access the dark mode state
-    const {setIsEditPOI, popupselectedgeo, profiledetails} = useAuth();
+    const {setIsEditPOI,setIsAuthPopUp, popupselectedgeo, profiledetails} = useAuth();
     const [POIFormShow , setPOIFormShow]=useState(true);
     const [POIFormUploader , setPOIUploaderShow]=useState(false);
     const [isEditShowPOI, setIsShowEditPOI] = useState(false); // Default value is false
@@ -34,6 +36,7 @@
     const [POIFormisOpenModalShow , setPOIFormisOpenModalShow]=useState(false);
     const [POIShareShow , setPOIShareShow]=useState(false);
     const [queryresults , setQueryResults]=useState("");
+    const [uploadedFiles, setUploadedFiles] = useState([]); // Store the uploaded files
     console.log("POI Share status:", POIShareShow)
 
 
@@ -159,6 +162,8 @@
         console.error('Feature layer failed to load:', error);
       });
 
+      
+
       // const query = new Query();
       // query.geometry = popupselectedgeo.mapPoint; // Use the clicked map point
       // query.spatialRelationship = 'intersects'; // Define the spatial relationship
@@ -178,13 +183,19 @@
 
     // If the panel is fully closed, don't render anything
     if (isFullyClosed) return null;
-
+    const handleShowPOIEdit=()=>{
+      if(RoleServices.isAuth()){
+        setIsShowEditPOI((prev) => !prev)
+      }else{
+        setIsAuthPopUp(true);
+      }
+    }
     console.log("Edit POI Status:", isEditShowPOI)
 
     return (
       <div
         className={`fixed top-16 w-[510px] ${POIShareShow?"-[65%] laptop_s:w-[370px]":"h-[90%]"} sm:w-[400px] laptop_s:w-[330px]  ${ isLangArab?"left-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
-          isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-full":"translate-x-full")
+          isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%]":"translate-x-[103%]")
         }`}
         // style={{ width, height, zIndex: 50 }}  // Ensure it's above other elements
         ref={containerRef}  // Reference to the panel
@@ -206,8 +217,8 @@
               </div>}
               <div className={`${POIShareShow?"mt-3":"mt-20"} overflow-y-auto`}>
               {POIShareShow && <POShareForm  onClose={()=>{setPOIFormShow(true);setPOIShareShow(false);}}/>}
-             {(isEditShowPOI||POIFormShow) && <POIEditForm isEditShowPOI={isEditShowPOI}  setIsShowEditPOI={setIsShowEditPOI}  POIFormShow={POIFormShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow} queryresults={queryresults}/>}
-              <POIEditFileUploader setPOImessageShow={setPOImessageShow} setPOIFormsuccessShow={setPOIFormsuccessShow} POIFormUploader={POIFormUploader} setPOIFormisOpenModalShow={setPOIFormisOpenModalShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow}/>
+             {(isEditShowPOI||POIFormShow) && <POIEditForm isEditShowPOI={isEditShowPOI}  setIsShowEditPOI={setIsShowEditPOI}  POIFormShow={POIFormShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow} queryresults={queryresults} setIsEditPOI={setIsEditPOI} uploadedFiles={uploadedFiles} setPOImessageShow={setPOImessageShow} setPOIFormsuccessShow={setPOIFormsuccessShow} setPOIFormisOpenModalShow={setPOIFormisOpenModalShow} setUploadedFiles={setUploadedFiles}/>}
+              <POIEditFileUploader setPOImessageShow={setPOImessageShow} setPOIFormsuccessShow={setPOIFormsuccessShow} POIFormUploader={POIFormUploader} setPOIFormisOpenModalShow={setPOIFormisOpenModalShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow} queryresults={queryresults} uploadedFiles={uploadedFiles} setUploadedFiles={setUploadedFiles}/>
                {/* Render the modal only when the state is true */}
   {POIFormisOpenModalShow && (
     <POIEditFileUploaderStatusMOdel  
@@ -243,7 +254,7 @@
 
   {/* Edit POI Button */}
   <button
-    onClick={() => setIsShowEditPOI((prev) => !prev)} // Toggle the state
+    onClick={() => handleShowPOIEdit()} // Toggle the state
     aria-label="Edit POI"
     className="h-full"
     style={{ border: 'none', background: 'none' }} // No styles, functionality only

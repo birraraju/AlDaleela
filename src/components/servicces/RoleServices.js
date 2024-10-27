@@ -9,6 +9,11 @@ class RoleServices{
         const role = localStorage.getItem("AldaleelaRole")
         return role === "user";
     }
+
+    static isAuth(){
+        const role = localStorage.getItem("AldaleelaRole")
+        return role === "admin" || role === "user";
+    }
 }
 
 export default RoleServices;

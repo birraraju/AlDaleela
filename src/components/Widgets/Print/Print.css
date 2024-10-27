@@ -1,3 +1,9 @@
 .Print{
     margin-top: -510px;
 }
+#printDiv,
+.esri-print,
+.esri-widget,
+.esri-print__header-title {
+    background-color: transparent;
+}

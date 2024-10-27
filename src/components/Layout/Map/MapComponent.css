@@ -142,3 +142,8 @@
 .controller-wrapper .controller-btn:hover {
     background: var(--primary-btn-hover-color);
 }
+
+.esri-zoom {
+    display: none;
+  }
+  
