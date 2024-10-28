@@ -26,6 +26,7 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
   const [isOpen, setIsOpen] = useState(true); // Use this for toggling visibility
   const containerRef = useRef(null);
   const { isDarkMode,isLangArab } = useTheme(); // Access isDarkMode from ThemeContext
+  const [data, setData] = useState([]);
 
   // Handle clicks outside the container
   useEffect(() => {
@@ -43,6 +44,27 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [setIsLeaderboard]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/FeatureServiceData/top-users`);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const result = await response.json();        
+        if (result.success) {
+          setData(result.data);
+        } else {
+          console.log(result.message);
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+
+    fetchData();
+  }, [data]); 
 
   return (
     <div dir={isLangArab ? "rtl" : "ltr"}>
@@ -83,17 +105,17 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
       </div>
 
       <div className="flex justify-between items-end relative mt-10">
-        {users.slice(0, 3).map((user, index) => (
+        {data.slice(0, 3).map((user, index) => (
           <div
-            key={user.id}
+            key={user.rank}
             className={`flex flex-col items-center ${
               index === 0 ? "absolute left-1/2 -translate-x-1/2 -top-8" : ""
             }`}
           >
             <div className="relative">
               <img
-                src={user.avatar}
-                alt={user.name}
+                src={men}
+                alt={user.userName}
                 className="w-16 h-18 object-cover rounded-full"
               />
             </div>
@@ -101,18 +123,18 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
               className={`font-semibold font-plus-jakarta mt-4 ${
                 isDarkMode ? "text-white" : "text-[#505050]"
               }`}
-            >              {user.name}</h1>
+            >              {user.userName}</h1>
             <p className={`text-xs font-plus-jakarta ${isDarkMode ? "text-gray-300" : "text-[#898989]"}`}>
-            {user.points} Points
+            {user.entryCount} Points
             </p>
           </div>
         ))}
       </div>
 
       <div className="space-y-4 mt-10 sm:mt-7 laptop_s:mt-10 overflow-y-auto sm:h-[48%] laptop_s:h-[55%] h-[55%]">
-        {users.slice(3).map((user, index) => (
+        {data.slice(3).map((user, index) => (
           <div
-            key={user.id}
+            key={user.rank}
             className={`rounded-xl py-2 px-4 flex items-center justify-between gap-4 ${
               isDarkMode ? "bg-[#505050]" : "bg-white"
             }`}
@@ -125,8 +147,8 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
                 {index + 4}
               </span>
               <img
-                src={user.avatar}
-                alt={user.name}
+                src={men}
+                alt={user.userName}
                 className="w-8 h-8 rounded-full"
               />
             </div>
@@ -136,14 +158,14 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
                  className={`text-sm font-semibold text-[#4F4F4F] font-plus-jakarta ${
               isDarkMode ? "text-white" : "text-[#4F4F4F]"
             }`} >
-                {user.name}
+                {user.userName}
               </span>
               <span 
               className={`text-sm text-[#4F4F4F] font-plus-jakarta ${
                 isDarkMode ? "text-white" : "text-[#4F4F4F]"
               }`} 
               >
-                {user.points} Points
+                {user.entryCount} Points
               </span>
             </div>
           </div>

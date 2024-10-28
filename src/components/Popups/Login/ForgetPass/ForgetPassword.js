@@ -62,11 +62,11 @@ export default function ForgetPassword({ onClose, onBackToLogin, onSignup, onNex
               onClick={onBackToLogin}
             >
               <ChevronLeft className={`w-6 h-6 mr-1 ${isDarkMode ? 'text-white' : 'text-black'}`} />
-              {isLangArab?"Back to sign in":"Back to sign in"}
+              {isLangArab?"العودة لتسجيل الدخول":"Back to sign in"}
             </button>
-            <h2 className={`text-[24px] sm:text-[28px] font-medium ${isDarkMode ? 'text-white' : 'text-black'} mb-2`}>Forgot Password</h2>
+            <h2 className={`text-[24px] sm:text-[28px] font-medium ${isDarkMode ? 'text-white' : 'text-black'} mb-2`}>{isLangArab?"هل نسيت كلمة السر":"Forgot Password"}</h2>
             <p className={`text-[14px] font-omnes font-regular text-${isDarkMode ? '[#FFFFFFCC]' : 'gray-600'} mb-4`}>
-              {isLangArab?"Enter your email and we'll send you a link to reset your password":"Enter your email and we'll send you a link to reset your password"}
+              {isLangArab?"أدخل بريدك الإلكتروني وسنرسل لك رابطًا لإعادة تعيين كلمة المرور الخاصة بك":"Enter your email and we'll send you a link to reset your password"}
             </p>
             <form onSubmit={handleSubmit} className="space-y-4 flex-grow">
               <Input
@@ -84,7 +84,7 @@ export default function ForgetPassword({ onClose, onBackToLogin, onSignup, onNex
                 }`}
                 disabled={!formData.email}
               >
-                Next
+                {isLangArab?"التالي":"Next"}
               </button>
             </form>
             <div className="mt-auto pt-4 text-center">
