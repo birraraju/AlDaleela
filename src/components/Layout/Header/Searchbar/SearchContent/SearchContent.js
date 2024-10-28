@@ -15,7 +15,7 @@ import FeatureLayer from "@arcgis/core/layers/FeatureLayer.js";
 import Graphic from "@arcgis/core/Graphic";
 import config from '../../../../Common/config'; // Import your config file
 
-export default function SearchContent({ inputClicked, iscategory, inputValue, setInputValue, setInputClicked }) {
+export default function SearchContent({ inputClicked, iscategory,setIscategory, inputValue, setInputValue, setInputClicked }) {
   const [isFiltersOpen, setIsFiltersOpen] = useState("normal");
   const [selectedItem, setSelectedItem] = useState(null);
   const [suggestionNames, setSuggestionNames] = useState([]);
@@ -206,11 +206,11 @@ export default function SearchContent({ inputClicked, iscategory, inputValue, se
               ))}
             </div>
           ) : isFiltersOpen === "photo" ? (
-            <PhotoContent />
+            <PhotoContent setInputClicked={setInputClicked} setIscategory={setIscategory}/>
           ) : isFiltersOpen === "video" ? (
-            <VideoContent />
+            <VideoContent setInputClicked={setInputClicked} setIscategory={setIscategory} />
           ) : isFiltersOpen === "audio" ? (
-            <AudioContent />
+            <AudioContent setInputClicked={setInputClicked} setIscategory={setIscategory} />
           ) : null}
         </div>
       </div>

@@ -4,7 +4,7 @@ import Graphic from "@arcgis/core/Graphic";
 import { useAuth } from "../../../../../../../Providers/AuthProvider/AuthProvider";
 import config from '../../../../../../Common/config'; // Import your config file
 
-export default function VideoContent() {
+export default function VideoContent({setInputClicked,setIscategory}) {
   const [mediaItems, setMediaItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -65,6 +65,8 @@ export default function VideoContent() {
   }, []);
 
   const handleVideoClick = async (objectId, selectedLayerName) => {
+    setIscategory(false)
+    setInputClicked(false);
     // Find the layer based on selected name
     const selectedLayerConfig = config.featureServices.find(
       service => service.name === selectedLayerName

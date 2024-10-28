@@ -116,10 +116,10 @@ export default function ResetPassword({ email, onClose, onBackToLogin, onSignup,
               onClick={onBackToLogin}
             >
               <ChevronLeft className={`w-5 h-5 mr-1 ${isDarkMode ? 'text-white' : 'text-black'}`} />
-              Back to sign in
+              {isLangArab?"العودة لتسجيل الدخول":"Back to sign in"}
             </button>
             <h2 className={`text-2xl font-semibold mb-6 ${isDarkMode ? 'text-white' : 'text-black'}`}>
-              Please Enter a New Password
+              {isLangArab?"الرجاء إدخال كلمة مرور جديدة":"Please Enter a New Password"}
             </h2>
 
             <form onSubmit={handleSubmit} className="space-y-4 flex-grow">
@@ -127,7 +127,7 @@ export default function ResetPassword({ email, onClose, onBackToLogin, onSignup,
                 <Input
                   type={showPassword ? 'text' : 'password'}
                   name="password"
-                  placeholder="Enter New Password"
+                  placeholder={isLangArab?"أدخل كلمة المرور الجديدة":"Enter New Password"}
                   onChange={handleChange}
                 />
                 <button
@@ -143,7 +143,7 @@ export default function ResetPassword({ email, onClose, onBackToLogin, onSignup,
                 <Input
                   type={showConfirmPassword ? 'text' : 'password'}
                   name="confirmPassword"
-                  placeholder="Confirm New Password"
+                  placeholder={isLangArab?"تأكيد كلمة المرور الجديدة":"Confirm New Password"}
                   onChange={handleChange}
                 />
                 <button
@@ -171,7 +171,7 @@ export default function ResetPassword({ email, onClose, onBackToLogin, onSignup,
               }`}
               disabled={isResetDisabled}
             >
-              Reset Password
+              {isLangArab?"إعادة تعيين كلمة المرور":"Reset Password"}
             </button>
             <div className="mt-6 text-center">
               <p className="text-sm text-black">

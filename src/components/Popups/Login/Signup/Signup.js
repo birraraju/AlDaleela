@@ -195,7 +195,7 @@ export default function Signup({ onClose, onSigninClick }) {
                 <Input
                   type="text"
                   name="firstName"
-                  placeholder="Last Name"
+                  placeholder={isLangArab?"اسم العائلة":"Last Name"}
                   required
                   className={`${isLangArab ? "text-right rtl" : "text-left ltr"}`}
                   onChange={handleChange}
@@ -345,8 +345,8 @@ export default function Signup({ onClose, onSigninClick }) {
                {isLangArab?"تسجيل":"Sign Up"}
             </button>
             <p className={`text-center mt-2 text-[14px] text-${isDarkMode ? '[#FFFFFFCC]' : 'gray-600'} `}>
-              Already have an account?{' '}
-              <button onClick={onSigninClick} className={`bg-clip-text text-transparent bg-gradient-to-r from-[#036068] via-[#1199A8] to-[#036068] text-[14px] font-medium hover:underline`}
+              {isLangArab?" لديك حساب بالفعل":"Already have an account"}?{' '}
+              <button onClick={onSigninClick} className={`bg-clip-text mx-1 text-transparent bg-gradient-to-r from-[#036068] via-[#1199A8] to-[#036068] text-[14px] font-medium hover:underline`}
               >
                 {isLangArab?"تسجيل الدخول":"Sign in"}
               </button>
