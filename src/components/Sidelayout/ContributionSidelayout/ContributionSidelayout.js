@@ -4,11 +4,14 @@ import { useState, useRef, useEffect } from "react";
 import loc from "../../../assets/Contribution/image.png";
 import { FiChevronRight } from "react-icons/fi";
 import { useTheme } from "../../Layout/ThemeContext/ThemeContext"; // Importing the theme context
+import { useAuth } from "../../../Providers/AuthProvider/AuthProvider";
 
 export default function ContributionPopup({ setIsPopoverOpen, setIsContribution }) {
   const containerRef = useRef(null);
   const { isDarkMode, isLangArab } = useTheme(); // Access dark mode and language context
   const [isOpen, setIsOpen] = useState(true);
+  const {profiledetails, contextMapView} = useAuth();
+  const [featureServiceData, setfeatureServiceData] = useState([]);
 
   const contributions = [
     { date: "2024-10-11", poiName: "Al Makhtabshah", status: "Pending" },
@@ -32,6 +35,33 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [setIsPopoverOpen, setIsContribution]);
+
+  const fetchFeatureServiceData = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/FeatureServiceData/${profiledetails.email}`);
+
+      // Check if the response is ok (status code 200-299)
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      if(data.success){              
+        setfeatureServiceData(data.data);
+      }
+      else{
+        //console.log(data)          
+      }
+      
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  useEffect(() => {   
+
+    fetchFeatureServiceData();
+  }, []); // Empty dependency array means this effect runs once on mount
 
   return (
     <motion.div
@@ -85,7 +115,7 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
           <div>{isLangArab ? "اسم نقطة الاهتمام" : "POI Name"}</div>
           <div className="mr-12">{isLangArab ? "الحالة" : "Status"}</div>
         </div>
-        {contributions.map((contribution, index) => (
+        {featureServiceData.map((contribution, index) => (
           <div
             key={index}
             className={`grid grid-cols-3 gap-4 py-5 text-sm px-4 ${
@@ -98,12 +128,12 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
   }`}
 >
   {isLangArab 
-    ? new Date(contribution.date).toLocaleDateString('ar-EG', {
+    ? new Date(contribution.createdAt).toLocaleDateString('ar-EG', {
         year: 'numeric',
         month: '2-digit', // Use 2-digit month to get '10' instead of 'October'
         day: '2-digit' // Use 2-digit day to get '23'
       }).replace(/\//g, '-') // Replace slashes with hyphens
-    : new Date(contribution.date).toLocaleDateString('en-US', {
+    : new Date(contribution.createdAt).toLocaleDateString('en-US', {
         year: 'numeric',
         month: '2-digit', // Use 2-digit month for consistency
         day: '2-digit' // Use 2-digit day
@@ -117,12 +147,12 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
                 isDarkMode ? "text-[#FFFFFFCC]" : "text-[#3E3E3E]"
               }`}
             >
-              {contribution.poiName}
+              {contribution.nameEn}
             </div>
             <div className="flex justify-between gap-x-2 sm:gap-x-3 laptop_s:gap-x-0 items-center">
   <span
     className={`${
-      contribution.status === "Approved"
+      contribution.approvalStatus === "Approved"
         ? `${
             isDarkMode
               ? "text-white/70"
@@ -135,9 +165,9 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
           } font-omnes sm:text-[13px] text-[14px] font-medium`
     }`}
   >
-    {contribution.status === "Approved" &&
+    {contribution.approvalStatus === "Approved" &&
       (isLangArab ? "معتمد" : "Approved")}
-    {contribution.status === "Pending" &&
+    {contribution.approvalStatus === "Pending" &&
       (isLangArab ? "قيد الانتظار" : "Pending")}
   </span>
   <img src={loc} alt="Location icon" className="sm:w-7 w-5 sm:h-7 h-4 cursor-pointer" />
