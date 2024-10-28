@@ -1,7 +1,7 @@
-.Print{
-    margin-top: -510px;
+.Export{
+    margin-top: -390px;
 }
-#printDiv,
+#exportDiv,
 .esri-print,
 .esri-widget,
 .esri-print__header-title {
