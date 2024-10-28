@@ -1,18 +1,18 @@
 import React, { useEffect, useRef } from "react";
 import Print from "@arcgis/core/widgets/Print";
-import './Print.css';
+import './Export.css';
 
 const PrintComponent = ({ mapview }) => {
-  const printRef = useRef(null);
+  const exportRef = useRef(null);
 
   useEffect(() => {
-    if (mapview && printRef.current) {
+    if (mapview && exportRef.current) {
       try {
         const printWidget = new Print({
           view: mapview,
-          container: printRef.current,
+          container: exportRef.current,
           printServiceUrl: "https://maps.smartgeoapps.com/server/rest/services/AlDaleela/Al_daleela_Print/GPServer/Export%20Web%20Map",
-          allowedFormats: ["Portable Document Format (PDF)"],
+          allowedFormats: ["32-bit Portable Network Graphics (PNG32)","Joint Photographic Experts Group (JPG)"],
           allowedLayouts: ["POI_PRINT"],
           templateOptions: {
             title: "My Print",
@@ -22,21 +22,21 @@ const PrintComponent = ({ mapview }) => {
           }
         });
 
-        // Observe for changes in the printRef container to remove the "Map Only" tab when it appears
+        // Observe for changes in the exportRef container to remove the "Map Only" tab when it appears
         const observer = new MutationObserver(() => {
-          const liElement = document.getElementById('printDiv__mapOnlyTab');
+          const liElement = document.getElementById('exportDiv__mapOnlyTab');
           if (liElement) {
             liElement.remove(); // Remove the <li> element directly
             observer.disconnect(); // Stop observing once the element is removed
           }
         });
 
-        observer.observe(printRef.current, { childList: true, subtree: true });
+        observer.observe(exportRef.current, { childList: true, subtree: true });
 
         return () => {
-          if(printRef.current){
+          if(exportRef.current){
               //printWidget.destroy();
-              printRef.current = null;
+              exportRef.current = null;
           }
           
         };
@@ -46,7 +46,7 @@ const PrintComponent = ({ mapview }) => {
     }
   }, [mapview]);
 
-  return <div className=" sm:-mt-[500px]  laptop_s:-mt-[500px] -mt-[520px]" id="printDiv" ref={printRef} />;
+  return <div className=" sm:-mt-[500px]  laptop_s:-mt-[500px] -mt-[520px] Export" id="exportDiv" ref={exportRef} />;
 };
 
 export default PrintComponent;
