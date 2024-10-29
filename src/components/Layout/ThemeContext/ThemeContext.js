@@ -10,6 +10,7 @@ export const ThemeProvider = ({ children }) => {
   const [isLangArab, setIsLangArab] = useState(false);
   const [isLogin, setIsLogin] = useState(false); // State to toggle between login and signup forms
   const [isSignup, setsSignup] = useState(false); // State to toggle between login and signup forms
+  const [isPOIAddShow,setIsPOIAddShow]=useState(false);
 
 
 
@@ -22,7 +23,7 @@ export const ThemeProvider = ({ children }) => {
   };
 
   return (
-    <ThemeContext.Provider value={{isLangArab, isDarkMode,isLogin,isSignup,setIsLogin,setsSignup, toggleTheme,toggleLanguage }}>
+    <ThemeContext.Provider value={{isLangArab,setIsPOIAddShow,isPOIAddShow, isDarkMode,isLogin,isSignup,setIsLogin,setsSignup, toggleTheme,toggleLanguage }}>
       {children}
     </ThemeContext.Provider>
   );
