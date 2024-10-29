@@ -26,7 +26,7 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
     Emirate: "Abu Dhabi",
     City: "Western Region"
   });
-  const { profiledetails } = useAuth();
+  const { profiledetails, contextMapView } = useAuth();
 
   const organizationOptions = ["DMT", "Org 2", "Org 3", "Org 4"];
   const classOptions = ["Zubara", "Option 2", "Option 3"];
@@ -123,7 +123,7 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
     const featureLayerURL = LayerConfig.url;
     const objectid = queryresults.features[0].attributes.OBJECTID
     // Use updated poiAttributes for updating attributes
-    const updatedFields = { ...poiData, OBJECTID: objectid };
+    const updatedFields = { ...poiData, OBJECTID: objectid, Isadminapproved:2 };
     //console.log(files);
     updateAttributes(featureLayerURL, objectid, updatedFields);
   }
@@ -146,7 +146,7 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
           handleUploadFile();   
         }
         else{
-          handleStoreFeatureData("")
+          handleStoreFeatureData("",LayerConfig.url)
         }
         setIsShowEditPOI(false);   
         //setIsEditPOI(false);
@@ -194,7 +194,7 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
             response.addAttachmentResult ? response.addAttachmentResult.objectId : null
           ).filter(id => id !== null);
 
-          handleStoreFeatureData(String(attachmentIds))
+          handleStoreFeatureData(String(attachmentIds), LayerConfig.url)
         }
         console.log("Attachments added successfully:", responses);
       } catch (error) {
@@ -205,7 +205,7 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
     }
   };
 
-  const handleStoreFeatureData = async(attachmentIds) =>{
+  const handleStoreFeatureData = async(attachmentIds, LayerUrl) =>{
     const attributes = queryresults.features[0].attributes;
       
           // Extract only the fields you want to update in poiData
@@ -227,7 +227,8 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
             Emirate: attributes.Emirate || "",
             City: attributes.City || "",
             AttachementsObjectIds:attachmentIds,
-            ApprovalStatus: "Pending"
+            ApprovalStatus: "Pending",
+            featureServiceURL:LayerUrl
           };
           try {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/FeatureServiceData/featureservicedatainsert`, {
@@ -237,7 +238,13 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
             });
             const data = await response.json();
                 if(data.success){
-                  console.log(data.message);                  
+                  console.log(data.message);     
+                  contextMapView.graphics.removeAll(); // Clears all graphics  
+                  contextMapView.map.layers.forEach(layer => {
+                    if (layer.refresh) {
+                      layer.refresh();
+                    }
+                  });           
                   setPOImessageShow("Your file and data has been uploaded successfully!");
                   setPOIFormsuccessShow("Success"); // or "Failure" based on your logic
                   setPOIFormisOpenModalShow(true); // Show the modal

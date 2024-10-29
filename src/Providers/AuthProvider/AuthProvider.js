@@ -19,10 +19,11 @@ export const AuthProvider = ({ children }) => {
   const [isAuthPopUp,setIsAuthPopUp]=useState(false);
   const [popupselectedgeo, setPopupSelectedGeo] = useState();
   const [isMeasurement,setIsMeaseurement]=useState(false);
+  const [dropPinObjectId , setDropPinObjectId] = useState(null);
   
   return (
     <AuthContext.Provider value={{isMeasurement,setIsMeaseurement, role, setRole,isAuthPopUp, setIsAuthPopUp,profiledetails ,setIsEditPOI,isEditPOI, setprofiledetails , 
-    contextMapView, setconrextMapView, initialExtent, setinitialExtent, popupselectedgeo, setPopupSelectedGeo}}>
+    contextMapView, setconrextMapView, initialExtent, setinitialExtent, popupselectedgeo, setPopupSelectedGeo, dropPinObjectId , setDropPinObjectId}}>
       {children}
     </AuthContext.Provider>
   );
