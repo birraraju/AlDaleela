@@ -6,7 +6,7 @@ import MediaPinPoint from '../../../../../../../assets/Admin/logo/imagePinMedia.
 import { useTheme } from "../../../../../ThemeContext/ThemeContext"; // Importing the theme context
 import { useNavigate } from 'react-router-dom';
 import RoleServices from '../../../../../../servicces/RoleServices';
-
+import { useAuth } from "../../../../../../../Providers/AuthProvider/AuthProvider";
 
 const users = [
   { username: "User name", email: "user@gmail.com", Datetime: "2024-10-11 09:22:25", poiName: "Al Makhtabshah", Organization: "DMT", classification: "Marine", municipality: "Abu Dhabi", media: "3" },
@@ -35,7 +35,7 @@ export default function UserManagement({role}) {
   const tableRef = useRef(null);
   const { isDarkMode } = useTheme(); // Access dark mode from theme context
   const [data, setData] = useState([]);
-
+  const {setDropPinObjectId} = useAuth();
 
   const navigate = useNavigate();
 
@@ -81,12 +81,12 @@ export default function UserManagement({role}) {
     fetchData();
   }, [data]); 
 
-  const handleDropPin = () => {
+  const handleDropPin = (objectID, featureServiceURL) => {
       navigate({
         pathname: `/${process.env.REACT_APP_BASE_URL}`,
         search: `?sides=POIApproval`,
       });
-   
+      setDropPinObjectId({objectID:objectID, featureServiceURL:featureServiceURL});
     console.log("Admin DroppedPin clicked");
   };
   
@@ -156,7 +156,7 @@ export default function UserManagement({role}) {
                       <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
                       {user.attachementsObjectIds ? user.attachementsObjectIds.split(',').length : 0}</td>
                     <td className="py-2">
-                      <button onClick={handleDropPin} className="text-red-500 hover:text-red-600">
+                      <button onClick={()=>{handleDropPin(user.featureObjectId, user.featureServiceURL)}} className="text-red-500 hover:text-red-600">
                         <img src={PinPoint} alt="" className='h-7' />
                       </button>
                     </td>
