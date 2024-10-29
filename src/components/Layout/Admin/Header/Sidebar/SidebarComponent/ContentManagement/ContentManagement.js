@@ -144,7 +144,7 @@ export default function UserManagement({role}) {
 <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
                       {user.username}</td>
                       <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
-                      {user.createdAt}</td>
+                      {new Date(user.createdAt).toLocaleString()}</td>
                       <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
                       {user.nameEn}</td>
                       <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
@@ -154,7 +154,7 @@ export default function UserManagement({role}) {
                       <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
                       {user.municipality}</td>
                       <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
-                      {user.media}</td>
+                      {user.attachementsObjectIds ? user.attachementsObjectIds.split(',').length : 0}</td>
                     <td className="py-2">
                       <button onClick={handleDropPin} className="text-red-500 hover:text-red-600">
                         <img src={PinPoint} alt="" className='h-7' />
