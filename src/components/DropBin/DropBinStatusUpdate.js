@@ -207,11 +207,13 @@ const DropBinStatusUpdate = ({setMessage,setFormShow,setPOIFormIsOpenModalShow,s
           if (layer.refresh) {
             layer.refresh();
           }
-        });           
+        });   
+        handleUpdateApprovalStatus("Approved"); 
         setMessage("POI Approve Sucessfully");
         setPOIFormSuccessShow("Success");
         setPOIFormIsOpenModalShow(true)
-        setFormShow(false);
+        setFormShow(false);            
+        
         console.log('Update successful:', result.updateFeatureResults);
       } else {
         console.error('Update failed:', result);
@@ -222,12 +224,138 @@ const DropBinStatusUpdate = ({setMessage,setFormShow,setPOIFormIsOpenModalShow,s
     
   }
 
-  const handleRejectPOI =()=>{
-    setMessage("POI Rejected !");
-    setPOIFormSuccessShow("Failure");
-    setPOIFormIsOpenModalShow(true)
-    setFormShow(false);
+  const handleUpdateApprovalStatus =async(status)=>{
+    try {
+      const UpdateApprovalObj ={
+        id:dropPinObjectId.id,
+        approvalStatus:status
+      }
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/FeatureServiceData/updateapprovalstatus`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(UpdateApprovalObj),
+      });
+      const data = await response.json();
+      if(data.success){
+        console.log(data);  
+      }
+      else{
+        console.log(data)         
+
+      }
+    }catch (error) {
+      console.error('Error submitting form:', error);
+    }  
   }
+
+  const handleRejectPOI =async()=>{
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/FeatureServiceData/by-id/${dropPinObjectId.id}`);
+
+      // Check if the response is ok (status code 200-299)
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const results = await response.json();
+      if(results.success){              
+        // Extract only the fields you want to update in poiData
+            const updatedData = {
+              OBJECTID: results.data[0].featureObjectId,
+              organization_En: results.data[0].organizationEn,
+              name_en: results.data[0].nameEn,
+              Class: results.data[0].class,
+              ClassD: results.data[0].classD,
+              Status: results.data[0].status,
+              Comment: results.data[0].comment,
+              description: results.data[0].description,
+              poems: results.data[0].poems,
+              stories: results.data[0].stories,
+              Classification: results.data[0].classification,
+              Municipality: results.data[0].municipality,
+              Emirate: results.data[0].emirate,
+              City: results.data[0].city,
+              Isadminapproved:1
+            };
+            await handlePrivousDataInserted(updatedData);
+            if(results.data[0].attachementsObjectIds){
+              await removeAttachments(results.data[0].featureObjectId, results.data[0].attachementsObjectIds)   
+            }     
+            await handleUpdateApprovalStatus("Rejected");
+            contextMapView.graphics.removeAll(); // Clears all graphics
+            contextMapView.map.layers.forEach(layer => {
+              if (layer.refresh) {
+                layer.refresh();
+              }
+            });   
+            setMessage("POI Rejected !");
+            setPOIFormSuccessShow("Failure");
+            setPOIFormIsOpenModalShow(true)
+            setFormShow(false);
+      }
+      else{
+        //console.log(data)          
+      }
+      
+    } catch (err) {
+      console.log(err.message);
+    }    
+  }
+  const handlePrivousDataInserted = async(updatedData) =>{
+    // Create the feature layer
+    const featureLayer = new FeatureLayer({
+      url: dropPinObjectId.featureServiceURL
+    });
+    const updateData = [{
+          attributes: updatedData
+      }];
+    try {
+      const result = await featureLayer.applyEdits({ updateFeatures: updateData });
+
+      if (result.updateFeatureResults.length > 0) {             
+        console.log('Update successful:', result.updateFeatureResults);
+      } else {
+        console.error('Update failed:', result);
+      }
+    } catch (error) {
+      console.error('Error updating feature:', error);
+    }
+  }
+
+  const removeAttachments = async (objectId, attachmentIds) => {
+    const deleteUrl = `${dropPinObjectId.featureServiceURL}/${objectId}/deleteAttachments`;
+    const formData = new FormData();
+    formData.append("f", "json"); // Specify the response format
+    formData.append("attachmentIds", attachmentIds.split(",")); // Pass IDs as a comma-separated list
+  
+    try {
+      const response = await fetch(deleteUrl, {
+        method: 'POST',
+        body: formData,
+      });
+  
+      if (!response.ok) {
+        // If the response is not OK, throw an error
+        const errorData = await response.json();
+        throw new Error(`Error: ${errorData.message || 'Unknown error'}`);
+      }
+  
+      const result = await response.json();
+      if (result.deleteAttachmentResults) {
+        // const deletedIds = result.deleteAttachmentResults
+        //   .filter(result => result.success)
+        //   .map(result => result.objectId);
+  
+        // console.log("Attachments removed successfully:", deletedIds);
+        // handleStoreFeatureData(String(deletedIds), LayerConfig.url); // Optionally, update the state
+      } else {
+        console.warn("No attachments were deleted.");
+      }
+    } catch (error) {
+      console.error("Error removing attachments:", error);
+    }
+  };
+  
 
   return (
     <div className="w-full max-w-lg bg-transparent overflow-y-auto">
