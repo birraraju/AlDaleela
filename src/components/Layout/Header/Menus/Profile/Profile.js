@@ -269,7 +269,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
           />
         )}
         {isFeedBack && (
-          <SendFeedBack setIsPopoverOpen={setIsPopoverOpen} setIsFeedBack={setIsFeedBack} />
+          <SendFeedBack setIsPopoverOpen={setIsPopoverOpen} setIsFeedBack={setIsFeedBack} setIsSuccess={setIsSuccess} setIsMsgStatus={setIsMsgStatus} setModalMessage={setModalMessage} />
         )}
 
           <PopModal
@@ -279,8 +279,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
             onClose={() => {
               setIsSuccess(false); // Close success modal
               setIsFailure(false);
-              setIsProfileData(true)
-              setIsProfile(true) // Close failure modal
+              setIsPopoverOpen(true)
             }}
           />
       </AnimatePresence>

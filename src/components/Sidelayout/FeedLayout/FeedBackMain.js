@@ -8,7 +8,8 @@ export default function SendFeedBack({
   setIsPopoverOpen,
   setIsFeedBack,
   width = "454.84px",
-  height = "calc(95vh - 2rem)"
+  height = "calc(95vh - 2rem)",
+  setIsSuccess, setIsMsgStatus, setModalMessage
 }) {
   const [isOpen, setIsOpen] = useState(true);
   const [isFullyClosed, setIsFullyClosed] = useState(false);
@@ -91,6 +92,7 @@ export default function SendFeedBack({
           <FeedBackBody
            setIsPopoverOpen={setIsPopoverOpen}
            setIsFeedBack={setIsFeedBack}
+           setIsSuccess={setIsSuccess} setIsMsgStatus={setIsMsgStatus} setModalMessage={setModalMessage}
           />
         </div>
       </div>
