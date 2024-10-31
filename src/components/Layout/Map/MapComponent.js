@@ -8,6 +8,7 @@ import './MapComponent.css'
 import * as identify from '@arcgis/core/rest/identify';
 import IdentifyParameters from "@arcgis/core/rest/support/IdentifyParameters.js";// Import IdentifyParameters
 import config from "../../Common/config"
+import Graphic from '@arcgis/core/Graphic';
 
 const MapComponent = (props) => {
   // Create a ref for the map container
@@ -148,7 +149,28 @@ const handleIdentify = async(event, mapview) => {
 // Handle map click events
 const handleMapClick = (view) => async(event) => {
   try {
+    setIsEditPOI(false);
+    view.graphics.removeAll(); // Clears all graphics
     const results = await handleIdentify(event, view);
+    // view.goTo({
+    //   target: results[0].feature.geometry,
+    //   zoom: 15 // Adjust the zoom level as needed
+    // });
+    // Create a symbol for drawing the point
+    let markerSymbol = {
+      type: "simple-marker",
+      outline: {
+        color: [0, 255, 255, 4],
+        width: 1
+      }
+    }
+    
+    // Create a graphic and add the geometry and symbol to it
+    let pointGraphic = new Graphic({
+      geometry: results[0].feature.geometry,
+      symbol: markerSymbol
+    });
+    view.graphics.add(pointGraphic);
     console.log("Results:", results); // Log the results returned from handleIdentify
     setPopupSelectedGeo(results[0])//.graphic)
     setIsEditPOI(true);
