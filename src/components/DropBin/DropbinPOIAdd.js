@@ -147,6 +147,7 @@ const Component = ({setFormShow,setPOIFormsuccessShow,setmessage,onClose,setPOIF
     setFormShow(false)
   }
 
+
   const renderField = (id, label, value, inputType = "text") => (
     <div className="space-y-2">
       <label htmlFor={id} className="block text-sm font-medium text-gray-700">
@@ -410,7 +411,7 @@ const Component = ({setFormShow,setPOIFormsuccessShow,setmessage,onClose,setPOIF
 
         {/* Action Buttons */}
         <div className="flex justify-center space-x-8 items-center pt-4 pb-16">
-            <button className="w-auto py-3 px-9 bg-transparent text-xs border border-black rounded-lg">
+            <button onClick={onClose} className="w-auto py-3 px-9 bg-transparent text-xs border border-black rounded-lg">
               Cancel
             </button>
             <button onClick={handleFormSubmit} className="w-auto py-3 px-9 bg-custom-gradient text-xs border border-gray-300 rounded-lg">
