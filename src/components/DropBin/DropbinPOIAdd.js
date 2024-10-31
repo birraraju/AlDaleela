@@ -3,8 +3,9 @@
 import React, { useState, useRef } from "react"
 import { ImageIcon, FileIcon, XCircleIcon } from "lucide-react"
 import UploadImage from "../../assets/Droppedpin/Upload.svg"
+import { ChevronLeft } from 'lucide-react';
 
-const Component = ({setFormShow,setPOIFormsuccessShow,setmessage,setPOIFormisOpenModalShow,isFormShow}) => {
+const Component = ({setFormShow,setPOIFormsuccessShow,setmessage,onClose,setPOIFormisOpenModalShow,isFormShow}) => {
   const [poiData, setPoiData] = useState({
     organization: "",
     name: "",
@@ -173,6 +174,15 @@ const Component = ({setFormShow,setPOIFormsuccessShow,setmessage,setPOIFormisOpe
 
   return (
     <div className="w-full max-w-md bg-transparent text-black overflow-y-auto">
+       <div>
+        <button
+          onClick={onClose}
+          className="px-1 py-3 hover:text-blue-500 flex items-center text-black focus:outline-none"
+        >
+          <ChevronLeft className="w-5 h-5" />
+          <span>Back</span>
+        </button>
+      </div>
       <div className="p-1 space-y-4">
         {renderField("organization", "Organization", poiData.organization, "select")}
         {renderField("name", "Name", poiData.name)}

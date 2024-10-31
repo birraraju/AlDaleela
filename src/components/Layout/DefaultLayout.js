@@ -120,7 +120,7 @@ const DefaultLayout = ({role}) => {
         return <SideLayout3 onClose={handleClose} mapview={mapview} />;
       case "Hand":
         console.log("Rendering SideLayout4");
-        return <EditAddPOI onClose={handleClose} mapview={mapview} />;
+        return <SideLayout4 onClose={handleClose} mapview={mapview} />;
       case "HandPOIAdd":
           return <SideLayout4 onClose={handleClose} mapview={mapview} />;
       case "Next":
@@ -171,11 +171,11 @@ const DefaultLayout = ({role}) => {
     }
   },[isAuthPopUp])
 
-  useEffect(()=>{
-    if(isPOIAddShow){
-      setPopup(renderComponent("HandPOIAdd"));
-    }
-  },[isPOIAddShow])
+  // useEffect(()=>{
+  //   if(isPOIAddShow){
+  //     setPopup(renderComponent("HandPOIAdd"));
+  //   }
+  // },[isPOIAddShow])
 
   // const handleHeaderOpen = () => {
   //   setPopup(null);

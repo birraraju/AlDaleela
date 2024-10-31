@@ -7,6 +7,7 @@ import { useTheme } from '../Layout/ThemeContext/ThemeContext'; // Import the th
 // import Editor from '../../components/Widgets/Editor/Editor'
 import AddPOI from '../DropBin/DropbinPOIAdd'
 import  POIEditFileUploaderStatusMOdel from '../Layout/POIEdit/POIEditSucessFailure'
+import EditAddPOI from "./EditAddPOI";
 
 export default function SideLayout4({ children,onClose, mapview }) { //height = "calc(95vh - 2rem)",
   const [isOpen, setIsOpen] = useState(true);   // Controls slide in/out
@@ -14,10 +15,11 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
   const [toggleCount, setToggleCount] = useState(0);
   const containerRef = useRef(null);
   const { isDarkMode, isLangArab } = useTheme(); // Access the dark mode state
-  const [isFormShow,setFormShow]=useState(true)
+  const [isFormShow,setFormShow]=useState(false)
   const [message,setmessage]= useState("")
   const [POIFormsuccessShow,setPOIFormsuccessShow]=useState("")
   const [POIFormisOpenModalShow,setPOIFormisOpenModalShow]=useState(false)
+  const [isShowEdit, setIsShowEdit]=useState(true)
 
 
   // Toggles the side panel sliding in and out
@@ -64,7 +66,7 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
 
   return (
     <div
-      className={`fixed top-16 w-[510px] ${POIFormisOpenModalShow?"h-[63%]":"h-[90%] "} sm:w-[400px] laptop_s:w-[380px]  ${ isLangArab?"left-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
+      className={`fixed top-16 w-[510px] ${(POIFormisOpenModalShow || isShowEdit )?"h-[63%]":"h-[90%] "} sm:w-[400px] laptop_s:w-[380px]  ${ isLangArab?"left-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
         isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%]":"translate-x-[103%]")
       }`}
       // style={{ width, height, zIndex: 50 }}  // Ensure it's above other elements
@@ -78,7 +80,7 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
         {/* Sticky Dropped Pin */}
         <div className="sticky top-4 z-10 p-4 bg-opacity-70">
           <div className="flex items-center gap-x-2">
-            <img src={isDarkMode ? DarkLocation : Location} alt="Location" className="h-5" />
+            {isFormShow ? <><img src={isDarkMode ? DarkLocation : Location} alt="Location" className="h-5" />
             <p
               className={`font-medium font-poppins ${
                 isDarkMode ? "text-white" : "text-gray-600"
@@ -86,6 +88,10 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
             >
               {isLangArab ? "دبوس مُنقَطِع" : "Dropped pin"}
             </p>
+            </>:
+            <p className={`font-poppins font-medium ${isDarkMode ? "text-[#FFFFFFCC]" : "text-black"}`}>
+                {isLangArab ? "محرر" : "Editor"}
+              </p>}
           </div>
           <button
             onClick={closePanel}
@@ -110,6 +116,7 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
                   setPOIFormisOpenModalShow={setPOIFormisOpenModalShow}
                   setmessage={setmessage}
                   setFormShow={setFormShow}
+                  onClose={()=>{setIsShowEdit(true);setFormShow(false);}}
                 />
                 <POIEditFileUploaderStatusMOdel
                   message={message}
@@ -120,6 +127,7 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
                     setPOIFormisOpenModalShow(false);
                   }}
                 />
+                <EditAddPOI isShowEdit={isShowEdit} onClose={()=>{setFormShow(true);setIsShowEdit(false)}}/>
               </div>
             </>
           )}
