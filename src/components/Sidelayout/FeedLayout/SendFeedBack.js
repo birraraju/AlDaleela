@@ -12,7 +12,7 @@ import poorDark from "../../../assets/FeedBack/poorDark.svg";
 import badDark from "../../../assets/FeedBack/badDark.svg";
 import { useTheme } from '../../Layout/ThemeContext/ThemeContext'; // Import theme context
  
-export default function Feedback({
+export default function Feedback({ setIsSuccess, setIsMsgStatus, setModalMessage,
   setIsFeedBack, setIsPopoverOpen }) {
   const [rating, setRating] = useState(null);
   console.log(rating);
@@ -55,11 +55,23 @@ export default function Feedback({
       const data = await response.json();
       if(data.success){
         console.log(data.success);
+        setIsSuccess(true);
+        setModalMessage("Thank You for your Feedback !")
+        setIsMsgStatus("Success")
+        setIsFeedBack(false)
       }
       else{
+        setIsSuccess(true);
+        setModalMessage("Fail to udpate feedback")
+        setIsMsgStatus("Failure")
+        setIsFeedBack(false)
         console.log(data.success)
       }
     }catch (error) {
+      setIsSuccess(true);
+        setModalMessage("Fail to udpate feedback")
+        setIsMsgStatus("Failure")
+        setIsFeedBack(false)
       console.error('Error submitting form:', error);
     }
   }
