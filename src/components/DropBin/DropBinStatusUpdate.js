@@ -12,7 +12,7 @@ import Graphic from '@arcgis/core/Graphic';
 
 const DropBinStatusUpdate = ({setMessage,setFormShow,setPOIFormIsOpenModalShow,setPOIFormSuccessShow,isFormShow}) => {
   const [poiData, setPoiData] = useState({
-    organization_En: "",
+    organization: "",
     name_en: "",
     Class: "",
     ClassD: "",
@@ -22,7 +22,7 @@ const DropBinStatusUpdate = ({setMessage,setFormShow,setPOIFormIsOpenModalShow,s
     poems: "",
     stories: "",
     Classification: "",
-    Municipality: "",
+    MunicipalityAr: "",
     Emirate: ""
   });
   const {dropPinObjectId, contextMapView} = useAuth();
@@ -44,6 +44,7 @@ const DropBinStatusUpdate = ({setMessage,setFormShow,setPOIFormIsOpenModalShow,s
           const query = featureLayer.createQuery();
           query.where = `OBJECTID=${dropPinObjectId.objectID}`;
           query.returnGeometry = true;
+          //query.outSpatialReference = { wkid: 4326 };
           query.outFields = ["*"];
           
           const results = await featureLayer.queryFeatures(query);
@@ -53,7 +54,7 @@ const DropBinStatusUpdate = ({setMessage,setFormShow,setPOIFormIsOpenModalShow,s
            const attributes = features[0].attributes;
             // Extract only the fields you want to update in poiData
             const updatedData = {
-              organization_En: attributes.organization_En,
+              organization: attributes.organization,
               name_en: attributes.name_en,
               Class: attributes.Class,
               ClassD: attributes.ClassD,
@@ -63,7 +64,7 @@ const DropBinStatusUpdate = ({setMessage,setFormShow,setPOIFormIsOpenModalShow,s
               poems: attributes.poems,
               stories: attributes.stories,
               Classification: attributes.Classification,
-              Municipality: attributes.Municipality,
+              MunicipalityAr: attributes.MunicipalityAr,
               Emirate: attributes.Emirate,
               City: attributes.City,
             };
@@ -249,57 +250,92 @@ const DropBinStatusUpdate = ({setMessage,setFormShow,setPOIFormIsOpenModalShow,s
   }
 
   const handleRejectPOI =async()=>{
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/FeatureServiceData/by-id/${dropPinObjectId.id}`);
+    if(dropPinObjectId.POIOperation == "Update Feature"){
+      try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/FeatureServiceData/by-id/${dropPinObjectId.id}`);
+  
+        // Check if the response is ok (status code 200-299)
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+  
+        const results = await response.json();
+        if(results.success){              
+          // Extract only the fields you want to update in poiData
+              const updatedData = {
+                OBJECTID: results.data[0].featureObjectId,
+                organization: results.data[0].organizationEn,
+                name_en: results.data[0].nameEn,
+                Class: results.data[0].class,
+                ClassD: results.data[0].classD,
+                Status: results.data[0].status,
+                Comment: results.data[0].comment,
+                description: results.data[0].description,
+                poems: results.data[0].poems,
+                stories: results.data[0].stories,
+                Classification: results.data[0].classification,
+                MunicipalityAr: results.data[0].municipality,
+                Emirate: results.data[0].emirate,
+                City: results.data[0].city,
+                Isadminapproved:1
+              };
+              await handlePrivousDataInserted(updatedData);
+              if(results.data[0].attachementsObjectIds){
+                await removeAttachments(results.data[0].featureObjectId, results.data[0].attachementsObjectIds)   
+              }     
+              await handleUpdateApprovalStatus("Rejected");
+              contextMapView.graphics.removeAll(); // Clears all graphics
+              contextMapView.map.layers.forEach(layer => {
+                if (layer.refresh) {
+                  layer.refresh();
+                }
+              });   
+              setMessage("POI Rejected !");
+              setPOIFormSuccessShow("Failure");
+              setPOIFormIsOpenModalShow(true)
+              setFormShow(false);
+        }
+        else{
+          //console.log(data)          
+        }
+        
+      } catch (err) {
+        console.log(err.message);
+      }   
+    }   
+    else{
+      try {
+        // Create a FeatureLayer instance with the URL of your feature service
+        const featureLayer = new FeatureLayer({
+          url: dropPinObjectId.featureServiceURL // Replace LayerConfig.url with your layer URL
+        });
+        var objectId = dropPinObjectId.featureObjectId;
+        // Apply edits to delete the feature
+        const result = await featureLayer.applyEdits({
+          deleteFeatures: [{ objectId }]
+        });
 
-      // Check if the response is ok (status code 200-299)
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const results = await response.json();
-      if(results.success){              
-        // Extract only the fields you want to update in poiData
-            const updatedData = {
-              OBJECTID: results.data[0].featureObjectId,
-              organization_En: results.data[0].organizationEn,
-              name_en: results.data[0].nameEn,
-              Class: results.data[0].class,
-              ClassD: results.data[0].classD,
-              Status: results.data[0].status,
-              Comment: results.data[0].comment,
-              description: results.data[0].description,
-              poems: results.data[0].poems,
-              stories: results.data[0].stories,
-              Classification: results.data[0].classification,
-              Municipality: results.data[0].municipality,
-              Emirate: results.data[0].emirate,
-              City: results.data[0].city,
-              Isadminapproved:1
-            };
-            await handlePrivousDataInserted(updatedData);
-            if(results.data[0].attachementsObjectIds){
-              await removeAttachments(results.data[0].featureObjectId, results.data[0].attachementsObjectIds)   
-            }     
-            await handleUpdateApprovalStatus("Rejected");
-            contextMapView.graphics.removeAll(); // Clears all graphics
-            contextMapView.map.layers.forEach(layer => {
-              if (layer.refresh) {
-                layer.refresh();
-              }
-            });   
-            setMessage("POI Rejected !");
-            setPOIFormSuccessShow("Failure");
-            setPOIFormIsOpenModalShow(true)
-            setFormShow(false);
-      }
-      else{
-        //console.log(data)          
-      }
-      
-    } catch (err) {
-      console.log(err.message);
-    }    
+        if (result.deleteFeatureResults.length > 0) {
+          console.log("Feature deleted successfully:", result.deleteFeatureResults);
+          await handleUpdateApprovalStatus("Rejected");
+              contextMapView.graphics.removeAll(); // Clears all graphics
+              contextMapView.map.layers.forEach(layer => {
+                if (layer.refresh) {
+                  layer.refresh();
+                }
+              });   
+              setMessage("POI Rejected !");
+              setPOIFormSuccessShow("Failure");
+              setPOIFormIsOpenModalShow(true)
+              setFormShow(false);
+        } else {
+          console.error("Failed to delete feature:", result);
+        }       
+        
+      } catch (err) {
+        console.log(err.message);
+      }   
+    }  
   }
   const handlePrivousDataInserted = async(updatedData) =>{
     // Create the feature layer
@@ -360,7 +396,7 @@ const DropBinStatusUpdate = ({setMessage,setFormShow,setPOIFormIsOpenModalShow,s
   return (
     <div className="w-full max-w-lg bg-transparent overflow-y-auto">
       <div className="px-2 py-1 h-full space-y-4">
-        {renderField("Organization", poiData.organization_En)}
+        {renderField("Organization", poiData.organization)}
         {renderField("Name", poiData.name_en)}
         {renderField("Class", poiData.Class)}
         {renderField("ClassD", poiData.ClassD)}
@@ -370,7 +406,7 @@ const DropBinStatusUpdate = ({setMessage,setFormShow,setPOIFormIsOpenModalShow,s
         {renderField("Poems", poiData.poems)}
         {renderField("Stories", poiData.stories)}
         {renderField("Classification", poiData.Classification)}
-        {renderField("Municipality", poiData.Municipality)}
+        {renderField("Municipality", poiData.MunicipalityAr)}
         {renderField("Emirate", poiData.Emirate)}
 
         {/* Photos Section */}
