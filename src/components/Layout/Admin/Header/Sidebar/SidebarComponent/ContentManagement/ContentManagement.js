@@ -81,12 +81,12 @@ export default function UserManagement({role}) {
     fetchData();
   }, [data]); 
 
-  const handleDropPin = (objectID, featureServiceURL,id) => {
+  const handleDropPin = (objectID, featureServiceURL,id, POIOperation, featureObjectId) => {
       navigate({
         pathname: `/${process.env.REACT_APP_BASE_URL}`,
         search: `?sides=POIApproval`,
       });
-      setDropPinObjectId({objectID:objectID, featureServiceURL:featureServiceURL, id:id});
+      setDropPinObjectId({objectID:objectID, featureServiceURL:featureServiceURL, id:id, POIOperation:POIOperation, featureObjectId:featureObjectId});
     console.log("Admin DroppedPin clicked");
   };
   
@@ -156,7 +156,7 @@ export default function UserManagement({role}) {
                       <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
                       {user.attachementsObjectIds ? user.attachementsObjectIds.split(',').length : 0}</td>
                     <td className="py-2">
-                      <button onClick={()=>{handleDropPin(user.featureObjectId, user.featureServiceURL, user.id)}} className="text-red-500 hover:text-red-600">
+                      <button onClick={()=>{handleDropPin(user.featureObjectId, user.featureServiceURL, user.id, user.poiOperation, user.featureObjectId)}} className="text-red-500 hover:text-red-600">
                         <img src={PinPoint} alt="" className='h-7' />
                       </button>
                     </td>

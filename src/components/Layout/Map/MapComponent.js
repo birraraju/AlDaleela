@@ -115,7 +115,7 @@ const MapComponent = (props) => {
 const handleIdentify = async(event, mapview) => {
   // Define the fixed identify URL and layer IDs
   const identifyURL = config.BaseUrl;
-  const layerIds = [91, 0, 93];
+  const layerIds = [91, 1, 93];
 
   const groupedResults = {}; // Object to hold results grouped by layer name
 
