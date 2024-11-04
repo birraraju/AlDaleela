@@ -97,7 +97,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
       const parsedDetails = JSON.parse(Userdetails);
   
       // If the role is not set and exists in the local storage data, set it
-      if (role == null && parsedDetails.role) {
+      if (role == null && parsedDetails.role && parsedDetails.useractive) {
         setRole(parsedDetails.role);
       }
 
@@ -106,7 +106,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
       }
   
       // Log the user's role
-      console.log("User Local Details:", parsedDetails.role);
+      //console.log("User Local Details:", parsedDetails.role);
     }
   };
   
