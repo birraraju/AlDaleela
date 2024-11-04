@@ -132,16 +132,24 @@ export default function PhotoContent({setInputClicked,setIscategory}) {
 
   return (
     <div className="p-4 h-[17rem] overflow-y-scroll">
-      <div className="grid grid-cols-4 gap-2">
-        {mediaItems.map((item) => (
-          <div key={item.objectId} className="rounded-xl overflow-hidden" onClick={() => handleImageClick(item.objectId, item.layerName)}>
-            {item.type.startsWith('image/') && (
-              <img src={item.url} alt="Media content" className="w-full h-full object-cover"/>
-            )}
-          </div>
-        ))}
+  <div className="grid grid-cols-4 gap-2">
+    {mediaItems.map((item) => (
+      <div
+        key={item.objectId}
+        className="rounded-xl overflow-hidden w-[100px] h-[80px]" // Set fixed dimensions for each container
+        onClick={() => handleImageClick(item.objectId, item.layerName)}
+      >
+        {item.type.startsWith('image/') && (
+          <img
+            src={item.url}
+            alt="Media content"
+            className="w-full h-full object-cover" // Ensures the image covers the container uniformly
+          />
+        )}
       </div>
-    </div>
+    ))}
+  </div>
+</div>
   );
 }
 
