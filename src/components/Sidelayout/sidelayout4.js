@@ -20,6 +20,8 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
   const [POIFormsuccessShow,setPOIFormsuccessShow]=useState("")
   const [POIFormisOpenModalShow,setPOIFormisOpenModalShow]=useState(false)
   const [isShowEdit, setIsShowEdit]=useState(true)
+  const [addPointGeometry,setaddPointGeometry]= useState("")
+  const [selectedLayer,setselectedLayer]= useState("")
 
 
   // Toggles the side panel sliding in and out
@@ -111,6 +113,9 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
             <>
               <div className="overflow-y-auto">
                 <AddPOI
+                  mapview={mapview}
+                  selectedLayer={selectedLayer}
+                  addPointGeometry={addPointGeometry}
                   isFormShow={isFormShow}
                   setPOIFormsuccessShow={setPOIFormsuccessShow}
                   setPOIFormisOpenModalShow={setPOIFormisOpenModalShow}
@@ -127,7 +132,7 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
                     setPOIFormisOpenModalShow(false);
                   }}
                 />
-                <EditAddPOI isShowEdit={isShowEdit} onClose={()=>{setFormShow(true);setIsShowEdit(false)}}/>
+                <EditAddPOI setselectedLayer={setselectedLayer} setaddPointGeometry={setaddPointGeometry} mapview={mapview} isShowEdit={isShowEdit} onClose={()=>{setFormShow(true);setIsShowEdit(false)}}/>
               </div>
             </>
           )}
