@@ -95,9 +95,8 @@ const DefaultLayout = ({role}) => {
       switch (name) {
         case "Add":
         case "Hand":
-        case "Subtract":
           console.log("Rendering Auth Popup for:", name);
-          return <AthenticatePopLogin setPopup={setPopup} setResetFooter={setResetFooter} />;
+          return <AthenticatePopLogin name={name} setPopup={setPopup} setResetFooter={setResetFooter} />;
         default:
           // For other cases, show the component even if the role is null
           return renderSideLayout(name);
