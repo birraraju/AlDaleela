@@ -103,7 +103,7 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
         </div>
       </div>
 
-      <div className="p-1 sm:w-[350px] laptop_s:w-[350px] w-[320px] max-h-[calc(100vh-200px)] overflow-y-auto mt-2">
+      <div className={`p-1 sm:w-[350px] laptop_s:w-[350px] w-[320px] max-h-[calc(100vh-200px)]  overflow-y-auto mt-2 ${featureServiceData.length === 0 ? 'min-h-[350px]' : ''}`}>
         <div
           className={`grid font-omnes grid-cols-3 gap-4 font-medium text-[14px] mb-2 px-4 ${
             isDarkMode ? "text-gray-300" : "text-gray-600"
