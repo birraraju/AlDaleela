@@ -10,7 +10,9 @@ import SideLayout4 from "../Sidelayout/sidelayout4";
 import SideLayout1 from "../Sidelayout/sidelayout1";
 import POIEditLayout1 from "../Sidelayout/POIEditSideLayout";
 import POIApproval from "../Sidelayout/POIApprovalStatus";
+import EditAddPOI from "../Sidelayout/EditAddPOI";
 
+import { useTheme } from '../Layout/ThemeContext/ThemeContext';
 
 // import Contribution from "../Sidelayout/ContributionSidelayout/ContributionSidelayout";
 // import ContactusSidelayout from "../Sidelayout/ContactusSidelayout/ContactusSidelayout";
@@ -37,7 +39,7 @@ const DefaultLayout = ({role}) => {
   const [mapview, setMapview] = useState(false);
   const {isEditPOI,setIsEditPOI,isAuthPopUp} = useAuth();
   const [lastRendered, setLastRendered] = useState("");  // Track last rendered component
-   
+  const { isPOIAddShow,setIsPOIAddShow } = useTheme();
   console.log("POI status Default:", isEditPOI);
 
 
@@ -57,7 +59,7 @@ const DefaultLayout = ({role}) => {
   const handleDropbinAdmin = (sides) => {
     console.log("Data Sides data:", sides);
 
-    if (!RoleServices.isAdmin()) {
+    if (!RoleServices.isAuth()) {
       navigate({
         pathname: `/${process.env.REACT_APP_BASE_URL}`,
       });
@@ -73,6 +75,7 @@ const DefaultLayout = ({role}) => {
   const handleClose = () => {
     setPopup(null);
     setResetFooter(true);
+    setIsPOIAddShow(false)
     setIsEditPOI(false)
     setTimeout(() => setResetFooter(false), 100);
   };
@@ -118,6 +121,8 @@ const DefaultLayout = ({role}) => {
       case "Hand":
         console.log("Rendering SideLayout4");
         return <SideLayout4 onClose={handleClose} mapview={mapview} />;
+      case "HandPOIAdd":
+          return <SideLayout4 onClose={handleClose} mapview={mapview} />;
       case "Next":
         return <SideLayout onClose={handleClose} mapview={mapview} />;
       case "Export":
@@ -165,6 +170,12 @@ const DefaultLayout = ({role}) => {
       setPopup(renderComponent("AuthPopUp"));
     }
   },[isAuthPopUp])
+
+  // useEffect(()=>{
+  //   if(isPOIAddShow){
+  //     setPopup(renderComponent("HandPOIAdd"));
+  //   }
+  // },[isPOIAddShow])
 
   // const handleHeaderOpen = () => {
   //   setPopup(null);

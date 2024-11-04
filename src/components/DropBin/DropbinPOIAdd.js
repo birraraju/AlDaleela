@@ -1,10 +1,16 @@
 'use client'
 
-import React, { useState, useRef } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { ImageIcon, FileIcon, XCircleIcon } from "lucide-react"
 import UploadImage from "../../assets/Droppedpin/Upload.svg"
+import { ChevronLeft } from 'lucide-react';
+import FeatureLayer from "@arcgis/core/layers/FeatureLayer";  
+import { useAuth } from "../../Providers/AuthProvider/AuthProvider";
+import config from '../Common/config'; // Import your config file
+import Graphic from "@arcgis/core/Graphic.js";
+import Point from "@arcgis/core/geometry/Point.js";
 
-const Component = ({setFormShow,setPOIFormsuccessShow,setmessage,setPOIFormisOpenModalShow,isFormShow}) => {
+const Component = ({mapview, selectedLayer, addPointGeometry, setFormShow,setPOIFormsuccessShow,setmessage,onClose,setPOIFormisOpenModalShow,isFormShow}) => {
   const [poiData, setPoiData] = useState({
     organization: "",
     name: "",
@@ -15,20 +21,195 @@ const Component = ({setFormShow,setPOIFormsuccessShow,setmessage,setPOIFormisOpe
     description: "",
     poems: "",
     stories: "",
-    classification: "",
+    classification: selectedLayer,
     municipality: "",
     emirate: "",
     city: "",
     coordinateType: "dms",
     dms: {
-      point_x: { degrees: "", minutes: "", seconds: "" },
-      point_y: { degrees: "", minutes: "", seconds: "" },
+      pointx: { degrees: "", minutes: "", seconds: "" },
+      pointy: { degrees: "", minutes: "", seconds: "" },
     },
     decimal: {
-      point_x: "",
-      point_y: "",
+      pointx: "",
+      pointy: "",
     },
   })
+  const { profiledetails, contextMapView } = useAuth();
+
+  // const organizationOptions = ["جمع في الميدان", "مكتب الشيخ حمدان بن زايد", "دائـــرة التــخطيـط العـــمراني والبلديـــــات", "Org 4"];
+  // const classOptions = ["Zubara", "Option 2", "Option 3"];
+  // const statusOptions = ["Needs Review", "Approved", "Rejected"];
+  // const classificationOptions = ["Marine", "Terrestrial", "Island"];
+  // const municipalityOptions = ["Al Dhafra", "Municipality 2", "Municipality 3"];
+
+  const [organizationOptions, setOrganizationOptions] = useState([]);
+  const [statusOptions, setStatusOptions] = useState([]);
+  const [municipalityOptions, setMunicipalityOptions] = useState([]);
+
+  useEffect(() => {
+    const fetchDomains = async () => {
+      try {
+        // Retrieve the Terrestrial URL from config
+        const terrestrialUrl = config.featureServices.find(service => service.name)?.url;
+  
+        if (!terrestrialUrl) {
+          console.error("Terrestrial service URL not found");
+          return;
+        }
+  
+        // Fetch data from the service URL
+        const response = await fetch(`${terrestrialUrl}?f=json`);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch data from ${terrestrialUrl}`);
+        }
+  
+        const data = await response.json();
+        const domainFields = data.fields.filter(field => field.domain);
+  
+        // Iterate over fields and set state based on the field name
+        const newOrganizationOptions = [];
+        const newStatusOptions = [];
+        const newMunicipalityOptions = [];
+  
+        domainFields.forEach(field => {
+          const options = field.domain.codedValues.map(codedValue => ({
+            label: codedValue.name,       // Description or name
+            value: codedValue.code         // Coded value
+          }));
+  
+          switch (field.name) {
+            case 'organization':
+              newOrganizationOptions.push(...options);
+              break;
+            case 'Status':
+              newStatusOptions.push(...options);
+              break;
+            case 'MunicipalityAr':
+              newMunicipalityOptions.push(...options);
+              break;
+            default:
+              console.warn(`Unhandled field: ${field.fieldName}`);
+          }
+        });
+  
+        // Set the state for options
+        setOrganizationOptions(newOrganizationOptions);
+        setStatusOptions(newStatusOptions);
+        setMunicipalityOptions(newMunicipalityOptions);
+  
+        // Update poiData only if options are available
+        if (newOrganizationOptions.length > 0) {
+          setPoiData(prevState => ({
+            ...prevState,
+            organization: newOrganizationOptions[0].value, // Update organization
+            status: newStatusOptions[0]?.value || "", // Update status
+            municipality: newMunicipalityOptions[0]?.value || "" // Update municipality
+          }));
+        }
+        
+      } catch (error) {
+        console.error("Error fetching domains:", error);
+      }
+    };
+  
+    fetchDomains(); // Call the async function
+  }, []); // Empty dependency array to run once on mount
+  
+
+  // Function to update the point location based on the coordinates provided in the form
+  const updatePointLocation = () => {
+    let x, y;
+
+      if (poiData.coordinateType === "dms") {
+        // Convert DMS to decimal
+        const dmsX = convertDMSToDecimal(poiData.dms.pointx);
+        const dmsY = convertDMSToDecimal(poiData.dms.pointy);
+        x = dmsX;
+        y = dmsY;
+      } else {
+        // Use decimal values directly
+        x = parseFloat(poiData.decimal.pointx);
+        y = parseFloat(poiData.decimal.pointy);
+      }
+
+      // Check if x and y are valid numbers
+      if (!isNaN(x) && !isNaN(y)) {
+        // Update the addPointGeometry with the new coordinates
+        addPointGeometry = { type: "point", x, y, spatialReference: { wkid: 4326 } };
+        mapview.graphics.removeAll();
+        const point = new Point({
+          longitude: x,
+          latitude: y,
+          spatialReference: { wkid: 4326 } // WGS84
+        });
+        // setaddPointGeometry({
+        //   type: "point",
+        //   x: longitude,
+        //   y: latitude,
+        //   spatialReference: { wkid: 4326 } // WGS84
+        // })
+    
+        const pointGraphic = new Graphic({
+          geometry: point,
+          symbol: {
+            type: "simple-marker",
+            color: "blue",
+            size: "8px",
+            outline: {
+              color: "white",
+              width: 1
+            }
+          }
+        });
+        mapview.graphics.add(pointGraphic);
+      } else {
+        alert("Please enter valid coordinates.");
+      }
+    
+  };
+
+  // Function to convert DMS to Decimal Degrees
+  const convertDMSToDecimal = (dms) => {
+    const degrees = parseFloat(dms.degrees) || 0;
+    const minutes = parseFloat(dms.minutes) || 0;
+    const seconds = parseFloat(dms.seconds) || 0;
+    return degrees + (minutes / 60) + (seconds / 3600);
+  };
+
+  useEffect(() => {
+    const { x, y } = addPointGeometry;
+
+    if (x !== null && y !== null) {
+      const dmsX = convertDDToDMS(x);
+      const dmsY = convertDDToDMS(y);
+
+      setPoiData((prevData) => ({
+        ...prevData,
+        dms: {
+          pointx: dmsX,
+          pointy: dmsY,
+        },
+      }));
+      setPoiData((prevData) => ({
+        ...prevData,
+        decimal: {
+          pointx: x,
+          pointy: y,
+        },
+      }));
+    }
+  }, [addPointGeometry]);
+
+   // Function to convert Decimal Degrees to DMS
+   const convertDDToDMS = (decimalDegrees) => {
+    const degrees = Math.floor(decimalDegrees);
+    const minutesDecimal = (decimalDegrees - degrees) * 60;
+    const minutes = Math.floor(minutesDecimal);
+    const seconds = Math.round((minutesDecimal - minutes) * 60 * 100) / 100;
+    
+    return { degrees, minutes, seconds };
+  };
 
   const handleChange = (e) => {
     const { id, value } = e.target
@@ -48,7 +229,8 @@ const Component = ({setFormShow,setPOIFormsuccessShow,setmessage,setPOIFormisOpe
   const handleCoordinateChange = (e) => {
     const { id, value } = e.target
     const [type, point, unit] = id.split('_')
-    setPoiData((prevData) => ({
+     // Update the specific nested value in poiData
+     setPoiData((prevData) => ({
       ...prevData,
       [type]: {
         ...prevData[type],
@@ -57,8 +239,25 @@ const Component = ({setFormShow,setPOIFormsuccessShow,setmessage,setPOIFormisOpe
           [unit]: value,
         },
       },
-    }))
+    }));    
   }
+
+  // useEffect to validate the fields whenever poiData changes
+  useEffect(() => {
+    if (poiData.coordinateType === "dms") {
+        const { degrees, minutes, seconds } = poiData.dms.pointx;
+        const { degrees: degY, minutes: minY, seconds: secY } = poiData.dms.pointy;
+
+        if (degrees && minutes && seconds && degY && minY && secY) {
+            updatePointLocation();
+        }
+    }
+    if (poiData.coordinateType === "decimal") {
+        if (poiData.decimal.pointx && poiData.decimal.pointy) {
+            updatePointLocation();
+        }
+    }
+}, [poiData]); // Run this effect whenever poiData changes
 
   const handleDecimalCoordinateChange = (e) => {
     const { id, value } = e.target
@@ -139,14 +338,118 @@ const Component = ({setFormShow,setPOIFormsuccessShow,setmessage,setPOIFormisOpe
     setUploadedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index))
   }
 
-  const handleFormSubmit=()=>{
+  const handleFormSubmit=async()=>{
+    // Extract only the fields you want to update in poiData
+    const updatedData = {
+      organization: poiData.organization,
+      name_en: poiData.name,
+      Class: poiData.class,
+      ClassD: poiData.classD,
+      Status: poiData.status,
+      Comment: poiData.comment,
+      description: poiData.description,
+      poems: poiData.poems,
+      stories: poiData.stories,
+      Classification: poiData.classification || selectedLayer,
+      MunicipalityAr: poiData.municipality,
+      Emirate: poiData.emirate,
+      City: poiData.city,
+      Isadminapproved:2
+    };
+    // Find the URL for the layer that includes "Terrestrial" in its name
+    const LayerConfig = config.featureServices.find(service => selectedLayer.includes(service.name));
+
+    // Create the feature layer
+    const featureLayer = new FeatureLayer({
+      url: LayerConfig.url
+    });
+
+    // Define the new feature data, including attributes and geometry
+    const addData = [{
+      attributes: updatedData, // Your new feature's attributes (e.g., { field1: value, field2: value, ... })
+      geometry: addPointGeometry // Geometry object (e.g., { x: longitude, y: latitude, spatialReference: { wkid: 4326 } })
+      // geometry: {
+      //   type: "point",
+      //   x: 51.80652834115199,
+      //   y: 23.11240254780675,
+      //   spatialReference: { wkid: 4326 } // Ensure the spatial reference matches your service's requirements
+      // }
+    }];
+
+    try {
+      const result = await featureLayer.applyEdits({ addFeatures: addData });
+
+      if (result.addFeatureResults.length > 0) {
+        handleStoreFeatureData("",LayerConfig.url, result.addFeatureResults[0].objectId)
+        // if (uploadedFiles.length > 0) { 
+        //   handleUploadFile();   
+        // } else {
+        //   handleStoreFeatureData("", LayerConfig.url);
+        // }
+        console.log('Add feature successful:', result.addFeatureResults);
+      } else {
+        console.error('Add feature failed:', result);
+      }
+    } catch (error) {
+      console.error('Error adding feature:', error);
+    }
     setPOIFormsuccessShow("Success")
     setmessage("POI uploaded successfully!")
     setPOIFormisOpenModalShow(true)
     setFormShow(false)
   }
 
-  const renderField = (id, label, value, inputType = "text") => (
+  const handleStoreFeatureData = async(attachmentIds, LayerUrl, FeatureObjectId) =>{
+      
+          // Extract only the fields you want to update in poiData
+          const FeatureData = {
+            Username: profiledetails.username,
+            Email: profiledetails.email,
+            FeatureObjectId: FeatureObjectId,
+            OrganizationEn: poiData.organization || "",
+            NameEn: poiData.name || "",
+            Class: poiData.class || "",
+            ClassD: poiData.classD || "",
+            Status: poiData.status || "",
+            Comment: poiData.comment || "",
+            Description: poiData.description || "",
+            Poems: poiData.poems || "",
+            stories: poiData.stories || "",
+            Classification: poiData.classification || "",
+            Municipality: poiData.municipality || "",
+            Emirate: poiData.emirate || "",
+            City: poiData.city || "",
+            AttachementsObjectIds:attachmentIds,
+            ApprovalStatus: "Pending",
+            featureServiceURL:LayerUrl,
+            POIOperation:"Add Feature"
+          };
+          try {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/FeatureServiceData/featureservicedatainsert`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(FeatureData),
+            });
+            const data = await response.json();
+                if(data.success){
+                  console.log(data.message);     
+                  contextMapView.graphics.removeAll(); // Clears all graphics  
+                  contextMapView.map.layers.forEach(layer => {
+                    if (layer.refresh) {
+                      layer.refresh();
+                    }
+                  }); 
+                }
+                else{
+                  console.log(data.message);
+                }
+            
+            } catch (error) {
+                console.error('Error submitting form:', error);
+            }   
+  }
+
+  const renderField = (id, label, value, options = [], inputType = "text", disable) => (
     <div className="space-y-2">
       <label htmlFor={id} className="block text-sm font-medium text-gray-700">
         {label}
@@ -154,37 +457,61 @@ const Component = ({setFormShow,setPOIFormsuccessShow,setmessage,setPOIFormisOpe
       {inputType === "select" ? (
         <select
           id={id}
-          value={value}
+          value={value}  // Bind to the state value
+          disabled={disable}  // Disable the dropdown
           onChange={handleChange}
           className="block w-full p-2 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
         >
-          <option value={value}>{value}</option>
+          {options.length > 0 && (
+            <>
+              {/* Display the first item directly if you want a placeholder */}
+              {/* <option value="" disabled>Select an option</option> Placeholder */}
+              
+              {/* Map over the options */}
+              {options.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </>
+          )}
         </select>
       ) : (
         <input
           id={id}
           value={value}
+          disabled={disable}
           onChange={handleChange}
           className="block w-full rounded-md p-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
         />
       )}
     </div>
-  )
+  );
+  
 
   return (
     <div className="w-full max-w-md bg-transparent text-black overflow-y-auto">
+       <div>
+        <button
+          onClick={onClose}
+          className="px-1 py-3 hover:text-blue-500 flex items-center text-black focus:outline-none"
+        >
+          <ChevronLeft className="w-5 h-5" />
+          <span>Back</span>
+        </button>
+      </div>
       <div className="p-1 space-y-4">
-        {renderField("organization", "Organization", poiData.organization, "select")}
+        {renderField("organization", "Organization", poiData.organization,organizationOptions, "select")}
         {renderField("name", "Name", poiData.name)}
-        {renderField("class", "Class", poiData.class, "select")}
+        {renderField("class", "Class", poiData.class)}
         {renderField("classD", "ClassD", poiData.classD)}
-        {renderField("status", "Status", poiData.status, "select")}
+        {renderField("status", "Status", poiData.status,statusOptions, "select")}
         {renderField("comment", "Comment", poiData.comment)}
         {renderField("description", "Description", poiData.description)}
         {renderField("poems", "Poems", poiData.poems)}
         {renderField("stories", "Stories", poiData.stories)}
-        {renderField("classification", "Classification", poiData.classification, "select")}
-        {renderField("municipality", "Municipality", poiData.municipality, "select")}
+        {renderField("classification", "Classification", poiData.classification || selectedLayer,[],"text", true)}
+        {renderField("municipality", "Municipality", poiData.municipality, municipalityOptions, "select")}
         {renderField("emirate", "Emirate", poiData.emirate)}
         {renderField("city", "City", poiData.city)}
 
@@ -221,24 +548,24 @@ const Component = ({setFormShow,setPOIFormsuccessShow,setmessage,setPOIFormisOpe
                 <label className="w-16">Point_X</label>
                 <input
                   type="text"
-                  id="dms_point_x_degrees"
-                  value={poiData.dms.point_x.degrees}
+                  id="dms_pointx_degrees"
+                  value={poiData.dms.pointx.degrees}
                   onChange={handleCoordinateChange}
                   placeholder="eg:54"
                   className="w-20 p-2 border rounded"
                 />
                 <input
                   type="text"
-                  id="dms_point_x_minutes"
-                  value={poiData.dms.point_x.minutes}
+                  id="dms_pointx_minutes"
+                  value={poiData.dms.pointx.minutes}
                   onChange={handleCoordinateChange}
                   placeholder="eg:13"
                   className="w-20 p-2 border rounded"
                 />
                 <input
                   type="text"
-                  id="dms_point_x_seconds"
-                  value={poiData.dms.point_x.seconds}
+                  id="dms_pointx_seconds"
+                  value={poiData.dms.pointx.seconds}
                   onChange={handleCoordinateChange}
                   placeholder="eg:25.3"
                   className="w-20 p-2 border rounded"
@@ -248,24 +575,24 @@ const Component = ({setFormShow,setPOIFormsuccessShow,setmessage,setPOIFormisOpe
                 <label className="w-16">Point_Y</label>
                 <input
                   type="text"
-                  id="dms_point_y_degrees"
-                  value={poiData.dms.point_y.degrees}
+                  id="dms_pointy_degrees"
+                  value={poiData.dms.pointy.degrees}
                   onChange={handleCoordinateChange}
                   placeholder="eg:23"
                   className="w-20 p-2 border rounded"
                 />
                 <input
                   type="text"
-                  id="dms_point_y_minutes"
-                  value={poiData.dms.point_y.minutes}
+                  id="dms_pointy_minutes"
+                  value={poiData.dms.pointy.minutes}
                   onChange={handleCoordinateChange}
                   placeholder="eg:50"
                   className="w-20 p-2 border rounded"
                 />
                 <input
                   type="text"
-                  id="dms_point_y_seconds"
-                  value={poiData.dms.point_y.seconds}
+                  id="dms_pointy_seconds"
+                  value={poiData.dms.pointy.seconds}
                   onChange={handleCoordinateChange}
                   placeholder="eg:20.3"
                   className="w-20 p-2 border rounded"
@@ -279,8 +606,8 @@ const Component = ({setFormShow,setPOIFormsuccessShow,setmessage,setPOIFormisOpe
                 <label className="w-16">Point_X</label>
                 <input
                   type="text"
-                  id="decimal_point_x"
-                  value={poiData.decimal.point_x}
+                  id="decimal_pointx"
+                  value={poiData.decimal.pointx}
                   onChange={handleDecimalCoordinateChange}
                   placeholder="e.g. 54.373"
                   className="w-40 p-2 border rounded"
@@ -290,8 +617,8 @@ const Component = ({setFormShow,setPOIFormsuccessShow,setmessage,setPOIFormisOpe
                 <label className="w-16">Point_Y</label>
                 <input
                   type="text"
-                  id="decimal_point_y"
-                  value={poiData.decimal.point_y}
+                  id="decimal_pointy"
+                  value={poiData.decimal.pointy}
                   onChange={handleDecimalCoordinateChange}
                   placeholder="e.g. 24.466"
                   className="w-40 p-2 border rounded"
@@ -400,7 +727,7 @@ const Component = ({setFormShow,setPOIFormsuccessShow,setmessage,setPOIFormisOpe
 
         {/* Action Buttons */}
         <div className="flex justify-center space-x-8 items-center pt-4 pb-16">
-            <button className="w-auto py-3 px-9 bg-transparent text-xs border border-black rounded-lg">
+            <button onClick={onClose} className="w-auto py-3 px-9 bg-transparent text-xs border border-black rounded-lg">
               Cancel
             </button>
             <button onClick={handleFormSubmit} className="w-auto py-3 px-9 bg-custom-gradient text-xs border border-gray-300 rounded-lg">

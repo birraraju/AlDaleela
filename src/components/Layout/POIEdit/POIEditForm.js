@@ -12,7 +12,7 @@ import config from '../../Common/config'; // Import your config file
 
 const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFormShow, isEditShowPOI, queryresults, setIsEditPOI, uploadedFiles, setPOImessageShow, setPOIFormsuccessShow, setPOIFormisOpenModalShow, setUploadedFiles }) => {
   const [poiData, setPoiData] = useState({
-    organization_En: "DMT",
+    organization: "DMT",
     name_en: "Al Buwam",
     Class: "Zubara",
     ClassD: "DMT",
@@ -22,21 +22,25 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
     poems: "بيت الزوم وبه ... ما جرى الاحسان بالي شوالك بحر ... ما هو ما",
     stories: "",
     Classification: "Marine",
-    Municipality: "Al Dhafra",
+    MunicipalityAr: "Al Dhafra",
     Emirate: "Abu Dhabi",
     City: "Western Region"
   });
-  const { profiledetails } = useAuth();
+  const { profiledetails, contextMapView } = useAuth();
 
-  const organizationOptions = ["DMT", "Org 2", "Org 3", "Org 4"];
+  //const organizationOptions = ["DMT", "Org 2", "Org 3", "Org 4"];
   const classOptions = ["Zubara", "Option 2", "Option 3"];
-  const statusOptions = ["Needs Review", "Approved", "Rejected"];
+  //const statusOptions = ["Needs Review", "Approved", "Rejected"];
   const classificationOptions = ["Marine", "Terrestrial", "Aerial"];
-  const municipalityOptions = ["Al Dhafra", "Municipality 2", "Municipality 3"];
+  //const municipalityOptions = ["Al Dhafra", "Municipality 2", "Municipality 3"];
 
   const [images, setimages] = useState([])
   const [videos, setvideos] = useState([])
   const [audios, setAudios] = useState([])
+
+  const [organizationOptions, setOrganizationOptions] = useState([]);
+  const [statusOptions, setStatusOptions] = useState([]);
+  const [municipalityOptions, setMunicipalityOptions] = useState([]);
 
   useEffect(() => {
     if (queryresults && queryresults.features && queryresults.features.length > 0) {
@@ -44,7 +48,7 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
       
       // Extract only the fields you want to update in poiData
       const updatedData = {
-        organization_En: attributes.organization_En,
+        organization: attributes.organization,
         name_en: attributes.name_en,
         Class: attributes.Class,
         ClassD: attributes.ClassD,
@@ -54,7 +58,7 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
         poems: attributes.poems,
         stories: attributes.stories,
         Classification: attributes.Classification,
-        Municipality: attributes.Municipality,
+        MunicipalityAr: attributes.MunicipalityAr,
         Emirate: attributes.Emirate,
         City: attributes.City,
       };
@@ -62,6 +66,64 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
       setPoiData(updatedData);
     }
   }, [queryresults]);
+
+  useEffect(() => {
+    const fetchDomains = async () => {
+      try {
+        // Retrieve the Terrestrial URL from config
+        const terrestrialUrl = config.featureServices.find(service => service.name)?.url;
+  
+        if (!terrestrialUrl) {
+          console.error("Terrestrial service URL not found");
+          return;
+        }
+  
+        // Fetch data from the service URL
+        const response = await fetch(`${terrestrialUrl}?f=json`);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch data from ${terrestrialUrl}`);
+        }
+  
+        const data = await response.json();
+        const domainFields = data.fields.filter(field => field.domain);
+  
+        // Iterate over fields and set state based on the field name
+        const newOrganizationOptions = [];
+        const newStatusOptions = [];
+        const newMunicipalityOptions = [];
+  
+        domainFields.forEach(field => {
+          const options = field.domain.codedValues.map(codedValue => ({
+            label: codedValue.name,       // Description or name
+            value: codedValue.code         // Coded value
+          }));
+  
+          switch (field.name) {
+            case 'organization':
+              newOrganizationOptions.push(...options);
+              break;
+            case 'Status':
+              newStatusOptions.push(...options);
+              break;
+            case 'MunicipalityAr':
+              newMunicipalityOptions.push(...options);
+              break;
+            default:
+              console.warn(`Unhandled field: ${field.fieldName}`);
+          }
+        });
+  
+        // Set the state for options
+        setOrganizationOptions(newOrganizationOptions);
+        setStatusOptions(newStatusOptions);
+        setMunicipalityOptions(newMunicipalityOptions);        
+      } catch (error) {
+        console.error("Error fetching domains:", error);
+      }
+    };
+  
+    fetchDomains(); // Call the async function
+  }, []); // Empty dependency array to run once on mount
 
   useEffect(()=>{
     const featchattachments = async() =>{
@@ -123,7 +185,7 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
     const featureLayerURL = LayerConfig.url;
     const objectid = queryresults.features[0].attributes.OBJECTID
     // Use updated poiAttributes for updating attributes
-    const updatedFields = { ...poiData, OBJECTID: objectid };
+    const updatedFields = { ...poiData, OBJECTID: objectid, Isadminapproved:2 };
     //console.log(files);
     updateAttributes(featureLayerURL, objectid, updatedFields);
   }
@@ -146,7 +208,7 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
           handleUploadFile();   
         }
         else{
-          handleStoreFeatureData("")
+          handleStoreFeatureData("",LayerConfig.url)
         }
         setIsShowEditPOI(false);   
         //setIsEditPOI(false);
@@ -194,7 +256,7 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
             response.addAttachmentResult ? response.addAttachmentResult.objectId : null
           ).filter(id => id !== null);
 
-          handleStoreFeatureData(String(attachmentIds))
+          handleStoreFeatureData(String(attachmentIds), LayerConfig.url)
         }
         console.log("Attachments added successfully:", responses);
       } catch (error) {
@@ -205,7 +267,7 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
     }
   };
 
-  const handleStoreFeatureData = async(attachmentIds) =>{
+  const handleStoreFeatureData = async(attachmentIds, LayerUrl) =>{
     const attributes = queryresults.features[0].attributes;
       
           // Extract only the fields you want to update in poiData
@@ -213,7 +275,7 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
             Username: profiledetails.username,
             Email: profiledetails.email,
             FeatureObjectId: attributes.OBJECTID,
-            OrganizationEn: attributes.organization_En || "",
+            OrganizationEn: attributes.organization || "",
             NameEn: attributes.name_en || "",
             Class: attributes.Class || "",
             ClassD: attributes.ClassD || "",
@@ -223,11 +285,13 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
             Poems: attributes.poems || "",
             stories: attributes.stories || "",
             Classification: attributes.Classification || "",
-            Municipality: attributes.Municipality || "",
+            MunicipalityAr: attributes.MunicipalityAr || "",
             Emirate: attributes.Emirate || "",
             City: attributes.City || "",
             AttachementsObjectIds:attachmentIds,
-            ApprovalStatus: "Pending"
+            ApprovalStatus: "Pending",
+            featureServiceURL:LayerUrl,
+            POIOperation:"Update Feature"
           };
           try {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/FeatureServiceData/featureservicedatainsert`, {
@@ -237,7 +301,13 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
             });
             const data = await response.json();
                 if(data.success){
-                  console.log(data.message);                  
+                  console.log(data.message);     
+                  contextMapView.graphics.removeAll(); // Clears all graphics  
+                  contextMapView.map.layers.forEach(layer => {
+                    if (layer.refresh) {
+                      layer.refresh();
+                    }
+                  });           
                   setPOImessageShow("Your file and data has been uploaded successfully!");
                   setPOIFormsuccessShow("Success"); // or "Failure" based on your logic
                   setPOIFormisOpenModalShow(true); // Show the modal
@@ -266,7 +336,7 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
 
   console.log("POI Data:", poiData);
 
-  const renderFieldOrText = (id, label, value,options = [], inputType = "text") => (
+  const renderFieldOrText = (id, label, value,options = [], inputType = "text", disable) => (
     <div className="space-y-2">
       <label htmlFor={id} className="block text-sm font-medium text-gray-700">
         {label}
@@ -279,14 +349,25 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
             onChange={handleChange}
             className="block w-full p-2 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
           >
-            {options.map((option, index) => (
-              <option key={index} value={option}>{option}</option>
-            ))}
+            {options.length > 0 && (
+            <>
+              {/* Display the first item directly if you want a placeholder */}
+              {/* <option value="" disabled>Select an option</option> Placeholder */}
+              
+              {/* Map over the options */}
+              {options.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </>
+          )}
           </select>
         ) : (
           <input
             id={id}
             value={poiData[id]}
+            disabled={disable}
             onChange={handleChange}
             className="block w-full rounded-md p-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
           />
@@ -304,9 +385,9 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
           <p>No results found.</p> // Display message if there are no features
         ) : (
           <>
-            {renderFieldOrText("organization_En", "Organization", queryresults.features[0].attributes.organization_En,organizationOptions, "select")}
+            {renderFieldOrText("organization", "Organization", queryresults.features[0].attributes.organization,organizationOptions, "select")}
             {renderFieldOrText("name_en", "Name", queryresults.features[0].attributes.name_en)}
-            {renderFieldOrText("Class", "Class", queryresults.features[0].attributes.Class,classOptions, "select")}
+            {renderFieldOrText("Class", "Class", queryresults.features[0].attributes.Class)}
             {renderFieldOrText("ClassD", "ClassD", queryresults.features[0].attributes.ClassD)}
             {renderFieldOrText("Status", "Status", queryresults.features[0].attributes.Status,statusOptions, "select")}
 
@@ -315,11 +396,11 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
             {renderFieldOrText("poems", "Poems", queryresults.features[0].attributes.poems)}
             {renderFieldOrText("stories", "Stories", queryresults.features[0].attributes.stories)}
 
-            {renderFieldOrText("Classification", "Classification", queryresults.features[0].attributes.Classification,classificationOptions, "select")}
-            {renderFieldOrText("Municipality", "Municipality", queryresults.features[0].attributes.Municipality, municipalityOptions,"select")}
+            {renderFieldOrText("Classification", "Classification", queryresults.features[0].attributes.Classification,[],"text", true)}
+            {renderFieldOrText("MunicipalityAr", "Municipality", queryresults.features[0].attributes.MunicipalityAr, municipalityOptions,"select")}
 
-            {renderFieldOrText("Classification", "Classification", queryresults.features[0].attributes.Classification || "None", "select")}
-            {renderFieldOrText("Municipality", "Municipality", queryresults.features[0].attributes.Municipality || "None", "select")}
+            {/* {renderFieldOrText("Classification", "Classification", queryresults.features[0].attributes.Classification || "None", "select")}
+            {renderFieldOrText("Municipality", "Municipality", queryresults.features[0].attributes.MunicipalityAr || "None", "select")} */}
 
             {renderFieldOrText("Emirate", "Emirate", queryresults.features[0].attributes.Emirate)}
             {renderFieldOrText("City", "City", queryresults.features[0].attributes.City)}
