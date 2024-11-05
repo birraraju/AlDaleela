@@ -5,6 +5,7 @@ import Input from "../Input/Input";
 import CountryDropdown from "../../../../../src/assets/CountryDropdown.svg";
 import { IoEyeOff,IoEye } from "react-icons/io5";
 import { useTheme } from '../../../Layout/ThemeContext/ThemeContext'; // Import the theme context
+import createEmailBody from "../../../../components/email/emailTemplate";
 
 
 export default function Signup({ onClose, onSigninClick }) {
@@ -133,6 +134,7 @@ export default function Signup({ onClose, onSigninClick }) {
       const data = await response.json();
           if(data.success){
             //console.log(data)
+            sendEmail(data.data);
             setUsernameExists(false);
             setEmailExists(false);
             onClose();
@@ -150,6 +152,40 @@ export default function Signup({ onClose, onSigninClick }) {
     }
     
   }
+
+  const sendEmail = async (userresult) => {
+    // Define the data to populate the email template
+    const emailData = {
+      toEmail: userresult.email,
+      subject: "Confirm Your Email to Activate Your Account",
+      body: createEmailBody({
+        username: userresult.username,
+        link: `${window.location.protocol}//${window.location.host}/${process.env.REACT_APP_BASE_URL}/activate/${userresult.username}`,
+        message: "Please confirm your email address by clicking the link below.",
+      }),
+    };
+  
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/Email/send`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(emailData),
+      });
+  
+      const result = await response.json();
+      if (result.success) {
+        console.log("Email sent successfully:", result);
+        alert("Email sent successfully:")
+      } else {
+          console.log(result.message|| "Email sent failed, Please try again.");
+      }
+      
+    } catch (error) {
+      console.error("Error sending email:", error);
+    }
+  };
 
   return (
     <div className="fixed sm:inset-10 inset-1 flex items-center justify-center z-50 mb-6">
