@@ -244,7 +244,7 @@
 
     return (
       <div
-        className={`fixed top-16 w-[510px] ${POIShareShow?"-[65%] laptop_s:w-[370px]":"h-[90%]"} sm:w-[400px] laptop_s:w-[330px]  ${ isLangArab?"left-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
+        className={`fixed top-16 w-[510px] ${POIShareShow?"-[65%] laptop_s:w-[370px]": POIFormisOpenModalShow ?" ":"h-[90%]"} sm:w-[400px] laptop_s:w-[330px]  ${ isLangArab?"left-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%]":"translate-x-[103%]")
         }`}
         // style={{ width, height, zIndex: 50 }}  // Ensure it's above other elements
@@ -253,7 +253,7 @@
         <div className={`relative sm:h-[80%] laptop_s:h-[89%] h-[98%]  w-[65%] float-end sm:w-full rounded-2xl shadow-lg overflow-hidden border transition-colors duration-300 ${
             isDarkMode
               ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
-              : "bg-white bg-opacity-70 border-white"
+              : "bg-white bg-opacity-80 border-white"
           }`}>
           {/* Content */}
           <div className="p-2 overflow-y-auto h-full relative">

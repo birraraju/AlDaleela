@@ -12,6 +12,9 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
   const [isOpen, setIsOpen] = useState(true);
   const {profiledetails, contextMapView} = useAuth();
   const [featureServiceData, setfeatureServiceData] = useState([]);
+  const [clickedLocation, setClickedLocation] = useState(null); // State to track clicked location
+
+
 
   const contributions = [
     { date: "2024-10-11", poiName: "Al Makhtabshah", status: "Pending" },
@@ -170,8 +173,13 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
     {contribution.approvalStatus === "Pending" &&
       (isLangArab ? "قيد الانتظار" : "Pending")}
   </span>
-  <img src={loc} alt="Location icon" className="sm:w-7 w-5 sm:h-7 h-4 cursor-pointer" />
-  </div>
+  <img
+          src={loc}
+                alt="Location icon"
+                className="sm:w-7 w-5 sm:h-7 h-4 cursor-pointer"
+                onClick={() => setClickedLocation(contribution)}
+              />
+    </div>
 
           </div>
         ))}

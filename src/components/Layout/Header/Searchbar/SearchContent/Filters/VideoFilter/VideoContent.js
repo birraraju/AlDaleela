@@ -3,6 +3,8 @@ import FeatureLayer from "@arcgis/core/layers/FeatureLayer.js";
 import Graphic from "@arcgis/core/Graphic";
 import { useAuth } from "../../../../../../../Providers/AuthProvider/AuthProvider";
 import config from '../../../../../../Common/config'; // Import your config file
+import ClipLoader from "react-spinners/ClipLoader"; // Import ClipLoader
+
 
 export default function VideoContent({setInputClicked,setIscategory}) {
   const [mediaItems, setMediaItems] = useState([]);
@@ -122,8 +124,13 @@ export default function VideoContent({setInputClicked,setIscategory}) {
     }
   };
 
+  
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex items-center justify-center absolute left-48 top-28  h-full">
+        <ClipLoader color="#808080" size={40} /> {/* Gray, medium-sized loader */}
+      </div>
+    );
   }
 
   if (error) {

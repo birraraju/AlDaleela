@@ -3,6 +3,7 @@ import FeatureLayer from "@arcgis/core/layers/FeatureLayer.js";
 import Graphic from "@arcgis/core/Graphic";
 import { useAuth } from "../../../../../../../Providers/AuthProvider/AuthProvider";
 import config from '../../../../../../Common/config'; // Import your config file
+import ClipLoader from "react-spinners/ClipLoader"; // Import ClipLoader
 
 export default function PhotoContent({setInputClicked,setIscategory}) {
   const [mediaItems, setMediaItems] = useState([]);
@@ -123,7 +124,11 @@ export default function PhotoContent({setInputClicked,setIscategory}) {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex items-center justify-center absolute left-48 top-28  h-full">
+        <ClipLoader color="#808080" size={40} /> {/* Gray, medium-sized loader */}
+      </div>
+    );
   }
 
   if (error) {
@@ -131,7 +136,7 @@ export default function PhotoContent({setInputClicked,setIscategory}) {
   }
 
   return (
-    <div className="p-4 h-[17rem] overflow-y-scroll">
+    <div className="p-3 h-[17rem] overflow-y-scroll">
   <div className="grid grid-cols-4 gap-2">
     {mediaItems.map((item) => (
       <div
