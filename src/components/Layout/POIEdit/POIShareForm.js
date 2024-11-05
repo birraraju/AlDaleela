@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import WhatsAppSvg from '../../../assets/Droppedpin/WattsappIcon.svg';
 import FaceBookSvg from '../../../assets/Droppedpin/FacebookIcon.svg';
@@ -8,7 +8,7 @@ import InstgramSvg from '../../../assets/Droppedpin/instagramIcon.svg';
 import CopyIconSvg from '../../../assets/Droppedpin/CopyIcon.svg';
 import { ChevronLeft } from 'lucide-react';
 
-const POIShareForm = ({ onClose }) => {
+const POIShareForm = ({ onClose, queryresults }) => {
     const Links = [
         { src: WhatsAppSvg, name: "WhatsApp" },
         { src: FaceBookSvg, name: "Facebook" },
@@ -16,10 +16,11 @@ const POIShareForm = ({ onClose }) => {
         { src: GoogleMapSvg, name: "Google Map" },
         { src: InstgramSvg, name: "Instagram" },
     ];
-
-    const shareUrl = "https://yourwebsite.com"; // The URL you want to share
+    const [copied, setCopied] = useState(false);
     const message = "Check this out!"; // Custom message for WhatsApp or other platforms
-
+    const shareUrl = `${window.location.protocol}//${window.location.host}/${process.env.REACT_APP_BASE_URL}/${queryresults.features[0].layer.layerId}/${queryresults.features[0].attributes.OBJECTID}` // The URL you want to share
+    const latitude = queryresults.features[0].geometry.latitude; 
+    const longitude = queryresults.features[0].geometry.longitude;
     const handleShareClick = (name) => {
         switch (name) {
             case "WhatsApp":
@@ -32,7 +33,7 @@ const POIShareForm = ({ onClose }) => {
                 window.open(`https://twitter.com/share?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(message)}`);
                 break;
             case "Google Map":
-                window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("Your Location")}`);
+                window.open(`https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`);
                 break;
             case "Instagram":
                 alert("Instagram doesn’t support direct sharing. Copy the link to share manually.");
@@ -40,6 +41,17 @@ const POIShareForm = ({ onClose }) => {
             default:
                 break;
         }
+    };
+
+    const handleCopy = () => {
+        navigator.clipboard.writeText(shareUrl)
+            .then(() => {
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2000); // Reset after 2 seconds
+            })
+            .catch((error) => {
+                console.error("Failed to copy: ", error);
+            });
     };
 
     return (
@@ -62,9 +74,10 @@ const POIShareForm = ({ onClose }) => {
                 ))}
             </div>
             <hr className='my-4' />
-            <div className='flex justify-center items-center gap-2 cursor-pointer' onClick={() => navigator.clipboard.writeText(shareUrl)}>
+            <div className='flex justify-center items-center gap-2 cursor-pointer' onClick={handleCopy}>
                 <img src={CopyIconSvg} alt="Copy Link" className='h-5 w-5' />
-                <h2 className='text-blue-600 text-[12px] font-medium'>Copy Link</h2>
+                    <h2 className='text-blue-600 text-[12px] font-medium'>Copy Link</h2>
+                {copied && <span className="text-green-600 text-[12px] ml-2">Copied!</span>}
             </div>
         </div>
     );

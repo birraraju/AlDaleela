@@ -21,14 +21,13 @@ import SideLayout5 from "../Sidelayout/sidelayout5";
 import SideLayout6 from "../Sidelayout/sidelayout6";
 
 import { useLocation } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import RoleServices from '../servicces/RoleServices';
 import { useAuth } from "../../Providers/AuthProvider/AuthProvider";
 import AthenticatePopLogin from '../../components/Popups/Login/Footerpopups/Footerlogin/footerlogin'
-
-
-
-
+import config from "../Common/config"
+import Graphic from '@arcgis/core/Graphic';
+import FeatureLayer from "@arcgis/core/layers/FeatureLayer"; 
 
 
 const DefaultLayout = ({role}) => {
@@ -37,10 +36,11 @@ const DefaultLayout = ({role}) => {
   const [resetFooter, setResetFooter] = useState(false);
   const [isFooterOpen, setIsFooterOpen] = useState(false);
   const [mapview, setMapview] = useState(false);
-  const {isEditPOI,setIsEditPOI,isAuthPopUp} = useAuth();
+  const {isEditPOI,setIsEditPOI,isAuthPopUp,setPopupSelectedGeo} = useAuth();
   const [lastRendered, setLastRendered] = useState("");  // Track last rendered component
   const { isPOIAddShow,setIsPOIAddShow } = useTheme();
   console.log("POI status Default:", isEditPOI);
+  const { LayerId, objectid } = useParams(); 
 
 
   const location = useLocation();
@@ -69,6 +69,81 @@ const DefaultLayout = ({role}) => {
         setPopup(newPopup);
         setLastRendered(sides);
       }
+    }
+  };
+
+  useEffect(() => {
+    if (objectid && mapview) {
+      fetchFeatureData(objectid);
+      //alert(objectid)
+    }
+  }, [objectid,mapview]);
+
+  // Fetch feature data and zoom to it on the map
+  const fetchFeatureData = async (objectid) => {
+    if (!mapview) return; // Ensure mapview is ready
+
+    try {
+      const featureLayer = new FeatureLayer({
+        url: config.BaseUrl+"/"+LayerId // replace with correct feature layer URL
+      });
+
+      const query = featureLayer.createQuery();
+      query.where = `OBJECTID = ${objectid}`;
+      const response = await featureLayer.queryFeatures(query);
+
+      if (response.features.length > 0) {
+        const feature = response.features[0];
+
+        // Add feature to map
+        // const pointGraphic = new Graphic({
+        //   geometry: feature.geometry,
+        //   symbol: {
+        //     type: "simple-marker",
+        //     color: "blue",
+        //     outline: {
+        //       color: "lightblue",
+        //       width: 2,
+        //     },
+        //   },
+        // });
+        const pointGraphic = new Graphic({
+          geometry: feature.geometry,
+          symbol: {
+            type: "simple-marker",
+            outline: {
+              color: [0, 255, 255, 4],
+              width: 1
+            }
+          }
+        });
+
+        mapview.graphics.add(pointGraphic);
+
+        // Go to feature
+        // mapview.goTo({
+        //   target: feature.geometry,
+        //   zoom: 15,
+        // });
+        // Ensure animation property is available before calling goTo
+        if (mapview.animation) {
+          mapview.goTo({
+            target: feature.geometry,
+            zoom: 15,
+          });
+        } else {
+          console.warn("Animation property not available on mapview");
+          mapview.center = feature.geometry; // Fallback to centering without animation
+          mapview.zoom = 15;
+        }
+
+        setPopupSelectedGeo(feature); // if this is part of state
+        setIsEditPOI(true); // trigger edit mode
+      } else {
+        console.log("No feature found with this OBJECTID");
+      }
+    } catch (error) {
+      console.error("Error querying the feature layer:", error);
     }
   };
  
