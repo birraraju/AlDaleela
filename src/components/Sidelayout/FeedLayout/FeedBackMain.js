@@ -88,7 +88,7 @@ export default function SendFeedBack({
         </div>
         </div>
 
-        <div className="sm:p-6 p-2 overflow-y-auto h-full">
+        <div className="sm:px-6 sm:py-2 p-2 overflow-y-auto h-full">
           <FeedBackBody
            setIsPopoverOpen={setIsPopoverOpen}
            setIsFeedBack={setIsFeedBack}
