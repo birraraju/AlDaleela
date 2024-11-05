@@ -1,16 +1,32 @@
 import { X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LoginLogo from '../../../../../assets/PopLoginAuth/Logo.svg'
 import { useTheme } from '../../../../Layout/ThemeContext/ThemeContext'; // Import the theme context
 import { useAuth } from "../../../../../Providers/AuthProvider/AuthProvider";
 
 
 
-export default function FooterLogin({setPopup,setResetFooter}) {
+export default function FooterLogin({setPopup,name,setResetFooter}) {
   // const [isLogin, setIsLogin] = useState(true); // State to toggle between login and signup forms
   const [showPopup, setShowPopup] = useState(true); // State to control popup visibility
   const { setIsLogin,setsSignup } = useTheme(); // Access the dark mode state
   const {setIsEditPOI,setIsAuthPopUp} = useAuth();
+  const [isLoginFor, setoginFor] = useState("")
+
+  useEffect(()=>{
+    if(name === "Add"){
+      setoginFor("Boomark")
+    }
+    else if(name === "Hand"){
+      setoginFor("Measurement")
+    }
+      else if( "Subtract")
+       {
+        setoginFor("Dropped Pin")
+       }
+         
+         
+  },[name])
 
 
   if (!showPopup) return null; // If popup is not shown, render nothing
@@ -39,7 +55,7 @@ export default function FooterLogin({setPopup,setResetFooter}) {
           <img src={LoginLogo} alt="Logo" /> {/* Directly reference the logo in the public directory */}
         </div>
 
-            <h1 className='text-center py-4'>Login required for<br />bookmarks</h1>
+            <h1 className='text-center py-4'>Login required for<br />{isLoginFor}</h1>
 
             <button
               className='w-full bg-[#38a4d2] py-2 rounded-lg text-white'
