@@ -58,8 +58,8 @@
   "scripts": {
     "start": "react-scripts start",
     "start:atlas": "env-cmd -f .env.atlas react-scripts start",
-    "build": "react-scripts build",
-    "build:atlas": "env-cmd -f .env.atlas react-scripts build build-atlas",
+    "build": "react-scripts build && copy web.config build",
+    "build:atlas": "env-cmd -f .env.atlas react-scripts build build-atlas && copy web.config build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
