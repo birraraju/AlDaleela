@@ -32,7 +32,7 @@ const BasemapGalleryComponent = ({ mapview }) => {
   return (
     <div
       id="basemapDiv"
-      className={`sm:-mt-[480px] laptop_s:-mt-[450px] laptop_s:h-[500px] -mt-[480px] bg-transparent overflow-auto ${isDarkMode ? 'dark-mode' : ''}`}
+      className={`sm:-mt-[480px] laptop_s:-mt-[490px] laptop_s:h-[500px] -mt-[480px] bg-transparent overflow-auto ${isDarkMode ? 'dark-mode' : ''}`}
     >
       <div ref={mapRef1} />
     </div>
