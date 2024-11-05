@@ -133,7 +133,7 @@ const DefaultLayout = ({role}) => {
       case "POIApproval":
           return <POIApproval onClose={handlePOIUpdateClose} mapview={mapview} />;
       case "AuthPopUp":
-          return <AthenticatePopLogin setPopup={setPopup} setResetFooter={setResetFooter} />;
+          return <AthenticatePopLogin name={name} setPopup={setPopup} setResetFooter={setResetFooter} />;
       default:
         return <></>;
     }

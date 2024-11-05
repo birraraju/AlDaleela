@@ -15,14 +15,13 @@ export default function FooterLogin({setPopup,name,setResetFooter}) {
 
   useEffect(()=>{
     if(name === "Add"){
-      setoginFor("Boomark")
+      setoginFor("bookmarks")
     }
-    else if(name === "Hand"){
-      setoginFor("Measurement")
-    }
-      else if( "Subtract")
+      else if(name === "Hand")
        {
         setoginFor("Dropped Pin")
+       }else if(name === "AuthPopUp"){
+        setoginFor("to access editing features")
        }
          
          
@@ -41,7 +40,7 @@ export default function FooterLogin({setPopup,name,setResetFooter}) {
   };
 
   return (
-    <div className="fixed top-12 left-[38%] overflow-y-auto max-h-[670px] w-[350px] bg-gray-200 rounded-xl shadow-lg m-4 mt-40">
+    <div className="fixed top-12 left-[38%] overflow-y-auto max-h-[670px] w-[250px] bg-gray-200 rounded-xl shadow-lg m-4 mt-40">
       <div className='p-5 text-black bg-white rounded-lg shadow-md relative'>
         
         {/* Cancel Button */}
@@ -55,14 +54,14 @@ export default function FooterLogin({setPopup,name,setResetFooter}) {
           <img src={LoginLogo} alt="Logo" /> {/* Directly reference the logo in the public directory */}
         </div>
 
-            <h1 className='text-center py-4'>Login required for<br />{isLoginFor}</h1>
+            <h1 className='text-center py-4'>Login required {name !== "AuthPopUp" &&"for"}<br />{isLoginFor}</h1>
 
             <button
-              className='w-full bg-[#38a4d2] py-2 rounded-lg text-white'
+              className='w-full  bg-[#38a4d2] py-2 rounded-lg text-white'
               onClick={() => {setIsLogin(true);handleClose();setShowPopup(false)}} // Placeholder for login functionality
               aria-label="Login"
             >
-              Login
+              Log in
             </button>
 
             <h1 className='text-center py-2'>or</h1>

@@ -144,7 +144,7 @@ const Feedback = () => {
   return (
     <div className="flex h-[calc(100vh-6rem)]">
     <div  className={`p-8 rounded-lg shadow-sm flex flex-col flex-grow overflow-hidden ${
-        isDarkMode ? "bg-[#303031] bg-opacity-90" : "bg-white "
+        isDarkMode ? "bg-[#303031] bg-opacity-90" : "bg-transparent "
       } text-black backdrop-blur border-none`}>
       <div className="flex justify-between items-center mb-6">
       <h2 className={`text-[22px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]" : "text-gray-800"}`}>
@@ -169,7 +169,7 @@ const Feedback = () => {
         <div className="overflow-hidden flex-grow relative">
           <div ref={tableRef} className="overflow-x-auto overflow-y-auto absolute inset-0 pr-4">
             <table className="w-full">
-            <thead className={`sticky top-0   z-10 ${isDarkMode ? "bg-[#303031] " : "bg-white"}`}>
+            <thead className={`${!selectedUser &&"sticky"} top-0   z-10 ${isDarkMode ? "bg-[#303031] " : "bg-white"}`}>
                 <tr className="text-left text-sm font-medium text-gray-500 border-b">
                   {isEditing && <th className="pb-3 w-8"></th>}
                   <th className={`pb-3 p-2 font-medium font-omnes text-[14px]   ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
