@@ -5,13 +5,13 @@ export default function AboutDescription() {
 
   return (
     <>
-      <p className={`font-omnes text-[14px] font-semibold my-6 laptop_s:my-2 ${isDarkMode ? 'text-[#FFFFFFCC] text-opacity-80' : 'text-[#505050]'} leading-5 mb-3`}>
+      <p className={`font-omnes text-[13px] font-medium m-0   laptop_s:mb-0 laptop_s:mt-1  ${isDarkMode ? 'text-[#FFFFFFCC] text-opacity-80' : 'text-[#505050]'} leading-5 mb-3`}>
       {isLangArab ? " حماية الموارد الطبيعية في أبوظبي من أجل مستقبل مستدام" : "Safeguarding Abu Dhabi's natural resources for a sustainable future."}
       </p>
 
       <div className="">
         {content.map((item, index) => (
-          <p key={index} className={`bg-fontFamily-poppins-0 font-[400px] text-[12px] ${isDarkMode ? 'text-[#FFFFFFCC]' : 'text-[#505050]'} leading-5`}>
+          <p key={index} className={`bg-fontFamily-poppins-0 font-[400px] text-[12px] ${isDarkMode ? 'text-[#FFFFFFCC]' : 'text-[#505050]'} ${isLangArab?"laptop_m:leading-6":"laptop_m:leading-5"}   leading-4 `}>
             {isLangArab ? item.arabicDescription : item.description} {/* Display Arabic or English based on language state */}
             </p>
         ))}
@@ -51,7 +51,14 @@ const content = [
   arabicDescription:
        "لكن عملنا لا يتوقف عند هذا الحد. إنه عمل يتعلق بالمستقبل، بقدر ما هو مرتبط بالماضي."
     },
-    {
+    
+];
+
+
+
+
+
+    /* {
       description:
       "Each year, we carry out thousands of compliance inspections and assess and characterise risks to develop a better understanding of environmental risks in the emirate.",
     arabicDescription:
@@ -62,5 +69,5 @@ const content = [
         "The prosperity of Abu Dhabi has relied on our natural resources. The environment is our foundation and our history. Join us in making it our future.",
       arabicDescription:
       "لقد اعتمد ازدهار أبوظبي على مواردنا الطبيعية، فالبيئة هي أساسنا وتاريخنا. انضموا إلينا لنحقق مستقبل أكثر استدامة."
-        },
-];
+        }, */
+

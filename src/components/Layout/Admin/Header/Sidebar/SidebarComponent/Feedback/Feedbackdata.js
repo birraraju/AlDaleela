@@ -8,8 +8,8 @@ const FeedbackData = ({ user, onClose }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center ">
       <Card className="w-full max-w-4xl">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-2xl font-normal">Feedback</CardTitle>
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1">
+      <CardTitle className="text-2xl font-normal">Feedbacks</CardTitle>
           <button 
             className="px-3 py-1 text-sm text-black  transition-colors" 
             onClick={onClose}
