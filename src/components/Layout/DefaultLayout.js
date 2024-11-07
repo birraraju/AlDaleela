@@ -36,11 +36,11 @@ const DefaultLayout = ({role}) => {
   const [resetFooter, setResetFooter] = useState(false);
   const [isFooterOpen, setIsFooterOpen] = useState(false);
   const [mapview, setMapview] = useState(false);
-  const {isEditPOI,setIsEditPOI,isAuthPopUp,setPopupSelectedGeo} = useAuth();
+  const {isEditPOI,setIsEditPOI,isAuthPopUp,setPopupSelectedGeo,printWidget, setprintWidget, exportWidget, setexportWidget} = useAuth();
   const [lastRendered, setLastRendered] = useState("");  // Track last rendered component
   const { isPOIAddShow,isLogin,setIsLogin,setIsPOIAddShow } = useTheme();
   console.log("POI status Default:", isEditPOI);
-  const { LayerId, objectid } = useParams(); 
+  const { LayerId, objectid } = useParams();   
 
 
   const location = useLocation();
@@ -151,7 +151,18 @@ const DefaultLayout = ({role}) => {
     }
   };
  
-  const handleClose = () => {
+  const handleClose = () => {  
+    if(printWidget){
+      printWidget.destroy(); // Destroy the widget
+      setprintWidget(null); // Set to null to reset the state
+    }  
+    if(exportWidget){
+      exportWidget.destroy(); // Destroy the widget
+      setexportWidget(null); // Set to null to reset the state
+    }  
+    if(mapview){
+      mapview.graphics.removeAll();
+    }
     setPopup(null);
     setResetFooter(true);
     setIsPOIAddShow(false)
@@ -167,6 +178,17 @@ const DefaultLayout = ({role}) => {
   }
   //  AthenticatePopLogin
   const renderComponent = (name) => {
+    if(printWidget){
+      printWidget.destroy(); // Destroy the widget
+      setprintWidget(null); // Set to null to reset the state
+    }  
+    if(exportWidget){
+      exportWidget.destroy(); // Destroy the widget
+      setexportWidget(null); // Set to null to reset the state
+    } 
+    if(mapview && name !== "POIEdit"){
+      mapview.graphics.removeAll();
+    }
     if (!name) return null;   // Prevent empty name render override
     console.log("Rendering component for name:", name, "and role:", role);
     if (role === null) {
