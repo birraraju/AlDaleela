@@ -31,8 +31,13 @@ export default function Category({ inputClicked, isLangArab, setInputClicked }) 
   const setDefinitionExpressionForLayers = (layer, className, layerNames) => {
     // Check if the current layer's name is in the config layer names
     if (layerNames.includes(layer.title)) {
-      // Set the definition expression for the matched layer
-      layer.definitionExpression = `Class = '${className}'`;
+      if(className == "All Categories"){
+        layer.definitionExpression = `1=1`;
+      }
+      else{
+        // Set the definition expression for the matched layer
+        layer.definitionExpression = `Class = '${className}'`;
+      }
     }
   
     // If the layer has sublayers, iterate through them
@@ -45,25 +50,34 @@ export default function Category({ inputClicked, isLangArab, setInputClicked }) 
 
   useEffect(() => {
     const loadCategoryClasses = async () => {
-      const allCategoryClasses = new Set(); // Use a Set to avoid duplicates
-
-      // Loop through each layer in the configuration
+      const allCategoryClasses = new Set(["All Categories"]); // Start with "All Categories"
+  
       for (const layerConfig of config.featureServices) {
         const featureLayer = new FeatureLayer({
           url: layerConfig.url,
           outFields: ["*"],
         });
-
+  
         try {
+          // Query only unique values for the "Class" attribute
           const query = featureLayer.createQuery();
-          query.where = "1=1"; // Fetch all records
+          query.where = "1=1"; // Retrieve all records
           query.returnGeometry = false;
-          query.outFields = ["*"];
-          
+  
+          // Use outStatistics to get unique "Class" values
+          query.outStatistics = [
+            {
+              onStatisticField: "Class",
+              outStatisticFieldName: "uniqueClass",
+              statisticType: "count" // Any statistic type works here for unique values
+            }
+          ];
+          query.groupByFieldsForStatistics = ["Class"]; // Group by "Class" to get unique values
+  
           const results = await featureLayer.queryFeatures(query);
           const features = results.features;
-
-          // Collect unique category classes from the features
+  
+          // Collect unique classes
           features.forEach(feature => {
             if (feature.attributes.Class) {
               allCategoryClasses.add(feature.attributes.Class);
@@ -73,13 +87,14 @@ export default function Category({ inputClicked, isLangArab, setInputClicked }) 
           console.error(`Error querying layer "${layerConfig.name}":`, error);
         }
       }
-
+  
       // Convert Set to Array and update state
       setCategoryClasses([...allCategoryClasses]);
     };
-
+  
     loadCategoryClasses();
   }, []);
+  
 
   return (
     <div
