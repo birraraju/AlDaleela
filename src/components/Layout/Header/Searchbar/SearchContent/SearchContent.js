@@ -29,44 +29,60 @@ export default function SearchContent({ inputClicked, iscategory,setIscategory, 
     // Load all feature layer names on component mount
     const loadAllNames = async () => {
       const namesArray = [];  // Collect all names from all layers
-
+  
       for (const service of config.featureServices) {
         try {
-          // Create a FeatureLayer instance for each URL
           const layer = new FeatureLayer({
             url: service.url,
             outFields: ["*"]
           });
-
-          // Query to get all features from each layer
-          const query = layer.createQuery();
+  
+          let allFeatures = []; // Store all features for this layer
+          let query = layer.createQuery();
           query.where = "1=1"; // Retrieve all records
           query.outFields = ["name_en", "OBJECTID"]; // Fields to retrieve
-
-          // Perform the query
-          const results = await layer.queryFeatures(query);
-
+          query.num = 2000; // Maximum records per query
+  
+          // Pagination: Fetch records in batches until all records are retrieved
+          let start = 0;
+          let moreRecordsExist = true;
+  
+          while (moreRecordsExist) {
+            query.start = start;
+            const results = await layer.queryFeatures(query);
+  
+            allFeatures = allFeatures.concat(results.features);
+  
+            // If fewer than 2000 records were returned, we’re done
+            if (results.features.length < 2000) {
+              moreRecordsExist = false;
+            } else {
+              start += 2000; // Move to the next batch
+            }
+          }
+  
           // Map the results to the desired format
-          const layerNames = results.features.map(feature => ({
+          const layerNames = allFeatures.map(feature => ({
             Name: feature.attributes.name_en,
             Objectid: feature.attributes.OBJECTID,
             LayerName: service.name
           }));
-
+  
           // Push the layer names into the namesArray
           namesArray.push(...layerNames);
-
+  
         } catch (error) {
           console.error(`Error querying layer "${service.name}":`, error);
         }
       }
-
+  
       // Update state with the collected names
       setAllNames(namesArray);
     };
-
+  
     loadAllNames(); // Call the function to load all names once on mount
   }, []);
+  
 
   useEffect(() => {
     // Filter names based on user input when inputValue changes

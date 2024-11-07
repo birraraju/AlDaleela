@@ -5,11 +5,13 @@ import '@arcgis/core/assets/esri/themes/light/main.css';
 import Measurment from "../../../assets/Measurment.svg";
 import AreaMeasurment from "../../../assets/AreaMeasurment.svg";
 import { FaTrash } from "react-icons/fa";
+import { useAuth } from "../../../Providers/AuthProvider/AuthProvider";
 
 const MeasurementsComponent = ({ mapview }) => {
   const mapRef1 = useRef(null);
   const measurementRef = useRef(null); // Store reference to Measurement widget
   const [isDistance, setIsDistance] = useState(true);
+  const {setIsMeasurementOpen} = useAuth();
 
   useEffect(() => {
     if (mapview && mapRef1.current) {
@@ -21,6 +23,8 @@ const MeasurementsComponent = ({ mapview }) => {
 
       const handleClickDistance = () => {
         if (measurementRef.current) {
+          // Pause the click event on the mapView when measurement widget is active
+          setIsMeasurementOpen(false);
           const type = mapview.type;
           measurementRef.current.activeTool = type.toUpperCase() === "2D" ? "distance" : "direct-line";
         }
@@ -34,6 +38,7 @@ const MeasurementsComponent = ({ mapview }) => {
 
       const handleClear = () => {
         if (measurementRef.current) {
+          setIsMeasurementOpen(true);
           measurementRef.current.clear();
         }
       };
@@ -51,6 +56,8 @@ const MeasurementsComponent = ({ mapview }) => {
       if (clearButton) {
         clearButton.onclick = handleClear;
       }
+      handleClickDistance();
+      
 
       // Cleanup on component unmount
       return () => {

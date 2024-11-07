@@ -1,9 +1,11 @@
 import React, { useEffect, useRef } from "react";
 import Print from "@arcgis/core/widgets/Print";
 import './Print.css';
+import { useAuth } from "../../../Providers/AuthProvider/AuthProvider";
 
 const PrintComponent = ({ mapview }) => {
   const printRef = useRef(null);
+  const {setprintWidget} = useAuth();
 
   useEffect(() => {
     if (mapview && printRef.current) {
@@ -21,6 +23,8 @@ const PrintComponent = ({ mapview }) => {
             //legendEnabled: false
           }
         });
+        // Store the printWidget in the AuthProvider state
+        setprintWidget(printWidget);
 
         // Observe for changes in the printRef container to remove the "Map Only" tab when it appears
         const observer = new MutationObserver(() => {
@@ -35,10 +39,9 @@ const PrintComponent = ({ mapview }) => {
 
         return () => {
           if(printRef.current){
-              //printWidget.destroy();
+              //printRef.destroy();
               printRef.current = null;
-          }
-          
+          }    
         };
       } catch (error) {
         console.error("Error initializing print widget:", error);
