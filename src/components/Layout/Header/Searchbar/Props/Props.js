@@ -1,4 +1,5 @@
 import { Label } from "../../../../ui/label";
+import { useAuth } from "../../../../../Providers/AuthProvider/AuthProvider";
 
 export default function Props({
   inputClicked,
@@ -8,6 +9,7 @@ export default function Props({
   handleCloseResponsiveSearch,
   iscategory
 }) {
+  const {contextMapView,setIsEditPOI} = useAuth();
   return (
     <>
       {/* Search Icon */}
@@ -36,6 +38,8 @@ export default function Props({
               setInputValue("")
               setIscategory(false);
               handleCloseResponsiveSearch();
+              setIsEditPOI(false)
+              contextMapView.graphics.removeAll();
             }}
             className="absolute mobile_s:-top-7 laptop_m:-top-[26px] sm:right-36 right-32 cursor-pointer"
           >

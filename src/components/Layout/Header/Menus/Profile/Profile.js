@@ -20,6 +20,7 @@ import SmallLogo from '../../../../../assets/Header/Profile/profileSmalllogo.svg
 import AdminLogo from '../../../../../assets/Header/Profile/admin.png';
 import ProfileLogo from '../../../../../assets/Header/Profile/profile.png';
 import PopModal from "../../../../Common/SuccessFailureMessageModel";
+import { useNavigate } from 'react-router-dom';
 
 const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => {
   const [showAuthenticator, setShowAuthenticator] = useState(false);
@@ -40,6 +41,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
   const { isDarkMode,isLangArab,setIsLogin,isLogin,isSignup,setsSignup } = useTheme(); // Use the theme hook
   const [isMsgStatus, setIsMsgStatus] = useState("");
   const [modalMessage, setModalMessage] = useState("")
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isPopoverOpen || isLeaderboard || isAboutUs || isProfileData || isContactUs || isContribution || isProfile || isEditProfile || isFeedBack || isChangePassword || isSuccess) {
@@ -116,6 +118,16 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
       HandleLocalDetails();
     }
   }, [role]);
+
+  const handleLoginClose = ()=>{
+    setIsLogin(false)
+    setIsEditPOI()
+    setsSignup(false)
+    setShowAuthenticator(false);
+    navigate({
+      pathname: `/${process.env.REACT_APP_BASE_URL}`,
+    });
+  }
   
   
 
@@ -224,7 +236,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
 
       <AnimatePresence>
         {showAuthenticator && (
-          <Login onClose={() => {setIsLogin();setIsEditPOI();setsSignup();setShowAuthenticator(false);}} />
+          <Login onClose={() => {handleLoginClose()}} />
         )}
         {isLeaderboard && (
           <LeaderboardSlideout

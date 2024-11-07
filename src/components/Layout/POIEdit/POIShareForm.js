@@ -14,7 +14,7 @@ const POIShareForm = ({ onClose, queryresults }) => {
         { src: FaceBookSvg, name: "Facebook" },
         { src: TwitterSvg, name: "X" },
         { src: GoogleMapSvg, name: "Google Map" },
-        { src: InstgramSvg, name: "Instagram" },
+        //{ src: InstgramSvg, name: "Instagram" },
     ];
     const [copied, setCopied] = useState(false);
     const message = "Check this out!"; // Custom message for WhatsApp or other platforms
