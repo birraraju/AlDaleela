@@ -39,7 +39,7 @@ const DefaultLayout = ({role}) => {
   const [mapview, setMapview] = useState(false);
   const {isEditPOI,setIsEditPOI,isAuthPopUp} = useAuth();
   const [lastRendered, setLastRendered] = useState("");  // Track last rendered component
-  const { isPOIAddShow,setIsPOIAddShow } = useTheme();
+  const { isPOIAddShow,isLogin,setIsLogin,setIsPOIAddShow } = useTheme();
   console.log("POI status Default:", isEditPOI);
 
 
@@ -47,19 +47,23 @@ const DefaultLayout = ({role}) => {
   const queryParams = new URLSearchParams(location.search);
 
   const sides = queryParams.get('sides');
+  const Activatoin = queryParams.get('UserActivation');
   const navigate = useNavigate();
     
    // Only trigger if `sides` has changed and is different from `lastRendered`
    useEffect(() => {
     if (sides && sides !== lastRendered) {
       handleDropbinAdmin(sides);
+    }else if(Activatoin==="Login" ){
+      setIsLogin(true);
     }
-  }, [sides]);
+  }, [sides,Activatoin]);
+
 
   const handleDropbinAdmin = (sides) => {
     console.log("Data Sides data:", sides);
 
-    if (!RoleServices.isAuth()) {
+    if (!RoleServices.isAdmin()) {
       navigate({
         pathname: `/${process.env.REACT_APP_BASE_URL}`,
       });
