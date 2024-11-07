@@ -36,7 +36,7 @@ const DefaultLayout = ({role}) => {
   const [resetFooter, setResetFooter] = useState(false);
   const [isFooterOpen, setIsFooterOpen] = useState(false);
   const [mapview, setMapview] = useState(false);
-  const {isEditPOI,setIsEditPOI,isAuthPopUp,setPopupSelectedGeo,printWidget, setprintWidget, exportWidget, setexportWidget} = useAuth();
+  const {isEditPOI,setIsEditPOI,isAuthPopUp,setPopupSelectedGeo,printWidget, setprintWidget, exportWidget, setexportWidget, MeasurementOpenWidget, setMeasurementOpenWidget} = useAuth();
   const [lastRendered, setLastRendered] = useState("");  // Track last rendered component
   const { isPOIAddShow,isLogin,setIsLogin,setIsPOIAddShow } = useTheme();
   console.log("POI status Default:", isEditPOI);
@@ -163,6 +163,10 @@ const DefaultLayout = ({role}) => {
     if(mapview){
       mapview.graphics.removeAll();
     }
+    if(MeasurementOpenWidget){
+      MeasurementOpenWidget.destroy();
+      setMeasurementOpenWidget(null);
+    }
     setPopup(null);
     setResetFooter(true);
     setIsPOIAddShow(false)
@@ -188,6 +192,10 @@ const DefaultLayout = ({role}) => {
     } 
     if(mapview && name !== "POIEdit"){
       mapview.graphics.removeAll();
+    }
+    if(MeasurementOpenWidget){
+      MeasurementOpenWidget.destroy();
+      setMeasurementOpenWidget(null);
     }
     if (!name) return null;   // Prevent empty name render override
     console.log("Rendering component for name:", name, "and role:", role);

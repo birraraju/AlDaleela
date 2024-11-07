@@ -18,7 +18,7 @@ const MapComponent = (props) => {
   const [lat, setLat] = useState(null);
   const [lon, setLon] = useState(null);
   const [scale, setScale] = useState(null);
-  const {setconrextMapView, setinitialExtent,setIsEditPOI, setPopupSelectedGeo, isMeasurementOpen} = useAuth();
+  const {setconrextMapView, setinitialExtent,setIsEditPOI, setPopupSelectedGeo} = useAuth();
 
   const {setMapview, MapView} = props;
 
@@ -148,7 +148,7 @@ const handleIdentify = async(event, mapview) => {
 
 // Handle map click events
 const handleMapClick = (view) => async(event) => {
-  if(true){
+  if(!view.activeTool){
     try {
       setIsEditPOI(false);
       view.graphics.removeAll(); // Clears all graphics
