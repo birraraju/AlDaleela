@@ -22,6 +22,9 @@ const PrintComponent = ({ mapview }) => {
           }
         });
 
+     
+
+        
         // Observe for changes in the exportRef container to remove the "Map Only" tab when it appears
         const observer = new MutationObserver(() => {
           const liElement = document.getElementById('exportDiv__mapOnlyTab');

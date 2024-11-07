@@ -74,7 +74,7 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
       // style={{ width, height, zIndex: 50 }}  // Ensure it's above other elements
       ref={containerRef}  // Reference to the panel
     >
-      <div className={`relative sm:h-[80%] laptop_s:h-[90%] h-[98%]  w-[65%] float-end sm:w-full rounded-2xl shadow-lg overflow-hidden border transition-colors duration-300 ${
+      <div className={`relative sm:h-[80%] ${POIFormsuccessShow?"laptop_s:h-[100%]":"h-[98%]"}    w-[65%] float-end sm:w-full rounded-2xl shadow-lg overflow-hidden border transition-colors duration-300 ${
           isDarkMode
             ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
             : "bg-white bg-opacity-70 border-white"
@@ -108,9 +108,9 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
         </div>
 
         {/* Scrollable Content */}
-        <div className="p-4 overflow-y-auto h-full relative">
+        <div className={`${POIFormsuccessShow?"py-1 px-4":"p-4"} overflow-y-auto h-full relative`}>
           {children || (
-            <>
+            <>    
               <div className="overflow-y-auto">
                 <AddPOI
                   mapview={mapview}

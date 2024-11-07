@@ -93,7 +93,7 @@ export default function SideLayout1({
   </button>
 
 
-        <div className="p-6 overflow-y-auto h-full">
+        <div className="p-6 overflow-y-auto h-[109%] 2xl:h-[100%] ">
           {children || (
             <p className={`text-${isDarkMode ? '[#FFFFFFCC] text-opacity-80' : 'black'}  font-poppins font-medium`}>
               { isLangArab?"معرض الخريطة الأساسية":"Basemap Gallery"}
