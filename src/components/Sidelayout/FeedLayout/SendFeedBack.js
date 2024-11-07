@@ -237,17 +237,19 @@ export default function Feedback({ setIsSuccess, setIsMsgStatus, setModalMessage
       value: isLangArab ?"ممتاز":"Excellent",
       icon: SmilePlus,
       color: "text-green-500",
+      highlight:"border-green-500",
       image:  isDarkMode ? excellentDark:excellent,
     },
-    { value: isLangArab?"جيد":"Good", icon: Smile, color: "text-green-400", image: isDarkMode?goodDark:good },
+    { value: isLangArab?"جيد":"Good", icon: Smile, color: "text-green-400", highlight:"border-green-400", image: isDarkMode?goodDark:good },
     {
       value: isLangArab?"متوسط":"Average",
       icon: Meh,
       color: "text-yellow-400",
+      highlight:"border-yellow-400",
       image: isDarkMode?averageDark:average,
     },
-    { value: isLangArab?"ضعيف":"Poor", icon: Frown, color: "text-orange-400", image: isDarkMode?poorDark: poor },
-    { value: isLangArab?"سيء":"Bad", icon: Frown, color: "text-red-500", image:isDarkMode?badDark: bad },
+    { value: isLangArab?"ضعيف":"Poor", icon: Frown, color: "text-orange-400",highlight:"border-orange-400", image: isDarkMode?poorDark: poor },
+    { value: isLangArab?"سيء":"Bad", icon: Frown, color: "text-red-500",highlight:"border-red-500", image:isDarkMode?badDark: bad },
   ];
 
   const onSubmitFeedback = async () => {
@@ -306,7 +308,7 @@ export default function Feedback({ setIsSuccess, setIsMsgStatus, setModalMessage
                       ? "bg-black text-white border-white"
                       : "border-transparent bg-[#444646]"
                     : rating === item.value
-                    ? "bg-white text-white"
+                    ? `bg-white text-white ${item.highlight}`
                     : "border-transparent border bg-black"
                 }`}
                 onClick={() => setRating(item.value)} // Ensure onClick works

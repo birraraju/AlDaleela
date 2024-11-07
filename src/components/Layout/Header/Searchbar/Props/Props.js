@@ -2,6 +2,7 @@ import { Label } from "../../../../ui/label";
 
 export default function Props({
   inputClicked,
+  setInputValue,
   setInputClicked,
   setIscategory,
   handleCloseResponsiveSearch,
@@ -32,6 +33,7 @@ export default function Props({
           <div
             onClick={() => {
               setInputClicked(false);
+              setInputValue("")
               setIscategory(false);
               handleCloseResponsiveSearch();
             }}
