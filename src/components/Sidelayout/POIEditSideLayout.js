@@ -266,7 +266,7 @@
                     <h2 className=" text-[12px]">{queryresults.features[0].attributes.name_en}</h2></p>
               </div>}
               <div className={`${POIShareShow?"mt-3":"mt-20"} overflow-y-auto`}>
-              {POIShareShow && <POShareForm  onClose={()=>{setPOIFormShow(true);setPOIShareShow(false);}}/>}
+              {POIShareShow && <POShareForm  onClose={()=>{setPOIFormShow(true);setPOIShareShow(false);}} queryresults={queryresults}/>}
              {(isEditShowPOI||POIFormShow) && <POIEditForm isEditShowPOI={isEditShowPOI}  setIsShowEditPOI={setIsShowEditPOI}  POIFormShow={POIFormShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow} queryresults={queryresults} setIsEditPOI={setIsEditPOI} uploadedFiles={uploadedFiles} setPOImessageShow={setPOImessageShow} setPOIFormsuccessShow={setPOIFormsuccessShow} setPOIFormisOpenModalShow={setPOIFormisOpenModalShow} setUploadedFiles={setUploadedFiles}/>}
               <POIEditFileUploader setPOImessageShow={setPOImessageShow} setPOIFormsuccessShow={setPOIFormsuccessShow} POIFormUploader={POIFormUploader} setPOIFormisOpenModalShow={setPOIFormisOpenModalShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow} queryresults={queryresults} uploadedFiles={uploadedFiles} setUploadedFiles={setUploadedFiles}/>
                {/* Render the modal only when the state is true */}

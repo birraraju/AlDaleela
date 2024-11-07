@@ -4,6 +4,10 @@ export default {
     content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
     theme: {
   
+      
+      letterSpacing:{
+        tightest: '-.075em',
+      },  
       extend: {
        
         fontSize: {

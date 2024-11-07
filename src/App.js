@@ -26,7 +26,9 @@ const MainRoutes = () => {
   return (
     <div >
       <Routes>
-        <Route path={`/${process.env.REACT_APP_BASE_URL}`} element={<DefaultLayout role={role} />} />
+        <Route path={`/${process.env.REACT_APP_BASE_URL}`} element={<DefaultLayout role={role} />} >
+          <Route path=":LayerId/:objectid" element={<DefaultLayout role={role} />} />
+        </Route>
         {<Route path="/admin" element={<AdminLayout role={role} />} />} 
         <Route path={`/${process.env.REACT_APP_BASE_URL}/activate/:userId`} element={<UserActivation/>} />
         <Route path="*" element={<Navigate to={process.env.REACT_APP_BASE_URL} replace />} />
