@@ -3,21 +3,21 @@ import { IoIosArrowForward } from "react-icons/io";
 import { X } from "lucide-react"; // X icon import
 import Print from "../../components/Widgets/Print/Print";
 import { useTheme } from '../Layout/ThemeContext/ThemeContext'; // Import the theme context
-
+import { useAuth } from "../../Providers/AuthProvider/AuthProvider";
 
 export default function SideLayout6({
   children,
   width = "430px",
   // height = "calc(95vh - 2rem)",
   onClose,
-  mapview
+  mapview,
 }) {
   const [isOpen, setIsOpen] = useState(true);  // Controls panel visibility
   const [isFullyClosed, setIsFullyClosed] = useState(false);
   const [toggleCount, setToggleCount] = useState(0);
-  const panelRef = useRef(null); // Create a ref for the side panel
   const { isDarkMode, isLangArab } = useTheme(); // Access the dark mode state
-
+  const panelRef = useRef(null); // Create a ref for the side panel
+  const {printWidget} = useAuth();
 
   // Toggle function to slide panel in or out
   const toggleSideLayout = () => {
@@ -36,6 +36,10 @@ export default function SideLayout6({
   };
 
   const closePanel = () => {
+    if(printWidget){
+      printWidget.destroy();
+      //setprintWidget(null)
+    }  
     // This will fully close the side panel (remove it from view)
     setIsFullyClosed(true);
     onClose();

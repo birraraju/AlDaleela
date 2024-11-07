@@ -34,7 +34,7 @@ export default function AboutusSidelayout({ setIsPopoverOpen, setIsAboutUs }) {
         ref={containerRef}
         initial={{ x: "100%", opacity: 0 }}
         whileInView={{
-          x: isOpen ? 0 : isLangArab ? "-107%" : "110%", // Move to left if Arabic
+          x: isOpen ? 0 : isLangArab ? "-106.8%" : "110%", // Move to left if Arabic
           opacity: 1,
         }}
         exit={{

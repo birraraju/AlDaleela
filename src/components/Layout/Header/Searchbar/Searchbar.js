@@ -94,6 +94,7 @@ const Searchbar = ({
 
         <Props
           inputClicked={inputClicked}
+          setInputValue={setInputValue}
           setInputClicked={setInputClicked}
           setIscategory={setIscategory}
           handleCloseResponsiveSearch={handleCloseResponsiveSearch}

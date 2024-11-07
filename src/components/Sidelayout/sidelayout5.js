@@ -3,7 +3,7 @@ import { IoIosArrowForward } from "react-icons/io";
 import { X } from "lucide-react";
 import { useTheme } from '../Layout/ThemeContext/ThemeContext'; // Import the theme context
 import Export from "../../components/Widgets/Export/Export";
-
+import { useAuth } from "../../Providers/AuthProvider/AuthProvider";
 
 export default function SideLayout5({
   children,
@@ -17,7 +17,7 @@ export default function SideLayout5({
   const [toggleCount, setToggleCount] = useState(0);
   const panelRef = useRef(null); // Ref to the side panel div
   const { isDarkMode, isLangArab } = useTheme(); // Access the dark mode state
-
+  const {exportWidget} = useAuth();
 
   // Toggle function to slide panel in or out
   const toggleSideLayout = () => {
@@ -36,6 +36,9 @@ export default function SideLayout5({
   };
 
   const closePanel = () => {
+    if(exportWidget){
+      exportWidget.destroy();
+    }  
     setIsFullyClosed(true);
     onClose();
   };

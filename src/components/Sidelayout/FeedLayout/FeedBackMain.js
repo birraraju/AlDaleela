@@ -162,8 +162,10 @@ export default function SendFeedBack({
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
             <IoIosArrowForward
               className={`transition-transform duration-300 ${
-                isOpen ? "rotate-0" : "rotate-180"
-              } ${isDarkMode ? "text-white" : "text-black"}`}
+                isOpen ? (isLangArab?"rotate-180":"rotate-0") : (isLangArab?"rotate-0":"rotate-180")
+              } 
+              
+              ${isDarkMode ? "text-white" : "text-black"}`}
             />
           </div>
         </button>
