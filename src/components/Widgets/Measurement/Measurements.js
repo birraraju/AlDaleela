@@ -11,7 +11,7 @@ const MeasurementsComponent = ({ mapview }) => {
   const mapRef1 = useRef(null);
   const measurementRef = useRef(null); // Store reference to Measurement widget
   const [isDistance, setIsDistance] = useState(true);
-  const {setIsMeasurementOpen} = useAuth();
+  const {setMeasurementOpenWidget} = useAuth();
 
   useEffect(() => {
     if (mapview && mapRef1.current) {
@@ -23,8 +23,6 @@ const MeasurementsComponent = ({ mapview }) => {
 
       const handleClickDistance = () => {
         if (measurementRef.current) {
-          // Pause the click event on the mapView when measurement widget is active
-          setIsMeasurementOpen(false);
           const type = mapview.type;
           measurementRef.current.activeTool = type.toUpperCase() === "2D" ? "distance" : "direct-line";
         }
@@ -38,7 +36,6 @@ const MeasurementsComponent = ({ mapview }) => {
 
       const handleClear = () => {
         if (measurementRef.current) {
-          setIsMeasurementOpen(true);
           measurementRef.current.clear();
         }
       };
@@ -56,8 +53,8 @@ const MeasurementsComponent = ({ mapview }) => {
       if (clearButton) {
         clearButton.onclick = handleClear;
       }
-      handleClickDistance();
-      
+      //handleClickDistance();
+      setMeasurementOpenWidget(measurementRef.current)
 
       // Cleanup on component unmount
       return () => {
