@@ -7,6 +7,7 @@ import Xicon from '../../../../../../../assets/Admin/logo/xicon.svg';
 import EditIcon from '../../../../../../../assets/Admin/logo/edit.svg';
 import { useTheme } from "../../../../../ThemeContext/ThemeContext"; // Importing the theme context
 import DarkEditIcon from '../../../../../../../assets/Admin/logo/darkedit.svg';
+import DeleteConfirmation from '../../../../../../Common/deleteConfirmation';
 
 const users = [
   { username: 'User One', email: 'user1@gmail.com', submissionDate: '2024-10-01', senderName: 'User One', senderEmail: 'user1@gmail.com', status: 'Read', feedback: 'Great service!' },
@@ -31,7 +32,9 @@ const Feedback = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [scrollPercentage, setScrollPercentage] = useState(0);
+  const [selectedUsersid, setSelectedUsersId] = useState(undefined);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [isShowConfirmation, setIsShowConfirmation] = useState(false);
   const tableRef = useRef(null);
   const [data, setData] = useState([]);
   const { isDarkMode } = useTheme(); // Access dark mode from theme context
@@ -97,7 +100,14 @@ const Feedback = () => {
       tableElement?.removeEventListener('scroll', handleScroll);
     };
   }, []);
-  const handleFeedbackDelete = async (id) => {
+
+  const handleFeedbackDelete = (id) => {
+    setSelectedUsersId(id)
+    setIsShowConfirmation(true);
+  };
+
+
+  const handleConfirmFeedbackDelete = async (id) => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/FeedBack/deletemultiplefeedbacks`, {
           method: 'POST',
@@ -143,6 +153,11 @@ const Feedback = () => {
   };
   return (
     <div className="flex h-[calc(100vh-6rem)]">
+       <DeleteConfirmation
+        isShowConfirmation={isShowConfirmation}
+        handleDeleteConfirm={() =>{ isEditing ? handleselectedDeleted() :handleConfirmFeedbackDelete(selectedUsersid);setIsShowConfirmation(false);}}
+        handleDeleteCancel={() => {setSelectedUsersId(undefined);setSelectedUsers([]);setIsShowConfirmation(false);}}
+      />
     <div  className={`p-8 rounded-lg shadow-sm flex flex-col flex-grow overflow-hidden ${
         isDarkMode ? "bg-[#303031] bg-opacity-90" : "bg-transparent "
       } text-black backdrop-blur border-none`}>

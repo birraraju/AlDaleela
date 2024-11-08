@@ -17,6 +17,7 @@
   import DarkLocation from '../../assets/Droppedpin/Dropped Pin.svg';
   import { useTheme } from '../Layout/ThemeContext/ThemeContext'; // Import the theme context
   import { useAuth } from "../../Providers/AuthProvider/AuthProvider";
+  import BookYellow from '../../assets/bookmarks/imageBookYellow.png';
 
 
 
@@ -36,6 +37,7 @@
     const [POIShareShow , setPOIShareShow]=useState(false);
     const [queryresults , setQueryResults]=useState("");
     const [uploadedFiles, setUploadedFiles] = useState([]); // Store the uploaded files
+    const [isBookMarkClick,setBookMarkClick]=useState(false)
     console.log("POI Share status:", POIShareShow)
 
 
@@ -111,12 +113,15 @@
           if(data.success){
             //console.log(values);
             //UserActivityLog(profiledetails, "Forget Password")  
+            setBookMarkClick(false)
             alert(data.message);
           }
           else{
-            //console.log(data)          
+            //console.log(data)         
+            setBookMarkClick(false) 
           }
         }catch (error) {
+          setBookMarkClick(false)
           console.error('Error submitting form:', error);
         } 
       }
@@ -185,6 +190,10 @@
     // };
 
     const handleBookmarkEvent = async (eventType) => {
+      if(eventType === "click"){
+        setBookMarkClick(true)
+      }
+      
       // Use a more descriptive parameter name like eventType instead of 'e'
       let layerUrl = '';
       let Objectid = '';
@@ -224,6 +233,7 @@
           }
       } catch (error) {
           console.error('Query failed:', error);
+          setBookMarkClick(false);
     
           // Check if it's an HTML response indicating a server error
           if (error.message.includes("Unexpected token '<'")) {
@@ -302,7 +312,7 @@
   <img
     src={POILabelMark}
     alt="Location Mark"
-    className="h-full"
+    className={`${isBookMarkClick ?"invert brightness-0 text-white ":" "} h-full`}
   />
 </button>
 
