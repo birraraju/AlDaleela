@@ -184,10 +184,12 @@
     //   // }
     // };
 
-    const handleBookmarkEvent = async(e) => {
+    const handleBookmarkEvent = async (eventType) => {
+      // Use a more descriptive parameter name like eventType instead of 'e'
       let layerUrl = '';
       let Objectid = '';
-  
+    
+      // Fetch layer configurations and set layerUrl and Objectid as per logic
       if (popupselectedgeo?.layerName) {
           const terrestrialLayerConfig = config.featureServices.find(service => 
               service.name === popupselectedgeo?.layerName
@@ -195,40 +197,41 @@
           layerUrl = terrestrialLayerConfig?.url;
           Objectid = "OBJECTID=" + popupselectedgeo?.feature?.attributes?.OBJECTID;
       } else if (popupselectedgeo?.layer?.layerId !== null && popupselectedgeo?.layer?.layerId !== 'undefined') {
-          layerUrl = popupselectedgeo?.layer?.url + "/" + popupselectedgeo?.layer?.layerId;
+          layerUrl = `${popupselectedgeo?.layer?.url}/${popupselectedgeo?.layer?.layerId}`;
           Objectid = "OBJECTID=" + popupselectedgeo?.attributes?.OBJECTID;
       } else {
           layerUrl = popupselectedgeo?.layer?.url;
           Objectid = "OBJECTID=" + popupselectedgeo?.attributes?.OBJECTID;
       }
-  
+    
       try {
           const featureLayer = new FeatureLayer({
               url: layerUrl
           });
-  
-          let query = featureLayer.createQuery();
+    
+          const query = featureLayer.createQuery();
           query.where = Objectid;
           query.returnGeometry = true;
           query.outFields = ['*'];
-  
+    
           const response = await featureLayer.queryFeatures(query);
           console.log('Features found:', response.features);
-  
-          if (e !== "onload") {
+    
+          if (eventType !== "onload") {
               handleInsertBookmarkData(response);
           } else {
               setQueryResults(response);
           }
       } catch (error) {
           console.error('Query failed:', error);
-  
+    
           // Check if it's an HTML response indicating a server error
           if (error.message.includes("Unexpected token '<'")) {
               console.error('Received an HTML response. The URL might be incorrect or the server is down.');
           }
       }
   };
+  
   
 
     // If the panel is fully closed, don't render anything
@@ -258,13 +261,65 @@
           {/* Content */}
           <div className="p-2 overflow-y-auto h-full relative">
             {children || (<>
-              {!POIShareShow && queryresults !== "" && <div className="absolute top-6 left-4 flex  gap-x-1">
+              {!POIShareShow && queryresults !== "" && <div className="absolute top-6 w-full  left-4 flex  gap-x-1">
                 <img src={isDarkMode ? DarkLocation : Location }alt="Location" className="h-8" />
                 <p className={`font-semibold font-poppins ${
                       isDarkMode ? "text-white" : "text-gray-600"
                     }`}> <h1 className=" text-[12px]">{queryresults.features[0].attributes.name_ar}</h1>
                     <h2 className=" text-[12px]">{queryresults.features[0].attributes.name_en}</h2></p>
-              </div>}
+                    {!POIShareShow && <div className=" flex justify-center items-center absolute right-3 -top-1  p-2 transition-colors h-10 cursor-pointer z-50">
+  {/* POI Share Icon */}
+  <button
+    onClick={() => {setPOIShareShow(true);setPOIFormShow(false);setPOIFormisOpenModalShow(false)}} // Toggle the state
+    aria-label="Edit POI"
+    className="h-full"
+    style={{ border: 'none', background: 'none' }} // No styles, functionality only
+  >
+  <img
+    
+    src={PoiEditShare} // isDarkMode check was redundant as both conditions had the same value
+    alt="Share Location"
+    className="h-full"
+  />
+  </button>
+
+  {/* Edit POI Button */}
+  <button
+    onClick={() =>  handleShowPOIEdit()} // Toggle the state
+    aria-label="Edit POI"
+    className="h-full"
+    style={{ border: 'none', background: 'none' }} // No styles, functionality only
+  >
+    <img
+      src={POIEditWrite} // isDarkMode check was redundant here as well
+      alt="Edit POI"
+      className="h-full"
+    />
+  </button>
+
+  {/* POI Label Mark */}
+  <button onClick={() => RoleServices.isAuth() ? handleBookmarkEvent('click') : setIsAuthPopUp(true)}>
+  <img
+    src={POILabelMark}
+    alt="Location Mark"
+    className="h-full"
+  />
+</button>
+
+  
+
+  {/* Close Button (X) */}
+  <button
+    onClick={() => setIsEditPOI(false)}
+    className={`transition-colors cursor-pointer z-50 ${
+      isDarkMode ? "hover:text-gray-300" : "text-green-900"
+    }`}  // Ensure it's clickable
+    aria-label="Close side panel"
+    style={{ zIndex: 100 }} // Ensure the "X" button is on top
+  >
+    <X className="h-5 w-6" />
+  </button>
+</div>}       </div>}
               <div className={`${POIShareShow?"mt-3":"mt-20"} overflow-y-auto`}>
               {POIShareShow && <POShareForm  onClose={()=>{setPOIFormShow(true);setPOIShareShow(false);}} queryresults={queryresults}/>}
              {(isEditShowPOI||POIFormShow) && <POIEditForm isEditShowPOI={isEditShowPOI}  setIsShowEditPOI={setIsShowEditPOI}  POIFormShow={POIFormShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow} queryresults={queryresults} setIsEditPOI={setIsEditPOI} uploadedFiles={uploadedFiles} setPOImessageShow={setPOImessageShow} setPOIFormsuccessShow={setPOIFormsuccessShow} setPOIFormisOpenModalShow={setPOIFormisOpenModalShow} setUploadedFiles={setUploadedFiles}/>}
@@ -286,58 +341,7 @@
             )}
           </div>
           
-          {!POIShareShow && <div className="absolute top-4 flex right-2 p-2 transition-colors h-10 cursor-pointer z-50">
-  {/* POI Share Icon */}
-  <button
-    onClick={() => {setPOIShareShow(true);setPOIFormShow(false);setPOIFormisOpenModalShow(false)}} // Toggle the state
-    aria-label="Edit POI"
-    className="h-full"
-    style={{ border: 'none', background: 'none' }} // No styles, functionality only
-  >
-  <img
-    
-    src={PoiEditShare} // isDarkMode check was redundant as both conditions had the same value
-    alt="Share Location"
-    className="h-full"
-  />
-  </button>
-
-  {/* Edit POI Button */}
-  <button
-    onClick={() => handleShowPOIEdit()} // Toggle the state
-    aria-label="Edit POI"
-    className="h-full"
-    style={{ border: 'none', background: 'none' }} // No styles, functionality only
-  >
-    <img
-      src={POIEditWrite} // isDarkMode check was redundant here as well
-      alt="Edit POI"
-      className="h-full"
-    />
-  </button>
-
-  {/* POI Label Mark */}
-  <button onClick={handleBookmarkEvent}>
-  <img
-    src={POILabelMark} // isDarkMode check was redundant here too
-    alt="Location Mark"
-    className="h-full"
-  />
-  </button>
-  
-
-  {/* Close Button (X) */}
-  <button
-    onClick={() => setIsEditPOI(false)}
-    className={`transition-colors cursor-pointer z-50 ${
-      isDarkMode ? "hover:text-gray-300" : "text-green-900"
-    }`}  // Ensure it's clickable
-    aria-label="Close side panel"
-    style={{ zIndex: 100 }} // Ensure the "X" button is on top
-  >
-    <X className="h-5 w-6" />
-  </button>
-</div>}
+          
         </div>
 
         {/* Toggle button */}
