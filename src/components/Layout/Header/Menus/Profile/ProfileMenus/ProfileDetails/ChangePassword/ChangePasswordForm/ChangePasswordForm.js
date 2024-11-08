@@ -209,7 +209,7 @@ export default function ChangePasswordForm({setIsProfileData,setModalMessage,set
         />
 
         {/* Button */}
-        <div className="flex justify-between space-x-4">
+        <div className="flex justify-between gap-4 space-x-4">
           <Button
             onClick={onCancel}
             type="button"

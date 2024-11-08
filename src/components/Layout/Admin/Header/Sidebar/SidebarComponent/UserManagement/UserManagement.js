@@ -16,7 +16,7 @@ import DarkEditIcon from '../../../../../../../assets/Admin/logo/darkedit.svg';
 
 import { useTheme } from "../../../../../ThemeContext/ThemeContext"; // Importing the theme context
 import { useAuth } from "../../../../../../../Providers/AuthProvider/AuthProvider";
-
+import DeleteConfirmation from '../../../../../../Common/deleteConfirmation';
 const users = [
   { username: "User name", email: "user@gmail.com", phone: "+971 500001010", address: "Rabdan - Abu Dhabi", role: "Public User", activity: "Today" },
   { username: "User name", email: "user@gmail.com", phone: "+971 500001010", address: "Rabdan - Abu Dhabi", role: "Admin User", activity: "Yesterday" },
@@ -43,13 +43,15 @@ CustomCheckbox.displayName = 'CustomCheckbox';
 export default function UserManagement() {
   const [isEditing, setIsEditing] = useState(false);
   const [selectedUsers, setSelectedUsers] = useState([]);
+  const [selectedUsersid, setSelectedUsersId] = useState(undefined);
   const [scrollPercentage, setScrollPercentage] = useState(0);
   const tableRef = useRef(null);
+  const [isShowConfirmation, setIsShowConfirmation] = useState(false);
   const [data, setData] = useState([]);
   const { isDarkMode } = useTheme(); // Access dark mode from theme context
   const [latestDate, setLatestDate] = useState(null);
   const {profiledetails} = useAuth()
-
+  console.log("Confirm delete:", selectedUsersid);
   const toggleUserSelection = (index) => {
     setSelectedUsers(prev => 
       prev.includes(index) ? prev.filter(i => i !== index) : [...prev, index]
@@ -134,26 +136,28 @@ export default function UserManagement() {
     fetchData();
   }, [data]); 
 
-  const handleFeedbackDelete = async (id) => {
+  const handleFeedbackDelete = (id) => {
+    setSelectedUsersId(id)
+    setIsShowConfirmation(true);
+  };
+
+  const handleConfirmFeedbackDelete = async (id) => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/Registration/deletemultipleusers`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify([id]),
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify([id]),
       });
-      const data = await response.json();
-          if(data.success){
-            console.log(data.message);
-          }
-          else{
-            console.log(data.message);
-          }
-      
-      } catch (error) {
-          console.error('Error submitting form:', error);
+      const result = await response.json();
+      if (result.success) {
+        setData(prevData => prevData.filter(user => user.id !== id));
       }
-    //Update state to remove the deleted record
-    setData(data.filter(record => record.id !== id));
+    } catch (error) {
+      console.error('Delete error:', error);
+    } finally {
+      setIsShowConfirmation(false);
+      setSelectedUsersId(undefined);
+    }
   };
 
   const handleselectedDeleted = async () => {
@@ -204,6 +208,11 @@ export default function UserManagement() {
 };
   return (
     <div className="flex h-[calc(100vh-6rem)]">
+      <DeleteConfirmation
+        isShowConfirmation={isShowConfirmation}
+        handleDeleteConfirm={() =>{handleConfirmFeedbackDelete(selectedUsersid);setIsShowConfirmation(false);}}
+        handleDeleteCancel={() => {setSelectedUsersId(undefined);setIsShowConfirmation(false);}}
+      />
  <div  className={`p-8 rounded-lg shadow-sm flex flex-col flex-grow overflow-hidden ${
         isDarkMode ? "bg-[#303031] bg-opacity-90" : "bg-white "
       } text-black backdrop-blur border-none`}>
