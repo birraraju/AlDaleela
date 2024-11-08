@@ -11,7 +11,7 @@
 // import poorDark from "../../../assets/FeedBack/poorDark.svg";
 // import badDark from "../../../assets/FeedBack/badDark.svg";
 // import { useTheme } from '../../Layout/ThemeContext/ThemeContext'; // Import theme context
- 
+
 // export default function Feedback({ setIsSuccess, setIsMsgStatus, setModalMessage,
 //   setIsFeedBack, setIsPopoverOpen }) {
 //   const [rating, setRating] = useState(null);
@@ -51,7 +51,7 @@
 //           method: 'POST',
 //           headers: { 'Content-Type': 'application/json' },
 //           body: JSON.stringify(feedbackObj),
-//       });      
+//       });
 //       const data = await response.json();
 //       if(data.success){
 //         console.log(data.success);
@@ -75,7 +75,7 @@
 //       console.error('Error submitting form:', error);
 //     }
 //   }
- 
+
 //   // Handle cancel action
 //   const handleCancel = () => {
 //     setIsFeedBack(false);  // Close feedback panel
@@ -185,7 +185,7 @@
 //           }`}
 //           onClick={handleCancel}
 //           // Attach the click handler
- 
+
 //         >          { isLangArab?"إلغاء":"Cancel"}
 //         </button>
 //         <button onClick={onSubmitFeedback} className={`sm:px-14 px-9 sm:py-3 py-2 rounded-md transition-colors ${
@@ -210,10 +210,15 @@ import goodDark from "../../../assets/FeedBack/goodDark.svg";
 import averageDark from "../../../assets/FeedBack/averageDark.svg";
 import poorDark from "../../../assets/FeedBack/poorDark.svg";
 import badDark from "../../../assets/FeedBack/badDark.svg";
-import { useTheme } from '../../Layout/ThemeContext/ThemeContext';
+import { useTheme } from "../../Layout/ThemeContext/ThemeContext";
 
-export default function Feedback({ setIsSuccess, setIsMsgStatus, setModalMessage,
-  setIsFeedBack, setIsPopoverOpen }) {
+export default function Feedback({
+  setIsSuccess,
+  setIsMsgStatus,
+  setModalMessage,
+  setIsFeedBack,
+  setIsPopoverOpen,
+}) {
   const [rating, setRating] = useState(null);
   const [fbname, setfbname] = useState("");
   const [fbemail, setfbemail] = useState("");
@@ -221,35 +226,68 @@ export default function Feedback({ setIsSuccess, setIsMsgStatus, setModalMessage
   const [errors, setErrors] = useState({});
   const { isDarkMode, isLangArab } = useTheme();
 
+  console.log("fbname :>> ", fbname);
+  console.log("fbcomments :>> ", fbcomments);
   const validate = () => {
     const newErrors = {};
-    if (!fbname) newErrors.name = isLangArab ? "الاسم مطلوب" : "Name is required";
-    if (!fbemail) newErrors.email = isLangArab ? "البريد الإلكتروني مطلوب" : "Email is required";
-    else if (!/\S+@\S+\.\S+/.test(fbemail)) newErrors.email = isLangArab ? "بريد إلكتروني غير صالح" : "Invalid email address";
-    if (!fbcomments) newErrors.comments = isLangArab ? "التعليقات مطلوبة" : "Comments are required";
-    if (!rating) newErrors.rating = isLangArab ? "التقييم مطلوب" : "Rating is required";
+    if (!fbname)
+      newErrors.name = isLangArab ? "الاسم مطلوب" : "Name is required";
+    if (!fbemail)
+      newErrors.email = isLangArab
+        ? "البريد الإلكتروني مطلوب"
+        : "Email is required";
+    else if (!/\S+@\S+\.\S+/.test(fbemail))
+      newErrors.email = isLangArab
+        ? "بريد إلكتروني غير صالح"
+        : "Invalid email address";
+    if (!fbcomments)
+      newErrors.comments = isLangArab
+        ? "التعليقات مطلوبة"
+        : "Comments are required";
+    if (!rating)
+      newErrors.rating = isLangArab ? "التقييم مطلوب" : "Rating is required";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
+  console.log("errors :>> ", errors);
+
   const ratings = [
     {
-      value: isLangArab ?"ممتاز":"Excellent",
+      value: isLangArab ? "ممتاز" : "Excellent",
       icon: SmilePlus,
       color: "text-green-500",
-      highlight:"border-green-500",
-      image:  isDarkMode ? excellentDark:excellent,
+      highlight: "border-green-500",
+      image: isDarkMode ? excellentDark : excellent,
     },
-    { value: isLangArab?"جيد":"Good", icon: Smile, color: "text-green-400", highlight:"border-green-400", image: isDarkMode?goodDark:good },
     {
-      value: isLangArab?"متوسط":"Average",
+      value: isLangArab ? "جيد" : "Good",
+      icon: Smile,
+      color: "text-green-400",
+      highlight: "border-green-400",
+      image: isDarkMode ? goodDark : good,
+    },
+    {
+      value: isLangArab ? "متوسط" : "Average",
       icon: Meh,
       color: "text-yellow-400",
-      highlight:"border-yellow-400",
-      image: isDarkMode?averageDark:average,
+      highlight: "border-yellow-400",
+      image: isDarkMode ? averageDark : average,
     },
-    { value: isLangArab?"ضعيف":"Poor", icon: Frown, color: "text-orange-400",highlight:"border-orange-400", image: isDarkMode?poorDark: poor },
-    { value: isLangArab?"سيء":"Bad", icon: Frown, color: "text-red-500",highlight:"border-red-500", image:isDarkMode?badDark: bad },
+    {
+      value: isLangArab ? "ضعيف" : "Poor",
+      icon: Frown,
+      color: "text-orange-400",
+      highlight: "border-orange-400",
+      image: isDarkMode ? poorDark : poor,
+    },
+    {
+      value: isLangArab ? "سيء" : "Bad",
+      icon: Frown,
+      color: "text-red-500",
+      highlight: "border-red-500",
+      image: isDarkMode ? badDark : bad,
+    },
   ];
 
   const onSubmitFeedback = async () => {
@@ -263,12 +301,15 @@ export default function Feedback({ setIsSuccess, setIsMsgStatus, setModalMessage
     };
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/FeedBack/feedbacksent`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(feedbackObj),
-      });
-      
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/FeedBack/feedbacksent`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(feedbackObj),
+        }
+      );
+
       const data = await response.json();
       if (data.success) {
         setIsSuccess(true);
@@ -296,38 +337,51 @@ export default function Feedback({ setIsSuccess, setIsMsgStatus, setModalMessage
 
   return (
     <div dir={isLangArab ? "rtl" : "ltr"}>
-      <div className={`z-50  ${isDarkMode ? "text-white" : "text-black"}`}>
-        <div className=" sm:space-y-4 space-y-2 max-h-[calc(100vh-100px)] overflow-y-auto">
-          <div className="flex gap-2 sm:gap-0 items-center justify-between">
-            {ratings.map((item) => (
-              <button
-                key={item.value}
-                className={`flex bg-transparent  sm:px-3 laptop_s:px-2 px-3 justify-center py-2 border sm:rounded-xl rounded-lg flex-col items-center sm:space-y-1 space-y-2 transition-colors ${
-                  isDarkMode
-                    ? rating === item.value
-                      ? "bg-black text-white border-white"
-                      : "border-transparent bg-[#444646]"
-                    : rating === item.value
-                    ? `bg-white text-white ${item.highlight}`
-                    : "border-transparent border bg-black"
-                }`}
-                onClick={() => setRating(item.value)} // Ensure onClick works
-              >
-                {/* Render the corresponding image */}
-                <img
-                  src={item.image}
-                  alt={item.value}
-                  className="w-6 sm:w-6 h-10 sm:h-7 laptop_s:h-8 laptop_s:w-6"
-                />
-                <p
-                  className={` w-8 sm:w-12  sm:h-6 h-3 ${
-                    isLangArab ? "text-xl " : "text-[10px] sm:text-[12px]" // Increased text size for Arabic
-                  } ${item.color}`}
+      <div className={`z-50  ${isDarkMode ? "text-white" : "text-black"} `}>
+        <div className=" sm:space-y-4 space-y-2 max-h-[calc(100vh-100px)] overflow-y-auto ">
+          <div className="flex gap-2 flex-col sm:gap-0 items-center justify-between">
+            <div className="flex  flex-row ">
+              {ratings.map((item) => (
+                <button
+                  key={item.value}
+                  className={`flex bg-transparent  sm:px-3 laptop_s:px-2 px-3 justify-center py-2 border sm:rounded-xl rounded-lg flex-col items-center sm:space-y-1 space-y-2 transition-colors ${
+                    isDarkMode
+                      ? rating === item.value
+                        ? "bg-black text-white border-white"
+                        : "border-transparent bg-[#444646]"
+                      : rating === item.value
+                      ? `bg-white text-white ${item.highlight}`
+                      : "border-transparent border bg-black"
+                  }`}
+                  onClick={() => setRating(item.value)} // Ensure onClick works
                 >
-                  {item.value} {/* Directly display the text */}
+                  {/* Render the corresponding image */}
+                  <img
+                    src={item.image}
+                    alt={item.value}
+                    className="w-6 sm:w-6 h-10 sm:h-7 laptop_s:h-8 laptop_s:w-6"
+                  />
+                  <p
+                    className={` w-8 sm:w-12  sm:h-6 h-3 ${
+                      isLangArab ? "text-xl " : "text-[10px] sm:text-[12px]" // Increased text size for Arabic
+                    } ${item.color}`}
+                  >
+                    {item.value} {/* Directly display the text */}
+                  </p>
+                </button>
+              ))}
+            </div>
+
+            <div className="w-full">
+              {errors.rating && (
+                <p
+                  className="text-start text-xs mt-0 "
+                  style={{ color: "red" }}
+                >
+                  {errors.rating}
                 </p>
-              </button>
-            ))}
+              )}
+            </div>
           </div>
 
           <div className="space-y-4 px-4 sm:px-0">
@@ -355,7 +409,18 @@ export default function Feedback({ setIsSuccess, setIsMsgStatus, setModalMessage
                     : "bg-white text-black border-gray-300"
                 }`}
               />
+              <div className="w-full">
+                {errors.name && (
+                  <p
+                    className="text-start text-xs mt-0 "
+                    style={{ color: "red" }}
+                  >
+                    {errors.name}
+                  </p>
+                )}
+              </div>
             </div>
+
             <div>
               <label
                 htmlFor="email"
@@ -383,8 +448,19 @@ export default function Feedback({ setIsSuccess, setIsMsgStatus, setModalMessage
                     : "bg-white text-black border-gray-300"
                 }`}
               />
+              <div className="w-full">
+                {errors.email && (
+                  <p
+                    className="text-start text-xs mt-0 "
+                    style={{ color: "red" }}
+                  >
+                    {errors.email}
+                  </p>
+                )}
+              </div>
             </div>
-            <div >
+
+            <div>
               <label
                 htmlFor="thoughts"
                 className={`block  font-medium mb-1 transition-colors ${
@@ -411,6 +487,16 @@ export default function Feedback({ setIsSuccess, setIsMsgStatus, setModalMessage
                     : "bg-white text-black border-gray-300"
                 }`}
               ></textarea>
+              <div className="w-full">
+                {errors.comments && (
+                  <p
+                    className="text-start text-xs mt-0 "
+                    style={{ color: "red" }}
+                  >
+                    {errors.comments}
+                  </p>
+                )}
+              </div>
             </div>
           </div>
         </div>
