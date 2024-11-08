@@ -3,7 +3,7 @@ import { IoIosArrowForward } from "react-icons/io";
 import { X } from 'lucide-react'; // X icon import
 import Measurements from "../../components/Widgets/Measurement/Measurements";
 import { useTheme } from '../Layout/ThemeContext/ThemeContext'; // Import the theme context
-
+import { useAuth } from "../../Providers/AuthProvider/AuthProvider";
 
 export default function SideLayout3({ children, width = "454.84px", onClose, mapview }) {  //height = "calc(95vh - 2rem)",
   const { isDarkMode, isLangArab } = useTheme(); // Access the dark mode state
@@ -11,6 +11,7 @@ export default function SideLayout3({ children, width = "454.84px", onClose, map
   const [isFullyClosed, setIsFullyClosed] = useState(false);
   const [toggleCount, setToggleCount] = useState(0);
   const panelRef = useRef(null); // Create a reference for the panel
+  const {MeasurementOpenWidget} = useAuth();
 
   // Toggle function to slide panel in or out
   const toggleSideLayout = () => {
@@ -29,6 +30,9 @@ export default function SideLayout3({ children, width = "454.84px", onClose, map
   };
 
   const closePanel = () => {
+    if(MeasurementOpenWidget){
+      MeasurementOpenWidget.destroy();
+    } 
     // This will fully close the side panel (remove it from view)
     setIsFullyClosed(true);
     onClose();
