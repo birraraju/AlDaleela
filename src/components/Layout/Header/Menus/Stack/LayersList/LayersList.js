@@ -63,10 +63,13 @@ export default function LayersList({ onClose, mapview }) {
 }`}         >
 
          </div>
-        <div 
+         <div className=" h-[85%] overflow-y-scroll">
+         <div 
   className={`esri-layer-list__item-content ${isLangArab ? "text-right" : ""} esri-layer-list__visible-toggle ${isLangArab ? "hover:bg-gray-900" : ""}`}
   ref={layerlistRef}></div>
       </div>
+         </div>
+        
     </div>
   );
 }
