@@ -210,8 +210,8 @@ export default function UserManagement() {
     <div className="flex h-[calc(100vh-6rem)]">
       <DeleteConfirmation
         isShowConfirmation={isShowConfirmation}
-        handleDeleteConfirm={() =>{handleConfirmFeedbackDelete(selectedUsersid);setIsShowConfirmation(false);}}
-        handleDeleteCancel={() => {setSelectedUsersId(undefined);setIsShowConfirmation(false);}}
+        handleDeleteConfirm={() =>{ isEditing ? handleselectedDeleted() :handleConfirmFeedbackDelete(selectedUsersid);setIsShowConfirmation(false);}}
+        handleDeleteCancel={() => {setSelectedUsersId(undefined);setSelectedUsers([]);setIsShowConfirmation(false);}}
       />
  <div  className={`p-8 rounded-lg shadow-sm flex flex-col flex-grow overflow-hidden ${
         isDarkMode ? "bg-[#303031] bg-opacity-90" : "bg-white "
@@ -312,7 +312,7 @@ export default function UserManagement() {
 
         {isEditing && (
           <div className="mt-4">
-            <button onClick={() => handleselectedDeleted()}
+            <button onClick={() => setIsShowConfirmation(true)}
               className="bg-[#EDB3B3] text-[#870202] px-4 py-2 rounded-lg font-medium font-omnes text-[16px] disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={selectedUsers.length === 0}
             >

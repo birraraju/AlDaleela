@@ -2,6 +2,9 @@ import { X } from "lucide-react";
 import { motion } from "framer-motion";
 import women from "../../../assets/leaderBoard/women.svg";
 import men from "../../../assets/leaderBoard/men.svg";
+import Top1 from "../../../assets/leaderBoard/Top1.svg";
+import Top2 from "../../../assets/leaderBoard/Top2.svg";
+import Top3 from "../../../assets/leaderBoard/Top3.svg";
 import men1 from "../../../assets/leaderBoard/men1.svg";
 import user1 from "../../../assets/leaderBoard/user1.svg";
 import user2 from "../../../assets/leaderBoard/user2.svg";
@@ -112,11 +115,16 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
               index === 0 ? "absolute left-1/2 -translate-x-1/2 -top-8" : ""
             }`}
           >
-            <div className="relative">
+            <div className="relative flex flex-col justify-center items-center">
               <img
                 src={men}
                 alt={user.userName}
-                className="w-16 h-18 object-cover rounded-full"
+                className="w-16 h-18 object-cover relative rounded-full"
+              />
+               <img
+                src={ index === 0 ? Top1 : (index === 1 ? Top2 : (index === 2 && Top3))}
+                alt={user.userName}
+                className=" w-8 -bottom-5  object-cover absolute rounded-full"
               />
             </div>
             <h1

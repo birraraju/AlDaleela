@@ -198,7 +198,7 @@
 //   );
 // }
 
-import { useState } from "react";
+import { useEffect,useCallback, useState } from "react";
 import { SmilePlus, Smile, Meh, Frown } from "lucide-react";
 import excellent from "../../../assets/FeedBack/Excellent.svg";
 import good from "../../../assets/FeedBack/good.svg";
@@ -225,10 +225,11 @@ export default function Feedback({
   const [fbcomments, setfbcomments] = useState("");
   const [errors, setErrors] = useState({});
   const { isDarkMode, isLangArab } = useTheme();
+  const [isValid,setIsValid]=useState(false)
 
   console.log("fbname :>> ", fbname);
   console.log("fbcomments :>> ", fbcomments);
-  const validate = () => {
+  const validate = useCallback(() => {
     const newErrors = {};
     if (!fbname)
       newErrors.name = isLangArab ? "الاسم مطلوب" : "Name is required";
@@ -248,7 +249,11 @@ export default function Feedback({
       newErrors.rating = isLangArab ? "التقييم مطلوب" : "Rating is required";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
-  };
+  });
+
+  useEffect(() => {
+    setIsValid(validate());
+  }, [validate]);
 
   console.log("errors :>> ", errors);
 
@@ -518,12 +523,12 @@ export default function Feedback({
           <button
             onClick={onSubmitFeedback}
             className={`sm:px-14 px-9 sm:py-3 py-2 rounded-md transition-colors ${
-              isDarkMode
+              isValid
                 ? "bg-custom-gradient text-white"
-                : "bg-custom-gradient text-white"
+                : "bg-gray-600/65 text-white"
             }`}
+            disabled={!isValid}
           >
-            {" "}
             {isLangArab ? "إرسال" : "Submit"}
           </button>
         </div>
