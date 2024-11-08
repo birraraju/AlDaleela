@@ -115,10 +115,7 @@ export default function LayersList({ onClose, mapview }) {
             </li>
           ))}
         </ul>
-
-    
-         </div>
-        
+      </div>
     </div>
   );
 }
