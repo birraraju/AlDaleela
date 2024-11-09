@@ -9,7 +9,15 @@ export default {
         tightest: '-.075em',
       },  
       extend: {
-       
+        animation: {
+          audioPulse: 'pulse 1s infinite',
+        },
+        keyframes: {
+          pulse: {
+            '0%, 100%': { transform: 'scale(1)', opacity: '1' },
+            '50%': { transform: 'scale(1.1)', opacity: '0.8' },
+          },
+        },
         fontSize: {
           '16px': '16.37px',
         },

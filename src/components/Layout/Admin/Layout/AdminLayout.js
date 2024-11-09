@@ -8,6 +8,8 @@ import Activitylog from "../Header/Sidebar/SidebarComponent/ActivityLog/Activity
 import { useTheme } from '../../ThemeContext/ThemeContext'; // Import the theme context
 import { useNavigate } from 'react-router-dom';
 import RoleServices from '../../../servicces/RoleServices';
+import { useLocation } from 'react-router-dom';
+
 
 
 
@@ -16,7 +18,12 @@ const AdminLayout = ({role}) => {
   const [isFooterOpen, setIsFooterOpen] = useState(false);
   const [activeItem, setActiveItem] = useState("User Management");
   const { isDarkMode } = useTheme(); // Access the dark mode state
+  
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
   const navigate = useNavigate();
+  const ContentManagementPopUp = queryParams.get('Compenent');
+
 
 
   const renderContent = () => {
@@ -35,6 +42,20 @@ const AdminLayout = ({role}) => {
     }
   };
 
+  useEffect(() => {
+    if (ContentManagementPopUp === "ContentManagement") {
+      setActiveItem("Content Management");
+      console.log("Content Passed Admin:", ContentManagementPopUp)
+    }
+  }, [ContentManagementPopUp]);
+
+  useEffect(()=>{
+    if(activeItem !== "Content Management"){
+      navigate({
+        pathname: `/admin`,
+      });
+    }
+  },[activeItem])
 
   const handleAdminAuth=()=>{
     if(!RoleServices.isAuth()){
@@ -43,6 +64,7 @@ const AdminLayout = ({role}) => {
             });
     }
   }
+
 
   useEffect(()=>{
     handleAdminAuth()
