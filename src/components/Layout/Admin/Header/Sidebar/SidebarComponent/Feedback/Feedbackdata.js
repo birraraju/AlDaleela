@@ -21,9 +21,9 @@ const FeedbackData = ({ user, onClose }) => {
   
           const result = await response.json();
           if (response.success) {
-              alert(result.message);
+              //alert(result.message);
           } else {
-              alert(result.message || 'Failed to update read status');
+              //alert(result.message || 'Failed to update read status');
           }
       } catch (error) {
           console.error('Error:', error);
