@@ -1,10 +1,11 @@
 "use client";
+import { FaPlay, FaPause } from 'react-icons/fa'; // Example using Font Awesome icons
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect,useRef, useState } from "react";
 import SeaPOI from '../../../assets/POIEdit/imagePOISea.png';
 import PlayIconPOI from '../../../assets/POIEdit/imagePlayvideoIcon.png';
 import PlayThumbPOI from '../../../assets/POIEdit/POIVideoThumb.png';
-import AudioPlayPOI from '../../../assets/POIEdit/AudioPlay.svg';
+import AudioPlayPOI from '../../../assets/POIEdit/playPOIEdit.svg';
 import AudioLineStylePOI from '../../../assets/POIEdit/AudioLineStyle.svg';
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";  
 import { useAuth } from "../../../Providers/AuthProvider/AuthProvider";
@@ -41,6 +42,10 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
   const [organizationOptions, setOrganizationOptions] = useState([]);
   const [statusOptions, setStatusOptions] = useState([]);
   const [municipalityOptions, setMunicipalityOptions] = useState([]);
+  
+  const audioRefs = useRef([]); // Array of refs for each audio
+  const [playingIndex, setPlayingIndex] = useState(null); // Track which audio is playing
+  const [pausedAt, setPausedAt] = useState(0); // Tracks the paused position
 
   useEffect(() => {
     if (queryresults && queryresults.features && queryresults.features.length > 0) {
@@ -334,7 +339,36 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
     }));
   };  
 
-  console.log("POI Data:", poiData);
+  const handlePlayAudio = (index) => {
+    if (playingIndex === index) {
+      // If already playing, pause it
+      handlePauseAudio(index);
+    } else {
+      // If a different track is selected, pause the currently playing track
+      if (playingIndex !== null && audioRefs.current[playingIndex]) {
+        audioRefs.current[playingIndex].pause();
+      }
+      // Resume from last paused position if available
+      audioRefs.current[index].currentTime = pausedAt;
+      audioRefs.current[index].play();
+      setPlayingIndex(index);
+      setPausedAt(0); // Reset paused position when a new track is played
+    }
+  };
+
+  const handlePauseAudio = (index) => {
+    // Pause the audio and store the current position
+    audioRefs.current[index].pause();
+    setPausedAt(audioRefs.current[index].currentTime);
+    setPlayingIndex(null); // Set playingIndex to null when paused
+  };
+
+  const handleAudioEnded = () => {
+    // Reset state when audio finishes
+    setPlayingIndex(null);
+    setPausedAt(0);
+  };
+
 
   const renderFieldOrText = (id, label, value,options = [], inputType = "text", disable) => (
     <div className="space-y-2">
@@ -445,20 +479,52 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
 
               {/* Audio Section */}
               <div>
-                <h3 className="text-sm font-medium mb-2 text-[#303030] ">Audio</h3>
-                {audios.length > 0 ? (
-                  audios.map((audio, index) => (
-                    <div key={index} className="flex p-2 h-10 bg-gray-300 rounded-full justify-center items-center overflow-hidden">
-                      <audio controls className="w-13" style={{ width: '100px' }}>
-                        <source src={audio.url} />
-                        Your browser does not support the audio tag.
-                      </audio>
-                    </div>
-                  ))
-                ) : (
-                  <p className=" text-[#303030] ">No audio files available.</p>
-                )}
-              </div>
+  <h3 className="text-sm font-medium mb-2 text-[#303030]">Audio</h3>
+  {audios.length > 0 ? (
+    audios.map((audio, index) => (
+      <div
+        key={index}
+        className="flex p-2 h-10 bg-gray-300 rounded-full justify-start items-center overflow-hidden"
+      >
+        <button onClick={() => handlePlayAudio(index)}>
+          {playingIndex === index ? (
+            <img
+              src={AudioPlayPOI}
+              alt="Audio Wave"
+              className="w-[70%] h-full"
+            />
+          ) : (
+            <img
+              src={AudioPlayPOI}
+              alt="Audio Wave"
+              className="w-[70%] h-full"
+            />
+          )}
+        </button>
+        <div className="relative w-[95%] h-full">
+          <img
+            src={AudioLineStylePOI}
+            alt="Audio Wave"
+            className="w-full h-full"
+            style={{
+              filter: `hue-rotate(${
+                (audioRefs.current[index]?.currentTime / audioRefs.current[index]?.duration || 0) * 360
+              }deg)`,
+            }}
+          />
+        </div>
+        <audio
+          ref={(el) => (audioRefs.current[index] = el)}
+          src={audio.url}
+          onEnded={handleAudioEnded}
+        />
+      </div>
+    ))
+  ) : (
+    <p className="text-[#303030]">No audio files available.</p>
+  )}
+</div>
+
             </div>
 
             {isEditShowPOI && (
