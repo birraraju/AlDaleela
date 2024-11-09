@@ -17,7 +17,8 @@
   import DarkLocation from '../../assets/Droppedpin/Dropped Pin.svg';
   import { useTheme } from '../Layout/ThemeContext/ThemeContext'; // Import the theme context
   import { useAuth } from "../../Providers/AuthProvider/AuthProvider";
-
+  import BookYellow from '../../assets/bookmarks/imageBookYellow.png';
+  import {UserActivityLog} from "../Common/UserActivityLog";
 
 
   export default function POIEditSideLayout({ children, mapview }) { //height = "calc(95vh - 2rem)",
@@ -36,6 +37,7 @@
     const [POIShareShow , setPOIShareShow]=useState(false);
     const [queryresults , setQueryResults]=useState("");
     const [uploadedFiles, setUploadedFiles] = useState([]); // Store the uploaded files
+    const [isBookMarkClick,setBookMarkClick]=useState(false)
     console.log("POI Share status:", POIShareShow)
 
 
@@ -110,13 +112,16 @@
           const data = await response.json();
           if(data.success){
             //console.log(values);
-            //UserActivityLog(profiledetails, "Forget Password")  
+            UserActivityLog(profiledetails, "Bookmark Added")  
+            setBookMarkClick(false)
             alert(data.message);
           }
           else{
-            //console.log(data)          
+            //console.log(data)         
+            setBookMarkClick(false) 
           }
         }catch (error) {
+          setBookMarkClick(false)
           console.error('Error submitting form:', error);
         } 
       }
@@ -184,10 +189,16 @@
     //   // }
     // };
 
-    const handleBookmarkEvent = async(e) => {
+    const handleBookmarkEvent = async (eventType) => {
+      if(eventType === "click"){
+        setBookMarkClick(true)
+      }
+      
+      // Use a more descriptive parameter name like eventType instead of 'e'
       let layerUrl = '';
       let Objectid = '';
-  
+    
+      // Fetch layer configurations and set layerUrl and Objectid as per logic
       if (popupselectedgeo?.layerName) {
           const terrestrialLayerConfig = config.featureServices.find(service => 
               service.name === popupselectedgeo?.layerName
@@ -195,40 +206,42 @@
           layerUrl = terrestrialLayerConfig?.url;
           Objectid = "OBJECTID=" + popupselectedgeo?.feature?.attributes?.OBJECTID;
       } else if (popupselectedgeo?.layer?.layerId !== null && popupselectedgeo?.layer?.layerId !== 'undefined') {
-          layerUrl = popupselectedgeo?.layer?.url + "/" + popupselectedgeo?.layer?.layerId;
+          layerUrl = `${popupselectedgeo?.layer?.url}/${popupselectedgeo?.layer?.layerId}`;
           Objectid = "OBJECTID=" + popupselectedgeo?.attributes?.OBJECTID;
       } else {
           layerUrl = popupselectedgeo?.layer?.url;
           Objectid = "OBJECTID=" + popupselectedgeo?.attributes?.OBJECTID;
       }
-  
+    
       try {
           const featureLayer = new FeatureLayer({
               url: layerUrl
           });
-  
-          let query = featureLayer.createQuery();
+    
+          const query = featureLayer.createQuery();
           query.where = Objectid;
           query.returnGeometry = true;
           query.outFields = ['*'];
-  
+    
           const response = await featureLayer.queryFeatures(query);
           console.log('Features found:', response.features);
-  
-          if (e !== "onload") {
+    
+          if (eventType !== "onload") {
               handleInsertBookmarkData(response);
           } else {
               setQueryResults(response);
           }
       } catch (error) {
           console.error('Query failed:', error);
-  
+          setBookMarkClick(false);
+    
           // Check if it's an HTML response indicating a server error
           if (error.message.includes("Unexpected token '<'")) {
               console.error('Received an HTML response. The URL might be incorrect or the server is down.');
           }
       }
   };
+  
   
 
     // If the panel is fully closed, don't render anything
@@ -244,7 +257,7 @@
 
     return (
       <div
-        className={`fixed top-16 w-[510px] ${POIShareShow?"-[65%] laptop_s:w-[370px]":"h-[90%]"} sm:w-[400px] laptop_s:w-[330px]  ${ isLangArab?"left-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
+        className={`fixed top-16 w-[510px] ${POIShareShow?"-[65%] laptop_s:w-[370px]": POIFormisOpenModalShow ?" ":"h-[90%]"} sm:w-[400px] laptop_s:w-[330px]  ${ isLangArab?"left-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%]":"translate-x-[103%]")
         }`}
         // style={{ width, height, zIndex: 50 }}  // Ensure it's above other elements
@@ -253,20 +266,72 @@
         <div className={`relative sm:h-[80%] laptop_s:h-[89%] h-[98%]  w-[65%] float-end sm:w-full rounded-2xl shadow-lg overflow-hidden border transition-colors duration-300 ${
             isDarkMode
               ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
-              : "bg-white bg-opacity-70 border-white"
+              : "bg-white bg-opacity-80 border-white"
           }`}>
           {/* Content */}
           <div className="p-2 overflow-y-auto h-full relative">
             {children || (<>
-              {!POIShareShow && queryresults !== "" && <div className="absolute top-6 left-4 flex  gap-x-1">
+              {!POIShareShow && queryresults !== "" && <div className="absolute top-6 w-full  left-4 flex  gap-x-1">
                 <img src={isDarkMode ? DarkLocation : Location }alt="Location" className="h-8" />
                 <p className={`font-semibold font-poppins ${
                       isDarkMode ? "text-white" : "text-gray-600"
                     }`}> <h1 className=" text-[12px]">{queryresults.features[0].attributes.name_ar}</h1>
                     <h2 className=" text-[12px]">{queryresults.features[0].attributes.name_en}</h2></p>
-              </div>}
+                    {!POIShareShow && <div className=" flex justify-center items-center absolute right-3 -top-1  p-2 transition-colors h-10 cursor-pointer z-50">
+  {/* POI Share Icon */}
+  <button
+    onClick={() => {setPOIShareShow(true);setPOIFormShow(false);setPOIFormisOpenModalShow(false)}} // Toggle the state
+    aria-label="Edit POI"
+    className="h-full"
+    style={{ border: 'none', background: 'none' }} // No styles, functionality only
+  >
+  <img
+    
+    src={PoiEditShare} // isDarkMode check was redundant as both conditions had the same value
+    alt="Share Location"
+    className="h-full"
+  />
+  </button>
+
+  {/* Edit POI Button */}
+  <button
+    onClick={() =>  handleShowPOIEdit()} // Toggle the state
+    aria-label="Edit POI"
+    className="h-full"
+    style={{ border: 'none', background: 'none' }} // No styles, functionality only
+  >
+    <img
+      src={POIEditWrite} // isDarkMode check was redundant here as well
+      alt="Edit POI"
+      className="h-full"
+    />
+  </button>
+
+  {/* POI Label Mark */}
+  <button onClick={() => RoleServices.isAuth() ? handleBookmarkEvent('click') : setIsAuthPopUp(true)}>
+  <img
+    src={POILabelMark}
+    alt="Location Mark"
+    className={`${isBookMarkClick ?"invert brightness-0 text-white ":" "} h-full`}
+  />
+</button>
+
+  
+
+  {/* Close Button (X) */}
+  <button
+    onClick={() => setIsEditPOI(false)}
+    className={`transition-colors cursor-pointer z-50 ${
+      isDarkMode ? "hover:text-gray-300" : "text-green-900"
+    }`}  // Ensure it's clickable
+    aria-label="Close side panel"
+    style={{ zIndex: 100 }} // Ensure the "X" button is on top
+  >
+    <X className="h-5 w-6" />
+  </button>
+</div>}       </div>}
               <div className={`${POIShareShow?"mt-3":"mt-20"} overflow-y-auto`}>
-              {POIShareShow && <POShareForm  onClose={()=>{setPOIFormShow(true);setPOIShareShow(false);}}/>}
+              {POIShareShow && <POShareForm  onClose={()=>{setPOIFormShow(true);setPOIShareShow(false);}} queryresults={queryresults}/>}
              {(isEditShowPOI||POIFormShow) && <POIEditForm isEditShowPOI={isEditShowPOI}  setIsShowEditPOI={setIsShowEditPOI}  POIFormShow={POIFormShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow} queryresults={queryresults} setIsEditPOI={setIsEditPOI} uploadedFiles={uploadedFiles} setPOImessageShow={setPOImessageShow} setPOIFormsuccessShow={setPOIFormsuccessShow} setPOIFormisOpenModalShow={setPOIFormisOpenModalShow} setUploadedFiles={setUploadedFiles}/>}
               <POIEditFileUploader setPOImessageShow={setPOImessageShow} setPOIFormsuccessShow={setPOIFormsuccessShow} POIFormUploader={POIFormUploader} setPOIFormisOpenModalShow={setPOIFormisOpenModalShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow} queryresults={queryresults} uploadedFiles={uploadedFiles} setUploadedFiles={setUploadedFiles}/>
                {/* Render the modal only when the state is true */}
@@ -286,58 +351,7 @@
             )}
           </div>
           
-          {!POIShareShow && <div className="absolute top-4 flex right-2 p-2 transition-colors h-10 cursor-pointer z-50">
-  {/* POI Share Icon */}
-  <button
-    onClick={() => {setPOIShareShow(true);setPOIFormShow(false);setPOIFormisOpenModalShow(false)}} // Toggle the state
-    aria-label="Edit POI"
-    className="h-full"
-    style={{ border: 'none', background: 'none' }} // No styles, functionality only
-  >
-  <img
-    
-    src={PoiEditShare} // isDarkMode check was redundant as both conditions had the same value
-    alt="Share Location"
-    className="h-full"
-  />
-  </button>
-
-  {/* Edit POI Button */}
-  <button
-    onClick={() => handleShowPOIEdit()} // Toggle the state
-    aria-label="Edit POI"
-    className="h-full"
-    style={{ border: 'none', background: 'none' }} // No styles, functionality only
-  >
-    <img
-      src={POIEditWrite} // isDarkMode check was redundant here as well
-      alt="Edit POI"
-      className="h-full"
-    />
-  </button>
-
-  {/* POI Label Mark */}
-  <button onClick={handleBookmarkEvent}>
-  <img
-    src={POILabelMark} // isDarkMode check was redundant here too
-    alt="Location Mark"
-    className="h-full"
-  />
-  </button>
-  
-
-  {/* Close Button (X) */}
-  <button
-    onClick={() => setIsEditPOI(false)}
-    className={`transition-colors cursor-pointer z-50 ${
-      isDarkMode ? "hover:text-gray-300" : "text-green-900"
-    }`}  // Ensure it's clickable
-    aria-label="Close side panel"
-    style={{ zIndex: 100 }} // Ensure the "X" button is on top
-  >
-    <X className="h-5 w-6" />
-  </button>
-</div>}
+          
         </div>
 
         {/* Toggle button */}

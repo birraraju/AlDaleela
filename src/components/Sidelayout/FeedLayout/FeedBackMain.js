@@ -53,13 +53,13 @@ export default function SendFeedBack({
   return (
     <div
       ref={feedbackRef}
-      className={`fixed sm:top-16 w-[510px] sm:w-[400px] top-14 ${ isLangArab?" right-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
+      className={`fixed sm:top-16 w-[510px] sm:w-[400px] top-14 ${ isLangArab?" left-3 sm:left-16 laptop_s:left-3":"right-2 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
         isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%]":"translate-x-[103%]")
       }`}
       style={{  height }}
     >
       <div
-        className={`relative sm:h-[620px] h-[590px] sm:w-full sm:float-none w-[67%] float-end rounded-2xl shadow-lg overflow-hidden border ${
+        className={`relative h-[620px] sm:w-full sm:float-none w-[67%] float-end rounded-2xl shadow-lg overflow-scroll border ${isLangArab?"laptop_s:sm:h-[625px] ":"laptop_s:sm:h-[620px] "} ${
           isDarkMode
             ? "bg-[#000000] bg-opacity-80 border-none" // Dark mode styles
             : "bg-white bg-opacity-70 backdrop-blur-lg border-white" // Light mode styles
@@ -68,9 +68,9 @@ export default function SendFeedBack({
         {/* Header with Feedback Text and Close Button */}
         <div dir={isLangArab ? "rtl" : "ltr"}>
 
-        <div className="flex items-center justify-between p-4">
-          <span className={`text-lg font-semibold text-${isDarkMode ? '[#FFFFFFCC] text-opacity-80' : 'black'}`}>
-            {isLangArab?"ملاحظات":"Feedback"}
+        <div className={`flex items-center justify-between  mt-3 py-2 px-6 ${isLangArab ?  "laptop_s:mt-0" : " laptop_s:mt-2 "}`}>
+          <span className={`text-lg font-medium ${isDarkMode ? 'text-[#FFFFFFCC] text-opacity-80' : 'text-[#505050]'}`}>
+            {isLangArab?"ملاحظات":"Feedsback"}
           </span>
           <button
            
@@ -88,7 +88,7 @@ export default function SendFeedBack({
         </div>
         </div>
 
-        <div className="sm:p-6 p-2 overflow-y-auto h-full">
+        <div className="p-2 sm:py-2 sm:px-6  overflow-y-auto h-full">
           <FeedBackBody
            setIsPopoverOpen={setIsPopoverOpen}
            setIsFeedBack={setIsFeedBack}
@@ -162,8 +162,10 @@ export default function SendFeedBack({
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
             <IoIosArrowForward
               className={`transition-transform duration-300 ${
-                isOpen ? "rotate-0" : "rotate-180"
-              } ${isDarkMode ? "text-white" : "text-black"}`}
+                isOpen ? (isLangArab?"rotate-180":"rotate-0") : (isLangArab?"rotate-0":"rotate-180")
+              } 
+              
+              ${isDarkMode ? "text-white" : "text-black"}`}
             />
           </div>
         </button>

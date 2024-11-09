@@ -7,6 +7,7 @@ import Xicon from '../../../../../../../assets/Admin/logo/xicon.svg';
 import EditIcon from '../../../../../../../assets/Admin/logo/edit.svg';
 import { useTheme } from "../../../../../ThemeContext/ThemeContext"; // Importing the theme context
 import DarkEditIcon from '../../../../../../../assets/Admin/logo/darkedit.svg';
+import DeleteConfirmation from '../../../../../../Common/deleteConfirmation';
 
 const users = [
   { username: 'User One', email: 'user1@gmail.com', submissionDate: '2024-10-01', senderName: 'User One', senderEmail: 'user1@gmail.com', status: 'Read', feedback: 'Great service!' },
@@ -31,7 +32,9 @@ const Feedback = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [scrollPercentage, setScrollPercentage] = useState(0);
+  const [selectedUsersid, setSelectedUsersId] = useState(undefined);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [isShowConfirmation, setIsShowConfirmation] = useState(false);
   const tableRef = useRef(null);
   const [data, setData] = useState([]);
   const { isDarkMode } = useTheme(); // Access dark mode from theme context
@@ -97,7 +100,14 @@ const Feedback = () => {
       tableElement?.removeEventListener('scroll', handleScroll);
     };
   }, []);
-  const handleFeedbackDelete = async (id) => {
+
+  const handleFeedbackDelete = (id) => {
+    setSelectedUsersId(id)
+    setIsShowConfirmation(true);
+  };
+
+
+  const handleConfirmFeedbackDelete = async (id) => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/FeedBack/deletemultiplefeedbacks`, {
           method: 'POST',
@@ -143,8 +153,13 @@ const Feedback = () => {
   };
   return (
     <div className="flex h-[calc(100vh-6rem)]">
+       <DeleteConfirmation
+        isShowConfirmation={isShowConfirmation}
+        handleDeleteConfirm={() =>{ isEditing ? handleselectedDeleted() :handleConfirmFeedbackDelete(selectedUsersid);setIsShowConfirmation(false);}}
+        handleDeleteCancel={() => {setSelectedUsersId(undefined);setSelectedUsers([]);setIsShowConfirmation(false);}}
+      />
     <div  className={`p-8 rounded-lg shadow-sm flex flex-col flex-grow overflow-hidden ${
-        isDarkMode ? "bg-[#303031] bg-opacity-90" : "bg-white "
+        isDarkMode ? "bg-[#303031] bg-opacity-90" : "bg-transparent "
       } text-black backdrop-blur border-none`}>
       <div className="flex justify-between items-center mb-6">
       <h2 className={`text-[22px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]" : "text-gray-800"}`}>
@@ -169,7 +184,7 @@ const Feedback = () => {
         <div className="overflow-hidden flex-grow relative">
           <div ref={tableRef} className="overflow-x-auto overflow-y-auto absolute inset-0 pr-4">
             <table className="w-full">
-            <thead className={`sticky top-0   z-10 ${isDarkMode ? "bg-[#303031] " : "bg-white"}`}>
+            <thead className={`${!selectedUser &&"sticky"} top-0   z-10 ${isDarkMode ? "bg-[#303031] " : "bg-white"}`}>
                 <tr className="text-left text-sm font-medium text-gray-500 border-b">
                   {isEditing && <th className="pb-3 w-8"></th>}
                   <th className={`pb-3 p-2 font-medium font-omnes text-[14px]   ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
@@ -197,8 +212,8 @@ const Feedback = () => {
                       : "bg-white"
                   }`}>
                     <td className="py-4 pl-2">
-                      {/* <span className="inline-block w-3 h-3 bg-green-500 rounded-full" title={user.status}></span> */}
-                      <span className="inline-block w-3 h-3 bg-green-500 rounded-full" title={"Read"}></span>
+                      <span className="inline-block w-3 h-3 bg-green-500 rounded-full" title={user.readStatus}></span>
+                      {/* <span className="inline-block w-3 h-3 bg-green-500 rounded-full" title={"Read"}></span> */}
                     </td>
                     {isEditing && (
                       <td className="py-4 pl-2">

@@ -6,7 +6,7 @@ import PasswordChangeSuccess from './PasswordPopup/PasswordPopup';
 import { IoEyeOff } from "react-icons/io5";
 import { useTheme } from '../../../Layout/ThemeContext/ThemeContext'; // Import the theme context
 import {UserActivityLog} from "../../../Common/UserActivityLog";
-
+import { useAuth } from "../../../../Providers/AuthProvider/AuthProvider";
 
 export default function ResetPassword({ email, onClose, onBackToLogin, onSignup, onPasswordSet }) {
   const [formData, setFormData] = useState({
@@ -18,7 +18,7 @@ export default function ResetPassword({ email, onClose, onBackToLogin, onSignup,
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const [showResetForm, setShowResetForm] = useState(true);
   const { isDarkMode,isLangArab } = useTheme(); // Access the dark mode state
-
+  const {profiledetails}= useAuth();
 
   const modalRef = useRef(null);
 
@@ -57,7 +57,7 @@ export default function ResetPassword({ email, onClose, onBackToLogin, onSignup,
         const data = await response.json();
         if(data.success){
           //console.log(values);
-          //UserActivityLog(profiledetails, "Forget Password")   
+          UserActivityLog({"username":"Unknown","email":data.data.email}, "Forgot Password")   
           setShowResetForm(false);
           setShowSuccessPopup(true);       
         }

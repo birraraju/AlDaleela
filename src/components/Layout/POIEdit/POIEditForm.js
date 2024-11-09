@@ -1,14 +1,16 @@
 "use client";
+import { FaPlay, FaPause } from 'react-icons/fa'; // Example using Font Awesome icons
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect,useRef, useState } from "react";
 import SeaPOI from '../../../assets/POIEdit/imagePOISea.png';
 import PlayIconPOI from '../../../assets/POIEdit/imagePlayvideoIcon.png';
 import PlayThumbPOI from '../../../assets/POIEdit/POIVideoThumb.png';
-import AudioPlayPOI from '../../../assets/POIEdit/AudioPlay.svg';
+import AudioPlayPOI from '../../../assets/POIEdit/playPOIEdit.svg';
 import AudioLineStylePOI from '../../../assets/POIEdit/AudioLineStyle.svg';
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";  
 import { useAuth } from "../../../Providers/AuthProvider/AuthProvider";
 import config from '../../Common/config'; // Import your config file
+import {UserActivityLog} from "../../Common/UserActivityLog";
 
 const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFormShow, isEditShowPOI, queryresults, setIsEditPOI, uploadedFiles, setPOImessageShow, setPOIFormsuccessShow, setPOIFormisOpenModalShow, setUploadedFiles }) => {
   const [poiData, setPoiData] = useState({
@@ -41,6 +43,10 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
   const [organizationOptions, setOrganizationOptions] = useState([]);
   const [statusOptions, setStatusOptions] = useState([]);
   const [municipalityOptions, setMunicipalityOptions] = useState([]);
+  
+  const audioRefs = useRef([]); // Array of refs for each audio
+  const [playingIndex, setPlayingIndex] = useState(null); // Track which audio is playing
+  const [pausedAt, setPausedAt] = useState(0); // Tracks the paused position
 
   useEffect(() => {
     if (queryresults && queryresults.features && queryresults.features.length > 0) {
@@ -307,8 +313,9 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
                     if (layer.refresh) {
                       layer.refresh();
                     }
-                  });           
-                  setPOImessageShow("Your file and data has been uploaded successfully!");
+                  });  
+                  UserActivityLog(profiledetails, "POI Updated")      
+                  setPOImessageShow("File uploaded successfully!!");
                   setPOIFormsuccessShow("Success"); // or "Failure" based on your logic
                   setPOIFormisOpenModalShow(true); // Show the modal
                   setPOIFormShow(false);
@@ -334,7 +341,36 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
     }));
   };  
 
-  console.log("POI Data:", poiData);
+  const handlePlayAudio = (index) => {
+    if (playingIndex === index) {
+      // If already playing, pause it
+      handlePauseAudio(index);
+    } else {
+      // If a different track is selected, pause the currently playing track
+      if (playingIndex !== null && audioRefs.current[playingIndex]) {
+        audioRefs.current[playingIndex].pause();
+      }
+      // Resume from last paused position if available
+      audioRefs.current[index].currentTime = pausedAt;
+      audioRefs.current[index].play();
+      setPlayingIndex(index);
+      setPausedAt(0); // Reset paused position when a new track is played
+    }
+  };
+
+  const handlePauseAudio = (index) => {
+    // Pause the audio and store the current position
+    audioRefs.current[index].pause();
+    setPausedAt(audioRefs.current[index].currentTime);
+    setPlayingIndex(null); // Set playingIndex to null when paused
+  };
+
+  const handleAudioEnded = () => {
+    // Reset state when audio finishes
+    setPlayingIndex(null);
+    setPausedAt(0);
+  };
+
 
   const renderFieldOrText = (id, label, value,options = [], inputType = "text", disable) => (
     <div className="space-y-2">
@@ -347,7 +383,7 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
             id={id}
             value={poiData[id]}
             onChange={handleChange}
-            className="block w-full p-2 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            className="block w-full p-2 rounded-md text-black border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
           >
             {options.length > 0 && (
             <>
@@ -369,11 +405,11 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
             value={poiData[id]}
             disabled={disable}
             onChange={handleChange}
-            className="block w-full rounded-md p-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            className="block w-full rounded-md p-2 text-black border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
           />
         )
       ) : (
-        <p className={` border ${value? "p-2": "p-5" } rounded-md bg-gray-100`}>{value}</p>
+        <p className={` border ${value? "p-2": "p-5" } rounded-md text-black bg-gray-100`}>{value}</p>
       )}
     </div>
   );
@@ -382,7 +418,7 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
     <div className="w-full max-w-md bg-transparent overflow-y-auto ">
       <div className="p-2 space-y-4">
         {(!queryresults.features || queryresults.features.length === 0) ? (
-          <p>No results found.</p> // Display message if there are no features
+          <p></p> // Display message if there are no features
         ) : (
           <>
             {renderFieldOrText("organization", "Organization", queryresults.features[0].attributes.organization,organizationOptions, "select")}
@@ -408,7 +444,7 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
              {/* Photos Section */}
              <div className="px-3 py-6 border border-none rounded-lg bg-white space-y-4">
               <div>
-                <h3 className="text-sm font-medium mb-2">Photos</h3>
+                <h3 className="text-sm text-[#303030] font-medium mb-2">Photos</h3>
                 {images.length > 0 ? (
                   images.map((image, index) => (
                     <div key={index} className="relative h-[90px] rounded-lg overflow-hidden">
@@ -416,13 +452,13 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
                     </div>
                   ))
                 ) : (
-                  <p>No photos available.</p>
+                  <p className=" text-black">No photos available.</p>
                 )}
               </div>
 
               {/* Videos Section */}
               <div>
-                <h3 className="text-sm font-medium mb-2">Videos</h3>
+                <h3 className="text-sm font-medium text-[#303030] mb-2">Videos</h3>
                 {videos.length > 0 ? (
                   <div className="grid grid-cols-2 gap-2">
                     {videos.map((video, index) => (
@@ -439,46 +475,66 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
                     ))}
                   </div>
                 ) : (
-                  <p>No videos available.</p>
+                  <p className=" text-[#303030] ">No videos available.</p>
                 )}
               </div>
 
               {/* Audio Section */}
               <div>
-                <h3 className="text-sm font-medium mb-2">Audio</h3>
-                {audios.length > 0 ? (
-                  audios.map((audio, index) => (
-                    <div key={index} className="flex p-2 h-10 bg-gray-300 rounded-full justify-center items-center overflow-hidden">
-                      <audio controls className="w-13" style={{ width: '100px' }}>
-                        <source src={audio.url} />
-                        Your browser does not support the audio tag.
-                      </audio>
-                    </div>
-                  ))
-                ) : (
-                  <p>No audio files available.</p>
-                )}
-              </div>
-            </div>
+  <h3 className="text-sm font-medium mb-2 text-[#303030]">Audio</h3>
+  {audios.length > 0 ? (
+    audios.map((audio, index) => (
+      <div
+        key={index}
+        className="flex p-2 h-10 bg-gray-300 rounded-full justify-start items-center overflow-hidden"
+      >
+        <button onClick={() => handlePlayAudio(index)}>
+          {playingIndex === index ? (
+            <img
+              src={AudioPlayPOI}
+              alt="Audio Wave"
+              className="w-[70%] h-full"
+            />
+          ) : (
+            <img
+              src={AudioPlayPOI}
+              alt="Audio Wave"
+              className="w-[70%] h-full"
+            />
+          )}
+        </button>
+        <div className="relative w-[95%] h-full">
+          <img
+            src={AudioLineStylePOI}
+            alt="Audio Wave"
+            className="w-full h-full"
+            style={{
+              filter: `hue-rotate(${
+                (audioRefs.current[index]?.currentTime / audioRefs.current[index]?.duration || 0) * 360
+              }deg)`,
+            }}
+          />
+        </div>
+        <audio
+          ref={(el) => (audioRefs.current[index] = el)}
+          src={audio.url}
+          onEnded={handleAudioEnded}
+        />
+      </div>
+    ))
+  ) : (
+    <p className="text-[#303030]">No audio files available.</p>
+  )}
+</div>
 
-            {/* Action Buttons */}
-            {isEditShowPOI && (
-              <div className="flex justify-center space-x-8 items-center">
-                <button onClick={() => setIsShowEditPOI(false)} className="w-auto py-3 px-9 bg-transparent text-xs border border-black rounded-lg">
-                  Cancel
-                </button>
-                <button onClick={() => { handleAttributesUpdate()}} className="w-auto py-3 px-9 bg-custom-gradient text-xs border border-gray-300 rounded-lg">
-                  Update
-                </button>
-              </div>
-            )}
+            </div>
 
             {isEditShowPOI && (
               <>
                 <div className="grid grid-cols-1 py-3 justify-center items-center">
-                  <p className="flex justify-center text-sm items-center">Want to share photos, videos, and audio</p>
-                  <p className="flex justify-center text-sm items-center">for this location?</p>
-                  <p className="flex justify-center text-sm items-center">Please click the upload button.</p>
+                  <p className="flex justify-center text-sm text-black items-center">Want to share photos, videos, and audio</p>
+                  <p className="flex justify-center text-sm text-black items-center">for this location?</p>
+                  <p className="flex justify-center text-sm text-black items-center">Please click the upload button.</p>
                 </div>
                 <div className="flex justify-center items-center">
                   <p onClick={() => { setPOIUploaderShow(true); setPOIFormShow(false); }} className="cursor-pointer text-blue-500 hover:text-blue-800 underline">
@@ -489,6 +545,19 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
             )}
 
             <div className="text-sm text-gray-500 px-12">X 54.2971051, Y 24.0622842</div>
+
+            {/* Action Buttons */}
+            {isEditShowPOI && (
+              <div className="flex justify-center space-x-8 items-center">
+                <button onClick={() => setIsShowEditPOI(false)} className="w-auto py-3 px-9 outline-none bg-transparent text-xs text-black border border-[#909090] rounded-lg">
+                  Cancel
+                </button>
+                <button onClick={() => { handleAttributesUpdate()}} className="w-auto py-3 px-9 bg-custom-gradient text-xs border border-gray-300 rounded-lg">
+                  Update
+                </button>
+              </div>
+            )}
+
           </>
         )}
       </div>

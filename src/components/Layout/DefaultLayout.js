@@ -21,14 +21,13 @@ import SideLayout5 from "../Sidelayout/sidelayout5";
 import SideLayout6 from "../Sidelayout/sidelayout6";
 
 import { useLocation } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import RoleServices from '../servicces/RoleServices';
 import { useAuth } from "../../Providers/AuthProvider/AuthProvider";
 import AthenticatePopLogin from '../../components/Popups/Login/Footerpopups/Footerlogin/footerlogin'
-
-
-
-
+import config from "../Common/config"
+import Graphic from '@arcgis/core/Graphic';
+import FeatureLayer from "@arcgis/core/layers/FeatureLayer"; 
 
 
 const DefaultLayout = ({role}) => {
@@ -37,24 +36,29 @@ const DefaultLayout = ({role}) => {
   const [resetFooter, setResetFooter] = useState(false);
   const [isFooterOpen, setIsFooterOpen] = useState(false);
   const [mapview, setMapview] = useState(false);
-  const {isEditPOI,setIsEditPOI,isAuthPopUp} = useAuth();
+  const {isEditPOI,setIsEditPOI,isAuthPopUp,setPopupSelectedGeo,printWidget, setprintWidget, exportWidget, setexportWidget, MeasurementOpenWidget, setMeasurementOpenWidget} = useAuth();
   const [lastRendered, setLastRendered] = useState("");  // Track last rendered component
-  const { isPOIAddShow,setIsPOIAddShow } = useTheme();
+  const { isPOIAddShow,isLogin,setIsLogin,setIsPOIAddShow } = useTheme();
   console.log("POI status Default:", isEditPOI);
+  const { LayerId, objectid } = useParams();   
 
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
 
   const sides = queryParams.get('sides');
+  const Activatoin = queryParams.get('UserActivation');
   const navigate = useNavigate();
     
    // Only trigger if `sides` has changed and is different from `lastRendered`
    useEffect(() => {
     if (sides && sides !== lastRendered) {
       handleDropbinAdmin(sides);
+    }else if(Activatoin==="Login" ){
+      setIsLogin(true);
     }
-  }, [sides]);
+  }, [sides,Activatoin]);
+
 
   const handleDropbinAdmin = (sides) => {
     console.log("Data Sides data:", sides);
@@ -71,8 +75,98 @@ const DefaultLayout = ({role}) => {
       }
     }
   };
+
+  useEffect(() => {
+    if (objectid && mapview) {
+      fetchFeatureData(objectid);
+      //alert(objectid)
+    }
+  }, [objectid,mapview]);
+
+  // Fetch feature data and zoom to it on the map
+  const fetchFeatureData = async (objectid) => {
+    if (!mapview) return; // Ensure mapview is ready
+
+    try {
+      const featureLayer = new FeatureLayer({
+        url: config.BaseUrl+"/"+LayerId // replace with correct feature layer URL
+      });
+
+      const query = featureLayer.createQuery();
+      query.where = `OBJECTID = ${objectid}`;
+      const response = await featureLayer.queryFeatures(query);
+
+      if (response.features.length > 0) {
+        const feature = response.features[0];
+
+        // Add feature to map
+        // const pointGraphic = new Graphic({
+        //   geometry: feature.geometry,
+        //   symbol: {
+        //     type: "simple-marker",
+        //     color: "blue",
+        //     outline: {
+        //       color: "lightblue",
+        //       width: 2,
+        //     },
+        //   },
+        // });
+        const pointGraphic = new Graphic({
+          geometry: feature.geometry,
+          symbol: {
+            type: "simple-marker",
+            outline: {
+              color: [0, 255, 255, 4],
+              width: 1
+            }
+          }
+        });
+
+        mapview.graphics.add(pointGraphic);
+
+        // Go to feature
+        // mapview.goTo({
+        //   target: feature.geometry,
+        //   zoom: 15,
+        // });
+        // Ensure animation property is available before calling goTo
+        if (mapview.animation) {
+          mapview.goTo({
+            target: feature.geometry,
+            zoom: 15,
+          });
+        } else {
+          console.warn("Animation property not available on mapview");
+          mapview.center = feature.geometry; // Fallback to centering without animation
+          mapview.zoom = 15;
+        }
+
+        setPopupSelectedGeo(feature); // if this is part of state
+        setIsEditPOI(true); // trigger edit mode
+      } else {
+        console.log("No feature found with this OBJECTID");
+      }
+    } catch (error) {
+      console.error("Error querying the feature layer:", error);
+    }
+  };
  
-  const handleClose = () => {
+  const handleClose = () => {  
+    if(printWidget){
+      printWidget.destroy(); // Destroy the widget
+      setprintWidget(null); // Set to null to reset the state
+    }  
+    if(exportWidget){
+      exportWidget.destroy(); // Destroy the widget
+      setexportWidget(null); // Set to null to reset the state
+    }  
+    if(mapview){
+      mapview.graphics.removeAll();
+    }
+    if(MeasurementOpenWidget){
+      MeasurementOpenWidget.destroy();
+      setMeasurementOpenWidget(null);
+    }
     setPopup(null);
     setResetFooter(true);
     setIsPOIAddShow(false)
@@ -83,11 +177,27 @@ const DefaultLayout = ({role}) => {
   const handlePOIUpdateClose=()=>{
     handleClose()
     navigate({
-      pathname: `/${process.env.REACT_APP_BASE_URL}`,
+      pathname: `/admin`,
+      search: `?Compenent=ContentManagement`,
     });
   }
   //  AthenticatePopLogin
   const renderComponent = (name) => {
+    if(printWidget){
+      printWidget.destroy(); // Destroy the widget
+      setprintWidget(null); // Set to null to reset the state
+    }  
+    if(exportWidget){
+      exportWidget.destroy(); // Destroy the widget
+      setexportWidget(null); // Set to null to reset the state
+    } 
+    if(mapview && name !== "POIEdit"){
+      mapview.graphics.removeAll();
+    }
+    if(MeasurementOpenWidget){
+      MeasurementOpenWidget.destroy();
+      setMeasurementOpenWidget(null);
+    }
     if (!name) return null;   // Prevent empty name render override
     console.log("Rendering component for name:", name, "and role:", role);
     if (role === null) {
@@ -133,7 +243,7 @@ const DefaultLayout = ({role}) => {
       case "POIApproval":
           return <POIApproval onClose={handlePOIUpdateClose} mapview={mapview} />;
       case "AuthPopUp":
-          return <AthenticatePopLogin setPopup={setPopup} setResetFooter={setResetFooter} />;
+          return <AthenticatePopLogin name={name} setPopup={setPopup} setResetFooter={setResetFooter} />;
       default:
         return <></>;
     }

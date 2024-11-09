@@ -9,6 +9,7 @@ import { useAuth } from "../../Providers/AuthProvider/AuthProvider";
 import config from '../Common/config'; // Import your config file
 import Graphic from "@arcgis/core/Graphic.js";
 import Point from "@arcgis/core/geometry/Point.js";
+import {UserActivityLog} from "../Common/UserActivityLog";
 
 const Component = ({mapview, selectedLayer, addPointGeometry, setFormShow,setPOIFormsuccessShow,setmessage,onClose,setPOIFormisOpenModalShow,isFormShow}) => {
   const [poiData, setPoiData] = useState({
@@ -432,7 +433,8 @@ const Component = ({mapview, selectedLayer, addPointGeometry, setFormShow,setPOI
             });
             const data = await response.json();
                 if(data.success){
-                  console.log(data.message);     
+                  console.log(data.message);   
+                  UserActivityLog(profiledetails, "POI Added")
                   contextMapView.graphics.removeAll(); // Clears all graphics  
                   contextMapView.map.layers.forEach(layer => {
                     if (layer.refresh) {

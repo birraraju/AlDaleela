@@ -15,6 +15,7 @@ import { useAuth } from "../../../Providers/AuthProvider/AuthProvider";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";  
 import Graphic from '@arcgis/core/Graphic';
 import config from '../../Common/config'; // Import your config file
+import {UserActivityLog} from "../../Common/UserActivityLog";
 
 const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsManageVisible, isManageVisible,onclose}) => {
   const [bookmarks, setBookmarks] = useState([]);
@@ -213,6 +214,7 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
           if(data.success){
             console.log(data.message);
             fetchBookmarks();
+            UserActivityLog(profiledetails, "Bookmark Removed")
             setIsManageVisible(false); // Close management view
             setSelectedMarks({}); // Reset the selected marks
           }

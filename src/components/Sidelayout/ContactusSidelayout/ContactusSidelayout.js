@@ -46,14 +46,14 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
     opacity: 0 
   }}
   transition={{ ease: "easeInOut" }}
-    className={`p-4  sm:py-4  sm:h-[66vh] laptop_s:h-[73vh] h-[79vh]  fixed top-16 ${isLangArab?"left-1 sm:left-16 laptop_s:left-2":"right-1 sm:right-16 laptop_s:right-2"}  backdrop-blur rounded-3xl text-black ${
+    className={`p-4  sm:py-4  sm:h-[66vh] laptop_s:h-[75vh]   fixed top-16 ${isLangArab?"left-1  h-[73vh] sm:left-16 laptop_s:left-2":"right-1 sm:right-16 h-[75vh] laptop_s:right-2"}  backdrop-blur rounded-3xl text-black ${
       isDarkMode
         ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none"
         : "bg-white bg-opacity-70 backdrop-blur-lg border-white"
     }`} // Adjust background color based on dark mode
   >
     <div className="flex relative justify-between items-center">
-      <h1 className={`text-[20px] font-semibold ${isDarkMode ? "text-[#FFFFFFCC]" : "text-black"}`}>
+    <h1 className={`text-[20px]   font-medium ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#505050]"}`}>
         {isLangArab?"اتصل بنا":"Contact Us"}
       </h1>
       <div
@@ -69,7 +69,7 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
     </div>
 
       {/* Contact Details */}
-    <div className="relative   sm:w-[21rem] laptop_s:w-[21rem] w-[20rem] sm:mt-4 mt-3 sm:overflow-hidden  ">
+    <div className="relative   sm:w-[21rem] laptop_s:w-[21rem] w-[20rem] sm:mt-1  mt-3 sm:overflow-hidden  ">
       <div className="space-y-4">
         <div>
           <h3 className="flex items-center mb-2 font-bold">

@@ -282,6 +282,8 @@ export default function BasicInformation({ isEditProfile, setIsSuccess, setIsFai
   });
   const [isDropdownOpen, setIsDropdownOpen] = useState(false); // To control country dropdown
   const [selectedCountry, setSelectedCountry] = useState(profiledetails.country || "Select a country");
+  const [emailError, setEmailError] = useState("");
+  const [phoneError, setPhoneError] = useState("");
 
   useEffect(() => {
     const basicInformation = [
@@ -308,6 +310,18 @@ export default function BasicInformation({ isEditProfile, setIsSuccess, setIsFai
     ];
     setUserInfo1(basicInformation);
   }, [profiledetails, isLangArab]);
+
+  const isFormValid = () => {
+    return (
+      (userInfo.Name || profiledetails.username) &&
+      (userInfo.PhoneNumber || profiledetails.phoneNumber) &&
+      (userInfo.Email || profiledetails.email) &&
+      (userInfo.Organization || profiledetails.organization) &&
+      (selectedCountry || profiledetails.country) &&
+      !emailError &&
+      !phoneError
+    );
+  };
 
   const handleUpdate = async () => {
     finaluserInfo.username = userInfo.Name || profiledetails.username;
@@ -348,9 +362,26 @@ export default function BasicInformation({ isEditProfile, setIsSuccess, setIsFai
     }
   };
 
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validatePhoneNumber = (phoneNumber) => {
+    const phoneRegex = /^\d{10}$/; // Adjust the regex for specific requirements
+    return phoneRegex.test(phoneNumber);
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUserInfo({ ...userInfo, [name.replace(" ", "")]: value });
+
+     // Validate email and phone number
+     if (name === "Email") {
+      setEmailError(validateEmail(value) ? "" : "Invalid email format");
+    } else if (name === "Phone Number") {
+      setPhoneError(validatePhoneNumber(value) ? "" : "Phone number must be 10 digits");
+    }
   };
 
   const toggleDropdown = () => {
@@ -419,7 +450,7 @@ export default function BasicInformation({ isEditProfile, setIsSuccess, setIsFai
     </div>
   )}
 </div>
-                ) : (
+                ) : (<>
                   <Input
                     type="text"
                     onChange={handleInputChange}
@@ -427,6 +458,9 @@ export default function BasicInformation({ isEditProfile, setIsSuccess, setIsFai
                     name={info.heading}
                     className={`w-full sm:h-auto h-3/4 ${isDarkMode ? "text-[#FFFFFFCC]" : "text-black"}`}
                   />
+                  {info.heading === "Email" && emailError && <p className="text-red-500 text-xs">{emailError}</p>}
+                  {info.heading === "Phone Number" && phoneError && <p className="text-red-500 text-xs">{phoneError}</p>}
+                  </>
                 )
               ) : (
                 <p className={`font-medium tracking-wide sm:text-sm text-[11px] ${isDarkMode ? "text-[#FFFFFFCC]" : "text-black"}`}>
@@ -437,14 +471,19 @@ export default function BasicInformation({ isEditProfile, setIsSuccess, setIsFai
           ))}
 
           {isEditProfile && (
-            <Button asChild>
-              <div
-                onClick={handleUpdate}
-                className="h-12 sm:py-5 py-1 cursor-pointer btn-gradient text-white text-base sm:rounded-xl rounded-md mt-4 tracking-wide"
-              >
-                {isLangArab ? "تحديث" : "Update"}
-              </div>
-            </Button>
+             <Button
+             asChild
+             disabled={!isFormValid()}
+           >
+             <div
+               onClick={isFormValid() ? handleUpdate : undefined}
+               className={`h-12 sm:py-5 py-1 cursor-pointer btn-gradient text-white text-base sm:rounded-xl rounded-md mt-4 tracking-wide ${
+                 isFormValid() ? "" : "opacity-50 cursor-not-allowed"
+               }`}
+             >
+               {isLangArab ? "تحديث" : "Update"}
+             </div>
+           </Button>
           )}
         </div>
       </div>

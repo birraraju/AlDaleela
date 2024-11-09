@@ -8,11 +8,11 @@ export default function Mottos() {
   const { isDarkMode, isLangArab } = useTheme(); // Access dark mode from theme context
 
   return (
-    <div className="space-y-4 mt-4">
+    <div className={`space-y-2 mt-2 flex flex-col  ${isLangArab?"gap-1":"gap-0"}` }>
       {aboutContent.map((content, index) => (
         <div
           key={index}
-          className={`rounded-xl py-2 px-4 flex items-center justify-between gap-4 ${
+          className={`rounded-xl py-2 px-4 flex items-center justify-between gap-4  ${
             isDarkMode ? "bg-white bg-opacity-20 text-white" : "bg-white text-black"
           }`} // Adjust background and text colors based on dark mode
         >
@@ -20,15 +20,15 @@ export default function Mottos() {
             <img
               src={content.image}
               alt=""
-              className="w-12"
+              className="w-8"
             />
           </div>
 
           <div className="w-[80%]">
-            <h1 className={`font-semibold ${isDarkMode ? 'text-[#FFFFFFCC] text-opacity-80': 'text-gray-600'} `}>
+            <h1 className={` font-semibold text-sm ${isDarkMode ? 'text-[#FFFFFFCC] text-opacity-80': 'text-gray-600'} `}>
             {isLangArab ? content.arabicTitle : content.title} {/* Display Arabic or English based on language state */}
             </h1>
-            <p className={`text-sm font-normal mt-1 ${isDarkMode ? 'text-[#FFFFFFCC]' : 'text-gray-600'}`}>
+            <p className={`text-xs font-normal  ${isLangArab?"leading-5":"leading-4"} mt-0 ${isDarkMode ? 'text-[#FFFFFFCC]' : 'text-gray-600'}`}>
             {isLangArab ? content.arabicDescription : content.description} {/* Display Arabic or English based on language state */}
             </p>
           </div>

@@ -1,19 +1,21 @@
 import React, { useEffect, useRef } from "react";
 import Print from "@arcgis/core/widgets/Print";
 import './Export.css';
+import { useAuth } from "../../../Providers/AuthProvider/AuthProvider";
 
 const PrintComponent = ({ mapview }) => {
   const exportRef = useRef(null);
+  const {setexportWidget} = useAuth();
 
   useEffect(() => {
     if (mapview && exportRef.current) {
       try {
-        const printWidget = new Print({
+        const exportWidget = new Print({
           view: mapview,
           container: exportRef.current,
-          printServiceUrl: "https://maps.smartgeoapps.com/server/rest/services/AlDaleela/Al_daleela_Print/GPServer/Export%20Web%20Map",
+          printServiceUrl: "https://maps.smartgeoapps.com/server/rest/services/AlDaleela/Print_Layout_Aldaleela/GPServer/Export%20Web%20Map",
           allowedFormats: ["32-bit Portable Network Graphics (PNG32)","Joint Photographic Experts Group (JPG)"],
-          allowedLayouts: ["POI_PRINT"],
+          allowedLayouts: ["Map"],
           templateOptions: {
             title: "My Print",
             //author: "Sam",
@@ -21,7 +23,11 @@ const PrintComponent = ({ mapview }) => {
             //legendEnabled: false
           }
         });
+        setexportWidget(exportWidget);
 
+     
+
+        
         // Observe for changes in the exportRef container to remove the "Map Only" tab when it appears
         const observer = new MutationObserver(() => {
           const liElement = document.getElementById('exportDiv__mapOnlyTab');

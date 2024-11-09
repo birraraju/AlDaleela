@@ -5,11 +5,13 @@ import '@arcgis/core/assets/esri/themes/light/main.css';
 import Measurment from "../../../assets/Measurment.svg";
 import AreaMeasurment from "../../../assets/AreaMeasurment.svg";
 import { FaTrash } from "react-icons/fa";
+import { useAuth } from "../../../Providers/AuthProvider/AuthProvider";
 
 const MeasurementsComponent = ({ mapview }) => {
   const mapRef1 = useRef(null);
   const measurementRef = useRef(null); // Store reference to Measurement widget
   const [isDistance, setIsDistance] = useState(true);
+  const {setMeasurementOpenWidget} = useAuth();
 
   useEffect(() => {
     if (mapview && mapRef1.current) {
@@ -51,6 +53,8 @@ const MeasurementsComponent = ({ mapview }) => {
       if (clearButton) {
         clearButton.onclick = handleClear;
       }
+      //handleClickDistance();
+      setMeasurementOpenWidget(measurementRef.current)
 
       // Cleanup on component unmount
       return () => {
