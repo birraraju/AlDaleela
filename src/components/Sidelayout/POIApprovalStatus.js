@@ -7,6 +7,7 @@ import { useTheme } from '../Layout/ThemeContext/ThemeContext';
 import StatuesUpdatePOI from '../DropBin/DropBinStatusUpdate';
 import POIEditFileUploaderStatusModel from '../Layout/POIEdit/POIEditSucessFailure';
 import { ChevronLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export default function POIApprovalStatus({ children, onClose, mapview }) {
   const [isOpen, setIsOpen] = useState(true);
@@ -18,6 +19,7 @@ export default function POIApprovalStatus({ children, onClose, mapview }) {
   const [message, setMessage] = useState("");
   const [POIFormSuccessShow, setPOIFormSuccessShow] = useState("");
   const [POIFormIsOpenModalShow, setPOIFormIsOpenModalShow] = useState(false);
+  const navigate = useNavigate();
 
   // Toggles the side panel sliding in and out
   const toggleSideLayout = () => {
