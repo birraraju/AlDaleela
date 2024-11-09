@@ -9,6 +9,7 @@ import AudioLineStylePOI from '../../../assets/POIEdit/AudioLineStyle.svg';
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";  
 import { useAuth } from "../../../Providers/AuthProvider/AuthProvider";
 import config from '../../Common/config'; // Import your config file
+import {UserActivityLog} from "../../Common/UserActivityLog";
 
 const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFormShow, isEditShowPOI, queryresults, setIsEditPOI, uploadedFiles, setPOImessageShow, setPOIFormsuccessShow, setPOIFormisOpenModalShow, setUploadedFiles }) => {
   const [poiData, setPoiData] = useState({
@@ -307,7 +308,8 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
                     if (layer.refresh) {
                       layer.refresh();
                     }
-                  });           
+                  });  
+                  UserActivityLog(profiledetails, "POI Updated")      
                   setPOImessageShow("File uploaded successfully!!");
                   setPOIFormsuccessShow("Success"); // or "Failure" based on your logic
                   setPOIFormisOpenModalShow(true); // Show the modal
@@ -382,7 +384,7 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
     <div className="w-full max-w-md bg-transparent overflow-y-auto ">
       <div className="p-2 space-y-4">
         {(!queryresults.features || queryresults.features.length === 0) ? (
-          <p>No results found.</p> // Display message if there are no features
+          <p></p> // Display message if there are no features
         ) : (
           <>
             {renderFieldOrText("organization", "Organization", queryresults.features[0].attributes.organization,organizationOptions, "select")}

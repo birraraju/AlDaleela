@@ -211,7 +211,8 @@ import averageDark from "../../../assets/FeedBack/averageDark.svg";
 import poorDark from "../../../assets/FeedBack/poorDark.svg";
 import badDark from "../../../assets/FeedBack/badDark.svg";
 import { useTheme } from "../../Layout/ThemeContext/ThemeContext";
-
+import {UserActivityLog} from "../../Common/UserActivityLog";
+import { useAuth } from "../../../Providers/AuthProvider/AuthProvider";
 export default function Feedback({
   setIsSuccess,
   setIsMsgStatus,
@@ -226,6 +227,7 @@ export default function Feedback({
   const [errors, setErrors] = useState({});
   const { isDarkMode, isLangArab } = useTheme();
   const [isValid,setIsValid]=useState(false)
+  const {profiledetails}= useAuth();
 
   console.log("fbname :>> ", fbname);
   console.log("fbcomments :>> ", fbcomments);
@@ -317,6 +319,11 @@ export default function Feedback({
 
       const data = await response.json();
       if (data.success) {
+        if(profiledetails){
+          UserActivityLog(profiledetails, "Feedback Submited")
+        }else{
+          UserActivityLog({"username":fbname,"email":fbemail}, "Feedback Submited")   
+        }
         setIsSuccess(true);
         setModalMessage("Thank you for your feedback!");
         setIsMsgStatus("Success");

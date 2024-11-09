@@ -20,8 +20,14 @@ export default function LayersList({ onClose, mapview }) {
       }
     });
 
-    // Set initial visibility state for each layer based on the config
-    setLayerVisibility(Object.fromEntries(config.layerListServices.map(service => [service.name, true])));
+    // Set initial visibility state for each layer based on the config (use the 'visible' property from config)
+    const initialVisibility = Object.fromEntries(
+      config.layerListServices.map((service) => [
+        service.name,
+        service.visible, // Set initial visibility from config
+      ])
+    );
+    setLayerVisibility(initialVisibility);
 
     // Cleanup on component unmount
     return () => {
@@ -32,14 +38,14 @@ export default function LayersList({ onClose, mapview }) {
   const toggleLayerVisibility = (layerName) => {
     setLayerVisibility((prevVisibility) => {
       const newVisibility = !prevVisibility[layerName];
-  
+
       // Iterate through all layers in the map
       mapview.map.layers.items.forEach((layer) => {
         // Check if the parent layer matches by title (partial match)
         if (layer.title && layer.title.includes(layerName)) {
           // Update the parent layer visibility
           layer.visible = newVisibility;
-          
+
           // Check if the layer has sublayers
           if (layer.sublayers) {
             // Iterate through all sublayers and check their titles for the match
@@ -60,13 +66,11 @@ export default function LayersList({ onClose, mapview }) {
           });
         }
       });
-  
+
       // Update the state to reflect the new visibility
       return { ...prevVisibility, [layerName]: newVisibility };
     });
   };
-  
-  
 
   return (
     <div className="flex items-center justify-center z-10">
