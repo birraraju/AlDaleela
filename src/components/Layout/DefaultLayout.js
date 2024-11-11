@@ -200,7 +200,7 @@ const DefaultLayout = ({role}) => {
     }
     if (!name) return null;   // Prevent empty name render override
     console.log("Rendering component for name:", name, "and role:", role);
-    if (!role === null) {
+    if (role === null) {
       // If role is null, show the login popup for the specific components
       switch (name) {
         case "Add":
@@ -239,7 +239,7 @@ const DefaultLayout = ({role}) => {
       case "Print":
         return <SideLayout6 onClose={handleClose} mapview={mapview} />;
       case "POIEdit":
-        return <POIEditLayout1  mapview={mapview} />;
+        return <POIEditLayout1 onClose={handleClose}  mapview={mapview} />;
       case "POIApproval":
           return <POIApproval onClose={handlePOIUpdateClose} mapview={mapview} />;
       case "AuthPopUp":

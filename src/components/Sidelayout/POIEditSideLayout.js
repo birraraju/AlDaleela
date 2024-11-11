@@ -21,7 +21,7 @@
   import {UserActivityLog} from "../Common/UserActivityLog";
 
 
-  export default function POIEditSideLayout({ children, mapview }) { //height = "calc(95vh - 2rem)",
+  export default function POIEditSideLayout({ children,onClose, mapview }) { //height = "calc(95vh - 2rem)",
     const [isOpen, setIsOpen] = useState(true);   // Controls slide in/out
     const [isFullyClosed, setIsFullyClosed] = useState(false); // Controls visibility
     const [toggleCount, setToggleCount] = useState(0);
@@ -343,6 +343,7 @@
       onClose={() => { 
         setPOIFormShow(true);
         setPOIFormisOpenModalShow(false);
+        onClose();
       }} 
     />
   )}

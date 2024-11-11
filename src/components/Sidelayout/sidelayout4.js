@@ -130,6 +130,7 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
                   onClose={() => {
                     setFormShow(true);
                     setPOIFormisOpenModalShow(false);
+                    onClose();
                   }}
                 />
                 <EditAddPOI setselectedLayer={setselectedLayer} setaddPointGeometry={setaddPointGeometry} mapview={mapview} isShowEdit={isShowEdit} onClose={()=>{setFormShow(true);setIsShowEdit(false)}}/>
