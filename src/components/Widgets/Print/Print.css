@@ -1,12 +1,5 @@
 .Print{
     margin-top: -510px;
-}
-#printDiv,
-.esri-print,
-.esri-widget,
-.esri-print__header-title {
-    background-color: transparent;
-}
-.esri-print__layout-tab[data-tab-id="mapOnlyTab"] {
-	visibility: hidden;
+    background-color: transparent
+
 }

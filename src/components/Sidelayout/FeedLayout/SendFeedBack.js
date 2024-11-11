@@ -349,7 +349,7 @@ export default function Feedback({
               {ratings.map((item) => (
                 <button
                   key={item.value}
-                  className={`flex bg-transparent  sm:px-3 laptop_s:px-2 px-3 justify-center py-2 border sm:rounded-xl rounded-lg flex-col items-center sm:space-y-1 space-y-2 transition-colors ${
+                  className={`flex bg-transparent  sm:px-2.5 laptop_s:px-2 px-3 justify-center py-2 border sm:rounded-xl rounded-lg flex-col items-center sm:space-y-1 space-y-2 transition-colors ${
                     isDarkMode
                       ? rating === item.value
                         ? "bg-black text-white border-white"

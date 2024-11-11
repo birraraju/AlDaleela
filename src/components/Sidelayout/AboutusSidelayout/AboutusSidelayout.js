@@ -73,7 +73,7 @@ export default function AboutusSidelayout({ setIsPopoverOpen, setIsAboutUs }) {
           </div>
         </div>
 
-        <div className="relative sm:h-[50vh] laptop_s:h-[80vh] h-[70vh] sm:w-[23rem]  laptop_s:w-[23rem] w-[18rem] overflow-y-scroll">
+        <div className="relative sm:h-[55vh] laptop_s:h-[80vh] h-[70vh] sm:w-[23rem]  laptop_s:w-[23rem] w-[18rem] overflow-y-scroll">
           <AboutDescription />
           <Mottos />
         </div>

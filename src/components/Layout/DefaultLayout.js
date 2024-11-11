@@ -63,7 +63,7 @@ const DefaultLayout = ({role}) => {
   const handleDropbinAdmin = (sides) => {
     console.log("Data Sides data:", sides);
 
-    if (!RoleServices.isAuth()) {
+    if (!RoleServices.isAdmin()) {
       navigate({
         pathname: `/${process.env.REACT_APP_BASE_URL}`,
       });
@@ -200,7 +200,7 @@ const DefaultLayout = ({role}) => {
     }
     if (!name) return null;   // Prevent empty name render override
     console.log("Rendering component for name:", name, "and role:", role);
-    if (role === null) {
+    if (!role === null) {
       // If role is null, show the login popup for the specific components
       switch (name) {
         case "Add":

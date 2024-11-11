@@ -120,7 +120,7 @@ export default function EditAddPOI({
             }`}
           >
             <img src={EditPOIPoint} className="w-3" alt="Icon" />
-            <p>{option.label}</p>
+            <p className=" text-black">{option.label}</p>
           </div>
         ))}
       </div>
