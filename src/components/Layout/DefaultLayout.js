@@ -63,7 +63,7 @@ const DefaultLayout = ({role}) => {
   const handleDropbinAdmin = (sides) => {
     console.log("Data Sides data:", sides);
 
-    if (!RoleServices.isAuth()) {
+    if (!RoleServices.isAdmin()) {
       navigate({
         pathname: `/${process.env.REACT_APP_BASE_URL}`,
       });
@@ -239,7 +239,7 @@ const DefaultLayout = ({role}) => {
       case "Print":
         return <SideLayout6 onClose={handleClose} mapview={mapview} />;
       case "POIEdit":
-        return <POIEditLayout1  mapview={mapview} />;
+        return <POIEditLayout1 onClose={handleClose}  mapview={mapview} />;
       case "POIApproval":
           return <POIApproval onClose={handlePOIUpdateClose} mapview={mapview} />;
       case "AuthPopUp":

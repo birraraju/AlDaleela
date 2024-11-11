@@ -68,8 +68,8 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
 
   return (
     <div
-      className={`fixed top-16 w-[510px] ${(POIFormisOpenModalShow || isShowEdit )?"h-[63%]":"h-[90%] "} sm:w-[400px] laptop_s:w-[380px]  ${ isLangArab?"left-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
-        isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%]":"translate-x-[103%]")
+      className={`fixed top-16 w-[510px] ${(POIFormisOpenModalShow || isShowEdit )?"h-[63%]":"h-[90%] "} sm:w-[400px] laptop_s:w-[380px]  ${ isLangArab?" right-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
+        isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%] sm:-translate-x-[116%] laptop_s:-translate-x-[104%] ":"translate-x-[103%] sm:translate-x-[116%] laptop_s:translate-x-[103%]")
       }`}
       // style={{ width, height, zIndex: 50 }}  // Ensure it's above other elements
       ref={containerRef}  // Reference to the panel
@@ -130,6 +130,7 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
                   onClose={() => {
                     setFormShow(true);
                     setPOIFormisOpenModalShow(false);
+                    onClose();
                   }}
                 />
                 <EditAddPOI setselectedLayer={setselectedLayer} setaddPointGeometry={setaddPointGeometry} mapview={mapview} isShowEdit={isShowEdit} onClose={()=>{setFormShow(true);setIsShowEdit(false)}}/>

@@ -105,28 +105,28 @@ export default function UserManagement({role}) {
 
         <hr className={`border-t  my-4 ${isDarkMode ? "border-[#FFFFFF] border-opacity-10" : "border-gray-300"}`} />
 
-        <div className="overflow-hidden flex-grow relative">
+        <div className="overflow-x-auto laptop_s:overflow-hidden flex-grow relative ">
           <div ref={tableRef} className="overflow-x-auto overflow-y-auto absolute inset-0 pr-4">
             <table className="w-full">
             <thead className={`sticky top-0   z-10 ${isDarkMode ? "bg-[#303031] " : "bg-white"}`}>
-                <tr className="text-left text-sm font-medium text-gray-500 border-b">
-                <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+                <tr className="text-left text-sm  font-medium text-gray-500 border-b">
+                <th className={`pb-3 laptop_s:p-2 sm:p-1 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
                 Username</th>
-                <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+                <th className={`pb-3 laptop_s:p-2 sm:p-1 p-2 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
                 Email id</th>
-                <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+                <th className={`pb-3 laptop_s:p-2 sm:p-1 p-2 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
                 Date & time</th>
-                <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+                <th className={`pb-3 laptop_s:p-2 sm:p-1 p-2 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
                 POI Name</th>
-                <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+                <th className={`pb-3 laptop_s:p-2 sm:p-1 p-2 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
                 Organization</th>
-                <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+                <th className={`pb-3 laptop_s:p-2 sm:p-1 p-2 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
                 Classification</th>
-                <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+                <th className={`pb-3 laptop_s:p-2 sm:p-1 p-2 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
                 Municipality</th>
-                <th className={`pb-3 p-2 font-medium font-omnes text-[14px]   flex gap-x-1 pr-4 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+                <th className={`pb-3 laptop_s:p-2 sm:p-1 p-2 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]   flex gap-x-1 pr-4 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
                 Media<img src={MediaPinPoint} className='h-4' alt="" /></th>
-                  <th className="pb-3"></th>
+                  <th className="pb-3 laptop_s:p-2 sm:p-1"></th>
                 </tr>
               </thead>
               <tbody>
@@ -141,21 +141,21 @@ export default function UserManagement({role}) {
                       ? "bg-[#D5E5DE] bg-opacity-30"
                       : "bg-white"
                   }`}                  >
-<td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
+<td className={`py-4 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
 {user.email}</td>
-<td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
+<td className={`py-4 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
                       {user.username}</td>
                       <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
                       {new Date(`${user.createdAt}Z`).toLocaleString()}</td>
                       <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
                       {user.nameEn}</td>
-                      <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
+                      <td className={`py-4 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
                       {user.organizationEn}</td>
-                      <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
+                      <td className={`py-4 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
                       {user.classification}</td>
-                      <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
+                      <td className={`py-4 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
                       {user.municipality}</td>
-                      <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
+                      <td className={`py-4 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
                       {user.attachementsObjectIds ? user.attachementsObjectIds.split(',').length : 0}</td>
                     <td className="py-2">
                       <button onClick={()=>{handleDropPin(user.featureObjectId, user.featureServiceURL, user.id, user.poiOperation, user.featureObjectId)}} className="text-red-500 hover:text-red-600">
@@ -169,7 +169,7 @@ export default function UserManagement({role}) {
           </div>
         </div>
       </div>
-      <div className={`w-2 rounded-full mr-3 mt-12 mb-10 ml-2 relative ${
+      {data.length > 0 && <div className={`w-2 rounded-full mr-3 mt-12 mb-10 ml-2 relative ${
         isDarkMode ? "bg-[rgba(96,96,96,0.8)]" : "bg-[rgba(96,96,96,0.8)]"
       } text-black backdrop-blur border-none`}>
                 <div 
@@ -179,7 +179,7 @@ export default function UserManagement({role}) {
             top: '0',
           }}
         ></div>
-      </div>
+      </div>}
     </div>
   );
 }

@@ -142,34 +142,152 @@ const FileUploader = ({ POIFormUploader,setPOIFormisOpenModalShow,setPOImessageS
   if (!POIFormUploader) return null;
 
   // Handle file selection
-  const handleFileChange = (e) => {
-    const selectedFiles = e.target.files ? Array.from(e.target.files) : [];
-    const validFiles = selectedFiles.filter(
-      (file) => file.type.startsWith('image/') || file.type.startsWith('video/')
-    );
+  // const handleFileChange = (e) => {
+  //   const selectedFiles = e.target.files ? Array.from(e.target.files) : [];
+  //   const validFiles = selectedFiles.filter(
+  //     (file) => file.type.startsWith('image/') || file.type.startsWith('video/')
+  //   );
 
-    if (validFiles.length !== selectedFiles.length) {
-      alert('Only images or videos are allowed.');
-    }
+  //   if (validFiles.length !== selectedFiles.length) {
+  //     alert('Only images or videos are allowed.');
+  //   }
 
-    setFiles((prevFiles) => [...prevFiles, ...validFiles]); // Add new files to the existing ones
-  };
+  //   setFiles((prevFiles) => [...prevFiles, ...validFiles]); // Add new files to the existing ones
+  // };
 
   // Handle file drop
-  const handleDrop = (e) => {
-    e.preventDefault();
-    setIsDragging(false);
-    const droppedFiles = Array.from(e.dataTransfer.files);
-    const validFiles = droppedFiles.filter(
-      (file) => file.type.startsWith('image/') || file.type.startsWith('video/')
-    );
+  // const handleDrop = (e) => {
+  //   e.preventDefault();
+  //   setIsDragging(false);
+  //   const droppedFiles = Array.from(e.dataTransfer.files);
+  //   const validFiles = droppedFiles.filter(
+  //     (file) => file.type.startsWith('image/') || file.type.startsWith('video/')
+  //   );
 
-    if (validFiles.length !== droppedFiles.length) {
-      alert('Only images or videos are allowed.');
+  //   if (validFiles.length !== droppedFiles.length) {
+  //     alert('Only images or videos are allowed.');
+  //   }
+
+  //   setFiles((prevFiles) => [...prevFiles, ...validFiles]); // Add dropped files to the existing ones
+  // };
+
+  // const handleFileChange = (e) => {
+  //   const selectedFiles = e.target.files ? Array.from(e.target.files) : [];
+  //   const validFiles = selectedFiles.filter((file) => 
+  //     file.type.startsWith('image/') ||
+  //     file.type.startsWith('video/') ||
+  //     file.type === 'audio/mp3' ||         // Allow mp3 files
+  //     file.type === 'image/jpeg' ||        // Allow specific main image formats
+  //     file.type === 'image/png' ||
+  //     file.type === 'image/gif'
+  //   );
+  
+  //   if (validFiles.length !== selectedFiles.length) {
+  //     alert('Only images, videos, or mp3 files are allowed.');
+  //   }
+  
+  //   setFiles((prevFiles) => [...prevFiles, ...validFiles]); // Add new files to the existing ones
+  // };
+  
+  // // Handle file drop
+  // const handleDrop = (e) => {
+  //   e.preventDefault();
+  //   setIsDragging(false);
+  //   const droppedFiles = Array.from(e.dataTransfer.files);
+  //   const validFiles = droppedFiles.filter((file) => 
+  //     file.type.startsWith('image/') ||
+  //     file.type.startsWith('video/') ||
+  //     file.type === 'audio/mp3' ||         // Allow mp3 files
+  //     file.type === 'image/jpeg' ||        // Allow specific main image formats
+  //     file.type === 'image/png' ||
+  //     file.type === 'image/gif'
+  //   );
+  
+  //   if (validFiles.length !== droppedFiles.length) {
+  //     alert('Only images, videos, or mp3 files are allowed.');
+  //   }
+  
+  //   setFiles((prevFiles) => [...prevFiles, ...validFiles]); // Add dropped files to the existing ones
+  // };
+
+  const MAX_DURATION = 120; // maximum duration in seconds (2 minutes)
+
+// Helper function to check duration
+const checkFileDuration = (file) => {
+  return new Promise((resolve) => {
+    const media = file.type.startsWith('video/') ? document.createElement('video') : document.createElement('audio');
+    media.src = URL.createObjectURL(file);
+    media.onloadedmetadata = () => {
+      URL.revokeObjectURL(media.src); // clean up the object URL
+      resolve(media.duration <= MAX_DURATION);
+    };
+  });
+};
+
+const handleFileChange = async (e) => {
+  const selectedFiles = e.target.files ? Array.from(e.target.files) : [];
+  
+  const validFiles = [];
+  for (const file of selectedFiles) {
+    const isValidType = file.type.startsWith('image/') ||
+                        file.type.startsWith('video/') ||
+                        file.type === 'audio/mp3' ||
+                        file.type === 'image/jpeg' ||
+                        file.type === 'audio/wav' ||  
+                        file.type === 'image/png' ||
+                        file.type === 'image/gif';
+
+    if (isValidType) {
+      // Check duration if it's a video or audio file
+      const isValidDuration = file.type.startsWith('video/') || file.type.startsWith('audio/') 
+        ? await checkFileDuration(file)
+        : true;
+
+      if (isValidDuration) {
+        validFiles.push(file);
+      } else {
+        alert('Only videos or audios of up to 2 minutes are allowed.');
+      }
     }
+  }
 
-    setFiles((prevFiles) => [...prevFiles, ...validFiles]); // Add dropped files to the existing ones
-  };
+  setFiles((prevFiles) => [...prevFiles, ...validFiles]);
+};
+
+// Handle file drop
+const handleDrop = async (e) => {
+  e.preventDefault();
+  setIsDragging(false);
+
+  const droppedFiles = Array.from(e.dataTransfer.files);
+  const validFiles = [];
+
+  for (const file of droppedFiles) {
+    const isValidType = file.type.startsWith('image/') ||
+                        file.type.startsWith('video/') ||
+                        file.type === 'audio/mp3' ||
+                        file.type === 'image/jpeg' ||
+                        file.type === 'audio/wav' ||  
+                        file.type === 'image/png' ||
+                        file.type === 'image/gif';
+
+    if (isValidType) {
+      const isValidDuration = file.type.startsWith('video/') || file.type.startsWith('audio/')
+        ? await checkFileDuration(file)
+        : true;
+
+      if (isValidDuration) {
+        validFiles.push(file);
+      } else {
+        alert('Only videos or audios of up to 2 minutes are allowed.');
+      }
+    }
+  }
+
+  setFiles((prevFiles) => [...prevFiles, ...validFiles]);
+};
+
+  
 
   const handleDragEnter = (e) => {
     e.preventDefault();

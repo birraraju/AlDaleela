@@ -381,24 +381,65 @@ const Component = ({mapview, selectedLayer, addPointGeometry, setFormShow,setPOI
       const result = await featureLayer.applyEdits({ addFeatures: addData });
 
       if (result.addFeatureResults.length > 0) {
-        handleStoreFeatureData("",LayerConfig.url, result.addFeatureResults[0].objectId)
-        // if (uploadedFiles.length > 0) { 
-        //   handleUploadFile();   
-        // } else {
-        //   handleStoreFeatureData("", LayerConfig.url);
-        // }
+        //handleStoreFeatureData("",LayerConfig.url, result.addFeatureResults[0].objectId)
+        if (uploadedFiles.length > 0) { 
+          handleUploadFile(LayerConfig.url, result.addFeatureResults[0].objectId);   
+        } else {
+          handleStoreFeatureData("",LayerConfig.url, result.addFeatureResults[0].objectId);
+        }
         console.log('Add feature successful:', result.addFeatureResults);
       } else {
         console.error('Add feature failed:', result);
       }
     } catch (error) {
       console.error('Error adding feature:', error);
-    }
-    setPOIFormsuccessShow("Success")
-    setmessage("POI uploaded successfully!")
-    setPOIFormisOpenModalShow(true)
-    setFormShow(false)
+    }    
   }
+
+  const handleUploadFile = async(LayerURL, ObjectId) => {
+    if (uploadedFiles.length > 0) { // Ensure there are uploaded files
+      // Find the URL for the layer that includes "Terrestrial" in its name
+      //const LayerConfig = config.featureServices.find(service => selectedLayer.includes(service.name));
+      const attachmentUrl = `${LayerURL}/${ObjectId}/addAttachment`;
+      const promises = Array.from(uploadedFiles).map(file => {
+        const formData = new FormData();
+        formData.append("attachment", file);
+        formData.append("f", "json"); // Specify the response format
+
+        return fetch(attachmentUrl, {
+          method: 'POST',
+          body: formData,
+        });
+      });
+
+      try {
+        const results = await Promise.all(promises);
+        
+        // Check for errors in each response
+        const responses = await Promise.all(results.map(async res => {
+          if (!res.ok) {
+            // If the response is not OK, throw an error
+            const errorData = await res.json();
+            throw new Error(`Error: ${errorData.message || 'Unknown error'}`);
+          }
+          return res.json(); // Parse and return the response JSON
+        }));
+        if(responses.length >0){
+
+          const attachmentIds = responses.map(response => 
+            response.addAttachmentResult ? response.addAttachmentResult.objectId : null
+          ).filter(id => id !== null);
+
+          handleStoreFeatureData(String(attachmentIds), LayerURL, ObjectId)
+        }
+        console.log("Attachments added successfully:", responses);
+      } catch (error) {
+        console.error("Error adding attachments:", error);
+      }
+    } else {
+      alert('Please upload files before proceeding.'); // Optional alert for user feedback
+    }
+  };
 
   const handleStoreFeatureData = async(attachmentIds, LayerUrl, FeatureObjectId) =>{
       
@@ -441,6 +482,10 @@ const Component = ({mapview, selectedLayer, addPointGeometry, setFormShow,setPOI
                       layer.refresh();
                     }
                   }); 
+                  setPOIFormsuccessShow("Success")
+                  setmessage("POI uploaded successfully!")
+                  setPOIFormisOpenModalShow(true)
+                  setFormShow(false)
                 }
                 else{
                   console.log(data.message);

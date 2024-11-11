@@ -36,21 +36,28 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
 
     <motion.div
   ref={containerRef}
-  initial={{ x: "100%", opacity: 0 }}
-  whileInView={{ 
-    x: isOpen ? 0 : (isLangArab ? "-102%" : "102%"), // Move to left if Arabic
-    opacity: 1 
-  }}
-  exit={{ 
-    x: isLangArab ? "-90%" : "100%", // Exit to left for Arabic, right for others
-    opacity: 0 
-  }}
-  transition={{ ease: "easeInOut" }}
-    className={`p-4  sm:py-4  sm:h-[66vh] laptop_s:h-[75vh]   fixed top-16 ${isLangArab?"left-1  h-[73vh] sm:left-16 laptop_s:left-2":"right-1 sm:right-16 h-[75vh] laptop_s:right-2"}  backdrop-blur rounded-3xl text-black ${
+  // initial={{ x: "100%", opacity: 0 }}
+  // whileInView={{ 
+  //   x: isOpen ? 0 : (isLangArab ? " -102%" : "102%"), // Move to left if Arabic
+  //   opacity: 1 
+  // }}
+  // exit={{
+  //   x:
+  //     window.innerWidth >= 1024 // Large screens (1024px and above)
+  //       ? (isLangArab ? "-90%" : "100%")
+  //       : window.innerWidth >= 640 // Medium screens (640px to 1024px)
+  //       ? (isLangArab ? "-116%" : "116%")
+  //       : (isLangArab ? "-90%" : "100%"), // Small screens (below 640px)
+  //   opacity: 0,
+  // }}
+  // transition={{ ease: "easeInOut" }}
+    className={`p-4  sm:py-4  sm:h-[50vh]  laptop_s:h-[67vh] transition-transform duration-300 ease-in-out  fixed top-16 ${isLangArab?"left-1  h-[73vh] sm:left-16 laptop_s:left-2":"right-1 sm:right-16 h-[75vh] laptop_s:right-2"}  backdrop-blur rounded-3xl text-black ${
       isDarkMode
         ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none"
         : "bg-white bg-opacity-70 backdrop-blur-lg border-white"
-    }`} // Adjust background color based on dark mode
+    } ${
+      isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%] sm:-translate-x-[117%] laptop_s:-translate-x-[103%]":" translate-x-[103%] sm:translate-x-[117%] laptop_s:translate-x-[103%]")
+    } `} // Adjust background color based on dark mode
   >
     <div className="flex relative justify-between items-center">
     <h1 className={`text-[20px]   font-medium ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#505050]"}`}>
