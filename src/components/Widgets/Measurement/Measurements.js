@@ -21,39 +21,6 @@ const MeasurementsComponent = ({ mapview }) => {
         container: mapRef1.current
       });
 
-      const handleClickDistance = () => {
-        if (measurementRef.current) {
-          const type = mapview.type;
-          measurementRef.current.activeTool = type.toUpperCase() === "2D" ? "distance" : "direct-line";
-        }
-      };
-
-      const handleClickArea = () => {
-        if (measurementRef.current) {
-          measurementRef.current.activeTool = "area";
-        }
-      };
-
-      const handleClear = () => {
-        if (measurementRef.current) {
-          measurementRef.current.clear();
-        }
-      };
-
-      const distanceButton = document.getElementById("distance");
-      const areaButton = document.getElementById("area");
-      const clearButton = document.getElementById("clear");
-
-      if (distanceButton) {
-        distanceButton.onclick = handleClickDistance;
-      }
-      if (areaButton) {
-        areaButton.onclick = handleClickArea;
-      }
-      if (clearButton) {
-        clearButton.onclick = handleClear;
-      }
-      //handleClickDistance();
       setMeasurementOpenWidget(measurementRef.current)
 
       // Cleanup on component unmount
@@ -65,6 +32,24 @@ const MeasurementsComponent = ({ mapview }) => {
       };
     }
   }, [mapview]);
+  const handleClickDistance = () => {
+    if (measurementRef.current) {
+      const type = mapview.type;
+      measurementRef.current.activeTool = type.toUpperCase() === "2D" ? "distance" : "direct-line";
+    }
+  };
+
+  const handleClickArea = () => {
+    if (measurementRef.current) {
+      measurementRef.current.activeTool = "area";
+    }
+  };
+
+  const handleClear = () => {
+    if (measurementRef.current) {
+      measurementRef.current.clear();
+    }
+  };
 
   return (
     <div id="measurementDiv" className="measurement py-5">
@@ -75,7 +60,7 @@ const MeasurementsComponent = ({ mapview }) => {
                   className="inline-flex bg-black/10 py-1   items-center px-1 rounded-lg text-black cursor-pointer dark:text-gray-100"
                 >
                   <span
-                    onClick={() => setIsDistance(true)}
+                    onClick={() => {setIsDistance(true); handleClickDistance()}}
                     className={`flex items-center  px-1 py-2 font-medium text-black text-[10px] rounded-md ${
                       isDistance ? "bg-white" : ""
                     } dark:bg-violet-600 peer-checked:dark:bg-gray-700`}
@@ -84,7 +69,7 @@ const MeasurementsComponent = ({ mapview }) => {
                     <button id="distance" className="" title="Distance Measurement Tool">Distance Measurement</button>
                   </span>
                   <span
-                    onClick={() => setIsDistance(false)}
+                    onClick={() => {setIsDistance(false); handleClickArea()}}
                     className={`flex items-center  ml-1 pl-1 pr-5 py-2 text-[10px] rounded-md ${
                       !isDistance ? "bg-white" : ""
                     } dark:bg-gray-700 peer-checked:dark:bg-violet-600`}
@@ -94,7 +79,7 @@ const MeasurementsComponent = ({ mapview }) => {
                   </span>
                 </label>
               </div>        
-        <button id="clear" className=" text-red-500 bg-white border border-none rounded-lg w-6 h-9 flex justify-center items-center" title="Clear Measurements"><FaTrash className=" w-3 h-9" /></button>
+        <button id="clear" onClick={()=>{handleClear()}} className=" text-red-500 bg-white border border-none rounded-lg w-6 h-9 flex justify-center items-center" title="Clear Measurements"><FaTrash className=" w-3 h-9" /></button>
       </div>
       
       <div ref={mapRef1} />

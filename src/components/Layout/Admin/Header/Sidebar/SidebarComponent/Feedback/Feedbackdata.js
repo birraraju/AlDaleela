@@ -1,10 +1,40 @@
 // FeedbackData.js
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "../../../../../../../components/ui/card";
 import Badge from "../../../../../../../components/Layout/Admin/Header/Sidebar/SidebarComponent/Feedback/Badge";
 import { X } from "lucide-react";
 
 const FeedbackData = ({ user, onClose }) => {
+  useEffect(()=>{
+    const updateReadStatus = async (id, readStatus) => {
+      try {
+          const response = await fetch(`${process.env.REACT_APP_API_URL}/FeedBack/UpdateReadStatus`, {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                  id: id,
+                  readStatus: readStatus,
+              }),
+          });
+  
+          const result = await response.json();
+          if (response.success) {
+              //alert(result.message);
+          } else {
+              //alert(result.message || 'Failed to update read status');
+          }
+      } catch (error) {
+          console.error('Error:', error);
+      }
+  };
+  
+  if(user.readStatus === "Unread"){
+    updateReadStatus(user.id, "Read");
+  }  
+  
+  },[])
   return (
     <div className="fixed inset-0 flex items-center justify-center ">
       <Card className="w-full max-w-4xl">
@@ -36,22 +66,22 @@ const FeedbackData = ({ user, onClose }) => {
             </div>
             <div>
               <p className="text-sm font-medium text-gray-500">Status</p>
-              {/* <Badge
-                variant={user.status === "Read" ? "success" : "error"}
+              <Badge
+                variant={user.readStatus === "Read" ? "success" : "error"}
                 className={`mt-1 font-semibold ${
-                  user.status === "Read" ? "text-green-400" : "text-red-400"
+                  user.readStatus === "Read" ? "text-green-400" : "text-red-400"
                 }`}
               >
-                {user.status}
-              </Badge> */}
-              <Badge
+                {user.readStatus}
+              </Badge>
+              {/* <Badge
                 variant={"Read" === "Read" ? "success" : "error"}
                 className={`mt-1 font-semibold ${
                   "Read" === "Read" ? "text-green-400" : "text-red-400"
                 }`}
               >
                 {"Read"}
-              </Badge>
+              </Badge> */}
             </div>
           </div>
           <div className="mt-9">

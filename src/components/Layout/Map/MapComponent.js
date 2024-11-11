@@ -153,10 +153,10 @@ const handleMapClick = (view) => async(event) => {
       setIsEditPOI(false);
       view.graphics.removeAll(); // Clears all graphics
       const results = await handleIdentify(event, view);
-      // view.goTo({
-      //   target: results[0].feature.geometry,
-      //   zoom: 15 // Adjust the zoom level as needed
-      // });
+      view.goTo({
+        target: results[0].feature.geometry,
+        zoom: 15 // Adjust the zoom level as needed
+      });
       // Create a symbol for drawing the point
       let markerSymbol = {
         type: "simple-marker",

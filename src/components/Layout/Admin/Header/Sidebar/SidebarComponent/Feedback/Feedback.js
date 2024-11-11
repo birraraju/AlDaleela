@@ -212,8 +212,8 @@ const Feedback = () => {
                       : "bg-white"
                   }`}>
                     <td className="py-4 pl-2">
-                      {/* <span className="inline-block w-3 h-3 bg-green-500 rounded-full" title={user.status}></span> */}
-                      <span className="inline-block w-3 h-3 bg-green-500 rounded-full" title={"Read"}></span>
+                      <span className="inline-block w-3 h-3 bg-green-500 rounded-full" title={user.readStatus}></span>
+                      {/* <span className="inline-block w-3 h-3 bg-green-500 rounded-full" title={"Read"}></span> */}
                     </td>
                     {isEditing && (
                       <td className="py-4 pl-2">

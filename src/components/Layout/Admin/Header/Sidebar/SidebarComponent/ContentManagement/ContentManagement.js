@@ -145,9 +145,9 @@ export default function UserManagement({role}) {
 {user.email}</td>
 <td className={`py-4 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
                       {user.username}</td>
-                      <td className={`py-4 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
-                      {new Date(user.createdAt).toLocaleString()}</td>
-                      <td className={`py-4 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
+                      <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
+                      {new Date(`${user.createdAt}Z`).toLocaleString()}</td>
+                      <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
                       {user.nameEn}</td>
                       <td className={`py-4 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
                       {user.organizationEn}</td>
