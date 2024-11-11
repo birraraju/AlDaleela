@@ -57,8 +57,8 @@ export default function SideLayout3({ children, width = "454.84px", onClose, map
   return (
     <div
       ref={panelRef} // Attach ref to the panel
-      className={`fixed w-[510px] sm:w-[400px] laptop_s:w-[${width}] h-[98%] top-16  ${ isLangArab?"left-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
-        isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%]":"translate-x-[103%]")
+      className={`fixed w-[510px] sm:w-[400px] laptop_s:w-[${width}] h-[98%] top-16  ${ isLangArab?"right-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
+        isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%] sm:-translate-x-[116%] laptop_s:-translate-x-[104%] ":" sm:translate-x-[116%] laptop_s:translate-x-[103%] translate-x-[103%] ")
       }`}
       // style={{ width, height }}
     >
@@ -81,7 +81,7 @@ export default function SideLayout3({ children, width = "454.84px", onClose, map
         <div className="p-6 overflow-y-auto h-full">
           {children || (<>
             <p className={`text-${isDarkMode ? '[#FFFFFFCC] text-opacity-80' : 'black'}  font-poppins font-medium`}>
-              { isLangArab?"القياس": "Measurments"}
+              { isLangArab?"القياس": "Measurement"}
             </p>
             
             </>

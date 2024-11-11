@@ -256,14 +256,14 @@ const Feedback = () => {
           </div>
         )}
       </div>
-      <div className={`w-2 rounded-full mr-3 mt-12 mb-10 ml-2 relative ${
+     {data.length > 0 && <div className={`w-2 rounded-full mr-3 mt-12 mb-10 ml-2 relative ${
         isDarkMode ? "bg-[rgba(96,96,96,0.8)]" : "bg-[rgba(96,96,96,0.8)]"
       } text-black backdrop-blur border-none`}> 
               <div 
           className="w-full bg-[#B2CACC] absolute rounded-full transition-all duration-300 ease-out"
           style={{ height: `${scrollPercentage}%`, top: '0' }}
         ></div>
-      </div>
+      </div>}
     </div>
   );
 };

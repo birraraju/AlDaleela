@@ -55,7 +55,7 @@ const POIShareForm = ({ onClose, queryresults }) => {
     };
 
     return (
-        <div className='p-2 w-full'>
+        <div className='p-2 w-full '>
             <div>
                 <button
                     onClick={onClose}
@@ -65,7 +65,7 @@ const POIShareForm = ({ onClose, queryresults }) => {
                     <span>Back</span>
                 </button>
             </div>
-            <div className='grid grid-cols-4 gap-7 justify-center items-center'>
+            <div className='grid grid-cols-3 gap-7  justify-center items-center'>
                 {Links.map((link, index) => (
                     <div key={index} onClick={() => handleShareClick(link.name)} className='flex w-16 flex-col justify-center items-center cursor-pointer'>
                         <img src={link.src} className='h-10 w-12 mb-1' alt={link.name} />

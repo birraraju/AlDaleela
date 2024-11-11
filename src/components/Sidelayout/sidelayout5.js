@@ -75,8 +75,8 @@ export default function SideLayout5({
   return (
     <div
       ref={panelRef} // Assign the ref to the side panel div
-      className={`fixed top-16 w-[500px] sm:w-[400px] laptop_s:w-[${width}] h-[90%] sm:h-[50%] laptop_s:h-[90%] ${ isLangArab?"left-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
-        isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%]":"translate-x-[103%]")
+      className={`fixed top-16 w-[500px] sm:w-[400px] laptop_s:w-[${width}] h-[90%] sm:h-[68%] laptop_s:h-[90%] ${ isLangArab?"right-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
+        isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%] sm:-translate-x-[116%] laptop_s:-translate-x-[104%] ":"translate-x-[103%] sm:translate-x-[116%] laptop_s:translate-x-[103%]")
       }`}
       // style={{ width, height }}
     >
@@ -96,14 +96,14 @@ export default function SideLayout5({
           <X className="h-6 w-6" />
         </button>
 
-        <div className="p-6 overflow-y-auto h-full">
+        <div className="p-6 overflow-y-auto  h-full">
           {children || (
             <p className={`font-poppins font-medium text-${isDarkMode ? "[#FFFFFFCC]" : "black"}`}>
              { isLangArab?"تصدير البيانات": " Export"}
             </p>
           )}
         </div>
-        <div ><Export mapview={mapview}/></div>
+        <div className=" h-full" ><Export mapview={mapview}/></div>
       </div>
 
       {/* Toggle button to slide panel in and out */}
