@@ -18,7 +18,7 @@
   import { useTheme } from '../Layout/ThemeContext/ThemeContext'; // Import the theme context
   import { useAuth } from "../../Providers/AuthProvider/AuthProvider";
   import BookYellow from '../../assets/bookmarks/imageBookYellow.png';
-
+  import {UserActivityLog} from "../Common/UserActivityLog";
 
 
   export default function POIEditSideLayout({ children, mapview }) { //height = "calc(95vh - 2rem)",
@@ -112,7 +112,7 @@
           const data = await response.json();
           if(data.success){
             //console.log(values);
-            //UserActivityLog(profiledetails, "Forget Password")  
+            UserActivityLog(profiledetails, "Bookmark Added")  
             setBookMarkClick(false)
             alert(data.message);
           }

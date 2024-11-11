@@ -86,7 +86,7 @@ const DropBinStatusUpdate = ({setMessage,setFormShow,setPOIFormIsOpenModalShow,s
             let markerSymbol = {
               type: "simple-marker",
               outline: {
-                color: [0, 255, 255, 4],
+                color: [255, 0, 0, 4],
                 width: 1
               }
             };
