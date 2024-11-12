@@ -236,13 +236,13 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
     <div className="relative grid grid-cols-1 ">
       <div className="grid grid-cols-3 justify-start pt-3 items-start gap-y-4 gap-x-0">
   {bookmarks.map((image, index) => (
-    <div key={image.id} className="relative flex flex-col items-center">
+    <div key={image.id} className="relative flex flex-col  items-center">
       {/* Image and title section */}
-      <div onClick={() => handleZoomtoLocation(image.id, image.objectid, image.layername)} className=" relative w-28 h-24 flex flex-col items-center">
+      <div onClick={() => handleZoomtoLocation(image.id, image.objectid, image.layername)} className=" relative sm:w-28 w-[96%] h-20  sm:h-24 flex flex-col items-center">
         <img
           src={image.src}
           alt={image.title}
-          className="w-full h-full object-cover shadow-xl rounded-md"
+          className=" sm:w-full w-[100%]   sm:h-full object-cover shadow-xl rounded-md"
         />
         <h3 className="text-start w-full border text-white text-xs border-transparent rounded-md absolute bg-[#504848] h-6 justify-start items-center pl-2 flex bottom-0 text-[9px] leading-4 break-words">
           {image.title}

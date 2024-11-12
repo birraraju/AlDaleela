@@ -10,11 +10,11 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
   const containerRef = useRef(null);
   const { isDarkMode, isLangArab } = useTheme(); // Access dark mode and language context
   const [isOpen, setIsOpen] = useState(true);
-  const {profiledetails, contextMapView} = useAuth();
+  const {profiledetails, setconrextMapView, setinitialExtent,setIsEditPOI, setPopupSelectedGeo} = useAuth();
   const [featureServiceData, setfeatureServiceData] = useState([]);
   const [clickedLocation, setClickedLocation] = useState(null); // State to track clicked location
 
-
+  console.log("Passed Contribution data :", featureServiceData)
 
   const contributions = [
     { date: "2024-10-11", poiName: "Al Makhtabshah", status: "Pending" },
@@ -65,6 +65,13 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
 
     fetchFeatureServiceData();
   }, []); // Empty dependency array means this effect runs once on mount
+
+   const handleOpenPOIEdit =(contribution)=>{
+    setClickedLocation(contribution)
+    setIsEditPOI();
+    setIsPopoverOpen(true);
+    setIsContribution(false);
+   }
 
   return (
     <motion.div
@@ -173,12 +180,14 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
     {contribution.approvalStatus === "Pending" &&
       (isLangArab ? "قيد الانتظار" : "Pending")}
   </span>
+  <button onClick={() => handleOpenPOIEdit(contribution)}>
   <img
           src={loc}
                 alt="Location icon"
                 className="sm:w-7 w-5 sm:h-7 h-4 cursor-pointer"
-                onClick={() => setClickedLocation(contribution)}
+                
               />
+              </button>
     </div>
 
           </div>
