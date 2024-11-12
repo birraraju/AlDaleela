@@ -61,11 +61,11 @@ export default function SideLayout2({ children, width = "454.84px", onClose }) {
   return (
     <div
       ref={layoutRef}
-      className={`fixed w-[510px] sm:w-[400px] laptop_s:w-[${width}] h-[90%] sm:h-[80%] laptop_s:h-[80%]  top-16 ${ isLangArab?" right-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%] sm:-translate-x-[116%] laptop_s:-translate-x-[104%]  ":" sm:translate-x-[116%] laptop_s:translate-x-[103%] translate-x-[103%]")}`}
+      className={`fixed w-[97%] sm:w-[400px] laptop_s:w-[${width}] h-[90%] sm:h-[80%] laptop_s:h-[80%]  top-16 ${ isLangArab?" right-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%] sm:-translate-x-[116%] laptop_s:-translate-x-[104%]  ":" sm:translate-x-[116%] laptop_s:translate-x-[103%] translate-x-[103%]")}`}
       // style={{ width, height }}
     >
       {isContentVisible && (
-        <div className={`relative sm:h-[65%] h-[98%] sm:w-full float-end sm:float-none w-[67%] rounded-2xl shadow-lg overflow-hidden border ${
+        <div className={`relative sm:h-[65%] h-[98%] sm:w-full float-end sm:float-none w-[98%] rounded-2xl shadow-lg overflow-hidden border ${
           isDarkMode
             ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
             : "bg-white bg-opacity-70 backdrop-blur-lg border-white" // Light mode styles

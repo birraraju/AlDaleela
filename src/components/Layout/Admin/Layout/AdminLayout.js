@@ -58,7 +58,7 @@ const AdminLayout = ({role}) => {
   },[activeItem])
 
   const handleAdminAuth=()=>{
-    if(!RoleServices.isAdmin()){
+    if(!RoleServices.isAuth()){
       navigate({
               pathname: `/${process.env.REACT_APP_BASE_URL}`,
             });
