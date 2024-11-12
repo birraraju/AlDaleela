@@ -7,7 +7,7 @@ export default function Administration() {
   const { isDarkMode,isLangArab } = useTheme(); // Use the theme hook to get dark mode state
 
   return (
-    <div className="pt-2  pb-2 cursor-pointer">
+    <div className="pt-2 hidden sm:block  pb-2 cursor-pointer">
       <div className="flex justify-start gap-2 items-center">
         <div>
         <img

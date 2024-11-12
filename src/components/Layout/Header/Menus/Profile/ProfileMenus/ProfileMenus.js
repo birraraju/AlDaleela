@@ -55,7 +55,6 @@ export default function ProfileMenus({
             setIsContribution={setIsContribution} // Handle Contribution
           />
           {role === "admin" && <Administration />}
-          <Administration />
           
         </>
       )}
