@@ -90,10 +90,10 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
             >
               {isLangArab ? "دبوس مُنقَطِع" : "Dropped pin"}
             </p>
-            </>:
+            </>: (!POIFormsuccessShow &&
             <p className={`font-poppins font-medium ${isDarkMode ? "text-[#FFFFFFCC]" : "text-black"}`}>
                 {isLangArab ? "محرر" : "Editor"}
-              </p>}
+              </p>)}
           </div>
           <button
             onClick={closePanel}

@@ -161,7 +161,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
             onClick={() => setIsPopoverOpen(true)}
             className={`relative  ${isDarkMode ? "sm:bg-black" : "sm:bg-white"} 
                         sm:bg-opacity-5 backdrop-blur rounded-full flex justify-between items-center 
-                        mobile_s:py-0.5 laptop_m:py-1 cursor-pointer`}
+                        mobile_s:py-0.5 laptop_m:py-1 cursor-pointer ${isLangArab && " sm:mr-2 "}`}
           >
             <div className="ml-1  sm:hidden grid">
             <img

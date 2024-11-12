@@ -279,35 +279,99 @@ const Component = ({mapview, selectedLayer, addPointGeometry, setFormShow,setPOI
 
   if(!isFormShow) return null
 
-  // Handle file selection
-  const handleFileChange = (e) => {
-    const selectedFiles = e.target.files ? Array.from(e.target.files) : []
-    const validFiles = selectedFiles.filter(
-      (file) => file.type.startsWith("image/") || file.type.startsWith("video/")
-    )
+  const MAX_IMAGE_SIZE = 10 * 1024 * 1024; // 10 MB for images
+const MAX_VIDEO_SIZE = 50 * 1024 * 1024; // 50 MB for videos
+const MAX_AUDIO_SIZE = 10 * 1024 * 1024; // 10 MB for audio
 
-    if (validFiles.length !== selectedFiles.length) {
-      alert("Only images or videos are allowed.")
-    }
+// Helper function to check image dimensions
+const checkImageDimensions = (file) => {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.src = URL.createObjectURL(file);
+    img.onload = () => {
+      const { width, height } = img;
+      URL.revokeObjectURL(img.src); // Clean up the object URL
+      const isValid = width >= 500 && width <= 2000 && height >= 500 && height <= 2000;
+      if (!isValid) {
+        alert("Image dimensions must be between 500x500 and 2000x2000 pixels.");
+      }
+      resolve(isValid);
+    };
+  });
+};
 
-    setFiles((prevFiles) => [...prevFiles, ...validFiles])
+// Helper function to validate file type, size, and dimensions for images
+const isValidFile = async (file) => {
+  const isImage = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif';
+  const isVideo = file.type === 'video/mp4';
+  const isAudio = file.type === 'audio/mp3' || file.type === 'audio/wav';
+
+  if (!isImage && !isVideo && !isAudio) {
+    alert("Invalid file type. Only JPEG, PNG, GIF images, MP4 videos, and MP3/WAV audio files are allowed.");
+    return false;
   }
 
-  // Handle file drop
-  const handleDrop = (e) => {
-    e.preventDefault()
-    setIsDragging(false)
-    const droppedFiles = Array.from(e.dataTransfer.files)
-    const validFiles = droppedFiles.filter(
-      (file) => file.type.startsWith("image/") || file.type.startsWith("video/")
-    )
-
-    if (validFiles.length !== droppedFiles.length) {
-      alert("Only images or videos are allowed.")
+  if (isImage) {
+    if (file.size > MAX_IMAGE_SIZE) {
+      alert("Image size must be under 10 MB.");
+      return false;
     }
-
-    setFiles((prevFiles) => [...prevFiles, ...validFiles])
+    const isValidDimensions = await checkImageDimensions(file);
+    if (!isValidDimensions) return false;
+  } else if (isVideo) {
+    if (file.size > MAX_VIDEO_SIZE) {
+      alert("Video size must be under 50 MB.");
+      return false;
+    }
+  } else if (isAudio) {
+    if (file.size > MAX_AUDIO_SIZE) {
+      alert("Audio size must be under 10 MB.");
+      return false;
+    }
   }
+
+  return true;
+};
+
+// Handle file selection
+const handleFileChange = async (e) => {
+  const selectedFiles = e.target.files ? Array.from(e.target.files) : [];
+  const validFiles = [];
+
+  for (const file of selectedFiles) {
+    if (await isValidFile(file)) {
+      validFiles.push(file);
+    }
+  }
+
+  if (validFiles.length !== selectedFiles.length) {
+    alert("Some files did not meet the required criteria and were not added.");
+  }
+
+  setFiles((prevFiles) => [...prevFiles, ...validFiles]);
+};
+
+// Handle file drop
+const handleDrop = async (e) => {
+  e.preventDefault();
+  setIsDragging(false);
+
+  const droppedFiles = Array.from(e.dataTransfer.files);
+  const validFiles = [];
+
+  for (const file of droppedFiles) {
+    if (await isValidFile(file)) {
+      validFiles.push(file);
+    }
+  }
+
+  if (validFiles.length !== droppedFiles.length) {
+    alert("Some files did not meet the required criteria and were not added.");
+  }
+
+  setFiles((prevFiles) => [...prevFiles, ...validFiles]);
+};
+
 
   const handleDragEnter = (e) => {
     e.preventDefault()
