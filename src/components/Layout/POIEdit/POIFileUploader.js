@@ -210,83 +210,89 @@ const FileUploader = ({ POIFormUploader,setPOIFormisOpenModalShow,setPOImessageS
   //   setFiles((prevFiles) => [...prevFiles, ...validFiles]); // Add dropped files to the existing ones
   // };
 
-  const MAX_DURATION = 120; // maximum duration in seconds (2 minutes)
-
-// Helper function to check duration
-const checkFileDuration = (file) => {
-  return new Promise((resolve) => {
-    const media = file.type.startsWith('video/') ? document.createElement('video') : document.createElement('audio');
-    media.src = URL.createObjectURL(file);
-    media.onloadedmetadata = () => {
-      URL.revokeObjectURL(media.src); // clean up the object URL
-      resolve(media.duration <= MAX_DURATION);
-    };
-  });
-};
-
-const handleFileChange = async (e) => {
-  const selectedFiles = e.target.files ? Array.from(e.target.files) : [];
+  const MAX_IMAGE_SIZE = 10 * 1024 * 1024; // 10 MB for images
+  const MAX_VIDEO_SIZE = 50 * 1024 * 1024; // 50 MB for videos
+  const MAX_AUDIO_SIZE = 10 * 1024 * 1024; // 10 MB for audio
   
-  const validFiles = [];
-  for (const file of selectedFiles) {
-    const isValidType = file.type.startsWith('image/') ||
-                        file.type.startsWith('video/') ||
-                        file.type === 'audio/mp3' ||
-                        file.type === 'image/jpeg' ||
-                        file.type === 'audio/wav' ||  
-                        file.type === 'image/png' ||
-                        file.type === 'image/gif';
-
-    if (isValidType) {
-      // Check duration if it's a video or audio file
-      const isValidDuration = file.type.startsWith('video/') || file.type.startsWith('audio/') 
-        ? await checkFileDuration(file)
-        : true;
-
-      if (isValidDuration) {
-        validFiles.push(file);
-      } else {
-        alert('Only videos or audios of up to 2 minutes are allowed.');
+  // Helper function to check image dimensions
+  const checkImageDimensions = (file) => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.src = URL.createObjectURL(file);
+      img.onload = () => {
+        const { width, height } = img;
+        URL.revokeObjectURL(img.src); // clean up the object URL
+        resolve(width >= 500 && width <= 2000 && height >= 500 && height <= 2000);
+      };
+    });
+  };
+  
+  // Main validation function for each file
+  const validateFile = async (file) => {
+    const isValidType = (file.type.startsWith('image/') && (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif')) ||
+                        (file.type === 'audio/mp3' || file.type === 'audio/wav') ||
+                        (file.type === 'video/mp4');
+  
+    if (!isValidType) {
+      alert('Invalid file type. Only JPEG, PNG, GIF images, MP3, WAV audio, and MP4 video are allowed.');
+      return false;
+    }
+  
+    if (file.type.startsWith('image/')) {
+      if (file.size > MAX_IMAGE_SIZE) {
+        alert('Image size must be under 10 MB.');
+        return false;
+      }
+      const isValidDimensions = await checkImageDimensions(file);
+      if (!isValidDimensions) {
+        alert('Image dimensions must be between 500x500 and 2000x2000 pixels.');
+        return false;
+      }
+    } else if (file.type.startsWith('audio/')) {
+      if (file.size > MAX_AUDIO_SIZE) {
+        alert('Audio size must be under 10 MB.');
+        return false;
+      }
+    } else if (file.type.startsWith('video/')) {
+      if (file.size > MAX_VIDEO_SIZE) {
+        alert('Video size must be under 50 MB.');
+        return false;
       }
     }
-  }
-
-  setFiles((prevFiles) => [...prevFiles, ...validFiles]);
-};
-
-// Handle file drop
-const handleDrop = async (e) => {
-  e.preventDefault();
-  setIsDragging(false);
-
-  const droppedFiles = Array.from(e.dataTransfer.files);
-  const validFiles = [];
-
-  for (const file of droppedFiles) {
-    const isValidType = file.type.startsWith('image/') ||
-                        file.type.startsWith('video/') ||
-                        file.type === 'audio/mp3' ||
-                        file.type === 'image/jpeg' ||
-                        file.type === 'audio/wav' ||  
-                        file.type === 'image/png' ||
-                        file.type === 'image/gif';
-
-    if (isValidType) {
-      const isValidDuration = file.type.startsWith('video/') || file.type.startsWith('audio/')
-        ? await checkFileDuration(file)
-        : true;
-
-      if (isValidDuration) {
+  
+    return true;
+  };
+  
+  // Handle file selection
+  const handleFileChange = async (e) => {
+    const selectedFiles = e.target.files ? Array.from(e.target.files) : [];
+    const validFiles = [];
+  
+    for (const file of selectedFiles) {
+      if (await validateFile(file)) {
         validFiles.push(file);
-      } else {
-        alert('Only videos or audios of up to 2 minutes are allowed.');
       }
     }
-  }
-
-  setFiles((prevFiles) => [...prevFiles, ...validFiles]);
-};
-
+  
+    setFiles((prevFiles) => [...prevFiles, ...validFiles]);
+  };
+  
+  // Handle file drop
+  const handleDrop = async (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+  
+    const droppedFiles = Array.from(e.dataTransfer.files);
+    const validFiles = [];
+  
+    for (const file of droppedFiles) {
+      if (await validateFile(file)) {
+        validFiles.push(file);
+      }
+    }
+  
+    setFiles((prevFiles) => [...prevFiles, ...validFiles]);
+  };
   
 
   const handleDragEnter = (e) => {

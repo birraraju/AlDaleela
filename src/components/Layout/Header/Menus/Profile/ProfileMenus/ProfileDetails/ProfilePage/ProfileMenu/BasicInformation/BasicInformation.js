@@ -261,7 +261,7 @@ import { useAuth } from "../../../../../../../../../../Providers/AuthProvider/Au
 import { useTheme } from "../../../../../../../../../Layout/ThemeContext/ThemeContext"; // Import your theme context
 import { UserActivityLog } from "../../../../../../../../../Common/UserActivityLog";
 
-export default function BasicInformation({ isEditProfile, setIsSuccess, setIsFailure, setIsMsgStatus, setModalMessage, setIsProfileData, setIsEditProfile }) {
+export default function BasicInformation({ isEditProfile,profileImage, setIsSuccess, setIsFailure, setIsMsgStatus, setModalMessage, setIsProfileData, setIsEditProfile }) {
   const { profiledetails } = useAuth();
   const { isDarkMode, isLangArab } = useTheme(); // Access dark mode from theme context
   const [userInfo1, setUserInfo1] = useState([]);
