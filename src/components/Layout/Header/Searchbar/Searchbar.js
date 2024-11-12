@@ -81,7 +81,7 @@ const Searchbar = ({
             setIscategory(true);
           }}
           onChange={handleInputChange}
-          className={`mobile_s:w-[19rem] ${
+          className={`mobile_s:w-[19rem] mobile_m:w-[22rem] mobile_l:w-[25rem] ${
             inputClicked || iscategory ? "laptop_m:w-[30rem]" :  "laptop_m:w-[25rem]"
           } mobile_s:h-9 laptop_m:h-9 border-none outline-none focus-visible:ring-0 focus-visible:ring-offset-0 bg-white rounded-full pl-16 relative z-[2] ${
             inputValue
