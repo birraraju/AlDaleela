@@ -63,7 +63,7 @@ const DefaultLayout = ({role}) => {
   const handleDropbinAdmin = (sides) => {
     console.log("Data Sides data:", sides);
 
-    if (!RoleServices.isAdmin()) {
+    if (!RoleServices.isAuth()) {
       navigate({
         pathname: `/${process.env.REACT_APP_BASE_URL}`,
       });

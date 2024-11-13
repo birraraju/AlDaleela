@@ -24,6 +24,8 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
   const [ids, setIds] = useState([]); // State to hold the array of IDs
   const {profiledetails, contextMapView} = useAuth();
   // Array of images with icons
+
+  console.log('ids :>> ', ids);
   const images = [
     { src: Book1, title: 'Maskar Al Hidaybah', icon: [{ iconBg: CemaraBg, Icon: CameraIcon }, { iconBg: VideoBg, Icon: VideoIcon }, { iconBg: AudioBg, Icon: AudioIcon }] },
     { src: Book2, title: "Al 'Imayrah", icon: [{ iconBg: AudioBg, Icon: AudioIcon }] },
@@ -310,7 +312,8 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
                 </button>
                 <button
                   onClick={handleSave}
-                  className="w-auto py-3 px-10 bg-custom-gradient text-[12px] border border-gray-300 rounded-lg"
+                  disabled={ids.length === 0}
+                  className={ids.length===0?"w-auto py-3 px-10 bg-custome-gray1 text-[12px] border border-gray-300 rounded-lg":"w-auto py-3 px-10 bg-custom-gradient text-[12px] border border-gray-300 rounded-lg"}
                 >
                   {isLangArab?"حفظ التغييرات":"Save Changes"}
                 </button>
