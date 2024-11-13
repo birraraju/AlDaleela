@@ -164,8 +164,7 @@ const Feedback = () => {
       <div className="flex justify-between items-center mb-6">
       <h2 className={`text-[22px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]" : "text-gray-800"}`}>
       Feedback</h2>
-      <button 
-            onClick={toggleEdit} 
+      <button  onClick={toggleEdit} 
             className={isEditing ? "text-gray-500 hover:text-gray-700" : "text-teal-600 hover:text-teal-700"} 
             aria-label={isEditing ? "Close edit mode" : "Edit"}
           >
@@ -212,7 +211,7 @@ const Feedback = () => {
                       : "bg-white"
                   }`}>
                     <td className="py-4 pl-2">
-                      <span className="inline-block w-3 h-3 bg-green-500 rounded-full" title={user.readStatus}></span>
+                      {user.readStatus !== "Read" && <span className="inline-block w-3 h-3 bg-green-500 rounded-full" title={user.readStatus}></span>}
                       {/* <span className="inline-block w-3 h-3 bg-green-500 rounded-full" title={"Read"}></span> */}
                     </td>
                     {isEditing && (

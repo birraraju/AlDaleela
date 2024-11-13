@@ -1,18 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "../../../../../../../../../../components/ui/button";
 import { useAuth } from "../../../../../../../../../../Providers/AuthProvider/AuthProvider";
 import { useTheme } from '../../../../../../../../../Layout/ThemeContext/ThemeContext'; // Import the theme context
-import SampleImageProfile from "../../../../../../../../../../assets/Header/Profile/ProfileDetails/Profile.svg"
+// import SampleImageProfile from "../../../../../../../../../../assets/Header/Profile/ProfileDetails/Profile.svg"
 
 export default function ProfileContent({ 
   isEditProfile, 
   setIsEditProfile, 
   setIsChangePassword, 
-  setIsProfile ,
-  setChangeCloseProfile
+  setIsProfile,
+  setChangeCloseProfile,
+  setProfileImage,
+  profileImage,
+  setFile
 }) {
-  const {profiledetails} = useAuth()
-  const { isDarkMode,isLangArab } = useTheme(); // Access the dark mode state
+  const { profiledetails } = useAuth();
+  const { isDarkMode, isLangArab } = useTheme(); // Access the dark mode state
+  // const [profileImage, setProfileImage] = useState(SampleImageProfile); // State to manage the profile image
+  // const [file, setFile] = useState(null);
+
+  // Handle file change
+  const handleFileChange = (event) => {
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+      setFile(selectedFile);
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setProfileImage(e.target.result); // Update profile image preview
+      };
+      reader.readAsDataURL(selectedFile);
+    }
+  };
+
   return (
     <>
       {!isEditProfile ? (
@@ -27,16 +46,18 @@ export default function ProfileContent({
 
           <div className="w-[80%]">
             <div className="tracking-wide">
-              <h1 className={`sm:text-lg text-sm font-medium text-${isDarkMode ? 'white' : 'gray-600'} `}>{profiledetails.username ? profiledetails.username: profiledetails.username === "" && profiledetails.firstName}
+              <h1 className={`sm:text-lg text-sm font-medium text-${isDarkMode ? 'white' : 'gray-600'} `}>
+                {profiledetails.username ? profiledetails.username : profiledetails.firstName}
               </h1>
-              <p className={`sm:text-base text-xs font-light text-${isDarkMode ? '[#FFFFFFCC]' : 'gray-600'} `}>{profiledetails.email}</p>
-
+              <p className={`sm:text-base text-xs font-light text-${isDarkMode ? '[#FFFFFFCC]' : 'gray-600'} `}>
+                {profiledetails.email}
+              </p>
             </div>
 
             <div className="flex justify-between items-center gap-4">
-              <Button onClick={() => {setIsEditProfile(true);}} asChild>
+              <Button onClick={() => { setIsEditProfile(true); }} asChild>
                 <div className="w-1/2 h-12 py-5 cursor-pointer btn-gradient text-white text-base rounded-xl mt-4 tracking-wide">
-                  {isLangArab?"تعديل المعلومات":"Edit Info"}
+                  {isLangArab ? "تعديل المعلومات" : "Edit Info"}
                 </div>
               </Button>
 
@@ -47,17 +68,18 @@ export default function ProfileContent({
                   setChangeCloseProfile(true);
                 }}
                 variant="outline"
-                className={`w-1/2 sm:h-10 h-9 bg-none shadow-none sm:rounded-xl rounded-md mt-4 tracking-wide font-normal sm:text-sm text-xs border border-[#909090] text-${isDarkMode ? '[#FFFFFFCC]' : 'gray-600'} `}              >
-                {isLangArab?"تغيير كلمة المرور":"Change Password"}
+                className={`w-1/2 sm:h-10 h-9 bg-none shadow-none sm:rounded-xl rounded-md mt-4 tracking-wide font-normal sm:text-sm text-xs border border-[#909090] text-${isDarkMode ? '[#FFFFFFCC]' : 'gray-600'} `}
+              >
+                {isLangArab ? "تغيير كلمة المرور" : "Change Password"}
               </Button>
             </div>
           </div>
         </div>
       ) : (
-        <div className="flex justify-center items-center">
+        <div className="flex flex-col justify-center items-center">
           <div className="relative h-28 w-28 rounded-full overflow-hidden">
             <img
-              src={SampleImageProfile}
+              src={profileImage}
               alt="Admin"
               className="w-full h-full rounded-full"
             />
@@ -78,7 +100,19 @@ export default function ProfileContent({
                 />
               </svg>
             </div>
-            <p className="text-white absolute bottom-2 left-10">{isLangArab?"تعديل":"Edit"}</p>
+            <p
+              className="text-white absolute bottom-2 left-10 cursor-pointer"
+              onClick={() => document.getElementById("fileInput").click()} // Open file input on click
+            >
+              {isLangArab ? "تعديل" : "Edit"}
+            </p>
+            <input
+              id="fileInput"
+              type="file"
+              accept="image/*"
+              style={{ display: "none" }}
+              onChange={handleFileChange}
+            />
           </div>
         </div>
       )}

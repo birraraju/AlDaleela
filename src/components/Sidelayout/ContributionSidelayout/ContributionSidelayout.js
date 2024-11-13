@@ -5,16 +5,18 @@ import loc from "../../../assets/Contribution/image.png";
 import { FiChevronRight } from "react-icons/fi";
 import { useTheme } from "../../Layout/ThemeContext/ThemeContext"; // Importing the theme context
 import { useAuth } from "../../../Providers/AuthProvider/AuthProvider";
+import FeatureLayer from "@arcgis/core/layers/FeatureLayer"; 
+import Graphic from "@arcgis/core/Graphic";
 
 export default function ContributionPopup({ setIsPopoverOpen, setIsContribution }) {
   const containerRef = useRef(null);
   const { isDarkMode, isLangArab } = useTheme(); // Access dark mode and language context
   const [isOpen, setIsOpen] = useState(true);
-  const {profiledetails, contextMapView} = useAuth();
+  const {profiledetails, setconrextMapView, setinitialExtent,setIsEditPOI, setPopupSelectedGeo, contextMapView} = useAuth();
   const [featureServiceData, setfeatureServiceData] = useState([]);
   const [clickedLocation, setClickedLocation] = useState(null); // State to track clicked location
 
-
+  console.log("Passed Contribution data :", featureServiceData)
 
   const contributions = [
     { date: "2024-10-11", poiName: "Al Makhtabshah", status: "Pending" },
@@ -65,6 +67,56 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
 
     fetchFeatureServiceData();
   }, []); // Empty dependency array means this effect runs once on mount
+
+   const handleOpenPOIEdit =async(contribution)=>{
+    try {
+      // Create a FeatureLayer instance for the selected layer
+      const featureLayer = new FeatureLayer({
+        url: contribution.featureServiceURL,
+        outFields: ["*"]
+      });
+  
+      // Query the selected layer using the OBJECTID
+      const feature = await featureLayer.queryFeatures({
+        where: `OBJECTID = ${contribution.featureObjectId}`,
+        outFields: ["*"],
+        returnGeometry: true
+      });
+  
+      // Check if any features are found and handle accordingly
+      if (feature.features.length > 0) {
+        //openPopup(feature.features[0], objectId); // Open popup with feature info
+        const pointGraphic = new Graphic({
+          geometry: feature.features[0].geometry,
+          symbol: {
+            type: "simple-marker",
+            outline: {
+              color: [0, 255, 255, 4],
+              width: 1
+            }
+          }
+        });
+    
+        contextMapView.graphics.add(pointGraphic);
+        await contextMapView.goTo({
+          target: feature.features[0].geometry,
+          center: feature.features[0].geometry,  // Centers on the feature's geometry
+          zoom: 15  // Sets the zoom level
+        });
+        
+        // setPopupSelectedGeo(feature.features[0])
+        // setIsEditPOI(true);
+      } else {
+        console.log(`No feature found with OBJECTID: ${contribution.featureObjectId}`);
+      }
+    } catch (error) {
+      console.error(`Error querying layer ${contribution.featureServiceURL}:`, error);
+    }
+    // setClickedLocation(contribution)
+    // setIsEditPOI();
+    // setIsPopoverOpen(true);
+    // setIsContribution(false);
+   }
 
   return (
     <motion.div
@@ -163,6 +215,8 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
           } font-omnes ${
             isLangArab ? "sm:text-[22px] text-[24px]" : "sm:text-[13px] text-[14px]"
           } font-medium bg-clip-text text-transparent`
+        : contribution.approvalStatus === "Rejected"
+          ? "text-red-500 font-omnes sm:text-[13px] text-[14px] font-medium"
         : `${
             isDarkMode ? "text-black/80" : "text-[#EFB45D]"
           } font-omnes sm:text-[13px] text-[14px] font-medium`
@@ -172,13 +226,20 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
       (isLangArab ? "معتمد" : "Approved")}
     {contribution.approvalStatus === "Pending" &&
       (isLangArab ? "قيد الانتظار" : "Pending")}
+    {contribution.approvalStatus === "Rejected" &&
+    (isLangArab ? "مرفوض" : "Rejected")}
   </span>
+  <button onClick={() => handleOpenPOIEdit(contribution)} disabled={contribution.approvalStatus !== "Approved"}
+    className={`${
+      contribution.approvalStatus !== "Approved" ? "opacity-50 cursor-not-allowed" : ""
+    }`}>
   <img
           src={loc}
                 alt="Location icon"
                 className="sm:w-7 w-5 sm:h-7 h-4 cursor-pointer"
-                onClick={() => setClickedLocation(contribution)}
+                
               />
+              </button>
     </div>
 
           </div>

@@ -29,6 +29,7 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
     City: "Western Region"
   });
   const { profiledetails, contextMapView } = useAuth();
+  const [isShowMore, setIsShowMore] = useState(false)
 
   //const organizationOptions = ["DMT", "Org 2", "Org 3", "Org 4"];
   const classOptions = ["Zubara", "Option 2", "Option 3"];
@@ -425,8 +426,9 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
             {renderFieldOrText("name_en", "Name", queryresults.features[0].attributes.name_en)}
             {renderFieldOrText("Class", "Class", queryresults.features[0].attributes.Class)}
             {renderFieldOrText("ClassD", "ClassD", queryresults.features[0].attributes.ClassD)}
+            
+            {isShowMore && <>
             {renderFieldOrText("Status", "Status", queryresults.features[0].attributes.Status,statusOptions, "select")}
-
             {renderFieldOrText("Comment", "Comment", queryresults.features[0].attributes.Comment)}
             {renderFieldOrText("description", "Description", queryresults.features[0].attributes.description)}
             {renderFieldOrText("poems", "Poems", queryresults.features[0].attributes.poems)}
@@ -441,19 +443,26 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
             {renderFieldOrText("Emirate", "Emirate", queryresults.features[0].attributes.Emirate)}
             {renderFieldOrText("City", "City", queryresults.features[0].attributes.City)}
 
+            </>}
+
+              <div className=' flex justify-end '>
+                <button  className=' text-[#028DC8] font-medium text-sm underline' onClick={()=>setIsShowMore(!isShowMore)}>{isShowMore ?"Hide":"More"} Info</button>
+              </div>
              {/* Photos Section */}
              <div className="px-3 py-6 border border-none rounded-lg bg-white space-y-4">
               <div>
-                <h3 className="text-sm text-[#303030] font-medium mb-2">Photos</h3>
+              <h3 className="text-sm text-[#303030] font-medium mb-2">Photos</h3>
+              <div className=' grid grid-cols-2'>
                 {images.length > 0 ? (
                   images.map((image, index) => (
-                    <div key={index} className="relative h-[90px] rounded-lg overflow-hidden">
-                      <img src={image.url} alt={image.name} className="w-[50%] h-[90px] object-cover" />
+                    <div key={index} className="relative m-2 w-full h-[90px] rounded-lg overflow-hidden">
+                      <img src={image.url} alt={image.name} className="w-[90%] h-[90px] object-fill" />
                     </div>
                   ))
                 ) : (
                   <p className=" text-black">No photos available.</p>
                 )}
+                </div>
               </div>
 
               {/* Videos Section */}
@@ -544,7 +553,7 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
               </>
             )}
 
-            <div className="text-sm text-gray-500 px-12">X 54.2971051, Y 24.0622842</div>
+            <div className=" text-sm text-gray-500 sm:px-12 px-7">X 54.2971051, Y 24.0622842</div>
 
             {/* Action Buttons */}
             {isEditShowPOI && (

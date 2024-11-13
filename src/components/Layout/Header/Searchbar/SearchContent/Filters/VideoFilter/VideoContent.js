@@ -127,7 +127,7 @@ export default function VideoContent({setInputClicked,setIscategory}) {
   
   if (loading) {
     return (
-      <div className="flex items-center justify-center absolute left-48 top-28  h-full">
+      <div className="flex items-center justify-center   h-full">
         <ClipLoader color="#808080" size={40} /> {/* Gray, medium-sized loader */}
       </div>
     );
@@ -137,10 +137,10 @@ export default function VideoContent({setInputClicked,setIscategory}) {
     return <div>{error}</div>;
   }
   return (
-    <div className="p-4 h-[17rem] overflow-y-scroll">
-      <div className="grid grid-cols-4 gap-2">
+    <div className="p-4 h-[17rem]  overflow-y-scroll">
+      <div className="grid tab:grid-cols-4 grid-cols-3 gap-2">
         {mediaItems.map((item) => (
-          <div key={item.objectId} className="relative bg-black rounded-xl overflow-hidden" onClick={() => handleVideoClick(item.objectId, item.layerName)}>
+          <div key={item.objectId} className="relative bg-black laptop_s:rounded-xl rounded-md  overflow-hidden" onClick={() => handleVideoClick(item.objectId, item.layerName)}>
             <video
               src={item.url}
               className="w-full h-auto"

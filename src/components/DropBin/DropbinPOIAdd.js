@@ -343,35 +343,100 @@ const Component = ({
 
   if (!isFormShow) return null;
 
-  // Handle file selection
-  const handleFileChange = (e) => {
-    const selectedFiles = e.target.files ? Array.from(e.target.files) : [];
-    const validFiles = selectedFiles.filter(
-      (file) => file.type.startsWith("image/") || file.type.startsWith("video/")
-    );
+  const MAX_IMAGE_SIZE = 10 * 1024 * 1024; // 10 MB for images
+const MAX_VIDEO_SIZE = 50 * 1024 * 1024; // 50 MB for videos
+const MAX_AUDIO_SIZE = 10 * 1024 * 1024; // 10 MB for audio
 
-    if (validFiles.length !== selectedFiles.length) {
-      alert("Only images or videos are allowed.");
+// Helper function to check image dimensions
+const checkImageDimensions = (file) => {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.src = URL.createObjectURL(file);
+    img.onload = () => {
+      const { width, height } = img;
+      URL.revokeObjectURL(img.src); // Clean up the object URL
+      const isValid = width >= 500 && width <= 2000 && height >= 500 && height <= 2000;
+      if (!isValid) {
+        alert("Image dimensions must be between 500x500 and 2000x2000 pixels.");
+      }
+      resolve(isValid);
+    };
+  });
+};
+
+// Helper function to validate file type, size, and dimensions for images
+const isValidFile = async (file) => {
+  const isImage = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif';
+  const isVideo = file.type === 'video/mp4';
+  const isAudio = file.type === 'audio/mp3' || file.type === 'audio/wav';
+
+  if (!isImage && !isVideo && !isAudio) {
+    alert("Invalid file type. Only JPEG, PNG, GIF images, MP4 videos, and MP3/WAV audio files are allowed.");
+    return false;
+  }
+
+  if (isImage) {
+    if (file.size > MAX_IMAGE_SIZE) {
+      alert("Image size must be under 10 MB.");
+      return false;
     }
-
-    setFiles((prevFiles) => [...prevFiles, ...validFiles]);
-  };
-
-  // Handle file drop
-  const handleDrop = (e) => {
-    e.preventDefault();
-    setIsDragging(false);
-    const droppedFiles = Array.from(e.dataTransfer.files);
-    const validFiles = droppedFiles.filter(
-      (file) => file.type.startsWith("image/") || file.type.startsWith("video/")
-    );
-
-    if (validFiles.length !== droppedFiles.length) {
-      alert("Only images or videos are allowed.");
+    const isValidDimensions = await checkImageDimensions(file);
+    if (!isValidDimensions) return false;
+  } else if (isVideo) {
+    if (file.size > MAX_VIDEO_SIZE) {
+      alert("Video size must be under 50 MB.");
+      return false;
     }
+  } else if (isAudio) {
+    if (file.size > MAX_AUDIO_SIZE) {
+      alert("Audio size must be under 10 MB.");
+      return false;
+    }
+  }
 
-    setFiles((prevFiles) => [...prevFiles, ...validFiles]);
-  };
+
+  return true;
+};
+
+// Handle file selection
+const handleFileChange = async (e) => {
+  const selectedFiles = e.target.files ? Array.from(e.target.files) : [];
+  const validFiles = [];
+
+  for (const file of selectedFiles) {
+    if (await isValidFile(file)) {
+      validFiles.push(file);
+    }
+  }
+
+  if (validFiles.length !== selectedFiles.length) {
+    alert("Some files did not meet the required criteria and were not added.");
+  }
+
+  setFiles((prevFiles) => [...prevFiles, ...validFiles]);
+};
+
+// Handle file drop
+const handleDrop = async (e) => {
+  e.preventDefault();
+  setIsDragging(false);
+
+  const droppedFiles = Array.from(e.dataTransfer.files);
+  const validFiles = [];
+
+  for (const file of droppedFiles) {
+    if (await isValidFile(file)) {
+      validFiles.push(file);
+    }
+  }
+
+  if (validFiles.length !== droppedFiles.length) {
+    alert("Some files did not meet the required criteria and were not added.");
+  }
+
+  setFiles((prevFiles) => [...prevFiles, ...validFiles]);
+};
+
 
   const handleDragEnter = (e) => {
     e.preventDefault();
@@ -449,83 +514,123 @@ const Component = ({
       const result = await featureLayer.applyEdits({ addFeatures: addData });
 
       if (result.addFeatureResults.length > 0) {
-        handleStoreFeatureData(
-          "",
-          LayerConfig.url,
-          result.addFeatureResults[0].objectId
-        );
-        // if (uploadedFiles.length > 0) {
-        //   handleUploadFile();
-        // } else {
-        //   handleStoreFeatureData("", LayerConfig.url);
-        // }
-        console.log("Add feature successful:", result.addFeatureResults);
+        //handleStoreFeatureData("",LayerConfig.url, result.addFeatureResults[0].objectId)
+        if (uploadedFiles.length > 0) { 
+          handleUploadFile(LayerConfig.url, result.addFeatureResults[0].objectId);   
+        } else {
+          handleStoreFeatureData("",LayerConfig.url, result.addFeatureResults[0].objectId);
+        }
+        console.log('Add feature successful:', result.addFeatureResults);
+
       } else {
         console.error("Add feature failed:", result);
       }
     } catch (error) {
-      console.error("Error adding feature:", error);
+
+      console.error('Error adding feature:', error);
+    }    
+  }
+
+  const handleUploadFile = async(LayerURL, ObjectId) => {
+    if (uploadedFiles.length > 0) { // Ensure there are uploaded files
+      // Find the URL for the layer that includes "Terrestrial" in its name
+      //const LayerConfig = config.featureServices.find(service => selectedLayer.includes(service.name));
+      const attachmentUrl = `${LayerURL}/${ObjectId}/addAttachment`;
+      const promises = Array.from(uploadedFiles).map(file => {
+        const formData = new FormData();
+        formData.append("attachment", file);
+        formData.append("f", "json"); // Specify the response format
+
+        return fetch(attachmentUrl, {
+          method: 'POST',
+          body: formData,
+        });
+      });
+
+      try {
+        const results = await Promise.all(promises);
+        
+        // Check for errors in each response
+        const responses = await Promise.all(results.map(async res => {
+          if (!res.ok) {
+            // If the response is not OK, throw an error
+            const errorData = await res.json();
+            throw new Error(`Error: ${errorData.message || 'Unknown error'}`);
+          }
+          return res.json(); // Parse and return the response JSON
+        }));
+        if(responses.length >0){
+
+          const attachmentIds = responses.map(response => 
+            response.addAttachmentResult ? response.addAttachmentResult.objectId : null
+          ).filter(id => id !== null);
+
+          handleStoreFeatureData(String(attachmentIds), LayerURL, ObjectId)
+        }
+        console.log("Attachments added successfully:", responses);
+      } catch (error) {
+        console.error("Error adding attachments:", error);
+      }
+    } else {
+      alert('Please upload files before proceeding.'); // Optional alert for user feedback
     }
-    setPOIFormsuccessShow("Success");
-    setmessage("POI uploaded successfully!");
-    setPOIFormisOpenModalShow(true);
-    setFormShow(false);
   };
 
-  const handleStoreFeatureData = async (
-    attachmentIds,
-    LayerUrl,
-    FeatureObjectId
-  ) => {
-    // Extract only the fields you want to update in poiData
-    const FeatureData = {
-      Username: profiledetails.username,
-      Email: profiledetails.email,
-      FeatureObjectId: FeatureObjectId,
-      OrganizationEn: poiData.organization || "",
-      NameEn: poiData.name || "",
-      Class: poiData.class || "",
-      ClassD: poiData.classD || "",
-      Status: poiData.status || "",
-      Comment: poiData.comment || "",
-      Description: poiData.description || "",
-      Poems: poiData.poems || "",
-      stories: poiData.stories || "",
-      Classification: poiData.classification || "",
-      Municipality: poiData.municipality || "",
-      Emirate: poiData.emirate || "",
-      City: poiData.city || "",
-      AttachementsObjectIds: attachmentIds,
-      ApprovalStatus: "Pending",
-      featureServiceURL: LayerUrl,
-      POIOperation: "Add Feature",
-    };
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/FeatureServiceData/featureservicedatainsert`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(FeatureData),
-        }
-      );
-      const data = await response.json();
-      if (data.success) {
-        console.log(data.message);
-        UserActivityLog(profiledetails, "POI Added");
-        contextMapView.graphics.removeAll(); // Clears all graphics
-        contextMapView.map.layers.forEach((layer) => {
-          if (layer.refresh) {
-            layer.refresh();
-          }
-        });
-      } else {
-        console.log(data.message);
-      }
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    }
-  };
+  const handleStoreFeatureData = async(attachmentIds, LayerUrl, FeatureObjectId) =>{
+      
+          // Extract only the fields you want to update in poiData
+          const FeatureData = {
+            Username: profiledetails.username,
+            Email: profiledetails.email,
+            FeatureObjectId: FeatureObjectId,
+            OrganizationEn: poiData.organization || "",
+            NameEn: poiData.name || "",
+            Class: poiData.class || "",
+            ClassD: poiData.classD || "",
+            Status: poiData.status || "",
+            Comment: poiData.comment || "",
+            Description: poiData.description || "",
+            Poems: poiData.poems || "",
+            stories: poiData.stories || "",
+            Classification: poiData.classification || "",
+            Municipality: poiData.municipality || "",
+            Emirate: poiData.emirate || "",
+            City: poiData.city || "",
+            AttachementsObjectIds:attachmentIds,
+            ApprovalStatus: "Pending",
+            featureServiceURL:LayerUrl,
+            POIOperation:"Add Feature"
+          };
+          try {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/FeatureServiceData/featureservicedatainsert`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(FeatureData),
+            });
+            const data = await response.json();
+                if(data.success){
+                  console.log(data.message);   
+                  UserActivityLog(profiledetails, "POI Added")
+                  contextMapView.graphics.removeAll(); // Clears all graphics  
+                  contextMapView.map.layers.forEach(layer => {
+                    if (layer.refresh) {
+                      layer.refresh();
+                    }
+                  }); 
+                  setPOIFormsuccessShow("Success")
+                  setmessage("POI uploaded successfully!")
+                  setPOIFormisOpenModalShow(true)
+                  setFormShow(false)
+                }
+                else{
+                  console.log(data.message);
+                }
+            
+            } catch (error) {
+                console.error('Error submitting form:', error);
+            }   
+  }
+
 
   const renderField = (
     id,
