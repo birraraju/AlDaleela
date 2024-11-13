@@ -26,9 +26,9 @@ export default function POIEditSucessFailure({ message,label, success, isOpenMod
           {message}
         </p>
 
-        {label !== "Approval" && <div className=" w-full  flex border border-none rounded-3xl bg-[#FF9A032E]">
+        {(label !== "Approval") && <div className=" w-full  flex border border-none rounded-3xl bg-[#FF9A032E]">
           <span className=" flex justify-between px-2 py-2 items-center">
-            <img src={FailureIcon} className=" w-5" alt="" />
+            <img src={Warning} className=" w-5" alt="" />
             <p className=" pl-1 text-[11px] text-[#000000]">{isLangArab?"سيتم نشر ملفك بمجرد موافقة المشرف عليه.":"Your file will go live once approved by the admin."}</p>
             </span>
         </div>}

@@ -39,21 +39,38 @@ const Component = ({mapview,isLangArab, selectedLayer, addPointGeometry, setForm
     },
   });
   const [buttonDisable, setButtonDisable] = useState(false);
+  
+  // const [errors, setErrors] = useState({
+  //   organization: "organization Field is Required",
+  //   name: " Name Field is Required",
+  //   class: "Class  Field is Required",
+  //   classD: " ClassD Field is Required",
+  //   status: "Status Field is Required",
+  //   comment: "Comment Field is Required",
+  //   description: " Description Field is Required",
+  //   poems: "Poems Field is Required",
+  //   stories: " Store Field is Required",
+  //   // classification: " Classification Field is Required",
+  //   municipality: " Municipality Field is Required",
+  //   emirate: " Emirate  Field is Required",
+  //   city: " City Field is Required",
+  // });
+
   const [errors, setErrors] = useState({
-    organization: "organization Field is Required",
-    name: " Name Field is Required",
-    class: "Class  Field is Required",
-    classD: " ClassD Field is Required",
-    status: "Status Field is Required",
-    comment: "Comment Field is Required",
-    description: " Description Field is Required",
-    poems: "Poems Field is Required",
-    stories: " Store Field is Required",
-    // classification: " Classification Field is Required",
-    municipality: " Municipality Field is Required",
-    emirate: " Emirate  Field is Required",
-    city: " City Field is Required",
+    organization: isLangArab ? "حقل المنظمة مطلوب" : "Organization Field is Required",
+    name: isLangArab ? "حقل الاسم مطلوب" : "Name Field is Required",
+    class: isLangArab ? "حقل الفئة مطلوب" : "Class Field is Required",
+    classD: isLangArab ? "حقل ClassD مطلوب" : "ClassD Field is Required",
+    status: isLangArab ? "حقل الحالة مطلوب" : "Status Field is Required",
+    comment: isLangArab ? "حقل التعليق مطلوب" : "Comment Field is Required",
+    description: isLangArab ? "حقل الوصف مطلوب" : "Description Field is Required",
+    poems: isLangArab ? "حقل القصائد مطلوب" : "Poems Field is Required",
+    stories: isLangArab ? "حقل القصص مطلوب" : "Stories Field is Required",
+    municipality: isLangArab ? "حقل البلدية مطلوب" : "Municipality Field is Required",
+    emirate: isLangArab ? "حقل الإمارة مطلوب" : "Emirate Field is Required",
+    city: isLangArab ? "حقل المدينة مطلوب" : "City Field is Required",
   });
+  
   console.log("pioData :>> ", poiData);
   console.log("buttonDisable :>> ", buttonDisable);
   const { profiledetails, contextMapView } = useAuth();
@@ -349,7 +366,7 @@ const checkImageDimensions = (file) => {
       URL.revokeObjectURL(img.src); // Clean up the object URL
       const isValid = width >= 500 && width <= 2000 && height >= 500 && height <= 2000;
       if (!isValid) {
-        alert("Image dimensions must be between 500x500 and 2000x2000 pixels.");
+        alert(`${ isLangArab ?"يجب أن يكون حجم الصورة أقل من 10 ميغابايت.":"Image dimensions must be between 500x500 and 2000x2000 pixels."}`);
       }
       resolve(isValid);
     };
@@ -363,25 +380,25 @@ const isValidFile = async (file) => {
   const isAudio = file.type === 'audio/mp3' || file.type === 'audio/wav';
 
   if (!isImage && !isVideo && !isAudio) {
-    alert("Invalid file type. Only JPEG, PNG, GIF images, MP4 videos, and MP3/WAV audio files are allowed.");
+    alert(` ${isLangArab ? "نوع الملف غير صالح. يُسمح فقط بصور JPEG و PNG و GIF، وملفات الصوت MP3 و WAV، وفيديو MP4.":"Invalid file type. Only JPEG, PNG, GIF images, MP3, WAV audio, and MP4 video are allowed."}`);
     return false;
   }
 
   if (isImage) {
     if (file.size > MAX_IMAGE_SIZE) {
-      alert("Image size must be under 10 MB.");
+      alert(`${ isLangArab ?"حجم الصورة يجب أن يكون أقل من 10 ميجابايت.":"Image size must be under 10 MB."}`);
       return false;
     }
     const isValidDimensions = await checkImageDimensions(file);
     if (!isValidDimensions) return false;
   } else if (isVideo) {
     if (file.size > MAX_VIDEO_SIZE) {
-      alert("Video size must be under 50 MB.");
+      alert(`${isLangArab?"يجب أن يكون حجم الفيديو أقل من 50 ميغابايت.":"Video size must be under 50 MB."}`);
       return false;
     }
   } else if (isAudio) {
     if (file.size > MAX_AUDIO_SIZE) {
-      alert("Audio size must be under 10 MB.");
+      alert(`${isLangArab?"يجب أن يكون حجم الصوت أقل من 10 ميغابايت.":"Audio size must be under 10 MB."}`);
       return false;
     }
   }
@@ -402,7 +419,7 @@ const handleFileChange = async (e) => {
   }
 
   if (validFiles.length !== selectedFiles.length) {
-    alert("Some files did not meet the required criteria and were not added.");
+    alert(`${isLangArab?"بعض الملفات لم تستوفِ المعايير المطلوبة ولم تتم إضافتها.":"Some files did not meet the required criteria and were not added."}`);
   }
 
   setFiles((prevFiles) => [...prevFiles, ...validFiles]);
@@ -423,7 +440,7 @@ const handleDrop = async (e) => {
   }
 
   if (validFiles.length !== droppedFiles.length) {
-    alert("Some files did not meet the required criteria and were not added.");
+    alert(`${isLangArab?"بعض الملفات لم تستوفِ المعايير المطلوبة ولم تتم إضافتها.":"Some files did not meet the required criteria and were not added."}`);
   }
 
   setFiles((prevFiles) => [...prevFiles, ...validFiles]);
@@ -564,7 +581,7 @@ const handleDrop = async (e) => {
         console.error("Error adding attachments:", error);
       }
     } else {
-      alert('Please upload files before proceeding.'); // Optional alert for user feedback
+      alert(`${isLangArab?"يرجى تحميل الملفات قبل المتابعة.":"Please upload files before proceeding."}`); // Optional alert for user feedback
     }
   };
 
@@ -687,12 +704,88 @@ const handleDrop = async (e) => {
           className="px-1 py-3 hover:text-blue-500 flex items-center text-black focus:outline-none"
         >
           <ChevronLeft className="w-5 h-5" />
-          <span>Back</span>
+          <span>{isLangArab?"خلف":"Back"}</span>
         </button>
       </div>
       <div className="p-1 space-y-4">
-        {renderField(
+      {renderField(
+  "organization",
+  isLangArab ? "منظمة" : "Organization",
+  poiData.organization,
+  organizationOptions,
+  "select"
+)}
+{renderField(
+  "name",
+  isLangArab ? "الاسم" : "Name",
+  poiData.name
+)}
+{renderField(
+  "class",
+  isLangArab ? "الفئة" : "Class",
+  poiData.class
+)}
+{renderField(
+  "classD",
+  isLangArab ? "الفئة D" : "ClassD",
+  poiData.classD
+)}
+{renderField(
+  "status",
+  isLangArab ? "الحالة" : "Status",
+  poiData.status,
+  statusOptions,
+  "select"
+)}
+{renderField(
+  "comment",
+  isLangArab ? "تعليق" : "Comment",
+  poiData.comment
+)}
+{renderField(
+  "description",
+  isLangArab ? "الوصف" : "Description",
+  poiData.description
+)}
+{renderField(
+  "poems",
+  isLangArab ? "الأشعار" : "Poems",
+  poiData.poems
+)}
+{renderField(
+  "stories",
+  isLangArab ? "القصص" : "Stories",
+  poiData.stories
+)}
+{renderField(
+  "classification",
+  isLangArab ? "التصنيف" : "Classification",
+  poiData.classification || selectedLayer,
+  [],
+  "text",
+  true
+)}
+{renderField(
+  "municipality",
+  isLangArab ? "البلدية" : "Municipality",
+  poiData.municipality,
+  municipalityOptions,
+  "select"
+)}
+{renderField(
+  "emirate",
+  isLangArab ? "الإمارة" : "Emirate",
+  poiData.emirate
+)}
+{renderField(
+  "city",
+  isLangArab ? "المدينة" : "City",
+  poiData.city
+)}
+
+        {/* {renderField(
           "organization",
+          isLangArab?"منظمة":
           "Organization",
           poiData.organization,
           organizationOptions,
@@ -728,13 +821,13 @@ const handleDrop = async (e) => {
           "select"
         )}
         {renderField("emirate", "Emirate", poiData.emirate)}
-        {renderField("city", "City", poiData.city)}
+        {renderField("city", "City", poiData.city)} */}
 
         {/* Coordinates Section */}
         <div className="space-y-2">
           <div className="flex items-center space-x-4">
             <label className="block text-sm font-medium text-gray-700">
-              Coordinates
+              {isLangArab?"الإحداثيات":"Coordinates"}
             </label>
             <label className="inline-flex items-center">
               <input
@@ -745,7 +838,7 @@ const handleDrop = async (e) => {
                 checked={poiData.coordinateType === "dms"}
                 onChange={handleCoordinateTypeChange}
               />
-              <span className="ml-2 text-[14px]">Degrees Minutes Seconds</span>
+              <span className="ml-2 text-[14px]">{isLangArab?"درجات دقائق ثواني":"Degrees Minutes Seconds"}</span>
             </label>
             <label className="inline-flex items-center">
               <input
@@ -756,13 +849,13 @@ const handleDrop = async (e) => {
                 checked={poiData.coordinateType === "decimal"}
                 onChange={handleCoordinateTypeChange}
               />
-              <span className="ml-2 text-[14px]">Decimal Degrees</span>
+              <span className="ml-2 text-[14px]">{isLangArab?"الدرجات العشرية":"Decimal Degrees"}</span>
             </label>
           </div>
           {poiData.coordinateType === "dms" && (
             <div className="space-y-2">
               <div className="flex items-center space-x-2">
-                <label className="w-16">Point_X</label>
+                <label className="w-16">{isLangArab?"نقطة X":"Point_X"}</label>
                 <input
                   type="text"
                   id="dms_pointx_degrees"
@@ -789,7 +882,7 @@ const handleDrop = async (e) => {
                 />
               </div>
               <div className="flex items-center space-x-2">
-                <label className="w-16">Point_Y</label>
+                <label className="w-16">{isLangArab? "نقطة Y" : "Point_Y" }</label>
                 <input
                   type="text"
                   id="dms_pointy_degrees"
@@ -820,7 +913,7 @@ const handleDrop = async (e) => {
           {poiData.coordinateType === "decimal" && (
             <div className="space-y-2">
               <div className="flex items-center space-x-2">
-                <label className="w-16">Point_X</label>
+                <label className="w-16">{isLangArab?"نقطة X":"Point_X"}</label>
                 <input
                   type="text"
                   id="decimal_pointx"
@@ -831,7 +924,7 @@ const handleDrop = async (e) => {
                 />
               </div>
               <div className="flex items-center space-x-2">
-                <label className="w-16">Point_Y</label>
+                <label className="w-16">{isLangArab? "نقطة Y" : "Point_Y" }</label>
                 <input
                   type="text"
                   id="decimal_pointy"
@@ -847,7 +940,7 @@ const handleDrop = async (e) => {
 
         {/* File Upload Section */}
         <div className="bg-white p-4 grid grid-cols-1 gap-4 border border-none rounded-lg">
-          <h1 className="text-black">Upload Videos/Photos/Audios</h1>
+          <h1 className="text-black">{isLangArab?"تحميل مقاطع الفيديو/الصور/التسجيلات الصوتية":"Upload Videos/Photos/Audios"}</h1>
           <div
             className={`border-2 border-dashed rounded-lg p-6 text-center bg-white ${
               isDragging ? "border-blue-500" : "border-gray-300"
@@ -880,17 +973,17 @@ const handleDrop = async (e) => {
               </div>
             ) : (
               <p className="mt-2 text-sm text-gray-600">
-                Drop your images or videos here, or{" "}
+                {isLangArab?"قم بإسقاط الصور أو مقاطع الفيديو الخاصة بك هنا، أو":"Drop your images or videos here, or"}{" "}
                 <button
                   onClick={handleBrowse}
                   className="text-blue-500 hover:text-blue-600 focus:outline-none focus:underline"
                 >
-                  browse
+                  {isLangArab?"تصفح":"browse"}
                 </button>
               </p>
             )}
             <p className="mt-1 text-xs text-gray-500">
-              Supports: <strong>PNG, JPG, GIF, MP4, MOV, AVI</strong>
+              {isLangArab?"يدعم":"Supports"}: <strong>{isLangArab?"PNG، JPG، GIF، MP4، MOV، AVI":"PNG, JPG, GIF, MP4, MOV, AVI"}</strong>
             </p>
             <input
               type="file"
@@ -912,7 +1005,7 @@ const handleDrop = async (e) => {
                 className="w-4 h-4 text-white"
                 alt="Upload"
               />
-              Upload media
+              {isLangArab?"تحميل الوسائط":"Upload media"}
             </button>
           </div>
         </div>
@@ -920,7 +1013,7 @@ const handleDrop = async (e) => {
         {/* Uploaded Files Section */}
         {uploadedFiles.length > 0 && (
           <div className="space-y-4">
-            <h2 className="text-gray-700">Uploaded Files</h2>
+            <h2 className="text-gray-700">{isLangArab?"الملفات المرفوعة":"Uploaded Files"}</h2>
             {uploadedFiles.map((file, index) => (
               <div
                 key={index}
@@ -955,7 +1048,7 @@ const handleDrop = async (e) => {
             onClick={onClose}
             className="w-auto py-3 px-9 bg-transparent text-xs border border-black rounded-lg"
           >
-            Cancel
+            {isLangArab ? "يلغي" : "Cancel"}
           </button>
           <button
             onClick={handleFormSubmit}
@@ -963,7 +1056,7 @@ const handleDrop = async (e) => {
             
             className={`${!buttonDisable?"w-auto py-3 px-9 bg-custome-gray1 text-xs border border-gray-300 rounded-lg":"w-auto py-3 px-9 bg-custom-gradient text-xs border border-gray-300 rounded-lg"}` }
           >
-            Submit
+            { isLangArab ? "يُقدِّم" : "Submit"}
           </button>
         </div>
       </div>

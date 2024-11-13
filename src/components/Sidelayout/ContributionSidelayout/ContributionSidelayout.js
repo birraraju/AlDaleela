@@ -16,7 +16,7 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
   const [featureServiceData, setfeatureServiceData] = useState([]);
   const [clickedLocation, setClickedLocation] = useState(null); // State to track clicked location
 
-  console.log("Passed Contribution data :", featureServiceData)
+  // console.log("Passed Contribution data :", featureServiceData)
 
   const contributions = [
     { date: "2024-10-11", poiName: "Al Makhtabshah", status: "Pending" },
@@ -52,7 +52,8 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
 
       const data = await response.json();
       if(data.success){              
-        setfeatureServiceData(data.data);
+        const sortedData = data.data.sort((a, b) => b.id - a.id);
+        setfeatureServiceData(sortedData);
       }
       else{
         //console.log(data)          

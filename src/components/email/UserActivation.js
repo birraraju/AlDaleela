@@ -128,7 +128,7 @@ const UserActivation = () => {
                     setIsSuccess("Failure")
                 }
             } catch (error) {
-                setMessage('An error occurred: ' + error.message);
+                setMessage(error.message);
                 setIsSuccess("Failure")
             } finally {
                 setLoading(false);

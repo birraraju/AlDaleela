@@ -125,6 +125,7 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
                   onClose={()=>{setIsShowEdit(true);setFormShow(false);}}
                 />
                 <POIEditFileUploaderStatusMOdel
+                 label={"POIAdd"}
                   message={message}
                   success={POIFormsuccessShow}
                   isOpenModal={POIFormisOpenModalShow}

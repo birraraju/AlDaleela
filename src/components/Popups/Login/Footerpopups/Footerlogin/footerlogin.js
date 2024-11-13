@@ -9,19 +9,19 @@ import { useAuth } from "../../../../../Providers/AuthProvider/AuthProvider";
 export default function FooterLogin({setPopup,name,setResetFooter}) {
   // const [isLogin, setIsLogin] = useState(true); // State to toggle between login and signup forms
   const [showPopup, setShowPopup] = useState(true); // State to control popup visibility
-  const { setIsLogin,setsSignup } = useTheme(); // Access the dark mode state
+  const { setIsLogin,setsSignup ,isLangArab} = useTheme(); // Access the dark mode state
   const {setIsEditPOI,setIsAuthPopUp} = useAuth();
   const [isLoginFor, setoginFor] = useState("")
 
   useEffect(()=>{
     if(name === "Add"){
-      setoginFor("bookmarks")
+      setoginFor(isLangArab?"الإشارات المرجعية":"bookmarks")
     }
       else if(name === "Hand")
        {
-        setoginFor("Add POI")
+        setoginFor(isLangArab?"أضف نقطة اهتمام":"Add POI")
        }else if(name === "AuthPopUp"){
-        setoginFor("to access editing features")
+        setoginFor(isLangArab?"للوصول إلى ميزات التحرير":"to access editing features")
        }
          
          
@@ -40,7 +40,8 @@ export default function FooterLogin({setPopup,name,setResetFooter}) {
   };
 
   return (
-    <div className="fixed top-3 sm:top-12 left-10 sm:left-[38%] overflow-y-auto max-h-[670px] w-[250px] bg-gray-200 rounded-xl shadow-lg m-4 mt-40">
+    
+    <div  className="fixed top-3 sm:top-12 left-10 sm:left-[38%] overflow-y-auto max-h-[670px] w-[250px] bg-gray-200 rounded-xl shadow-lg m-4 mt-40">
       <div className='p-5 text-black bg-white rounded-lg shadow-md relative'>
         
         {/* Cancel Button */}
@@ -54,24 +55,24 @@ export default function FooterLogin({setPopup,name,setResetFooter}) {
           <img src={LoginLogo} alt="Logo" /> {/* Directly reference the logo in the public directory */}
         </div>
 
-            <h1 className='text-center py-4'>Login required {name !== "AuthPopUp" &&"for"}<br />{isLoginFor}</h1>
+            <h1 className='text-center py-4'>{isLangArab?"تسجيل الدخول مطلوب":"Login required"} {name !== "AuthPopUp" &&(isLangArab?"ل":"for")}<br />{isLoginFor}</h1>
 
             <button
               className='w-full  bg-[#38a4d2] py-2 rounded-lg text-white'
               onClick={() => {setIsLogin(true);handleClose();setShowPopup(false)}} // Placeholder for login functionality
               aria-label="Login"
             >
-              Log in
+              {isLangArab?"تسجيل الدخول":"Log in"}
             </button>
 
-            <h1 className='text-center py-2'>or</h1>
+            <h1 className='text-center py-2'>{isLangArab?"أو":"or"}</h1>
 
             <button
               className='w-full custom-gradient py-2 rounded-lg text-white'
               onClick={() => {setsSignup(true);handleClose();setShowPopup(false)}} // Switch to signup UI
               aria-label="Create new account"
             >
-              Create new account
+              {isLangArab ?"إنشاء حساب جديد":"Create new account"}
             </button>
       </div>
     </div>
