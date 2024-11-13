@@ -76,7 +76,7 @@ export default function POIApprovalStatus({ children, onClose, mapview }) {
        
         >
           <ChevronLeft className={isDarkMode?"w-5 h-5 text-white":"w-5 h-5 text-black"} />
-          <span className={isDarkMode?"text-white hover:text-gray-200":" text-black hover:text-blue-500"}>Back</span>
+          <span className={isDarkMode?"text-white hover:text-gray-200":" text-black hover:text-blue-500"}>{isLangArab?"خلف":"Back"}</span>
         </button></div>}
         </div>
 
@@ -85,7 +85,7 @@ export default function POIApprovalStatus({ children, onClose, mapview }) {
           {children || (
             <>
               <div className="overflow-y-auto  h-[79%]">
-                <StatuesUpdatePOI setMessage={setMessage} setFormShow={setFormShow} setPOIFormIsOpenModalShow={setPOIFormIsOpenModalShow} setPOIFormSuccessShow={setPOIFormSuccessShow} isFormShow={isFormShow} />
+                <StatuesUpdatePOI isLangArab={isLangArab} setMessage={setMessage} setFormShow={setFormShow} setPOIFormIsOpenModalShow={setPOIFormIsOpenModalShow} setPOIFormSuccessShow={setPOIFormSuccessShow} isFormShow={isFormShow} />
                 <POIEditFileUploaderStatusModel
                   message={message}
                   label={"Approval"}

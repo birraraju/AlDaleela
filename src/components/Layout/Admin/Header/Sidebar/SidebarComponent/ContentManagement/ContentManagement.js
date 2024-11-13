@@ -37,6 +37,7 @@ export default function UserManagement({role}) {
   const { isDarkMode } = useTheme(); // Access dark mode from theme context
   const [data, setData] = useState([]);
   const {setDropPinObjectId} = useAuth();
+    // console.log("Passed Content Management data :", data)
 
   const navigate = useNavigate();
 
@@ -70,7 +71,8 @@ export default function UserManagement({role}) {
         }
         const result = await response.json();        
         if (result.success) {
-          setData(result.data);
+          const sortedItems = result.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+          setData(sortedItems);
         } else {
           console.log(result.message);
         }
