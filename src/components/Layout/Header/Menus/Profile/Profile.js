@@ -145,6 +145,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
     localStorage.removeItem("AldaleelaUserDetails:");
 
     setRole(null);
+    setprofiledetails(null);
     UserActivityLog(profiledetails, "Logged out")
   };
 
@@ -172,9 +173,10 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
             </div>
             <div className="ml-1 hidden sm:block">
               <img
-                src={`${((role === "admin")||(role === "user")) ? AdminLogo : ProfileLogo}`} // الملف الشخصي
+                //src={`${((role === "admin")||(role === "user")) ? AdminLogo : ProfileLogo}`} // الملف الشخصي
+                src={profiledetails && profiledetails.imageUrl ? profiledetails.imageUrl : ProfileLogo}
                 alt="Profile"
-                className="mobile_s:w-8 laptop_m:w-8"
+                className="mobile_s:w-8 laptop_m:w-8 w-8 h-8 rounded-full object-cover"
               />
             </div>
             <div className="mobile_s:ml-2 hidden sm:block laptop_m:ml-2">

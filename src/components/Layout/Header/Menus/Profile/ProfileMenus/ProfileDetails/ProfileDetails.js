@@ -20,7 +20,10 @@ export default function ProfileDetails({
           className="flex justify-start items-center gap-2"
         >
           <div className=" w-12 h-12">
-            <img src={`${process.env.PUBLIC_URL}/Header/Profile/ProfileDetails/Profile.svg`} alt="" className=" w-full h-full" />
+            <img 
+            // src={`${process.env.PUBLIC_URL}/Header/Profile/ProfileDetails/Profile.svg`} 
+            src={profiledetails && profiledetails.imageUrl ? profiledetails.imageUrl : `${process.env.PUBLIC_URL}/Header/Profile/ProfileDetails/Profile.svg`}
+            alt="" className=" w-full h-full w-8 h-8 rounded-full object-cover" />
           </div>
 
           <div className="flex flex-col cursor-pointer gap-1">

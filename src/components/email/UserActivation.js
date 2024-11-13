@@ -104,6 +104,7 @@ const UserActivation = () => {
     const [isSuccess, setIsSuccess] = useState("");
     const navigate = useNavigate();
     const activeUserURL = `https://atlas.smartgeoapps.com/AlDaleelaWebAPI/api/Registration/activateUser`;
+    //const activeUserURL = `https://localhost:7265/api/Registration/activateUser`;
 
     useEffect(() => {
         const activateUser = async () => {

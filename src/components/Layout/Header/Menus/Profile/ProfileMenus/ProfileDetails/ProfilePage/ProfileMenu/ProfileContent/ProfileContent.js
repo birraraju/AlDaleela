@@ -37,10 +37,11 @@ export default function ProfileContent({
       {!isEditProfile ? (
         <div className="flex justify-between items-center gap-4">
           <div className="w-[20%]">
-            <img
-              src={`${process.env.PUBLIC_URL}/Header/Profile/ProfileDetails/Profile.svg`}
+            <img 
+              // src={`${process.env.PUBLIC_URL}/Header/Profile/ProfileDetails/Profile.svg`}
+              src={profiledetails && profiledetails.imageUrl ? profiledetails.imageUrl : `${process.env.PUBLIC_URL}/Header/Profile/ProfileDetails/Profile.svg`}
               alt="Profile"
-              className="sm:w-20 w-18"
+              className="sm:w-20 w-18 h-18 sm:h-20 rounded-full object-cover"
             />
           </div>
 
@@ -79,7 +80,7 @@ export default function ProfileContent({
         <div className="flex flex-col justify-center items-center">
           <div className="relative h-28 w-28 rounded-full overflow-hidden">
             <img
-              src={profileImage}
+              src={profiledetails && profiledetails.imageUrl ? profiledetails.imageUrl : profileImage}
               alt="Admin"
               className="w-full h-full rounded-full"
             />
