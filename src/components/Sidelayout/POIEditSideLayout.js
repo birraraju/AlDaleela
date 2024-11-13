@@ -247,7 +247,7 @@
     // If the panel is fully closed, don't render anything
     if (isFullyClosed) return null;
     const handleShowPOIEdit=()=>{
-      if(RoleServices.isAdmin()){
+      if(RoleServices.isAuth()){
         setIsShowEditPOI((prev) => !prev)
       }else{
         setIsAuthPopUp(true);
@@ -308,7 +308,7 @@
   </button>
 
   {/* POI Label Mark */}
-  <button onClick={() => RoleServices.isAdmin() ? handleBookmarkEvent('click') : setIsAuthPopUp(true)}>
+  <button onClick={() => RoleServices.isAuth() ? handleBookmarkEvent('click') : setIsAuthPopUp(true)}>
   <img
     src={POILabelMark}
     alt="Location Mark"

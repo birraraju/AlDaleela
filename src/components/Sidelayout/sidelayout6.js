@@ -91,7 +91,7 @@ export default function SideLayout6({
             </p>
           )}
         </div>
-        <div className=" bg-transparent" ><Print mapview={mapview}/></div>
+        <div className=" bg-transparent " ><Print mapview={mapview}/></div>
       </div>
 
       {/* Toggle button to slide panel in and out */}
