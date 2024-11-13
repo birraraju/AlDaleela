@@ -17,13 +17,15 @@ import Graphic from '@arcgis/core/Graphic';
 import config from '../../Common/config'; // Import your config file
 import {UserActivityLog} from "../../Common/UserActivityLog";
 
-const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsManageVisible, isManageVisible,onclose}) => {
+const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsManageVisible, isManageVisible,setIsSuccess,setisMsgStatus,setIsmodalMessage,onclose}) => {
   const [bookmarks, setBookmarks] = useState([]);
   const [condtioncheck, setCondtionCheck] = useState(true);
   const [count, setCount] = useState(0);
   const [ids, setIds] = useState([]); // State to hold the array of IDs
   const {profiledetails, contextMapView} = useAuth();
   // Array of images with icons
+
+  console.log('ids :>> ', ids);
   const images = [
     { src: Book1, title: 'Maskar Al Hidaybah', icon: [{ iconBg: CemaraBg, Icon: CameraIcon }, { iconBg: VideoBg, Icon: VideoIcon }, { iconBg: AudioBg, Icon: AudioIcon }] },
     { src: Book2, title: "Al 'Imayrah", icon: [{ iconBg: AudioBg, Icon: AudioIcon }] },
@@ -215,14 +217,27 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
             console.log(data.message);
             fetchBookmarks();
             UserActivityLog(profiledetails, "Bookmark Removed")
-            setIsManageVisible(false); // Close management view
+             // Close management view
             setSelectedMarks({}); // Reset the selected marks
+            setisMsgStatus("Success")
+            setIsmodalMessage("Bookmark Deleted Sucessfully")
+            setIsSuccess(true)
+            setIsManageVisible(false);
           }
           else{
+            setisMsgStatus("Failure")
+            setIsmodalMessage(" Failed to Deleted Bookmark!")
+            setIsSuccess(true)
+            setIsManageVisible(false); // Close management view
+
             console.log(data.message);
           }
       
       } catch (error) {
+        setisMsgStatus("Failure")
+            setIsmodalMessage(" Failed to Deleted Bookmark!")
+            setIsSuccess(true)
+            setIsManageVisible(false);
           console.error('Error submitting form:', error);
       }    
   };
@@ -293,13 +308,14 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
                 <button onClick={handleClose}
                   className="w-auto py-3 px-14 bg-white text-xs border border-gray-300 rounded-lg"
                 >
-                  Cancel
+                  {isLangArab ? "إلغاء":"Cancel"}
                 </button>
                 <button
                   onClick={handleSave}
-                  className="w-auto py-3 px-10 bg-custom-gradient text-[12px] border border-gray-300 rounded-lg"
+                  disabled={ids.length === 0}
+                  className={ids.length===0?"w-auto py-3 px-10 bg-custome-gray1 text-[12px] border border-gray-300 rounded-lg":"w-auto py-3 px-10 bg-custom-gradient text-[12px] border border-gray-300 rounded-lg"}
                 >
-                  Save Changes
+                  {isLangArab?"حفظ التغييرات":"Save Changes"}
                 </button>
               </div>
             )}

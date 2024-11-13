@@ -10,7 +10,7 @@ import { useAuth } from "../../Providers/AuthProvider/AuthProvider";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";  
 import Graphic from '@arcgis/core/Graphic';
 
-const DropBinStatusUpdate = ({setMessage,setFormShow,setPOIFormIsOpenModalShow,setPOIFormSuccessShow,isFormShow}) => {
+const DropBinStatusUpdate = ({setMessage,isLangArab,setFormShow,setPOIFormIsOpenModalShow,setPOIFormSuccessShow,isFormShow}) => {
   const [poiData, setPoiData] = useState({
     organization: "",
     name_en: "",
@@ -210,7 +210,7 @@ const DropBinStatusUpdate = ({setMessage,setFormShow,setPOIFormIsOpenModalShow,s
           }
         });   
         handleUpdateApprovalStatus("Approved"); 
-        setMessage("POI Approve Sucessfully");
+        setMessage(isLangArab?"تمت الموافقة على POI بنجاح.":"POI Approve Sucessfully!");
         setPOIFormSuccessShow("Success");
         setPOIFormIsOpenModalShow(true)
         setFormShow(false);            
@@ -290,7 +290,7 @@ const DropBinStatusUpdate = ({setMessage,setFormShow,setPOIFormIsOpenModalShow,s
                   layer.refresh();
                 }
               });   
-              setMessage("POI Rejected !");
+              setMessage( isLangArab?"تم رفض POI!":"POI Rejected !");
               setPOIFormSuccessShow("Failure");
               setPOIFormIsOpenModalShow(true)
               setFormShow(false);
@@ -324,7 +324,7 @@ const DropBinStatusUpdate = ({setMessage,setFormShow,setPOIFormIsOpenModalShow,s
                   layer.refresh();
                 }
               });   
-              setMessage("POI Rejected !");
+              setMessage( isLangArab?"تم رفض POI!":"POI Rejected !");
               setPOIFormSuccessShow("Failure");
               setPOIFormIsOpenModalShow(true)
               setFormShow(false);
@@ -396,7 +396,7 @@ const DropBinStatusUpdate = ({setMessage,setFormShow,setPOIFormIsOpenModalShow,s
   return (
     <div className="w-full max-w-lg bg-transparent overflow-y-auto">
       <div className="px-2 py-1 h-full space-y-4">
-        {renderField("Organization", poiData.organization)}
+        {/* {renderField( isLangArab?"منظمة":"Organization", poiData.organization)}
         {renderField("Name", poiData.name_en)}
         {renderField("Class", poiData.Class)}
         {renderField("ClassD", poiData.ClassD)}
@@ -407,12 +407,24 @@ const DropBinStatusUpdate = ({setMessage,setFormShow,setPOIFormIsOpenModalShow,s
         {renderField("Stories", poiData.stories)}
         {renderField("Classification", poiData.Classification)}
         {renderField("Municipality", poiData.MunicipalityAr)}
-        {renderField("Emirate", poiData.Emirate)}
+        {renderField("Emirate", poiData.Emirate)} */}
+        {renderField(isLangArab ? "منظمة" : "Organization", poiData.organization)}
+{renderField(isLangArab ? "الاسم" : "Name", poiData.name_en)}
+{renderField(isLangArab ? "الفئة" : "Class", poiData.Class)}
+{renderField(isLangArab ? "الفئة D" : "ClassD", poiData.ClassD)}
+{renderField(isLangArab ? "الحالة" : "Status", poiData.Status)}
+{renderField(isLangArab ? "تعليق" : "Comment", poiData.Comment)}
+{renderField(isLangArab ? "الوصف" : "Description", poiData.description)}
+{renderField(isLangArab ? "الأشعار" : "Poems", poiData.poems)}
+{renderField(isLangArab ? "القصص" : "Stories", poiData.stories)}
+{renderField(isLangArab ? "التصنيف" : "Classification", poiData.Classification)}
+{renderField(isLangArab ? "البلدية" : "Municipality", poiData.MunicipalityAr)}
+{renderField(isLangArab ? "الإمارة" : "Emirate", poiData.Emirate)}
 
         {/* Photos Section */}
         <div className="px-3 py-6 border border-none rounded-lg bg-white space-y-4">
           <div>
-                <h3 className="text-sm font-medium mb-2">Photos</h3>
+                <h3 className="text-sm font-medium mb-2">{isLangArab?"صور":"Photos"}</h3>
                 {images.length > 0 ? (
                   images.map((image, index) => (
                     <div key={index} className="relative h-[90px] rounded-lg overflow-hidden">
@@ -420,13 +432,13 @@ const DropBinStatusUpdate = ({setMessage,setFormShow,setPOIFormIsOpenModalShow,s
                     </div>
                   ))
                 ) : (
-                  <p>No photos available.</p>
+                  <p>{isLangArab?"لا توجد صور متاحة.":"No photos available."}</p>
                 )}
             </div>
 
           {/* Videos Section */}
           <div>
-                <h3 className="text-sm font-medium mb-2">Videos</h3>
+                <h3 className="text-sm font-medium mb-2">{isLangArab?"فيديوهات":"Videos"}</h3>
                 {videos.length > 0 ? (
                   <div className="grid grid-cols-2 gap-2">
                     {videos.map((video, index) => (
@@ -443,34 +455,34 @@ const DropBinStatusUpdate = ({setMessage,setFormShow,setPOIFormIsOpenModalShow,s
                     ))}
                   </div>
                 ) : (
-                  <p>No videos available.</p>
+                  <p>{isLangArab?"لا توجد مقاطع فيديو متاحة.":"No videos available."}</p>
                 )}
               </div>
 
           {/* Audio Section */}
           <div>
-                <h3 className="text-sm font-medium mb-2">Audio</h3>
+                <h3 className="text-sm font-medium mb-2">{isLangArab?"صوتي":"Audio"}</h3>
                 {audios.length > 0 ? (
                   audios.map((audio, index) => (
                     <div key={index} className="flex p-2 h-10 bg-gray-300 rounded-full justify-center items-center overflow-hidden">
                       <audio controls className="w-13" style={{ width: '100px' }}>
                         <source src={audio.url} />
-                        Your browser does not support the audio tag.
+                        {isLangArab?"متصفحك لا يدعم علامة الصوت.":"Your browser does not support the audio tag."}
                       </audio>
                     </div>
                   ))
                 ) : (
-                  <p>No audio files available.</p>
+                  <p>{isLangArab?"لا توجد ملفات صوتية متاحة.":"No audio files available."}</p>
                 )}
               </div>
         </div>
 
         <div className="flex justify-center space-x-16 items-center">
           <button onClick={handleApprovePOI} className="w-auto py-3 px-9 bg-custom-gradient text-xs border border-black rounded-lg">
-            Approve
+            {isLangArab?"تم الموافقة!":"Approve"}
           </button>
           <button onClick={handleRejectPOI} className="w-auto py-3 px-9 bg-[#FFE8E8] text-xs border border-[#909090] rounded-lg">
-            Reject
+            {isLangArab?"تم الرفض!":"Reject"}
           </button>
         </div>
       </div>

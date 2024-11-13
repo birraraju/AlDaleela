@@ -1,5 +1,5 @@
 // App.js
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate,useLocation } from 'react-router-dom';
 import { AuthProvider,useAuth } from "./Providers/AuthProvider/AuthProvider";
 import { ThemeProvider } from './components/Layout/ThemeContext/ThemeContext';
 import AdminLayout from '../src/components/Layout/Admin/Layout/AdminLayout';
@@ -20,6 +20,7 @@ const App = () => {
 }
 
 const MainRoutes = () => {
+  const location = useLocation();
   const { role } = useAuth();
   console.log("Role App js:", role)
   // role === "admin" &&
@@ -32,6 +33,9 @@ const MainRoutes = () => {
         {<Route path="/admin" element={<AdminLayout role={role} />} />} 
         <Route path={`/${process.env.REACT_APP_BASE_URL}/activate/:userId`} element={<UserActivation/>} />
         <Route path="*" element={<Navigate to={process.env.REACT_APP_BASE_URL} replace />} />
+         {/* Catch-All Redirect */}
+         <Route path="*" element={<Navigate to={`/${process.env.REACT_APP_BASE_URL}`} state={{ from: location }} replace />} />
+
       </Routes>
     </div>
   );

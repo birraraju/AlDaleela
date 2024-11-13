@@ -52,6 +52,8 @@ export default function UserManagement() {
   const [latestDate, setLatestDate] = useState(null);
   const {profiledetails} = useAuth()
   console.log("Confirm delete:", selectedUsersid);
+  // console.log("Passed User Management data :", data)
+
   const toggleUserSelection = (index) => {
     setSelectedUsers(prev => 
       prev.includes(index) ? prev.filter(i => i !== index) : [...prev, index]
@@ -94,6 +96,8 @@ export default function UserManagement() {
         const result = await response.json();
         
         if (result.success) {
+          // console.log("Passed User Management data :", result)
+
           const newItems = result.data.map(user => {
             const loginTime = user.lastlogin;
             if (!loginTime) return { ...user, lastlogin: "User has not logged in yet." };
@@ -121,10 +125,14 @@ export default function UserManagement() {
               lastdateString = "Logged in today";
             }
 
-            return { ...user, lastlogin: lastdateString };
+            return { ...user, lastlogin: lastdateString,lastloginDate:loginTime };
           });
+          
+          // Assuming newItems is the array containing your user objects
+const sortedItems = newItems.sort((a, b) => new Date(b.lastloginDate) - new Date(a.lastloginDate));
 
-          setData(newItems);
+// Now set the sorted data
+setData(sortedItems);
         } else {
           console.log(result.message);
         }

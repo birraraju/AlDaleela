@@ -3,10 +3,10 @@ import Sidebar from "../AdminSidebar";
 // import UserManagement from "./UserManagement/UserManagement";
 // import { Heading } from "../../../Layout/Table/Heading/Heading";
 
-export default function SidebarComponent({ activeItem, onItemClick }) {
+export default function SidebarComponent({ activeItem, onItemClick,isCollapsed, setIsCollapsed }) {
   return (
     <div className="flex">
-      <Sidebar activeItem={activeItem} onItemClick={onItemClick} />
+      <Sidebar activeItem={activeItem} onItemClick={onItemClick} setIsCollapsed={setIsCollapsed} isCollapsed={isCollapsed} />
       {/* Uncomment and modify the following lines if needed */}
       {/* 
       <div className="ml-[190px] p-8 flex-1">

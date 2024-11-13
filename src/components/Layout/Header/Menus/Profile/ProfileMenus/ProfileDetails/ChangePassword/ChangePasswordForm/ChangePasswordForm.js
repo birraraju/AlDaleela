@@ -28,17 +28,29 @@ const formSchema = z
     path: ["confirmNewPassword"],
   });
 
+  const formSchemaArab = z
+  .object({
+    currentPassword: z.string().min(1, "كلمة المرور الحالية مطلوبة"),
+    newPassword: z.string().min(8, "يجب أن تكون كلمة المرور الجديدة على الأقل 8 أحرف"),
+    confirmNewPassword: z.string().min(8, "كلمات السر غير متطابقة"),
+  })
+  .refine((data) => data.newPassword === data.confirmNewPassword, {
+    message: "كلمات السر غير متطابقة",
+    path: ["confirmNewPassword"],
+  });
+
 export default function ChangePasswordForm({setIsProfileData,setModalMessage,setIsMsgStatus, setIsChangePassword,setIsFailure, setChangeCloseProfile,setIsSuccess, setIsProfile }) {
   const {profiledetails } = useAuth()
+  const { isDarkMode,isLangArab } = useTheme(); // Access dark mode from theme context
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver( isLangArab ? formSchemaArab : formSchema),
     defaultValues: {
       currentPassword: "",
       newPassword: "",
       confirmNewPassword: "",
     },
   });
-  const { isDarkMode,isLangArab } = useTheme(); // Access dark mode from theme context
+  
 
 
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
@@ -114,14 +126,14 @@ export default function ChangePasswordForm({setIsProfileData,setModalMessage,set
                 <div className="relative">
                   <Input
                     placeholder={isLangArab?"كلمة المرور الحالية  ":"Current Password "}
-
+                    isLangArab={isLangArab}
                     type={showCurrentPassword ? "text" : "password"}
                     {...field}
                   />
                   <button
                     type="button"
                     onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                    className="absolute right-3 top-3"
+                    className={`absolute ${ isLangArab?"left-3":"right-3"} top-3`}
                   >
                      {showCurrentPassword ? (
                   <IoEye className={`text-2xl ${isDarkMode ? 'text-black' : 'text-black'} opacity-50`} />
@@ -153,12 +165,13 @@ export default function ChangePasswordForm({setIsProfileData,setModalMessage,set
                   <Input
                     placeholder={isLangArab?"كلمة المرور الجديدة":"New Password"}
                     type={showNewPassword ? "text" : "password"}
+                    isLangArab={isLangArab}
                     {...field}
                   />
                   <button
                     type="button"
                     onClick={() => setShowNewPassword(!showNewPassword)}
-                    className="absolute right-3 top-3"
+                    className={`absolute ${ isLangArab?"left-3":"right-3"} top-3`}
                   >
                      {showNewPassword ? (
                   <IoEye className={`text-2xl ${isDarkMode ? 'text-black' : 'text-black'} opacity-50`} />
@@ -188,12 +201,13 @@ export default function ChangePasswordForm({setIsProfileData,setModalMessage,set
                   <Input
                     placeholder={isLangArab?"تأكيد كلمة المرور الجديدة":" Confirm New Password"}
                     type={showConfirmPassword ? "text" : "password"}
+                    isLangArab={isLangArab}
                     {...field}
                   />
                   <button
                     type="button"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute right-3 top-3"
+                    className={`absolute ${ isLangArab?"left-3":"right-3"} top-3`}
                   >
                      {showConfirmPassword ? (
                   <IoEye className={`text-2xl ${isDarkMode ? 'text-black' : 'text-black'} opacity-50`} />

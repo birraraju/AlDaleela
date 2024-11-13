@@ -37,6 +37,7 @@ export default function UserManagement({role}) {
   const { isDarkMode } = useTheme(); // Access dark mode from theme context
   const [data, setData] = useState([]);
   const {setDropPinObjectId} = useAuth();
+    // console.log("Passed Content Management data :", data)
 
   const navigate = useNavigate();
 
@@ -70,7 +71,8 @@ export default function UserManagement({role}) {
         }
         const result = await response.json();        
         if (result.success) {
-          setData(result.data);
+          const sortedItems = result.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+          setData(sortedItems);
         } else {
           console.log(result.message);
         }
@@ -124,9 +126,9 @@ export default function UserManagement({role}) {
                 Classification</th>
                 <th className={`pb-3 laptop_s:p-2 sm:p-1 p-2 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
                 Municipality</th>
-                <th className={`pb-3 laptop_s:p-2 sm:p-1 p-2 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]   flex gap-x-1 pr-4 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+                <th className={`pb-1 laptop_s:p-2 sm:p-1 p-2 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]   flex gap-x-1 pr-4 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
                 Media<img src={MediaPinPoint} className='h-4' alt="" /></th>
-                  <th className="pb-3 laptop_s:p-2 sm:p-1"></th>
+                  <th className="pb-3 laptop_s:p-2 sm:p-4 "></th>
                 </tr>
               </thead>
               <tbody>
@@ -157,9 +159,9 @@ export default function UserManagement({role}) {
                       {user.municipality}</td>
                       <td className={`py-4 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
                       {user.attachementsObjectIds ? user.attachementsObjectIds.split(',').length : 0}</td>
-                    <td className="py-2">
+                    <td className="py-2 w-auto sm:w-8 ">
                       <button onClick={()=>{handleDropPin(user.featureObjectId, user.featureServiceURL, user.id, user.poiOperation, user.featureObjectId)}} className="text-red-500 hover:text-red-600">
-                        <img src={PinPoint} alt="" className='h-7' />
+                        <img src={PinPoint} alt="" className='sm:h-7 h-4 w-4 sm:w-auto' />
                       </button>
                     </td>
                   </tr>

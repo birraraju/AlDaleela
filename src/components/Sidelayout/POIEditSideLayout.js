@@ -114,7 +114,7 @@
             //console.log(values);
             UserActivityLog(profiledetails, "Bookmark Added")  
             setBookMarkClick(false)
-            alert(data.message);
+            alert(data.message === "Bookmark created successfully." && (isLangArab ?"تم إنشاء الإشارة المرجعية بنجاح.":"Bookmark created successfully."));
           }
           else{
             //console.log(data)         
@@ -247,7 +247,7 @@
     // If the panel is fully closed, don't render anything
     if (isFullyClosed) return null;
     const handleShowPOIEdit=()=>{
-      if(RoleServices.isAdmin()){
+      if(RoleServices.isAuth()){
         setIsShowEditPOI((prev) => !prev)
       }else{
         setIsAuthPopUp(true);
@@ -308,7 +308,7 @@
   </button>
 
   {/* POI Label Mark */}
-  <button onClick={() => RoleServices.isAdmin() ? handleBookmarkEvent('click') : setIsAuthPopUp(true)}>
+  <button onClick={() => RoleServices.isAuth() ? handleBookmarkEvent('click') : setIsAuthPopUp(true)}>
   <img
     src={POILabelMark}
     alt="Location Mark"
@@ -332,11 +332,12 @@
 </div>}       </div>}
               <div className={`${POIShareShow?"mt-3":"mt-20"} overflow-y-auto`}>
               {POIShareShow && <POShareForm  onClose={()=>{setPOIFormShow(true);setPOIShareShow(false);}} queryresults={queryresults}/>}
-             {(isEditShowPOI||POIFormShow) && <POIEditForm isEditShowPOI={isEditShowPOI}  setIsShowEditPOI={setIsShowEditPOI}  POIFormShow={POIFormShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow} queryresults={queryresults} setIsEditPOI={setIsEditPOI} uploadedFiles={uploadedFiles} setPOImessageShow={setPOImessageShow} setPOIFormsuccessShow={setPOIFormsuccessShow} setPOIFormisOpenModalShow={setPOIFormisOpenModalShow} setUploadedFiles={setUploadedFiles}/>}
-              <POIEditFileUploader setPOImessageShow={setPOImessageShow} setPOIFormsuccessShow={setPOIFormsuccessShow} POIFormUploader={POIFormUploader} setPOIFormisOpenModalShow={setPOIFormisOpenModalShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow} queryresults={queryresults} uploadedFiles={uploadedFiles} setUploadedFiles={setUploadedFiles}/>
+             {(isEditShowPOI||POIFormShow) && <POIEditForm isLangArab={isLangArab} isEditShowPOI={isEditShowPOI}  setIsShowEditPOI={setIsShowEditPOI}  POIFormShow={POIFormShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow} queryresults={queryresults} setIsEditPOI={setIsEditPOI} uploadedFiles={uploadedFiles} setPOImessageShow={setPOImessageShow} setPOIFormsuccessShow={setPOIFormsuccessShow} setPOIFormisOpenModalShow={setPOIFormisOpenModalShow} setUploadedFiles={setUploadedFiles}/>}
+              <POIEditFileUploader isLangArab={isLangArab} setPOImessageShow={setPOImessageShow} setPOIFormsuccessShow={setPOIFormsuccessShow} POIFormUploader={POIFormUploader} setPOIFormisOpenModalShow={setPOIFormisOpenModalShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow} queryresults={queryresults} uploadedFiles={uploadedFiles} setUploadedFiles={setUploadedFiles}/>
                {/* Render the modal only when the state is true */}
   {POIFormisOpenModalShow && (
     <POIEditFileUploaderStatusMOdel  
+    label={"POIEdit"}
       message={message} 
       success={POIFormsuccessShow} 
       isOpenModal={POIFormisOpenModalShow} 

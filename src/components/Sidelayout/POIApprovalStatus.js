@@ -63,7 +63,7 @@ export default function POIApprovalStatus({ children, onClose, mapview }) {
         {/* Sticky Dropped Pin */}
         <div className="sticky top-4 z-10 p-4 bg-opacity-70">
           <div className="flex w-[40%] justify-start items-center gap-x-1">
-            <img src={isDarkMode ? DarkLocation : Location} alt="Location" className="h-8" />
+            <img src={isDarkMode ? DarkLocation : Location} alt="Location" className="h-4" />
             <p className={`font-semibold font-poppins ${isDarkMode ? "text-white" : "text-gray-600"}`}>
               <h2 className="text-[12px]">Barqa Rashid</h2>
             </p>
@@ -72,9 +72,11 @@ export default function POIApprovalStatus({ children, onClose, mapview }) {
             <button
           onClick={onClose}
           className="px-1 py-3 hover:text-blue-500 flex items-center text-black focus:outline-none"
+
+       
         >
-          <ChevronLeft className="w-5 h-5" />
-          <span>Back</span>
+          <ChevronLeft className={isDarkMode?"w-5 h-5 text-white":"w-5 h-5 text-black"} />
+          <span className={isDarkMode?"text-white hover:text-gray-200":" text-black hover:text-blue-500"}>{isLangArab?"خلف":"Back"}</span>
         </button></div>}
         </div>
 
@@ -83,9 +85,10 @@ export default function POIApprovalStatus({ children, onClose, mapview }) {
           {children || (
             <>
               <div className="overflow-y-auto  h-[79%]">
-                <StatuesUpdatePOI setMessage={setMessage} setFormShow={setFormShow} setPOIFormIsOpenModalShow={setPOIFormIsOpenModalShow} setPOIFormSuccessShow={setPOIFormSuccessShow} isFormShow={isFormShow} />
+                <StatuesUpdatePOI isLangArab={isLangArab} setMessage={setMessage} setFormShow={setFormShow} setPOIFormIsOpenModalShow={setPOIFormIsOpenModalShow} setPOIFormSuccessShow={setPOIFormSuccessShow} isFormShow={isFormShow} />
                 <POIEditFileUploaderStatusModel
                   message={message}
+                  label={"Approval"}
                   success={POIFormSuccessShow}
                   isOpenModal={POIFormIsOpenModalShow}
                   onClose={() => {
