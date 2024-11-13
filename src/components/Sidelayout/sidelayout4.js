@@ -113,6 +113,7 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
             <>    
               <div className="overflow-y-auto">
                 <AddPOI
+                isLangArab={isLangArab}
                   mapview={mapview}
                   selectedLayer={selectedLayer}
                   addPointGeometry={addPointGeometry}
@@ -124,6 +125,7 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
                   onClose={()=>{setIsShowEdit(true);setFormShow(false);}}
                 />
                 <POIEditFileUploaderStatusMOdel
+                 label={"POIAdd"}
                   message={message}
                   success={POIFormsuccessShow}
                   isOpenModal={POIFormisOpenModalShow}

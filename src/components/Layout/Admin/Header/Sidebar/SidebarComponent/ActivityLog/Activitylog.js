@@ -28,6 +28,8 @@ const activityLogs = [
 export default function UserActivityLog() {
   const [data, setData] = useState([]);
   const { isDarkMode } = useTheme(); // Access dark mode from theme context
+      // console.log("Passed Activity log data :", data)
+
 useEffect(() => {
   const fetchData = async () => {
     try {
@@ -37,7 +39,9 @@ useEffect(() => {
         }
         const result = await response.json();
           if(result.success){
-            setData(result.data);
+            const sortedItems = result.data.sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate));
+
+            setData(sortedItems);
           }
           else{
             console.log(result.message)

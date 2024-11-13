@@ -133,7 +133,7 @@ import { ImageIcon, FileIcon } from 'lucide-react';
 import { ChevronLeft } from 'lucide-react';
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer"; 
 
-const FileUploader = ({ POIFormUploader,setPOIFormisOpenModalShow,setPOImessageShow,setPOIFormsuccessShow, setPOIFormShow, setPOIUploaderShow, queryresults, uploadedFiles, setUploadedFiles }) => {
+const FileUploader = ({ POIFormUploader,isLangArab,setPOIFormisOpenModalShow,setPOImessageShow,setPOIFormsuccessShow, setPOIFormShow, setPOIUploaderShow, queryresults, uploadedFiles, setUploadedFiles }) => {
   const [files, setFiles] = useState([]); // Store the selected files
   //const [uploadedFiles, setUploadedFiles] = useState([]); // Store the uploaded files
   const [isDragging, setIsDragging] = useState(false);
@@ -234,28 +234,28 @@ const FileUploader = ({ POIFormUploader,setPOIFormisOpenModalShow,setPOImessageS
                         (file.type === 'video/mp4');
   
     if (!isValidType) {
-      alert('Invalid file type. Only JPEG, PNG, GIF images, MP3, WAV audio, and MP4 video are allowed.');
+      alert(` ${isLangArab ? "نوع الملف غير صالح. يُسمح فقط بصور JPEG و PNG و GIF، وملفات الصوت MP3 و WAV، وفيديو MP4.":"Invalid file type. Only JPEG, PNG, GIF images, MP3, WAV audio, and MP4 video are allowed."}`);
       return false;
     }
   
     if (file.type.startsWith('image/')) {
       if (file.size > MAX_IMAGE_SIZE) {
-        alert('Image size must be under 10 MB.');
+        alert(`${ isLangArab ?"حجم الصورة يجب أن يكون أقل من 10 ميجابايت.":"Image size must be under 10 MB."}`);
         return false;
       }
       const isValidDimensions = await checkImageDimensions(file);
       if (!isValidDimensions) {
-        alert('Image dimensions must be between 500x500 and 2000x2000 pixels.');
+        alert(`${ isLangArab ?"يجب أن يكون حجم الصورة أقل من 10 ميغابايت.":"Image dimensions must be between 500x500 and 2000x2000 pixels."}`);
         return false;
       }
     } else if (file.type.startsWith('audio/')) {
       if (file.size > MAX_AUDIO_SIZE) {
-        alert('Audio size must be under 10 MB.');
+        alert(`${isLangArab?"يجب أن يكون حجم الصوت أقل من 10 ميغابايت.":"Audio size must be under 10 MB."}`);
         return false;
       }
     } else if (file.type.startsWith('video/')) {
       if (file.size > MAX_VIDEO_SIZE) {
-        alert('Video size must be under 50 MB.');
+        alert(`${isLangArab?"يجب أن يكون حجم الفيديو أقل من 50 ميغابايت.":"Video size must be under 50 MB."}`);
         return false;
       }
     }
@@ -330,7 +330,7 @@ const FileUploader = ({ POIFormUploader,setPOIFormisOpenModalShow,setPOImessageS
       setPOIUploaderShow(false);
       //setUploadedFiles([]); // Clear the uploaded files if necessary
     } else {
-      alert('Please upload files before proceeding.'); // Optional alert for user feedback
+      alert(`${isLangArab?"يرجى تحميل الملفات قبل المتابعة.":"Please upload files before proceeding."}`); // Optional alert for user feedback
     }
   };
   
@@ -345,11 +345,11 @@ const FileUploader = ({ POIFormUploader,setPOIFormisOpenModalShow,setPOImessageS
           className="px-1 py-3 hover:text-blue-500 flex items-center text-black focus:outline-none"
         >
           <ChevronLeft className="w-5 h-5" />
-          <span>Back</span>
+          <span>{isLangArab ?"خلف":"Back"}</span>
         </button>
       </div>
       <div className='bg-white p-6 grid grid-cols-1 gap-4 border border-none rounded-lg'>
-        <h1 className='text-black'>Upload Videos/Photos/Audios</h1>
+        <h1 className='text-black'>{isLangArab?"تحميل مقاطع الفيديو/الصور/التسجيلات الصوتية":"Upload Videos/Photos/Audios"}</h1>
         <div
           className={`border-2 border-dashed rounded-lg p-6 text-center bg-white ${
             isDragging ? 'border-blue-500 ' : 'border-gray-300'
@@ -373,17 +373,18 @@ const FileUploader = ({ POIFormUploader,setPOIFormisOpenModalShow,setPOImessageS
             </div>
           ) : (
             <p className="mt-2 text-sm text-gray-600">
-              Drop your images or videos here, or{' '}
+              {isLangArab?"قم بإسقاط الصور أو مقاطع الفيديو الخاصة بك هنا، أو":"Drop your images or videos here, or"}{" "}
               <button
                 onClick={handleBrowse}
                 className="text-blue-500 hover:text-blue-600 focus:outline-none focus:underline"
               >
-                browse
+               {isLangArab?"تصفح":"browse"}
               </button>
             </p>
           )}
           <p className="mt-1 text-xs text-gray-500">
-            Supports: <strong>PNG, JPG, GIF, MP4, MOV, AVI</strong>
+          {isLangArab?"يدعم":"Supports"}: <strong>{isLangArab?"PNG، JPG، GIF، MP4، MOV، AVI":"PNG, JPG, GIF, MP4, MOV, AVI"}</strong>
+
           </p>
           <input
             type="file"
@@ -395,18 +396,18 @@ const FileUploader = ({ POIFormUploader,setPOIFormisOpenModalShow,setPOImessageS
           />
         </div>
         <div className='flex justify-between items-center'>
-          <p className='text-xs'>Help Centre</p>
+          <p className='text-xs opacity-0'>Help Centre</p>
           <span className='flex justify-center items-center gap-2'>
             <button
               className="w-auto py-1 px-3 bg-transparent text-[9px] border border-black rounded-lg"
             >
-              Cancel
+               {isLangArab ? "يلغي" : "Cancel"}
             </button>
             <button
               onClick={handleDone}
               className="w-auto py-1 px-3 bg-[#AABCDE] text-[9px] border border-gray-300 rounded-lg"
             >
-              Done
+              {isLangArab?"منتهي":"Done"}
             </button>
           </span>
         </div>
@@ -415,7 +416,7 @@ const FileUploader = ({ POIFormUploader,setPOIFormisOpenModalShow,setPOImessageS
       {/* Display uploaded files */}
       {uploadedFiles.length > 0 && (
         <div className='mt-4 p-6 bg-gray-50 rounded-lg shadow-sm'>
-          <h2 className="text-black text-lg mb-3 font-semibold">Uploaded Files:</h2>
+          <h2 className="text-black text-lg mb-3 font-semibold">{isLangArab?"الملفات المرفوعة":"Uploaded Files"}:</h2>
           <ul className="space-y-2">
             {uploadedFiles.map((file, index) => (
               <li 
@@ -430,7 +431,7 @@ const FileUploader = ({ POIFormUploader,setPOIFormisOpenModalShow,setPOImessageS
                   onClick={() => handleRemoveUploadedFile(index)}
                   className="text-red-500 hover:underline text-xs"
                 >
-                  Cancel
+                  {isLangArab ? "يلغي" : "Cancel"}
                 </button>
               </li>
             ))}
@@ -445,14 +446,14 @@ const FileUploader = ({ POIFormUploader,setPOIFormisOpenModalShow,setPOImessageS
           }}
           className="w-auto py-3 px-9 bg-transparent text-xs border border-black rounded-lg"
         >
-          Cancel
+         {isLangArab ? "يلغي" : "Cancel"}
         </button>
         <button
           onClick={() => { handleUploadFile()
           }}
           className="w-auto m-3 py-3 px-9 bg-custom-gradient text-xs border border-gray-300 rounded-lg"
         >
-          Upload
+          {isLangArab?"رفع":"Upload"}
         </button>
       </div>
     </>

@@ -59,7 +59,9 @@ export default function SendFeedBack({
       style={{  height }}
     >
       <div
+
         className={`relative h-[620px] sm:h-auto laptop_s:h-[620px] sm:w-full sm:float-none w-[99%] float-end rounded-2xl shadow-lg overflow-scroll border ${isLangArab?"laptop_s:sm:h-[625px] ":"laptop_s:sm:h-[620px] "} ${
+
           isDarkMode
             ? "bg-[#000000] bg-opacity-80 border-none" // Dark mode styles
             : "bg-white bg-opacity-70 backdrop-blur-lg border-white" // Light mode styles

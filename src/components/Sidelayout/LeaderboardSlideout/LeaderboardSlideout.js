@@ -135,7 +135,7 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
               }`}
             >              {user.userName}</h1>
             <p className={`text-xs font-plus-jakarta ${isDarkMode ? "text-gray-300" : "text-[#898989]"}`}>
-            {user.entryCount} Points
+            {user.entryCount} {isLangArab?"نقاط":"Points"}
             </p>
           </div>
         ))}
@@ -151,7 +151,7 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
           >
             <div className="w-[20%] flex items-center">
               <span
-                 className={`w-4  font-semibold font-plus-jakarta mr-2 ${
+                 className={`w-4  font-semibold font-plus-jakarta  ${isLangArab ? "ml-3": "mr-2"} ${
               isDarkMode ? "text-white" : "text-[#4F4F4F]"
             }`} >
                 {index + 4}
@@ -175,7 +175,7 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
                 isDarkMode ? "text-white" : "text-[#4F4F4F]"
               }`} 
               >
-                {user.entryCount} Points
+                {user.entryCount} {isLangArab?"نقاط":"Points"}
               </span>
             </div>
           </div>

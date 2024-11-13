@@ -38,6 +38,7 @@ const Feedback = () => {
   const tableRef = useRef(null);
   const [data, setData] = useState([]);
   const { isDarkMode } = useTheme(); // Access dark mode from theme context
+    // console.log("Passed FeedBack admin data :", data)
 
   const toggleUserSelection = (index) => {
     setSelectedUsers((prev) => 
@@ -66,7 +67,9 @@ const Feedback = () => {
           }
           const result = await response.json();
           if(result.success){
-            setData(result.data);
+            const sortedItems = result.data.sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate));
+
+            setData(sortedItems);
           }
           else{
             console.log(result.message)
