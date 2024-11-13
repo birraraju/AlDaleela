@@ -53,6 +53,7 @@ export default function ProfilePage({
         setIsMsgStatus={setIsMsgStatus}
         setModalMessage={setModalMessage}
         setIsProfileData={setIsProfileData}
+        file={file}
       />
     </div>
   );
