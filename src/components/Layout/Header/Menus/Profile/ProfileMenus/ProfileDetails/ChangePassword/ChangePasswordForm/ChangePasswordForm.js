@@ -121,7 +121,7 @@ export default function ChangePasswordForm({setIsProfileData,setModalMessage,set
                   <button
                     type="button"
                     onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                    className="absolute right-3 top-3"
+                    className={`absolute ${ isLangArab?"left-3":"right-3"} top-3`}
                   >
                      {showCurrentPassword ? (
                   <IoEye className={`text-2xl ${isDarkMode ? 'text-black' : 'text-black'} opacity-50`} />
@@ -158,7 +158,7 @@ export default function ChangePasswordForm({setIsProfileData,setModalMessage,set
                   <button
                     type="button"
                     onClick={() => setShowNewPassword(!showNewPassword)}
-                    className="absolute right-3 top-3"
+                    className={`absolute ${ isLangArab?"left-3":"right-3"} top-3`}
                   >
                      {showNewPassword ? (
                   <IoEye className={`text-2xl ${isDarkMode ? 'text-black' : 'text-black'} opacity-50`} />
@@ -193,7 +193,7 @@ export default function ChangePasswordForm({setIsProfileData,setModalMessage,set
                   <button
                     type="button"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute right-3 top-3"
+                    className={`absolute ${ isLangArab?"left-3":"right-3"} top-3`}
                   >
                      {showConfirmPassword ? (
                   <IoEye className={`text-2xl ${isDarkMode ? 'text-black' : 'text-black'} opacity-50`} />

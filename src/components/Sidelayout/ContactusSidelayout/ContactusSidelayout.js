@@ -51,7 +51,7 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
   //   opacity: 0,
   // }}
   // transition={{ ease: "easeInOut" }}
-    className={`p-4  sm:py-4  sm:h-[50vh]  laptop_s:h-[67vh] transition-transform duration-300 ease-in-out  fixed top-16 ${isLangArab?"left-1  h-[73vh] sm:left-16 laptop_s:left-2":"right-1 sm:right-16 h-[75vh] laptop_s:right-2"}  backdrop-blur rounded-3xl text-black ${
+    className={`p-4  sm:py-4  sm:h-[50vh]  laptop_s:h-[75vh] 2xl:h-[70vh]  transition-transform duration-300 ease-in-out  fixed top-16 ${isLangArab?"left-1  h-[73vh] sm:left-16 laptop_s:left-2":"right-1 sm:right-16 h-[75vh] laptop_s:right-2"}  backdrop-blur rounded-3xl text-black ${
       isDarkMode
         ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none"
         : "bg-white bg-opacity-70 backdrop-blur-lg border-white"

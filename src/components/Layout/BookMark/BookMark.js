@@ -17,7 +17,7 @@ import Graphic from '@arcgis/core/Graphic';
 import config from '../../Common/config'; // Import your config file
 import {UserActivityLog} from "../../Common/UserActivityLog";
 
-const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsManageVisible, isManageVisible,onclose}) => {
+const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsManageVisible, isManageVisible,setIsSuccess,setisMsgStatus,setIsmodalMessage,onclose}) => {
   const [bookmarks, setBookmarks] = useState([]);
   const [condtioncheck, setCondtionCheck] = useState(true);
   const [count, setCount] = useState(0);
@@ -215,14 +215,27 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
             console.log(data.message);
             fetchBookmarks();
             UserActivityLog(profiledetails, "Bookmark Removed")
-            setIsManageVisible(false); // Close management view
+             // Close management view
             setSelectedMarks({}); // Reset the selected marks
+            setisMsgStatus("Success")
+            setIsmodalMessage("Bookmark Deleted Sucessfully")
+            setIsSuccess(true)
+            setIsManageVisible(false);
           }
           else{
+            setisMsgStatus("Failure")
+            setIsmodalMessage(" Failed to Deleted Bookmark!")
+            setIsSuccess(true)
+            setIsManageVisible(false); // Close management view
+
             console.log(data.message);
           }
       
       } catch (error) {
+        setisMsgStatus("Failure")
+            setIsmodalMessage(" Failed to Deleted Bookmark!")
+            setIsSuccess(true)
+            setIsManageVisible(false);
           console.error('Error submitting form:', error);
       }    
   };
@@ -293,13 +306,13 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
                 <button onClick={handleClose}
                   className="w-auto py-3 px-14 bg-white text-xs border border-gray-300 rounded-lg"
                 >
-                  Cancel
+                  {isLangArab ? "إلغاء":"Cancel"}
                 </button>
                 <button
                   onClick={handleSave}
                   className="w-auto py-3 px-10 bg-custom-gradient text-[12px] border border-gray-300 rounded-lg"
                 >
-                  Save Changes
+                  {isLangArab?"حفظ التغييرات":"Save Changes"}
                 </button>
               </div>
             )}

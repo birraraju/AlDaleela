@@ -11,7 +11,7 @@ import Graphic from "@arcgis/core/Graphic.js";
 import Point from "@arcgis/core/geometry/Point.js";
 import {UserActivityLog} from "../Common/UserActivityLog";
 
-const Component = ({mapview, selectedLayer, addPointGeometry, setFormShow,setPOIFormsuccessShow,setmessage,onClose,setPOIFormisOpenModalShow,isFormShow}) => {
+const Component = ({mapview,isLangArab, selectedLayer, addPointGeometry, setFormShow,setPOIFormsuccessShow,setmessage,onClose,setPOIFormisOpenModalShow,isFormShow}) => {
   const [poiData, setPoiData] = useState({
     organization: "",
     name: "",
@@ -547,11 +547,15 @@ const handleDrop = async (e) => {
                     }
                   }); 
                   setPOIFormsuccessShow("Success")
-                  setmessage("POI uploaded successfully!")
+                  setmessage(isLangArab ?"تم رفع نقطة الاهتمام بنجاح!":"POI uploaded successfully!")
                   setPOIFormisOpenModalShow(true)
                   setFormShow(false)
                 }
                 else{
+                  setPOIFormsuccessShow("Failure")
+                  setmessage(isLangArab?"فشل في رفع نقطة الاهتمام!":"Failed to uploaded POI!")
+                  setPOIFormisOpenModalShow(true)
+                  setFormShow(false)
                   console.log(data.message);
                 }
             

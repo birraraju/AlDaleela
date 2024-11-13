@@ -148,7 +148,7 @@ const UserActivation = () => {
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-white p-4">
-            <div className="p-5 text-black  relative w-full max-w-44">
+            <div className="p-5 text-black  relative w-full max-w-64">
                 {/* Close Button */}
 
                 {/* Logo */}

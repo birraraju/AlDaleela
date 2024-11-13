@@ -86,6 +86,7 @@ export default function POIApprovalStatus({ children, onClose, mapview }) {
                 <StatuesUpdatePOI setMessage={setMessage} setFormShow={setFormShow} setPOIFormIsOpenModalShow={setPOIFormIsOpenModalShow} setPOIFormSuccessShow={setPOIFormSuccessShow} isFormShow={isFormShow} />
                 <POIEditFileUploaderStatusModel
                   message={message}
+                  label={"Approval"}
                   success={POIFormSuccessShow}
                   isOpenModal={POIFormIsOpenModalShow}
                   onClose={() => {

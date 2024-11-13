@@ -19,7 +19,7 @@ export default function FooterLogin({setPopup,name,setResetFooter}) {
     }
       else if(name === "Hand")
        {
-        setoginFor("Dropped Pin")
+        setoginFor("Add POI")
        }else if(name === "AuthPopUp"){
         setoginFor("to access editing features")
        }

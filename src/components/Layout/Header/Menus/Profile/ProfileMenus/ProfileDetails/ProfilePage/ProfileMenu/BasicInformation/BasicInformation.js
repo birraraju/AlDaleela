@@ -406,7 +406,7 @@ export default function BasicInformation({ isEditProfile,profileImage, setIsSucc
 
         <div className="h-[1px] w-full bg-[#0000001A] my-4"></div>
 
-        <div className="grid grid-cols-2 gap-8 mb-4 px-4">
+        <div className="grid sm:grid-cols-2 grid-cols-1 sm:gap-8 gap-3 mb-4  px-4">
           {userInfo1.map((info, index) => (
             <div key={index}>
               <h1 className={`tracking-wider sm:text-sm text-xs ${isDarkMode ? "text-white" : "text-black"}`}>

@@ -395,7 +395,7 @@ const FileUploader = ({ POIFormUploader,setPOIFormisOpenModalShow,setPOImessageS
           />
         </div>
         <div className='flex justify-between items-center'>
-          <p className='text-xs'>Help Centre</p>
+          <p className='text-xs opacity-0'>Help Centre</p>
           <span className='flex justify-center items-center gap-2'>
             <button
               className="w-auto py-1 px-3 bg-transparent text-[9px] border border-black rounded-lg"

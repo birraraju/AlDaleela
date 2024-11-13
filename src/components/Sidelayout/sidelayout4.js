@@ -113,6 +113,7 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
             <>    
               <div className="overflow-y-auto">
                 <AddPOI
+                isLangArab={isLangArab}
                   mapview={mapview}
                   selectedLayer={selectedLayer}
                   addPointGeometry={addPointGeometry}
