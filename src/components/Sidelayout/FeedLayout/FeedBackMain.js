@@ -61,7 +61,7 @@ export default function SendFeedBack({
       <div
 
         className={`relative h-[620px] sm:h-auto laptop_s:h-[620px] sm:w-full sm:float-none w-[99%] float-end rounded-2xl shadow-lg overflow-scroll border ${isLangArab?"laptop_s:sm:h-[625px] ":"laptop_s:sm:h-[620px] "} ${
->>>>>>> dcbd699e691bcbe96a1228daee55e6890551394d
+
           isDarkMode
             ? "bg-[#000000] bg-opacity-80 border-none" // Dark mode styles
             : "bg-white bg-opacity-70 backdrop-blur-lg border-white" // Light mode styles
