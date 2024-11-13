@@ -1,17 +1,27 @@
-'use client'
+"use client";
 
-import React, { useState, useEffect, useRef } from "react"
-import { ImageIcon, FileIcon, XCircleIcon } from "lucide-react"
-import UploadImage from "../../assets/Droppedpin/Upload.svg"
-import { ChevronLeft } from 'lucide-react';
-import FeatureLayer from "@arcgis/core/layers/FeatureLayer";  
+import React, { useState, useEffect, useRef } from "react";
+import { ImageIcon, FileIcon, XCircleIcon } from "lucide-react";
+import UploadImage from "../../assets/Droppedpin/Upload.svg";
+import { ChevronLeft } from "lucide-react";
+import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import { useAuth } from "../../Providers/AuthProvider/AuthProvider";
-import config from '../Common/config'; // Import your config file
+import config from "../Common/config"; // Import your config file
 import Graphic from "@arcgis/core/Graphic.js";
 import Point from "@arcgis/core/geometry/Point.js";
-import {UserActivityLog} from "../Common/UserActivityLog";
+import { UserActivityLog } from "../Common/UserActivityLog";
 
-const Component = ({mapview, selectedLayer, addPointGeometry, setFormShow,setPOIFormsuccessShow,setmessage,onClose,setPOIFormisOpenModalShow,isFormShow}) => {
+const Component = ({
+  mapview,
+  selectedLayer,
+  addPointGeometry,
+  setFormShow,
+  setPOIFormsuccessShow,
+  setmessage,
+  onClose,
+  setPOIFormisOpenModalShow,
+  isFormShow,
+}) => {
   const [poiData, setPoiData] = useState({
     organization: "",
     name: "",
@@ -35,7 +45,25 @@ const Component = ({mapview, selectedLayer, addPointGeometry, setFormShow,setPOI
       pointx: "",
       pointy: "",
     },
-  })
+  });
+  const [buttonDisable, setButtonDisable] = useState(false);
+  const [errors, setErrors] = useState({
+    organization: "organization Field is Required",
+    name: " Name Field is Required",
+    class: "Class  Field is Required",
+    classD: " ClassD Field is Required",
+    status: "Status Field is Required",
+    comment: "Comment Field is Required",
+    description: " Description Field is Required",
+    poems: "Poems Field is Required",
+    stories: " Store Field is Required",
+    // classification: " Classification Field is Required",
+    municipality: " Municipality Field is Required",
+    emirate: " Emirate  Field is Required",
+    city: " City Field is Required",
+  });
+  console.log("pioData :>> ", poiData);
+  console.log("buttonDisable :>> ", buttonDisable);
   const { profiledetails, contextMapView } = useAuth();
 
   // const organizationOptions = ["جمع في الميدان", "مكتب الشيخ حمدان بن زايد", "دائـــرة التــخطيـط العـــمراني والبلديـــــات", "Org 4"];
@@ -52,122 +80,126 @@ const Component = ({mapview, selectedLayer, addPointGeometry, setFormShow,setPOI
     const fetchDomains = async () => {
       try {
         // Retrieve the Terrestrial URL from config
-        const terrestrialUrl = config.featureServices.find(service => service.name)?.url;
-  
+        const terrestrialUrl = config.featureServices.find(
+          (service) => service.name
+        )?.url;
+
         if (!terrestrialUrl) {
           console.error("Terrestrial service URL not found");
           return;
         }
-  
+
         // Fetch data from the service URL
         const response = await fetch(`${terrestrialUrl}?f=json`);
         if (!response.ok) {
           throw new Error(`Failed to fetch data from ${terrestrialUrl}`);
         }
-  
+
         const data = await response.json();
-        const domainFields = data.fields.filter(field => field.domain);
-  
+        const domainFields = data.fields.filter((field) => field.domain);
+
         // Iterate over fields and set state based on the field name
         const newOrganizationOptions = [];
         const newStatusOptions = [];
         const newMunicipalityOptions = [];
-  
-        domainFields.forEach(field => {
-          const options = field.domain.codedValues.map(codedValue => ({
-            label: codedValue.name,       // Description or name
-            value: codedValue.code         // Coded value
+
+        domainFields.forEach((field) => {
+          const options = field.domain.codedValues.map((codedValue) => ({
+            label: codedValue.name, // Description or name
+            value: codedValue.code, // Coded value
           }));
-  
+
           switch (field.name) {
-            case 'organization':
+            case "organization":
               newOrganizationOptions.push(...options);
               break;
-            case 'Status':
+            case "Status":
               newStatusOptions.push(...options);
               break;
-            case 'MunicipalityAr':
+            case "MunicipalityAr":
               newMunicipalityOptions.push(...options);
               break;
             default:
               console.warn(`Unhandled field: ${field.fieldName}`);
           }
         });
-  
+
         // Set the state for options
         setOrganizationOptions(newOrganizationOptions);
         setStatusOptions(newStatusOptions);
         setMunicipalityOptions(newMunicipalityOptions);
-  
+
         // Update poiData only if options are available
         if (newOrganizationOptions.length > 0) {
-          setPoiData(prevState => ({
+          setPoiData((prevState) => ({
             ...prevState,
             organization: newOrganizationOptions[0].value, // Update organization
             status: newStatusOptions[0]?.value || "", // Update status
-            municipality: newMunicipalityOptions[0]?.value || "" // Update municipality
+            municipality: newMunicipalityOptions[0]?.value || "", // Update municipality
           }));
         }
-        
       } catch (error) {
         console.error("Error fetching domains:", error);
       }
     };
-  
+
     fetchDomains(); // Call the async function
   }, []); // Empty dependency array to run once on mount
-  
 
   // Function to update the point location based on the coordinates provided in the form
   const updatePointLocation = () => {
     let x, y;
 
-      if (poiData.coordinateType === "dms") {
-        // Convert DMS to decimal
-        const dmsX = convertDMSToDecimal(poiData.dms.pointx);
-        const dmsY = convertDMSToDecimal(poiData.dms.pointy);
-        x = dmsX;
-        y = dmsY;
-      } else {
-        // Use decimal values directly
-        x = parseFloat(poiData.decimal.pointx);
-        y = parseFloat(poiData.decimal.pointy);
-      }
+    if (poiData.coordinateType === "dms") {
+      // Convert DMS to decimal
+      const dmsX = convertDMSToDecimal(poiData.dms.pointx);
+      const dmsY = convertDMSToDecimal(poiData.dms.pointy);
+      x = dmsX;
+      y = dmsY;
+    } else {
+      // Use decimal values directly
+      x = parseFloat(poiData.decimal.pointx);
+      y = parseFloat(poiData.decimal.pointy);
+    }
 
-      // Check if x and y are valid numbers
-      if (!isNaN(x) && !isNaN(y)) {
-        // Update the addPointGeometry with the new coordinates
-        addPointGeometry = { type: "point", x, y, spatialReference: { wkid: 4326 } };
-        mapview.graphics.removeAll();
-        const point = new Point({
-          longitude: x,
-          latitude: y,
-          spatialReference: { wkid: 4326 } // WGS84
-        });
-        // setaddPointGeometry({
-        //   type: "point",
-        //   x: longitude,
-        //   y: latitude,
-        //   spatialReference: { wkid: 4326 } // WGS84
-        // })
-    
-        const pointGraphic = new Graphic({
-          geometry: point,
-          symbol: {
-            type: "simple-marker",
-            color: "blue",
-            size: "8px",
-            outline: {
-              color: "white",
-              width: 1
-            }
-          }
-        });
-        mapview.graphics.add(pointGraphic);
-      } else {
-        alert("Please enter valid coordinates.");
-      }
-    
+    // Check if x and y are valid numbers
+    if (!isNaN(x) && !isNaN(y)) {
+      // Update the addPointGeometry with the new coordinates
+      addPointGeometry = {
+        type: "point",
+        x,
+        y,
+        spatialReference: { wkid: 4326 },
+      };
+      mapview.graphics.removeAll();
+      const point = new Point({
+        longitude: x,
+        latitude: y,
+        spatialReference: { wkid: 4326 }, // WGS84
+      });
+      // setaddPointGeometry({
+      //   type: "point",
+      //   x: longitude,
+      //   y: latitude,
+      //   spatialReference: { wkid: 4326 } // WGS84
+      // })
+
+      const pointGraphic = new Graphic({
+        geometry: point,
+        symbol: {
+          type: "simple-marker",
+          color: "blue",
+          size: "8px",
+          outline: {
+            color: "white",
+            width: 1,
+          },
+        },
+      });
+      mapview.graphics.add(pointGraphic);
+    } else {
+      alert("Please enter valid coordinates.");
+    }
   };
 
   // Function to convert DMS to Decimal Degrees
@@ -175,7 +207,7 @@ const Component = ({mapview, selectedLayer, addPointGeometry, setFormShow,setPOI
     const degrees = parseFloat(dms.degrees) || 0;
     const minutes = parseFloat(dms.minutes) || 0;
     const seconds = parseFloat(dms.seconds) || 0;
-    return degrees + (minutes / 60) + (seconds / 3600);
+    return degrees + minutes / 60 + seconds / 3600;
   };
 
   useEffect(() => {
@@ -202,36 +234,36 @@ const Component = ({mapview, selectedLayer, addPointGeometry, setFormShow,setPOI
     }
   }, [addPointGeometry]);
 
-   // Function to convert Decimal Degrees to DMS
-   const convertDDToDMS = (decimalDegrees) => {
+  // Function to convert Decimal Degrees to DMS
+  const convertDDToDMS = (decimalDegrees) => {
     const degrees = Math.floor(decimalDegrees);
     const minutesDecimal = (decimalDegrees - degrees) * 60;
     const minutes = Math.floor(minutesDecimal);
     const seconds = Math.round((minutesDecimal - minutes) * 60 * 100) / 100;
-    
+
     return { degrees, minutes, seconds };
   };
 
   const handleChange = (e) => {
-    const { id, value } = e.target
+    const { id, value } = e.target;
     setPoiData((prevData) => ({
       ...prevData,
       [id]: value,
-    }))
-  }
+    }));
+  };
 
   const handleCoordinateTypeChange = (e) => {
     setPoiData((prevData) => ({
       ...prevData,
       coordinateType: e.target.value,
-    }))
-  }
+    }));
+  };
 
   const handleCoordinateChange = (e) => {
-    const { id, value } = e.target
-    const [type, point, unit] = id.split('_')
-     // Update the specific nested value in poiData
-     setPoiData((prevData) => ({
+    const { id, value } = e.target;
+    const [type, point, unit] = id.split("_");
+    // Update the specific nested value in poiData
+    setPoiData((prevData) => ({
       ...prevData,
       [type]: {
         ...prevData[type],
@@ -240,106 +272,138 @@ const Component = ({mapview, selectedLayer, addPointGeometry, setFormShow,setPOI
           [unit]: value,
         },
       },
-    }));    
-  }
+    }));
+  };
 
   // useEffect to validate the fields whenever poiData changes
   useEffect(() => {
-    if (poiData.coordinateType === "dms") {
-        const { degrees, minutes, seconds } = poiData.dms.pointx;
-        const { degrees: degY, minutes: minY, seconds: secY } = poiData.dms.pointy;
 
-        if (degrees && minutes && seconds && degY && minY && secY) {
-            updatePointLocation();
-        }
+   /* organization: "",
+    name: "",
+    class: "",
+    classD: "",
+    status: "",
+    comment: "",
+    description: "",
+    poems: "",
+    stories: "",
+    classification: selectedLayer,
+    municipality: "",
+    emirate: "",
+    city: "", */ 
+    if (
+      poiData.name !== "" &&
+      poiData.class !== "" &&
+      poiData.classD !== "" &&
+      poiData.status !== ""&&
+      poiData.comment !== ""&&
+      poiData.description !== ""&&
+      poiData.poems !== ""&&
+      poiData.stories !== ""&&
+      poiData.municipality !== ""&&
+      poiData.emirate !== ""&&
+      poiData.city !== "") {
+      setButtonDisable(true);
+    }
+    if (poiData.coordinateType === "dms") {
+      const { degrees, minutes, seconds } = poiData.dms.pointx;
+      const {
+        degrees: degY,
+        minutes: minY,
+        seconds: secY,
+      } = poiData.dms.pointy;
+
+      if (degrees && minutes && seconds && degY && minY && secY) {
+        updatePointLocation();
+      }
     }
     if (poiData.coordinateType === "decimal") {
-        if (poiData.decimal.pointx && poiData.decimal.pointy) {
-            updatePointLocation();
-        }
+      if (poiData.decimal.pointx && poiData.decimal.pointy) {
+        updatePointLocation();
+      }
     }
-}, [poiData]); // Run this effect whenever poiData changes
+  }, [poiData]); // Run this effect whenever poiData changes
 
   const handleDecimalCoordinateChange = (e) => {
-    const { id, value } = e.target
-    const [type, point] = id.split('_')
+    const { id, value } = e.target;
+    const [type, point] = id.split("_");
     setPoiData((prevData) => ({
       ...prevData,
       [type]: {
         ...prevData[type],
         [point]: value,
       },
-    }))
-  }
+    }));
+  };
 
-  const [files, setFiles] = useState([])
-  const [uploadedFiles, setUploadedFiles] = useState([])
-  const [isDragging, setIsDragging] = useState(false)
-  const fileInputRef = useRef(null)
+  const [files, setFiles] = useState([]);
+  const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [isDragging, setIsDragging] = useState(false);
+  const fileInputRef = useRef(null);
 
-  if(!isFormShow) return null
+  if (!isFormShow) return null;
 
   // Handle file selection
   const handleFileChange = (e) => {
-    const selectedFiles = e.target.files ? Array.from(e.target.files) : []
+    const selectedFiles = e.target.files ? Array.from(e.target.files) : [];
     const validFiles = selectedFiles.filter(
       (file) => file.type.startsWith("image/") || file.type.startsWith("video/")
-    )
+    );
 
     if (validFiles.length !== selectedFiles.length) {
-      alert("Only images or videos are allowed.")
+      alert("Only images or videos are allowed.");
     }
 
-    setFiles((prevFiles) => [...prevFiles, ...validFiles])
-  }
+    setFiles((prevFiles) => [...prevFiles, ...validFiles]);
+  };
 
   // Handle file drop
   const handleDrop = (e) => {
-    e.preventDefault()
-    setIsDragging(false)
-    const droppedFiles = Array.from(e.dataTransfer.files)
+    e.preventDefault();
+    setIsDragging(false);
+    const droppedFiles = Array.from(e.dataTransfer.files);
     const validFiles = droppedFiles.filter(
       (file) => file.type.startsWith("image/") || file.type.startsWith("video/")
-    )
+    );
 
     if (validFiles.length !== droppedFiles.length) {
-      alert("Only images or videos are allowed.")
+      alert("Only images or videos are allowed.");
     }
 
-    setFiles((prevFiles) => [...prevFiles, ...validFiles])
-  }
+    setFiles((prevFiles) => [...prevFiles, ...validFiles]);
+  };
 
   const handleDragEnter = (e) => {
-    e.preventDefault()
-    setIsDragging(true)
-  }
+    e.preventDefault();
+    setIsDragging(true);
+  };
 
   const handleDragLeave = (e) => {
-    e.preventDefault()
-    setIsDragging(false)
-  }
+    e.preventDefault();
+    setIsDragging(false);
+  };
 
   const handleBrowse = () => {
-    fileInputRef.current?.click()
-  }
+    fileInputRef.current?.click();
+  };
 
   // Remove individual file
   const removeFile = (index) => {
-    setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index))
-  }
+    setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+  };
 
   // Move files to uploaded state and clear current selection
   const handleDone = () => {
-    setUploadedFiles([...uploadedFiles, ...files])
-    setFiles([])
-  }
+    setUploadedFiles([...uploadedFiles, ...files]);
+    setFiles([]);
+  };
 
   // Remove uploaded file
   const handleRemoveUploadedFile = (index) => {
-    setUploadedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index))
-  }
+    setUploadedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+  };
 
-  const handleFormSubmit=async()=>{
+  const handleFormSubmit = async () => {
     // Extract only the fields you want to update in poiData
     const updatedData = {
       organization: poiData.organization,
@@ -355,112 +419,131 @@ const Component = ({mapview, selectedLayer, addPointGeometry, setFormShow,setPOI
       MunicipalityAr: poiData.municipality,
       Emirate: poiData.emirate,
       City: poiData.city,
-      Isadminapproved:2
+      Isadminapproved: 2,
     };
     // Find the URL for the layer that includes "Terrestrial" in its name
-    const LayerConfig = config.featureServices.find(service => selectedLayer.includes(service.name));
+    const LayerConfig = config.featureServices.find((service) =>
+      selectedLayer.includes(service.name)
+    );
 
     // Create the feature layer
     const featureLayer = new FeatureLayer({
-      url: LayerConfig.url
+      url: LayerConfig.url,
     });
 
     // Define the new feature data, including attributes and geometry
-    const addData = [{
-      attributes: updatedData, // Your new feature's attributes (e.g., { field1: value, field2: value, ... })
-      geometry: addPointGeometry // Geometry object (e.g., { x: longitude, y: latitude, spatialReference: { wkid: 4326 } })
-      // geometry: {
-      //   type: "point",
-      //   x: 51.80652834115199,
-      //   y: 23.11240254780675,
-      //   spatialReference: { wkid: 4326 } // Ensure the spatial reference matches your service's requirements
-      // }
-    }];
+    const addData = [
+      {
+        attributes: updatedData, // Your new feature's attributes (e.g., { field1: value, field2: value, ... })
+        geometry: addPointGeometry, // Geometry object (e.g., { x: longitude, y: latitude, spatialReference: { wkid: 4326 } })
+        // geometry: {
+        //   type: "point",
+        //   x: 51.80652834115199,
+        //   y: 23.11240254780675,
+        //   spatialReference: { wkid: 4326 } // Ensure the spatial reference matches your service's requirements
+        // }
+      },
+    ];
 
     try {
       const result = await featureLayer.applyEdits({ addFeatures: addData });
 
       if (result.addFeatureResults.length > 0) {
-        handleStoreFeatureData("",LayerConfig.url, result.addFeatureResults[0].objectId)
-        // if (uploadedFiles.length > 0) { 
-        //   handleUploadFile();   
+        handleStoreFeatureData(
+          "",
+          LayerConfig.url,
+          result.addFeatureResults[0].objectId
+        );
+        // if (uploadedFiles.length > 0) {
+        //   handleUploadFile();
         // } else {
         //   handleStoreFeatureData("", LayerConfig.url);
         // }
-        console.log('Add feature successful:', result.addFeatureResults);
+        console.log("Add feature successful:", result.addFeatureResults);
       } else {
-        console.error('Add feature failed:', result);
+        console.error("Add feature failed:", result);
       }
     } catch (error) {
-      console.error('Error adding feature:', error);
+      console.error("Error adding feature:", error);
     }
-    setPOIFormsuccessShow("Success")
-    setmessage("POI uploaded successfully!")
-    setPOIFormisOpenModalShow(true)
-    setFormShow(false)
-  }
+    setPOIFormsuccessShow("Success");
+    setmessage("POI uploaded successfully!");
+    setPOIFormisOpenModalShow(true);
+    setFormShow(false);
+  };
 
-  const handleStoreFeatureData = async(attachmentIds, LayerUrl, FeatureObjectId) =>{
-      
-          // Extract only the fields you want to update in poiData
-          const FeatureData = {
-            Username: profiledetails.username,
-            Email: profiledetails.email,
-            FeatureObjectId: FeatureObjectId,
-            OrganizationEn: poiData.organization || "",
-            NameEn: poiData.name || "",
-            Class: poiData.class || "",
-            ClassD: poiData.classD || "",
-            Status: poiData.status || "",
-            Comment: poiData.comment || "",
-            Description: poiData.description || "",
-            Poems: poiData.poems || "",
-            stories: poiData.stories || "",
-            Classification: poiData.classification || "",
-            Municipality: poiData.municipality || "",
-            Emirate: poiData.emirate || "",
-            City: poiData.city || "",
-            AttachementsObjectIds:attachmentIds,
-            ApprovalStatus: "Pending",
-            featureServiceURL:LayerUrl,
-            POIOperation:"Add Feature"
-          };
-          try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/FeatureServiceData/featureservicedatainsert`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(FeatureData),
-            });
-            const data = await response.json();
-                if(data.success){
-                  console.log(data.message);   
-                  UserActivityLog(profiledetails, "POI Added")
-                  contextMapView.graphics.removeAll(); // Clears all graphics  
-                  contextMapView.map.layers.forEach(layer => {
-                    if (layer.refresh) {
-                      layer.refresh();
-                    }
-                  }); 
-                }
-                else{
-                  console.log(data.message);
-                }
-            
-            } catch (error) {
-                console.error('Error submitting form:', error);
-            }   
-  }
+  const handleStoreFeatureData = async (
+    attachmentIds,
+    LayerUrl,
+    FeatureObjectId
+  ) => {
+    // Extract only the fields you want to update in poiData
+    const FeatureData = {
+      Username: profiledetails.username,
+      Email: profiledetails.email,
+      FeatureObjectId: FeatureObjectId,
+      OrganizationEn: poiData.organization || "",
+      NameEn: poiData.name || "",
+      Class: poiData.class || "",
+      ClassD: poiData.classD || "",
+      Status: poiData.status || "",
+      Comment: poiData.comment || "",
+      Description: poiData.description || "",
+      Poems: poiData.poems || "",
+      stories: poiData.stories || "",
+      Classification: poiData.classification || "",
+      Municipality: poiData.municipality || "",
+      Emirate: poiData.emirate || "",
+      City: poiData.city || "",
+      AttachementsObjectIds: attachmentIds,
+      ApprovalStatus: "Pending",
+      featureServiceURL: LayerUrl,
+      POIOperation: "Add Feature",
+    };
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/FeatureServiceData/featureservicedatainsert`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(FeatureData),
+        }
+      );
+      const data = await response.json();
+      if (data.success) {
+        console.log(data.message);
+        UserActivityLog(profiledetails, "POI Added");
+        contextMapView.graphics.removeAll(); // Clears all graphics
+        contextMapView.map.layers.forEach((layer) => {
+          if (layer.refresh) {
+            layer.refresh();
+          }
+        });
+      } else {
+        console.log(data.message);
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
+  };
 
-  const renderField = (id, label, value, options = [], inputType = "text", disable) => (
+  const renderField = (
+    id,
+    label,
+    value,
+    options = [],
+    inputType = "text",
+    disable
+  ) => (
     <div className="space-y-2">
       <label htmlFor={id} className="block text-sm font-medium text-gray-700">
-        {label}
+        {label} <span className="text-red-500">*</span>
       </label>
       {inputType === "select" ? (
         <select
           id={id}
-          value={value}  // Bind to the state value
-          disabled={disable}  // Disable the dropdown
+          value={value} // Bind to the state value
+          disabled={disable} // Disable the dropdown
           onChange={handleChange}
           className="block w-full p-2 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
         >
@@ -468,7 +551,7 @@ const Component = ({mapview, selectedLayer, addPointGeometry, setFormShow,setPOI
             <>
               {/* Display the first item directly if you want a placeholder */}
               {/* <option value="" disabled>Select an option</option> Placeholder */}
-              
+
               {/* Map over the options */}
               {options.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -487,13 +570,17 @@ const Component = ({mapview, selectedLayer, addPointGeometry, setFormShow,setPOI
           className="block w-full rounded-md p-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
         />
       )}
+      {poiData[id] === "" && errors[id] ? (
+        <p className="text-red-500">{errors[id]}</p>
+      ) : (
+        ""
+      )}
     </div>
   );
-  
 
   return (
     <div className="w-full max-w-md bg-transparent text-black overflow-y-auto">
-       <div>
+      <div>
         <button
           onClick={onClose}
           className="px-1 py-3 hover:text-blue-500 flex items-center text-black focus:outline-none"
@@ -503,24 +590,51 @@ const Component = ({mapview, selectedLayer, addPointGeometry, setFormShow,setPOI
         </button>
       </div>
       <div className="p-1 space-y-4">
-        {renderField("organization", "Organization", poiData.organization,organizationOptions, "select")}
+        {renderField(
+          "organization",
+          "Organization",
+          poiData.organization,
+          organizationOptions,
+          "select"
+        )}
         {renderField("name", "Name", poiData.name)}
         {renderField("class", "Class", poiData.class)}
         {renderField("classD", "ClassD", poiData.classD)}
-        {renderField("status", "Status", poiData.status,statusOptions, "select")}
+        {renderField(
+          "status",
+          "Status",
+          poiData.status,
+          statusOptions,
+          "select"
+        )}
         {renderField("comment", "Comment", poiData.comment)}
         {renderField("description", "Description", poiData.description)}
         {renderField("poems", "Poems", poiData.poems)}
         {renderField("stories", "Stories", poiData.stories)}
-        {renderField("classification", "Classification", poiData.classification || selectedLayer,[],"text", true)}
-        {renderField("municipality", "Municipality", poiData.municipality, municipalityOptions, "select")}
+        {renderField(
+          "classification",
+          "Classification",
+          poiData.classification || selectedLayer,
+          [],
+          "text",
+          true
+        )}
+        {renderField(
+          "municipality",
+          "Municipality",
+          poiData.municipality,
+          municipalityOptions,
+          "select"
+        )}
         {renderField("emirate", "Emirate", poiData.emirate)}
         {renderField("city", "City", poiData.city)}
 
         {/* Coordinates Section */}
         <div className="space-y-2">
           <div className="flex items-center space-x-4">
-            <label className="block text-sm font-medium text-gray-700">Coordinates</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Coordinates
+            </label>
             <label className="inline-flex items-center">
               <input
                 type="radio"
@@ -646,7 +760,10 @@ const Component = ({mapview, selectedLayer, addPointGeometry, setFormShow,setPOI
             {files.length > 0 ? (
               <div className="mt-2 space-y-2">
                 {files.map((file, index) => (
-                  <div key={index} className="flex items-center justify-between">
+                  <div
+                    key={index}
+                    className="flex items-center justify-between"
+                  >
                     <div className="flex items-center">
                       <FileIcon className="h-8 w-8 text-gray-600" />
                       <span className="ml-2 text-gray-700">{file.name}</span>
@@ -689,7 +806,11 @@ const Component = ({mapview, selectedLayer, addPointGeometry, setFormShow,setPOI
               onClick={handleDone}
               className="w-auto flex items-center justify-center py-2 px-3 bg-[#3398B8] text-white text-xs gap-1 border border-gray-300 rounded-lg"
             >
-              <img src={UploadImage} className="w-4 h-4 text-white" alt="Upload" />
+              <img
+                src={UploadImage}
+                className="w-4 h-4 text-white"
+                alt="Upload"
+              />
               Upload media
             </button>
           </div>
@@ -729,28 +850,27 @@ const Component = ({mapview, selectedLayer, addPointGeometry, setFormShow,setPOI
 
         {/* Action Buttons */}
         <div className="flex justify-center space-x-8 items-center pt-4 pb-16">
-            <button onClick={onClose} className="w-auto py-3 px-9 bg-transparent text-xs border border-black rounded-lg">
-              Cancel
-            </button>
-            <button onClick={handleFormSubmit} className="w-auto py-3 px-9 bg-custom-gradient text-xs border border-gray-300 rounded-lg">
-              Submit
-            </button>
-          </div>
+          <button
+            onClick={onClose}
+            className="w-auto py-3 px-9 bg-transparent text-xs border border-black rounded-lg"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={handleFormSubmit}
+            disabled={!buttonDisable}
+            
+            className={`${!buttonDisable?"w-auto py-3 px-9 bg-custome-gray1 text-xs border border-gray-300 rounded-lg":"w-auto py-3 px-9 bg-custom-gradient text-xs border border-gray-300 rounded-lg"}` }
+          >
+            Submit
+          </button>
+        </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Component
-
-
-
-
-
-
-
-
-
+export default Component;
 
 // "use client";
 
@@ -787,7 +907,6 @@ export default Component
 //   const [uploadedFiles, setUploadedFiles] = useState([]); // Store the uploaded files
 //   const [isDragging, setIsDragging] = useState(false);
 //   const fileInputRef = useRef(null);
-
 
 //   // Handle file selection
 //   const handleFileChange = (e) => {
@@ -847,8 +966,6 @@ export default Component
 //   const handleRemoveUploadedFile = (index) => {
 //     setUploadedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
 //   };
-
-  
 
 //   const renderField = (id, label, value, inputType = "text") => (
 //     <div className="space-y-2">

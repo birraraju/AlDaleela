@@ -3,3 +3,8 @@
     background-color: transparent
 
 }
+
+
+#printDiv .esri-print__header-title{
+    display: none;
+}
