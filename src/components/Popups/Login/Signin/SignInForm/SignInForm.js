@@ -27,6 +27,7 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
   const [isPassword, setIsPassword] = useState(false);
   const { setRole } = useAuth();
   const {profiledetails , setprofiledetails} = useAuth()
+  const[errors,setErrors]=useState("")
   const { isDarkMode, isLangArab } = useTheme(); // Access the dark mode state
 
   const form = useForm({
@@ -65,6 +66,8 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
     }      
     else{
       console.log(data.message)
+
+      setErrors(data.message)
     }
   }catch (error) {
     console.error('Error submitting form:', error);
@@ -131,7 +134,7 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
                   </button>
                 </div>
               </FormControl>
-              <FormMessage />
+              {errors ?<span className="text-red-500 text-xs leading-10">{errors}</span>:<FormMessage />}
             </FormItem>
           )}
         />

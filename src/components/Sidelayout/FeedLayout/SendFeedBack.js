@@ -253,9 +253,9 @@ export default function Feedback({
     return Object.keys(newErrors).length === 0;
   });
 
-  useEffect(() => {
-    setIsValid(validate());
-  }, [validate]);
+  // useEffect(() => {
+  //   setIsValid(validate());
+  // }, [validate]);
 
   console.log("errors :>> ", errors);
 
@@ -359,13 +359,14 @@ export default function Feedback({
                   className={`flex bg-transparent  sm:px-2.5 laptop_s:px-2 px-3 justify-center py-2 border sm:rounded-xl rounded-lg flex-col items-center sm:space-y-1 space-y-2 transition-colors ${
                     isDarkMode
                       ? rating === item.value
-                        ? "bg-black text-white border-white"
+                        ? `bg-black text-white ${item.highlight}`
                         : "border-transparent bg-[#444646]"
                       : rating === item.value
                       ? `bg-white text-white ${item.highlight}`
                       : "border-transparent border bg-black"
                   }`}
-                  onClick={() => setRating(item.value)} // Ensure onClick works
+                  onClick={() =>{ setRating(item.value)
+                    setIsValid(validate())}} // Ensure onClick works
                 >
                   {/* Render the corresponding image */}
                   <img
@@ -411,7 +412,8 @@ export default function Feedback({
               <input
                 type="text"
                 id="name"
-                onChange={(e) => setfbname(e.target.value)}
+                onChange={(e) =>{ setfbname(e.target.value) 
+                  setIsValid(validate())}}
                 placeholder={
                   isLangArab ? "أدخل اسم المستخدم" : "Enter Your Name"
                 }
@@ -448,7 +450,9 @@ export default function Feedback({
               <input
                 type="email"
                 id="email"
-                onChange={(e) => setfbemail(e.target.value)}
+                onChange={(e) => {setfbemail(e.target.value)
+                  setIsValid(validate())
+                }}
                 placeholder={
                   isLangArab
                     ? "أدخل بريدك الإلكتروني"
@@ -492,7 +496,8 @@ export default function Feedback({
                 placeholder={
                   isLangArab ? "شارك أفكارك هنا" : "Share Your Thoughts Here"
                 }
-                onChange={(e) => setfbcomments(e.target.value)}
+                onChange={(e) =>{ setfbcomments(e.target.value)
+                  setIsValid(validate())}}
                 className={`w-full px-3  resize-none h-40 py-2 border rounded-xl outline-none transition-colors ${
                   isDarkMode
                     ? "bg-[#444646]  text-white border-transparent "
