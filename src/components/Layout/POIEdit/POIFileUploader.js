@@ -142,34 +142,158 @@ const FileUploader = ({ POIFormUploader,setPOIFormisOpenModalShow,setPOImessageS
   if (!POIFormUploader) return null;
 
   // Handle file selection
-  const handleFileChange = (e) => {
-    const selectedFiles = e.target.files ? Array.from(e.target.files) : [];
-    const validFiles = selectedFiles.filter(
-      (file) => file.type.startsWith('image/') || file.type.startsWith('video/')
-    );
+  // const handleFileChange = (e) => {
+  //   const selectedFiles = e.target.files ? Array.from(e.target.files) : [];
+  //   const validFiles = selectedFiles.filter(
+  //     (file) => file.type.startsWith('image/') || file.type.startsWith('video/')
+  //   );
 
-    if (validFiles.length !== selectedFiles.length) {
-      alert('Only images or videos are allowed.');
-    }
+  //   if (validFiles.length !== selectedFiles.length) {
+  //     alert('Only images or videos are allowed.');
+  //   }
 
-    setFiles((prevFiles) => [...prevFiles, ...validFiles]); // Add new files to the existing ones
-  };
+  //   setFiles((prevFiles) => [...prevFiles, ...validFiles]); // Add new files to the existing ones
+  // };
 
   // Handle file drop
-  const handleDrop = (e) => {
+  // const handleDrop = (e) => {
+  //   e.preventDefault();
+  //   setIsDragging(false);
+  //   const droppedFiles = Array.from(e.dataTransfer.files);
+  //   const validFiles = droppedFiles.filter(
+  //     (file) => file.type.startsWith('image/') || file.type.startsWith('video/')
+  //   );
+
+  //   if (validFiles.length !== droppedFiles.length) {
+  //     alert('Only images or videos are allowed.');
+  //   }
+
+  //   setFiles((prevFiles) => [...prevFiles, ...validFiles]); // Add dropped files to the existing ones
+  // };
+
+  // const handleFileChange = (e) => {
+  //   const selectedFiles = e.target.files ? Array.from(e.target.files) : [];
+  //   const validFiles = selectedFiles.filter((file) => 
+  //     file.type.startsWith('image/') ||
+  //     file.type.startsWith('video/') ||
+  //     file.type === 'audio/mp3' ||         // Allow mp3 files
+  //     file.type === 'image/jpeg' ||        // Allow specific main image formats
+  //     file.type === 'image/png' ||
+  //     file.type === 'image/gif'
+  //   );
+  
+  //   if (validFiles.length !== selectedFiles.length) {
+  //     alert('Only images, videos, or mp3 files are allowed.');
+  //   }
+  
+  //   setFiles((prevFiles) => [...prevFiles, ...validFiles]); // Add new files to the existing ones
+  // };
+  
+  // // Handle file drop
+  // const handleDrop = (e) => {
+  //   e.preventDefault();
+  //   setIsDragging(false);
+  //   const droppedFiles = Array.from(e.dataTransfer.files);
+  //   const validFiles = droppedFiles.filter((file) => 
+  //     file.type.startsWith('image/') ||
+  //     file.type.startsWith('video/') ||
+  //     file.type === 'audio/mp3' ||         // Allow mp3 files
+  //     file.type === 'image/jpeg' ||        // Allow specific main image formats
+  //     file.type === 'image/png' ||
+  //     file.type === 'image/gif'
+  //   );
+  
+  //   if (validFiles.length !== droppedFiles.length) {
+  //     alert('Only images, videos, or mp3 files are allowed.');
+  //   }
+  
+  //   setFiles((prevFiles) => [...prevFiles, ...validFiles]); // Add dropped files to the existing ones
+  // };
+
+  const MAX_IMAGE_SIZE = 10 * 1024 * 1024; // 10 MB for images
+  const MAX_VIDEO_SIZE = 50 * 1024 * 1024; // 50 MB for videos
+  const MAX_AUDIO_SIZE = 10 * 1024 * 1024; // 10 MB for audio
+  
+  // Helper function to check image dimensions
+  const checkImageDimensions = (file) => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.src = URL.createObjectURL(file);
+      img.onload = () => {
+        const { width, height } = img;
+        URL.revokeObjectURL(img.src); // clean up the object URL
+        resolve(width >= 500 && width <= 2000 && height >= 500 && height <= 2000);
+      };
+    });
+  };
+  
+  // Main validation function for each file
+  const validateFile = async (file) => {
+    const isValidType = (file.type.startsWith('image/') && (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif')) ||
+                        (file.type === 'audio/mp3' || file.type === 'audio/wav') ||
+                        (file.type === 'video/mp4');
+  
+    if (!isValidType) {
+      alert('Invalid file type. Only JPEG, PNG, GIF images, MP3, WAV audio, and MP4 video are allowed.');
+      return false;
+    }
+  
+    if (file.type.startsWith('image/')) {
+      if (file.size > MAX_IMAGE_SIZE) {
+        alert('Image size must be under 10 MB.');
+        return false;
+      }
+      const isValidDimensions = await checkImageDimensions(file);
+      if (!isValidDimensions) {
+        alert('Image dimensions must be between 500x500 and 2000x2000 pixels.');
+        return false;
+      }
+    } else if (file.type.startsWith('audio/')) {
+      if (file.size > MAX_AUDIO_SIZE) {
+        alert('Audio size must be under 10 MB.');
+        return false;
+      }
+    } else if (file.type.startsWith('video/')) {
+      if (file.size > MAX_VIDEO_SIZE) {
+        alert('Video size must be under 50 MB.');
+        return false;
+      }
+    }
+  
+    return true;
+  };
+  
+  // Handle file selection
+  const handleFileChange = async (e) => {
+    const selectedFiles = e.target.files ? Array.from(e.target.files) : [];
+    const validFiles = [];
+  
+    for (const file of selectedFiles) {
+      if (await validateFile(file)) {
+        validFiles.push(file);
+      }
+    }
+  
+    setFiles((prevFiles) => [...prevFiles, ...validFiles]);
+  };
+  
+  // Handle file drop
+  const handleDrop = async (e) => {
     e.preventDefault();
     setIsDragging(false);
+  
     const droppedFiles = Array.from(e.dataTransfer.files);
-    const validFiles = droppedFiles.filter(
-      (file) => file.type.startsWith('image/') || file.type.startsWith('video/')
-    );
-
-    if (validFiles.length !== droppedFiles.length) {
-      alert('Only images or videos are allowed.');
+    const validFiles = [];
+  
+    for (const file of droppedFiles) {
+      if (await validateFile(file)) {
+        validFiles.push(file);
+      }
     }
-
-    setFiles((prevFiles) => [...prevFiles, ...validFiles]); // Add dropped files to the existing ones
+  
+    setFiles((prevFiles) => [...prevFiles, ...validFiles]);
   };
+  
 
   const handleDragEnter = (e) => {
     e.preventDefault();

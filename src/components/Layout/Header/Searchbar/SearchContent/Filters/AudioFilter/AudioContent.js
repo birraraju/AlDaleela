@@ -367,7 +367,7 @@ export default function AudioContent({setInputClicked,setIscategory}) {
   
   if (loading) {
     return (
-      <div className="flex items-center justify-center absolute left-48 top-28  h-full">
+      <div className="flex items-center justify-center   h-full">
         <ClipLoader color="#808080" size={40} /> {/* Gray, medium-sized loader */}
       </div>
     );
@@ -382,7 +382,7 @@ export default function AudioContent({setInputClicked,setIscategory}) {
   console.log("Media AudioConsole Data",mediaItems)
   return (
     <div className="p-4 h-[17rem] overflow-y-scroll">
-      <div className="grid grid-cols-4 gap-2">
+      <div className="grid  tab:grid-cols-4 grid-cols-2 mobile_m:grid-cols-3 gap-2">
         {mediaItems.map((audio, audioIndex) => (
           <div
             key={audio.objectId}

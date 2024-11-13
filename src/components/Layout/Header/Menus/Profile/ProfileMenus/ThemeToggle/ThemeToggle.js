@@ -29,7 +29,7 @@ export default function ThemeToggle() {
       >
         <div
           className={`bg-[#FFAC4B] w-5 h-5 rounded-full shadow-lg transform duration-300 ease-in-out flex justify-center items-center ${
-            isDarkMode ? "translate-x-7" : ""
+            isDarkMode ? " " : "translate-x-7"
           }${
             isLangArab ? "translate-x-[-1.75rem]" : "translate-x-7"
           }`}

@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import BasicInformation from "./ProfileMenu/BasicInformation/BasicInformation";
 import ProfileContent from "./ProfileMenu/ProfileContent/ProfileContent";
 import ProfileHeader from "./ProfileMenu/ProfileHeader/ProfileHeader";
 import { useAuth } from "../../../../../../../../Providers/AuthProvider/AuthProvider";
+import SampleImageProfile from "../../../../../../../../assets/Header/Profile/ProfileDetails/Profile.svg"
 
 export default function ProfilePage({
   setIsPopoverOpen,
@@ -15,6 +16,9 @@ export default function ProfilePage({
         setModalMessage,
         setChangeCloseProfile,setIsSuccess,setIsFailure,setIsMsgStatus,
 }) {
+
+  const [profileImage, setProfileImage] = useState(SampleImageProfile); // State to manage the profile image
+  const [file, setFile] = useState(null);
   const {profiledetails} = useAuth()
   useEffect(() => {
 
@@ -29,6 +33,9 @@ export default function ProfilePage({
         setIsEditProfile={setIsEditProfile}
       />
       <ProfileContent
+      setProfileImage={setProfileImage}
+      profileImage={profileImage}
+      setFile={setFile}
         setIsProfile={setIsProfile}
         setIsEditProfile={setIsEditProfile}
         isEditProfile={isEditProfile}
@@ -37,6 +44,7 @@ export default function ProfilePage({
         setChangeCloseProfile={setChangeCloseProfile}
       />
       <BasicInformation
+      profileImage={profileImage}
         setIsProfile={setIsProfile}
         setIsEditProfile={setIsEditProfile}
         isEditProfile={isEditProfile}

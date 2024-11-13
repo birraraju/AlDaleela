@@ -208,7 +208,7 @@ export default function UserManagement() {
 };
   return (
     <div className="flex h-[calc(100vh-6rem)]">
-      <DeleteConfirmation
+      <DeleteConfirmation Label={"user"}
         isShowConfirmation={isShowConfirmation}
         handleDeleteConfirm={() =>{ isEditing ? handleselectedDeleted() :handleConfirmFeedbackDelete(selectedUsersid);setIsShowConfirmation(false);}}
         handleDeleteCancel={() => {setSelectedUsersId(undefined);setSelectedUsers([]);setIsShowConfirmation(false);}}

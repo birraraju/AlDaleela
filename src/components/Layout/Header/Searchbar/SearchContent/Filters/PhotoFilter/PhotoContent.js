@@ -125,7 +125,7 @@ export default function PhotoContent({setInputClicked,setIscategory}) {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center absolute left-48 top-28  h-full">
+      <div className="flex items-center justify-center   h-full">
         <ClipLoader color="#808080" size={40} /> {/* Gray, medium-sized loader */}
       </div>
     );
@@ -141,7 +141,7 @@ export default function PhotoContent({setInputClicked,setIscategory}) {
     {mediaItems.map((item) => (
       <div
         key={item.objectId}
-        className="rounded-xl overflow-hidden w-[100px] h-[80px]" // Set fixed dimensions for each container
+        className=" tab:rounded-xl rounded-md  overflow-hidden   laptop_s:w-[100px] h-[60px] tab:h-[80px]" // Set fixed dimensions for each container
         onClick={() => handleImageClick(item.objectId, item.layerName)}
       >
         {item.type.startsWith('image/') && (

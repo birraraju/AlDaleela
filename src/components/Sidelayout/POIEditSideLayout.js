@@ -21,7 +21,7 @@
   import {UserActivityLog} from "../Common/UserActivityLog";
 
 
-  export default function POIEditSideLayout({ children, mapview }) { //height = "calc(95vh - 2rem)",
+  export default function POIEditSideLayout({ children,onClose, mapview }) { //height = "calc(95vh - 2rem)",
     const [isOpen, setIsOpen] = useState(true);   // Controls slide in/out
     const [isFullyClosed, setIsFullyClosed] = useState(false); // Controls visibility
     const [toggleCount, setToggleCount] = useState(0);
@@ -247,7 +247,7 @@
     // If the panel is fully closed, don't render anything
     if (isFullyClosed) return null;
     const handleShowPOIEdit=()=>{
-      if(RoleServices.isAuth()){
+      if(RoleServices.isAdmin()){
         setIsShowEditPOI((prev) => !prev)
       }else{
         setIsAuthPopUp(true);
@@ -257,13 +257,13 @@
 
     return (
       <div
-        className={`fixed top-16 w-[510px] ${POIShareShow?"-[65%] laptop_s:w-[370px]": POIFormisOpenModalShow ?" ":"h-[90%]"} sm:w-[400px] laptop_s:w-[330px]  ${ isLangArab?"left-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
+        className={`fixed top-16 w-[95%] ${POIShareShow?"-[65%] laptop_s:w-[370px]": POIFormisOpenModalShow ?" ":"h-[90%]"} sm:w-[400px] laptop_s:w-[330px]  ${ isLangArab?"left-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%]":"translate-x-[103%]")
         }`}
         // style={{ width, height, zIndex: 50 }}  // Ensure it's above other elements
         ref={containerRef}  // Reference to the panel
       >
-        <div className={`relative sm:h-[80%] laptop_s:h-[89%] h-[98%]  w-[65%] float-end sm:w-full rounded-2xl shadow-lg overflow-hidden border transition-colors duration-300 ${
+        <div className={`relative sm:h-[80%] laptop_s:h-[89%] h-[98%]  w-[99%] mobile_m:w-[80%] float-end sm:w-full rounded-2xl shadow-lg overflow-hidden border transition-colors duration-300 ${
             isDarkMode
               ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
               : "bg-white bg-opacity-80 border-white"
@@ -308,7 +308,7 @@
   </button>
 
   {/* POI Label Mark */}
-  <button onClick={() => RoleServices.isAuth() ? handleBookmarkEvent('click') : setIsAuthPopUp(true)}>
+  <button onClick={() => RoleServices.isAdmin() ? handleBookmarkEvent('click') : setIsAuthPopUp(true)}>
   <img
     src={POILabelMark}
     alt="Location Mark"
@@ -343,6 +343,7 @@
       onClose={() => { 
         setPOIFormShow(true);
         setPOIFormisOpenModalShow(false);
+        onClose();
       }} 
     />
   )}
@@ -355,7 +356,7 @@
         </div>
 
         {/* Toggle button */}
-        <div className={`absolute top-4 ${isLangArab?"-right-7":"-left-6"}`}>
+        <div className={`absolute hidden sm:block top-4 ${isLangArab?"-right-7":"-left-6"}`}>
           <button
             onClick={toggleSideLayout}
             className="relative w-8 h-32 focus:outline-none cursor-pointer" // Ensure cursor pointer
