@@ -2,23 +2,24 @@ import React from 'react'
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react'
 
 export default function Pagination({ currentPage, totalPages, onPageChange }) {
+  const totalItems = Math.floor(totalPages / 9)
   const pageNumbers = []
   const maxVisiblePages = 5
 
   // Generate array of page numbers to display
-  if (totalPages <= maxVisiblePages) {
-    for (let i = 1; i <= totalPages; i++) {
+  if (totalItems <= maxVisiblePages) {
+    for (let i = 1; i <= totalItems; i++) {
       pageNumbers.push(i)
     }
   } else {
     const leftOffset = Math.max(currentPage - Math.floor(maxVisiblePages / 2), 1)
-    const rightOffset = Math.min(leftOffset + maxVisiblePages - 1, totalPages)
+    const rightOffset = Math.min(leftOffset + maxVisiblePages - 1, totalItems)
 
     if (leftOffset > 1) pageNumbers.push(1, '...')
     for (let i = leftOffset; i <= rightOffset; i++) {
       pageNumbers.push(i)
     }
-    if (rightOffset < totalPages) pageNumbers.push('...', totalPages)
+    if (rightOffset < totalItems) pageNumbers.push('...', totalItems)
   }
 
   return (

@@ -54,8 +54,8 @@ export default function UserManagement() {
   const {profiledetails} = useAuth()
   const [totalItems,setTotalItems] = useState(0); // Example total items count
   // const itemsPerPage = 10;
-  const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 5; // Number of items per page
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 9; // Number of items per page
 
   const handlePageChange = (selectedPage) => {
     setCurrentPage(selectedPage);
@@ -63,6 +63,7 @@ export default function UserManagement() {
     // Here, you can load data for the selected page if using an API
   };
   console.log("Confirm delete:", selectedUsersid);
+  
   // console.log("Passed User Management data :", data)
 
   const toggleUserSelection = (index) => {
@@ -278,7 +279,7 @@ const paginatedData = data.slice(currentPage * itemsPerPage, (currentPage + 1) *
                 </tr>
               </thead>
               <tbody>
-                {data.map((user, index) => (
+                {paginatedData.map((user, index) => (
                   <tr key={user.id} className={`${
                     isDarkMode
                       ? user.id % 2 === 0
