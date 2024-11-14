@@ -17,13 +17,15 @@ import Graphic from '@arcgis/core/Graphic';
 import config from '../../Common/config'; // Import your config file
 import {UserActivityLog} from "../../Common/UserActivityLog";
 
-const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsManageVisible, isManageVisible,onclose}) => {
+const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsManageVisible, isManageVisible,setIsSuccess,setisMsgStatus,setIsmodalMessage,onclose}) => {
   const [bookmarks, setBookmarks] = useState([]);
   const [condtioncheck, setCondtionCheck] = useState(true);
   const [count, setCount] = useState(0);
   const [ids, setIds] = useState([]); // State to hold the array of IDs
   const {profiledetails, contextMapView} = useAuth();
   // Array of images with icons
+
+  console.log('ids :>> ', ids);
   const images = [
     { src: Book1, title: 'Maskar Al Hidaybah', icon: [{ iconBg: CemaraBg, Icon: CameraIcon }, { iconBg: VideoBg, Icon: VideoIcon }, { iconBg: AudioBg, Icon: AudioIcon }] },
     { src: Book2, title: "Al 'Imayrah", icon: [{ iconBg: AudioBg, Icon: AudioIcon }] },
@@ -215,14 +217,27 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
             console.log(data.message);
             fetchBookmarks();
             UserActivityLog(profiledetails, "Bookmark Removed")
-            setIsManageVisible(false); // Close management view
+             // Close management view
             setSelectedMarks({}); // Reset the selected marks
+            setisMsgStatus("Success")
+            setIsmodalMessage("Bookmark Deleted Sucessfully")
+            setIsSuccess(true)
+            setIsManageVisible(false);
           }
           else{
+            setisMsgStatus("Failure")
+            setIsmodalMessage(" Failed to Deleted Bookmark!")
+            setIsSuccess(true)
+            setIsManageVisible(false); // Close management view
+
             console.log(data.message);
           }
       
       } catch (error) {
+        setisMsgStatus("Failure")
+            setIsmodalMessage(" Failed to Deleted Bookmark!")
+            setIsSuccess(true)
+            setIsManageVisible(false);
           console.error('Error submitting form:', error);
       }    
   };
@@ -236,13 +251,13 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
     <div className="relative grid grid-cols-1 ">
       <div className="grid grid-cols-3 justify-start pt-3 items-start gap-y-4 gap-x-0">
   {bookmarks.map((image, index) => (
-    <div key={image.id} className="relative flex flex-col items-center">
+    <div key={image.id} className="relative flex flex-col  items-center">
       {/* Image and title section */}
-      <div onClick={() => handleZoomtoLocation(image.id, image.objectid, image.layername)} className=" relative w-28 h-24 flex flex-col items-center">
+      <div onClick={() => handleZoomtoLocation(image.id, image.objectid, image.layername)} className=" relative sm:w-28 w-[96%] h-20  sm:h-24 flex flex-col items-center">
         <img
           src={image.src}
           alt={image.title}
-          className="w-full h-full object-cover shadow-xl rounded-md"
+          className=" sm:w-full w-[100%]   sm:h-full object-cover shadow-xl rounded-md"
         />
         <h3 className="text-start w-full border text-white text-xs border-transparent rounded-md absolute bg-[#504848] h-6 justify-start items-center pl-2 flex bottom-0 text-[9px] leading-4 break-words">
           {image.title}
@@ -293,13 +308,14 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
                 <button onClick={handleClose}
                   className="w-auto py-3 px-14 bg-white text-xs border border-gray-300 rounded-lg"
                 >
-                  Cancel
+                  {isLangArab ? "إلغاء":"Cancel"}
                 </button>
                 <button
                   onClick={handleSave}
-                  className="w-auto py-3 px-10 bg-custom-gradient text-[12px] border border-gray-300 rounded-lg"
+                  disabled={ids.length === 0}
+                  className={ids.length===0?"w-auto py-3 px-10 bg-custome-gray1 text-[12px] border border-gray-300 rounded-lg":"w-auto py-3 px-10 bg-custom-gradient text-[12px] border border-gray-300 rounded-lg"}
                 >
-                  Save Changes
+                  {isLangArab?"حفظ التغييرات":"Save Changes"}
                 </button>
               </div>
             )}

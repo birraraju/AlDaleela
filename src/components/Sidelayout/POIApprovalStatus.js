@@ -50,6 +50,7 @@ export default function POIApprovalStatus({ children, onClose, mapview }) {
 
   return (
     <div
+    dir={isLangArab && "rtl"}
       className={`fixed top-16 w-[510px] ${POIFormIsOpenModalShow ? "h-[63%]" : "h-[90%]"} sm:w-[400px] laptop_s:w-[380px] ${
         isLangArab ? "left-3 sm:left-16 laptop_s:left-3" : "right-3 sm:right-16 laptop_s:right-3"
       } transition-transform duration-300 ease-in-out ${
@@ -63,7 +64,7 @@ export default function POIApprovalStatus({ children, onClose, mapview }) {
         {/* Sticky Dropped Pin */}
         <div className="sticky top-4 z-10 p-4 bg-opacity-70">
           <div className="flex w-[40%] justify-start items-center gap-x-1">
-            <img src={isDarkMode ? DarkLocation : Location} alt="Location" className="h-8" />
+            <img src={isDarkMode ? DarkLocation : Location} alt="Location" className="h-4" />
             <p className={`font-semibold font-poppins ${isDarkMode ? "text-white" : "text-gray-600"}`}>
               <h2 className="text-[12px]">Barqa Rashid</h2>
             </p>
@@ -72,9 +73,15 @@ export default function POIApprovalStatus({ children, onClose, mapview }) {
             <button
           onClick={onClose}
           className="px-1 py-3 hover:text-blue-500 flex items-center text-black focus:outline-none"
-        >
-          <ChevronLeft className="w-5 h-5" />
-          <span>Back</span>
+
+       
+        >{isLangArab ?<>
+         <span className={isDarkMode?"text-white hover:text-gray-200":" text-black hover:text-blue-500"}>{isLangArab?"خلف":"Back"}</span>
+          <ChevronLeft className={isDarkMode?"w-5 h-5 text-white":"w-5 h-5 text-black"} />
+                   </> :<>
+          <ChevronLeft className={isDarkMode?"w-5 h-5 text-white":"w-5 h-5 text-black"} />
+          <span className={isDarkMode?"text-white hover:text-gray-200":" text-black hover:text-blue-500"}>{isLangArab?"خلف":"Back"}</span>
+          </>}
         </button></div>}
         </div>
 
@@ -83,9 +90,10 @@ export default function POIApprovalStatus({ children, onClose, mapview }) {
           {children || (
             <>
               <div className="overflow-y-auto  h-[79%]">
-                <StatuesUpdatePOI setMessage={setMessage} setFormShow={setFormShow} setPOIFormIsOpenModalShow={setPOIFormIsOpenModalShow} setPOIFormSuccessShow={setPOIFormSuccessShow} isFormShow={isFormShow} />
+                <StatuesUpdatePOI isLangArab={isLangArab} setMessage={setMessage} setFormShow={setFormShow} setPOIFormIsOpenModalShow={setPOIFormIsOpenModalShow} setPOIFormSuccessShow={setPOIFormSuccessShow} isFormShow={isFormShow} />
                 <POIEditFileUploaderStatusModel
                   message={message}
+                  label={"Approval"}
                   success={POIFormSuccessShow}
                   isOpenModal={POIFormIsOpenModalShow}
                   onClose={() => {

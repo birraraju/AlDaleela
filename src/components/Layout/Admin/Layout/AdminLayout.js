@@ -17,8 +17,9 @@ const AdminLayout = ({role}) => {
   const [popup, setPopup] = useState(null);
   const [isFooterOpen, setIsFooterOpen] = useState(false);
   const [activeItem, setActiveItem] = useState("User Management");
-  const { isDarkMode } = useTheme(); // Access the dark mode state
-  
+  const { isDarkMode, isLangArab } = useTheme(); // Access the dark mode state
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const navigate = useNavigate();
@@ -91,7 +92,9 @@ const AdminLayout = ({role}) => {
 
   return (
     <div
-    className={`flex flex-col h-screen bg-[#f5f7f6] ${
+
+    dir={isLangArab && "rtl"}
+    className={`flex flex-col h-screen bg-[#f5f7f6]  ${
       isDarkMode
         ? 'bg-white bg-opacity-10' // Apply dark theme background
         : 'bg-[#f5f7f6]' // Apply default background
@@ -100,12 +103,12 @@ const AdminLayout = ({role}) => {
   
       <Header isFooterOpen={isFooterOpen} isHeaderOpen={handleStackOpen} />
 
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1 overflow-hidden ">
         {/* Sidebar */}
-        <SidebarComponent activeItem={activeItem} onItemClick={handleItemClick} />
+        <SidebarComponent activeItem={activeItem} setIsCollapsed={setIsCollapsed} isCollapsed={isCollapsed} onItemClick={handleItemClick} />
 
         {/* Main Content Area */}
-        <main className="flex-1 pr-3 pl-52 py-1 overflow-y-auto">
+        <main className={`flex-1 pr-3  ${isCollapsed ?(isLangArab ? " pr-14" : " pl-14"):(isLangArab? "pr-52" :"pl-52")} py-1 overflow-y-auto`}>
         <div className="  rounded-lg shadow-lg max-h-full">
         {/* Dynamic content */}
             <div className="flex-1 overflow-auto">

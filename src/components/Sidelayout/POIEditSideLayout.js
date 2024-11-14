@@ -114,7 +114,7 @@
             //console.log(values);
             UserActivityLog(profiledetails, "Bookmark Added")  
             setBookMarkClick(false)
-            alert(data.message);
+            alert(data.message === "Bookmark created successfully." && (isLangArab ?"تم إنشاء الإشارة المرجعية بنجاح.":"Bookmark created successfully."));
           }
           else{
             //console.log(data)         
@@ -257,13 +257,13 @@
 
     return (
       <div
-        className={`fixed top-16 w-[510px] ${POIShareShow?"-[65%] laptop_s:w-[370px]": POIFormisOpenModalShow ?" ":"h-[90%]"} sm:w-[400px] laptop_s:w-[330px]  ${ isLangArab?"left-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
+        className={`fixed top-16 w-[95%] ${POIShareShow?"-[65%] laptop_s:w-[370px]": POIFormisOpenModalShow ?" ":"h-[90%]"} sm:w-[400px] laptop_s:w-[330px]  ${ isLangArab?"left-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%]":"translate-x-[103%]")
         }`}
         // style={{ width, height, zIndex: 50 }}  // Ensure it's above other elements
         ref={containerRef}  // Reference to the panel
       >
-        <div className={`relative sm:h-[80%] laptop_s:h-[89%] h-[98%]  w-[65%] float-end sm:w-full rounded-2xl shadow-lg overflow-hidden border transition-colors duration-300 ${
+        <div className={`relative sm:h-[80%] laptop_s:h-[89%] h-[98%]  w-[99%] mobile_m:w-[80%] float-end sm:w-full rounded-2xl shadow-lg overflow-hidden border transition-colors duration-300 ${
             isDarkMode
               ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
               : "bg-white bg-opacity-80 border-white"
@@ -271,13 +271,13 @@
           {/* Content */}
           <div className="p-2 overflow-y-auto h-full relative">
             {children || (<>
-              {!POIShareShow && queryresults !== "" && <div className="absolute top-6 w-full  left-4 flex  gap-x-1">
-                <img src={isDarkMode ? DarkLocation : Location }alt="Location" className="h-8" />
+              {!POIShareShow && queryresults !== "" && <div dir={isLangArab && "rtl"} className={`absolute top-6 w-full  ${!isLangArab && "left-4"} flex   gap-x-1`}>
+                <img src={isDarkMode ? DarkLocation : Location }alt="Location" className={`"h-8" ${isLangArab && "mr-1 sm:mr-2"}`} />
                 <p className={`font-semibold font-poppins ${
                       isDarkMode ? "text-white" : "text-gray-600"
                     }`}> <h1 className=" text-[12px]">{queryresults.features[0].attributes.name_ar}</h1>
                     <h2 className=" text-[12px]">{queryresults.features[0].attributes.name_en}</h2></p>
-                    {!POIShareShow && <div className=" flex justify-center items-center absolute right-3 -top-1  p-2 transition-colors h-10 cursor-pointer z-50">
+                    {!POIShareShow && <div className={`flex justify-center items-center absolute ${isLangArab?"-left-1":"right-3"} -top-1  p-2 transition-colors h-10 cursor-pointer z-50`}>
   {/* POI Share Icon */}
   <button
     onClick={() => {setPOIShareShow(true);setPOIFormShow(false);setPOIFormisOpenModalShow(false)}} // Toggle the state
@@ -332,11 +332,12 @@
 </div>}       </div>}
               <div className={`${POIShareShow?"mt-3":"mt-20"} overflow-y-auto`}>
               {POIShareShow && <POShareForm  onClose={()=>{setPOIFormShow(true);setPOIShareShow(false);}} queryresults={queryresults}/>}
-             {(isEditShowPOI||POIFormShow) && <POIEditForm isEditShowPOI={isEditShowPOI}  setIsShowEditPOI={setIsShowEditPOI}  POIFormShow={POIFormShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow} queryresults={queryresults} setIsEditPOI={setIsEditPOI} uploadedFiles={uploadedFiles} setPOImessageShow={setPOImessageShow} setPOIFormsuccessShow={setPOIFormsuccessShow} setPOIFormisOpenModalShow={setPOIFormisOpenModalShow} setUploadedFiles={setUploadedFiles}/>}
-              <POIEditFileUploader setPOImessageShow={setPOImessageShow} setPOIFormsuccessShow={setPOIFormsuccessShow} POIFormUploader={POIFormUploader} setPOIFormisOpenModalShow={setPOIFormisOpenModalShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow} queryresults={queryresults} uploadedFiles={uploadedFiles} setUploadedFiles={setUploadedFiles}/>
+             {(isEditShowPOI||POIFormShow) && <POIEditForm isLangArab={isLangArab} isEditShowPOI={isEditShowPOI}  setIsShowEditPOI={setIsShowEditPOI}  POIFormShow={POIFormShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow} queryresults={queryresults} setIsEditPOI={setIsEditPOI} uploadedFiles={uploadedFiles} setPOImessageShow={setPOImessageShow} setPOIFormsuccessShow={setPOIFormsuccessShow} setPOIFormisOpenModalShow={setPOIFormisOpenModalShow} setUploadedFiles={setUploadedFiles}/>}
+              <POIEditFileUploader isLangArab={isLangArab} setPOImessageShow={setPOImessageShow} setPOIFormsuccessShow={setPOIFormsuccessShow} POIFormUploader={POIFormUploader} setPOIFormisOpenModalShow={setPOIFormisOpenModalShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow} queryresults={queryresults} uploadedFiles={uploadedFiles} setUploadedFiles={setUploadedFiles}/>
                {/* Render the modal only when the state is true */}
   {POIFormisOpenModalShow && (
     <POIEditFileUploaderStatusMOdel  
+    label={"POIEdit"}
       message={message} 
       success={POIFormsuccessShow} 
       isOpenModal={POIFormisOpenModalShow} 
@@ -356,7 +357,7 @@
         </div>
 
         {/* Toggle button */}
-        <div className={`absolute top-4 ${isLangArab?"-right-7":"-left-6"}`}>
+        <div className={`absolute hidden sm:block top-4 ${isLangArab?"-right-7":"-left-6"}`}>
           <button
             onClick={toggleSideLayout}
             className="relative w-8 h-32 focus:outline-none cursor-pointer" // Ensure cursor pointer

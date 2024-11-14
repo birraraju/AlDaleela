@@ -6,6 +6,7 @@ export default function Input({
   type = "text",
   name,
   onChange,
+  isLangArab
 }) {
   const [isFocused, setIsFocused] = useState(false);
   const [hasContent, setHasContent] = useState(false);
@@ -29,7 +30,7 @@ export default function Input({
         type={type}
         name={name}
         required={required}
-        className={`w-full h-[48px] px-4 py-2 text-sm text-black bg-white border border-gray-300 rounded-[10px] focus:outline-none
+        className={`w-full h-[48px]  px-4 py-2 text-sm text-black bg-white border border-gray-300 rounded-[10px] focus:outline-none
         ${isFocused || hasContent ? "placeholder-transparent" : "placeholder-gray-400"}`}
         onFocus={handleFocus}
         onBlur={handleBlur}
@@ -37,7 +38,7 @@ export default function Input({
       />
       {/* Floating label with red asterisk if required */}
       <label
-        className={`absolute font-omnes text-[14px] left-4 top-3 text-sm pointer-events-none transition-all
+        className={`absolute font-omnes text-[14px] ${isLangArab ?" right-4":"left-4"} top-3 text-sm pointer-events-none transition-all
         ${isFocused || hasContent ? "text-transparent" : "text-black"}
         ${isFocused || hasContent ? "-translate-y-5" : ""}`}
       >

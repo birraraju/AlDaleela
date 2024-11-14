@@ -34,9 +34,10 @@ CustomCheckbox.displayName = CheckboxPrimitive.Root.displayName;
 export default function UserManagement({role}) {
   const [scrollPercentage, setScrollPercentage] = useState(0);
   const tableRef = useRef(null);
-  const { isDarkMode } = useTheme(); // Access dark mode from theme context
+  const { isDarkMode, isLangArab } = useTheme(); // Access dark mode from theme context
   const [data, setData] = useState([]);
   const {setDropPinObjectId} = useAuth();
+    // console.log("Passed Content Management data :", data)
 
   const navigate = useNavigate();
 
@@ -70,7 +71,8 @@ export default function UserManagement({role}) {
         }
         const result = await response.json();        
         if (result.success) {
-          setData(result.data);
+          const sortedItems = result.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+          setData(sortedItems);
         } else {
           console.log(result.message);
         }
@@ -100,33 +102,33 @@ export default function UserManagement({role}) {
       } text-black backdrop-blur border-none`}>
                 <div className="flex justify-between items-center mb-6">
                 <h2 className={`text-[22px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]" : "text-gray-800"}`}>
-                Content Management</h2>
+                {isLangArab ?"إدارة المحتوى":"Content Management"}</h2>
         </div>
 
         <hr className={`border-t  my-4 ${isDarkMode ? "border-[#FFFFFF] border-opacity-10" : "border-gray-300"}`} />
 
         <div className="overflow-x-auto laptop_s:overflow-hidden flex-grow relative ">
-          <div ref={tableRef} className="overflow-x-auto overflow-y-auto absolute inset-0 pr-4">
+          <div ref={tableRef} className={`overflow-x-auto overflow-y-auto absolute inset-0 ${isLangArab ?"pl-4":"pr-4"}`}>
             <table className="w-full">
             <thead className={`sticky top-0   z-10 ${isDarkMode ? "bg-[#303031] " : "bg-white"}`}>
                 <tr className="text-left text-sm  font-medium text-gray-500 border-b">
-                <th className={`pb-3 laptop_s:p-2 sm:p-1 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
-                Username</th>
-                <th className={`pb-3 laptop_s:p-2 sm:p-1 p-2 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
-                Email id</th>
-                <th className={`pb-3 laptop_s:p-2 sm:p-1 p-2 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
-                Date & time</th>
-                <th className={`pb-3 laptop_s:p-2 sm:p-1 p-2 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
-                POI Name</th>
-                <th className={`pb-3 laptop_s:p-2 sm:p-1 p-2 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
-                Organization</th>
-                <th className={`pb-3 laptop_s:p-2 sm:p-1 p-2 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
-                Classification</th>
-                <th className={`pb-3 laptop_s:p-2 sm:p-1 p-2 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
-                Municipality</th>
-                <th className={`pb-3 laptop_s:p-2 sm:p-1 p-2 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]   flex gap-x-1 pr-4 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
-                Media<img src={MediaPinPoint} className='h-4' alt="" /></th>
-                  <th className="pb-3 laptop_s:p-2 sm:p-1"></th>
+                <th className={`pb-3 laptop_s:p-2 sm:p-1 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  ${isLangArab?"text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+                {isLangArab?"اسم المستخدم":"Username"}</th>
+                <th className={`pb-3 laptop_s:p-2 sm:p-1 p-2 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  ${isLangArab?"text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+                {isLangArab?"معرف البريد الإلكتروني":"Email Id"}</th>
+                <th className={`pb-3 laptop_s:p-2 sm:p-1 p-2 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  ${isLangArab?"text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+                {isLangArab?"التاريخ والوقت":"Date & time"}</th>
+                <th className={`pb-3 laptop_s:p-2 sm:p-1 p-2 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  ${isLangArab?"text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+                {isLangArab?"اسم النقطة المهمة":"POI Name"}</th>
+                <th className={`pb-3 laptop_s:p-2 sm:p-1 p-2 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  ${isLangArab?"text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+                {isLangArab?"منظمة":"Organization"}</th>
+                <th className={`pb-3 laptop_s:p-2 sm:p-1 p-2 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  ${isLangArab?"text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+                {isLangArab?"تصنيف":"Classification"}</th>
+                <th className={`pb-3 laptop_s:p-2 sm:p-1 p-2 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  ${isLangArab?"text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+                {isLangArab?"بلدية":"Municipality"}</th>
+                <th className={`pb-1 laptop_s:p-2 sm:p-1 p-2 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]   flex gap-x-1 ${isLangArab?"text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+                {isLangArab?"وسائط":"Media"}<img src={MediaPinPoint} className='h-4' alt="" /></th>
+                  <th className="pb-3 laptop_s:p-2 sm:p-4 "></th>
                 </tr>
               </thead>
               <tbody>
@@ -141,25 +143,25 @@ export default function UserManagement({role}) {
                       ? "bg-[#D5E5DE] bg-opacity-30"
                       : "bg-white"
                   }`}                  >
-<td className={`py-4 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
+<td className={`py-4 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  ${isLangArab?"pr-2":"pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
 {user.email}</td>
-<td className={`py-4 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
+<td className={`py-4 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  ${isLangArab?"pr-2":"pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
                       {user.username}</td>
-                      <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
+                      <td dir={isLangArab && "ltr"} className={`py-4 font-medium font-omnes text-[14px]  ${isLangArab?"pr-2 text-right":"text-left pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
                       {new Date(`${user.createdAt}Z`).toLocaleString()}</td>
-                      <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
+                      <td className={`py-4 font-medium font-omnes text-[14px]  ${isLangArab?"pr-2":"pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
                       {user.nameEn}</td>
-                      <td className={`py-4 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
+                      <td  className={`py-4 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  ${isLangArab?"pr-2":"pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
                       {user.organizationEn}</td>
-                      <td className={`py-4 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
+                      <td className={`py-4 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  ${isLangArab?"pr-2":"pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
                       {user.classification}</td>
-                      <td className={`py-4 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
+                      <td className={`py-4 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  ${isLangArab?"pr-2":"pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
                       {user.municipality}</td>
-                      <td className={`py-4 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
+                      <td className={`py-4 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[12px]  ${isLangArab?"pr-2":"pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
                       {user.attachementsObjectIds ? user.attachementsObjectIds.split(',').length : 0}</td>
-                    <td className="py-2">
+                    <td className="py-2 w-auto sm:w-8 ">
                       <button onClick={()=>{handleDropPin(user.featureObjectId, user.featureServiceURL, user.id, user.poiOperation, user.featureObjectId)}} className="text-red-500 hover:text-red-600">
-                        <img src={PinPoint} alt="" className='h-7' />
+                        <img src={PinPoint} alt="" className='sm:h-7 h-4 w-4 sm:w-auto' />
                       </button>
                     </td>
                   </tr>

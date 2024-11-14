@@ -145,6 +145,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
     localStorage.removeItem("AldaleelaUserDetails:");
 
     setRole(null);
+    setprofiledetails(null);
     UserActivityLog(profiledetails, "Logged out")
   };
 
@@ -161,7 +162,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
             onClick={() => setIsPopoverOpen(true)}
             className={`relative  ${isDarkMode ? "sm:bg-black" : "sm:bg-white"} 
                         sm:bg-opacity-5 backdrop-blur rounded-full flex justify-between items-center 
-                        mobile_s:py-0.5 laptop_m:py-1 cursor-pointer`}
+                        mobile_s:py-0.5 laptop_m:py-1 cursor-pointer ${isLangArab && " sm:mr-2 "}`}
           >
             <div className="ml-1  sm:hidden grid">
             <img
@@ -172,9 +173,10 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
             </div>
             <div className="ml-1 hidden sm:block">
               <img
-                src={`${((role === "admin")||(role === "user")) ? AdminLogo : ProfileLogo}`} // الملف الشخصي
+                //src={`${((role === "admin")||(role === "user")) ? AdminLogo : ProfileLogo}`} // الملف الشخصي
+                src={profiledetails && profiledetails.imageUrl ? profiledetails.imageUrl : ProfileLogo}
                 alt="Profile"
-                className="mobile_s:w-8 laptop_m:w-8"
+                className="mobile_s:w-8 laptop_m:w-8 w-8 h-8 rounded-full object-cover"
               />
             </div>
             <div className="mobile_s:ml-2 hidden sm:block laptop_m:ml-2">

@@ -68,13 +68,13 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
 
   return (
     <div
-      className={`fixed top-16 w-[510px] ${(POIFormisOpenModalShow || isShowEdit )?"h-[63%]":"h-[90%] "} sm:w-[400px] laptop_s:w-[380px]  ${ isLangArab?" right-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
+      className={`fixed top-16 w-[95%] ${(POIFormisOpenModalShow || isShowEdit )?"h-[63%]":"h-[90%] "} sm:w-[400px] laptop_s:w-[380px]  ${ isLangArab?" right-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
         isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%] sm:-translate-x-[116%] laptop_s:-translate-x-[104%] ":"translate-x-[103%] sm:translate-x-[116%] laptop_s:translate-x-[103%]")
       }`}
       // style={{ width, height, zIndex: 50 }}  // Ensure it's above other elements
       ref={containerRef}  // Reference to the panel
     >
-      <div className={`relative sm:h-[80%] ${POIFormsuccessShow?"laptop_s:h-[100%]":"h-[98%]"}    w-[65%] float-end sm:w-full rounded-2xl shadow-lg overflow-hidden border transition-colors duration-300 ${
+      <div dir={isLangArab && "rtl"} className={`relative sm:h-[80%] ${POIFormsuccessShow?"laptop_s:h-[100%]":"h-[98%]"}    w-[99%] float-end sm:w-full rounded-2xl shadow-lg overflow-hidden border transition-colors duration-300 ${
           isDarkMode
             ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
             : "bg-white bg-opacity-70 border-white"
@@ -90,14 +90,15 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
             >
               {isLangArab ? "دبوس مُنقَطِع" : "Dropped pin"}
             </p>
-            </>:
+            </>: (!POIFormsuccessShow &&
             <p className={`font-poppins font-medium ${isDarkMode ? "text-[#FFFFFFCC]" : "text-black"}`}>
                 {isLangArab ? "محرر" : "Editor"}
-              </p>}
+              </p>)}
           </div>
           <button
             onClick={closePanel}
-            className={`absolute top-4  right-4 p-2 transition-colors cursor-pointer z-50 ${
+            
+            className={`absolute top-4  ${isLangArab ?"left-2":"right-4"} p-2 transition-colors cursor-pointer z-50 ${
               isDarkMode ? "text-white hover:text-gray-300" : "text-gray-600 hover:text-gray-900"
             }`}
             aria-label="Close side panel"
@@ -113,6 +114,7 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
             <>    
               <div className="overflow-y-auto">
                 <AddPOI
+                isLangArab={isLangArab}
                   mapview={mapview}
                   selectedLayer={selectedLayer}
                   addPointGeometry={addPointGeometry}
@@ -124,6 +126,7 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
                   onClose={()=>{setIsShowEdit(true);setFormShow(false);}}
                 />
                 <POIEditFileUploaderStatusMOdel
+                 label={"POIAdd"}
                   message={message}
                   success={POIFormsuccessShow}
                   isOpenModal={POIFormisOpenModalShow}
@@ -140,7 +143,7 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
         </div>
       </div>
       {/* Toggle button */}
-      <div className={`absolute top-4 ${isLangArab?"-right-7":"-left-6"}`}>
+      <div className={`absolute hidden sm:block top-4 ${isLangArab?"-right-7":"-left-6"}`}>
         <button
           onClick={toggleSideLayout}
           className="relative w-8 h-32 focus:outline-none cursor-pointer" // Ensure cursor pointer

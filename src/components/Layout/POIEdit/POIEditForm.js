@@ -12,7 +12,7 @@ import { useAuth } from "../../../Providers/AuthProvider/AuthProvider";
 import config from '../../Common/config'; // Import your config file
 import {UserActivityLog} from "../../Common/UserActivityLog";
 
-const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFormShow, isEditShowPOI, queryresults, setIsEditPOI, uploadedFiles, setPOImessageShow, setPOIFormsuccessShow, setPOIFormisOpenModalShow, setUploadedFiles }) => {
+const Component = ({ POIFormShow,isLangArab, setPOIUploaderShow, setIsShowEditPOI, setPOIFormShow, isEditShowPOI, queryresults, setIsEditPOI, uploadedFiles, setPOImessageShow, setPOIFormsuccessShow, setPOIFormisOpenModalShow, setUploadedFiles }) => {
   const [poiData, setPoiData] = useState({
     organization: "DMT",
     name_en: "Al Buwam",
@@ -29,6 +29,7 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
     City: "Western Region"
   });
   const { profiledetails, contextMapView } = useAuth();
+  const [isShowMore, setIsShowMore] = useState(false)
 
   //const organizationOptions = ["DMT", "Org 2", "Org 3", "Org 4"];
   const classOptions = ["Zubara", "Option 2", "Option 3"];
@@ -72,6 +73,12 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
       setPoiData(updatedData);
     }
   }, [queryresults]);
+
+  useEffect(()=>{
+    if(isEditShowPOI){
+      setIsShowMore(true)
+    }
+  },[isEditShowPOI])
 
   useEffect(() => {
     const fetchDomains = async () => {
@@ -315,7 +322,7 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
                     }
                   });  
                   UserActivityLog(profiledetails, "POI Updated")      
-                  setPOImessageShow("File uploaded successfully!!");
+                  setPOImessageShow( isLangArab ?"تم تحميل الملف بنجاح!":"File uploaded successfully!");
                   setPOIFormsuccessShow("Success"); // or "Failure" based on your logic
                   setPOIFormisOpenModalShow(true); // Show the modal
                   setPOIFormShow(false);
@@ -323,10 +330,22 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
                   setUploadedFiles([]); // Clear the uploaded files if necessary
                 }
                 else{
+                  setPOImessageShow( isLangArab ?"فشل في تحميل الملف!":" Failed to  uploaded File!");
+                  setPOIFormsuccessShow("Failure"); // or "Failure" based on your logic
+                  setPOIFormisOpenModalShow(true); // Show the modal
+                  setPOIFormShow(false);
+                  setPOIUploaderShow(false);
+                  setUploadedFiles([]);
                   console.log(data.message);
                 }
             
             } catch (error) {
+              setPOImessageShow( isLangArab ?"فشل في تحميل الملف!":" Failed to  uploaded File!");
+              setPOIFormsuccessShow("Failure"); // or "Failure" based on your logic
+              setPOIFormisOpenModalShow(true); // Show the modal
+              setPOIFormShow(false);
+              setPOIUploaderShow(false);
+              setUploadedFiles([]);
                 console.error('Error submitting form:', error);
             }   
   }
@@ -373,7 +392,7 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
 
 
   const renderFieldOrText = (id, label, value,options = [], inputType = "text", disable) => (
-    <div className="space-y-2">
+    <div className="space-y-2" dir={`${isLangArab && "rtl"}`}>
       <label htmlFor={id} className="block text-sm font-medium text-gray-700">
         {label}
       </label>
@@ -421,12 +440,104 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
           <p></p> // Display message if there are no features
         ) : (
           <>
-            {renderFieldOrText("organization", "Organization", queryresults.features[0].attributes.organization,organizationOptions, "select")}
+          {renderFieldOrText(
+  "organization",
+  isLangArab ? "منظمة" : "Organization",
+  queryresults.features[0].attributes.organization,
+  organizationOptions,
+  "select"
+)}
+
+{renderFieldOrText(
+  "name_en",
+  isLangArab ? "الاسم" : "Name",
+  queryresults.features[0].attributes.name_en
+)}
+
+{renderFieldOrText(
+  "Class",
+  isLangArab ? "الفئة" : "Class",
+  queryresults.features[0].attributes.Class
+)}
+
+{renderFieldOrText(
+  "ClassD",
+  isLangArab ? "الفئة D" : "ClassD",
+  queryresults.features[0].attributes.ClassD
+)}
+
+{isShowMore && (
+  <>
+    {renderFieldOrText(
+      "Status",
+      isLangArab ? "الحالة" : "Status",
+      queryresults.features[0].attributes.Status,
+      statusOptions,
+      "select"
+    )}
+
+    {renderFieldOrText(
+      "Comment",
+      isLangArab ? "التعليق" : "Comment",
+      queryresults.features[0].attributes.Comment
+    )}
+
+    {renderFieldOrText(
+      "description",
+      isLangArab ? "الوصف" : "Description",
+      queryresults.features[0].attributes.description
+    )}
+
+    {renderFieldOrText(
+      "poems",
+      isLangArab ? "القصائد" : "Poems",
+      queryresults.features[0].attributes.poems
+    )}
+
+    {renderFieldOrText(
+      "stories",
+      isLangArab ? "القصص" : "Stories",
+      queryresults.features[0].attributes.stories
+    )}
+
+    {renderFieldOrText(
+      "Classification",
+      isLangArab ? "التصنيف" : "Classification",
+      queryresults.features[0].attributes.Classification,
+      [],
+      "text",
+      true
+    )}
+
+    {renderFieldOrText(
+      "MunicipalityAr",
+      isLangArab ? "البلدية" : "Municipality",
+      queryresults.features[0].attributes.MunicipalityAr,
+      municipalityOptions,
+      "select"
+    )}
+
+    {renderFieldOrText(
+      "Emirate",
+      isLangArab ? "الإمارة" : "Emirate",
+      queryresults.features[0].attributes.Emirate
+    )}
+
+    {renderFieldOrText(
+      "City",
+      isLangArab ? "المدينة" : "City",
+      queryresults.features[0].attributes.City
+    )}
+  </>
+)}
+
+            {/* {renderFieldOrText("organization", "Organization", queryresults.features[0].attributes.organization,organizationOptions, "select")}
             {renderFieldOrText("name_en", "Name", queryresults.features[0].attributes.name_en)}
             {renderFieldOrText("Class", "Class", queryresults.features[0].attributes.Class)}
             {renderFieldOrText("ClassD", "ClassD", queryresults.features[0].attributes.ClassD)}
+            
+            {isShowMore && <>
             {renderFieldOrText("Status", "Status", queryresults.features[0].attributes.Status,statusOptions, "select")}
-
             {renderFieldOrText("Comment", "Comment", queryresults.features[0].attributes.Comment)}
             {renderFieldOrText("description", "Description", queryresults.features[0].attributes.description)}
             {renderFieldOrText("poems", "Poems", queryresults.features[0].attributes.poems)}
@@ -435,30 +546,34 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
             {renderFieldOrText("Classification", "Classification", queryresults.features[0].attributes.Classification,[],"text", true)}
             {renderFieldOrText("MunicipalityAr", "Municipality", queryresults.features[0].attributes.MunicipalityAr, municipalityOptions,"select")}
 
-            {/* {renderFieldOrText("Classification", "Classification", queryresults.features[0].attributes.Classification || "None", "select")}
-            {renderFieldOrText("Municipality", "Municipality", queryresults.features[0].attributes.MunicipalityAr || "None", "select")} */}
-
             {renderFieldOrText("Emirate", "Emirate", queryresults.features[0].attributes.Emirate)}
             {renderFieldOrText("City", "City", queryresults.features[0].attributes.City)}
 
+            </>} */}
+
+              {!isEditShowPOI && <div dir={isLangArab && "rtl"} className=' flex justify-end '>
+                <button  className=' text-[#028DC8] font-medium text-sm underline' onClick={()=>setIsShowMore(!isShowMore)}>{isShowMore ?(isLangArab?"يخفي":"Hide"):(isLangArab?"أكثر":"More")} {isLangArab?"معلومات":"Info"}</button>
+              </div>}
              {/* Photos Section */}
-             <div className="px-3 py-6 border border-none rounded-lg bg-white space-y-4">
-              <div>
-                <h3 className="text-sm text-[#303030] font-medium mb-2">Photos</h3>
+             <div dir={isLangArab && "rtl"} className="px-3 py-6 border border-none rounded-lg bg-white space-y-4">
+              <div dir={isLangArab && "rtl"}>
+              <h3 className="text-sm text-[#303030] font-medium mb-2">{isLangArab?"صور":"Photos"}</h3>
+              <div className=' grid grid-cols-2'>
                 {images.length > 0 ? (
                   images.map((image, index) => (
-                    <div key={index} className="relative h-[90px] rounded-lg overflow-hidden">
-                      <img src={image.url} alt={image.name} className="w-[50%] h-[90px] object-cover" />
+                    <div key={index} className="relative m-2 w-full h-[90px] rounded-lg overflow-hidden">
+                      <img src={image.url} alt={image.name} className="w-[90%] h-[90px] object-fill" />
                     </div>
                   ))
                 ) : (
-                  <p className=" text-black">No photos available.</p>
+                  <p className=" text-black">{isLangArab?"لا توجد صور متاحة.":"No photos available."}</p>
                 )}
+                </div>
               </div>
 
               {/* Videos Section */}
               <div>
-                <h3 className="text-sm font-medium text-[#303030] mb-2">Videos</h3>
+                <h3 className="text-sm font-medium text-[#303030] mb-2">{isLangArab?"فيديوهات":"Videos"}</h3>
                 {videos.length > 0 ? (
                   <div className="grid grid-cols-2 gap-2">
                     {videos.map((video, index) => (
@@ -475,13 +590,13 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
                     ))}
                   </div>
                 ) : (
-                  <p className=" text-[#303030] ">No videos available.</p>
+                  <p className=" text-[#303030] ">{isLangArab?"لا توجد مقاطع فيديو متاحة.":"No videos available."}</p>
                 )}
               </div>
 
               {/* Audio Section */}
               <div>
-  <h3 className="text-sm font-medium mb-2 text-[#303030]">Audio</h3>
+  <h3 className="text-sm font-medium mb-2 text-[#303030]">{isLangArab?"صوتي":"Audio"}</h3>
   {audios.length > 0 ? (
     audios.map((audio, index) => (
       <div
@@ -523,7 +638,7 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
       </div>
     ))
   ) : (
-    <p className="text-[#303030]">No audio files available.</p>
+    <p className="text-[#303030]">{isLangArab?"لا توجد ملفات صوتية متاحة.":"No audio files available."}</p>
   )}
 </div>
 
@@ -531,29 +646,36 @@ const Component = ({ POIFormShow, setPOIUploaderShow, setIsShowEditPOI, setPOIFo
 
             {isEditShowPOI && (
               <>
-                <div className="grid grid-cols-1 py-3 justify-center items-center">
-                  <p className="flex justify-center text-sm text-black items-center">Want to share photos, videos, and audio</p>
-                  <p className="flex justify-center text-sm text-black items-center">for this location?</p>
-                  <p className="flex justify-center text-sm text-black items-center">Please click the upload button.</p>
+                <div dir={isLangArab && "rtl"} className="grid grid-cols-1 py-3 justify-center items-center">
+                  <p className="flex justify-center text-sm text-black items-center">{isLangArab
+      ? "هل تريد مشاركة الصور والفيديوهات والصوتيات"
+      : "Want to share photos, videos, and audio"}
+</p>
+                  <p className="flex justify-center text-sm text-black items-center">{isLangArab
+      ? "لهذا الموقع؟"
+      : "for this location?"}</p>
+                  <p className="flex justify-center text-sm text-black items-center">{isLangArab
+      ? "يرجى الضغط على زر التحميل."
+      : "Please click the upload button."}</p>
                 </div>
                 <div className="flex justify-center items-center">
                   <p onClick={() => { setPOIUploaderShow(true); setPOIFormShow(false); }} className="cursor-pointer text-blue-500 hover:text-blue-800 underline">
-                    Upload a file
+                   { isLangArab?"تحميل ملف":"Upload a file"}
                   </p>
                 </div>
               </>
             )}
 
-            <div className="text-sm text-gray-500 px-12">X 54.2971051, Y 24.0622842</div>
+            <div className=" text-sm text-gray-500 sm:px-12 px-7">X 54.2971051, Y 24.0622842</div>
 
             {/* Action Buttons */}
             {isEditShowPOI && (
               <div className="flex justify-center space-x-8 items-center">
                 <button onClick={() => setIsShowEditPOI(false)} className="w-auto py-3 px-9 outline-none bg-transparent text-xs text-black border border-[#909090] rounded-lg">
-                  Cancel
+                  {isLangArab?"يلغي":"Cancel"}
                 </button>
                 <button onClick={() => { handleAttributesUpdate()}} className="w-auto py-3 px-9 bg-custom-gradient text-xs border border-gray-300 rounded-lg">
-                  Update
+                  {isLangArab?"تحديث":"Update"}
                 </button>
               </div>
             )}

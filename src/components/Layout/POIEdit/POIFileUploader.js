@@ -133,7 +133,7 @@ import { ImageIcon, FileIcon } from 'lucide-react';
 import { ChevronLeft } from 'lucide-react';
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer"; 
 
-const FileUploader = ({ POIFormUploader,setPOIFormisOpenModalShow,setPOImessageShow,setPOIFormsuccessShow, setPOIFormShow, setPOIUploaderShow, queryresults, uploadedFiles, setUploadedFiles }) => {
+const FileUploader = ({ POIFormUploader,isLangArab,setPOIFormisOpenModalShow,setPOImessageShow,setPOIFormsuccessShow, setPOIFormShow, setPOIUploaderShow, queryresults, uploadedFiles, setUploadedFiles }) => {
   const [files, setFiles] = useState([]); // Store the selected files
   //const [uploadedFiles, setUploadedFiles] = useState([]); // Store the uploaded files
   const [isDragging, setIsDragging] = useState(false);
@@ -210,83 +210,89 @@ const FileUploader = ({ POIFormUploader,setPOIFormisOpenModalShow,setPOImessageS
   //   setFiles((prevFiles) => [...prevFiles, ...validFiles]); // Add dropped files to the existing ones
   // };
 
-  const MAX_DURATION = 120; // maximum duration in seconds (2 minutes)
-
-// Helper function to check duration
-const checkFileDuration = (file) => {
-  return new Promise((resolve) => {
-    const media = file.type.startsWith('video/') ? document.createElement('video') : document.createElement('audio');
-    media.src = URL.createObjectURL(file);
-    media.onloadedmetadata = () => {
-      URL.revokeObjectURL(media.src); // clean up the object URL
-      resolve(media.duration <= MAX_DURATION);
-    };
-  });
-};
-
-const handleFileChange = async (e) => {
-  const selectedFiles = e.target.files ? Array.from(e.target.files) : [];
+  const MAX_IMAGE_SIZE = 10 * 1024 * 1024; // 10 MB for images
+  const MAX_VIDEO_SIZE = 50 * 1024 * 1024; // 50 MB for videos
+  const MAX_AUDIO_SIZE = 10 * 1024 * 1024; // 10 MB for audio
   
-  const validFiles = [];
-  for (const file of selectedFiles) {
-    const isValidType = file.type.startsWith('image/') ||
-                        file.type.startsWith('video/') ||
-                        file.type === 'audio/mp3' ||
-                        file.type === 'image/jpeg' ||
-                        file.type === 'audio/wav' ||  
-                        file.type === 'image/png' ||
-                        file.type === 'image/gif';
-
-    if (isValidType) {
-      // Check duration if it's a video or audio file
-      const isValidDuration = file.type.startsWith('video/') || file.type.startsWith('audio/') 
-        ? await checkFileDuration(file)
-        : true;
-
-      if (isValidDuration) {
-        validFiles.push(file);
-      } else {
-        alert('Only videos or audios of up to 2 minutes are allowed.');
+  // Helper function to check image dimensions
+  const checkImageDimensions = (file) => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.src = URL.createObjectURL(file);
+      img.onload = () => {
+        const { width, height } = img;
+        URL.revokeObjectURL(img.src); // clean up the object URL
+        resolve(width >= 500 && width <= 2000 && height >= 500 && height <= 2000);
+      };
+    });
+  };
+  
+  // Main validation function for each file
+  const validateFile = async (file) => {
+    const isValidType = (file.type.startsWith('image/') && (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif')) ||
+                        (file.type === 'audio/mp3' || file.type === 'audio/wav') ||
+                        (file.type === 'video/mp4');
+  
+    if (!isValidType) {
+      alert(` ${isLangArab ? "نوع الملف غير صالح. يُسمح فقط بصور JPEG و PNG و GIF، وملفات الصوت MP3 و WAV، وفيديو MP4.":"Invalid file type. Only JPEG, PNG, GIF images, MP3, WAV audio, and MP4 video are allowed."}`);
+      return false;
+    }
+  
+    if (file.type.startsWith('image/')) {
+      if (file.size > MAX_IMAGE_SIZE) {
+        alert(`${ isLangArab ?"حجم الصورة يجب أن يكون أقل من 10 ميجابايت.":"Image size must be under 10 MB."}`);
+        return false;
+      }
+      const isValidDimensions = await checkImageDimensions(file);
+      if (!isValidDimensions) {
+        alert(`${ isLangArab ?"يجب أن يكون حجم الصورة أقل من 10 ميغابايت.":"Image dimensions must be between 500x500 and 2000x2000 pixels."}`);
+        return false;
+      }
+    } else if (file.type.startsWith('audio/')) {
+      if (file.size > MAX_AUDIO_SIZE) {
+        alert(`${isLangArab?"يجب أن يكون حجم الصوت أقل من 10 ميغابايت.":"Audio size must be under 10 MB."}`);
+        return false;
+      }
+    } else if (file.type.startsWith('video/')) {
+      if (file.size > MAX_VIDEO_SIZE) {
+        alert(`${isLangArab?"يجب أن يكون حجم الفيديو أقل من 50 ميغابايت.":"Video size must be under 50 MB."}`);
+        return false;
       }
     }
-  }
-
-  setFiles((prevFiles) => [...prevFiles, ...validFiles]);
-};
-
-// Handle file drop
-const handleDrop = async (e) => {
-  e.preventDefault();
-  setIsDragging(false);
-
-  const droppedFiles = Array.from(e.dataTransfer.files);
-  const validFiles = [];
-
-  for (const file of droppedFiles) {
-    const isValidType = file.type.startsWith('image/') ||
-                        file.type.startsWith('video/') ||
-                        file.type === 'audio/mp3' ||
-                        file.type === 'image/jpeg' ||
-                        file.type === 'audio/wav' ||  
-                        file.type === 'image/png' ||
-                        file.type === 'image/gif';
-
-    if (isValidType) {
-      const isValidDuration = file.type.startsWith('video/') || file.type.startsWith('audio/')
-        ? await checkFileDuration(file)
-        : true;
-
-      if (isValidDuration) {
+  
+    return true;
+  };
+  
+  // Handle file selection
+  const handleFileChange = async (e) => {
+    const selectedFiles = e.target.files ? Array.from(e.target.files) : [];
+    const validFiles = [];
+  
+    for (const file of selectedFiles) {
+      if (await validateFile(file)) {
         validFiles.push(file);
-      } else {
-        alert('Only videos or audios of up to 2 minutes are allowed.');
       }
     }
-  }
-
-  setFiles((prevFiles) => [...prevFiles, ...validFiles]);
-};
-
+  
+    setFiles((prevFiles) => [...prevFiles, ...validFiles]);
+  };
+  
+  // Handle file drop
+  const handleDrop = async (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+  
+    const droppedFiles = Array.from(e.dataTransfer.files);
+    const validFiles = [];
+  
+    for (const file of droppedFiles) {
+      if (await validateFile(file)) {
+        validFiles.push(file);
+      }
+    }
+  
+    setFiles((prevFiles) => [...prevFiles, ...validFiles]);
+  };
   
 
   const handleDragEnter = (e) => {
@@ -324,7 +330,7 @@ const handleDrop = async (e) => {
       setPOIUploaderShow(false);
       //setUploadedFiles([]); // Clear the uploaded files if necessary
     } else {
-      alert('Please upload files before proceeding.'); // Optional alert for user feedback
+      alert(`${isLangArab?"يرجى تحميل الملفات قبل المتابعة.":"Please upload files before proceeding."}`); // Optional alert for user feedback
     }
   };
   
@@ -339,11 +345,11 @@ const handleDrop = async (e) => {
           className="px-1 py-3 hover:text-blue-500 flex items-center text-black focus:outline-none"
         >
           <ChevronLeft className="w-5 h-5" />
-          <span>Back</span>
+          <span>{isLangArab ?"خلف":"Back"}</span>
         </button>
       </div>
       <div className='bg-white p-6 grid grid-cols-1 gap-4 border border-none rounded-lg'>
-        <h1 className='text-black'>Upload Videos/Photos/Audios</h1>
+        <h1 className='text-black'>{isLangArab?"تحميل مقاطع الفيديو/الصور/التسجيلات الصوتية":"Upload Videos/Photos/Audios"}</h1>
         <div
           className={`border-2 border-dashed rounded-lg p-6 text-center bg-white ${
             isDragging ? 'border-blue-500 ' : 'border-gray-300'
@@ -367,17 +373,18 @@ const handleDrop = async (e) => {
             </div>
           ) : (
             <p className="mt-2 text-sm text-gray-600">
-              Drop your images or videos here, or{' '}
+              {isLangArab?"قم بإسقاط الصور أو مقاطع الفيديو الخاصة بك هنا، أو":"Drop your images or videos here, or"}{" "}
               <button
                 onClick={handleBrowse}
                 className="text-blue-500 hover:text-blue-600 focus:outline-none focus:underline"
               >
-                browse
+               {isLangArab?"تصفح":"browse"}
               </button>
             </p>
           )}
           <p className="mt-1 text-xs text-gray-500">
-            Supports: <strong>PNG, JPG, GIF, MP4, MOV, AVI</strong>
+          {isLangArab?"يدعم":"Supports"}: <strong>{isLangArab?"PNG، JPG، GIF، MP4، MOV، AVI":"PNG, JPG, GIF, MP4, MOV, AVI"}</strong>
+
           </p>
           <input
             type="file"
@@ -389,18 +396,18 @@ const handleDrop = async (e) => {
           />
         </div>
         <div className='flex justify-between items-center'>
-          <p className='text-xs'>Help Centre</p>
+          <p className='text-xs opacity-0'>Help Centre</p>
           <span className='flex justify-center items-center gap-2'>
             <button
               className="w-auto py-1 px-3 bg-transparent text-[9px] border border-black rounded-lg"
             >
-              Cancel
+               {isLangArab ? "يلغي" : "Cancel"}
             </button>
             <button
               onClick={handleDone}
               className="w-auto py-1 px-3 bg-[#AABCDE] text-[9px] border border-gray-300 rounded-lg"
             >
-              Done
+              {isLangArab?"منتهي":"Done"}
             </button>
           </span>
         </div>
@@ -409,7 +416,7 @@ const handleDrop = async (e) => {
       {/* Display uploaded files */}
       {uploadedFiles.length > 0 && (
         <div className='mt-4 p-6 bg-gray-50 rounded-lg shadow-sm'>
-          <h2 className="text-black text-lg mb-3 font-semibold">Uploaded Files:</h2>
+          <h2 className="text-black text-lg mb-3 font-semibold">{isLangArab?"الملفات المرفوعة":"Uploaded Files"}:</h2>
           <ul className="space-y-2">
             {uploadedFiles.map((file, index) => (
               <li 
@@ -424,7 +431,7 @@ const handleDrop = async (e) => {
                   onClick={() => handleRemoveUploadedFile(index)}
                   className="text-red-500 hover:underline text-xs"
                 >
-                  Cancel
+                  {isLangArab ? "يلغي" : "Cancel"}
                 </button>
               </li>
             ))}
@@ -439,14 +446,14 @@ const handleDrop = async (e) => {
           }}
           className="w-auto py-3 px-9 bg-transparent text-xs border border-black rounded-lg"
         >
-          Cancel
+         {isLangArab ? "يلغي" : "Cancel"}
         </button>
         <button
           onClick={() => { handleUploadFile()
           }}
           className="w-auto m-3 py-3 px-9 bg-custom-gradient text-xs border border-gray-300 rounded-lg"
         >
-          Upload
+          {isLangArab?"رفع":"Upload"}
         </button>
       </div>
     </>

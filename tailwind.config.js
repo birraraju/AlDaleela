@@ -40,6 +40,8 @@ export default {
             'custom-measurement-gradient': 'linear-gradient(254.03deg, #036068 -63.21%, #596451 -24.27%, #1199A8 97.66%, #74C27C 153.24%, #1199A8 223.54%)',
         },
         backgroundColor: {
+          "custome-gray1":"#82858B",
+          "custome-gray":'#F8F8F8',
           "custom-green": "rgba(17, 69, 41, 0.34)",
    "custom-gradient1":
           "linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.8) 320.76%)",

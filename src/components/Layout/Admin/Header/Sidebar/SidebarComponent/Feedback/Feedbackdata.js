@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../../../../../../../c
 import Badge from "../../../../../../../components/Layout/Admin/Header/Sidebar/SidebarComponent/Feedback/Badge";
 import { X } from "lucide-react";
 
-const FeedbackData = ({ user, onClose }) => {
+const FeedbackData = ({ user, onClose, isLangArab }) => {
   useEffect(()=>{
     const updateReadStatus = async (id, readStatus) => {
       try {
@@ -39,7 +39,7 @@ const FeedbackData = ({ user, onClose }) => {
     <div className="fixed inset-0 flex items-center justify-center ">
       <Card className="w-full max-w-4xl">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1">
-      <CardTitle className="text-2xl font-normal">Feedbacks</CardTitle>
+      <CardTitle className="text-2xl font-normal">{isLangArab?"ملاحظات":"Feedback"}</CardTitle>
           <button 
             className="px-3 py-1 text-sm text-black  transition-colors" 
             onClick={onClose}
@@ -51,25 +51,25 @@ const FeedbackData = ({ user, onClose }) => {
           <hr className="border-t border-gray-300 my-4" />
           <div className="flex flex-wrap py-5 gap-6 md:gap-28">
             <div>
-              <p className="text-sm font-medium text-gray-500">Sender Name</p>
-              <p className="text-sm font-semibold">{user.username}</p>
+              <p className="text-sm font-normal text-gray-500">{isLangArab?"اسم المرسل":"Sender Name"}</p>
+              <p className="text-sm font-medium">{user.username}</p>
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-500">Sender Email ID</p>
-              <p className="text-sm font-semibold">{user.email}</p>
+              <p className="text-sm font-normal text-gray-500">{isLangArab?"بريد المرسل الإلكتروني":"Sender Email ID"}</p>
+              <p className="text-sm font-medium">{user.email}</p>
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-500">Submission Date</p>
-              <p className="text-sm font-semibold">
+              <p className="text-sm font-normal text-gray-500">{isLangArab?"تاريخ التقديم":"Submission Date"}</p>
+              <p className="text-sm font-medium ">
                 {new Date(user.createdDate).toLocaleDateString()}
               </p>
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-500">Status</p>
+              <p className="text-sm font-normal text-gray-500">{isLangArab?'الحالة"':"Status"}</p>
               <Badge
                 variant={user.readStatus === "Read" ? "success" : "error"}
-                className={`mt-1 font-semibold ${
-                  user.readStatus === "Read" ? "text-green-400" : "text-red-400"
+                className={`mt-1 font-medium ${
+                  user.readStatus === "Read" ? "text-[#5CAF47]" : "text-red-400"
                 }`}
               >
                 {user.readStatus}
@@ -85,8 +85,8 @@ const FeedbackData = ({ user, onClose }) => {
             </div>
           </div>
           <div className="mt-9">
-            <p className="text-sm font-medium text-gray-500">Feedback</p>
-            <p className="mt-1 text-sm font-bold">{user.feedbackinfo}</p>
+            <p className="text-sm font-medium text-gray-500">{isLangArab?"ملاحظات":"Feedback"}</p>
+            <p className="mt-1 text-sm font-medium">{user.feedbackinfo}</p>
           </div>
         </CardContent>
       </Card>

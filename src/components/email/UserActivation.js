@@ -104,6 +104,7 @@ const UserActivation = () => {
     const [isSuccess, setIsSuccess] = useState("");
     const navigate = useNavigate();
     const activeUserURL = `https://atlas.smartgeoapps.com/AlDaleelaWebAPI/api/Registration/activateUser`;
+    //const activeUserURL = `https://localhost:7265/api/Registration/activateUser`;
 
     useEffect(() => {
         const activateUser = async () => {
@@ -128,7 +129,7 @@ const UserActivation = () => {
                     setIsSuccess("Failure")
                 }
             } catch (error) {
-                setMessage('An error occurred: ' + error.message);
+                setMessage(error.message);
                 setIsSuccess("Failure")
             } finally {
                 setLoading(false);
@@ -148,7 +149,7 @@ const UserActivation = () => {
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-white p-4">
-            <div className="p-5 text-black  relative w-full max-w-44">
+            <div className="p-5 text-black  relative w-full max-w-64">
                 {/* Close Button */}
 
                 {/* Logo */}

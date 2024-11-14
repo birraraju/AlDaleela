@@ -57,12 +57,12 @@ export default function SideLayout3({ children, width = "454.84px", onClose, map
   return (
     <div
       ref={panelRef} // Attach ref to the panel
-      className={`fixed w-[510px] sm:w-[400px] laptop_s:w-[${width}] h-[98%] top-16  ${ isLangArab?"right-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
+      className={`fixed w-[96%] sm:w-[400px] laptop_s:w-[${width}] h-[98%] top-16  ${ isLangArab?"right-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
         isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%] sm:-translate-x-[116%] laptop_s:-translate-x-[104%] ":" sm:translate-x-[116%] laptop_s:translate-x-[103%] translate-x-[103%] ")
       }`}
       // style={{ width, height }}
     >
-      <div className={`relative sm:h-[40%] laptop_s:h-[65%] h-[90%] sm:w-full w-[65%] float-end sm:float-none rounded-2xl shadow-lg overflow-hidden border transition-colors duration-300 ${
+      <div className={`relative sm:h-[40%] laptop_s:h-[65%] h-[90%] sm:w-full w-[99%] float-end sm:float-none rounded-2xl shadow-lg overflow-hidden border transition-colors duration-300 ${
           isDarkMode
           ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
           : "bg-white bg-opacity-70 border-white text-gray-700"
@@ -91,7 +91,7 @@ export default function SideLayout3({ children, width = "454.84px", onClose, map
       </div>
 
       {/* Toggle button to slide panel in and out */}
-      <div className={`absolute top-4 ${isLangArab?"-right-7":"-left-6"}`}>
+      <div className={`absolute hidden sm:block top-4 ${isLangArab?"-right-7":"-left-6"}`}>
         <button
           onClick={toggleSideLayout}
           className="relative w-8 h-32 focus:outline-none"

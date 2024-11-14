@@ -261,7 +261,7 @@ import { useAuth } from "../../../../../../../../../../Providers/AuthProvider/Au
 import { useTheme } from "../../../../../../../../../Layout/ThemeContext/ThemeContext"; // Import your theme context
 import { UserActivityLog } from "../../../../../../../../../Common/UserActivityLog";
 
-export default function BasicInformation({ isEditProfile, setIsSuccess, setIsFailure, setIsMsgStatus, setModalMessage, setIsProfileData, setIsEditProfile }) {
+export default function BasicInformation({ isEditProfile,profileImage, setIsSuccess, setIsFailure, setIsMsgStatus, setModalMessage, setIsProfileData, setIsEditProfile, file }) {
   const { profiledetails } = useAuth();
   const { isDarkMode, isLangArab } = useTheme(); // Access dark mode from theme context
   const [userInfo1, setUserInfo1] = useState([]);
@@ -329,12 +329,31 @@ export default function BasicInformation({ isEditProfile, setIsSuccess, setIsFai
     finaluserInfo.email = userInfo.Email || profiledetails.email;
     finaluserInfo.organization = userInfo.Organization || profiledetails.organization;
     finaluserInfo.country = selectedCountry || profiledetails.country;
+    finaluserInfo.profilepicture = file || "";
+
+    // Prepare form data
+    const formdata = new FormData();
+    formdata.append('username', userInfo.Name || profiledetails.username);
+    formdata.append('email', userInfo.Email || profiledetails.email);
+    formdata.append('phoneNumber', userInfo.PhoneNumber || profiledetails.phoneNumber);
+    formdata.append('organization', userInfo.Organization || profiledetails.organization);
+    formdata.append('country', selectedCountry || profiledetails.country);
+    formdata.append('currentemail', profiledetails.email);
+    //formdata.append('profilepicture', file);
+    // Add an empty file if the user hasn't selected one
+    if (!file) {
+      const emptyFile = new Blob([], { type: 'application/octet-stream' });
+      formdata.append('profilepicture', emptyFile, 'empty.jpg');
+    } else {
+      formdata.append('profilepicture', file);
+    }
+    
 
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/Registration/updateprofile`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(finaluserInfo),
+        //headers: { 'Content-Type': 'application/json' },
+        body: formdata,
       });
       const data = await response.json();
       if (data.success) {
@@ -343,6 +362,7 @@ export default function BasicInformation({ isEditProfile, setIsSuccess, setIsFai
         profiledetails.email = finaluserInfo.email;
         profiledetails.organization = finaluserInfo.organization;
         profiledetails.country = finaluserInfo.country;
+        profiledetails.imageUrl = data.data.imageUrl;
         UserActivityLog(profiledetails, "Profile Updated");
 
         setIsEditProfile(false);
@@ -406,7 +426,7 @@ export default function BasicInformation({ isEditProfile, setIsSuccess, setIsFai
 
         <div className="h-[1px] w-full bg-[#0000001A] my-4"></div>
 
-        <div className="grid grid-cols-2 gap-8 mb-4 px-4">
+        <div className="grid sm:grid-cols-2 grid-cols-1 sm:gap-8 gap-3 mb-4  px-4">
           {userInfo1.map((info, index) => (
             <div key={index}>
               <h1 className={`tracking-wider sm:text-sm text-xs ${isDarkMode ? "text-white" : "text-black"}`}>
