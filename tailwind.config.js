@@ -35,6 +35,8 @@ export default {
           laptop_m: "1440px",
         },
         backgroundImage: {
+          'mobile-gradient-Pops': 'linear-gradient(160.48deg, rgba(242, 247, 252, 0.86) 4.52%, rgba(248, 252, 255, 0.86) 44.74%, rgba(221, 236, 249, 0.86) 102.82%)',
+
           "custom-gradient":
             "linear-gradient(270.18deg, #036068 -14.27%, #596451 47.55%, #1E7C87 76.37%, #4C7950 107.69%, #1199A8 147.31%)",
             'custom-measurement-gradient': 'linear-gradient(254.03deg, #036068 -63.21%, #596451 -24.27%, #1199A8 97.66%, #74C27C 153.24%, #1199A8 223.54%)',
