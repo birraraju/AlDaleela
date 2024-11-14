@@ -35,7 +35,6 @@ const MainRoutes = () => {
         <Route path="*" element={<Navigate to={`/${process.env.REACT_APP_BASE_URL}`} replace />} />
          {/* Catch-All Redirect */}
          <Route path="*" element={<Navigate to={`/${process.env.REACT_APP_BASE_URL}`} state={{ from: location }} replace />} />
-
       </Routes>
     </div>
   );

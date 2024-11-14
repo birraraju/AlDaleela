@@ -362,7 +362,10 @@ export default function BasicInformation({ isEditProfile,profileImage, setIsSucc
         profiledetails.email = finaluserInfo.email;
         profiledetails.organization = finaluserInfo.organization;
         profiledetails.country = finaluserInfo.country;
-        profiledetails.imageUrl = data.data.imageUrl;
+        if(profiledetails.imageUrl){
+          profiledetails.imageUrl = data.data.imageUrl;
+        }
+        localStorage.setItem("AldaleelaUserDetails:",JSON.stringify(profiledetails))
         UserActivityLog(profiledetails, "Profile Updated");
 
         setIsEditProfile(false);

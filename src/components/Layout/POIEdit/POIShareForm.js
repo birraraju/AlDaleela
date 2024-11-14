@@ -7,6 +7,7 @@ import GoogleMapSvg from '../../../assets/Droppedpin/mapicon.svg';
 import InstgramSvg from '../../../assets/Droppedpin/instagramIcon.svg';
 import CopyIconSvg from '../../../assets/Droppedpin/CopyIcon.svg';
 import { ChevronLeft } from 'lucide-react';
+import { useTheme } from '../ThemeContext/ThemeContext';
 
 const POIShareForm = ({ onClose, queryresults }) => {
     const Links = [
@@ -17,6 +18,7 @@ const POIShareForm = ({ onClose, queryresults }) => {
         //{ src: InstgramSvg, name: "Instagram" },
     ];
     const [copied, setCopied] = useState(false);
+    const {isLangArab} = useTheme();
     const message = "Check this out!"; // Custom message for WhatsApp or other platforms
     const shareUrl = `${window.location.protocol}//${window.location.host}/${process.env.REACT_APP_BASE_URL}/${queryresults.features[0].layer.layerId}/${queryresults.features[0].attributes.OBJECTID}` // The URL you want to share
     const latitude = queryresults.features[0].geometry.latitude; 
@@ -55,14 +57,14 @@ const POIShareForm = ({ onClose, queryresults }) => {
     };
 
     return (
-        <div className='p-2 w-full '>
+        <div className='p-2 w-full ' dir={isLangArab && "rtl"}>
             <div>
                 <button
                     onClick={onClose}
                     className="px-1 py-3 hover:text-blue-500 flex items-center text-black focus:outline-none"
                 >
                     <ChevronLeft className="w-5 h-5" />
-                    <span>Back</span>
+                    <span>{isLangArab?"ظهر":"Back"}</span>
                 </button>
             </div>
             <div className='grid grid-cols-3 gap-7  justify-center items-center'>
@@ -76,8 +78,8 @@ const POIShareForm = ({ onClose, queryresults }) => {
             <hr className='my-4' />
             <div className='flex justify-center items-center gap-2 cursor-pointer' onClick={handleCopy}>
                 <img src={CopyIconSvg} alt="Copy Link" className='h-5 w-5' />
-                    <h2 className='text-blue-600 text-[12px] font-medium'>Copy Link</h2>
-                {copied && <span className="text-green-600 text-[12px] ml-2">Copied!</span>}
+                    <h2 className='text-blue-600 text-[12px] font-medium'>{isLangArab?"نسخ الوصلة":"Copy Link"}</h2>
+                {copied && <span className="text-green-600 text-[12px] ml-2">{isLangArab?"منسوخ!":"Copied!"}</span>}
             </div>
         </div>
     );
