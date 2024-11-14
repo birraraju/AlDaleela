@@ -10,6 +10,7 @@ import { useAuth } from "../../../../Providers/AuthProvider/AuthProvider";
 
 export default function ResetPassword({ email, onClose, onBackToLogin, onSignup, onPasswordSet }) {
   const [formData, setFormData] = useState({
+    code:'',
     password: '',
     confirmPassword: '',
   });
@@ -17,6 +18,12 @@ export default function ResetPassword({ email, onClose, onBackToLogin, onSignup,
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const [showResetForm, setShowResetForm] = useState(true);
+
+  const[errors,setErrors]=useState({
+    code:"",
+    password:"",
+    confirmPassword:""
+  })
   const { isDarkMode,isLangArab } = useTheme(); // Access the dark mode state
   const {profiledetails}= useAuth();
 
@@ -39,11 +46,71 @@ export default function ResetPassword({ email, onClose, onBackToLogin, onSignup,
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
+
+    setErrors((prevErrors) => {
+    const newErrors = { ...prevErrors };
+
+    if (name === 'code' && value) {
+      delete newErrors.code;
+    }
+
+    if (name === 'password') {
+      const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+      if (passwordRegex.test(value)) {
+        delete newErrors.password;
+      }
+    }
+
+    if (name === 'confirmPassword' && value === formData.password) {
+      delete newErrors.confirmPassword;
+    }
+
+    return newErrors;
+  });
   };
 
+
+  const validate=()=>{
+let valid=true
+const newError={}
+    if(!formData.code){
+      newError.code="code must required"
+      valid=false
+    }
+    
+    
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+    if (!formData.password) {
+      newError.password = "Password is required";
+      valid = false;
+    } else if (!passwordRegex.test(formData.password)) {
+      newError.password = "Password must be at least 8 characters, include a capital letter, a symbol, and a number";
+      valid = false;
+    }
+    
+    
+    if (!formData.confirmPassword) {
+      newError.confirmPassword = "Confirm Password is required";
+      valid = false;
+    } else if (formData.password !== formData.confirmPassword) {
+      newError.confirmPassword = "Passwords do not match";
+      valid = false;
+    }
+
+    console.log('newError :>> ', newError);
+   setErrors(newError) 
+   return valid
+  }
+
+  console.log('errors :>> ', errors);
   const handleSubmit = async(e) => {
     e.preventDefault();
-    if (formData.password === formData.confirmPassword) {
+
+
+
+
+
+    if (validate()) {
       try {
         const forgetObj ={
           email:email,
@@ -122,7 +189,20 @@ export default function ResetPassword({ email, onClose, onBackToLogin, onSignup,
               {isLangArab?"الرجاء إدخال كلمة مرور جديدة":"Please Enter a New Password"}
             </h2>
 
-            <form onSubmit={handleSubmit} className="space-y-4 flex-grow">
+            <form onSubmit={handleSubmit} className="space-y-2 flex-grow">
+
+            <div className="relative">
+                <Input
+                  type='text'
+                  name="code"
+                  placeholder={isLangArab?"أدخل الرمز":"Enter code"}
+                  onChange={handleChange}
+                />
+               
+               {errors.code && <span className="text-red-500 text-xs">{errors.code}</span>}
+               <div>
+               </div>
+              </div>
               <div className="relative">
                 <Input
                   type={showPassword ? 'text' : 'password'}
@@ -139,6 +219,10 @@ export default function ResetPassword({ email, onClose, onBackToLogin, onSignup,
                   <IoEyeOff className={`text-2xl ${isDarkMode ? 'text-white' : 'text-black'} opacity-50`} />
                 </button>
               </div>
+              {errors.password && <span className="text-red-500 text-xs">{errors.password}</span>}
+              <div>
+               </div>
+
               <div className="relative">
                 <Input
                   type={showConfirmPassword ? 'text' : 'password'}
@@ -157,6 +241,9 @@ export default function ResetPassword({ email, onClose, onBackToLogin, onSignup,
                   <IoEyeOff className={`text-2xl ${isDarkMode ? 'text-white' : 'text-black'} opacity-50`} />
                 </button>
               </div>
+              <div>
+              {errors.confirmPassword && <span className="text-red-500 text-xs">{errors.confirmPassword}</span>}
+               </div>
             </form>
             <button
               onClick={handleSubmit}
@@ -169,7 +256,7 @@ export default function ResetPassword({ email, onClose, onBackToLogin, onSignup,
                   ? 'bg-gradient-to-r from-[#036068] via-[#596451] to-[#1199A8]'
                   : 'bg-gradient-to-r from-[#036068] via-[#596451] to-[#1199A8]'
               }`}
-              disabled={isResetDisabled}
+              // disabled={isResetDisabled}
             >
               {isLangArab?"إعادة تعيين كلمة المرور":"Reset Password"}
             </button>
