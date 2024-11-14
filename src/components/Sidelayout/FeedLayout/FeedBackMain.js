@@ -72,7 +72,7 @@ export default function SendFeedBack({
 
         <div className={`flex items-center justify-between  mt-3 py-2 px-6 ${isLangArab ?  "laptop_s:mt-0" : " laptop_s:mt-2 "}`}>
           <span className={`text-lg font-medium ${isDarkMode ? 'text-[#FFFFFFCC] text-opacity-80' : 'text-[#505050]'}`}>
-            {isLangArab?"ملاحظات":"Feedbacks"}
+            {isLangArab?"ملاحظات":"Feedback"}
           </span>
           <button
            
