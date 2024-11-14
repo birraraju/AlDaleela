@@ -271,13 +271,13 @@
           {/* Content */}
           <div className="p-2 overflow-y-auto h-full relative">
             {children || (<>
-              {!POIShareShow && queryresults !== "" && <div className="absolute top-6 w-full  left-4 flex  gap-x-1">
-                <img src={isDarkMode ? DarkLocation : Location }alt="Location" className="h-8" />
+              {!POIShareShow && queryresults !== "" && <div dir={isLangArab && "rtl"} className={`absolute top-6 w-full  ${!isLangArab && "left-4"} flex   gap-x-1`}>
+                <img src={isDarkMode ? DarkLocation : Location }alt="Location" className={`"h-8" ${isLangArab && "mr-1 sm:mr-2"}`} />
                 <p className={`font-semibold font-poppins ${
                       isDarkMode ? "text-white" : "text-gray-600"
                     }`}> <h1 className=" text-[12px]">{queryresults.features[0].attributes.name_ar}</h1>
                     <h2 className=" text-[12px]">{queryresults.features[0].attributes.name_en}</h2></p>
-                    {!POIShareShow && <div className=" flex justify-center items-center absolute right-3 -top-1  p-2 transition-colors h-10 cursor-pointer z-50">
+                    {!POIShareShow && <div className={`flex justify-center items-center absolute ${isLangArab?"-left-1":"right-3"} -top-1  p-2 transition-colors h-10 cursor-pointer z-50`}>
   {/* POI Share Icon */}
   <button
     onClick={() => {setPOIShareShow(true);setPOIFormShow(false);setPOIFormisOpenModalShow(false)}} // Toggle the state

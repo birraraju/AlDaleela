@@ -50,6 +50,7 @@ export default function POIApprovalStatus({ children, onClose, mapview }) {
 
   return (
     <div
+    dir={isLangArab && "rtl"}
       className={`fixed top-16 w-[510px] ${POIFormIsOpenModalShow ? "h-[63%]" : "h-[90%]"} sm:w-[400px] laptop_s:w-[380px] ${
         isLangArab ? "left-3 sm:left-16 laptop_s:left-3" : "right-3 sm:right-16 laptop_s:right-3"
       } transition-transform duration-300 ease-in-out ${
@@ -74,9 +75,13 @@ export default function POIApprovalStatus({ children, onClose, mapview }) {
           className="px-1 py-3 hover:text-blue-500 flex items-center text-black focus:outline-none"
 
        
-        >
+        >{isLangArab ?<>
+         <span className={isDarkMode?"text-white hover:text-gray-200":" text-black hover:text-blue-500"}>{isLangArab?"خلف":"Back"}</span>
+          <ChevronLeft className={isDarkMode?"w-5 h-5 text-white":"w-5 h-5 text-black"} />
+                   </> :<>
           <ChevronLeft className={isDarkMode?"w-5 h-5 text-white":"w-5 h-5 text-black"} />
           <span className={isDarkMode?"text-white hover:text-gray-200":" text-black hover:text-blue-500"}>{isLangArab?"خلف":"Back"}</span>
+          </>}
         </button></div>}
         </div>
 
