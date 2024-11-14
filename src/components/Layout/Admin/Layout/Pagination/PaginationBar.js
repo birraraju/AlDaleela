@@ -2,7 +2,7 @@ import React from 'react'
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react'
 
 export default function Pagination({ currentPage, totalPages, onPageChange }) {
-  const totalItems = Math.floor(totalPages / 9)
+  const totalItems = Math.ceil(totalPages / 9)
   const pageNumbers = []
   const maxVisiblePages = 5
 
