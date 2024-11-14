@@ -78,7 +78,7 @@ export default function Login({ onClose }) {
   };
 
   return (
-    <div className="fixed sm:inset-10 inset-1 z-50 flex items-center justify-center">
+    <div className="fixed sm:inset-10 inset-1 z-50 laptop_s:top-20 flex items-center justify-center">
       {renderCurrentView()}
     </div>
   );
