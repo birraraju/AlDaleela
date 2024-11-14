@@ -17,6 +17,7 @@ import DarkEditIcon from '../../../../../../../assets/Admin/logo/darkedit.svg';
 import { useTheme } from "../../../../../ThemeContext/ThemeContext"; // Importing the theme context
 import { useAuth } from "../../../../../../../Providers/AuthProvider/AuthProvider";
 import DeleteConfirmation from '../../../../../../Common/deleteConfirmation';
+import Pagination from "../../../../Layout/Pagination/PaginationBar"
 const users = [
   { username: "User name", email: "user@gmail.com", phone: "+971 500001010", address: "Rabdan - Abu Dhabi", role: "Public User", activity: "Today" },
   { username: "User name", email: "user@gmail.com", phone: "+971 500001010", address: "Rabdan - Abu Dhabi", role: "Admin User", activity: "Yesterday" },
@@ -51,6 +52,16 @@ export default function UserManagement() {
   const { isDarkMode, isLangArab } = useTheme(); // Access dark mode from theme context
   const [latestDate, setLatestDate] = useState(null);
   const {profiledetails} = useAuth()
+  const [totalItems,setTotalItems] = useState(0); // Example total items count
+  // const itemsPerPage = 10;
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 5; // Number of items per page
+
+  const handlePageChange = (selectedPage) => {
+    setCurrentPage(selectedPage);
+    console.log(`Selected page: ${selectedPage}`);
+    // Here, you can load data for the selected page if using an API
+  };
   console.log("Confirm delete:", selectedUsersid);
   // console.log("Passed User Management data :", data)
 
@@ -85,6 +96,8 @@ export default function UserManagement() {
       }
     };
   }, []);
+
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -132,6 +145,7 @@ export default function UserManagement() {
 const sortedItems = newItems.sort((a, b) => new Date(b.lastloginDate) - new Date(a.lastloginDate));
 
 // Now set the sorted data
+setTotalItems(sortedItems.length)
 setData(sortedItems);
         } else {
           console.log(result.message);
@@ -214,7 +228,11 @@ setData(sortedItems);
       console.error('Error submitting form:', error);
     }  
 };
+
+const paginatedData = data.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
+
   return (
+    <>
     <div className="flex h-[calc(100vh-6rem)]">
       <DeleteConfirmation Label={"user"}
       isLangArab={isLangArab}
@@ -329,6 +347,12 @@ setData(sortedItems);
             </button>
           </div>
         )}
+        <div className=' flex justify-end'>
+        <Pagination 
+          currentPage={currentPage} totalPages={totalItems} onPageChange={handlePageChange}
+        />
+        </div>
+
       </div>
       {data.length > 0 && <div className={`w-2 rounded-full mr-3 mt-12 mb-10 ml-2 relative ${
         isDarkMode ? "bg-[rgba(96,96,96,0.8)]" : "bg-[rgba(96,96,96,0.8)]"
@@ -342,5 +366,7 @@ setData(sortedItems);
         ></div>
       </div>}
     </div>
+  
+    </>
   );
 }

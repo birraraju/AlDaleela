@@ -4,8 +4,10 @@ import SuccessSvg from "../../assets/Header/Profile/ProfileDetails/ChangePasswor
 // import FailureSvg from "../../assets/Header/Profile/ProfileDetails/ChangePassword/Failure.svg";
 import FailureIcon from "../../assets/EmailVerfication/failureIcon.svg"
 
+import { useTheme } from "../Layout/ThemeContext/ThemeContext";
 
 export default function PopModal({ message, success, isOpenModal, onClose }) {
+  const {isLangArab} = useTheme()
   if (!isOpenModal) return null; // Modal won't render if not open
 
   return (
@@ -28,7 +30,7 @@ export default function PopModal({ message, success, isOpenModal, onClose }) {
           onClick={onClose}  // Close the modal when button is clicked
           className="mt-4 btn-gradient w-[80%]  py-2"
         >
-          Done
+          {isLangArab?"منتهي":"Done"}
         </Button>
       </div>
     </div>
