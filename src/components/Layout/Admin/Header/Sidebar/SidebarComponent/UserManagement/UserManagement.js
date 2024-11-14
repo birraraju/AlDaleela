@@ -230,7 +230,7 @@ setData(sortedItems);
     }  
 };
 
-const paginatedData = data.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
+const paginatedData = data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   return (
     <>
