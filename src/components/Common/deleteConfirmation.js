@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
 
-export default function DeleteConfirmation({isShowConfirmation,Label,handleDeleteConfirm, handleDeleteCancel }) {
+export default function DeleteConfirmation({isLangArab,isShowConfirmation,Label,handleDeleteConfirm, handleDeleteCancel }) {
     if (!isShowConfirmation) return null;
 
     return (
@@ -19,16 +19,16 @@ export default function DeleteConfirmation({isShowConfirmation,Label,handleDelet
                 </div> */}
                 
                 <h1 className="text-start py-4 text-lg font-semibold text-black">
-                    Delete { Label === "user" ? "User" :" FeedBack"}
+                {isLangArab?"تأكيد للحذف":"Confirm to Delete"} { Label === "user" ?(isLangArab?"مستخدم": "User") :(isLangArab?"ملاحظات":"FeedBack")}
                 </h1>
-                <h2 className=" text-sm text-black/65">Are you sure you want to delete this {Label === "user" ?"user ": "Feedback"}? This action cannot <br/> be undone</h2>
+                <h2 className=" text-sm text-black/65">{isLangArab?"هل أنت متأكد أنك تريد حذف هذا":"Are you sure you want to delete this"} { Label === "user" ?(isLangArab?"مستخدم": "User") :(isLangArab?"ملاحظات":"FeedBack")}? {isLangArab?"هذا الإجراء لا يمكن":"This action cannot"} <br/> {isLangArab?"يمكن التراجع عنه":"be undone"}</h2>
                     <div className=" flex gap-3 pt-4 ">
                 <button
                     className="w-full  py-2 rounded-lg bg-white text-black/85 border border-gray-500 font-medium"
                     onClick={handleDeleteCancel}
                     aria-label="Cancel"
                 >
-                    Cancel
+                    {isLangArab?"إلغاء":"Cancel"}
                 </button>
 
                 <button
@@ -36,7 +36,7 @@ export default function DeleteConfirmation({isShowConfirmation,Label,handleDelet
                     onClick={handleDeleteConfirm}
                     aria-label="Confirm"
                 >
-                    Confirm
+                    {isLangArab?"يتأكد":"Confirm"}
                 </button>
                 </div>
             </div>

@@ -27,7 +27,7 @@ const activityLogs = [
 
 export default function UserActivityLog() {
   const [data, setData] = useState([]);
-  const { isDarkMode } = useTheme(); // Access dark mode from theme context
+  const { isDarkMode, isLangArab } = useTheme(); // Access dark mode from theme context
       // console.log("Passed Activity log data :", data)
 
 useEffect(() => {
@@ -94,11 +94,11 @@ const handleExport = () => {
       } text-black backdrop-blur border-none`}>
               <div className="flex justify-between items-center mb-6">
               <h2 className={`text-[22px] font-medium  ${isDarkMode ? "text-[#FFFFFFCC]" : "text-gray-800"}`}>
-              User Activity Log</h2>
+              {isLangArab?"سجل نشاط المستخدم":"User Activity Log"}</h2>
         <button  onClick={handleExport}
           className="bg-[#3B8686] text-white px-4 py-2 rounded-lg font-medium text-sm flex items-center"
         >
-          Export log
+          {isLangArab?"تصدير السجل":"Export log"}
           <ArrowDown className="ml-2 h-4 w-4" />
         </button>
       </div>
@@ -108,17 +108,17 @@ const handleExport = () => {
         <div className="overflow-x-auto overflow-y-auto absolute inset-0">
           <table className="w-full border-collapse">
           <thead className={`sticky top-0   z-10 ${isDarkMode ? "bg-[#303031] " : "bg-white"}`}>
-              <tr className="text-left border-b border-[#E5E7EB]">
-              <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
-              User Name</th>
-              <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
-              Email ID</th>
-              <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
-              Date & Time</th>
-              <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
-              IP Address</th>
-              <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
-              Action</th>
+              <tr className={`${isLangArab?"text-right":"text-left"} border-b border-[#E5E7EB]`}>
+              <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  ${isLangArab?"pr-2":"pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+              {isLangArab?"اسم المستخدم":"User Name"}</th>
+              <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  ${isLangArab?"pl-2":"pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+              {isLangArab?"معرف البريد الإلكتروني":"Email ID"}</th>
+              <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  ${isLangArab?"pl-2":"pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+              {isLangArab?"التاريخ والوقت":"Date & Time"}</th>
+              <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  ${isLangArab?"pl-2":"pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+              {isLangArab?"عنوان IP":"IP Address"}</th>
+              <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  ${isLangArab?"pl-2":"pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+              {isLangArab?"فعل":"Action"}</th>
               </tr>
             </thead>
             <tbody>
@@ -132,11 +132,11 @@ const handleExport = () => {
                     ? "bg-[#D5E5DE] bg-opacity-30"
                     : "bg-white"
                 }`} >
-                  <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{log.username}</td>
-                  <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{log.email}</td>
-                  <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{new Date(`${log.createdDate}Z`).toLocaleString()}</td>
-                  <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{log.ipaddress}</td>
-                  <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{log.action}</td>
+                  <td className={`py-4 font-medium font-omnes text-[14px]  ${isLangArab?"pr-2":"pr-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{log.username}</td>
+                  <td className={`py-4 font-medium font-omnes text-[14px]  ${isLangArab?"pl-2":"pr-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{log.email}</td>
+                  <td dir={isLangArab && "ltr"} className={`py-4 font-medium font-omnes text-[14px]  ${isLangArab?" text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{new Date(`${log.createdDate}Z`).toLocaleString()}</td>
+                  <td className={`py-4 font-medium font-omnes text-[14px]  ${isLangArab?"pl-2":"pr-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{log.ipaddress}</td>
+                  <td className={`py-4 font-medium font-omnes text-[14px]  ${isLangArab?"pl-2":"pr-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{log.action}</td>
 
              
                 </tr>
