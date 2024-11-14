@@ -47,9 +47,10 @@ import { ChevronLeft, Menu, X } from "lucide-react"; // Use ChevronLeft for back
 import { useState } from "react";
 import SideBarImg from '../../../../../assets/Admin/logo/imageSideBar.png';
 import { useTheme } from '../../../../Layout/ThemeContext/ThemeContext';
+import { act } from "@testing-library/react";
 
 export default function Sidebar({ activeItem, onItemClick,isCollapsed, setIsCollapsed }) {
-  const { isDarkMode } = useTheme();
+  const { isDarkMode, isLangArab } = useTheme();
   // const [isCollapsed, setIsCollapsed] = useState(false);
 
   const toggleSidebar = () => setIsCollapsed(!isCollapsed);
@@ -57,7 +58,7 @@ export default function Sidebar({ activeItem, onItemClick,isCollapsed, setIsColl
   return (
     <div 
     
-      className={`h-[calc(100vh-4rem)] text-white py-8 fixed top-16 left-0 z-10 transition-all duration-300 ${
+      className={`h-[calc(100vh-4rem)] text-white py-8 fixed top-16 ${ isLangArab ? "right-0" :"left-0"} z-10 transition-all duration-300 ${
         isCollapsed ? "w-16" : "w-[190px]"
       } ${isDarkMode ? 'bg-[#1F302B]' : 'bg-teal-800'}`}
     >
@@ -65,8 +66,10 @@ export default function Sidebar({ activeItem, onItemClick,isCollapsed, setIsColl
       <div className="flex justify-between items-center px-3">
         {/* Back Button (Left-aligned) */}
         {!isCollapsed && <a href={`/${process.env.REACT_APP_BASE_URL}`} className="flex items-center text-[#D1FAFF] text-[14px]">
-          <ChevronLeft className="w-4 h-6" />
-          <span className={`${isCollapsed ? 'hidden' : 'ml-1'}`}>Back</span>
+        
+          <ChevronLeft className={` ${isLangArab && "rotate-180"} w-4 h-6 `} />
+          <span className={`${isCollapsed ? 'hidden' : 'ml-1'}`}>{isLangArab ? "ظهر" :"Back"}</span>
+         
         </a>}
         
         {/* Toggle Button (Right-aligned) */}
@@ -79,26 +82,28 @@ export default function Sidebar({ activeItem, onItemClick,isCollapsed, setIsColl
       {!isCollapsed && (
         <>
           
-          <nav className="pt-6 px-3 flex-1">
-            <ul className="space-y-2">
-              {["User Management", "Content Management", "Feedback", "User Activity Log"].map((item) => (
-                <li key={item}>
+          <nav  className="pt-6 px-3 flex-1">
+            <ul className={` space-y-2`}>
+              {[{LabelContent:(isLangArab?"إدارة المستخدمين":"User Management"), active:"User Management"}, {LabelContent:(isLangArab ? "إدارة المحتوى" :"Content Management"),active:"Content Management"},{LabelContent:(isLangArab ? "ردود الفعل":"Feedback"), active:"Feedback"}, {LabelContent:(isLangArab?"سجل نشاط المستخدم":"User Activity Log"),active:"User Activity Log"}].map((item) => (
+                <li key={item.active}>
                   <button
-                    className={`w-full text-[14px] text-left px-4 py-2 rounded ${
-                      activeItem === item
+                    className={`w-full text-[14px] text-left px-4 py-2 rounded  ${
+            isLangArab ? "text-right" : "text-left"
+          } ${
+                      activeItem === item.active
                         ? "bg-white/50 backdrop-blur-sm"
                         : "hover:bg-white/50 hover:backdrop-blur-sm"
                     }`}
-                    onClick={() => onItemClick(item)}
+                    onClick={() => onItemClick(item.active)}
                   >
-                    {item}
+                    {item.LabelContent}
                   </button>
                 </li>
               ))}
             </ul>
           </nav>
-          <div className="w-[248.86px]">
-            <img src={SideBarImg} className="w-[448.86px]" alt="Sidebar decoration" />
+          <div className="w-[248.86px]" dir={isLangArab && "rtl"}>
+            <img src={SideBarImg} className={`${isLangArab? " translate-x-16 w-full" :"w-[448.86px]"}`} alt="Sidebar decoration" />
           </div>
         </>
       )}
