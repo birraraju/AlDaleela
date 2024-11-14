@@ -17,6 +17,7 @@ import DarkEditIcon from '../../../../../../../assets/Admin/logo/darkedit.svg';
 import { useTheme } from "../../../../../ThemeContext/ThemeContext"; // Importing the theme context
 import { useAuth } from "../../../../../../../Providers/AuthProvider/AuthProvider";
 import DeleteConfirmation from '../../../../../../Common/deleteConfirmation';
+import Pagination from "../../../../Layout/Pagination/PaginationBar"
 const users = [
   { username: "User name", email: "user@gmail.com", phone: "+971 500001010", address: "Rabdan - Abu Dhabi", role: "Public User", activity: "Today" },
   { username: "User name", email: "user@gmail.com", phone: "+971 500001010", address: "Rabdan - Abu Dhabi", role: "Admin User", activity: "Yesterday" },
@@ -48,9 +49,19 @@ export default function UserManagement() {
   const tableRef = useRef(null);
   const [isShowConfirmation, setIsShowConfirmation] = useState(false);
   const [data, setData] = useState([]);
-  const { isDarkMode } = useTheme(); // Access dark mode from theme context
+  const { isDarkMode, isLangArab } = useTheme(); // Access dark mode from theme context
   const [latestDate, setLatestDate] = useState(null);
   const {profiledetails} = useAuth()
+  const [totalItems,setTotalItems] = useState(0); // Example total items count
+  // const itemsPerPage = 10;
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 5; // Number of items per page
+
+  const handlePageChange = (selectedPage) => {
+    setCurrentPage(selectedPage);
+    console.log(`Selected page: ${selectedPage}`);
+    // Here, you can load data for the selected page if using an API
+  };
   console.log("Confirm delete:", selectedUsersid);
   // console.log("Passed User Management data :", data)
 
@@ -85,6 +96,8 @@ export default function UserManagement() {
       }
     };
   }, []);
+
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -132,6 +145,7 @@ export default function UserManagement() {
 const sortedItems = newItems.sort((a, b) => new Date(b.lastloginDate) - new Date(a.lastloginDate));
 
 // Now set the sorted data
+setTotalItems(sortedItems.length)
 setData(sortedItems);
         } else {
           console.log(result.message);
@@ -214,9 +228,14 @@ setData(sortedItems);
       console.error('Error submitting form:', error);
     }  
 };
+
+const paginatedData = data.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
+
   return (
+    <>
     <div className="flex h-[calc(100vh-6rem)]">
       <DeleteConfirmation Label={"user"}
+      isLangArab={isLangArab}
         isShowConfirmation={isShowConfirmation}
         handleDeleteConfirm={() =>{ isEditing ? handleselectedDeleted() :handleConfirmFeedbackDelete(selectedUsersid);setIsShowConfirmation(false);}}
         handleDeleteCancel={() => {setSelectedUsersId(undefined);setSelectedUsers([]);setIsShowConfirmation(false);}}
@@ -226,7 +245,7 @@ setData(sortedItems);
       } text-black backdrop-blur border-none`}>
     <div className="flex justify-between items-center mb-6">
     <h2 className={`text-[22px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]" : "text-gray-800"}`}>
-    User Management</h2>
+    {isLangArab ?"إدارة المستخدمين":"User Management"}</h2>
           <button 
             onClick={toggleEdit} 
             className={isEditing ? "text-gray-500 hover:text-gray-700" : "text-teal-600 hover:text-teal-700"} 
@@ -244,17 +263,17 @@ setData(sortedItems);
 
         <hr className={`border-t  my-4 ${isDarkMode ? "border-[#FFFFFF] border-opacity-10" : "border-gray-300"}`} />
         <div className="overflow-hidden flex-grow relative">
-          <div ref={tableRef} className="overflow-x-auto overflow-y-auto absolute inset-0 pr-4">
+          <div ref={tableRef} className={`overflow-x-auto overflow-y-auto absolute inset-0 ${isLangArab ?"pl-4":"pr-4"}`}>
             <table className="w-full">
             <thead className={`sticky top-0   z-10 ${isDarkMode ? "bg-[#303031] " : "bg-white"}`}>
-            <tr className="text-left text-sm font-medium text-gray-500 border-b">
+            <tr  className="text-left text-sm font-medium text-gray-500 border-b">
                   {isEditing && <th className="pb-3 w-8"></th>}
-                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>Username</th>
-                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>Email Id</th>
-                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>Phone Number</th>
-                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>Country</th>
-                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>User Roles</th>
-                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  pr-2 ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>User Activity</th>
+                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>{isLangArab?"اسم المستخدم":"Username"}</th>
+                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>{isLangArab?"معرف البريد الإلكتروني id":"Email Id"}</th>
+                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>{isLangArab?"رقم الهاتف":"Phone Number"}</th>
+                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>{isLangArab?"عنوان":"Country"}</th>
+                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>{isLangArab?"أدوار المستخدم ":"User Roles"}</th>
+                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>{isLangArab?"نشاط المستخدم ":"User Activity"}</th>
                   <th className="pb-3"></th>
                 </tr>
               </thead>
@@ -278,11 +297,11 @@ setData(sortedItems);
                         />
                       </td>
                     )}
-                    <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{user.username}</td>
-                    <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{user.email}</td>
-                    <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{user.phoneNumber}</td>
-                    <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{user.country}</td>
-                    <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
+                    <td className={`py-4 font-medium font-omnes text-[14px]  ${isLangArab?"pr-2":"pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{user.username}</td>
+                    <td className={`py-4 font-medium font-omnes text-[14px]  ${isLangArab?"pr-2":"pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{user.email}</td>
+                    <td className={`py-4 font-medium font-omnes text-[14px]  ${isLangArab?"pr-2":"pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{user.phoneNumber}</td>
+                    <td className={`py-4 font-medium font-omnes text-[14px]  ${isLangArab?"pr-2":"pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{user.country}</td>
+                    <td className={`py-4 font-medium font-omnes text-[14px]  ${isLangArab?"pr-2":"pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
 
                       {isEditing ? (
                         <Select defaultValue={user.role} onValueChange={(value) => {
@@ -324,10 +343,16 @@ setData(sortedItems);
               className="bg-[#EDB3B3] text-[#870202] px-4 py-2 rounded-lg font-medium font-omnes text-[16px] disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={selectedUsers.length === 0}
             >
-              Delete Selected
+             { isLangArab?"حذف المحدد":"Delete Selected"}
             </button>
           </div>
         )}
+        <div className=' flex justify-end'>
+        <Pagination 
+          currentPage={currentPage} totalPages={totalItems} onPageChange={handlePageChange}
+        />
+        </div>
+
       </div>
       {data.length > 0 && <div className={`w-2 rounded-full mr-3 mt-12 mb-10 ml-2 relative ${
         isDarkMode ? "bg-[rgba(96,96,96,0.8)]" : "bg-[rgba(96,96,96,0.8)]"
@@ -341,5 +366,7 @@ setData(sortedItems);
         ></div>
       </div>}
     </div>
+  
+    </>
   );
 }

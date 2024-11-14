@@ -37,7 +37,7 @@ const Feedback = () => {
   const [isShowConfirmation, setIsShowConfirmation] = useState(false);
   const tableRef = useRef(null);
   const [data, setData] = useState([]);
-  const { isDarkMode } = useTheme(); // Access dark mode from theme context
+  const { isDarkMode, isLangArab } = useTheme(); // Access dark mode from theme context
     // console.log("Passed FeedBack admin data :", data)
 
   const toggleUserSelection = (index) => {
@@ -158,7 +158,8 @@ const Feedback = () => {
     <div className="flex h-[calc(100vh-6rem)]">
        <DeleteConfirmation
         isShowConfirmation={isShowConfirmation}
-        handleDeleteConfirm={() =>{ isEditing ? handleselectedDeleted() :handleConfirmFeedbackDelete(selectedUsersid);setIsShowConfirmation(false);}}
+        isLangArab={isLangArab}
+        handleDeleteConfirm={() =>{ isEditing ? handleselectedDeleted() : handleConfirmFeedbackDelete(selectedUsersid);setIsShowConfirmation(false);}}
         handleDeleteCancel={() => {setSelectedUsersId(undefined);setSelectedUsers([]);setIsShowConfirmation(false);}}
       />
     <div  className={`p-8 rounded-lg shadow-sm flex flex-col flex-grow overflow-hidden ${
@@ -166,7 +167,7 @@ const Feedback = () => {
       } text-black backdrop-blur border-none`}>
       <div className="flex justify-between items-center mb-6">
       <h2 className={`text-[22px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]" : "text-gray-800"}`}>
-      Feedback</h2>
+      {isLangArab?"إدارة المستخدمين":"Feedback"}</h2>
       <button  onClick={toggleEdit} 
             className={isEditing ? "text-gray-500 hover:text-gray-700" : "text-teal-600 hover:text-teal-700"} 
             aria-label={isEditing ? "Close edit mode" : "Edit"}
@@ -184,20 +185,20 @@ const Feedback = () => {
         <hr className={`border-t  my-4 ${isDarkMode ? "border-[#FFFFFF] border-opacity-10" : "border-gray-300"}`} />
 
         <div className="overflow-hidden flex-grow relative">
-          <div ref={tableRef} className="overflow-x-auto overflow-y-auto absolute inset-0 pr-4">
+          <div ref={tableRef} className={`overflow-x-auto overflow-y-auto absolute inset-0 ${isLangArab?"pl-4":"pr-4"}`}>
             <table className="w-full">
             <thead className={`${!selectedUser &&"sticky"} top-0   z-10 ${isDarkMode ? "bg-[#303031] " : "bg-white"}`}>
-                <tr className="text-left text-sm font-medium text-gray-500 border-b">
+                <tr className={`${isLangArab?"text-right":"text-left"} text-sm font-medium text-gray-500 border-b`}>
                   {isEditing && <th className="pb-3 w-8"></th>}
                   <th className={`pb-3 p-2 font-medium font-omnes text-[14px]   ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
                     
                   </th>
-                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px] pl-2  ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
-                    Username</th>
+                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px] ${isLangArab ?"pr-2":"pl-2"}  ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+                    {isLangArab ?"اسم المستخدم":"Username"}</th>
                     <th className={`pb-3 p-2 font-medium font-omnes text-[14px]   ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
-                    Email</th>
+                    {isLangArab ?"معرف البريد الإلكتروني":"Email"}</th>
                     <th className={`pb-3 p-2 font-medium font-omnes text-[14px]   ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
-                    Submission Date</th>
+                    {isLangArab ?"تاريخ التقديم":"Submission Date"}</th>
                   <th className="pb-3"></th>
                   <th className="pb-3"></th>
                 </tr>
@@ -213,12 +214,12 @@ const Feedback = () => {
                       ? "bg-[#D5E5DE] bg-opacity-30"
                       : "bg-white"
                   }`}>
-                    <td className="py-4 pl-2">
+                    <td className={`py-4 ${isLangArab?"pr-4":"pl-2"}`}>
                       {user.readStatus !== "Read" && <span className="inline-block w-3 h-3 bg-green-500 rounded-full" title={user.readStatus}></span>}
                       {/* <span className="inline-block w-3 h-3 bg-green-500 rounded-full" title={"Read"}></span> */}
                     </td>
                     {isEditing && (
-                      <td className="py-4 pl-2">
+                      <td className={`py-4 ${isLangArab?"pr-4":"pl-2"}`}>
                         <CustomCheckbox
                           checked={selectedUsers.includes(user.id)}
                           onCheckedChange={() => toggleUserSelection(user.id)}
@@ -244,16 +245,16 @@ const Feedback = () => {
                 ))}
               </tbody>
             </table>
-            {selectedUser && <FeedbackData user={selectedUser} onClose={closeFeedbackData} />}
+            {selectedUser && <FeedbackData isLangArab={isLangArab} user={selectedUser} onClose={closeFeedbackData} />}
           </div>
         </div>
         {isEditing && (
           <div className="mt-4">
-            <button onClick={() => handleselectedDeleted()}
+            <button onClick={() => setIsShowConfirmation(true)}
               className="bg-[#EDB3B3] text-[#870202] px-4 py-2 rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={selectedUsers.length === 0}
             >
-              Delete Selected
+             { isLangArab?"حذف المحدد":"Delete Selected"}
             </button>
           </div>
         )}
