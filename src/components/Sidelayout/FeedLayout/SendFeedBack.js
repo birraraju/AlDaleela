@@ -220,44 +220,54 @@ export default function Feedback({
   setIsFeedBack,
   setIsPopoverOpen,
 }) {
-  const [rating, setRating] = useState(null);
-  const [fbname, setfbname] = useState("");
-  const [fbemail, setfbemail] = useState("");
-  const [fbcomments, setfbcomments] = useState("");
-  const [errors, setErrors] = useState({});
+  const [rating, setRating] = useState("-");
+  const [fbname, setfbname] = useState("-");
+  const [fbemail, setfbemail] = useState("-");
+  const [fbcomments, setfbcomments] = useState("-");
+  // const [errors, setErrors] = useState({});
   const { isDarkMode, isLangArab } = useTheme();
-  const [isValid,setIsValid]=useState(false)
+  // const [isValid,setIsValid]=useState(false)
   const {profiledetails}= useAuth();
 
   console.log("fbname :>> ", fbname);
   console.log("fbcomments :>> ", fbcomments);
-  const validate = useCallback(() => {
-    const newErrors = {};
-    if (!fbname)
-      newErrors.name = isLangArab ? "الاسم مطلوب" : "Name is required";
-    if (!fbemail)
-      newErrors.email = isLangArab
-        ? "البريد الإلكتروني مطلوب"
-        : "Email is required";
-    else if (!/\S+@\S+\.\S+/.test(fbemail))
-      newErrors.email = isLangArab
-        ? "بريد إلكتروني غير صالح"
-        : "Invalid email address";
-    if (!fbcomments)
-      newErrors.comments = isLangArab
-        ? "التعليقات مطلوبة"
-        : "Comments are required";
-    if (!rating)
-      newErrors.rating = isLangArab ? "التقييم مطلوب" : "Rating is required";
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  });
+
+  const validate = () => {
+    return fbname && fbemail && fbcomments && rating !== "-";
+  };
+
+  // const validate = useCallback(() => {
+  //   // const newErrors = {};
+  //   if (fbname || fbemail ||fbcomments || rating ){
+  //       return true
+  //   }else{
+  //     return false;
+  //   }
+
+      // newErrors.name = isLangArab ? "الاسم مطلوب" : "Name is required";
+    // if (!fbemail)
+    //   newErrors.email = isLangArab
+    //     ? "البريد الإلكتروني مطلوب"
+    //     : "Email is required";
+    // else if (!/\S+@\S+\.\S+/.test(fbemail))
+    //   newErrors.email = isLangArab
+    //     ? "بريد إلكتروني غير صالح"
+    //     : "Invalid email address";
+    // if (!fbcomments)
+    //   newErrors.comments = isLangArab
+    //     ? "التعليقات مطلوبة"
+    //     : "Comments are required";
+    // if (!rating)
+    //   newErrors.rating = isLangArab ? "التقييم مطلوب" : "Rating is required";
+    // setErrors(newErrors);
+    // return Object.keys(newErrors).length === 0;
+  // });
 
   // useEffect(() => {
   //   setIsValid(validate());
   // }, [validate]);
 
-  console.log("errors :>> ", errors);
+  // console.log("errors :>> ", errors);
 
   const ratings = [
     {
@@ -325,18 +335,18 @@ export default function Feedback({
           UserActivityLog({"username":fbname,"email":fbemail}, "Feedback Submited")   
         }
         setIsSuccess(true);
-        setModalMessage("Thank you for your feedback!");
+        setModalMessage( isLangArab?"شكرا لتعليقاتك!":"Thank you for your feedback!");
         setIsMsgStatus("Success");
         setIsFeedBack(false);
       } else {
-        setIsSuccess(false);
-        setModalMessage("Failed to submit feedback");
+        setIsSuccess(true);
+        setModalMessage(isLangArab?"فشل في إرسال ردود الفعل":"Failed to submit feedback");
         setIsMsgStatus("Failure");
         setIsFeedBack(false);
       }
     } catch (error) {
-      setIsSuccess(false);
-      setModalMessage("Error submitting feedback");
+      setIsSuccess(true);
+      setModalMessage(isLangArab?"حدث خطأ أثناء إرسال التعليقات":"Error submitting feedback");
       setIsMsgStatus("Failure");
       setIsFeedBack(false);
     }
@@ -366,7 +376,7 @@ export default function Feedback({
                       : "border-transparent border bg-black"
                   }`}
                   onClick={() =>{ setRating(item.value)
-                    setIsValid(validate())}} // Ensure onClick works
+                    }} // Ensure onClick works
                 >
                   {/* Render the corresponding image */}
                   <img
@@ -385,7 +395,7 @@ export default function Feedback({
               ))}
             </div>
 
-            <div className="w-full">
+            {/* <div className="w-full">
               {errors.rating && (
                 <p
                   className="text-start text-xs mt-0 "
@@ -394,7 +404,7 @@ export default function Feedback({
                   {errors.rating}
                 </p>
               )}
-            </div>
+            </div> */}
           </div>
 
           <div className="space-y-4 px-4 sm:px-0">
@@ -413,7 +423,7 @@ export default function Feedback({
                 type="text"
                 id="name"
                 onChange={(e) =>{ setfbname(e.target.value) 
-                  setIsValid(validate())}}
+                  }}
                 placeholder={
                   isLangArab ? "أدخل اسم المستخدم" : "Enter Your Name"
                 }
@@ -423,7 +433,7 @@ export default function Feedback({
                     : "bg-white text-black border-gray-300"
                 }`}
               />
-              <div className="w-full">
+              {/* <div className="w-full">
                 {errors.name && (
                   <p
                     className="text-start text-xs mt-0 "
@@ -432,7 +442,7 @@ export default function Feedback({
                     {errors.name}
                   </p>
                 )}
-              </div>
+              </div> */}
             </div>
 
             <div>
@@ -451,7 +461,7 @@ export default function Feedback({
                 type="email"
                 id="email"
                 onChange={(e) => {setfbemail(e.target.value)
-                  setIsValid(validate())
+                
                 }}
                 placeholder={
                   isLangArab
@@ -464,7 +474,7 @@ export default function Feedback({
                     : "bg-white text-black border-gray-300"
                 }`}
               />
-              <div className="w-full">
+              {/* <div className="w-full">
                 {errors.email && (
                   <p
                     className="text-start text-xs mt-0 "
@@ -473,7 +483,7 @@ export default function Feedback({
                     {errors.email}
                   </p>
                 )}
-              </div>
+              </div> */}
             </div>
 
             <div>
@@ -497,14 +507,14 @@ export default function Feedback({
                   isLangArab ? "شارك أفكارك هنا" : "Share Your Thoughts Here"
                 }
                 onChange={(e) =>{ setfbcomments(e.target.value)
-                  setIsValid(validate())}}
+                 }}
                 className={`w-full px-3  resize-none h-40 py-2 border rounded-xl outline-none transition-colors ${
                   isDarkMode
                     ? "bg-[#444646]  text-white border-transparent "
                     : "bg-white text-black border-gray-300"
                 }`}
               ></textarea>
-              <div className="w-full">
+              {/* <div className="w-full">
                 {errors.comments && (
                   <p
                     className="text-start text-xs mt-0 "
@@ -513,7 +523,7 @@ export default function Feedback({
                     {errors.comments}
                   </p>
                 )}
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -535,11 +545,11 @@ export default function Feedback({
           <button
             onClick={onSubmitFeedback}
             className={`sm:px-14 px-9 sm:py-3 py-2 rounded-md transition-colors ${
-              isValid
+              validate()
                 ? "bg-custom-gradient text-white"
                 : "bg-gray-600/65 text-white"
             }`}
-            disabled={!isValid}
+            disabled={!validate()}
           >
             {isLangArab ? "إرسال" : "Submit"}
           </button>
