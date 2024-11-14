@@ -7,6 +7,7 @@ import { useTheme } from "../../../../../ThemeContext/ThemeContext"; // Importin
 import { useNavigate } from 'react-router-dom';
 import RoleServices from '../../../../../../servicces/RoleServices';
 import { useAuth } from "../../../../../../../Providers/AuthProvider/AuthProvider";
+import Pagination from "../../../../Layout/Pagination/PaginationBar"
 
 
 const users = [
@@ -37,6 +38,16 @@ export default function UserManagement({role}) {
   const { isDarkMode, isLangArab } = useTheme(); // Access dark mode from theme context
   const [data, setData] = useState([]);
   const {setDropPinObjectId} = useAuth();
+  const [totalItems,setTotalItems] = useState(0); // Example total items count
+  // const itemsPerPage = 10;
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 9; // Number of items per page
+
+  const handlePageChange = (selectedPage) => {
+    setCurrentPage(selectedPage);
+    console.log(`Selected page: ${selectedPage}`);
+    // Here, you can load data for the selected page if using an API
+  };
     // console.log("Passed Content Management data :", data)
 
   const navigate = useNavigate();
@@ -72,6 +83,7 @@ export default function UserManagement({role}) {
         const result = await response.json();        
         if (result.success) {
           const sortedItems = result.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+          setTotalItems(sortedItems.length)
           setData(sortedItems);
         } else {
           console.log(result.message);
@@ -93,6 +105,8 @@ export default function UserManagement({role}) {
     console.log("Admin DroppedPin clicked");
   };
   
+  const paginatedData = data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
 
   return (
     <div className="flex h-[calc(100vh-6rem)]">
@@ -132,7 +146,7 @@ export default function UserManagement({role}) {
                 </tr>
               </thead>
               <tbody>
-                {data.map((user, index) => (
+                {paginatedData.map((user, index) => (
                   <tr key={index} 
                   className={`${
                     isDarkMode
@@ -169,6 +183,11 @@ export default function UserManagement({role}) {
               </tbody>
             </table>
           </div>
+        </div>
+        <div className=' flex justify-end'>
+        <Pagination 
+          currentPage={currentPage} totalPages={totalItems} onPageChange={handlePageChange}
+        />
         </div>
       </div>
       {data.length > 0 && <div className={`w-2 rounded-full mr-3 mt-12 mb-10 ml-2 relative ${
