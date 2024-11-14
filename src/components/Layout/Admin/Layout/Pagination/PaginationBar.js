@@ -1,7 +1,9 @@
 import React from 'react'
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react'
+import { useTheme } from '../../../ThemeContext/ThemeContext'
 
 export default function Pagination({ currentPage, totalPages, onPageChange }) {
+  const {isLangArab}  = useTheme()
   const totalItems = Math.ceil(totalPages / 9)
   const pageNumbers = []
   const maxVisiblePages = 5
@@ -27,10 +29,10 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
       <button
         onClick={() => onPageChange(1)}
         disabled={currentPage === 1}
-        className="p-2 rounded-md bg-gray-100 text-gray-600 hover:bg-gray-200 disabled:opacity-50"
+        className={`p-2 rounded-md bg-gray-100 text-gray-600 hover:bg-gray-200 ${isLangArab && "ml-2"} disabled:opacity-50`}
         aria-label="First page"
       >
-        <ChevronsLeft className="w-5 h-5" />
+        <ChevronsLeft className={`w-5 h-5 ${isLangArab && "rotate-180 "} `} />
       </button>
       <button
         onClick={() => onPageChange(currentPage - 1)}
@@ -38,7 +40,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
         className="p-2 rounded-md bg-gray-100 text-gray-600 hover:bg-gray-200 disabled:opacity-50"
         aria-label="Previous page"
       >
-        <ChevronLeft className="w-5 h-5" />
+        <ChevronLeft className={`w-5 h-5 ${isLangArab && "rotate-180 "} `} />
       </button>
       {pageNumbers.map((page, index) => (
         <React.Fragment key={index}>
@@ -61,7 +63,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
         className="p-2 rounded-md bg-gray-100 text-gray-600 hover:bg-gray-200 disabled:opacity-50"
         aria-label="Next page"
       >
-        <ChevronRight className="w-5 h-5" />
+        <ChevronRight className={`w-5 h-5 ${isLangArab && "rotate-180"} `} />
       </button>
       <button
         onClick={() => onPageChange(totalPages)}
@@ -69,7 +71,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
         className="p-2 rounded-md bg-gray-100 text-gray-600 hover:bg-gray-200 disabled:opacity-50"
         aria-label="Last page"
       >
-        <ChevronsRight className="w-5 h-5" />
+        <ChevronsRight className={`w-5 h-5 ${isLangArab && "rotate-180"} `} />
       </button>
     </nav>
   )

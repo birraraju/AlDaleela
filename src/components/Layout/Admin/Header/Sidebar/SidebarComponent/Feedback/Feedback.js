@@ -8,6 +8,7 @@ import EditIcon from '../../../../../../../assets/Admin/logo/edit.svg';
 import { useTheme } from "../../../../../ThemeContext/ThemeContext"; // Importing the theme context
 import DarkEditIcon from '../../../../../../../assets/Admin/logo/darkedit.svg';
 import DeleteConfirmation from '../../../../../../Common/deleteConfirmation';
+import Pagination from "../../../../Layout/Pagination/PaginationBar"
 
 const users = [
   { username: 'User One', email: 'user1@gmail.com', submissionDate: '2024-10-01', senderName: 'User One', senderEmail: 'user1@gmail.com', status: 'Read', feedback: 'Great service!' },
@@ -38,6 +39,16 @@ const Feedback = () => {
   const tableRef = useRef(null);
   const [data, setData] = useState([]);
   const { isDarkMode, isLangArab } = useTheme(); // Access dark mode from theme context
+  const [totalItems,setTotalItems] = useState(0); // Example total items count
+  // const itemsPerPage = 10;
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 9; // Number of items per page
+
+  const handlePageChange = (selectedPage) => {
+    setCurrentPage(selectedPage);
+    console.log(`Selected page: ${selectedPage}`);
+    // Here, you can load data for the selected page if using an API
+  };
     // console.log("Passed FeedBack admin data :", data)
 
   const toggleUserSelection = (index) => {
@@ -68,7 +79,7 @@ const Feedback = () => {
           const result = await response.json();
           if(result.success){
             const sortedItems = result.data.sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate));
-
+            setTotalItems(sortedItems.length)
             setData(sortedItems);
           }
           else{
@@ -154,6 +165,9 @@ const Feedback = () => {
     //setData(data.filter(record => record.id !== id));
     setData(data.filter(record => !selectedUsers.includes(record.id)));
   };
+
+  const paginatedData = data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
   return (
     <div className="flex h-[calc(100vh-6rem)]">
        <DeleteConfirmation
@@ -163,7 +177,7 @@ const Feedback = () => {
         handleDeleteCancel={() => {setSelectedUsersId(undefined);setSelectedUsers([]);setIsShowConfirmation(false);}}
       />
     <div  className={`p-8 rounded-lg shadow-sm flex flex-col flex-grow overflow-hidden ${
-        isDarkMode ? "bg-[#303031] bg-opacity-90" : "bg-transparent "
+        isDarkMode ? "bg-[#303031] bg-opacity-90" : "bg-white "
       } text-black backdrop-blur border-none`}>
       <div className="flex justify-between items-center mb-6">
       <h2 className={`text-[22px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]" : "text-gray-800"}`}>
@@ -204,7 +218,7 @@ const Feedback = () => {
                 </tr>
               </thead>
               <tbody>
-                {data.map((user, index) => (
+                {paginatedData.map((user, index) => (
                   <tr key={user.id} className={`${
                     isDarkMode
                       ? user.id % 2 === 0
@@ -258,6 +272,12 @@ const Feedback = () => {
             </button>
           </div>
         )}
+
+<div className=' flex justify-end'>
+        <Pagination 
+          currentPage={currentPage} totalPages={totalItems} onPageChange={handlePageChange}
+        />
+        </div>
       </div>
      {data.length > 0 && <div className={`w-2 rounded-full mr-3 mt-12 mb-10 ml-2 relative ${
         isDarkMode ? "bg-[rgba(96,96,96,0.8)]" : "bg-[rgba(96,96,96,0.8)]"

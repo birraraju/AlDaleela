@@ -18,6 +18,7 @@ import { useTheme } from "../../../../../ThemeContext/ThemeContext"; // Importin
 import { useAuth } from "../../../../../../../Providers/AuthProvider/AuthProvider";
 import DeleteConfirmation from '../../../../../../Common/deleteConfirmation';
 import Pagination from "../../../../Layout/Pagination/PaginationBar"
+import Toast from '../../../../../../Common/taost';
 const users = [
   { username: "User name", email: "user@gmail.com", phone: "+971 500001010", address: "Rabdan - Abu Dhabi", role: "Public User", activity: "Today" },
   { username: "User name", email: "user@gmail.com", phone: "+971 500001010", address: "Rabdan - Abu Dhabi", role: "Admin User", activity: "Yesterday" },
@@ -53,6 +54,8 @@ export default function UserManagement() {
   const [latestDate, setLatestDate] = useState(null);
   const {profiledetails} = useAuth()
   const [totalItems,setTotalItems] = useState(0); // Example total items count
+  const [showToast, setShowToast] = useState(false)
+  const[toastMessage, setToastMessage] = useState("")
   // const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9; // Number of items per page
@@ -220,12 +223,18 @@ setData(sortedItems);
       });
       const data = await response.json();
         if(data.success){
+          setToastMessage(isLangArab?"تم تحديث دور المستخدم!":"User Role updated!")
+          setShowToast(true)
           console.log(data.message);
         }
         else{
+          setToastMessage(isLangArab?"فشل في تحديث دور المستخدم!":"Failed to update User Role !")
+          setShowToast(true)
           console.log(data.message);
         }     
     }catch (error) {
+      setToastMessage(isLangArab?"فشل في تحديث دور المستخدم!":"Failed to update User Role !")
+      setShowToast(true)
       console.error('Error submitting form:', error);
     }  
 };
@@ -235,6 +244,7 @@ const paginatedData = data.slice((currentPage - 1) * itemsPerPage, currentPage *
   return (
     <>
     <div className="flex h-[calc(100vh-6rem)]">
+    <Toast message={toastMessage} showToast={showToast} />
       <DeleteConfirmation Label={"user"}
       isLangArab={isLangArab}
         isShowConfirmation={isShowConfirmation}
