@@ -74,6 +74,12 @@ const Component = ({ POIFormShow,isLangArab, setPOIUploaderShow, setIsShowEditPO
     }
   }, [queryresults]);
 
+  useEffect(()=>{
+    if(isEditShowPOI){
+      setIsShowMore(true)
+    }
+  },[isEditShowPOI])
+
   useEffect(() => {
     const fetchDomains = async () => {
       try {
@@ -386,7 +392,7 @@ const Component = ({ POIFormShow,isLangArab, setPOIUploaderShow, setIsShowEditPO
 
 
   const renderFieldOrText = (id, label, value,options = [], inputType = "text", disable) => (
-    <div className="space-y-2">
+    <div className="space-y-2" dir={`${isLangArab && "rtl"}`}>
       <label htmlFor={id} className="block text-sm font-medium text-gray-700">
         {label}
       </label>
@@ -545,12 +551,12 @@ const Component = ({ POIFormShow,isLangArab, setPOIUploaderShow, setIsShowEditPO
 
             </>} */}
 
-              <div className=' flex justify-end '>
-                <button  className=' text-[#028DC8] font-medium text-sm underline' onClick={()=>setIsShowMore(!isShowMore)}>{isShowMore ?"Hide":"More"} Info</button>
-              </div>
+              {!isEditShowPOI && <div dir={isLangArab && "rtl"} className=' flex justify-end '>
+                <button  className=' text-[#028DC8] font-medium text-sm underline' onClick={()=>setIsShowMore(!isShowMore)}>{isShowMore ?(isLangArab?"يخفي":"Hide"):(isLangArab?"أكثر":"More")} {isLangArab?"معلومات":"Info"}</button>
+              </div>}
              {/* Photos Section */}
-             <div className="px-3 py-6 border border-none rounded-lg bg-white space-y-4">
-              <div>
+             <div dir={isLangArab && "rtl"} className="px-3 py-6 border border-none rounded-lg bg-white space-y-4">
+              <div dir={isLangArab && "rtl"}>
               <h3 className="text-sm text-[#303030] font-medium mb-2">{isLangArab?"صور":"Photos"}</h3>
               <div className=' grid grid-cols-2'>
                 {images.length > 0 ? (
@@ -640,7 +646,7 @@ const Component = ({ POIFormShow,isLangArab, setPOIUploaderShow, setIsShowEditPO
 
             {isEditShowPOI && (
               <>
-                <div className="grid grid-cols-1 py-3 justify-center items-center">
+                <div dir={isLangArab && "rtl"} className="grid grid-cols-1 py-3 justify-center items-center">
                   <p className="flex justify-center text-sm text-black items-center">{isLangArab
       ? "هل تريد مشاركة الصور والفيديوهات والصوتيات"
       : "Want to share photos, videos, and audio"}

@@ -477,7 +477,7 @@ const DropBinStatusUpdate = ({setMessage,isLangArab,setFormShow,setPOIFormIsOpen
               </div>
         </div>
 
-        <div className="flex justify-center space-x-16 items-center">
+        <div className="flex justify-evenly  items-center">
           <button onClick={handleApprovePOI} className="w-auto py-3 px-9 bg-custom-gradient text-xs border border-black rounded-lg">
             {isLangArab?"تم الموافقة!":"Approve"}
           </button>

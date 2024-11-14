@@ -32,7 +32,7 @@ const MainRoutes = () => {
         </Route>
         {<Route path="/admin" element={<AdminLayout role={role} />} />} 
         <Route path={`/${process.env.REACT_APP_BASE_URL}/activate/:userId`} element={<UserActivation/>} />
-        <Route path="*" element={<Navigate to={process.env.REACT_APP_BASE_URL} replace />} />
+        <Route path="*" element={<Navigate to={`/${process.env.REACT_APP_BASE_URL}`} replace />} />
          {/* Catch-All Redirect */}
          <Route path="*" element={<Navigate to={`/${process.env.REACT_APP_BASE_URL}`} state={{ from: location }} replace />} />
 

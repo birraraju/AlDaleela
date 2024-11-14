@@ -13,7 +13,7 @@ export default function POIEditSucessFailure({ message,label, success, isOpenMod
 
 
   return (
-      <div className=" bg-transparent border border-none p-5 rounded-lg  flex flex-col items-center gap-6 w-[90%] sm:w-[97%] min-h-[200px]">
+      <div dir={isLangArab && "rtl"} className=" bg-transparent border border-none p-5 rounded-lg  flex flex-col items-center gap-6 w-[90%] sm:w-[97%] min-h-[200px]">
         {/* Display the appropriate image based on success value */}
         <img
           src={success === "Success" ? SuccessSvg : FailureIcon} // Show Success or Failure SVG

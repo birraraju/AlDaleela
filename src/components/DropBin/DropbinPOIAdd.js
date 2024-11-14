@@ -700,11 +700,16 @@ const handleDrop = async (e) => {
     <div className="w-full max-w-md bg-transparent text-black overflow-y-auto">
       <div>
         <button
+        
           onClick={onClose}
           className="px-1 py-3 hover:text-blue-500 flex items-center text-black focus:outline-none"
         >
-          <ChevronLeft className="w-5 h-5" />
+        {isLangArab ?<>        <span>{isLangArab?"خلف":"Back"}</span>  <ChevronLeft className="w-5 h-5" />
+          
+          </>:<>          <ChevronLeft className="w-5 h-5" />
           <span>{isLangArab?"خلف":"Back"}</span>
+          </>}
+
         </button>
       </div>
       <div className="p-1 space-y-4">
@@ -1043,7 +1048,7 @@ const handleDrop = async (e) => {
         )}
 
         {/* Action Buttons */}
-        <div className="flex justify-center space-x-8 items-center pt-4 pb-16">
+        <div className="flex justify-between px-4 sm:px-7  space-x-8 items-center pt-4 pb-16">
           <button
             onClick={onClose}
             className="w-auto py-3 px-9 bg-transparent text-xs border border-black rounded-lg"
@@ -1054,7 +1059,7 @@ const handleDrop = async (e) => {
             onClick={handleFormSubmit}
             disabled={!buttonDisable}
             
-            className={`${!buttonDisable?"w-auto py-3 px-9 bg-custome-gray1 text-xs border border-gray-300 rounded-lg":"w-auto py-3 px-9 bg-custom-gradient text-xs border border-gray-300 rounded-lg"}` }
+            className={` ${!buttonDisable?"w-auto py-3 px-9 bg-custome-gray1 text-xs border border-gray-300 rounded-lg":"w-auto py-3 px-9 bg-custom-gradient text-xs border border-gray-300 rounded-lg"}` }
           >
             { isLangArab ? "يُقدِّم" : "Submit"}
           </button>
