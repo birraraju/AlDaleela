@@ -425,7 +425,7 @@ const FileUploader = ({ POIFormUploader,isLangArab,setPOIFormisOpenModalShow,set
               >
                 <div className="flex items-center">
                   <FileIcon className="h-6 w-6 text-gray-500" />
-                  <span className="ml-3 text-gray-700 font-medium">{file.name}</span>
+                  <span className="ml-3 text-gray-700 font-medium text-ellipsis text-[9px]  ">{file.name}</span>
                 </div>
                 <button 
                   onClick={() => handleRemoveUploadedFile(index)}

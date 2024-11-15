@@ -41,23 +41,23 @@ export default function ProfileContent({
               // src={`${process.env.PUBLIC_URL}/Header/Profile/ProfileDetails/Profile.svg`}
               src={profiledetails && profiledetails.imageUrl ? profiledetails.imageUrl : `${process.env.PUBLIC_URL}/Header/Profile/ProfileDetails/Profile.svg`}
               alt="Profile"
-              className="sm:w-20 w-18 h-18 sm:h-20 rounded-full object-cover"
+              className="sm:w-16 w-18 h-18 sm:h-16 rounded-full sm:rounded-full object-cover"
             />
           </div>
 
           <div className="w-[80%]">
             <div className="tracking-wide">
-              <h1 className={`sm:text-lg text-sm font-medium text-${isDarkMode ? 'white' : 'gray-600'} `}>
+              <h1 className={`sm:text-[14px] text-sm font-medium text-${isDarkMode ? 'white' : 'gray-600'} `}>
                 {profiledetails.username ? profiledetails.username : profiledetails.firstName}
               </h1>
-              <p className={`sm:text-base text-xs font-light text-${isDarkMode ? '[#FFFFFFCC]' : 'gray-600'} `}>
+              <p className={`sm:text-[14px] text-xs font-light text-${isDarkMode ? '[#FFFFFFCC]' : 'gray-600'} `}>
                 {profiledetails.email}
               </p>
             </div>
 
             <div className="flex justify-between items-center gap-4">
               <Button onClick={() => { setIsEditProfile(true); }} asChild>
-                <div className="w-1/2 h-12 py-5 cursor-pointer btn-gradient text-white text-base rounded-xl mt-4 tracking-wide">
+                <div className="w-2/3 h-10 py-5 cursor-pointer btn-gradient text-white text-base rounded-xl mt-4 tracking-wide">
                   {isLangArab ? "تعديل المعلومات" : "Edit Info"}
                 </div>
               </Button>
@@ -69,7 +69,7 @@ export default function ProfileContent({
                   setChangeCloseProfile(true);
                 }}
                 variant="outline"
-                className={`w-1/2 sm:h-10 h-9 bg-none shadow-none sm:rounded-xl rounded-md mt-4 tracking-wide font-normal sm:text-sm text-xs border border-[#909090] text-${isDarkMode ? '[#FFFFFFCC]' : 'gray-600'} `}
+                className={`w-1/2 sm:h-10 h-9 bg-none shadow-none sm:rounded-xl rounded-md mt-4 tracking-wide font-normal sm:text-sm text-xs border border-[#909090] text-${isDarkMode ? '[#FFFFFFCC]' : 'black'} `}
               >
                 {isLangArab ? "تغيير كلمة المرور" : "Change Password"}
               </Button>
