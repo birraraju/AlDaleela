@@ -19,7 +19,7 @@ export default function Footer({ handleMenuItemClick,setPopup, resetTrigger }) {
 
 
   const headingsMap = {
-    0: t( isLangArab?"معرض الخريطة الأساسية":"Base Map Gallery"),
+    0: t( isLangArab?"معرض الخريطة الأساسية":"Basemap Gallery"),
     1: t(isLangArab?"علامات مرجعية":"Bookmarks"),
     2: t( isLangArab?"القياس":"Measurment"),
     3: t( isLangArab? "دبوس مُنقَطِع":'Dropped Pin'),
@@ -181,10 +181,10 @@ if (menuBar) {
                 className="ToolTipEnvi"
                 style={{
                   backgroundColor: 'transparent',
-                  color: isDarkMode ? 'white' : 'black',
+                  color: isDarkMode ? '#088F8F' : '#088F8F',
                   fontFamily: 'Poppins',
                   fontWeight: 'Bold',
-                  fontSize: '14px',
+                  fontSize: '12px',
                   padding: '0',
                   boxShadow: 'none',
                 }}
@@ -217,10 +217,10 @@ if (menuBar) {
                 className="ToolTipEnvi"
                 style={{
                   backgroundColor: 'transparent',
-                  color: isDarkMode ? 'white' : 'black',
+                  color: isDarkMode ? '#088F8F' : '#088F8F',
                   fontFamily: 'Poppins',
                   fontWeight: 'Bold',
-                  fontSize: '14px',
+                  fontSize: '12px',
                   padding: '0',
                   boxShadow: 'none',
                 }}
@@ -252,10 +252,10 @@ if (menuBar) {
                 className="ToolTipEnvi"
                 style={{
                   backgroundColor: 'transparent',
-                  color: isDarkMode ? 'white' : 'black',
+                  color: isDarkMode ? '#088F8F' : '#088F8F',
                   fontFamily: 'Poppins',
                   fontWeight: 'Bold',
-                  fontSize: '14px',
+                  fontSize: '12px',
                   padding: '0',
                   boxShadow: 'none',
                 }}
@@ -291,10 +291,10 @@ if (menuBar) {
                   className="ToolTipEnvi"
                   style={{
                     backgroundColor: 'transparent',
-                    color: isDarkMode ? 'white':'black',
+                    color: isDarkMode ? '#088F8F':'#088F8F',
                     fontFamily: 'Poppins',
                     fontWeight: 'Bold',
-                    fontSize: '14px',
+                    fontSize: '12px',
                     padding: '0',
                     boxShadow: 'none'
                   }}
@@ -327,10 +327,10 @@ if (menuBar) {
                   className="ToolTipEnvi"
                   style={{
                     backgroundColor: 'transparent',
-                    color: isDarkMode ? 'white':'black',
+                    color: isDarkMode ? '#088F8F':'#088F8F',
                     fontFamily: 'Poppins',
                     fontWeight: 'Bold',
-                    fontSize: '14px',
+                    fontSize: '12px',
                     padding: '0',
                     boxShadow: 'none'
                   }}
@@ -362,10 +362,10 @@ if (menuBar) {
                   className="ToolTipEnvi"
                   style={{
                     backgroundColor: 'transparent',
-                    color: isDarkMode ? 'white':'black',
+                    color: isDarkMode ? '#088F8F':'#088F8F',
                     fontFamily: 'Poppins',
                     fontWeight: 'Bold',
-                    fontSize: '14px',
+                    fontSize: '12px',
                     padding: '0',
                     boxShadow: 'none'
                   }}

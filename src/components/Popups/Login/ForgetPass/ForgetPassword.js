@@ -87,7 +87,7 @@ export default function ForgetPassword({ onClose, onBackToLogin, onSignup, onNex
                 {isLangArab?"التالي":"Next"}
               </button>
             </form>
-            <div className="mt-auto pt-4 text-center">
+            <div className="mt-auto pt-2 text-center">
               <p className={`text-sm text-${isDarkMode ? '[#FFFFFFCC]' : 'gray-600'} text-center mt-10`}>
               {isLangArab ? "ليس لديك حساب":"Don't have an account?"}{' '}
                 <button onClick={onSignup} className={`text-${isDarkMode ? '[#004987]' : '[#004987]'} font-medium underline`}>

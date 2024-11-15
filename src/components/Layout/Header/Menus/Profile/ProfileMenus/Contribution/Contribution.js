@@ -7,7 +7,7 @@ export default function Contribution({ setIsContribution, setIsPopoverOpen }) {
   const { isDarkMode,isLangArab } = useTheme(); // Use the theme hook to get dark mode state
 
   return (
-    <div className="py-5 cursor-pointer">
+    <div className="py-2 cursor-pointer">
       <div
         onClick={() => {
           setIsContribution(true);
@@ -19,10 +19,10 @@ export default function Contribution({ setIsContribution, setIsPopoverOpen }) {
         <img
            src={isDarkMode ? DarkContribution : ContributionIcon }
 
-            alt="Contribution" className="w-7" />
+            alt="Contribution" className="w-5" />
                     </div>
         <p
-          className={`font-medium font-omnes text-[18px] ${
+          className={`font-medium font-omnes text-[16px] ${
             isDarkMode ? "text-gray-300" : "text-[#505050]"
           }`}
         >          {isLangArab?"المساهمة":"Contribution"}</p>

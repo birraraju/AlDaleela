@@ -161,7 +161,7 @@ const newError={}
     <div className="absolute sm:inset-10 inset-0 flex items-center  justify-center z-50">
       <div
         ref={modalRef}
-        className={`sm:p-14 px-4 py-8 mb-10 rounded-lg  shadow-xl w-full max-w-sm  border relative transition-colors duration-300 ${
+        className={`sm:px-14 sm:py-10 px-4 py-8 mb-10 rounded-lg  shadow-xl w-full max-w-sm  border relative transition-colors duration-300 ${
           isDarkMode ? 'bg-[rgba(96,96,96,0.8)] text-white' : 'bg-white bg-opacity-65 backdrop-filter backdrop-blur-lg text-black'
         }`}      >
         <button
