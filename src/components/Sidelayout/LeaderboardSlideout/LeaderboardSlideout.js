@@ -12,25 +12,34 @@ import { useState, useEffect, useRef } from "react";
 import { FiChevronRight } from "react-icons/fi";
 import { useTheme } from "../../Layout/ThemeContext/ThemeContext"; // Import the theme context
 
-const users = [
-  { id: 1, name: "User-1", points: 43, avatar: men },
-  { id: 2, name: "User-2", points: 40, avatar: women },
-  { id: 3, name: "User-3", points: 38, avatar: men1 },
-  { id: 4, name: "User-4", points: 36, avatar: user1 },
-  { id: 5, name: "User-5", points: 35, avatar: user2 },
-  { id: 6, name: "User-6", points: 34, avatar: user2 },
-  { id: 7, name: "User-7", points: 33, avatar: user2 },
-  { id: 8, name: "User-8", points: 32, avatar: user1 },
-  { id: 9, name: "User-9", points: 31, avatar: user1 },
-  { id: 10, name: "User-10", points: 30, avatar: user2 },
-];
+// const Men = () => {
+//   return (
+    
+//   );
+// };
+
+
+
+
+// const users = [
+//   { id: 1, name: "User-1", points: 43, avatar: men },
+//   { id: 2, name: "User-2", points: 40, avatar: women },
+//   { id: 3, name: "User-3", points: 38, avatar: men1 },
+//   { id: 4, name: "User-4", points: 36, avatar: user1 },
+//   { id: 5, name: "User-5", points: 35, avatar: user2 },
+//   { id: 6, name: "User-6", points: 34, avatar: user2 },
+//   { id: 7, name: "User-7", points: 33, avatar: user2 },
+//   { id: 8, name: "User-8", points: 32, avatar: user1 },
+//   { id: 9, name: "User-9", points: 31, avatar: user1 },
+//   { id: 10, name: "User-10", points: 30, avatar: user2 },
+// ];
 
 export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard }) {
   const [isOpen, setIsOpen] = useState(true); // Use this for toggling visibility
   const containerRef = useRef(null);
   const { isDarkMode,isLangArab } = useTheme(); // Access isDarkMode from ThemeContext
   const [data, setData] = useState([]);
-
+  // console.log("Leader Board Data:", data)
   // Handle clicks outside the container
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -118,15 +127,43 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
             }`}
           >
             <div className="relative flex flex-col justify-center items-center">
-              <img
-                src={men}
-                alt={user.userName}
-                className="w-16 h-18 object-cover relative rounded-full"
-              />
+          { user.image ? <svg
+      width="80"
+      height="80"
+      viewBox="0 0 105 105"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+    >
+      <circle
+        cx="52.707"
+        cy="52.6445"
+        r="50.4465"
+        fill="url(#pattern0_502_105402)"
+        stroke="#1498A6"
+        strokeWidth="3.47907"
+      />
+      <defs>
+        <pattern
+          id="pattern0_502_105402"
+          patternContentUnits="objectBoundingBox"
+          width="1"
+          height="1"
+        >
+          <use xlinkHref="#image0_502_105402" transform="scale(0.00195312)" />
+        </pattern>
+        <image
+          id="image0_502_105402"
+          width="512"
+          height="512"
+          href="path/to/your/image.jpg" // Replace with the actual image URL or path
+        />
+      </defs>
+    </svg>: <img src={men} alt={user.userName}  className=" h-24 w-20 " />}
                <img
                 src={ index === 0 ? Top1 : (index === 1 ? Top2 : (index === 2 && Top3))}
                 alt={user.userName}
-                className=" w-8 -bottom-5  object-cover absolute rounded-full"
+                className=" w-8 -bottom-3  object-cover absolute rounded-full"
               />
             </div>
             <h1
@@ -156,11 +193,42 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
             }`} >
                 {index + 4}
               </span>
-              <img
-                src={men}
-                alt={user.userName}
-                className="w-8 h-8 rounded-full"
-              />
+              {user.imge ? <svg
+      width="20"
+      height="20"
+      viewBox="0 0 105 105"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+    >
+      <circle
+        cx="52.707"
+        cy="52.6445"
+        r="50.4465"
+        fill="url(#pattern0_502_105402)"
+        stroke="#1498A6"
+        strokeWidth="3.47907"
+      />
+      <defs>
+        <pattern
+          id="pattern0_502_105402"
+          patternContentUnits="objectBoundingBox"
+          width="1"
+          height="1"
+        >
+          <use xlinkHref="#image0_502_105402" transform="scale(0.00195312)" />
+        </pattern>
+        <image
+          id="image0_502_105402"
+          width="512"
+          height="512"
+          href="path/to/your/image.jpg" // Replace with the actual image URL or path
+        />
+      </defs>
+    </svg>
+    :
+    <img src={men} alt={user.userName} className=" h-7 w-8" />
+    }
             </div>
 
             <div className="w-[80%] flex justify-between items-center">

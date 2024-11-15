@@ -7,7 +7,7 @@ export default function SendFeedback({ setIsFeedBack, setIsPopoverOpen }) {
 
   return (
     <div
-      className="py-4 cursor-pointer"
+      className="py-1 cursor-pointer"
       onClick={() => {
         setIsFeedBack(true);
         setIsPopoverOpen(false);
@@ -18,9 +18,9 @@ export default function SendFeedback({ setIsFeedBack, setIsPopoverOpen }) {
         <img 
           src={isDarkMode ? DarkFeedback : feedback }
 
-           alt="Logo" className=" w-6 " />        </div>
+           alt="Logo" className=" w-4 " />        </div>
         <p
-          className={`font-medium font-omnes  text-[18px] ${
+          className={`font-medium font-omnes  text-[16px] ${
             isDarkMode ? "text-gray-300" : "text-[#505050]"
           }`}
         >          {isLangArab?"إرسال الملاحظات":"Send Feedback"}</p>

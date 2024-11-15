@@ -52,7 +52,7 @@ export default function AboutusSidelayout({ setIsPopoverOpen, setIsAboutUs }) {
       >
         <div className="flex relative justify-between items-center mb-2 mobile_l:mb-0 ">
           <h1
-            className={`text-[16.37px] font-medium ${
+            className={`text-[16px] font-medium ${
               isDarkMode ? "text-[#FFFFFFCC] text-opacity-80" : "text-[#505050]"
             }`}
           >

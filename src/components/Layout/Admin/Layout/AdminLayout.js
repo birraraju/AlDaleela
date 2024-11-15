@@ -94,7 +94,7 @@ const AdminLayout = ({role}) => {
     <div
 
     dir={isLangArab && "rtl"}
-    className={`flex flex-col h-screen bg-[#f5f7f6]  ${
+    className={`flex flex-col h-screen overflow-y-hidden overflow-x-hidden bg-[#f5f7f6]  ${
       isDarkMode
         ? 'bg-white bg-opacity-10' // Apply dark theme background
         : 'bg-[#f5f7f6]' // Apply default background

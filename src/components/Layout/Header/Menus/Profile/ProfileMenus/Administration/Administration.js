@@ -13,11 +13,11 @@ export default function Administration() {
         <img
            src={isDarkMode ? DarkAdministration : administration }
 
-            alt="" className="w-7" />
+            alt="" className="w-5" />
                     </div>
         <Link to="/admin"> {/* Use Link instead of <a> */}
         <p
-            className={`font-medium font-omnes text-[18px] ${
+            className={`font-medium font-omnes text-[16px] ${
               isDarkMode ? "text-gray-300" : "text-[#505050]"
             }`}
           >            {isLangArab?"الإدارة":"Administration"}</p>

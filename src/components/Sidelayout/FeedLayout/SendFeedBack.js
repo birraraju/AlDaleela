@@ -362,18 +362,18 @@ export default function Feedback({
       <div className={`z-50  ${isDarkMode ? "text-white" : "text-black"} `}>
         <div className=" sm:space-y-4 space-y-2 max-h-[calc(100vh-100px)] overflow-y-auto ">
           <div className="flex gap-2 flex-col sm:gap-0 items-center justify-between">
-            <div className="flex  flex-row ">
+            <div className="flex  flex-row gap-2 ">
               {ratings.map((item) => (
                 <button
                   key={item.value}
-                  className={`flex bg-transparent  sm:px-2.5 laptop_s:px-2 px-3 justify-center py-2 border sm:rounded-xl rounded-lg flex-col items-center sm:space-y-1 space-y-2 transition-colors ${
+                  className={`flex bg-transparent  sm:px-2.5 laptop_s:px-1 px-3 justify-center py-2 border sm:rounded-xl rounded-lg flex-col items-center sm:space-y-1 space-y-2 transition-colors ${
                     isDarkMode
                       ? rating === item.value
                         ? `bg-black text-white ${item.highlight}`
                         : "border-transparent bg-[#444646]"
                       : rating === item.value
                       ? `bg-white text-white ${item.highlight}`
-                      : "border-transparent border bg-black"
+                      : "border-transparent bg-white text-white border"
                   }`}
                   onClick={() =>{ setRating(item.value)
                     }} // Ensure onClick works

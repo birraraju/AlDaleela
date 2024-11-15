@@ -74,9 +74,12 @@ export default function Sidebar({ activeItem, onItemClick,isCollapsed, setIsColl
         </a>}
         
         {/* Toggle Button (Right-aligned) */}
+        {isCollapsed ?<button onClick={toggleSidebar} className="text-[#D1FAFF] flex laptop_s:hidden">
+        <X className="w-6 h-6" />
+        </button>:
         <button onClick={toggleSidebar} className="text-[#D1FAFF] flex laptop_s:hidden">
            <Menu className="w-6 h-6" /> 
-        </button>
+        </button>}
       </div>
           
       {/* Sidebar Content */}

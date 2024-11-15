@@ -289,22 +289,27 @@ export default function BasicInformation({ isEditProfile,profileImage, setIsSucc
     const basicInformation = [
       {
         heading: isLangArab ? "الاسم" : "Name",
+        headingRead:"Name",
         value: profiledetails.username,
       },
       {
         heading: isLangArab ? "البريد الإلكتروني" : "Email",
+        headingRead:"Email",
         value: profiledetails.email,
       },
       {
         heading: isLangArab ? "رقم الهاتف" : "Phone Number",
+        headingRead:"Phone Number",
         value: profiledetails.phoneNumber,
       },
       {
         heading: isLangArab ? "المنظمة" : "Organization",
+        headingRead:"Organization",
         value: profiledetails.organization,
       },
       {
         heading: isLangArab ? "الدولة" : "Country",
+        headingRead:"Country",
         value: profiledetails.country,
       },
     ];
@@ -436,7 +441,7 @@ export default function BasicInformation({ isEditProfile,profileImage, setIsSucc
                 {info.heading}
               </h1>
               {isEditProfile ? (
-                info.heading === "Country" ? (
+                info.headingRead === "Country" ? (
                   <div className="relative">
   <div
     className="flex justify-between items-center p-1 sm:h-auto h-3/4 border rounded cursor-pointer bg-white"
@@ -478,11 +483,11 @@ export default function BasicInformation({ isEditProfile,profileImage, setIsSucc
                     type="text"
                     onChange={handleInputChange}
                     defaultValue={info.value}
-                    name={info.heading}
+                    name={info.headingRead}
                     className={`w-full sm:h-auto h-3/4 ${isDarkMode ? "text-[#FFFFFFCC]" : "text-black"}`}
                   />
-                  {info.heading === "Email" && emailError && <p className="text-red-500 text-xs">{emailError}</p>}
-                  {info.heading === "Phone Number" && phoneError && <p className="text-red-500 text-xs">{phoneError}</p>}
+                  {info.headingRead === "Email" && emailError && <p className="text-red-500 text-xs">{emailError}</p>}
+                  {info.headingRead === "Phone Number" && phoneError && <p className="text-red-500 text-xs">{phoneError}</p>}
                   </>
                 )
               ) : (
