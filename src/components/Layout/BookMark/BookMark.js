@@ -248,7 +248,7 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
   };
 
   return (
-    <div className="relative grid grid-cols-1 ">
+    <div className="relative grid grid-cols-1 h-full ">
       <div className="grid grid-cols-3 justify-start pt-3 items-start gap-y-4 gap-x-0">
   {bookmarks.map((image, index) => (
     <div key={image.id} className="relative flex flex-col  items-center">
@@ -296,17 +296,18 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
     </div>
   ))}
 </div>
-      <div className={`grid space-y-3 ${isManageVisible ? 'mt-6' : 'mt-10'}`}>
-            <hr className='mx-2' />
+      <div className={` flex flex-col  space-y-1 ${isManageVisible ? 'mt-24' : 'mt-28'}`}>
+            <hr className='mx-2 mb-3 ' />
             {!isManageVisible ? (
               <span className="flex gap-x-1 justify-center items-center">
                 <img src={isDarkMode ? DarkBookMarkGreen : BookMarkGreen } alt="" className="h-5" />
                 <p className="text-[#1365B1] underline text-sm cursor-pointer font-medium" onClick={() => setIsManageVisible(true)}>{ isLangArab?"إدارة العلامات المرجعية":"Manage Bookmarks"}</p>
               </span>
             ) : (
-              <div className="flex justify-center space-x-9 items-center">
+              <div className={`flex justify-center  ${isLangArab?"gap-4":"space-x-9"}  items-center`}>
+                
                 <button onClick={handleClose}
-                  className="w-auto py-3 px-14 bg-white text-xs border border-gray-300 rounded-lg"
+                  className="w-auto py-3 px-14 text-black bg-white text-xs border border-gray-300 rounded-lg"
                 >
                   {isLangArab ? "إلغاء":"Cancel"}
                 </button>
@@ -318,6 +319,7 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
                   {isLangArab?"حفظ التغييرات":"Save Changes"}
                 </button>
               </div>
+              
             )}
           </div>
     </div>

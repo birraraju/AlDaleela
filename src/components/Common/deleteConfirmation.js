@@ -1,5 +1,5 @@
 import { X } from "lucide-react";
-
+import DeleteAdminSvg from '../../assets/Admin/logo/DeletePopIcon.svg'
 export default function DeleteConfirmation({isLangArab,isShowConfirmation,Label,handleDeleteConfirm, handleDeleteCancel }) {
     if (!isShowConfirmation) return null;
 
@@ -14,9 +14,9 @@ export default function DeleteConfirmation({isLangArab,isShowConfirmation,Label,
                     aria-label="Cancel"
                 />
 
-                {/* <div className="flex justify-center py-2">
-                    <img src="/logo.png" alt="Logo" /> 
-                </div> */}
+                <div className="flex justify-start pt-4 pb-1     ">
+                    <img src={DeleteAdminSvg} alt="Logo" /> 
+                </div>
                 
                 <h1 className="text-start py-4 text-lg font-semibold text-black">
                 {isLangArab?"تأكيد للحذف":"Confirm to Delete"} { Label === "user" ?(isLangArab?"مستخدم": "User") :(isLangArab?"ملاحظات":"FeedBack")}

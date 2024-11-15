@@ -48,6 +48,7 @@ const Searchbar = ({
     function handleClickOutside(event) {
       if (contentRef.current && !contentRef.current.contains(event.target)) {
         setInputClicked(false);
+        setInputValue("")
         setIscategory(false);
       }
     }

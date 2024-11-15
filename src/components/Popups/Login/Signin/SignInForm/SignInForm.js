@@ -77,7 +77,7 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         {/* Enter Username */}
         <FormField
           control={form.control}

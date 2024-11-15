@@ -29,7 +29,7 @@ export default function Signin({ onClose, onSignupClick, onForgotPasswordClick }
       <div className="absolute inset-10 pointer-events-none"></div> {/* Backdrop with no pointer events */}
       <div
         ref={modalRef}
-        className={` ${isDarkMode ? "bg-[rgba(96,96,96,0.8)] text-white" : "bg-white bg-opacity-50 backdrop-filter backdrop-blur-lg text-black"} p-10 rounded-lg shadow-xl w-full max-w-sm relative  ${isDarkMode ? 'border-none' : 'border-gray-300'} pointer-events-auto`}
+        className={` ${isDarkMode ? "bg-[rgba(96,96,96,0.8)] text-white" : "bg-white bg-opacity-50 backdrop-filter backdrop-blur-lg text-black"} px-10 py-6 rounded-lg shadow-xl w-full max-w-sm relative  ${isDarkMode ? 'border-none' : 'border-gray-300'} pointer-events-auto`}
       >
         <button
           onClick={onClose}
