@@ -11,7 +11,7 @@ import Input from "../../../../../../../../Popups/Login/Input/Input";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react"; // Import useState
+import { useEffect, useState } from "react"; // Import useState
 import { IoEyeOff,IoEye } from "react-icons/io5"; // Import icons
 import { useAuth } from "../../../../../../../../../Providers/AuthProvider/AuthProvider";
 import {UserActivityLog} from "../../../../../../../../Common/UserActivityLog";
@@ -39,8 +39,12 @@ const formSchema = z
     path: ["confirmNewPassword"],
   });
 
+
+  
 export default function ChangePasswordForm({setIsProfileData,setModalMessage,setIsMsgStatus, setIsChangePassword,setIsFailure, setChangeCloseProfile,setIsSuccess, setIsProfile }) {
   const {profiledetails } = useAuth()
+  const[isValid,setIsValid]=useState(false)
+  const [ValidationButton,setValidationButton] = useState(false)
   const { isDarkMode,isLangArab } = useTheme(); // Access dark mode from theme context
   const form = useForm({
     resolver: zodResolver( isLangArab ? formSchemaArab : formSchema),
@@ -51,13 +55,27 @@ export default function ChangePasswordForm({setIsProfileData,setModalMessage,set
     },
   });
   
+  const currentPassword=form.watch("currentPassword")
+  const newPassword=form.watch("newPassword")
+  const confirmNewPassword=form.watch("confirmNewPassword")
 
+  
+  useEffect(()=>{
+    if(currentPassword && newPassword && confirmNewPassword){
+      setValidationButton((currentPassword && newPassword && confirmNewPassword))
+    }
+  },[currentPassword,newPassword,confirmNewPassword])
+  
 
+  
+  
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const onSubmit = async(values) => {
+
+    
     try {
       const signupObj ={
         email:profiledetails.email,
@@ -109,13 +127,13 @@ export default function ChangePasswordForm({setIsProfileData,setModalMessage,set
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="sm:space-y-7 space-y-6 sm:p-4 p-3">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="sm:space-y-3 space-y-6 sm:p-2 p-2">
         {/* Current Password */}
         <FormField
           control={form.control}
           name="currentPassword"
           render={({ field }) => (
-            <FormItem>
+            <FormItem c>
               <FormLabel className={`font-[400] font-omes text-gray-800 sm:text-[14px] tracking-wide ${
               isDarkMode ? "text-white" : "text-gray"
             }`}>
@@ -153,7 +171,7 @@ export default function ChangePasswordForm({setIsProfileData,setModalMessage,set
           control={form.control}
           name="newPassword"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex flex-col ">
               <FormLabel className="font-[400] font-omes text-gray-800 text-[14px] tracking-wide">
                 
                 {isLangArab?"كلمة المرور الجديدة":"New Password"}
@@ -192,7 +210,7 @@ export default function ChangePasswordForm({setIsProfileData,setModalMessage,set
           name="confirmNewPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-[400] font-omes text-gray-800 text-[14px] tracking-wide">
+              <FormLabel className="font-[400] font-omes text-gray-800 text-[14px]  tracking-wide">
                
                 {isLangArab?"تأكيد كلمة المرور الجديدة":" Confirm New Password"}
               </FormLabel>
@@ -223,18 +241,22 @@ export default function ChangePasswordForm({setIsProfileData,setModalMessage,set
         />
 
         {/* Button */}
-        <div className="flex justify-between gap-4 space-x-4">
+        <div className="flex justify-between pt-4 gap-4 space-x-4">
           <Button
             onClick={onCancel}
             type="button"
             variant="outline"
-            className="w-1/2 h-12 font-medium font-omes text-black text-[14px] rounded-xl bg-white shadow-none border border-black"
+            className="w-1/2 h-12 font-medium font-omes  text-black text-[14px] rounded-xl bg-white shadow-none border border-gray-300"
           >
              {isLangArab?"إلغاء":"Cancel"}
             
           </Button>
 
-          <Button type="submit" className="w-1/2 h-12 rounded-xl btn-gradient text-lg">
+          <Button
+          disabled={!ValidationButton} 
+          type="submit" 
+          
+          className={`w-1/2 h-12 rounded-xl ${ !ValidationButton ?"bg-gray-400":"btn-gradient"} text-[14px]`}>
             {isLangArab?"تحديث":"Update"}
           </Button>
         </div>
