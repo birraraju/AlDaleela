@@ -9,8 +9,8 @@ export default function ChangePassword({ setIsProfileData,setModalMessage,setIsC
 
   return (
     <>
-      <div className="flex justify-between items-center">
-        <h1 className={`font-medium sm:text-2xl text-lg ${
+      <div className="flex justify-between items-center px-2 py-2">
+        <h1 className={`font-medium sm:text-[16px] text-lg ${
               isDarkMode ? "text-white" : "text-gray"
             }`}>{isLangArab ?"تغيير كلمة المرور":"Change Password"}</h1>
         <div
@@ -26,7 +26,7 @@ export default function ChangePassword({ setIsProfileData,setModalMessage,setIsC
       </div>
 
       {/* Divider */}
-      <div className="h-[1px] w-full bg-[#0000001A] my-4"></div>
+      <div className="h-[1px] w-full bg-[#0000001A] my-2"></div>
 
       <ChangePasswordForm
       setIsFailure={setIsFailure}

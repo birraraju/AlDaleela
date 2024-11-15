@@ -133,8 +133,7 @@
 //     if (response.ok) {
 //         // Handle successful signup
 //         console.log(response);
-        
-       
+
 //     } else {
 //         // Handle error
 //         console.log(response);
@@ -145,7 +144,7 @@
 //       profiledetails.phoneNumber = finaluserInfo.phoneNumber;
 //       profiledetails.email = finaluserInfo.email;
 //       profiledetails.organization = finaluserInfo.organization;
-//       profiledetails.country = finaluserInfo.country;      
+//       profiledetails.country = finaluserInfo.country;
 //       UserActivityLog(profiledetails, "Profile Updated")
 //       //console.log(values);
 //       setIsEditProfile(false)
@@ -168,7 +167,7 @@
 //     // onClose();
 //   }catch (error) {
 //     console.error('Error submitting form:', error);
-//   }  
+//   }
 //   //setIsEditProfile(false)
 //   //console.log('Updated user info:', userInfo);
 //   // Example: You could make an API call here to save the updated information
@@ -253,7 +252,6 @@
 //   );
 // }
 
-
 import React, { useState, useEffect } from "react";
 import { Button } from "../../../../../../../../../../components/ui/button";
 import { Input } from "../../../../../../../../../../components/ui/input";
@@ -261,7 +259,17 @@ import { useAuth } from "../../../../../../../../../../Providers/AuthProvider/Au
 import { useTheme } from "../../../../../../../../../Layout/ThemeContext/ThemeContext"; // Import your theme context
 import { UserActivityLog } from "../../../../../../../../../Common/UserActivityLog";
 
-export default function BasicInformation({ isEditProfile,profileImage, setIsSuccess, setIsFailure, setIsMsgStatus, setModalMessage, setIsProfileData, setIsEditProfile, file }) {
+export default function BasicInformation({
+  isEditProfile,
+  profileImage,
+  setIsSuccess,
+  setIsFailure,
+  setIsMsgStatus,
+  setModalMessage,
+  setIsProfileData,
+  setIsEditProfile,
+  file,
+}) {
   const { profiledetails } = useAuth();
   const { isDarkMode, isLangArab } = useTheme(); // Access dark mode from theme context
   const [userInfo1, setUserInfo1] = useState([]);
@@ -271,17 +279,19 @@ export default function BasicInformation({ isEditProfile,profileImage, setIsSucc
     phoneNumber: "",
     organization: "",
     country: "",
-    currentemail: profiledetails.email
+    currentemail: profiledetails.email,
   });
   const [userInfo, setUserInfo] = useState({
     Name: "",
     Email: "",
     PhoneNumber: "",
     Organization: "",
-    Country: ""
+    Country: "",
   });
   const [isDropdownOpen, setIsDropdownOpen] = useState(false); // To control country dropdown
-  const [selectedCountry, setSelectedCountry] = useState(profiledetails.country || "Select a country");
+  const [selectedCountry, setSelectedCountry] = useState(
+    profiledetails.country || "Select a country"
+  );
   const [emailError, setEmailError] = useState("");
   const [phoneError, setPhoneError] = useState("");
 
@@ -330,36 +340,46 @@ export default function BasicInformation({ isEditProfile,profileImage, setIsSucc
 
   const handleUpdate = async () => {
     finaluserInfo.username = userInfo.Name || profiledetails.username;
-    finaluserInfo.phoneNumber = userInfo.PhoneNumber || profiledetails.phoneNumber;
+    finaluserInfo.phoneNumber =
+      userInfo.PhoneNumber || profiledetails.phoneNumber;
     finaluserInfo.email = userInfo.Email || profiledetails.email;
-    finaluserInfo.organization = userInfo.Organization || profiledetails.organization;
+    finaluserInfo.organization =
+      userInfo.Organization || profiledetails.organization;
     finaluserInfo.country = selectedCountry || profiledetails.country;
     finaluserInfo.profilepicture = file || "";
 
     // Prepare form data
     const formdata = new FormData();
-    formdata.append('username', userInfo.Name || profiledetails.username);
-    formdata.append('email', userInfo.Email || profiledetails.email);
-    formdata.append('phoneNumber', userInfo.PhoneNumber || profiledetails.phoneNumber);
-    formdata.append('organization', userInfo.Organization || profiledetails.organization);
-    formdata.append('country', selectedCountry || profiledetails.country);
-    formdata.append('currentemail', profiledetails.email);
+    formdata.append("username", userInfo.Name || profiledetails.username);
+    formdata.append("email", userInfo.Email || profiledetails.email);
+    formdata.append(
+      "phoneNumber",
+      userInfo.PhoneNumber || profiledetails.phoneNumber
+    );
+    formdata.append(
+      "organization",
+      userInfo.Organization || profiledetails.organization
+    );
+    formdata.append("country", selectedCountry || profiledetails.country);
+    formdata.append("currentemail", profiledetails.email);
     //formdata.append('profilepicture', file);
     // Add an empty file if the user hasn't selected one
     if (!file) {
-      const emptyFile = new Blob([], { type: 'application/octet-stream' });
-      formdata.append('profilepicture', emptyFile, 'empty.jpg');
+      const emptyFile = new Blob([], { type: "application/octet-stream" });
+      formdata.append("profilepicture", emptyFile, "empty.jpg");
     } else {
-      formdata.append('profilepicture', file);
+      formdata.append("profilepicture", file);
     }
-    
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/Registration/updateprofile`, {
-        method: 'POST',
-        //headers: { 'Content-Type': 'application/json' },
-        body: formdata,
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/Registration/updateprofile`,
+        {
+          method: "POST",
+          //headers: { 'Content-Type': 'application/json' },
+          body: formdata,
+        }
+      );
       const data = await response.json();
       if (data.success) {
         profiledetails.username = finaluserInfo.username;
@@ -367,10 +387,13 @@ export default function BasicInformation({ isEditProfile,profileImage, setIsSucc
         profiledetails.email = finaluserInfo.email;
         profiledetails.organization = finaluserInfo.organization;
         profiledetails.country = finaluserInfo.country;
-        if(profiledetails.imageUrl){
+        if (profiledetails.imageUrl) {
           profiledetails.imageUrl = data.data.imageUrl;
         }
-        localStorage.setItem("AldaleelaUserDetails:",JSON.stringify(profiledetails))
+        localStorage.setItem(
+          "AldaleelaUserDetails:",
+          JSON.stringify(profiledetails)
+        );
         UserActivityLog(profiledetails, "Profile Updated");
 
         setIsEditProfile(false);
@@ -386,7 +409,7 @@ export default function BasicInformation({ isEditProfile,profileImage, setIsSucc
         setIsProfileData(false);
       }
     } catch (error) {
-      console.error('Error submitting form:', error);
+      console.error("Error submitting form:", error);
     }
   };
 
@@ -404,11 +427,13 @@ export default function BasicInformation({ isEditProfile,profileImage, setIsSucc
     const { name, value } = e.target;
     setUserInfo({ ...userInfo, [name.replace(" ", "")]: value });
 
-     // Validate email and phone number
-     if (name === "Email") {
+    // Validate email and phone number
+    if (name === "Email") {
       setEmailError(validateEmail(value) ? "" : "Invalid email format");
     } else if (name === "Phone Number") {
-      setPhoneError(validatePhoneNumber(value) ? "" : "Phone number must be 10 digits");
+      setPhoneError(
+        validatePhoneNumber(value) ? "" : "Phone number must be 10 digits"
+      );
     }
   };
 
@@ -421,23 +446,42 @@ export default function BasicInformation({ isEditProfile,profileImage, setIsSucc
     setIsDropdownOpen(false);
   };
 
-  const countries = ["United Arab Emirates", "Canada", "United Kingdom", "Australia", "Germany", "France"];
+  const countries = [
+    "United Arab Emirates",
+    "Canada",
+    "United Kingdom",
+    "Australia",
+    "Germany",
+    "France",
+  ];
 
   return (
-    <div className="sm:py-4 py-1 sm:mt-8 mt-1 h-full">
-      <div className={`sm:p-4 p-1 rounded-lg h-auto ${
-        isDarkMode ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" : "bg-white bg-opacity-70 backdrop-blur-lg border-white"
-      }`}>
-        <h1 className={`font-medium tracking-wider sm:text-lg text-sm ${isDarkMode ? "text-white" : "text-black"}`}>
+    <div className="sm:py-2 py-1 sm:mt-4 mt-1 h-full">
+      <div
+        className={`sm:p-2 p-1 rounded-lg h-auto ${
+          isDarkMode
+            ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none"
+            : "bg-white bg-opacity-70 backdrop-blur-lg border-white"
+        }`}
+      >
+        <h1
+          className={`font-medium tracking-wider sm:text-[14px] text-sm ${
+            isDarkMode ? "text-white" : "text-black"
+          }`}
+        >
           {isLangArab ? "المعلومات الأساسية" : "Basic Information"}
         </h1>
 
         <div className="h-[1px] w-full bg-[#0000001A] my-4"></div>
 
-        <div className="grid sm:grid-cols-2 grid-cols-1 sm:gap-8 gap-3 mb-4  px-4">
+        <div className="grid sm:grid-cols-2 grid-cols-1 sm:gap-4 gap-3 mb-4  px-4">
           {userInfo1.map((info, index) => (
             <div key={index}>
-              <h1 className={`tracking-wider sm:text-sm text-xs ${isDarkMode ? "text-white" : "text-black"}`}>
+              <h1
+                className={`tracking-wider sm:text-sm text-xs ${
+                  isDarkMode ? "text-white" : "text-black"
+                }`}
+              >
                 {info.heading}
               </h1>
               {isEditProfile ? (
@@ -483,7 +527,7 @@ export default function BasicInformation({ isEditProfile,profileImage, setIsSucc
                     type="text"
                     onChange={handleInputChange}
                     defaultValue={info.value}
-                    name={info.headingRead}
+                    name={info.heading}
                     className={`w-full sm:h-auto h-3/4 ${isDarkMode ? "text-[#FFFFFFCC]" : "text-black"}`}
                   />
                   {info.headingRead === "Email" && emailError && <p className="text-red-500 text-xs">{emailError}</p>}
@@ -491,7 +535,11 @@ export default function BasicInformation({ isEditProfile,profileImage, setIsSucc
                   </>
                 )
               ) : (
-                <p className={`font-medium tracking-wide sm:text-sm text-[11px] ${isDarkMode ? "text-[#FFFFFFCC]" : "text-black"}`}>
+                <p
+                  className={`font-medium tracking-wide sm:text-[12px] text-[11px] ${
+                    isDarkMode ? "text-[#FFFFFFCC]" : "text-black"
+                  }`}
+                >
                   {info.value}
                 </p>
               )}
@@ -499,19 +547,16 @@ export default function BasicInformation({ isEditProfile,profileImage, setIsSucc
           ))}
 
           {isEditProfile && (
-             <Button
-             asChild
-             disabled={!isFormValid()}
-           >
-             <div
-               onClick={isFormValid() ? handleUpdate : undefined}
-               className={`h-12 sm:py-5 py-1 cursor-pointer btn-gradient text-white text-base sm:rounded-xl rounded-md mt-4 tracking-wide ${
-                 isFormValid() ? "" : "opacity-50 cursor-not-allowed"
-               }`}
-             >
-               {isLangArab ? "تحديث" : "Update"}
-             </div>
-           </Button>
+            <Button asChild disabled={!isFormValid()}>
+              <div
+                onClick={isFormValid() ? handleUpdate : undefined}
+                className={`h-12 sm:py-5 py-1 cursor-pointer btn-gradient text-white text-base sm:rounded-xl rounded-md mt-4 tracking-wide ${
+                  isFormValid() ? "" : "opacity-50 cursor-not-allowed"
+                }`}
+              >
+                {isLangArab ? "تحديث" : "Update"}
+              </div>
+            </Button>
           )}
         </div>
       </div>

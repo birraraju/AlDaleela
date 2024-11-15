@@ -49,9 +49,9 @@ export default function ProfileMenu({
   return (
     <div
       ref={menuRef}
-      className="fixed  mobile_l:inset-6 tab:inset-10 laptop_s:inset-10 inset-1 mobile_m:inset-5 flex items-center justify-center"
+      className="fixed    mobile_l:inset-6 tab:inset-10 laptop_s:inset-10 2xl:inset-40 inset-1 mobile_m:inset-5 flex items-center justify-center"
     >
-      <div className={`-translate-y-0 sm:-translate-y-0 sm:h-auto  p-4 backdrop-blur w-[40rem] text-black rounded-xl max-w-md ${
+      <div className={`-translate-y-0 sm:-translate-y-0 sm:h-auto    p-4 backdrop-blur w-[30rem] 2xl:w-[30rem] text-black rounded-xl max-w-sm ${
         isDarkMode
           ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none"
           : "bg-white bg-opacity-70 backdrop-blur-lg border-white"
