@@ -18,7 +18,7 @@ const POIShareForm = ({ onClose, queryresults }) => {
         //{ src: InstgramSvg, name: "Instagram" },
     ];
     const [copied, setCopied] = useState(false);
-    const {isLangArab} = useTheme();
+    const {isLangArab, isDarkMode} = useTheme();
     const message = "Check this out!"; // Custom message for WhatsApp or other platforms
     const shareUrl = `${window.location.protocol}//${window.location.host}/${process.env.REACT_APP_BASE_URL}/${queryresults.features[0].layer.layerId}/${queryresults.features[0].attributes.OBJECTID}` // The URL you want to share
     const latitude = queryresults.features[0].geometry.latitude; 
@@ -63,22 +63,22 @@ const POIShareForm = ({ onClose, queryresults }) => {
                     onClick={onClose}
                     className="px-1 py-3 hover:text-blue-500 flex items-center text-black focus:outline-none"
                 >
-                    <ChevronLeft className="w-5 h-5" />
-                    <span>{isLangArab?"ظهر":"Back"}</span>
+                    <ChevronLeft className={`w-5 ${isDarkMode?"text-white":" text-black "} h-5`} />
+                    <span className={`${isDarkMode?" text-white/95":"text-black"}`}>{isLangArab?"ظهر":"Back"}</span>
                 </button>
             </div>
             <div className='grid grid-cols-3 gap-7  justify-center items-center'>
                 {Links.map((link, index) => (
                     <div key={index} onClick={() => handleShareClick(link.name)} className='flex w-16 flex-col justify-center items-center cursor-pointer'>
                         <img src={link.src} className='h-10 w-12 mb-1' alt={link.name} />
-                        <h1 className='text-[#404040] text-[12px] font-medium text-center'>{link.name}</h1>
+                        <h1 className={`${isDarkMode?"text-white":"text-[#404040]"} text-[12px] font-medium text-center`}>{link.name}</h1>
                     </div>
                 ))}
             </div>
             <hr className='my-4' />
             <div className='flex justify-center items-center gap-2 cursor-pointer' onClick={handleCopy}>
                 <img src={CopyIconSvg} alt="Copy Link" className='h-5 w-5' />
-                    <h2 className='text-blue-600 text-[12px] font-medium'>{isLangArab?"نسخ الوصلة":"Copy Link"}</h2>
+                    <h2 className={`${isDarkMode?"text-gray-400":"text-blue-600"} text-[12px] font-medium`}>{isLangArab?"نسخ الوصلة":"Copy Link"}</h2>
                 {copied && <span className="text-green-600 text-[12px] ml-2">{isLangArab?"منسوخ!":"Copied!"}</span>}
             </div>
         </div>

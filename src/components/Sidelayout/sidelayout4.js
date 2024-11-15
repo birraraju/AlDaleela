@@ -80,7 +80,7 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
             : "bg-white bg-opacity-70 border-white"
         }`}>
         {/* Sticky Dropped Pin */}
-        <div className="sticky top-4 z-10 p-4 bg-opacity-70">
+        <div className="sticky top-1 z-10 p-4 bg-opacity-70">
           <div className="flex items-center gap-x-2">
             {isFormShow ? <><img src={isDarkMode ? DarkLocation : Location} alt="Location" className="h-5" />
             <p
@@ -98,7 +98,7 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
           <button
             onClick={closePanel}
             
-            className={`absolute top-4  ${isLangArab ?"left-2":"right-4"} p-2 transition-colors cursor-pointer z-50 ${
+            className={`absolute top-2  ${isLangArab ?"left-2":"right-4"} p-2 transition-colors cursor-pointer z-50 ${
               isDarkMode ? "text-white hover:text-gray-300" : "text-gray-600 hover:text-gray-900"
             }`}
             aria-label="Close side panel"
@@ -112,7 +112,7 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
         <div className={`${POIFormsuccessShow?"py-1 px-4":"p-4"} overflow-y-auto h-full relative`}>
           {children || (
             <>    
-              <div className="overflow-y-auto">
+              <div className="overflow-y-auto h-full">
                 <AddPOI
                 isLangArab={isLangArab}
                   mapview={mapview}

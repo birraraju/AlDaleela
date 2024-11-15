@@ -448,11 +448,17 @@ const Component = ({ POIFormShow,isLangArab, setPOIUploaderShow, setIsShowEditPO
   "select"
 )}
 
+
+  
+ 
 {renderFieldOrText(
-  "name_en",
-  isLangArab ? "الاسم" : "Name",
-  queryresults.features[0].attributes.name_en
-)}
+      "Classification",
+      isLangArab ? "التصنيف" : "Classification",
+      queryresults.features[0].attributes.Classification,
+      [],
+      "text", 
+      true
+    )}
 
 {renderFieldOrText(
   "Class",
@@ -461,55 +467,6 @@ const Component = ({ POIFormShow,isLangArab, setPOIUploaderShow, setIsShowEditPO
 )}
 
 {renderFieldOrText(
-  "ClassD",
-  isLangArab ? "الفئة D" : "ClassD",
-  queryresults.features[0].attributes.ClassD
-)}
-
-{isShowMore && (
-  <>
-    {renderFieldOrText(
-      "Status",
-      isLangArab ? "الحالة" : "Status",
-      queryresults.features[0].attributes.Status,
-      statusOptions,
-      "select"
-    )}
-
-    {renderFieldOrText(
-      "Comment",
-      isLangArab ? "التعليق" : "Comment",
-      queryresults.features[0].attributes.Comment
-    )}
-
-    {renderFieldOrText(
-      "description",
-      isLangArab ? "الوصف" : "Description",
-      queryresults.features[0].attributes.description
-    )}
-
-    {renderFieldOrText(
-      "poems",
-      isLangArab ? "القصائد" : "Poems",
-      queryresults.features[0].attributes.poems
-    )}
-
-    {renderFieldOrText(
-      "stories",
-      isLangArab ? "القصص" : "Stories",
-      queryresults.features[0].attributes.stories
-    )}
-
-    {renderFieldOrText(
-      "Classification",
-      isLangArab ? "التصنيف" : "Classification",
-      queryresults.features[0].attributes.Classification,
-      [],
-      "text",
-      true
-    )}
-
-    {renderFieldOrText(
       "MunicipalityAr",
       isLangArab ? "البلدية" : "Municipality",
       queryresults.features[0].attributes.MunicipalityAr,
@@ -517,19 +474,66 @@ const Component = ({ POIFormShow,isLangArab, setPOIUploaderShow, setIsShowEditPO
       "select"
     )}
 
-    {renderFieldOrText(
+{renderFieldOrText(
       "Emirate",
       isLangArab ? "الإمارة" : "Emirate",
       queryresults.features[0].attributes.Emirate
     )}
 
-    {renderFieldOrText(
+{renderFieldOrText(
       "City",
       isLangArab ? "المدينة" : "City",
       queryresults.features[0].attributes.City
     )}
-  </>
+
+    
+{isShowMore && renderFieldOrText(
+  "name_en",
+  isLangArab ? "الاسم" : "Name",
+  queryresults.features[0].attributes.name_en
 )}
+
+
+
+{ isShowMore && renderFieldOrText(
+  "ClassD",
+  isLangArab ? "الفئة D" : "ClassD",
+  queryresults.features[0].attributes.ClassD
+)}
+
+    {isShowMore && renderFieldOrText(
+      "Status",
+      isLangArab ? "الحالة" : "Status",
+      queryresults.features[0].attributes.Status,
+      statusOptions,
+      "select"
+    )}
+
+    {isShowMore && renderFieldOrText(
+      "Comment",
+      isLangArab ? "التعليق" : "Comment",
+      queryresults.features[0].attributes.Comment
+    )}
+
+    {isShowMore && renderFieldOrText(
+      "description",
+      isLangArab ? "الوصف" : "Description",
+      queryresults.features[0].attributes.description
+    )}
+
+    {isShowMore && renderFieldOrText(
+      "poems",
+      isLangArab ? "القصائد" : "Poems",
+      queryresults.features[0].attributes.poems
+    )}
+
+    {isShowMore && renderFieldOrText(
+      "stories",
+      isLangArab ? "القصص" : "Stories",
+      queryresults.features[0].attributes.stories
+    )}
+    
+
 
             {/* {renderFieldOrText("organization", "Organization", queryresults.features[0].attributes.organization,organizationOptions, "select")}
             {renderFieldOrText("name_en", "Name", queryresults.features[0].attributes.name_en)}

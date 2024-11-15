@@ -292,6 +292,7 @@ export default function SideLayout3({ children, width = "454.84px", onClose, map
 
   return (
     <div
+    dir={isLangArab && "rtl"}
       ref={panelRef}
       style={{ height: panelHeight }} // Update height dynamically here
       className={`fixed  w-full sm:w-[400px]  laptop_s:w-[${width}] h-[98%] ${((startYRef !== null) || (startHeightRef !== null) ) ? "-bottom-1 sm:top-16": "top-16"} ${
@@ -313,7 +314,7 @@ export default function SideLayout3({ children, width = "454.84px", onClose, map
         ></div>
         <button
           onClick={closePanel}
-          className={`absolute top-4 right-4 p-1 transition-colors ${
+          className={`absolute top-4 ${isLangArab?"left-4":"right-4"} p-1 transition-colors ${
             isDarkMode ? "text-white hover:text-gray-300" : "text-gray-600 hover:text-gray-900"
           }`}
           aria-label="Close side panel"
@@ -324,7 +325,7 @@ export default function SideLayout3({ children, width = "454.84px", onClose, map
         <div className="p-6 overflow-y-auto h-full">
           {children || (
             <>
-              <p className={`text-${isDarkMode ? '[#FFFFFFCC] text-opacity-80' : 'black'} font-poppins font-medium`}>
+              <p className={`text-${isDarkMode ? '[#FFFFFFCC] text-opacity-80' : 'black'} text-[16px] font-poppins font-medium`}>
                 {isLangArab ? "القياس" : "Measurement"}
               </p>
             </>

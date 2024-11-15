@@ -9,6 +9,7 @@ import * as identify from '@arcgis/core/rest/identify';
 import IdentifyParameters from "@arcgis/core/rest/support/IdentifyParameters.js";// Import IdentifyParameters
 import config from "../../Common/config"
 import Graphic from '@arcgis/core/Graphic';
+import { useTheme } from "../ThemeContext/ThemeContext";
 
 const MapComponent = (props) => {
   // Create a ref for the map container
@@ -19,6 +20,7 @@ const MapComponent = (props) => {
   const [lon, setLon] = useState(null);
   const [scale, setScale] = useState(null);
   const {setconrextMapView, setinitialExtent,setIsEditPOI, setPopupSelectedGeo} = useAuth();
+  const {isLangArab} = useTheme()
 
   const {setMapview, MapView} = props;
 
@@ -222,14 +224,14 @@ const handleMapClick = (view) => async(event) => {
         ref={mapDiv}
       />
       {/* Display Lat, Lon, and Scale */}
-      <div className=" absolute sm:bottom-4 bottom-24 text-[#2C2C2C] font-poppins font-medium sm:text-[12px] text-[9px] sm:left-10 left-2 bg-white bg-opacity-40 backdrop-blur sm:p-3 p-1 rounded-lg shadow-md">
+      <div dir={isLangArab && "rtl"} className={`absolute sm:bottom-4 bottom-24 text-[#2C2C2C] font-poppins font-medium sm:text-[12px] text-[9px] ${isLangArab?"sm:right-10  right-2":"sm:left-10 left-2"} bg-white bg-opacity-40 backdrop-blur sm:p-3 p-1 rounded-lg shadow-md`}>
         <p className="text-[#2C2C2C] font-poppins font-medium text-[12px] mb-1">
-          Long: <span className="font-normal">{lon?.toFixed(3)}</span>
+          {isLangArab?"خط الطول":"Long"}: <span className="font-normal">{lon?.toFixed(3)}</span>
           <span className="mx-4">|</span>
-          Lat: <span className="font-normal">{lat?.toFixed(3)}</span>
+          {isLangArab?"خط العرض":"Lat"}: <span className="font-normal">{lat?.toFixed(3)}</span>
         </p>
         <p className="">
-          Current Scale: <span className="font-medium">{formatScale(scale)}</span> | UTM 39N
+          {isLangArab?"المقياس الحالي":"Current Scale"}: <span className="font-medium">{formatScale(scale)}</span> | UTM 39N
         </p>
       </div>
     </div>

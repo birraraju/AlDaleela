@@ -219,7 +219,7 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
         : contribution.approvalStatus === "Rejected"
           ? "text-red-500 font-omnes sm:text-[13px] text-[14px] font-medium"
         : `${
-            isDarkMode ? "text-black/80" : "text-[#EFB45D]"
+            isDarkMode ? "text-white/70" : "text-[#EFB45D]"
           } font-omnes sm:text-[13px] text-[14px] font-medium`
     }`}
   >

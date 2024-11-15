@@ -398,17 +398,22 @@ export default function BasicInformation({
 
         setIsEditProfile(false);
         setIsMsgStatus("Success");
-        setModalMessage("Profile updated Successfully !");
+        setModalMessage(isLangArab?"تم تحديث الملف الشخصي":"Profile updated Successfully!");
         setIsSuccess(true);
         setIsProfileData(false);
       } else {
         setIsFailure(true);
         setIsMsgStatus("Failure");
-        setModalMessage("Failed to update Profile Data !");
+        setModalMessage(isLangArab?"فشل تحديث بيانات الملف الشخصي":"Failed to update Profile Data!");
         setIsEditProfile(false);
         setIsProfileData(false);
       }
     } catch (error) {
+      setIsFailure(true);
+      setIsMsgStatus("Failure");
+      setModalMessage(isLangArab?"فشل تحديث بيانات الملف الشخصي":"Failed to update Profile Data!");
+      setIsEditProfile(false);
+      setIsProfileData(false);
       console.error("Error submitting form:", error);
     }
   };
@@ -527,7 +532,7 @@ export default function BasicInformation({
                     type="text"
                     onChange={handleInputChange}
                     defaultValue={info.value}
-                    name={info.heading}
+                    name={info.headingRead}
                     className={`w-full sm:h-auto h-3/4 ${isDarkMode ? "text-[#FFFFFFCC]" : "text-black"}`}
                   />
                   {info.headingRead === "Email" && emailError && <p className="text-red-500 text-xs">{emailError}</p>}
@@ -536,7 +541,7 @@ export default function BasicInformation({
                 )
               ) : (
                 <p
-                  className={`font-medium tracking-wide sm:text-[12px] text-[11px] ${
+                  className={`font-medium tracking-wide sm:text-[11px] text-[11px] ${
                     isDarkMode ? "text-[#FFFFFFCC]" : "text-black"
                   }`}
                 >
