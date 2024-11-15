@@ -24,15 +24,17 @@ export default function Input({
     setHasContent(!!e.target.value); // Update content state as user types
   };
 
+
   return (
     <div className="relative">
       <input
         type={type}
         name={name}
         required={required}
-        className={`w-full h-[48px]  px-4 py-2 text-sm text-black bg-white border border-gray-300 rounded-[10px] focus:outline-none
+        className={`w-full h-[48px]  px-4 py-2 text-sm text-black  bg-white border border-gray-300 rounded-[10px] focus:outline-none
         ${isFocused || hasContent ? "placeholder-transparent" : "placeholder-gray-400"}`}
         onFocus={handleFocus}
+        placeholder={placeholder}
         onBlur={handleBlur}
         onChange={handleChange}
       />
@@ -42,7 +44,7 @@ export default function Input({
         ${isFocused || hasContent ? "text-transparent" : "text-black"}
         ${isFocused || hasContent ? "-translate-y-5" : ""}`}
       >
-        {placeholder}{"  "}
+        {/* <span className=" text-gray-300">{placeholder}</span>{"  "} */}
         {required && (
           <span className={`${isFocused || hasContent ? "text-transparent" : "text-red-500"}`}>
             *
