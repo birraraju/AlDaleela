@@ -65,12 +65,12 @@ const MeasurementsComponent = ({ mapview }) => {
                       isDistance ? "bg-white" : ""
                     } dark:bg-violet-600 peer-checked:dark:bg-gray-700`}
                   >
-                    <img src={Measurment} alt="Distance" className="w-5 mr-2" />
+                    <img src={Measurment} alt="Distance" className="w-5 mr-1 sm:mr-2" />
                     <button id="distance" className="" title="Distance Measurement Tool">Distance Measurement</button>
                   </span>
                   <span
                     onClick={() => {setIsDistance(false); handleClickArea()}}
-                    className={`flex items-center  ml-1 pl-1 pr-5 py-2 text-[10px] rounded-md ${
+                    className={`flex items-center  ml-1 pl-1 sm:pr-5 pr-1 py-2 text-[10px] rounded-md ${
                       !isDistance ? "bg-white" : ""
                     } dark:bg-gray-700 peer-checked:dark:bg-violet-600`}
                   >
