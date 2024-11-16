@@ -10,7 +10,7 @@ import { useAuth } from "../../Providers/AuthProvider/AuthProvider";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";  
 import Graphic from '@arcgis/core/Graphic';
 
-const DropBinStatusUpdate = ({setMessage,isLangArab,setFormShow,setPOIFormIsOpenModalShow,setPOIFormSuccessShow,isFormShow}) => {
+const DropBinStatusUpdate = ({setMessage,isLangArab,setFormShow,isDarkMode,setPOIFormIsOpenModalShow,setPOIFormSuccessShow,isFormShow}) => {
   const [poiData, setPoiData] = useState({
     organization: "",
     name_en: "",
@@ -170,13 +170,14 @@ const DropBinStatusUpdate = ({setMessage,isLangArab,setFormShow,setPOIFormIsOpen
   if(!isFormShow) return null; 
 
   const renderField = (label, value) => (
-    <div className="space-y-2">
-      <label className="block text-sm font-medium text-gray-700">
+    <div className="space-y-1">
+     { value && <> <label className="block text-[14px] font-medium text-gray-700">
         {label}
       </label>
-      <div className="block w-full p-2 rounded-md border-gray-300 shadow-sm bg-gray-50 text-gray-900">
+      <div className="block w-full p-2 text-[13px] h-9 rounded-md border-gray-300 shadow-sm bg-gray-50 text-gray-900">
         {value}
       </div>
+      </>}
     </div>
   );
 
@@ -424,7 +425,7 @@ const DropBinStatusUpdate = ({setMessage,isLangArab,setFormShow,setPOIFormIsOpen
         {/* Photos Section */}
         <div className="px-3 py-6 border border-none rounded-lg bg-white space-y-4">
           <div>
-                <h3 className="text-sm font-medium mb-2">{isLangArab?"صور":"Photos"}</h3>
+                <h3 className={`text-[14px] ${isDarkMode ?"text-white":" text-gray-700 "} font-medium  mb-2`}>{isLangArab?"صور":"Photos"}</h3>
                 {images.length > 0 ? (
                   images.map((image, index) => (
                     <div key={index} className="relative h-[90px] rounded-lg overflow-hidden">
@@ -432,13 +433,13 @@ const DropBinStatusUpdate = ({setMessage,isLangArab,setFormShow,setPOIFormIsOpen
                     </div>
                   ))
                 ) : (
-                  <p>{isLangArab?"لا توجد صور متاحة.":"No photos available."}</p>
+                  <p className={`text-[14px] ${isDarkMode ?"text-white":" text-gray-700 "}`}>{isLangArab?"لا توجد صور متاحة.":"No photos available."}</p>
                 )}
             </div>
 
           {/* Videos Section */}
           <div>
-                <h3 className="text-sm font-medium mb-2">{isLangArab?"فيديوهات":"Videos"}</h3>
+                <h3 className={` text-[14px] ${isDarkMode ?"text-white":" text-gray-700 "} font-medium mb-2`}>{isLangArab?"فيديوهات":"Videos"}</h3>
                 {videos.length > 0 ? (
                   <div className="grid grid-cols-2 gap-2">
                     {videos.map((video, index) => (
@@ -455,16 +456,16 @@ const DropBinStatusUpdate = ({setMessage,isLangArab,setFormShow,setPOIFormIsOpen
                     ))}
                   </div>
                 ) : (
-                  <p>{isLangArab?"لا توجد مقاطع فيديو متاحة.":"No videos available."}</p>
+                  <p className={`text-[14px] ${isDarkMode ?"text-white":" text-gray-700 "}`}>{isLangArab?"لا توجد مقاطع فيديو متاحة.":"No videos available."}</p>
                 )}
               </div>
 
           {/* Audio Section */}
           <div>
-                <h3 className="text-sm font-medium mb-2">{isLangArab?"صوتي":"Audio"}</h3>
+                <h3 className={` text-[14px] ${isDarkMode ?"text-white":" text-gray-700 "} text-sm font-medium mb-2`}>{isLangArab?"صوتي":"Audio"}</h3>
                 {audios.length > 0 ? (
                   audios.map((audio, index) => (
-                    <div key={index} className="flex p-2 h-10 bg-gray-300 rounded-full justify-center items-center overflow-hidden">
+                    <div key={index} className={`flex text-[14px] ${isDarkMode ?"text-white":" text-gray-700 "} p-2 h-10 bg-gray-300  rounded-full justify-center items-center overflow-hidden`}>
                       <audio controls className="w-13" style={{ width: '100px' }}>
                         <source src={audio.url} />
                         {isLangArab?"متصفحك لا يدعم علامة الصوت.":"Your browser does not support the audio tag."}
@@ -472,7 +473,7 @@ const DropBinStatusUpdate = ({setMessage,isLangArab,setFormShow,setPOIFormIsOpen
                     </div>
                   ))
                 ) : (
-                  <p>{isLangArab?"لا توجد ملفات صوتية متاحة.":"No audio files available."}</p>
+                  <p className={`text-[14px] ${isDarkMode ?"text-white":" text-gray-700 "}`}>{isLangArab?"لا توجد ملفات صوتية متاحة.":"No audio files available."}</p>
                 )}
               </div>
         </div>
@@ -481,7 +482,7 @@ const DropBinStatusUpdate = ({setMessage,isLangArab,setFormShow,setPOIFormIsOpen
           <button onClick={handleApprovePOI} className="w-auto py-3 px-9 bg-custom-gradient text-xs border border-black rounded-lg">
             {isLangArab?"تم الموافقة!":"Approve"}
           </button>
-          <button onClick={handleRejectPOI} className="w-auto py-3 px-9 bg-[#FFE8E8] text-xs border border-[#909090] rounded-lg">
+          <button onClick={handleRejectPOI} className="w-auto py-3 text-black px-9 bg-[#FFE8E8] text-xs border border-[#909090] rounded-lg">
             {isLangArab?"تم الرفض!":"Reject"}
           </button>
         </div>

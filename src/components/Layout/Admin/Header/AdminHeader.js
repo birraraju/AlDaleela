@@ -8,7 +8,7 @@ const Header = ({ isFooteropen, isHeaderOpen }) => {
 
   return (
     <header
-    className={`text-white py-3 px-6 flex items-center justify-between fixed top-0 left-0 w-full z-20 ${
+    className={`text-white py-2 px-6 flex items-center justify-between fixed top-0 left-0 w-full z-20 ${
       isDarkMode
         ? 'bg-dark-gradient' // Apply dark theme background
         : 'bg-custom-gradient' // Apply default background

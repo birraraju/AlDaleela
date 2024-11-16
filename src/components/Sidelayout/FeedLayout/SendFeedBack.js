@@ -89,7 +89,7 @@
 //   {ratings.map((item) => (
 //     <button
 //       key={item.value}
-//       className={`flex bg-transparent sm:px-3 laptop_s:px-3 px-3 justify-center py-2 border sm:rounded-xl rounded-lg flex-col items-center sm:space-y-1 space-y-2 transition-colors ${
+//       className={`flex bg-transparent sm:px-3 laptop_s:px-3 px-3 justify-center py-2 border sm:rounded-md rounded-lg flex-col items-center sm:space-y-1 space-y-2 transition-colors ${
 //         isDarkMode
 //           ? rating === item.value
 //             ? "bg-black text-white border-white"
@@ -126,7 +126,7 @@
 //               id="name"
 //               onChange={(e)=> setfbname(e.target.value)}
 //               placeholder={isLangArab?"أدخل اسم المستخدم":"Enter Your Name"}
-//               className={`w-full px-3 py-3 border rounded-xl outline-none transition-colors ${
+//               className={`w-full px-3 py-3 border rounded-md outline-none transition-colors ${
 //                 isDarkMode
 //         ? "bg-[#444646]  text-[white] border-transparent "
 //         : "bg-white text-black border-gray-300"
@@ -147,7 +147,7 @@
 //               id="email"
 //               onChange={(e)=> setfbemail(e.target.value)}
 //               placeholder=  {isLangArab?"أدخل بريدك الإلكتروني":"Enter Your Email Address"}
-//               className={`w-full px-3 py-3 border rounded-xl outline-none transition-colors ${
+//               className={`w-full px-3 py-3 border rounded-md outline-none transition-colors ${
 //                 isDarkMode
 //         ? "bg-[#444646]  text-white border-transparent "
 //         : "bg-white text-black border-gray-300"
@@ -168,7 +168,7 @@
 //               rows={4}
 //               placeholder={ isLangArab?"شارك أفكارك هنا":"Share Your Thoughts Here"}
 //               onChange={(e)=> setfbcomments(e.target.value)}
-//               className={`w-full px-3 py-2 border rounded-xl outline-none transition-colors ${
+//               className={`w-full px-3 py-2 border rounded-md outline-none transition-colors ${
 //                 isDarkMode
 //         ? "bg-[#444646]  text-white border-transparent "
 //         : "bg-white text-black border-gray-300"
@@ -366,7 +366,7 @@ export default function Feedback({
               {ratings.map((item) => (
                 <button
                   key={item.value}
-                  className={`flex bg-transparent  sm:px-2.5 laptop_s:px-1 px-3 justify-center py-2 border sm:rounded-xl rounded-lg flex-col items-center sm:space-y-1 space-y-2 transition-colors ${
+                  className={`flex bg-transparent  sm:px-2 laptop_s:px-0.5 px-3 justify-center py-2 border sm:rounded-lg   rounded-lg flex-col items-center sm:space-y-1 space-y-2 transition-colors ${
                     isDarkMode
                       ? rating === item.value
                         ? `bg-black text-white ${item.highlight}`
@@ -382,7 +382,7 @@ export default function Feedback({
                   <img
                     src={item.image}
                     alt={item.value}
-                    className="w-6 sm:w-6 h-10 sm:h-7 laptop_s:h-8 laptop_s:w-6"
+                    className="w-6 sm:w-6 h-10 sm:h-7 laptop_s:h-7 laptop_s:w-6 "
                   />
                   <p
                     className={` w-8 sm:w-12  sm:h-6 h-3 ${
@@ -412,7 +412,7 @@ export default function Feedback({
               <label
                 htmlFor="name"
                 className={`block  font-medium mb-1 transition-colors ${
-                  isLangArab ? "text-xl mr-2" : "text-sm" // Increased text size for Arabic
+                  isLangArab ? "text-xl mr-2" : "text-[14px]" // Increased text size for Arabic
                 } ${
                   isDarkMode ? "text-[#FFFFFF] bg-opacity-70" : "text-black"
                 }`}
@@ -427,7 +427,7 @@ export default function Feedback({
                 placeholder={
                   isLangArab ? "أدخل اسم المستخدم" : "Enter Your Name"
                 }
-                className={`w-full px-3 py-3 border rounded-xl outline-none transition-colors ${
+                className={`w-full px-3 text-[13px] py-2 border rounded-md outline-none transition-colors ${
                   isDarkMode
                     ? "bg-[#444646]  text-[white] border-transparent "
                     : "bg-white text-black border-gray-300"
@@ -448,8 +448,8 @@ export default function Feedback({
             <div>
               <label
                 htmlFor="email"
-                className={`block  font-medium mb-1 transition-colors${
-                  isLangArab ? "text-xl mr-2" : "text-sm" // Increased text size for Arabic
+                className={`block  font-medium mb-1 transition-colors ${
+                  isLangArab ? "text-xl mr-2" : "text-[13px]" // Increased text size for Arabic
                 } ${
                   isDarkMode ? "text-[#FFFFFF] bg-opacity-70" : "text-black"
                 }`}
@@ -468,7 +468,7 @@ export default function Feedback({
                     ? "أدخل بريدك الإلكتروني"
                     : "Enter Your Email Address"
                 }
-                className={`w-full px-3 py-3 border rounded-xl outline-none transition-colors ${
+                className={`w-full px-3 text-[13px] py-2 border rounded-md outline-none transition-colors ${
                   isDarkMode
                     ? "bg-[#444646]  text-white border-transparent "
                     : "bg-white text-black border-gray-300"
@@ -490,7 +490,7 @@ export default function Feedback({
               <label
                 htmlFor="thoughts"
                 className={`block  font-medium mb-1 transition-colors ${
-                  isLangArab ? "text-xl mr-2" : "text-sm" // Increased text size for Arabic
+                  isLangArab ? "text-xl mr-2" : "text-[14px]" // Increased text size for Arabic
                 } ${
                   isDarkMode ? "text-[#FFFFFF] bg-opacity-70" : "text-black"
                 }`}
@@ -508,7 +508,7 @@ export default function Feedback({
                 }
                 onChange={(e) =>{ setfbcomments(e.target.value)
                  }}
-                className={`w-full px-3  resize-none h-40 py-2 border rounded-xl outline-none transition-colors ${
+                className={`w-full px-3 text-[13px]  resize-none h-30 py-2 border rounded-md outline-none transition-colors ${
                   isDarkMode
                     ? "bg-[#444646]  text-white border-transparent "
                     : "bg-white text-black border-gray-300"
@@ -529,8 +529,8 @@ export default function Feedback({
         </div>
         <div className="flex pt-6 justify-between items-baseline px-4  sm:px-2">
           <button
-            className={`sm:px-14 px-9 sm:py-3 py-2 border rounded-md transition-colors ${
-              isLangArab ? "text-sm " : "text-sm" // Increased text size for Arabic
+            className={`sm:px-9 px-9 sm:py-2 py-2 border rounded-md transition-colors ${
+              isLangArab ? "text-sm " : "text-[14px]" // Increased text size for Arabic
             } ${
               isDarkMode
                 ? "bg-transparent  border border-white text-white"
@@ -544,7 +544,7 @@ export default function Feedback({
           </button>
           <button
             onClick={onSubmitFeedback}
-            className={`sm:px-14 px-9 sm:py-3 py-2 rounded-md transition-colors ${
+            className={`sm:px-9 px-9 sm:py-2  py-2 rounded-md transition-colors ${
               validate()
                 ? "bg-custom-gradient text-white"
                 : "bg-gray-600/65 text-white"

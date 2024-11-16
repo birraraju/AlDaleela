@@ -64,7 +64,7 @@ const POIShareForm = ({ onClose, queryresults }) => {
                     className="px-1 py-3 hover:text-blue-500 flex items-center text-black focus:outline-none"
                 >
                     <ChevronLeft className={`w-5 ${isDarkMode?"text-white":" text-black "} h-5`} />
-                    <span className={`${isDarkMode?" text-white/95":"text-black"}`}>{isLangArab?"ظهر":"Back"}</span>
+                    <span className={` text-[14px] ${isDarkMode?" text-white/95":"text-black"}`}>{isLangArab?"ظهر":"Back"}</span>
                 </button>
             </div>
             <div className='grid grid-cols-3 gap-7  justify-center items-center'>

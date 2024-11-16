@@ -66,7 +66,7 @@ const Header = ({  isFooterOpen, isHeaderOpen, mapview}) => {
         <img src={ResponsiveSearch} alt="Search" />
       </button> */}
     </header>) :(<header
-      className={`text-white sm:pr-10 px-2 py-2 z-30 flex items-center justify-between z-8 w-screen 
+      className={`text-white sm:pr-10 px-2 py-1.5 z-30 flex items-center justify-between z-8 w-screen 
         ${isDarkMode ? 'bg-dark-gradient' : 'bg-custom-gradient'}`
       }
     >

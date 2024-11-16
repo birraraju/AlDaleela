@@ -58,7 +58,7 @@ export default function Sidebar({ activeItem, onItemClick,isCollapsed, setIsColl
   return (
     <div 
     
-      className={`h-[calc(100vh-4rem)] text-white py-8 fixed top-16 ${ isLangArab ? "right-0" :"left-0"} z-10 transition-all duration-300 ${
+      className={`h-[calc(100vh-4rem)] text-white py-8 fixed top-14 h-full ${ isLangArab ? "right-0" :"left-0"} z-10 transition-all duration-300 ${
         isCollapsed ? "w-16" : "w-[190px]"
       } ${isDarkMode ? 'bg-[#1F302B]' : 'bg-teal-800'}`}
       style={{ fontFamily: isLangArab ? "'Cairo', sans-serif" : 'inherit' }}
