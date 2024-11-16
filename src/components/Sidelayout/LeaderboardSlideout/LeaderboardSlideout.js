@@ -93,7 +93,7 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
     //   opacity: 0 
     // }}
     // transition={{ ease: "easeInOut" }}
-      className={`px-8 py-4 fixed sm:top-16 top-12 ${isLangArab?"sm:left-10 laptop_s:left-3 left-4":"sm:right-10 laptop_s:right-3 right-4"} sm:h-[45vh] laptop_s:h-[80vh] h-[85vh] sm:w-[20rem] laptop_s:w-[22rem] w-[21rem] ${
+      className={`px-8 py-4 fixed sm:top-16 top-12 ${isLangArab?"sm:left-10 laptop_s:left-3 left-4":"sm:right-10 laptop_s:right-3 right-4"} sm:h-[45vh] laptop_s:h-[80vh] h-[85vh] sm:w-[20rem] laptop_s:w-[20rem] w-[21rem] ${
         isDarkMode
           ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none"
           : "bg-white bg-opacity-70 backdrop-blur-lg border-white"
@@ -104,7 +104,7 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
       <h1
           className={`font-semibold ${
             isDarkMode ? "text-white" : "text-[#505050]"
-          } font-poppins text-[16.37px]`}
+          } font-poppins text-[16px]`}
         >          {isLangArab?"لوحة المتصدرين":"Leaderboard"}</h1>
         <button
           onClick={() => {
@@ -154,8 +154,7 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
         </pattern>
         <image
           id="image0_502_105402"
-          width="512"
-          height="512"
+           className=" h-24 w-20 "
           href="path/to/your/image.jpg" // Replace with the actual image URL or path
         />
       </defs>
@@ -167,7 +166,7 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
               />
             </div>
             <h1
-              className={`font-semibold font-plus-jakarta mt-4 ${
+              className={`font-semibold text-[14px] font-plus-jakarta mt-2 ${
                 isDarkMode ? "text-white" : "text-[#505050]"
               }`}
             >              {user.userName}</h1>
@@ -188,7 +187,7 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
           >
             <div className="w-[20%] flex items-center">
               <span
-                 className={`w-4  font-semibold font-plus-jakarta  ${isLangArab ? "ml-3": "mr-2"} ${
+                 className={`w-4  font-semibold text-[12px] font-plus-jakarta  ${isLangArab ? "ml-3": "mr-2"} ${
               isDarkMode ? "text-white" : "text-[#4F4F4F]"
             }`} >
                 {index + 4}
@@ -233,13 +232,13 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
 
             <div className="w-[80%] flex justify-between items-center">
               <span 
-                 className={`text-sm font-semibold text-[#4F4F4F] font-plus-jakarta ${
+                 className={` font-semibold text-[12px] text-[#4F4F4F] font-plus-jakarta ${
               isDarkMode ? "text-white" : "text-[#4F4F4F]"
             }`} >
                 {user.userName}
               </span>
               <span 
-              className={`text-sm text-[#4F4F4F] font-plus-jakarta ${
+              className={` text-[#4F4F4F] text-[12px] font-plus-jakarta ${
                 isDarkMode ? "text-white" : "text-[#4F4F4F]"
               }`} 
               >
