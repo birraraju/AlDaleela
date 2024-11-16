@@ -719,9 +719,9 @@ const handleDrop = async (e) => {
     inputType = "text",
     disable
   ) => (
-    <div className="space-y-2">
-      <label htmlFor={id} className="block text-sm font-medium text-gray-700">
-        {label} <span className="text-red-500">*</span>
+    <div className="space-y-1">
+      <label htmlFor={id} className="block text-[13px] font-medium text-gray-700">
+        {label} <span className="text-red-500 ">*</span>
       </label>
       {inputType === "select" ? (
         <select
@@ -729,7 +729,7 @@ const handleDrop = async (e) => {
           value={value} // Bind to the state value
           disabled={disable} // Disable the dropdown
           onChange={handleChange}
-          className="block w-full p-2 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          className="block w-full p-2 rounded-md text-[13px] h-9 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
         >
           {options.length > 0 && (
             <>
@@ -751,7 +751,7 @@ const handleDrop = async (e) => {
           value={value}
           disabled={disable}
           onChange={handleChange}
-          className="block w-full rounded-md p-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          className="block w-full text-[13px] h-9 rounded-md p-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
         />
       )}
        {/* Error Display */}
@@ -1010,7 +1010,7 @@ const handleDrop = async (e) => {
 
         {/* File Upload Section */}
         <div className="bg-white p-4 grid grid-cols-1 gap-4 border border-none rounded-lg">
-          <h1 className="text-black">{isLangArab?"تحميل مقاطع الفيديو/الصور/التسجيلات الصوتية":"Upload Videos/Photos/Audios"}</h1>
+          <h1 className="text-black text-[12px] ">{isLangArab?"تحميل مقاطع الفيديو/الصور/التسجيلات الصوتية":"Upload Videos/Photos/Audios"}</h1>
           <div
             className={`border-2 border-dashed rounded-lg p-6 text-center bg-white ${
               isDragging ? "border-blue-500" : "border-gray-300"
@@ -1042,17 +1042,17 @@ const handleDrop = async (e) => {
                 ))}
               </div>
             ) : (
-              <p className="mt-2 text-sm text-gray-600">
+              <p className="mt-2 text-[12px] text-gray-600">
                 {isLangArab?"قم بإسقاط الصور أو مقاطع الفيديو الخاصة بك هنا، أو":"Drop your images or videos here, or"}{" "}
                 <button
                   onClick={handleBrowse}
-                  className="text-blue-500 hover:text-blue-600 focus:outline-none focus:underline"
+                  className="text-blue-500 text-[12px] hover:text-blue-600 focus:outline-none focus:underline"
                 >
                   {isLangArab?"تصفح":"browse"}
                 </button>
               </p>
             )}
-            <p className="mt-1 text-xs text-gray-500">
+            <p className="mt-1 text-[12px] text-gray-500">
               {isLangArab?"يدعم":"Supports"}: <strong>{isLangArab?"PNG، JPG، GIF، MP4، MOV، AVI":"PNG, JPG, GIF, MP4, MOV, AVI"}</strong>
             </p>
             <input
@@ -1068,7 +1068,7 @@ const handleDrop = async (e) => {
           <div className="flex justify-center items-center">
             <button
               onClick={handleDone}
-              className="w-auto flex items-center justify-center py-2 px-3 bg-[#3398B8] text-white text-xs gap-1 border border-gray-300 rounded-lg"
+              className="w-auto flex items-center text-[10px] justify-center py-2 px-3 bg-[#3398B8] text-white text-xs gap-1 border border-gray-300 rounded-lg"
             >
               <img
                 src={UploadImage}
@@ -1083,7 +1083,7 @@ const handleDrop = async (e) => {
         {/* Uploaded Files Section */}
         {uploadedFiles.length > 0 && (
           <div className="space-y-4">
-            <h2 className="text-gray-700">{isLangArab?"الملفات المرفوعة":"Uploaded Files"}</h2>
+            <h2 className="text-gray-700 text-[13px]">{isLangArab?"الملفات المرفوعة":"Uploaded Files"}</h2>
             {uploadedFiles.map((file, index) => (
               <div
                 key={index}
@@ -1124,7 +1124,7 @@ const handleDrop = async (e) => {
             onClick={handleFormSubmit}
             disabled={!buttonDisable}
             
-            className={` ${!buttonDisable?"w-auto py-3 px-9 bg-custome-gray1 text-xs border border-gray-300 rounded-lg":"w-auto py-3 px-9 bg-custom-gradient text-xs border border-gray-300 rounded-lg"}` }
+            className={` ${!buttonDisable?"w-auto py-3 px-9 bg-custome-gray1 text-white text-xs border border-gray-300 rounded-lg":"w-auto py-3 px-9 bg-custom-gradient text-xs border border-gray-300 rounded-lg"}` }
           >
             { isLangArab ? "يُقدِّم" : "Submit"}
           </button>

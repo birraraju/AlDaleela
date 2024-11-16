@@ -7,7 +7,7 @@ import { useTheme } from '../Layout/ThemeContext/ThemeContext'; // Import the th
 
 export default function SideLayout1({
   children,
-  width = "454.84px",
+  // width = "420.84px",
   // height = "calc(95vh - 2rem)",
   onClose,
   mapview
@@ -71,7 +71,7 @@ export default function SideLayout1({
   return (
     <div
       ref={panelRef} // Attach the ref to the panel
-      className={`fixed w-[90%] sm:w-[430px] laptop_s:w-[${width}]  h-[90%]  tab:h-[80%] laptop_s:h-[90%] top-16 ${ isLangArab?" right-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
+      className={`fixed w-[90%] sm:w-[430px] laptop_s:w-[400px]  h-[90%]  tab:h-[80%] laptop_s:h-[90%] top-16 ${ isLangArab?" right-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
         isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%] sm:-translate-x-[115%] laptop_s:-translate-x-[104%] ":"translate-x-[103%] sm:translate-x-[115%] laptop_s:translate-x-[103%] ")
       }`}
       // style={{ width, height }} // Set height to 80% of viewport height
@@ -95,7 +95,7 @@ export default function SideLayout1({
 
         <div className="p-6 overflow-y-auto h-[109%] 2xl:h-[100%] ">
           {children || (
-            <p className={`text-${isDarkMode ? '[#FFFFFFCC] text-opacity-80' : 'black'}  font-poppins font-medium`}>
+            <p className={`text-${isDarkMode ? '[#FFFFFFCC] text-opacity-80' : 'black'} text-[16px]  font-poppins font-medium`}>
               { isLangArab?"معرض الخريطة الأساسية":"Basemap Gallery"}
             </p>
           )}

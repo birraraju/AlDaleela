@@ -51,7 +51,7 @@ export default function POIApprovalStatus({ children, onClose, mapview }) {
   return (
     <div
     dir={isLangArab && "rtl"}
-      className={`fixed top-16 w-[510px] ${POIFormIsOpenModalShow ? "h-[63%]" : "h-[90%]"} sm:w-[400px] laptop_s:w-[380px] ${
+      className={`fixed top-16 w-[510px] ${POIFormIsOpenModalShow ? "h-[63%]" : "h-[90%]"} sm:w-[400px] laptop_s:w-[320px] ${
         isLangArab ? "left-3 sm:left-16 laptop_s:left-3" : "right-3 sm:right-16 laptop_s:right-3"
       } transition-transform duration-300 ease-in-out ${
         isOpen ? "translate-x-0" : isLangArab ? "-translate-x-[104%]" : "translate-x-[103%]"
@@ -90,7 +90,7 @@ export default function POIApprovalStatus({ children, onClose, mapview }) {
           {children || (
             <>
               <div className="overflow-y-auto  h-[79%]">
-                <StatuesUpdatePOI isLangArab={isLangArab} setMessage={setMessage} setFormShow={setFormShow} setPOIFormIsOpenModalShow={setPOIFormIsOpenModalShow} setPOIFormSuccessShow={setPOIFormSuccessShow} isFormShow={isFormShow} />
+                <StatuesUpdatePOI isLangArab={isLangArab} isDarkMode={isDarkMode} setMessage={setMessage} setFormShow={setFormShow} setPOIFormIsOpenModalShow={setPOIFormIsOpenModalShow} setPOIFormSuccessShow={setPOIFormSuccessShow} isFormShow={isFormShow} />
                 <POIEditFileUploaderStatusModel
                   message={message}
                   label={"Approval"}
