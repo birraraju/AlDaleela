@@ -43,7 +43,7 @@ export default function AboutusSidelayout({ setIsPopoverOpen, setIsAboutUs }) {
         }}
         transition={{ ease: "easeInOut" }}
         className={`px-8 sm:py-2  sm:px-5 py-4 fixed ${
-          isLangArab ? "sm:left-7  left-1" : "sm:right-10  right-1"
+          isLangArab ? "sm:left-7  left-1" : "sm:right-2  right-1"
         } top-16 backdrop-blur rounded-3xl text-black ${
           isDarkMode
             ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
@@ -73,7 +73,7 @@ export default function AboutusSidelayout({ setIsPopoverOpen, setIsAboutUs }) {
           </div>
         </div>
 
-        <div className="relative sm:h-[55vh] laptop_s:h-[80vh] h-[70vh] sm:w-[23rem]  laptop_s:w-[23rem] w-[18rem] overflow-y-scroll">
+        <div className="relative sm:h-[55vh] laptop_s:h-[80vh] h-[70vh] sm:w-[23rem]  laptop_s:w-[19rem] w-[18rem] overflow-y-scroll">
           <AboutDescription />
           <Mottos />
         </div>
