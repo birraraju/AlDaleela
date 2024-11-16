@@ -31,6 +31,8 @@ export default function ForgetPassword({ onClose, onBackToLogin, onSignup, onNex
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
+
+  console.log('formData.email :>> ', formData.email);
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Reset password for:', formData.email);

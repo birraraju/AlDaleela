@@ -34,7 +34,7 @@ const Location = ({ isHeaderOpen,isLocationOpen }) => {
         <img
           src={`${!showInfo ? LocationLogo: LocationColorLogo}`}
           alt=""
-          className="mobile_s:w-4 laptop_m:w-5"
+          className="mobile_s:w-4 laptop_m:w-4"
         />
       </div>
       {showInfo && <GeneralInformation onClose={handleClose} />}

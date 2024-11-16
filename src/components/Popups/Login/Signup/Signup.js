@@ -221,7 +221,7 @@ export default function Signup({ onClose, onSigninClick }) {
   };
 
   return (
-    <div className="fixed sm:inset-10 inset-1 flex items-center justify-center z-50 mb-6">
+    <div dir={isLangArab && "rtl"} className="fixed sm:inset-10 inset-1 flex items-center justify-center z-50 mb-6">
       <div
         ref={modalRef}
         className={`p-4 rounded-2xl border shadow-lg w-full max-w-xl relative transition-colors duration-300 ${
@@ -311,7 +311,7 @@ export default function Signup({ onClose, onSigninClick }) {
                     />
                     <button
                       type="button"
-                      className={`absolute right-3 ${
+                      className={`absolute ${isLangArab?"left-3":"right-3"} ${
                         errorMessages.password ? "top-6" : "top-1/2"
                       }  transform -translate-y-1/2`}
                       onClick={() => setShowPassword(!showPassword)}
@@ -351,7 +351,7 @@ export default function Signup({ onClose, onSigninClick }) {
                   />
                   <button
                     type="button"
-                    className={`absolute right-3 ${
+                    className={`absolute ${isLangArab?"left-3":"right-3"} ${
                       errorMessages.confirmPassword ? "top-6" : "top-1/2"
                     }  transform -translate-y-1/2`}
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
