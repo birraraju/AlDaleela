@@ -150,7 +150,7 @@ if (menuBar) {
   return (
     
     <div
-      className={`sc-bottom-bar flex justify-between tab:h-[65px]  sm:h-[60px] h-[50px] ${isDarkMode ? 'bg-[#152227CC]' : ''}  no-select ${isExpanded ? ' tab:w-[400px] sm:w-[300px] w-[300px] ' : ' tab:w-[350px] sm:w-[300px] w-[300px]'}`}
+      className={`sc-bottom-bar flex justify-between items-center tab:h-[55px]  sm:h-[60px] h-[50px] ${isDarkMode ? 'bg-[#152227CC]' : ''}  no-select ${isExpanded ? ' tab:w-[350px] sm:w-[300px] w-[300px] ' : ' tab:w-[300px] sm:w-[300px] w-[300px]'}`}
     >
       {isLangArab? (Array.from({ length: 7 })
     .map((_, index) => index) // Create an array of indices

@@ -345,11 +345,11 @@ const FileUploader = ({ POIFormUploader,isLangArab,setPOIFormisOpenModalShow,set
           className="px-1 py-3 hover:text-blue-500 flex items-center text-black focus:outline-none"
         >
           <ChevronLeft className="w-5 h-5" />
-          <span>{isLangArab ?"خلف":"Back"}</span>
+          <span className=''>{isLangArab ?"خلف":"Back"}</span>
         </button>
       </div>
       <div className='bg-white p-6 grid grid-cols-1 gap-4 border border-none rounded-lg'>
-        <h1 className='text-black'>{isLangArab?"تحميل مقاطع الفيديو/الصور/التسجيلات الصوتية":"Upload Videos/Photos/Audios"}</h1>
+        <h1 className='text-black text-[13px]'>{isLangArab?"تحميل مقاطع الفيديو/الصور/التسجيلات الصوتية":"Upload Videos/Photos/Audios"}</h1>
         <div
           className={`border-2 border-dashed rounded-lg p-6 text-center bg-white ${
             isDragging ? 'border-blue-500 ' : 'border-gray-300'
@@ -366,23 +366,23 @@ const FileUploader = ({ POIFormUploader,isLangArab,setPOIFormisOpenModalShow,set
                 <div key={index} className="flex items-center justify-between">
                   <div className="flex items-center">
                     <FileIcon className="h-8 w-8 text-gray-600" />
-                    <span className="ml-2 text-gray-700">{file.name}</span>
+                    <span className="ml-2 text-[11px] text-gray-700">{file.name}</span>
                   </div>
                 </div>
               ))}
             </div>
           ) : (
-            <p className="mt-2 text-sm text-gray-600">
+            <p className="mt-2 text-[12px] text-gray-600">
               {isLangArab?"قم بإسقاط الصور أو مقاطع الفيديو الخاصة بك هنا، أو":"Drop your images or videos here, or"}{" "}
               <button
                 onClick={handleBrowse}
-                className="text-blue-500 hover:text-blue-600 focus:outline-none focus:underline"
+                className="text-blue-500 text-[12px] hover:text-blue-600 focus:outline-none focus:underline"
               >
                {isLangArab?"تصفح":"browse"}
               </button>
             </p>
           )}
-          <p className="mt-1 text-xs text-gray-500">
+          <p className="mt-1 text-[12px] text-gray-500">
           {isLangArab?"يدعم":"Supports"}: <strong>{isLangArab?"PNG، JPG، GIF، MP4، MOV، AVI":"PNG, JPG, GIF, MP4, MOV, AVI"}</strong>
 
           </p>
@@ -396,16 +396,16 @@ const FileUploader = ({ POIFormUploader,isLangArab,setPOIFormisOpenModalShow,set
           />
         </div>
         <div className='flex justify-between items-center'>
-          <p className='text-xs opacity-0'>Help Centre</p>
+          <p className='text-[12px] opacity-0'>Help Centre</p>
           <span className='flex justify-center items-center gap-2'>
             <button
-              className="w-auto py-1 px-3 bg-transparent text-[9px] border border-black rounded-lg"
+              className="w-auto py-1 px-3 bg-transparent text-[9px] border text-black  border-black rounded-md"
             >
                {isLangArab ? "يلغي" : "Cancel"}
             </button>
             <button
               onClick={handleDone}
-              className="w-auto py-1 px-3 bg-[#AABCDE] text-[9px] border border-gray-300 rounded-lg"
+              className="w-auto py-1 px-3 bg-[#AABCDE] text-[9px] border border-gray-300 rounded-md"
             >
               {isLangArab?"منتهي":"Done"}
             </button>
@@ -444,7 +444,7 @@ const FileUploader = ({ POIFormUploader,isLangArab,setPOIFormisOpenModalShow,set
             setPOIFormShow(true);
             setPOIUploaderShow(false);
           }}
-          className="w-auto py-3 px-9 bg-transparent text-xs border border-black rounded-lg"
+          className="w-auto py-3 px-9 bg-transparent text-xs border text-black border-black rounded-lg"
         >
          {isLangArab ? "يلغي" : "Cancel"}
         </button>

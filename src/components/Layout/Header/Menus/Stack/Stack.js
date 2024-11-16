@@ -35,13 +35,13 @@ const Stack = ({isSearchOpen,isLocationOpen, isFooterOpen,isProfileOpen, isHeade
   return (
     <>
        <div
-        className={`bg-white ${!showLayers && "bg-opacity-5"}  sm:flex hidden rounded-full mobile_s:h-9 mobile_s:w-9 laptop_m:h-9 laptop_m:w-9 mobile_s:mr-2 laptop_m:mr-2 justify-center items-center cursor-pointer`}
+        className={`bg-white ${!showLayers && "bg-opacity-5"}  sm:flex hidden rounded-full mobile_s:h-9 mobile_s:w-9 laptop_m:h-8 laptop_m:w-8 mobile_s:mr-2 laptop_m:mr-2 justify-center items-center cursor-pointer`}
         onClick={toggleLayers}
       >
         <img
           src={showLayers ?StackLogoColor:StackLogo}
           alt=""
-          className="mobile_s:w-5 laptop_m:w-6"
+          className="mobile_s:w-5 laptop_m:w-5"
         />
       </div>
       {showLayers && <LayersList onClose={toggleLayers} mapview={mapview}/>}
