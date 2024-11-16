@@ -8,7 +8,7 @@ import { useTheme } from '../../../Layout/ThemeContext/ThemeContext'; // Import 
 import {UserActivityLog} from "../../../Common/UserActivityLog";
 import { useAuth } from "../../../../Providers/AuthProvider/AuthProvider";
 
-export default function ResetPassword({ email, onClose, onBackToLogin, onSignup, onPasswordSet }) {
+export default function ResetPassword({ email, onClose, onBackToLogin, onSignup, onPasswordSet, code, expiryTime }) {
   const [formData, setFormData] = useState({
     code:'',
     password: '',
@@ -76,8 +76,13 @@ const newError={}
     if(!formData.code){
       newError.code="code must required"
       valid=false
-    }
-    
+    }else if (formData.code !== code) { // Check if entered code matches the generated code
+      newError.code = "Invalid code";
+      valid = false;
+    } else if (Date.now() > expiryTime) { // Check if code has expired
+      newError.code = "Code has expired";
+      valid = false;
+    }   
     
     const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
     if (!formData.password) {
@@ -105,11 +110,6 @@ const newError={}
   console.log('errors :>> ', errors);
   const handleSubmit = async(e) => {
     e.preventDefault();
-
-
-
-
-
     if (validate()) {
       try {
         const forgetObj ={
