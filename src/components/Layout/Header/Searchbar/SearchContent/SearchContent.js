@@ -156,7 +156,7 @@ export default function SearchContent({ inputClicked, iscategory,setIscategory, 
 
   return (
     <div
-      className={`mobile_s:w-[18rem] mobile_m:w-[22rem] mobile_l:w-[22rem] tab:   ${(inputClicked || iscategory) ? "laptop_m:w-[30rem]" : "laptop_m:w-[30rem]"} rounded-2xl mb-8 absolute top-0 left-0 h-96 ${
+      className={`mobile_s:w-[18rem] mobile_m:w-[22rem] mobile_l:w-[22rem] tab:   ${(inputClicked || iscategory) ? "laptop_m:w-[24rem]" : "laptop_m:w-[22rem]"} rounded-2xl mb-8 absolute top-0 left-0 h-80 ${
         isDarkMode ? "bg-[#606060CC] text-black" : "bg-white text-black"
       } bg-opacity-70 backdrop-blur-lg z-[1]`}
     >
@@ -178,7 +178,7 @@ export default function SearchContent({ inputClicked, iscategory,setIscategory, 
               isLangArab={isLangArab}
             />
 
-            <div className="flex justify-between items-center ml-4 bg-[#ececec99] rounded-full p-2 text-sm cursor-pointer select-none">
+            <div className="flex justify-between items-center ml-4 bg-[#ececec99] rounded-full p-1 text-sm cursor-pointer select-none">
               <PhotoFilter
                 setSelectedItem={setSelectedItem}
                 selectedItem={selectedItem}
@@ -202,22 +202,22 @@ export default function SearchContent({ inputClicked, iscategory,setIscategory, 
 
           {/* Searched Content */}
           {isFiltersOpen === "normal" ? (
-            <div className="h-[17rem] overflow-y-scroll px-4">
+            <div className="h-[13rem] overflow-y-scroll px-4">
               {filteredNames.map((location, locationIndex) => (
                 <div
                   key={location.Objectid}
                   onClick={()=>handleSearchAddress(location.Objectid, location.Name, location.LayerName)}
-                  className="flex justify-start items-center gap-2 mt-4 cursor-default"
+                  className="flex justify-start items-center gap-3  mt-4 cursor-default"
                 >
                   <div>
                     <img
                       src={`${process.env.PUBLIC_URL}/Header/Searchbar/direction.svg`}
                       alt=""
-                      className="w-6"
+                      className="w-4"
                     />
                   </div>
 
-                  <div>{location.Name}</div>
+                  <div className="">{location.Name}</div>
                 </div>
               ))}
             </div>

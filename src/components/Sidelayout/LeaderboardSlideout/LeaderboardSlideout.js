@@ -12,25 +12,34 @@ import { useState, useEffect, useRef } from "react";
 import { FiChevronRight } from "react-icons/fi";
 import { useTheme } from "../../Layout/ThemeContext/ThemeContext"; // Import the theme context
 
-const users = [
-  { id: 1, name: "User-1", points: 43, avatar: men },
-  { id: 2, name: "User-2", points: 40, avatar: women },
-  { id: 3, name: "User-3", points: 38, avatar: men1 },
-  { id: 4, name: "User-4", points: 36, avatar: user1 },
-  { id: 5, name: "User-5", points: 35, avatar: user2 },
-  { id: 6, name: "User-6", points: 34, avatar: user2 },
-  { id: 7, name: "User-7", points: 33, avatar: user2 },
-  { id: 8, name: "User-8", points: 32, avatar: user1 },
-  { id: 9, name: "User-9", points: 31, avatar: user1 },
-  { id: 10, name: "User-10", points: 30, avatar: user2 },
-];
+// const Men = () => {
+//   return (
+    
+//   );
+// };
+
+
+
+
+// const users = [
+//   { id: 1, name: "User-1", points: 43, avatar: men },
+//   { id: 2, name: "User-2", points: 40, avatar: women },
+//   { id: 3, name: "User-3", points: 38, avatar: men1 },
+//   { id: 4, name: "User-4", points: 36, avatar: user1 },
+//   { id: 5, name: "User-5", points: 35, avatar: user2 },
+//   { id: 6, name: "User-6", points: 34, avatar: user2 },
+//   { id: 7, name: "User-7", points: 33, avatar: user2 },
+//   { id: 8, name: "User-8", points: 32, avatar: user1 },
+//   { id: 9, name: "User-9", points: 31, avatar: user1 },
+//   { id: 10, name: "User-10", points: 30, avatar: user2 },
+// ];
 
 export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard }) {
   const [isOpen, setIsOpen] = useState(true); // Use this for toggling visibility
   const containerRef = useRef(null);
   const { isDarkMode,isLangArab } = useTheme(); // Access isDarkMode from ThemeContext
   const [data, setData] = useState([]);
-
+  // console.log("Leader Board Data:", data)
   // Handle clicks outside the container
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -84,7 +93,7 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
     //   opacity: 0 
     // }}
     // transition={{ ease: "easeInOut" }}
-      className={`px-8 py-4 fixed sm:top-16 top-12 ${isLangArab?"sm:left-10 laptop_s:left-3 left-4":"sm:right-10 laptop_s:right-3 right-4"} sm:h-[45vh] laptop_s:h-[80vh] h-[85vh] sm:w-[20rem] laptop_s:w-[22rem] w-[21rem] ${
+      className={`px-8 py-4 fixed sm:top-16 top-12 ${isLangArab?"sm:left-10 laptop_s:left-3 left-4":"sm:right-10 laptop_s:right-3 right-4"} sm:h-[45vh] laptop_s:h-[80vh] h-[85vh] sm:w-[20rem] laptop_s:w-[20rem] w-[21rem] ${
         isDarkMode
           ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none"
           : "bg-white bg-opacity-70 backdrop-blur-lg border-white"
@@ -95,7 +104,7 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
       <h1
           className={`font-semibold ${
             isDarkMode ? "text-white" : "text-[#505050]"
-          } font-poppins text-[16.37px]`}
+          } font-poppins text-[16px]`}
         >          {isLangArab?"لوحة المتصدرين":"Leaderboard"}</h1>
         <button
           onClick={() => {
@@ -118,19 +127,46 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
             }`}
           >
             <div className="relative flex flex-col justify-center items-center">
-              <img
-                src={men}
-                alt={user.userName}
-                className="w-16 h-18 object-cover relative rounded-full"
-              />
+          { user.image ? <svg
+      width="80"
+      height="80"
+      viewBox="0 0 105 105"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+    >
+      <circle
+        cx="52.707"
+        cy="52.6445"
+        r="50.4465"
+        fill="url(#pattern0_502_105402)"
+        stroke="#1498A6"
+        strokeWidth="3.47907"
+      />
+      <defs>
+        <pattern
+          id="pattern0_502_105402"
+          patternContentUnits="objectBoundingBox"
+          width="1"
+          height="1"
+        >
+          <use xlinkHref="#image0_502_105402" transform="scale(0.00195312)" />
+        </pattern>
+        <image
+          id="image0_502_105402"
+           className=" h-24 w-20 "
+          href="path/to/your/image.jpg" // Replace with the actual image URL or path
+        />
+      </defs>
+    </svg>: <img src={men} alt={user.userName}  className=" h-24 w-20 " />}
                <img
                 src={ index === 0 ? Top1 : (index === 1 ? Top2 : (index === 2 && Top3))}
                 alt={user.userName}
-                className=" w-8 -bottom-5  object-cover absolute rounded-full"
+                className=" w-8 -bottom-3  object-cover absolute rounded-full"
               />
             </div>
             <h1
-              className={`font-semibold font-plus-jakarta mt-4 ${
+              className={`font-semibold text-[14px] font-plus-jakarta mt-2 ${
                 isDarkMode ? "text-white" : "text-[#505050]"
               }`}
             >              {user.userName}</h1>
@@ -151,27 +187,58 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
           >
             <div className="w-[20%] flex items-center">
               <span
-                 className={`w-4  font-semibold font-plus-jakarta  ${isLangArab ? "ml-3": "mr-2"} ${
+                 className={`w-4  font-semibold text-[12px] font-plus-jakarta  ${isLangArab ? "ml-3": "mr-2"} ${
               isDarkMode ? "text-white" : "text-[#4F4F4F]"
             }`} >
                 {index + 4}
               </span>
-              <img
-                src={men}
-                alt={user.userName}
-                className="w-8 h-8 rounded-full"
-              />
+              {user.imge ? <svg
+      width="20"
+      height="20"
+      viewBox="0 0 105 105"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+    >
+      <circle
+        cx="52.707"
+        cy="52.6445"
+        r="50.4465"
+        fill="url(#pattern0_502_105402)"
+        stroke="#1498A6"
+        strokeWidth="3.47907"
+      />
+      <defs>
+        <pattern
+          id="pattern0_502_105402"
+          patternContentUnits="objectBoundingBox"
+          width="1"
+          height="1"
+        >
+          <use xlinkHref="#image0_502_105402" transform="scale(0.00195312)" />
+        </pattern>
+        <image
+          id="image0_502_105402"
+          width="512"
+          height="512"
+          href="path/to/your/image.jpg" // Replace with the actual image URL or path
+        />
+      </defs>
+    </svg>
+    :
+    <img src={men} alt={user.userName} className=" h-7 w-8" />
+    }
             </div>
 
             <div className="w-[80%] flex justify-between items-center">
               <span 
-                 className={`text-sm font-semibold text-[#4F4F4F] font-plus-jakarta ${
+                 className={` font-semibold text-[12px] text-[#4F4F4F] font-plus-jakarta ${
               isDarkMode ? "text-white" : "text-[#4F4F4F]"
             }`} >
                 {user.userName}
               </span>
               <span 
-              className={`text-sm text-[#4F4F4F] font-plus-jakarta ${
+              className={` text-[#4F4F4F] text-[12px] font-plus-jakarta ${
                 isDarkMode ? "text-white" : "text-[#4F4F4F]"
               }`} 
               >

@@ -132,15 +132,15 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
         opacity: 0,
       }}
       transition={{ ease: "easeInOut" }}
-      className={`sm:px-8 px-2 py-4 fixed sm:top-16 laptop_s:top-16 top-14 ${
-        isLangArab ? "sm:left-10 left-3" : "sm:right-10 right-3"
+      className={`sm:px-3 px-2 py-4 fixed sm:top-16 laptop_s:top-16 top-14 ${
+        isLangArab ? "sm:left-10 left-3" : "sm:right-2  right-3"
       } bg-opacity-75 backdrop-blur sm:rounded-3xl rounded-xl ${
         isDarkMode ? "bg-[rgba(96,96,96,0.8)]" : "bg-white bg-opacity-70"
       } text-black backdrop-blur border-none`}
     >
       <div className={`flex relative justify-between items-center ${isLangArab ? "flex-row-reverse" : ""}`}>
         <h1
-          className={`text-[15px] sm:text-[17px] laptop_s:text-[19px] font-semibold ${
+          className={`text-[15px] sm:text-[16px] laptop_s:text-[16px] font-semibold ${
             isDarkMode ? "text-[#FFFFFFCC]" : "text-black"
           }`}
         >
@@ -159,7 +159,7 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
         </div>
       </div>
 
-      <div className={`p-1 sm:w-[350px] laptop_s:w-[350px] w-[320px] max-h-[calc(100vh-200px)]  overflow-y-auto mt-2 ${featureServiceData.length === 0 ? 'min-h-[350px]' : ''}`}>
+      <div className={`p-1 sm:w-[350px] laptop_s:w-[325px] w-[320px] max-h-[calc(79vh-200px)]  overflow-y-auto mt-2 ${featureServiceData.length === 0 ? 'min-h-[350px]' : ''}`}>
         <div
           className={`grid font-omnes grid-cols-3 gap-4 font-medium text-[14px] mb-2 px-4 ${
             isDarkMode ? "text-gray-300" : "text-gray-600"
@@ -219,7 +219,7 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
         : contribution.approvalStatus === "Rejected"
           ? "text-red-500 font-omnes sm:text-[13px] text-[14px] font-medium"
         : `${
-            isDarkMode ? "text-black/80" : "text-[#EFB45D]"
+            isDarkMode ? "text-white/70" : "text-[#EFB45D]"
           } font-omnes sm:text-[13px] text-[14px] font-medium`
     }`}
   >
@@ -237,7 +237,7 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
   <img
           src={loc}
                 alt="Location icon"
-                className="sm:w-7 w-5 sm:h-7 h-4 cursor-pointer"
+                className="sm:w-5 w-5 sm:h-5 h-4 cursor-pointer"
                 
               />
               </button>

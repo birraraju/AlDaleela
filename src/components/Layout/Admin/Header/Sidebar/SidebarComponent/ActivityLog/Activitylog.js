@@ -4,6 +4,7 @@ import { useTheme } from "../../../../../ThemeContext/ThemeContext"; // Importin
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import { format } from 'date-fns';
+import Pagination from "../../../../Layout/Pagination/PaginationBar"
 
 const activityLogs = [
   { userName: "User Name", emailId: "user@gmail.com", dateTime: "2024-10-11 09:22:25", ipAddress: "192.168.125.10", action: "Profile update" },
@@ -28,6 +29,16 @@ const activityLogs = [
 export default function UserActivityLog() {
   const [data, setData] = useState([]);
   const { isDarkMode, isLangArab } = useTheme(); // Access dark mode from theme context
+  const [totalItems,setTotalItems] = useState(0); // Example total items count
+  // const itemsPerPage = 10;
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 9; // Number of items per page
+
+  const handlePageChange = (selectedPage) => {
+    setCurrentPage(selectedPage);
+    console.log(`Selected page: ${selectedPage}`);
+    // Here, you can load data for the selected page if using an API
+  };
       // console.log("Passed Activity log data :", data)
 
 useEffect(() => {
@@ -40,7 +51,7 @@ useEffect(() => {
         const result = await response.json();
           if(result.success){
             const sortedItems = result.data.sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate));
-
+            setTotalItems(sortedItems.length)
             setData(sortedItems);
           }
           else{
@@ -87,6 +98,9 @@ const handleExport = () => {
   const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
   saveAs(blob, `${filename}.xlsx`);
 };
+
+const paginatedData = data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
   
   return (
 <div  className={`p-8 rounded-lg shadow-sm h-[calc(100vh-6rem)] flex flex-col ${
@@ -122,7 +136,7 @@ const handleExport = () => {
               </tr>
             </thead>
             <tbody>
-              {data.map((log, index) => (
+              {paginatedData.map((log, index) => (
                 <tr key={index} className={`${
                   isDarkMode
                     ? index % 2 === 0
@@ -145,6 +159,11 @@ const handleExport = () => {
           </table>
         </div>
       </div>
+      <div className=' flex justify-end'>
+        <Pagination 
+          currentPage={currentPage} totalPages={totalItems} onPageChange={handlePageChange}
+        />
+        </div>
     </div>
   );
 }

@@ -60,7 +60,7 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
     } `} // Adjust background color based on dark mode
   >
     <div className="flex relative justify-between items-center">
-    <h1 className={`text-[20px]   font-medium ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#505050]"}`}>
+    <h1 className={`text-[16px]   font-medium ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#505050]"}`}>
         {isLangArab?"اتصل بنا":"Contact Us"}
       </h1>
       <div
@@ -76,12 +76,12 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
     </div>
 
       {/* Contact Details */}
-    <div className="relative   sm:w-[21rem] laptop_s:w-[21rem] w-[20rem] sm:mt-1  mt-3 sm:overflow-hidden  ">
+    <div className="relative   sm:w-[21rem] laptop_s:w-[19rem] w-[20rem] sm:mt-1  mt-3 sm:overflow-hidden  ">
       <div className="space-y-4">
         <div>
           <h3 className="flex items-center mb-2 font-bold">
             <img src={loc} alt="Location" className="h-5 w-5 mr-2" />
-            <span className={`text-lg  ${isDarkMode ? "text-[#FFFFFFCC]" : "bg-gradient-to-r from-[#036068] via-[#596451] to-[#036068] bg-clip-text text-transparent"}`}>
+            <span className={`text-[14px]  ${isDarkMode ? "text-[#FFFFFFCC]" : "bg-gradient-to-r from-[#036068] via-[#596451] to-[#036068] bg-clip-text text-transparent"}`}>
 
             {isLangArab ? "أبو ظبي" : "Abu Dhabi"}
             </span>
@@ -89,7 +89,7 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
           <h4 className={`font-medium mb-1 text-[14px] ${isDarkMode ? "text-white" : "text-gray-600"}`}>
           {isLangArab ? "الموقع" : "Location"}
           </h4>
-          <p className={`text-[16px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-black"}`}>
+          <p className={`text-[12px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-black"}`}>
           {isLangArab ?
           "المقر الرئيسي مبنى المعمورة (أ) مبنى رقم (62) ، شارع المعمورة ، آل نهيان ، أبوظبي ، الإمارات العربية المتحدة، الرمز البريدي: 22221، ص.ب : 45553"
            : 
@@ -100,7 +100,7 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
           <h4 className={`font-medium mb-1 text-[14px] ${isDarkMode ? "text-white" : "text-gray-600"}`}>
           {isLangArab ? "ساعات العمل" : "Opening Hours"}
           </h4>
-          <p className={`text-[16px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-black"}`}>
+          <p className={`text-[12px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-black"}`}>
           {isLangArab ? 
           "من الساعة 7:30 صباحًا – 3:30 ظهرًا | الاثنين  ل جمعة"
           : "7:30 AM to 3:30 PM | Monday-Friday"}
@@ -112,7 +112,7 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
           {isLangArab ? "الهاتف" : "Phone"}
 
           </h4>
-          <p className={`text-[16px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-black"}`}>
+          <p className={`text-[12px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-black"}`}>
           {isLangArab ? "+971 2 693 4444" : "+971 2 693 4444"}
           </p>
         </div>
@@ -122,7 +122,7 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
           {isLangArab ? "البريد الإلكتروني" : "Email"}
 
           </h4>
-          <p className={`text-[16px]  font-medium ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-black"}`}>
+          <p className={`text-[12px]  font-medium ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-black"}`}>
             customerhappiness@ead.gov.ae
           </p>
         </div>
@@ -131,17 +131,17 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
           {isLangArab ? "الموقع الإلكتروني" : "Website"}
 
           </h4>
-          <p className={`text-[16px]  font-medium ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-black"}`}>
+          <p className={`text-[12px]  font-medium ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-black"}`}>
             https://www.ead.gov.ae/
           </p>
         </div>
  
         <div className="flex justify-center space-x-4 pt-4 border-t border-gray-400">
-          <a href="https://www.facebook.com/EnvironmentAbuDhabi/ "  target="_blank" rel="noopener noreferrer"><img src={fb} alt="Facebook" className="h-6 w-6" /></a>
+          <a href="https://www.facebook.com/EnvironmentAbuDhabi/ "  target="_blank" rel="noopener noreferrer"><img src={fb} alt="Facebook" className="h-5 w-5" /></a>
           {/* <a href="https://x.com/EADTweets"  target="_blank" rel="noopener noreferrer"><img src={twitter} alt="Twitter" className="h-6 w-6" /></a> */}
-          <a href="https://x.com/EADTweets"  target="_blank" rel="noopener noreferrer" ><img src={x} alt="X" className="h-6 w-6" /></a>
-          <a href="https://www.linkedin.com/company/environment-agency-abu-dhabi/"  target="_blank" rel="noopener noreferrer"><img src={linkedin} alt="LinkedIn" className="h-6 w-6" /></a>
-          <a href="https://www.instagram.com/Environmentabudhabi/"  target="_blank" rel="noopener noreferrer"><img src={insta} alt="Instagram" className="h-6 w-6" /></a>
+          <a href="https://x.com/EADTweets"  target="_blank" rel="noopener noreferrer" ><img src={x} alt="X" className="h-5 w-5" /></a>
+          <a href="https://www.linkedin.com/company/environment-agency-abu-dhabi/"  target="_blank" rel="noopener noreferrer"><img src={linkedin} alt="LinkedIn" className="h-5 w-5" /></a>
+          <a href="https://www.instagram.com/Environmentabudhabi/"  target="_blank" rel="noopener noreferrer"><img src={insta} alt="Instagram" className="h-5 w-5" /></a>
         </div>
       </div>
     </div>

@@ -7,14 +7,14 @@ export default function ThemeToggle() {
   const { isDarkMode, isLangArab,toggleTheme } = useTheme(); // Access the theme context
 
   return (
-    <div className="flex justify-between items-center py-2">
+    <div className="flex justify-between items-center py-1">
       <div className="flex justify-start items-center gap-2">
         <div>
         <img
          src={isDarkMode ? DarkBrush : Brush}
-           alt="" className=" w-7" />        </div>
+           alt="" className=" w-5" />        </div>
         <p
-          className={`font-medium  font-omnes text-[18px]  ${
+          className={`font-medium  font-omnes text-[16px]  ${
             isDarkMode ? "text-gray-300" : "text-[#505050]"
           }`}
         >           {isLangArab?"الوضع الداكن":"Dark mode"}</p>
@@ -22,7 +22,7 @@ export default function ThemeToggle() {
 
       {/* Toggle Switch */}
       <div
-        className={`w-14  h-8  flex items-center rounded-full p-1 shadow-md cursor-pointer ${
+        className={`w-12  h-6  flex items-center rounded-full p-1 shadow-md cursor-pointer ${
           isDarkMode ? 'bg-gray-500' : 'bg-white'
         }`}
         onClick={toggleTheme} // Toggle the theme on click

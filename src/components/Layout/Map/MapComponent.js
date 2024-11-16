@@ -9,6 +9,7 @@ import * as identify from '@arcgis/core/rest/identify';
 import IdentifyParameters from "@arcgis/core/rest/support/IdentifyParameters.js";// Import IdentifyParameters
 import config from "../../Common/config"
 import Graphic from '@arcgis/core/Graphic';
+import { useTheme } from "../ThemeContext/ThemeContext";
 
 const MapComponent = (props) => {
   // Create a ref for the map container
@@ -19,6 +20,7 @@ const MapComponent = (props) => {
   const [lon, setLon] = useState(null);
   const [scale, setScale] = useState(null);
   const {setconrextMapView, setinitialExtent,setIsEditPOI, setPopupSelectedGeo} = useAuth();
+  const {isLangArab} = useTheme()
 
   const {setMapview, MapView} = props;
 
@@ -150,31 +152,33 @@ const handleIdentify = async(event, mapview) => {
 const handleMapClick = (view) => async(event) => {
   if(!view.activeTool){
     try {
+      const results = await handleIdentify(event, view);
+      if(results.length !== 0){        
       setIsEditPOI(false);
       view.graphics.removeAll(); // Clears all graphics
-      const results = await handleIdentify(event, view);
-      view.goTo({
-        target: results[0].feature.geometry,
-        zoom: 15 // Adjust the zoom level as needed
-      });
-      // Create a symbol for drawing the point
-      let markerSymbol = {
-        type: "simple-marker",
-        outline: {
-          color: [0, 255, 255, 4],
-          width: 1
+        view.goTo({
+          target: results[0].feature.geometry,
+          zoom: 15 // Adjust the zoom level as needed
+        });
+        // Create a symbol for drawing the point
+        let markerSymbol = {
+          type: "simple-marker",
+          outline: {
+            color: [0, 255, 255, 4],
+            width: 1
+          }
         }
-      }
-      
-      // Create a graphic and add the geometry and symbol to it
-      let pointGraphic = new Graphic({
-        geometry: results[0].feature.geometry,
-        symbol: markerSymbol
-      });
-      view.graphics.add(pointGraphic);
-      console.log("Results:", results); // Log the results returned from handleIdentify
-      setPopupSelectedGeo(results[0])//.graphic)
-      setIsEditPOI(true);
+        
+        // Create a graphic and add the geometry and symbol to it
+        let pointGraphic = new Graphic({
+          geometry: results[0].feature.geometry,
+          symbol: markerSymbol
+        });
+        view.graphics.add(pointGraphic);
+        console.log("Results:", results); // Log the results returned from handleIdentify
+        setPopupSelectedGeo(results[0])//.graphic)
+        setIsEditPOI(true);
+      }      
     } catch (error) {
         console.error("Error during identify operation:", error);
     }
@@ -222,14 +226,14 @@ const handleMapClick = (view) => async(event) => {
         ref={mapDiv}
       />
       {/* Display Lat, Lon, and Scale */}
-      <div className=" absolute sm:bottom-4 bottom-24 text-[#2C2C2C] font-poppins font-medium sm:text-[12px] text-[9px] sm:left-10 left-2 bg-white bg-opacity-40 backdrop-blur sm:p-3 p-1 rounded-lg shadow-md">
+      <div dir={isLangArab && "rtl"} className={`absolute sm:bottom-4 bottom-24 text-[#2C2C2C] font-poppins font-medium sm:text-[12px] text-[9px] ${isLangArab?"sm:right-10  right-2":"sm:left-10 left-2"} bg-white bg-opacity-40 backdrop-blur sm:p-3 p-1 rounded-lg shadow-md`}>
         <p className="text-[#2C2C2C] font-poppins font-medium text-[12px] mb-1">
-          Long: <span className="font-normal">{lon?.toFixed(3)}</span>
+          {isLangArab?"خط الطول":"Long"}: <span className="font-normal">{lon?.toFixed(3)}</span>
           <span className="mx-4">|</span>
-          Lat: <span className="font-normal">{lat?.toFixed(3)}</span>
+          {isLangArab?"خط العرض":"Lat"}: <span className="font-normal">{lat?.toFixed(3)}</span>
         </p>
         <p className="">
-          Current Scale: <span className="font-medium">{formatScale(scale)}</span> | UTM 39N
+          {isLangArab?"المقياس الحالي":"Current Scale"}: <span className="font-medium">{formatScale(scale)}</span> | UTM 39N
         </p>
       </div>
     </div>

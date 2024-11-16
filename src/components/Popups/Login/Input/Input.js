@@ -24,31 +24,33 @@ export default function Input({
     setHasContent(!!e.target.value); // Update content state as user types
   };
 
+
   return (
-    <div className="relative">
+    <div dir={isLangArab && "rtl"} className="relative">
       <input
         type={type}
         name={name}
         required={required}
-        className={`w-full h-[48px]  px-4 py-2 text-sm text-black bg-white border border-gray-300 rounded-[10px] focus:outline-none
+        className={`w-full h-[48px]  px-4 py-2 text-sm text-black  bg-white border border-gray-300 rounded-[10px] focus:outline-none
         ${isFocused || hasContent ? "placeholder-transparent" : "placeholder-gray-400"}`}
         onFocus={handleFocus}
+        // placeholder={placeholder}
         onBlur={handleBlur}
         onChange={handleChange}
       />
       {/* Floating label with red asterisk if required */}
-      <label
-        className={`absolute font-omnes text-[14px] ${isLangArab ?" right-4":"left-4"} top-3 text-sm pointer-events-none transition-all
+      <div
+        className={`absolute w-full font-omnes text-[14px] px-3  top-3 text-sm pointer-events-none transition-all
         ${isFocused || hasContent ? "text-transparent" : "text-black"}
-        ${isFocused || hasContent ? "-translate-y-5" : ""}`}
+        ${isFocused || hasContent ? "-translate-y-7" : ""}`}
       >
-        {placeholder}{"  "}
+        <span className=" text-gray-300">{placeholder}</span>{"  "}
         {required && (
           <span className={`${isFocused || hasContent ? "text-transparent" : "text-red-500"}`}>
             *
           </span>
         )}
-      </label>
+      </div>
     </div>
   );
 }

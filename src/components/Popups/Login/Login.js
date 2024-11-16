@@ -9,7 +9,9 @@ import { useTheme } from '../../Layout/ThemeContext/ThemeContext'; // Import the
 export default function Login({ onClose }) {
   const [currentView, setCurrentView] = useState("signin");
   const [email, setEmail] = useState("");
-  const {isLogin,isSignup } = useTheme(); // Use the theme hook
+  const {isLogin,isSignup } = useTheme(); // Use the theme hook  
+  const [code, setCode] = useState("");
+  const [expiryTime, setExpiryTime] = useState(null);
 
   useEffect(()=>{
     if(isLogin){
@@ -60,6 +62,10 @@ export default function Login({ onClose }) {
             onBackToLogin={() => handleViewChange("signin")}
             onSignup={() => handleViewChange("signup")}
             onNext={handleForgotPasswordNext}
+            code={code}
+            setCode={setCode}
+            expiryTime={expiryTime}
+            setExpiryTime={setExpiryTime}
           />
         );
       case "newpassword":
@@ -70,6 +76,8 @@ export default function Login({ onClose }) {
             onBackToLogin={() => handleViewChange("signin")}
             onSignup={() => handleViewChange("signup")}
             onPasswordSet={handlePasswordSet}
+            code={code}
+            expiryTime={expiryTime}
           />
         );
       default:
@@ -78,7 +86,7 @@ export default function Login({ onClose }) {
   };
 
   return (
-    <div className="fixed sm:inset-10 inset-1 z-50 flex items-center justify-center">
+    <div className="fixed sm:inset-10 inset-1 z-50 laptop_s:top-20 flex items-center justify-center">
       {renderCurrentView()}
     </div>
   );

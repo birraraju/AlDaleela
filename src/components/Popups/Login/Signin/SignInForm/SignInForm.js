@@ -19,8 +19,8 @@ import {UserActivityLog} from "../../../../Common/UserActivityLog";
 import { useTheme } from '../../../../Layout/ThemeContext/ThemeContext'; // Import the theme context
 
 const formSchema = z.object({
-  username: z.string().min(1, "username is required"),
-  password: z.string().min(8, "password must be at least 8 characters"),
+  username: z.string().min(1, "Username is required"),
+  password: z.string().min(8, "Password must be at least 8 characters"),
 });
 
 export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClose }) {
@@ -77,7 +77,7 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         {/* Enter Username */}
         <FormField
           control={form.control}
@@ -143,7 +143,7 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
         <div className="flex justify-between items-center">
           <div className="flex items-center space-x-2">
             <Checkbox className={`${isDarkMode ? "bg-gray-400 border-gray-700" : "bg-white"}`} />
-            <Label className={`text-${isDarkMode ? '[#FFFFFFCC]' : '[#000000CC]'} text-[14px] font-[400]`}>
+            <Label className={`${isDarkMode ? ' text-white/80' : ' text-black/90'} text-[14px] font-[400]`}>
               {form.formState.isValid ? "Remember me" : isLangArab ? "البقاء مسجلًا":"Stay logged in"}
             </Label>
           </div>
@@ -158,7 +158,7 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
                 : "text-[#004987] text-[14px] font-medium cursor-pointer"
             }`}
           >
-            {isLangArab ?"نسيت كلمة المرور":"Forget Password?"}
+            {isLangArab ?"نسيت كلمة المرور":"Forgot Password?"}
           </div>
         </div>
 

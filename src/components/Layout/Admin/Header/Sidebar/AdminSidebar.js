@@ -58,9 +58,10 @@ export default function Sidebar({ activeItem, onItemClick,isCollapsed, setIsColl
   return (
     <div 
     
-      className={`h-[calc(100vh-4rem)] text-white py-8 fixed top-16 ${ isLangArab ? "right-0" :"left-0"} z-10 transition-all duration-300 ${
+      className={`h-[calc(100vh-4rem)] text-white py-8 fixed top-14 h-full ${ isLangArab ? "right-0" :"left-0"} z-10 transition-all duration-300 ${
         isCollapsed ? "w-16" : "w-[190px]"
       } ${isDarkMode ? 'bg-[#1F302B]' : 'bg-teal-800'}`}
+      style={{ fontFamily: isLangArab ? "'Cairo', sans-serif" : 'inherit' }}
     >
       {/* Container for Back and Toggle Button */}
       <div className="flex justify-between items-center px-3">
@@ -73,9 +74,12 @@ export default function Sidebar({ activeItem, onItemClick,isCollapsed, setIsColl
         </a>}
         
         {/* Toggle Button (Right-aligned) */}
+        {isCollapsed ?<button onClick={toggleSidebar} className="text-[#D1FAFF] flex laptop_s:hidden">
+        <X className="w-6 h-6" />
+        </button>:
         <button onClick={toggleSidebar} className="text-[#D1FAFF] flex laptop_s:hidden">
            <Menu className="w-6 h-6" /> 
-        </button>
+        </button>}
       </div>
           
       {/* Sidebar Content */}

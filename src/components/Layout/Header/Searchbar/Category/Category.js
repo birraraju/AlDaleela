@@ -103,7 +103,7 @@ export default function Category({ inputClicked, isLangArab, setInputClicked }) 
     >
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`rounded-full flex justify-center items-center mobile_s:px-2 laptop_m:px-4 py-2 sm:h-6 h-7 bg-white bg-opacity-50 text-black `}
+        className={`rounded-full flex text-xs justify-center items-center mobile_s:px-2 laptop_m:px-4 laptop_s:py-3.5 py-2 sm:h-6 h-14 bg-[#C8C8C899] bg-opacity-50 text-black `}
       >
         {(selectedCategory === "Category") ? (isLangArab ? "الفئة" : selectedCategory) : selectedCategory}
         {isOpen ? (
@@ -114,12 +114,12 @@ export default function Category({ inputClicked, isLangArab, setInputClicked }) 
       </button>
 
       {isOpen && (
-        <div className="absolute w-28 h-44 border rounded bg-white shadow-lg overflow-y-scroll categories-scroll mt-1">
-          <div>
+        <div className="absolute w-24  h-44 border py-2 rounded bg-white shadow-lg overflow-y-scroll categories-scroll mt-3">
+          <div className=" ">
             {categoryClasses.map((category, index) => (
               <div
                 key={index} // Using index as key since category names may not be unique
-                className="text-base p-2 cursor-pointer text-black hover:bg-gray-100"
+                className="text-[12px] overflow-x-hidden cursor-pointer px-3 py-0.5  text-black hover:bg-gray-100"
                 onClick={() => handleCategorySelect(category)}
               >
                 {category}

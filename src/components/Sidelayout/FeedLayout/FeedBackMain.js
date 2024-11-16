@@ -53,14 +53,14 @@ export default function SendFeedBack({
   return (
     <div
       ref={feedbackRef}
-      className={`fixed sm:top-16 w-[98%] sm:w-[400px] top-14 ${ isLangArab?" left-3 sm:left-16 laptop_s:left-3":"right-2 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
+      className={`fixed sm:top-14 w-[98%] sm:w-[355px] top-14 ${ isLangArab?" left-3 sm:left-16 laptop_s:left-3":"right-2 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
         isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%] sm:-translate-x-[116%] laptop_s:-translate-x-[104%]":" translate-x-[103%] sm:translate-x-[116%] laptop_s:translate-x-[103%]")
       }`}
       style={{  height }}
     >
       <div
 
-        className={`relative h-[620px] sm:h-auto laptop_s:h-[620px] sm:w-full sm:float-none w-[99%] float-end rounded-2xl shadow-lg overflow-scroll border ${isLangArab?"laptop_s:sm:h-[625px] ":"laptop_s:sm:h-[620px] "} ${
+        className={`relative h-[620px] sm:h-auto laptop_s:h-[530px] sm:w-full sm:float-none w-[99%] float-end rounded-2xl shadow-lg overflow-scroll border ${isLangArab?"laptop_s:sm:h-[625px] ":"laptop_s:sm:h-[620px] "} ${
 
           isDarkMode
             ? "bg-[#000000] bg-opacity-80 border-none" // Dark mode styles
@@ -70,9 +70,9 @@ export default function SendFeedBack({
         {/* Header with Feedback Text and Close Button */}
         <div dir={isLangArab ? "rtl" : "ltr"}>
 
-        <div className={`flex items-center justify-between  mt-3 py-2 px-6 ${isLangArab ?  "laptop_s:mt-0" : " laptop_s:mt-2 "}`}>
-          <span className={`text-lg font-medium ${isDarkMode ? 'text-[#FFFFFFCC] text-opacity-80' : 'text-[#505050]'}`}>
-            {isLangArab?"ملاحظات":"Feedbacks"}
+        <div className={`flex items-center justify-between  mt-3 py-2 px-4 ${isLangArab ?  "laptop_s:mt-0" : " laptop_s:mt-2 "}`}>
+          <span className={`text-[16px] font-medium ${isDarkMode ? 'text-[#FFFFFFCC] text-opacity-80' : 'text-[#505050]'}`}>
+            {isLangArab?"ملاحظات":"Feedback"}
           </span>
           <button
            
@@ -90,7 +90,7 @@ export default function SendFeedBack({
         </div>
         </div>
 
-        <div className="p-2 sm:py-2 sm:px-6  overflow-y-auto h-full">
+        <div className="p-2 sm:py-2 sm:px-4  overflow-y-auto h-full">
           <FeedBackBody
            setIsPopoverOpen={setIsPopoverOpen}
            setIsFeedBack={setIsFeedBack}

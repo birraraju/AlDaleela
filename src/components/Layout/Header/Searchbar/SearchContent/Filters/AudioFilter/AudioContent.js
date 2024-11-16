@@ -227,6 +227,7 @@ import { useAuth } from "../../../../../../../Providers/AuthProvider/AuthProvide
 import config from '../../../../../../Common/config'; // Import your config file
 import ClipLoader from "react-spinners/ClipLoader"; // Import ClipLoader
 import { FaPlay, FaPause } from 'react-icons/fa'; // Example using Font Awesome icons
+import { useTheme } from "../../../../../ThemeContext/ThemeContext";
 
 export default function AudioContent({setInputClicked,setIscategory}) {
   const [mediaItems, setMediaItems] = useState([]);
@@ -234,6 +235,7 @@ export default function AudioContent({setInputClicked,setIscategory}) {
   const [error, setError] = useState(null);
   const { contextMapView, setPopupSelectedGeo, setIsEditPOI } = useAuth();
   const [playingIndex, setPlayingIndex] = useState(null); // Track which audio is playing
+  const {isLangArab} = useTheme()
   const audioRefs = useRef([]); // Array of refs for each audio
 
 
@@ -381,7 +383,7 @@ export default function AudioContent({setInputClicked,setIscategory}) {
 
   console.log("Media AudioConsole Data",mediaItems)
   return (
-    <div className="p-4 h-[17rem] overflow-y-scroll">
+    <div dir={isLangArab && "rtl"} className="p-4 h-[17rem] overflow-y-scroll">
       <div className="grid  tab:grid-cols-4 grid-cols-2 mobile_m:grid-cols-3 gap-2">
         {mediaItems.map((audio, audioIndex) => (
           <div

@@ -1,6 +1,10 @@
 .Export {
     /* margin-top: -400px; */
 }
+#exportDiv .esri-print__header-title{
+    display: none;
+}
+
 #exportDiv,
 .esri-print,
 .esri-widget,

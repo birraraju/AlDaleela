@@ -44,7 +44,7 @@ export default function GeneralInformation({ onClose }) {
         {/* Heading & close button */}
         <div>
   <h1
-    className={`text-[24px] font-omnes font-medium ${
+    className={`text-[14px] font-omnes font-medium ${
       isLangArab ? "text-right" : "text-left"
     }`}
   >
@@ -70,7 +70,7 @@ export default function GeneralInformation({ onClose }) {
 
         {/* Scrollable table with visible scrollbar */}
         <div className="scroll-container mr-1 h-[25rem] overflow-y-scroll">
-          <table className="w-full mt-2 text-sm">
+          <table className="w-full mt-2 text-[14px]">
             <thead>
               <tr>
                 {isLangArab ? (
@@ -139,21 +139,21 @@ export default function GeneralInformation({ onClose }) {
                   {isLangArab ? (
                     <>
                       <td
-                        className={`px-4 py-2 font-omnes font-medium text-[16px] ${
+                        className={`px-4 py-2 font-omnes font-medium text-[14px] ${
                           isDarkMode ? "text-white" : "text-black"
                         }`}
                       >
                         {row.description}
                       </td>
                       <td
-                        className={`px-4 py-2 font-omnes font-medium text-[16px] ${
+                        className={`px-4 py-2 font-omnes font-medium text-[14px] ${
                           isDarkMode ? "text-white" : "text-black"
                         }`}
                       >
                         {row.class}
                       </td>
                       <td
-                        className={`px-4 py-2 font-omnes font-medium text-[16px] ${
+                        className={`px-4 py-2 font-omnes font-medium text-[14px] ${
                           isDarkMode ? "text-white" : "text-black"
                         }`}
                       >
@@ -163,21 +163,21 @@ export default function GeneralInformation({ onClose }) {
                   ) : (
                     <>
                       <td
-                        className={`px-4 py-2 font-omnes font-medium text-[16px] ${
+                        className={`px-4 py-2 font-omnes font-medium text-[14px] ${
                           isDarkMode ? "text-white" : "text-black"
                         }`}
                       >
                         {index + 1}
                       </td>
                       <td
-                        className={`px-4 py-2 font-omnes font-medium text-[16px] ${
+                        className={`px-4 py-2 font-omnes font-medium text-[14px] ${
                           isDarkMode ? "text-white" : "text-black"
                         }`}
                       >
                         {row.class}
                       </td>
                       <td
-                        className={`px-4 py-2 font-omnes font-medium text-[16px] ${
+                        className={`px-4 py-2 font-omnes font-medium text-[14px] ${
                           isDarkMode ? "text-white" : "text-black"
                         }`}
                       >

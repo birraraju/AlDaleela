@@ -1,9 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap');
+/* App.css */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap');
+
 
 img {
   pointer-events: none;
   user-select: none;
 }
+
+body {
+  font-family: 'Cairo', sans-serif;
+}
+
 
 /* Webkit browsers (Chrome, Safari) */
 .categories-scroll::-webkit-scrollbar {

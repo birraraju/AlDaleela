@@ -3,15 +3,15 @@ import { X, ChevronLeft } from 'lucide-react';
 import Logo from '../../../../assets/GreenLogo.svg';
 import Input from '../Input/Input';
 import { useTheme } from '../../../Layout/ThemeContext/ThemeContext'; // Import the theme context
+import createForgotPasswordEmailBody from "../../../../components/email/ForgotPasswordTemplate";
 
-export default function ForgetPassword({ onClose, onBackToLogin, onSignup, onNext }) {
+export default function ForgetPassword({ onClose, onBackToLogin, onSignup, onNext ,code, setCode, expiryTime, setExpiryTime}) {
   const [formData, setFormData] = useState({
     email: '',
   });
 
   const modalRef = useRef(null);
   const { isDarkMode, isLangArab } = useTheme(); // Access the dark mode state
-
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -31,11 +31,75 @@ export default function ForgetPassword({ onClose, onBackToLogin, onSignup, onNex
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
+
+  console.log('formData.email :>> ', formData.email);
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Reset password for:', formData.email);
     onNext(formData.email);
   };
+  const generateCode = async () => {
+    // Generate the 8-character code first
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let newCode = "";
+    for (let i = 0; i < 8; i++) {
+      newCode += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+  
+    setCode(newCode); // Store the code
+    setExpiryTime(Date.now() + 15 * 60 * 1000); // Set expiry time to 15 minute from now
+    //alert(newCode); // Show the generated code in an alert (for testing purposes)
+  
+    // Define the data to populate the email template
+    const emailData = {
+      toEmail: formData.email,
+      subject: "Reset Your Password",
+      body: createForgotPasswordEmailBody({
+        username: formData.email,
+        code: newCode, // Use the generated code
+        message:
+          "We received a request to reset your password. Use the code below to reset it.",
+      }),
+    };
+  
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/Email/send`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(emailData),
+        }
+      );
+  
+      const result = await response.json();
+      if (result.success) {
+        alert("Email sent successfully!"); // Notify the user the email was sent
+      } else {
+        console.log(result.message || "Email sending failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error sending email:", error);
+    }
+  };
+  
+  // useEffect(() => {
+  //   if (expiryTime) {
+  //     const timer = setInterval(() => {
+  //       if (Date.now() >= expiryTime) {
+  //         setCode(""); // Clear the code after expiry
+  //         setExpiryTime(null);
+  //         alert("Your code has expired.");
+  //         clearInterval(timer);
+  //       }
+  //     }, 1000);
+
+  //     // Cleanup the timer on component unmount
+  //     return () => clearInterval(timer);
+  //   }
+  // }, [expiryTime]);
 
   return (
     <div className="fixed sm:inset-10 flex items-center justify-center z-50 sm:p-4 px-1">
@@ -77,6 +141,7 @@ export default function ForgetPassword({ onClose, onBackToLogin, onSignup, onNex
               />
               <button
                 type="submit"
+                onClick={generateCode}
                 className={`w-full py-3 rounded-xl transition duration-300 text-sm ${
                   formData.email
                     ? 'bg-gradient-to-r from-[#036068] via-[#596451] to-[#1199A8] text-white'
@@ -87,7 +152,7 @@ export default function ForgetPassword({ onClose, onBackToLogin, onSignup, onNex
                 {isLangArab?"التالي":"Next"}
               </button>
             </form>
-            <div className="mt-auto pt-4 text-center">
+            <div className="mt-auto pt-2 text-center">
               <p className={`text-sm text-${isDarkMode ? '[#FFFFFFCC]' : 'gray-600'} text-center mt-10`}>
               {isLangArab ? "ليس لديك حساب":"Don't have an account?"}{' '}
                 <button onClick={onSignup} className={`text-${isDarkMode ? '[#004987]' : '[#004987]'} font-medium underline`}>

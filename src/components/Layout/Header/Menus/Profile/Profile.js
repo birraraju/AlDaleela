@@ -176,11 +176,11 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
                 //src={`${((role === "admin")||(role === "user")) ? AdminLogo : ProfileLogo}`} // الملف الشخصي
                 src={profiledetails && profiledetails.imageUrl ? profiledetails.imageUrl : ProfileLogo}
                 alt="Profile"
-                className="mobile_s:w-8 laptop_m:w-8 w-8 h-8 rounded-full object-cover"
+                className="mobile_s:w-8 laptop_m:w-6 laptop_m:h-6 w-8 h-8 rounded-full object-cover"
               />
             </div>
             <div className="mobile_s:ml-2 hidden sm:block laptop_m:ml-2">
-              {role !== null ? (profiledetails.username ? profiledetails.username: profiledetails.username === "" && profiledetails.firstName) : (isLangArab ? "الملف الشخصي":"Profile")}
+              <p className= {` ${isLangArab?"text-[6px]":"text-[9px] laptop_s:text-[14px] "} `}>{role !== null ? (profiledetails.username ? profiledetails.username: profiledetails.username === "" && profiledetails.firstName) : (isLangArab ? "الملف الشخصي":"Profile")}</p>
             </div>
             <div className="mobile_s:mx-2 sm:block hidden laptop_m:mx-2">
               <IoMdArrowDropdown
@@ -191,9 +191,9 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
         </PopoverTrigger>
 
         <PopoverContent
-          className={` mt-3 border bg-opacity-65 
+          className={` mt-1 w-[265px] border bg-opacity-90
                       ${isDarkMode ? "bg-gray-900 border-gray-700" : "bg-white border-white"}
-                      backdrop-blur-md p-4 rounded-3xl shadow-lg z-10 sm:mr-8 mr-2`}
+                      backdrop-blur-xl p-4 rounded-2xl shadow-lg z-10 sm:mr-8 mr-2`}
         >
         <ProfileDetails
             role={role}
@@ -218,17 +218,17 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
           {role === null ? (
             <div
               onClick={toggleAuthenticator}
-              className="py-3 w-full flex items-center justify-center custom-gradient text-white font-semibold text-lg rounded-2xl cursor-pointer"
+              className="py-2 w-full flex items-center justify-center custom-gradient text-white font-semibold text-[14px] rounded-lg cursor-pointer"
             >
               {isLangArab?"تسجيل الدخول" :"Login"}
             </div>
           ) : (
             <div onClick={handleLogout} className="flex cursor-pointer justify-start items-center gap-2">
       <HiOutlineLogout
-        className={`mx-1  text-[24px] ${isDarkMode ? "border-white  border-opacity-80 text-white" : ""}`}
+        className={`mx-1  text-[20px] ${isDarkMode ? "border-white  border-opacity-80 text-white" : ""}`}
         style={{ color: isDarkMode ? '#FFFFFFCC' : '#505050' }}
       />
-              <p className={`font-medium  text-[18px] ${isDarkMode ? "text-gray-300" : "text-[#505050]"}`}>
+              <p className={`font-semibold  text-[16px] ${isDarkMode ? "text-gray-300" : "text-[#505050]"}`}>
               {isLangArab?"تسجيل الخروج":"Logout"}</p>
             </div>
           )}

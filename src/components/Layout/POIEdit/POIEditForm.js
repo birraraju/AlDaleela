@@ -11,6 +11,7 @@ import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import { useAuth } from "../../../Providers/AuthProvider/AuthProvider";
 import config from '../../Common/config'; // Import your config file
 import {UserActivityLog} from "../../Common/UserActivityLog";
+import { useTheme } from '../ThemeContext/ThemeContext';
 
 const Component = ({ POIFormShow,isLangArab, setPOIUploaderShow, setIsShowEditPOI, setPOIFormShow, isEditShowPOI, queryresults, setIsEditPOI, uploadedFiles, setPOImessageShow, setPOIFormsuccessShow, setPOIFormisOpenModalShow, setUploadedFiles }) => {
   const [poiData, setPoiData] = useState({
@@ -48,6 +49,7 @@ const Component = ({ POIFormShow,isLangArab, setPOIUploaderShow, setIsShowEditPO
   const audioRefs = useRef([]); // Array of refs for each audio
   const [playingIndex, setPlayingIndex] = useState(null); // Track which audio is playing
   const [pausedAt, setPausedAt] = useState(0); // Tracks the paused position
+  const {isDarkMode} = useTheme()
 
   useEffect(() => {
     if (queryresults && queryresults.features && queryresults.features.length > 0) {
@@ -392,17 +394,17 @@ const Component = ({ POIFormShow,isLangArab, setPOIUploaderShow, setIsShowEditPO
 
 
   const renderFieldOrText = (id, label, value,options = [], inputType = "text", disable) => (
-    <div className="space-y-2" dir={`${isLangArab && "rtl"}`}>
-      <label htmlFor={id} className="block text-sm font-medium text-gray-700">
+    <div className="space-y-1" dir={`${isLangArab && "rtl"}`}>
+      { (value || isEditShowPOI) && <label htmlFor={id} className={`block text-[14px] font-medium ${isDarkMode?"text-white":"text-gray-700"}`}>
         {label}
-      </label>
+      </label>}
       {isEditShowPOI ? (
         inputType === "select" ? (
           <select
             id={id}
             value={poiData[id]}
             onChange={handleChange}
-            className="block w-full p-2 rounded-md text-black border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            className="block w-full p-2 rounded-md text-black text-[13px] h-9 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
           >
             {options.length > 0 && (
             <>
@@ -411,7 +413,7 @@ const Component = ({ POIFormShow,isLangArab, setPOIUploaderShow, setIsShowEditPO
               
               {/* Map over the options */}
               {options.map((option) => (
-                <option key={option.value} value={option.value}>
+                <option key={option.value} className='  ' value={option.value}>
                   {option.label}
                 </option>
               ))}
@@ -424,11 +426,11 @@ const Component = ({ POIFormShow,isLangArab, setPOIUploaderShow, setIsShowEditPO
             value={poiData[id]}
             disabled={disable}
             onChange={handleChange}
-            className="block w-full rounded-md p-2 text-black border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            className="block text-[13px] h-9 w-full rounded-md p-2 text-black border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
           />
         )
-      ) : (
-        <p className={` border ${value? "p-2": "p-5" } rounded-md text-black bg-gray-100`}>{value}</p>
+      ) : value &&   (
+        <p className={` border ${value? "p-2": "p-5" } h-9 text-[13px] rounded-md text-black bg-gray-100`}>  {value?.length > 40 ? `${value.substring(0, 40)}...` : value}</p>
       )}
     </div>
   );
@@ -448,11 +450,17 @@ const Component = ({ POIFormShow,isLangArab, setPOIUploaderShow, setIsShowEditPO
   "select"
 )}
 
+
+  
+ 
 {renderFieldOrText(
-  "name_en",
-  isLangArab ? "الاسم" : "Name",
-  queryresults.features[0].attributes.name_en
-)}
+      "Classification",
+      isLangArab ? "التصنيف" : "Classification",
+      queryresults.features[0].attributes.Classification,
+      [],
+      "text", 
+      true
+    )}
 
 {renderFieldOrText(
   "Class",
@@ -461,55 +469,6 @@ const Component = ({ POIFormShow,isLangArab, setPOIUploaderShow, setIsShowEditPO
 )}
 
 {renderFieldOrText(
-  "ClassD",
-  isLangArab ? "الفئة D" : "ClassD",
-  queryresults.features[0].attributes.ClassD
-)}
-
-{isShowMore && (
-  <>
-    {renderFieldOrText(
-      "Status",
-      isLangArab ? "الحالة" : "Status",
-      queryresults.features[0].attributes.Status,
-      statusOptions,
-      "select"
-    )}
-
-    {renderFieldOrText(
-      "Comment",
-      isLangArab ? "التعليق" : "Comment",
-      queryresults.features[0].attributes.Comment
-    )}
-
-    {renderFieldOrText(
-      "description",
-      isLangArab ? "الوصف" : "Description",
-      queryresults.features[0].attributes.description
-    )}
-
-    {renderFieldOrText(
-      "poems",
-      isLangArab ? "القصائد" : "Poems",
-      queryresults.features[0].attributes.poems
-    )}
-
-    {renderFieldOrText(
-      "stories",
-      isLangArab ? "القصص" : "Stories",
-      queryresults.features[0].attributes.stories
-    )}
-
-    {renderFieldOrText(
-      "Classification",
-      isLangArab ? "التصنيف" : "Classification",
-      queryresults.features[0].attributes.Classification,
-      [],
-      "text",
-      true
-    )}
-
-    {renderFieldOrText(
       "MunicipalityAr",
       isLangArab ? "البلدية" : "Municipality",
       queryresults.features[0].attributes.MunicipalityAr,
@@ -517,19 +476,66 @@ const Component = ({ POIFormShow,isLangArab, setPOIUploaderShow, setIsShowEditPO
       "select"
     )}
 
-    {renderFieldOrText(
+{renderFieldOrText(
       "Emirate",
       isLangArab ? "الإمارة" : "Emirate",
       queryresults.features[0].attributes.Emirate
     )}
 
-    {renderFieldOrText(
+{renderFieldOrText(
       "City",
       isLangArab ? "المدينة" : "City",
       queryresults.features[0].attributes.City
     )}
-  </>
+
+    
+{isShowMore && renderFieldOrText(
+  "name_en",
+  isLangArab ? "الاسم" : "Name",
+  queryresults.features[0].attributes.name_en
 )}
+
+
+
+{ isShowMore && renderFieldOrText(
+  "ClassD",
+  isLangArab ? "الفئة D" : "ClassD",
+  queryresults.features[0].attributes.ClassD
+)}
+
+    {isShowMore && renderFieldOrText(
+      "Status",
+      isLangArab ? "الحالة" : "Status",
+      queryresults.features[0].attributes.Status,
+      statusOptions,
+      "select"
+    )}
+
+    {isShowMore && renderFieldOrText(
+      "Comment",
+      isLangArab ? "التعليق" : "Comment",
+      queryresults.features[0].attributes.Comment
+    )}
+
+    {isShowMore && renderFieldOrText(
+      "description",
+      isLangArab ? "الوصف" : "Description",
+      queryresults.features[0].attributes.description
+    )}
+
+    {isShowMore && renderFieldOrText(
+      "poems",
+      isLangArab ? "القصائد" : "Poems",
+      queryresults.features[0].attributes.poems
+    )}
+
+    {isShowMore && renderFieldOrText(
+      "stories",
+      isLangArab ? "القصص" : "Stories",
+      queryresults.features[0].attributes.stories
+    )}
+    
+
 
             {/* {renderFieldOrText("organization", "Organization", queryresults.features[0].attributes.organization,organizationOptions, "select")}
             {renderFieldOrText("name_en", "Name", queryresults.features[0].attributes.name_en)}
@@ -552,28 +558,28 @@ const Component = ({ POIFormShow,isLangArab, setPOIUploaderShow, setIsShowEditPO
             </>} */}
 
               {!isEditShowPOI && <div dir={isLangArab && "rtl"} className=' flex justify-end '>
-                <button  className=' text-[#028DC8] font-medium text-sm underline' onClick={()=>setIsShowMore(!isShowMore)}>{isShowMore ?(isLangArab?"يخفي":"Hide"):(isLangArab?"أكثر":"More")} {isLangArab?"معلومات":"Info"}</button>
+                <button  className=' text-[#028DC8] font-medium text-[12px] underline' onClick={()=>setIsShowMore(!isShowMore)}>{isShowMore ?(isLangArab?"يخفي":"Hide"):(isLangArab?"أكثر":"More")} {isLangArab?"معلومات":"Info"}</button>
               </div>}
              {/* Photos Section */}
-             <div dir={isLangArab && "rtl"} className="px-3 py-6 border border-none rounded-lg bg-white space-y-4">
+             <div dir={isLangArab && "rtl"} className="px-3 py-4 border border-none rounded-lg bg-white space-y-4">
               <div dir={isLangArab && "rtl"}>
-              <h3 className="text-sm text-[#303030] font-medium mb-2">{isLangArab?"صور":"Photos"}</h3>
+              <h3 className="text-[14px] text-[#303030] font-medium mb-2">{isLangArab?"صور":"Photos"}</h3>
               <div className=' grid grid-cols-2'>
                 {images.length > 0 ? (
                   images.map((image, index) => (
                     <div key={index} className="relative m-2 w-full h-[90px] rounded-lg overflow-hidden">
-                      <img src={image.url} alt={image.name} className="w-[90%] h-[90px] object-fill" />
+                      <img src={image.url} alt={image.name} className="w-[95%] h-[80px] object-fill" />
                     </div>
                   ))
                 ) : (
-                  <p className=" text-black">{isLangArab?"لا توجد صور متاحة.":"No photos available."}</p>
+                  <p className={`${isDarkMode?" text-white":"text-[#303030]"} text-[12px]  `}>{isLangArab?"لا توجد صور متاحة.":"No photos available."}</p>
                 )}
                 </div>
               </div>
 
               {/* Videos Section */}
               <div>
-                <h3 className="text-sm font-medium text-[#303030] mb-2">{isLangArab?"فيديوهات":"Videos"}</h3>
+                <h3 className="text-[14px] font-medium text-[#303030] mb-2">{isLangArab?"فيديوهات":"Videos"}</h3>
                 {videos.length > 0 ? (
                   <div className="grid grid-cols-2 gap-2">
                     {videos.map((video, index) => (
@@ -590,13 +596,13 @@ const Component = ({ POIFormShow,isLangArab, setPOIUploaderShow, setIsShowEditPO
                     ))}
                   </div>
                 ) : (
-                  <p className=" text-[#303030] ">{isLangArab?"لا توجد مقاطع فيديو متاحة.":"No videos available."}</p>
+                  <p className={`${isDarkMode?" text-white":"text-[#303030]"} text-[12px]  `}>{isLangArab?"لا توجد مقاطع فيديو متاحة.":"No videos available."}</p>
                 )}
               </div>
 
               {/* Audio Section */}
               <div>
-  <h3 className="text-sm font-medium mb-2 text-[#303030]">{isLangArab?"صوتي":"Audio"}</h3>
+  <h3 className="text-[12px] font-medium mb-2 text-[#303030]">{isLangArab?"صوتي":"Audio"}</h3>
   {audios.length > 0 ? (
     audios.map((audio, index) => (
       <div
@@ -608,13 +614,13 @@ const Component = ({ POIFormShow,isLangArab, setPOIUploaderShow, setIsShowEditPO
             <img
               src={AudioPlayPOI}
               alt="Audio Wave"
-              className="w-[70%] h-full"
+              className={` ${isLangArab && "rotate-180"} w-[70%] h-full`}
             />
           ) : (
             <img
               src={AudioPlayPOI}
               alt="Audio Wave"
-              className="w-[70%] h-full"
+              className={`w-[70%] h-full ${isLangArab && "rotate-180"}`}
             />
           )}
         </button>
@@ -622,7 +628,7 @@ const Component = ({ POIFormShow,isLangArab, setPOIUploaderShow, setIsShowEditPO
           <img
             src={AudioLineStylePOI}
             alt="Audio Wave"
-            className="w-full h-full"
+            className={` w-full h-full`}
             style={{
               filter: `hue-rotate(${
                 (audioRefs.current[index]?.currentTime / audioRefs.current[index]?.duration || 0) * 360
@@ -638,7 +644,7 @@ const Component = ({ POIFormShow,isLangArab, setPOIUploaderShow, setIsShowEditPO
       </div>
     ))
   ) : (
-    <p className="text-[#303030]">{isLangArab?"لا توجد ملفات صوتية متاحة.":"No audio files available."}</p>
+    <p className={`${isDarkMode?" text-white":"text-[#303030]"} text-[12px]  `}>{isLangArab?"لا توجد ملفات صوتية متاحة.":"No audio files available."}</p>
   )}
 </div>
 
@@ -647,26 +653,26 @@ const Component = ({ POIFormShow,isLangArab, setPOIUploaderShow, setIsShowEditPO
             {isEditShowPOI && (
               <>
                 <div dir={isLangArab && "rtl"} className="grid grid-cols-1 py-3 justify-center items-center">
-                  <p className="flex justify-center text-sm text-black items-center">{isLangArab
+                  <p className={`flex justify-center text-[12px] ${isDarkMode?"text-white":"text-black"} items-center`}>{isLangArab
       ? "هل تريد مشاركة الصور والفيديوهات والصوتيات"
       : "Want to share photos, videos, and audio"}
 </p>
-                  <p className="flex justify-center text-sm text-black items-center">{isLangArab
+                  <p className={`flex justify-center text-[12px] ${isDarkMode?"text-white":"text-black"} items-center`}>{isLangArab
       ? "لهذا الموقع؟"
       : "for this location?"}</p>
-                  <p className="flex justify-center text-sm text-black items-center">{isLangArab
+                  <p className={`flex justify-center text-[12px] ${isDarkMode?"text-white":"text-black"} items-center`}>{isLangArab
       ? "يرجى الضغط على زر التحميل."
       : "Please click the upload button."}</p>
                 </div>
                 <div className="flex justify-center items-center">
-                  <p onClick={() => { setPOIUploaderShow(true); setPOIFormShow(false); }} className="cursor-pointer text-blue-500 hover:text-blue-800 underline">
+                  <p onClick={() => { setPOIUploaderShow(true); setPOIFormShow(false); }} className={`cursor-pointer ${isDarkMode? "hover:text-blue-500 text-[12px] text-blue-800 " :"text-blue-500 hover:text-blue-800"} underline`}>
                    { isLangArab?"تحميل ملف":"Upload a file"}
                   </p>
                 </div>
               </>
             )}
 
-            <div className=" text-sm text-gray-500 sm:px-12 px-7">X 54.2971051, Y 24.0622842</div>
+            <div className={`text-[12px] ${isDarkMode?"text-white":"text-gray-500"} sm:px-12 px-7`}>X 54.2971051, Y 24.0622842</div>
 
             {/* Action Buttons */}
             {isEditShowPOI && (

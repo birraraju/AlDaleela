@@ -7,7 +7,7 @@ export default function ContactUs({ setIsContactUs, setIsPopoverOpen }) {
   const { isDarkMode,isLangArab } = useTheme(); // Use the theme hook to get dark mode state
 
   return (
-    <div className="py-4 cursor-pointer">
+    <div className="py-2 cursor-pointer">
       <div
         onClick={() => {
           setIsContactUs(true);
@@ -19,9 +19,9 @@ export default function ContactUs({ setIsContactUs, setIsPopoverOpen }) {
         <img 
           src={isDarkMode ? DarkContactIcon : ContactIcon }
 
-           alt="Contact Us" className=" w-7" />        </div>
+           alt="Contact Us" className=" w-5" />        </div>
         <p
-          className={`font-medium font-omnes  text-[18px] ${
+          className={`font-medium font-omnes  text-[16px] ${
             isDarkMode ? "text-gray-300" : "text-[#505050]"
           }`}
         >          {isLangArab?"اتصل بنا":"Contact Us"}</p>
