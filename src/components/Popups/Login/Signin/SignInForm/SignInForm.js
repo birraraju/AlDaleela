@@ -19,8 +19,8 @@ import {UserActivityLog} from "../../../../Common/UserActivityLog";
 import { useTheme } from '../../../../Layout/ThemeContext/ThemeContext'; // Import the theme context
 
 const formSchema = z.object({
-  username: z.string().min(1, "username is required"),
-  password: z.string().min(8, "password must be at least 8 characters"),
+  username: z.string().min(1, "Username is required"),
+  password: z.string().min(8, "Password must be at least 8 characters"),
 });
 
 export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClose }) {
