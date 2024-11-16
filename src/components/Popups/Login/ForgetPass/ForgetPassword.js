@@ -48,7 +48,7 @@ export default function ForgetPassword({ onClose, onBackToLogin, onSignup, onNex
   
     setCode(newCode); // Store the code
     setExpiryTime(Date.now() + 15 * 60 * 1000); // Set expiry time to 15 minute from now
-    alert(newCode); // Show the generated code in an alert (for testing purposes)
+    //alert(newCode); // Show the generated code in an alert (for testing purposes)
   
     // Define the data to populate the email template
     const emailData = {

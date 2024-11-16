@@ -362,14 +362,14 @@ export default function BasicInformation({
     );
     formdata.append("country", selectedCountry || profiledetails.country);
     formdata.append("currentemail", profiledetails.email);
-    //formdata.append('profilepicture', file);
+    formdata.append('profilepicture', file);
     // Add an empty file if the user hasn't selected one
-    if (!file) {
-      const emptyFile = new Blob([], { type: "application/octet-stream" });
-      formdata.append("profilepicture", emptyFile, "empty.jpg");
-    } else {
-      formdata.append("profilepicture", file);
-    }
+    // if (!file) {
+    //   const emptyFile = new Blob([], { type: "application/octet-stream" });
+    //   formdata.append("profilepicture", emptyFile, "empty.jpg");
+    // } else {
+    //   formdata.append("profilepicture", file);
+    // }
 
     try {
       const response = await fetch(
