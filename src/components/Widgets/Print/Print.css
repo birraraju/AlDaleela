@@ -1,10 +1,185 @@
-.Print{
+/* Apply the glassmorphism effect to the container */
+.Print {
+    /* Optional: Adjust position and margin */
     /* margin-top: -510px; */
-    background-color: transparent
+  }
+  
+  /* Apply the glassmorphism effect to the print container */
+  #printDiv {
+    position: relative; /* Ensure that the backdrop-filter works */
+  }
 
-}
-
-
-#printDiv .esri-print__header-title{
+  .Print {
+    background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
+    backdrop-filter: blur(0px); /* Blurring the background behind the element */
+    border: none;
+  }
+  
+  /* Apply the glassmorphism effect to calcite-flow-item */
+  #printDiv > calcite-flow > calcite-flow-item {
+    background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
+    backdrop-filter: blur(0px); /* Blurring the background behind the element */
+    border: none; /* Removes the border */
+    /* border-radius: 10px;  */
+    /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); Optional: Adding slight shadow for depth */
+    /* padding: 20px; Optional: Adjust padding to give content space */
+  }
+  
+  /* Remove the header title from the print container */
+  #printDiv .esri-print__header-title {
     display: none;
+  }
+  
+  /* Apply the glassmorphism effect to the calcite-flow container */
+  /* #printDiv > calcite-flow {
+    backdrop-filter: blur(10px); 
+    border-radius: 10px; 
+    padding: 10px; 
+  } */
+  .esri-print__advanced-options-section {
+    background-color: white;
+    border: none;
+    border-radius: 12px;
 }
+
+#printDiv__layoutContent > div > div.esri-print__form-section-container > calcite-label > calcite-combobox {
+  border: none;
+}
+
+
+.esri-button {
+  box-sizing: border-box;
+  cursor: pointer;
+  white-space: normal;
+  word-break: normal;
+  color: #fff;
+  /* background-color: #0079c1; */
+  background: linear-gradient(270.18deg, #036068 -14.27%, #596451 47.55%, #1E7C87 76.37%, #4C7950 107.69%, #1199A8 147.31%);
+  border: 1px solid #0079c1;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  width: 90%;
+  min-height: 42px;
+  padding: 6px 7px;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: inherit;
+  font-size: 14px;
+  transition: background-color .125s ease-in-out,border .125s ease-in-out;
+  display: flex;
+  overflow: hidden;
+}
+
+  #printDiv > calcite-flow > calcite-flow-item > div > div {
+    background-color: rgba(255, 255, 255, 0.1); 
+    backdrop-filter: blur(10px); 
+    border: none;
+    flex-flow: column;
+    flex-grow: 1;
+    justify-content: space-between;
+    display: flex;
+  }
+  
+  #printDiv > calcite-flow > calcite-flow-item > div > div > div > ul {
+    background-color: #f3f3f3;
+    justify-content: space-between;
+    margin-left: 5px;  
+    padding: 3px;
+    display: flex;
+    position: relative;
+    bottom: -1px;
+    width: 170px;
+    border-radius: 12px
+}
+
+.esri-print__container {
+    flex-direction: column;
+    flex-grow: 1;
+    background-color: transparent;
+    display: flex;
+}
+
+#printDiv > calcite-flow > calcite-flow-item {
+    background-color: transparent;
+}
+
+#printDiv > calcite-flow > calcite-flow-item > div > div > div > ul > li {
+    border: 1px solid transparent;
+    border-radius: 12px;
+}
+.esri-print__template-select-container {
+    cursor: pointer;
+    border: 1px solid #6e6e6e4d;
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+    height: 40px;
+    background-color: white;
+    border: transparent;
+    border-radius: 12px;
+}
+
+.description {
+    margin-block-start: 0.125rem;
+    padding: 0px;
+    font-size: var(--calcite-font-size--2);
+    line-height: 1.375;
+    color: var(--calcite-color-text-3);
+    word-wrap: break-word;
+    display: none;
+    word-break: break-word;
+}
+
+
+
+.container {
+    position: relative;
+    display: flex;
+    block-size: 100%;
+    flex-direction: column;
+    height: 30px;
+}
+
+.header-container {
+    display: grid;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    align-items: stretch;
+    grid-template: auto/auto 1fr auto auto;
+    grid-template-areas: "handle header control menu actions-end";
+    grid-column: header-start/actions-end;
+    grid-row: 1/2;
+}
+
+
+
+
+:host([layout="inline"]) .container, :host([layout="inline-space-between"]) .container {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+}
+
+/* #printDiv__layoutContent > div > div.esri-print__form-section-container > calcite-label > calcite-combobox > interaction-container {
+    padding-block: 0;
+    padding-inline: var(--calcite-combobox-item-spacing-unit-l);
+    cursor: pointer;
+    flex-wrap: nowrap;
+    border: transparent;
+    border-radius: 12px;
+    height: 40px;
+}
+ */
+
+
+  #printDiv > calcite-flow > calcite-flow-item > div > div > div{
+    background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
+    backdrop-filter: blur(10px); /* Blurring the background behind the element */
+    border: none;
+  }
+
+  
+
+  .esri-print__layout-tab[aria-selected=true], .esri-print__layout-tab[aria-selected=true]:hover{
+        border: none;
+  }

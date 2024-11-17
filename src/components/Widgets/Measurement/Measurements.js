@@ -15,6 +15,41 @@ const MeasurementsComponent = ({ mapview }) => {
   const {setMeasurementOpenWidget} = useAuth();
   const {isLangArab} = useTheme()
 
+  const styleShadowDropdown = () => {
+    // Find the interaction container within the Shadow DOM
+    const interactionContainer = document.querySelector(".interaction-container");
+
+    if (interactionContainer) {
+      const shadowRoot = interactionContainer.shadowRoot;
+
+      if (shadowRoot) {
+        // Check if a style element has already been injected
+        if (!shadowRoot.querySelector("style")) {
+          const style = document.createElement("style");
+
+          // Add custom styles for the select dropdown
+          style.textContent = `
+            .wrapper {
+              max-height: 400px !important;
+              overflow-y: auto !important;
+            }
+
+            .select {
+              font-size: 16px !important;
+              background-color: #f8f9fa !important;
+              border: 1px solid #ccc !important;
+              border-radius: 4px;
+              padding: 8px;
+            }
+          `;
+
+          // Append the style to the Shadow DOM
+          shadowRoot.appendChild(style);
+        }
+      }
+    }
+  };
+
   useEffect(() => {
     if (mapview && mapRef1.current) {
       //console.log("test")
@@ -24,6 +59,9 @@ const MeasurementsComponent = ({ mapview }) => {
       });
 
       setMeasurementOpenWidget(measurementRef.current)
+
+      // Style the calcite-select dropdown
+      styleShadowDropdown();
 
       // Cleanup on component unmount
       return () => {

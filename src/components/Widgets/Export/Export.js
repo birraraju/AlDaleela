@@ -8,6 +8,24 @@ const PrintComponent = ({ mapview }) => {
   const {setexportWidget} = useAuth();
 
   useEffect(() => {
+    const observer = new MutationObserver(() => {
+      const layoutTab = document.querySelector('#exportDiv__layoutTab');
+      if (layoutTab) layoutTab.textContent = 'Export';
+  
+      const exportsTab = document.querySelector('#exportDiv__exportedFilesTab');
+      if (exportsTab) exportsTab.textContent = 'Result';
+    });
+  
+    const targetNode = document.querySelector('#exportDiv');
+    if (targetNode) {
+      observer.observe(targetNode, { childList: true, subtree: true });
+    }
+  
+    return () => observer.disconnect(); // Cleanup observer
+  }, []);
+  
+
+  useEffect(() => {
     if (mapview && exportRef.current) {
       try {
         const exportWidget = new Print({

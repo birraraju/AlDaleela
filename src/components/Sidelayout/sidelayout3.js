@@ -221,7 +221,8 @@ export default function SideLayout3({ children, width = "454.84px", onClose, map
   const [toggleCount, setToggleCount] = useState(0);
   const panelRef = useRef(null);
   const { MeasurementOpenWidget } = useAuth();
-  const [panelHeight, setPanelHeight] = useState("65%");
+  const [panelHeight, setPanelHeight] = useState("95%");
+  const [ToggleDragHeight,setToggleDragHeight] = useState(false)
 
   const toggleSideLayout = () => {
     if (!isFullyClosed) {
@@ -253,6 +254,14 @@ export default function SideLayout3({ children, width = "454.84px", onClose, map
     }
   }, [isFullyClosed, onClose]);
 
+  useEffect(()=>{
+    if (window.innerWidth <= 600) {
+      setToggleDragHeight(true)
+    }else{
+      setToggleDragHeight(false)
+    }
+  },[])
+
   const startYRef = useRef(null);
   const startHeightRef = useRef(null);
 
@@ -281,6 +290,8 @@ export default function SideLayout3({ children, width = "454.84px", onClose, map
   };
 
 
+
+
   const handleDragEnd = () => {
     window.removeEventListener("mousemove", handleDragging);
     window.removeEventListener("mouseup", handleDragEnd);
@@ -294,8 +305,8 @@ export default function SideLayout3({ children, width = "454.84px", onClose, map
     <div
     dir={isLangArab && "rtl"}
       ref={panelRef}
-      style={{ height: panelHeight }} // Update height dynamically here
-      className={`fixed  w-full sm:w-[400px]  laptop_s:w-[${width}] h-[98%] ${((startYRef !== null) || (startHeightRef !== null) ) ? "-bottom-1 sm:top-16": "top-16"} ${
+      style={{ height: ToggleDragHeight && panelHeight }} // Update height dynamically here
+      className={`fixed  w-full sm:w-[400px]  laptop_s:w-[${width}] h-[98%] -bottom-9  sm:top-16 ${
         isLangArab ? " sm:left-16 laptop_s:left-3" : "  sm:right-16 laptop_s:right-3"
       } transition-transform duration-300 ease-in-out ${
         isOpen ? "translate-x-0" : isLangArab ? "-translate-x-[104%] sm:-translate-x-[116%] laptop_s:-translate-x-[104%]" : "sm:translate-x-[116%] laptop_s:translate-x-[103%] translate-x-[103%]"
@@ -305,7 +316,7 @@ export default function SideLayout3({ children, width = "454.84px", onClose, map
         className={`relative sm:h-[40%] laptop_s:h-[65%] h-[90%] sm:w-full w-full float-end sm:float-none  bg-mobile-gradient-Pops backdrop-blur-xl ${((startYRef !== null) || (startHeightRef !== null) ) ?" border-t sm:rounded-2xl sm:border rounded-t-xl":"rounded-2xl border"}  shadow-lg overflow-hidden  transition-colors duration-300 ${
           isDarkMode ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" : " sm:bg-white  sm:bg-opacity-70 border-white text-gray-700"
         }`}
-        style={{ height: panelHeight }}
+        style={{ height: ToggleDragHeight && panelHeight }}
       >
         <div
           className="absolute top-2 left-1/2 flex sm:hidden -translate-x-1/2 w-12 h-1 rounded-full bg-gray-400 cursor-pointer"

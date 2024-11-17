@@ -14,3 +14,28 @@
 .esri-print__layout-tab[data-tab-id="mapOnlyTab"] {
 	visibility: hidden;
 }
+
+.esri-print__content {
+    background-color: transparent;
+    flex-flow: column;
+    flex-grow: 1;
+    justify-content: space-between;
+    display: flex;
+}
+
+#exportDiv > calcite-flow > calcite-flow-item > div > div > div > ul > li {
+    border: 1px solid transparent;
+    border-radius: 10px;
+}
+
+.esri-print__layout-tab-list {
+    background-color: #f3f3f3;
+    justify-content: space-between;
+    margin-left: 5px;  
+    padding: 3px;
+    display: flex;
+    position: relative;
+    bottom: -1px;
+    width: 170px;
+    border-radius: 12px
+}
