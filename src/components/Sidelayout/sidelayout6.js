@@ -75,7 +75,7 @@ export default function SideLayout6({
           isDarkMode
             ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
             : "bg-white bg-opacity-70 backdrop-blur-lg border-white"
-        }`}>
+        }`}>  
         {/* X Close Button to slide the panel out */}
         <button
           onClick={closePanel}
@@ -92,7 +92,7 @@ export default function SideLayout6({
             </p>
           )}
         </div>
-        <div className=" bg-transparent " ><Print mapview={mapview}/></div>
+        <Print mapview={mapview}/>
       </div>
 
       {/* Toggle button to slide panel in and out */}
