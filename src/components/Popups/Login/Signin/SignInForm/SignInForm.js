@@ -92,7 +92,7 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
                     {...field}
                     className={`${
                       isDarkMode
-              ? "bg-[#FFFFFF] bg-opacity-30 text-white border-transparent placeholder:text-[#FFFFFF]"
+              ? "bg-black bg-opacity-30 text-white border-transparent placeholder:text-[#FFFFFF]"
               : "bg-white text-black border-gray-300 placeholder:text-black"
           } h-12 shadow-none border-none outline-none rounded-lg placeholder:font-light placeholder:text-[14px] placeholder:tracking-wide`}
                   />
@@ -117,7 +117,7 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
                     {...field}
                     className={`${
                       isDarkMode
-              ? "bg-[#FFFFFF] bg-opacity-30 text-white border-transparent placeholder:text-[#FFFFFF]"
+              ? "bg-black bg-opacity-30 text-white border-transparent placeholder:text-[#FFFFFF]"
               : "bg-white text-black border-gray-300 placeholder:text-black"
           } h-12 shadow-none border-none outline-none rounded-lg placeholder:font-[300] placeholder:text-[14px] placeholder:tracking-wide`}
                   />
@@ -154,7 +154,7 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
               form.formState.isValid
                 ? "text-[#196162] text-[14px] font-medium cursor-pointer"
                 : isDarkMode
-                ? "text-[#196162] text-[14px] font-medium cursor-pointer"
+                ? "text-white hover:text-gray-200 text-[14px] font-medium cursor-pointer"
                 : "text-[#004987] text-[14px] font-medium cursor-pointer"
             }`}
           >
@@ -186,7 +186,7 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
         <div
           onClick={onSignupClick}
           className={` ${isLangArab?"mr-2":"ml-2"} ${
-            isDarkMode ? "text-[#004987]" : "text-[#004987]"
+            isDarkMode ? "text-white hover:text-gray-400" : "text-[#004987]"
           } underline cursor-pointer`}
         >
           {isLangArab?"تسجيل":"Sign Up"}

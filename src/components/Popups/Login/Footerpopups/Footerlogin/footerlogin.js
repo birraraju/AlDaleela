@@ -41,7 +41,7 @@ export default function FooterLogin({setPopup,name,setResetFooter}) {
 
   return (
     
-    <div  className="fixed top-3 sm:top-12 left-10 sm:left-[38%] overflow-y-auto max-h-[670px] w-[250px] bg-gray-200 rounded-xl shadow-lg m-4 mt-40">
+    <div  className="fixed top-3  left-14 tab:top-24 laptop_s:top-3  tab:left-[34%] laptop_s:left-[41%] overflow-y-auto max-h-[670px] w-[250px] bg-gray-200 rounded-xl shadow-lg m-4 mt-40">
       <div className='p-5 text-black bg-white rounded-lg shadow-md relative'>
         
         {/* Cancel Button */}

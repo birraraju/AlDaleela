@@ -313,8 +313,8 @@ export default function SideLayout3({ children, width = "454.84px", onClose, map
       }`}
     >
       <div
-        className={`relative sm:h-[40%] laptop_s:h-[65%] h-[90%] sm:w-full w-full float-end sm:float-none  bg-mobile-gradient-Pops backdrop-blur-xl ${((startYRef !== null) || (startHeightRef !== null) ) ?" border-t sm:rounded-2xl sm:border rounded-t-xl":"rounded-2xl border"}  shadow-lg overflow-hidden  transition-colors duration-300 ${
-          isDarkMode ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" : " sm:bg-white  sm:bg-opacity-70 border-white text-gray-700"
+        className={`relative sm:h-[40%] laptop_s:h-[65%] h-[90%] sm:w-full w-full float-end sm:float-none   ${((startYRef !== null) || (startHeightRef !== null) ) ?" border-t sm:rounded-2xl sm:border rounded-t-xl":"rounded-2xl border"}  shadow-lg overflow-hidden  transition-colors duration-300 ${
+          isDarkMode ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" : "  sm:bg-white  sm:bg-opacity-70 sm:border-white text-gray-700"
         }`}
         style={{ height: ToggleDragHeight && panelHeight }}
       >
@@ -336,7 +336,7 @@ export default function SideLayout3({ children, width = "454.84px", onClose, map
         <div className="p-6 overflow-y-auto h-full">
           {children || (
             <>
-              <p className={`text-${isDarkMode ? '[#FFFFFFCC] text-opacity-80' : 'black'} text-[16px] font-poppins font-medium`}>
+              <p className={`${isDarkMode ? 'text-[#FFFFFFCC] text-opacity-80' : ' text-black'} text-[16px] font-poppins font-medium`}>
                 {isLangArab ? "القياس" : "Measurement"}
               </p>
             </>

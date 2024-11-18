@@ -9,6 +9,16 @@
     position: relative; /* Ensure that the backdrop-filter works */
   }
 
+  .esri-print__template-select-container .esri-print__template-select-block {
+    border: none;
+    background-color: transparent;
+    flex-shrink: 1;
+}
+
+calcite-label {
+  --calcite-label-container-direction: row-reverse;
+}
+
   .Print {
     background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
     backdrop-filter: blur(0px); /* Blurring the background behind the element */

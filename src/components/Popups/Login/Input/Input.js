@@ -42,9 +42,9 @@ export default function Input({
       <div
         className={`absolute w-full font-omnes text-[14px] px-3  top-3 text-sm pointer-events-none transition-all
         ${isFocused || hasContent ? "text-transparent" : "text-black"}
-        ${isFocused || hasContent ? "-translate-y-7" : ""}`}
+        ${isFocused || hasContent ? " text-transparent" : ""}`}
       >
-        <span className=" text-gray-300">{placeholder}</span>{"  "}
+        <span className={` ${isFocused || hasContent ? " text-transparent" : "text-gray-300"}`}>{placeholder}</span>{"  "}
         {required && (
           <span className={`${isFocused || hasContent ? "text-transparent" : "text-red-500"}`}>
             *
