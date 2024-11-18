@@ -191,7 +191,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
         </PopoverTrigger>
 
         <PopoverContent
-          className={` mt-1 w-[265px] border bg-opacity-90
+          className={` mt-3 w-[210px]  mobile_s:w-[210px] tab:w-[200px] laptop_m:w-[258px] border bg-opacity-90
                       ${isDarkMode ? "bg-gray-900 border-gray-700" : "bg-white border-white"}
                       backdrop-blur-xl p-4 rounded-2xl shadow-lg z-10 sm:mr-8 mr-2`}
         >

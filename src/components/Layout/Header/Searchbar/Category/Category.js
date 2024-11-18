@@ -103,7 +103,7 @@ export default function Category({ inputClicked, isLangArab, setInputClicked }) 
     >
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`rounded-full flex text-xs justify-center items-center mobile_s:px-2 laptop_m:px-4 laptop_s:py-3.5 py-2 sm:h-6 h-14 bg-[#C8C8C899] bg-opacity-50 text-black `}
+        className={`rounded-full flex text-xs justify-center items-center mobile_s:px-2 laptop_m:px-4 laptop_s:py-3.5 py-0.5 sm:h-6 h-7 bg-[#C8C8C899] bg-opacity-50 text-black `}
       >
         {(selectedCategory === "Category") ? (isLangArab ? "الفئة" : selectedCategory) : selectedCategory}
         {isOpen ? (

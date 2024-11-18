@@ -70,40 +70,44 @@ const PrintComponent = ({ mapview }) => {
     }
   }, [mapview]);
 
- 
   
 
   useEffect(() => {
     // Update ESRI button text content after widget initialization
-    const buttonObserver = new MutationObserver((mutationsList) => {
-
-      
-
+    const buttonObserver = new MutationObserver(() => {
+      // Safely check for the calcite-combobox and its shadowRoot
+      const calciteCombobox = document.querySelector('calcite-combobox');
+      const WrapperShadow = calciteCombobox?.shadowRoot?.querySelector('.wrapper');
+  
+      if (WrapperShadow) {
+        WrapperShadow.style.borderColor = "white";
+        WrapperShadow.style.height = "40px";
+        WrapperShadow.style.borderRadius = "12px";
+      }
+  
+      // Update the print button text
       const printButton = document.querySelector('.esri-button');
       if (printButton) {
         printButton.textContent = 'Print';
-  
       }
-
+  
+      // Update the layout wrapper styling
       const toggleLayout = document.querySelector('.wrapper');
       if (toggleLayout) {
-         // Set the border color to white
-  toggleLayout.style.border = 'white';
-
+        toggleLayout.style.border = 'white';
       }
-
-      console.log("Mutation observer:",mutationsList);
     });
-
+  
     // Start observing the body or container where the button is rendered
     const bodyNode = document.querySelector('body');
     if (bodyNode) {
       buttonObserver.observe(bodyNode, { childList: true, subtree: true });
     }
-
+  
     // Cleanup observer on unmount
     return () => buttonObserver.disconnect();
   }, []);
+  
 
   return <div className="sm:-mt-[500px] h-[400px] overflow-auto laptop_s:-mt-[500px] -mt-[420px]" id="printDiv" ref={printRef} />;
 };
