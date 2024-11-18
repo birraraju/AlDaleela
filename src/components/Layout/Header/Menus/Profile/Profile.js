@@ -176,7 +176,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
                 //src={`${((role === "admin")||(role === "user")) ? AdminLogo : ProfileLogo}`} // الملف الشخصي
                 src={profiledetails && profiledetails.imageUrl ? profiledetails.imageUrl : ProfileLogo}
                 alt="Profile"
-                className="mobile_s:w-8 laptop_m:w-6 laptop_m:h-6 w-8 h-8 rounded-full object-cover"
+                className="mobile_s:w-10 mobile_s:h-6 laptop_m:w-6 laptop_m:h-6 w-8 h-8 rounded-full object-cover"
               />
             </div>
             <div className="mobile_s:ml-2 hidden sm:block laptop_m:ml-2">
