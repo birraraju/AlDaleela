@@ -323,23 +323,24 @@ export default function SideLayout3({ children, width = "454.84px", onClose, map
           onMouseDown={handleDragStart}
           onTouchStart={handleDragStart}
         ></div>
-        <button
+        
+
+        <div className="p-6 overflow-y-auto h-full">
+          {children || (
+            <div className=" flex justify-between items-center">
+              <p className={`${isDarkMode ? 'text-[#FFFFFFCC] text-opacity-80' : ' text-black'} text-[16px] font-poppins font-medium`}>
+                {isLangArab ? "القياس" : "Measurement"}
+              </p>
+              <button
           onClick={closePanel}
-          className={`absolute top-4 ${isLangArab?"left-4":"right-4"} p-1 transition-colors ${
+          className={` p-1 transition-colors ${
             isDarkMode ? "text-white hover:text-gray-300" : "text-gray-600 hover:text-gray-900"
           }`}
           aria-label="Close side panel"
         >
           <X className="h-6 w-6" />
         </button>
-
-        <div className="p-6 overflow-y-auto h-full">
-          {children || (
-            <>
-              <p className={`${isDarkMode ? 'text-[#FFFFFFCC] text-opacity-80' : ' text-black'} text-[16px] font-poppins font-medium`}>
-                {isLangArab ? "القياس" : "Measurement"}
-              </p>
-            </>
+            </div>
           )}
           <div><Measurements mapview={mapview} /></div>
         </div>

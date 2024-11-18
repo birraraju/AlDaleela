@@ -87,7 +87,7 @@ export default function SideLayout6({
 
         <div className="p-6 overflow-y-auto h-full">
           {children || (
-            <p className={`${isDarkMode ? "text-[#FFFFFFCC] text-opacity-80" : "text- gray-700"} font-poppins font-medium`}>
+            <p className={`${isDarkMode ? "text-[#FFFFFFCC] text-opacity-80" : " text-gray-700"} font-poppins font-medium`}>
               { isLangArab?"طباعة": "Print"}
             </p>
           )}
