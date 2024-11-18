@@ -49,7 +49,7 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
         getAttachements(data);
       }
       else{
-        //console.log(data)          
+        //console.log(data)           
       }
       
     } catch (err) {
