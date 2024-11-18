@@ -194,6 +194,14 @@ const Component = ({ POIFormShow,isLangArab, setPOIUploaderShow, setIsShowEditPO
     featchattachments()
   },[queryresults])
 
+  const handleAudioLoadedMetadata = (index) => {
+    const audioElement = audioRefs.current[index];
+    if (audioElement) {
+      const duration = audioElement.duration; // Duration in seconds
+      console.log(`Audio ${index} duration: ${duration} seconds`);
+    }
+  };
+
   const handleAttributesUpdate =() =>{
     // Find the URL for the layer that includes "Terrestrial" in its name
     const LayerConfig = config.featureServices.find(service => queryresults.features[0].layer.title.includes(service.name));
@@ -639,6 +647,7 @@ const Component = ({ POIFormShow,isLangArab, setPOIUploaderShow, setIsShowEditPO
         <audio
           ref={(el) => (audioRefs.current[index] = el)}
           src={audio.url}
+          onLoadedMetadata={() => handleAudioLoadedMetadata(index)}
           onEnded={handleAudioEnded}
         />
       </div>

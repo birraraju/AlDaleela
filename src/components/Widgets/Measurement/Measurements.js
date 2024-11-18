@@ -13,7 +13,7 @@ const MeasurementsComponent = ({ mapview }) => {
   const [isDistanceSelected, setIsDistanceSelected] = useState(false);
   const [isAreaSelected, setIsAreaSelected] = useState(false);
   const {setMeasurementOpenWidget} = useAuth();
-  const {isLangArab} = useTheme()
+  const {isLangArab, isDarkMode} = useTheme()
 
   const styleShadowDropdown = () => {
     // Find the interaction container within the Shadow DOM
@@ -100,7 +100,7 @@ const MeasurementsComponent = ({ mapview }) => {
   return (
     <div id="measurementDiv" className="measurement bg-transparent     py-5">
       <div id="toolbarDiv" className="esri-component esri-widget flex justify-between items-center py-2 px-1">
-      <div className="flex esri-component esri-widget flex-row h-12  text-black items-center bg-black/5 border border-transparent rounded-lg justify-between border-gray-300">
+      <div className="flex esri-component esri-widget flex-row h-12  items-center bg-black/5 border border-transparent rounded-lg justify-between border-gray-300">
                 <label
                   htmlFor="Toggle3"
                   className="inline-flex bg-black/10 py-1   items-center px-1 rounded-lg text-black cursor-pointer dark:text-gray-100"
@@ -112,7 +112,7 @@ const MeasurementsComponent = ({ mapview }) => {
                     } dark:bg-violet-600 peer-checked:dark:bg-gray-700`}
                   >
                     <img src={Measurment} alt="Distance" className={`w-5 ${isLangArab?"ml -1 sm:ml-2":"mr-1 sm:mr-2"}`} />
-                    <button id="distance" className="" title="Distance Measurement Tool">{isLangArab?"قياس المسافة":"Distance Measurement"}</button>
+                    <button id="distance" className={`${isDistanceSelected? (isDarkMode ?" text-black":"text-black"):(isDarkMode?" text-white ":"text-black")}`} title="Distance Measurement Tool">{isLangArab?"قياس المسافة":"Distance Measurement"}</button>
                   </span>
                   <span
                     onClick={() => {handleClickArea()}}
@@ -121,7 +121,7 @@ const MeasurementsComponent = ({ mapview }) => {
                     } dark:bg-gray-700 peer-checked:dark:bg-violet-600`}
                   >
                     <img src={AreaMeasurment} alt="Area" className={`w-5 ${isLangArab?"ml -1 sm:ml-2":"mr-1 sm:mr-2"}`} />
-                    <button id="area" className=" " title="Area Measurement Tool">{isLangArab?"قياس المساحة":"Area Measurement"}</button>
+                    <button id="area" className={`${isAreaSelected? (isDarkMode ?" text-black":"text-black"):(isDarkMode?" text-white ":"text-black")}`} title="Area Measurement Tool">{isLangArab?"قياس المساحة":"Area Measurement"}</button>
                   </span>
                 </label>
               </div>        

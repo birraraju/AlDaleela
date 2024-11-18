@@ -22,7 +22,7 @@ export default function Contribution({ setIsContribution, setIsPopoverOpen }) {
             alt="Contribution" className="w-5" />
                     </div>
         <p
-          className={`font-medium font-omnes text-[16px] ${
+          className={`font-medium font-omnes text-[16px] tab:text-[14px] laptop_s:text-[16px] ${
             isDarkMode ? "text-gray-300" : "text-[#505050]"
           }`}
         >          {isLangArab?"المساهمة":"Contribution"}</p>

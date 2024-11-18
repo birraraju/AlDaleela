@@ -288,11 +288,48 @@ export default function AudioContent({setInputClicked,setIscategory}) {
       }
       setLoading(false)
       // Update state with media items from all layers
-      setMediaItems(allMediaItems);
+      // Process media items to add duration for audio
+  const processedMediaItems = await processMediaItems(allMediaItems);
+
+  // Store processed media items in state
+  setMediaItems(processedMediaItems);
     };
   
     loadAttachments();
   }, []);
+
+  // Helper function to format duration
+function formatDuration(seconds) {
+  const minutes = Math.floor(seconds / 60); // Get whole minutes
+  const remainingSeconds = Math.floor(seconds % 60); // Get remaining seconds
+  const formattedSeconds = remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds;
+  return minutes > 0 ? `${minutes}.${formattedSeconds} min` : `0.${formattedSeconds}s`;
+}
+
+async function processMediaItems(mediaItems) {
+  // Add formatted duration to each audio item
+  const updatedMediaItems = await Promise.all(
+    mediaItems.map(async (item) => {
+      if (item.type === "audio/mpeg") {
+        return new Promise((resolve) => {
+          const audioElement = new Audio(item.url);
+          audioElement.addEventListener("loadedmetadata", () => {
+            const duration = audioElement.duration; // Duration in seconds
+            const formattedDuration = formatDuration(duration); // Format duration
+            resolve({ ...item, duration: formattedDuration });
+          });
+          audioElement.addEventListener("error", () => {
+            console.error(`Failed to load audio from ${item.url}`);
+            resolve({ ...item, duration: "N/A" }); // Handle error gracefully
+          });
+        });
+      }
+      return item; // Return non-audio items as is
+    })
+  );
+
+  return updatedMediaItems;
+}
 
   const togglePlayPause = (index) => {
     if (playingIndex === index) {
@@ -412,7 +449,7 @@ export default function AudioContent({setInputClicked,setIscategory}) {
                   />
                   )}
                 </button>
-                <div className="relative w-20 h-4">
+                <div className="relative w-[80%] mobile_l:w-[90%] h-4 ">
                   <img
                     src={`${process.env.PUBLIC_URL}/Header/Searchbar/audioWave.svg`}
                     alt="Audio Wave"
@@ -431,7 +468,7 @@ export default function AudioContent({setInputClicked,setIscategory}) {
                 />
               </div>
 
-              <div className="text-xs text-black text-opacity-50">{audio.audioSec}</div>
+              <div className="text-[12px] mobile_l:text-[7px] text-black text-opacity-50">{audio.duration}</div>
             </div>
           </div>
         ))}
