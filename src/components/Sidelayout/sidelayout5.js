@@ -50,6 +50,9 @@ export default function SideLayout5({
     }
   };
 
+ 
+  
+
   useEffect(() => {
     // If the panel is fully closed, call onClose after a short delay
     if (isFullyClosed) {
@@ -62,12 +65,16 @@ export default function SideLayout5({
   }, [isFullyClosed, onClose]);
 
   useEffect(() => {
+
+   
+
     // Add event listener to detect clicks outside the panel
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       // Remove event listener when component unmounts
       document.removeEventListener("mousedown", handleClickOutside);
     };
+
   }, []);
 
   if (isFullyClosed) return null;

@@ -76,7 +76,7 @@ const Searchbar = ({
       <div className="relative" ref={contentRef}>
         <Input
           id="search"
-          value={inputValue}
+          value={inputValue?.length > 20 ? `${inputValue.substring(0, 15)}` : inputValue}
           onClick={() => {
             setInputClicked(true);
             setIscategory(true);
@@ -85,11 +85,9 @@ const Searchbar = ({
           className={`mobile_s:w-[18rem] mobile_m:w-[22rem] mobile_l:w-[22rem] ${
             inputClicked || iscategory ? "laptop_m:w-[24rem]" :  "laptop_m:w-[22rem]"
           } mobile_s:h-9 laptop_m:h-9 border-none outline-none focus-visible:ring-0 focus-visible:ring-offset-0 bg-white rounded-full pl-16 relative z-[2] ${
-            inputValue
-              ? "text-black border-none shadow-none"
-              : isDarkMode
+             isDarkMode
               ? "text-[#FFFFFFCC]"
-              : "text-[#FFFFFF]"
+              : "text-black border-none shadow-none"
           } ${iscategory || inputClicked ? "bg-opacity-70" : "bg-opacity-15"}`}
         />
 

@@ -176,11 +176,11 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
                 //src={`${((role === "admin")||(role === "user")) ? AdminLogo : ProfileLogo}`} // الملف الشخصي
                 src={profiledetails && profiledetails.imageUrl ? profiledetails.imageUrl : ProfileLogo}
                 alt="Profile"
-                className="mobile_s:w-8 laptop_m:w-6 laptop_m:h-6 w-8 h-8 rounded-full object-cover"
+                className="mobile_s:w-10 mobile_s:h-6 laptop_m:w-6 laptop_m:h-6 w-8 h-8 rounded-full object-cover"
               />
             </div>
             <div className="mobile_s:ml-2 hidden sm:block laptop_m:ml-2">
-              <p className= {` ${isLangArab?"text-[6px]":"text-[9px] laptop_s:text-[14px] "} `}>{role !== null ? (profiledetails.username ? profiledetails.username: profiledetails.username === "" && profiledetails.firstName) : (isLangArab ? "الملف الشخصي":"Profile")}</p>
+              <p className= {` ${isLangArab?"text-[9px] laptop_s:text-[14px]":"text-[9px] laptop_s:text-[14px] "} `}>{role !== null ? (profiledetails.username ? profiledetails.username: profiledetails.username === "" && profiledetails.firstName) : (isLangArab ? "الملف الشخصي":"Profile")}</p>
             </div>
             <div className="mobile_s:mx-2 sm:block hidden laptop_m:mx-2">
               <IoMdArrowDropdown
@@ -191,7 +191,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
         </PopoverTrigger>
 
         <PopoverContent
-          className={` mt-1 w-[265px] border bg-opacity-90
+          className={` mt-3 w-[210px]  mobile_s:w-[210px] tab:w-[200px] laptop_m:w-[258px] border bg-opacity-90
                       ${isDarkMode ? "bg-gray-900 border-gray-700" : "bg-white border-white"}
                       backdrop-blur-xl p-4 rounded-2xl shadow-lg z-10 sm:mr-8 mr-2`}
         >

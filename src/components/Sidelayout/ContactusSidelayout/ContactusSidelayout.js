@@ -112,9 +112,11 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
           {isLangArab ? "الهاتف" : "Phone"}
 
           </h4>
-          <p className={`text-[12px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-black"}`}>
+          <a   href="tel:+97126934444"  target="_blank" rel="noopener noreferrer"   >
+          <p className={`text-[12px] cursor-pointer font-medium ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-black"}`}>
           {isLangArab ? "+971 2 693 4444" : "+971 2 693 4444"}
           </p>
+          </a>
         </div>
 
         <div>
@@ -122,21 +124,29 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
           {isLangArab ? "البريد الإلكتروني" : "Email"}
 
           </h4>
-          <p className={`text-[12px]  font-medium ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-black"}`}>
-            customerhappiness@ead.gov.ae
-          </p>
+          
+          <a
+  href="mailto:customerhappiness@ead.gov.ae" target="_blank" rel="noopener noreferrer"
+  className={`text-[12px] cursor-pointer outline-none font-medium ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-black"} `}
+>
+<p className={`text-[12px]  font-medium ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-black"}`}>
+  customerhappiness@ead.gov.ae
+  </p>
+</a>
         </div>
         <div>
           <h4 className={`font-medium mb-1 text-[14px] ${isDarkMode ? "text-white" : "text-gray-600"}`}>
           {isLangArab ? "الموقع الإلكتروني" : "Website"}
 
           </h4>
+          <a href="https://www.ead.gov.ae/" target="_blank" rel="noopener noreferrer" className=" cursor-pointer">
           <p className={`text-[12px]  font-medium ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-black"}`}>
             https://www.ead.gov.ae/
           </p>
+          </a>
         </div>
  
-        <div className="flex justify-center space-x-4 pt-4 border-t border-gray-400">
+        <div  dir={isLangArab && "ltr"} className="flex justify-center space-x-4 pt-4 border-t border-gray-400">
           <a href="https://www.facebook.com/EnvironmentAbuDhabi/ "  target="_blank" rel="noopener noreferrer"><img src={fb} alt="Facebook" className="h-5 w-5" /></a>
           {/* <a href="https://x.com/EADTweets"  target="_blank" rel="noopener noreferrer"><img src={twitter} alt="Twitter" className="h-6 w-6" /></a> */}
           <a href="https://x.com/EADTweets"  target="_blank" rel="noopener noreferrer" ><img src={x} alt="X" className="h-5 w-5" /></a>

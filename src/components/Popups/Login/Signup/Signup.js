@@ -24,6 +24,7 @@ export default function Signup({ onClose, onSigninClick }) {
     confirmPassword: "",
     phoneNumber: "",
     username: "",
+  
     email: "",
   });
 
@@ -107,6 +108,11 @@ export default function Signup({ onClose, onSigninClick }) {
         ...prev,
         username: "Username already exists.",
       }));
+    }else{
+      setErrorMessages((prev)=>({
+        ...prev,
+        username:"Username is required"
+      }))
     }
 
     // Check if phone number is exactly 10 digits and contains only numbers
@@ -257,7 +263,7 @@ export default function Signup({ onClose, onSigninClick }) {
             >
               Please create your account
             </p>
-            <form onSubmit={handleSubmit} className="space-y-2">
+            <form onSubmit={handleSubmit} className="space-y-3 ">
               <div className="grid sm:grid-cols-2 grid-cols-1 gap-2">
                 <span>
                   <Input
@@ -265,7 +271,7 @@ export default function Signup({ onClose, onSigninClick }) {
                     name="username"
                     placeholder={isLangArab ? "الاسم الأول" : "First Name"}
                     required
-                    className={`${isLangArab ? "text-right" : "text-left"}`}
+                    className={` ${isLangArab ? "text-right" : "text-left"}`}
                     style={{
                       direction: isLangArab ? "rtl" : "ltr",
                       textAlign: isLangArab ? "right" : "left",
@@ -352,7 +358,7 @@ export default function Signup({ onClose, onSigninClick }) {
                   <button
                     type="button"
                     className={`absolute ${isLangArab?"left-3":"right-3"} ${
-                      errorMessages.confirmPassword ? "top-6" : "top-1/2"
+                      errorMessages.password ? "top-6" : "top-1/2"
                     }  transform -translate-y-1/2`}
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                     // aria-label={showPassword ? 'Hide password' : 'Show password'}
@@ -499,7 +505,7 @@ export default function Signup({ onClose, onSigninClick }) {
               {isLangArab ? " لديك حساب بالفعل" : "Already have an account"}?{" "}
               <button
                 onClick={onSigninClick}
-                className={`bg-clip-text mx-1 text-transparent bg-gradient-to-r from-[#036068] via-[#1199A8] to-[#036068] text-[14px] font-medium hover:underline`}
+                className={`bg-clip-text mx-1 text-transparent ${isDarkMode?" text-white hover:text-gray-300 underline":"bg-gradient-to-r from-[#036068] via-[#1199A8] to-[#036068]"} text-[14px] font-medium hover:underline`}
               >
                 {isLangArab ? "تسجيل الدخول" : "Sign in"}
               </button>

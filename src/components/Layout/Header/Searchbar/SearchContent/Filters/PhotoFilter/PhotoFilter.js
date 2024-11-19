@@ -1,7 +1,8 @@
 import PhotoSvg from "../../../../../../../assets/Header/Searchbar/photo.svg"
-
+import { useTheme } from "../../../../../ThemeContext/ThemeContext";
 
 export default function PhotoFilter({ setSelectedItem, isLangArab,setIsFiltersOpen, selectedItem }) {
+  const {isDarkMode} = useTheme();
   return (
     <div
       onClick={() => {
@@ -17,7 +18,7 @@ export default function PhotoFilter({ setSelectedItem, isLangArab,setIsFiltersOp
     {/* <img src="/Header/Searchbar/photo.svg" alt="" className="w-6" /> */}
     <img src={PhotoSvg} alt="" className="w-6" />
   </div>
-  <div className={`${isLangArab ? "mr-2" : "ml-2"}`}>{isLangArab ? "صوت" : "Photo"}</div>
+  <div className={`${isLangArab ? "mr-2" : "ml-2"} ${isDarkMode?"text-white":" text-black"}`}>{isLangArab ? "صوت" : "Photo"}</div>
 </div>
     </div>
   );

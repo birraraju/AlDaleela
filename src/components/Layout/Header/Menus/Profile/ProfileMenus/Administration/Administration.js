@@ -17,7 +17,7 @@ export default function Administration() {
                     </div>
         <Link to="/admin"> {/* Use Link instead of <a> */}
         <p
-            className={`font-medium font-omnes text-[16px] ${
+            className={`font-medium font-omnes text-[16px] tab:text-[14px] laptop_s:text-[16px] ${
               isDarkMode ? "text-gray-300" : "text-[#505050]"
             }`}
           >            {isLangArab?"الإدارة":"Administration"}</p>

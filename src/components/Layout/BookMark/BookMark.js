@@ -35,6 +35,7 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
   ];
   const [selectedMarks, setSelectedMarks] = useState({}); // Store selection state for each image
   
+  console.log('selectedMarks :>> ', selectedMarks);
   const fetchBookmarks = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/Bookmarks/${profiledetails.email}`);
@@ -49,7 +50,7 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
         getAttachements(data);
       }
       else{
-        //console.log(data)          
+        //console.log(data)           
       }
       
     } catch (err) {
@@ -64,6 +65,8 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
 
   const getAttachements = async (res) => {
     try {
+
+      console.log('res :>> ', res);
       const objectIds = res.data.map(feature => feature.objectid);
       const localbookmarks = [];
       let imageAdded = false;
@@ -112,7 +115,8 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
                 //   });
                 // }
               });
-            } else {
+            } 
+            else {
               localbookmarks.push({
                 src: Book1,
                 title: nameEng,
@@ -218,7 +222,9 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
             fetchBookmarks();
             UserActivityLog(profiledetails, "Bookmark Removed")
              // Close management view
-            setSelectedMarks({}); // Reset the selected marks
+            setSelectedMarks({});
+            setIds([]) // Reset the selected marks
+            fetchBookmarks()
             setisMsgStatus("Success")
             setIsmodalMessage("Bookmark Deleted Sucessfully")
             setIsSuccess(true)
@@ -226,15 +232,23 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
           }
           else{
             setisMsgStatus("Failure")
+            setSelectedMarks({});
+            setIds([]) // Reset the selected marks
+            fetchBookmarks()
             setIsmodalMessage(" Failed to Deleted Bookmark!")
             setIsSuccess(true)
             setIsManageVisible(false); // Close management view
 
             console.log(data.message);
           }
+
+          
       
       } catch (error) {
         setisMsgStatus("Failure")
+        setSelectedMarks({});
+            setIds([]) // Reset the selected marks
+            fetchBookmarks()
             setIsmodalMessage(" Failed to Deleted Bookmark!")
             setIsSuccess(true)
             setIsManageVisible(false);
@@ -249,8 +263,8 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
 
   return (
     <div className="relative grid grid-cols-1 h-full ">
-      <div className="grid grid-cols-3 justify-start pt-3 items-start gap-y-4 gap-x-0">
-  {bookmarks.map((image, index) => (
+      <div className="grid grid-cols-3 justify-start pt-3  h-[70%] overflow-y-auto items-start gap-y-4 gap-x-0">
+  {bookmarks.length>0 ?bookmarks.map((image, index) => (
     <div key={image.id} className="relative flex flex-col  items-center">
       {/* Image and title section */}
       <div onClick={() => handleZoomtoLocation(image.id, image.objectid, image.layername)} className=" relative sm:w-28 w-[96%] h-20  sm:h-24 flex flex-col items-center">
@@ -294,9 +308,13 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
         </div>
       )}
     </div>
-  ))}
+  )):<div className=' fixed flex items-center justify-center right-3   left-3 pt-[3rem] pb-[3rem]   '>
+    <p className=' text-center  text-black'>
+      bookmarks is not saved
+    </p>
+    </div>}
 </div>
-      <div className={` flex flex-col  space-y-1 ${isManageVisible ? 'mt-24' : 'mt-28'}`}>
+      <div className={`fixed bottom-5 left-3 right-3 flex flex-col  space-y-1 ${isManageVisible ? 'mt-2 ' : 'mt-2 '}`}>
             <hr className='mx-2 mb-3 ' />
             {!isManageVisible ? (
               <span className="flex gap-x-1 justify-center items-center">

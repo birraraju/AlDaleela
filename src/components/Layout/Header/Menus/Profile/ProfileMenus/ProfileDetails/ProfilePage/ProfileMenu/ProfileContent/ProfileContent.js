@@ -22,15 +22,26 @@ export default function ProfileContent({
   // Handle file change
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
+  
+    // Check if a file is selected
     if (selectedFile) {
-      setFile(selectedFile);
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setProfileImage(e.target.result); // Update profile image preview
-      };
-      reader.readAsDataURL(selectedFile);
+      // Check if the file size is less than or equal to 2MB (2MB = 2 * 1024 * 1024 bytes)
+      if (selectedFile.size <= 2 * 1024 * 1024) {
+        setFile(selectedFile);
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          setProfileImage(e.target.result); // Update profile image preview
+        };
+        reader.readAsDataURL(selectedFile);
+      } else {
+        // If the file exceeds 2MB, alert the user
+        alert("File size should not exceed 2MB.");
+        // Optionally, clear the input or reset it
+        event.target.value = null; // This will reset the file input
+      }
     }
   };
+  
 
   return (
     <>

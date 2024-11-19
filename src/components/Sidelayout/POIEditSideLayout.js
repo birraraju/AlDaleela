@@ -271,7 +271,7 @@
           {/* Content */}
           <div className="p-2 overflow-y-auto h-full relative">
             {children || (<>
-              {!POIShareShow && queryresults !== "" && <div dir={isLangArab && "rtl"} className={`absolute top-3 w-full  ${!isLangArab && "left-4"} flex   gap-x-1`}>
+              {!POIShareShow && queryresults !== "" && <div dir={isLangArab && "rtl"} className={`absolute top-3 w-[95%]  ${!isLangArab && "left-4"} flex   gap-x-1`}>
                 <img src={isDarkMode ? DarkLocation : Location }alt="Location" className={`"h-6 w-5" ${isLangArab && "mr-1 sm:mr-2"}`} />
                 <p className={`font-semibold font-poppins ${
                       isDarkMode ? "text-white" : "text-gray-600"

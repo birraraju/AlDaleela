@@ -3,12 +3,14 @@ import { FaCaretDown, FaCaretUp } from "react-icons/fa";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer.js";
 import { useAuth } from "../../../../../Providers/AuthProvider/AuthProvider";
 import config from '../../../../Common/config'; // Import your config file
+import { useTheme } from "../../../ThemeContext/ThemeContext";
 
 export default function Category({ inputClicked, isLangArab, setInputClicked }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("Category");
   const [categoryClasses, setCategoryClasses] = useState([]);
   const { contextMapView } = useAuth();
+  const {isDarkMode} = useTheme()
 
   const handleCategorySelect = (categoryName) => {
     // contextMapView.map.layers.items.forEach(function (layer) {
@@ -103,7 +105,7 @@ export default function Category({ inputClicked, isLangArab, setInputClicked }) 
     >
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`rounded-full flex text-xs justify-center items-center mobile_s:px-2 laptop_m:px-4 laptop_s:py-3.5 py-2 sm:h-6 h-14 bg-[#C8C8C899] bg-opacity-50 text-black `}
+        className={`rounded-full flex text-xs justify-center items-center mobile_s:px-2 laptop_m:px-4 laptop_s:py-3.5 py-0.5 sm:h-6 h-7 bg-[#C8C8C899] bg-opacity-50 ${isDarkMode?"text-white":"text-black"} `}
       >
         {(selectedCategory === "Category") ? (isLangArab ? "الفئة" : selectedCategory) : selectedCategory}
         {isOpen ? (
@@ -114,12 +116,12 @@ export default function Category({ inputClicked, isLangArab, setInputClicked }) 
       </button>
 
       {isOpen && (
-        <div className="absolute w-24  h-44 border py-2 rounded bg-white shadow-lg overflow-y-scroll categories-scroll mt-3">
+        <div className={`absolute w-24  h-44 border py-2 rounded ${isDarkMode?" bg-black bg-opacity-60 border-none":"bg-white"} shadow-lg overflow-y-auto  mt-3`}>
           <div className=" ">
             {categoryClasses.map((category, index) => (
               <div
                 key={index} // Using index as key since category names may not be unique
-                className="text-[12px] overflow-x-hidden cursor-pointer px-3 py-0.5  text-black hover:bg-gray-100"
+                className={`text-[11px] overflow-x-hidden cursor-pointer px-3 py-0.5  ${isDarkMode?"text-white hover:bg-[#C8C8C899] ":"text-black hover:bg-gray-100"}`}
                 onClick={() => handleCategorySelect(category)}
               >
                 {category}

@@ -20,10 +20,14 @@ export default function SendFeedback({ setIsFeedBack, setIsPopoverOpen }) {
 
            alt="Logo" className=" w-4 " />        </div>
         <p
-          className={`font-medium font-omnes  text-[16px] ${
+          className={`${
+            isLangArab
+              ? "font-medium font-omnes text-[14px] tab:text-[12px] laptop_s:text-[14px]"
+              : "font-medium font-omnes text-[16px] tab:text-[14px] laptop_s:text-[16px]"
+          }  ${
             isDarkMode ? "text-gray-300" : "text-[#505050]"
           }`}
-        >          {isLangArab?"إرسال الملاحظات":"Send Feedback"}</p>
+        >          {isLangArab?"إرسال الملاحظات":"Send FeedBack"}</p>
       </div>
     </div>
   );

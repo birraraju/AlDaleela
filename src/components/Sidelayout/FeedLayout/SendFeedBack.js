@@ -103,7 +103,7 @@
 //       {/* Render the corresponding image */}
 //       <img src={item.image} alt={item.value} className="w-8 sm:w-6 h-10 sm:h-7 laptop_s:h-8 laptop_s:w-6" />
 //       <p className={` w-8 sm:h-6 h-3 ${
-//     isLangArab ? "text-xl " : "text-[12px]" // Increased text size for Arabic
+//     isLangArab ? "text-[13px] " : "text-[12px]" // Increased text size for Arabic
 //   } ${item.color}`}>
 //         {item.value} {/* Directly display the text */}
 //       </p>
@@ -116,7 +116,7 @@
 //           <label
 //   htmlFor="name"
 //   className={`block  font-medium mb-1 transition-colors ${
-//     isLangArab ? "text-xl mr-2" : "text-sm" // Increased text size for Arabic
+//     isLangArab ? "text-[13px] mr-2" : "text-sm" // Increased text size for Arabic
 //   } ${isDarkMode ? "text-[#FFFFFF] bg-opacity-70" : "text-black"}`}
 // >
 //   {isLangArab?"سيء":"Name"}
@@ -366,7 +366,7 @@ export default function Feedback({
               {ratings.map((item) => (
                 <button
                   key={item.value}
-                  className={`flex bg-transparent  sm:px-2 laptop_s:px-0.5 px-3 justify-center py-2 border sm:rounded-lg   rounded-lg flex-col items-center sm:space-y-1 space-y-2 transition-colors ${
+                  className={`flex bg-transparent  sm:px-1 laptop_s:px-0.5 px-2.5 justify-center py-2 border sm:rounded-lg   rounded-lg flex-col items-center sm:space-y-1 space-y-2 transition-colors ${
                     isDarkMode
                       ? rating === item.value
                         ? `bg-black text-white ${item.highlight}`
@@ -386,7 +386,7 @@ export default function Feedback({
                   />
                   <p
                     className={` w-8 sm:w-12  sm:h-6 h-3 ${
-                      isLangArab ? "text-xl " : "text-[10px] sm:text-[12px]" // Increased text size for Arabic
+                      isLangArab ? "text-[10px] sm:text-[12px] " : "text-[10px] sm:text-[12px]" // Increased text size for Arabic
                     } ${item.color}`}
                   >
                     {item.value} {/* Directly display the text */}
@@ -412,7 +412,7 @@ export default function Feedback({
               <label
                 htmlFor="name"
                 className={`block  font-medium mb-1 transition-colors ${
-                  isLangArab ? "text-xl mr-2" : "text-[14px]" // Increased text size for Arabic
+                  isLangArab ? "text-[14px] mr-2" : "text-[14px]" // Increased text size for Arabic
                 } ${
                   isDarkMode ? "text-[#FFFFFF] bg-opacity-70" : "text-black"
                 }`}
@@ -449,7 +449,7 @@ export default function Feedback({
               <label
                 htmlFor="email"
                 className={`block  font-medium mb-1 transition-colors ${
-                  isLangArab ? "text-xl mr-2" : "text-[13px]" // Increased text size for Arabic
+                  isLangArab ? "text-[13px] mr-2" : "text-[13px]" // Increased text size for Arabic
                 } ${
                   isDarkMode ? "text-[#FFFFFF] bg-opacity-70" : "text-black"
                 }`}
@@ -490,7 +490,7 @@ export default function Feedback({
               <label
                 htmlFor="thoughts"
                 className={`block  font-medium mb-1 transition-colors ${
-                  isLangArab ? "text-xl mr-2" : "text-[14px]" // Increased text size for Arabic
+                  isLangArab ? "text-[13px] mr-2" : "text-[14px]" // Increased text size for Arabic
                 } ${
                   isDarkMode ? "text-[#FFFFFF] bg-opacity-70" : "text-black"
                 }`}
@@ -530,7 +530,7 @@ export default function Feedback({
         <div className="flex pt-6 justify-between items-baseline px-4  sm:px-2">
           <button
             className={`sm:px-9 px-9 sm:py-2 py-2 border rounded-md transition-colors ${
-              isLangArab ? "text-sm " : "text-[14px]" // Increased text size for Arabic
+              isLangArab ? "text-[14px] " : "text-[14px]" // Increased text size for Arabic
             } ${
               isDarkMode
                 ? "bg-transparent  border border-white text-white"
@@ -544,7 +544,7 @@ export default function Feedback({
           </button>
           <button
             onClick={onSubmitFeedback}
-            className={`sm:px-9 px-9 sm:py-2  py-2 rounded-md transition-colors ${
+            className={`sm:px-9 px-9 sm:py-2 text-[14px]  py-2 rounded-md transition-colors ${
               validate()
                 ? "bg-custom-gradient text-white"
                 : "bg-gray-600/65 text-white"

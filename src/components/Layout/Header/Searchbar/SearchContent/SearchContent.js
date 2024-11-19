@@ -217,7 +217,7 @@ export default function SearchContent({ inputClicked, iscategory,setIscategory, 
                     />
                   </div>
 
-                  <div className="">{location.Name}</div>
+                  <div className={` ${isDarkMode?"text-white":"text-black"}`}>{location.Name}</div>
                 </div>
               ))}
             </div>

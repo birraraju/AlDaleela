@@ -194,6 +194,14 @@ const Component = ({ POIFormShow,isLangArab, setPOIUploaderShow, setIsShowEditPO
     featchattachments()
   },[queryresults])
 
+  const handleAudioLoadedMetadata = (index) => {
+    const audioElement = audioRefs.current[index];
+    if (audioElement) {
+      const duration = audioElement.duration; // Duration in seconds
+      console.log(`Audio ${index} duration: ${duration} seconds`);
+    }
+  };
+
   const handleAttributesUpdate =() =>{
     // Find the URL for the layer that includes "Terrestrial" in its name
     const LayerConfig = config.featureServices.find(service => queryresults.features[0].layer.title.includes(service.name));
@@ -394,8 +402,8 @@ const Component = ({ POIFormShow,isLangArab, setPOIUploaderShow, setIsShowEditPO
 
 
   const renderFieldOrText = (id, label, value,options = [], inputType = "text", disable) => (
-    <div className="space-y-1" dir={`${isLangArab && "rtl"}`}>
-      { (value || isEditShowPOI) && <label htmlFor={id} className={`block text-[14px] font-medium ${isDarkMode?"text-white":"text-gray-700"}`}>
+    <div className={` ${!isEditShowPOI && " relative"} z-50 space-y-1`} dir={`${isLangArab && "rtl"} `}>
+      { (isEditShowPOI) && <label htmlFor={id} className={`block  text-[14px] font-medium ${isDarkMode?"text-white":"text-gray-700"}`}>
         {label}
       </label>}
       {isEditShowPOI ? (
@@ -426,11 +434,16 @@ const Component = ({ POIFormShow,isLangArab, setPOIUploaderShow, setIsShowEditPO
             value={poiData[id]}
             disabled={disable}
             onChange={handleChange}
-            className="block text-[13px] h-9 w-full rounded-md p-2 text-black border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            className="block text-[13px] h-9 w-full rounded-md p-2 text-black bg-[#FFFFFF] border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
           />
         )
       ) : value &&   (
-        <p className={` border ${value? "p-2": "p-5" } h-9 text-[13px] rounded-md text-black bg-gray-100`}>  {value?.length > 40 ? `${value.substring(0, 40)}...` : value}</p>
+          <div className=' relative' >
+            { (value && !isEditShowPOI) && <label htmlFor={id} className={`block absolute ${isLangArab?" right-2":" left-2"} top-2  text-[14px]  font-semibold ${isDarkMode?" text-[#303030]":" text-[#303030]"}`}>
+        {label}
+      </label>}
+        <p  className={` border ${value? "p-2": "p-5" }  input-fields ${isLangArab?"text-left":"text-right"} w-auto    laptop_s:h-[39px]    h-9 text-[14px] rounded-lg text-[#399C72] font-medium bg-[#FFFFFF]`}>  {value?.length > 40 ? `${value.substring(0, 20)}...` : value}</p>
+        </div>
       )}
     </div>
   );
@@ -578,14 +591,14 @@ const Component = ({ POIFormShow,isLangArab, setPOIUploaderShow, setIsShowEditPO
               </div>
 
               {/* Videos Section */}
-              <div>
+              <div className=' z-20'>
                 <h3 className="text-[14px] font-medium text-[#303030] mb-2">{isLangArab?"فيديوهات":"Videos"}</h3>
                 {videos.length > 0 ? (
                   <div className="grid grid-cols-2 gap-2">
                     {videos.map((video, index) => (
                       <div key={index} className="relative h-[90px] rounded-lg overflow-hidden">
                         <img src={PlayThumbPOI} alt={`Video thumbnail ${index}`} className="w-full h-auto object-cover" />
-                        <button className="absolute inset-0 m-auto bg-black/50 hover:bg-black/70 flex items-center justify-center">
+                        <button className="absolute inset-0 z-10 m-auto bg-black/50 hover:bg-black/70 flex items-center justify-center">
                           <video
                             src={video.url}
                             className="w-full h-auto"
@@ -639,6 +652,7 @@ const Component = ({ POIFormShow,isLangArab, setPOIUploaderShow, setIsShowEditPO
         <audio
           ref={(el) => (audioRefs.current[index] = el)}
           src={audio.url}
+          onLoadedMetadata={() => handleAudioLoadedMetadata(index)}
           onEnded={handleAudioEnded}
         />
       </div>
