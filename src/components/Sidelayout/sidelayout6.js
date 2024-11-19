@@ -66,12 +66,12 @@ export default function SideLayout6({
     <div
     dir={isLangArab && "rtl"}
       ref={panelRef} // Attach ref to the panel div
-      className={`fixed top-16 ${ isLangArab?" right-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} w-[500px] sm:w-[400px] laptop_s:w-[${width}] h-[78%] sm:h-[60%] laptop_s:h-[90%]  transition-transform duration-300 ease-in-out ${
+      className={`fixed top-16 ${ isLangArab?" right-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} w-[500px] sm:w-[400px] laptop_s:w-[${width}] h-[78%] sm:h-[60%] laptop_s:h-[67%]  transition-transform duration-300 ease-in-out ${
         isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[103%] sm:-translate-x-[116%] laptop_s:-translate-x-[103%] ":"translate-x-[103%] sm:translate-x-[116%] laptop_s:translate-x-[103%]")
       }`}
       // style={{ width, height }}
     >
-      <div className={`relative sm:h-[90%] h-[98%] sm:w-[80%] tab:w-full  w-[67%] bg-opacity-70 float-end sm:float-none backdrop-blur-lg rounded-2xl shadow-lg overflow-hidden border ${
+      <div className={`relative sm:h-[79%] h-[75%] sm:w-[80%] tab:w-full  w-[67%] bg-opacity-70 float-end sm:float-none backdrop-blur-lg rounded-2xl shadow-lg overflow-hidden border ${
           isDarkMode
             ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
             : "bg-white bg-opacity-70 backdrop-blur-lg border-white"
