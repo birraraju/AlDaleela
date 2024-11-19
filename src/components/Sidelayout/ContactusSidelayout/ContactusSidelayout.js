@@ -146,7 +146,7 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
           </a>
         </div>
  
-        <div className="flex justify-center space-x-4 pt-4 border-t border-gray-400">
+        <div  dir={isLangArab && "ltr"} className="flex justify-center space-x-4 pt-4 border-t border-gray-400">
           <a href="https://www.facebook.com/EnvironmentAbuDhabi/ "  target="_blank" rel="noopener noreferrer"><img src={fb} alt="Facebook" className="h-5 w-5" /></a>
           {/* <a href="https://x.com/EADTweets"  target="_blank" rel="noopener noreferrer"><img src={twitter} alt="Twitter" className="h-6 w-6" /></a> */}
           <a href="https://x.com/EADTweets"  target="_blank" rel="noopener noreferrer" ><img src={x} alt="X" className="h-5 w-5" /></a>
