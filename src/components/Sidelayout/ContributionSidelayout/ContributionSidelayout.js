@@ -214,7 +214,7 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
               ? "text-white/70"
               : "bg-custom-gradient"
           } font-omnes ${
-            isLangArab ? "sm:text-[22px] text-[24px]" : "sm:text-[13px] text-[14px]"
+            isLangArab ? "sm:text-[13px] text-[14px]" : "sm:text-[13px] text-[14px]"
           } font-medium bg-clip-text text-transparent`
         : contribution.approvalStatus === "Rejected"
           ? "text-red-500 font-omnes sm:text-[13px] text-[14px] font-medium"
