@@ -127,7 +127,7 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
             }`}
           >
             <div className="relative flex flex-col justify-center items-center">
-          { user.image ? <svg
+          { user.profilePicture ? <svg
       width="80"
       height="80"
       viewBox="0 0 105 105"
@@ -139,23 +139,23 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
         cx="52.707"
         cy="52.6445"
         r="50.4465"
-        fill="url(#pattern0_502_105402)"
+        fill={`url(#pattern0_502_105402${user.rank})`}
         stroke="#1498A6"
         strokeWidth="3.47907"
       />
       <defs>
         <pattern
-          id="pattern0_502_105402"
+          id={`pattern0_502_105402${user.rank}`}
           patternContentUnits="objectBoundingBox"
           width="1"
           height="1"
         >
-          <use xlinkHref="#image0_502_105402" transform="scale(0.00195312)" />
+          <use xlinkHref={`#image0_502_105402${user.rank}`} transform="scale(0.00195312)" />
         </pattern>
         <image
-          id="image0_502_105402"
-           className=" h-24 w-20 "
-          href="path/to/your/image.jpg" // Replace with the actual image URL or path
+          id={`image0_502_105402${user.rank}`}
+           className=" h-30 w-70 "
+          href={user.profilePicture || men} // Replace with the actual image URL or path
         />
       </defs>
     </svg>: <img src={men} alt={user.userName}  className=" h-24 w-20 " />}
@@ -192,7 +192,7 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
             }`} >
                 {index + 4}
               </span>
-              {user.imge ? <svg
+              {user.profilePicture ? <svg
       width="20"
       height="20"
       viewBox="0 0 105 105"
@@ -204,24 +204,24 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
         cx="52.707"
         cy="52.6445"
         r="50.4465"
-        fill="url(#pattern0_502_105402)"
+        fill={`url(#pattern0_502_105402${user.rank})`}
         stroke="#1498A6"
         strokeWidth="3.47907"
       />
       <defs>
         <pattern
-          id="pattern0_502_105402"
+          id={`pattern0_502_105402${user.rank}`}
           patternContentUnits="objectBoundingBox"
           width="1"
           height="1"
         >
-          <use xlinkHref="#image0_502_105402" transform="scale(0.00195312)" />
+          <use xlinkHref={`#image0_502_105402${user.rank}`} transform="scale(0.00195312)" />
         </pattern>
         <image
-          id="image0_502_105402"
+          id={`image0_502_105402${user.rank}`}
           width="512"
           height="512"
-          href="path/to/your/image.jpg" // Replace with the actual image URL or path
+          href={user.profilePicture} // Replace with the actual image URL or path
         />
       </defs>
     </svg>
