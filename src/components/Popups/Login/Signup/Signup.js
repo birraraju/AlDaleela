@@ -24,6 +24,7 @@ export default function Signup({ onClose, onSigninClick }) {
     confirmPassword: "",
     phoneNumber: "",
     username: "",
+  
     email: "",
   });
 
@@ -107,6 +108,11 @@ export default function Signup({ onClose, onSigninClick }) {
         ...prev,
         username: "Username already exists.",
       }));
+    }else{
+      setErrorMessages((prev)=>({
+        ...prev,
+        username:"Username is required"
+      }))
     }
 
     // Check if phone number is exactly 10 digits and contains only numbers
