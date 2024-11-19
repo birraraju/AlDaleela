@@ -159,14 +159,14 @@ const UserActivation = () => {
 
                 {/* Message */}
                 {!loading && (
-                    <h3 className={`text-center py-2 text-lg font-medium text-black`}>
+                    <h3 className={`text-center py-2 text-[16px] font-medium text-black`}>
                         {message}
                     </h3>
                 )}
 
                 { !loading && (
                         <>
-                            {isSuccess === "Success" && <p className="text-center py-2 text-gray-600">You can now log in to your account</p>}
+                            {isSuccess === "Success" && <p className="text-center py-2 text-[14px] text-gray-600">You can now log in to your account</p>}
                             <div className=' flex justify-center items-center w-full' >
                             <button
                                onClick={handleRedirect}
