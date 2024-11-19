@@ -294,7 +294,7 @@ const DefaultLayout = ({role}) => {
     if(popup){
       setIsFooterOpen(true);
     }else{
-      handleClose()
+      // handleClose()
       setIsFooterOpen(false);
     }
   }, [popup]);

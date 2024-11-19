@@ -41,7 +41,7 @@ export default function Props({
               setIsEditPOI(false)
               contextMapView.graphics.removeAll();
             }}
-            className="absolute mobile_s:-top-7 laptop_m:-top-[26px] sm:right-36 right-32 cursor-pointer"
+            className="absolute mobile_s:-top-7 laptop_m:-top-[26px] sm:right-[31%] right-32 cursor-pointer"
           >
             <img src={`${process.env.PUBLIC_URL}/Header/Searchbar/close.svg`} alt="" className="w-5" />
           </div>
@@ -49,7 +49,7 @@ export default function Props({
 
         {/* Line */}
         {(inputClicked || iscategory) && (
-          <Label htmlFor="search" className="absolute mobile_s:-top-[30px] laptop_m:-top-[28px] sm:right-32 right-28">
+          <Label htmlFor="search" className="absolute mobile_s:-top-[30px] laptop_m:-top-[28px] sm:right-[30%] right-28">
             <img src={`${process.env.PUBLIC_URL}/Header/Searchbar/line-black.svg`} alt="" />
           </Label>
         )}

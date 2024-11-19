@@ -263,7 +263,7 @@ export default function Signup({ onClose, onSigninClick }) {
             >
               Please create your account
             </p>
-            <form onSubmit={handleSubmit} className="space-y-2">
+            <form onSubmit={handleSubmit} className="space-y-3 ">
               <div className="grid sm:grid-cols-2 grid-cols-1 gap-2">
                 <span>
                   <Input
@@ -271,7 +271,7 @@ export default function Signup({ onClose, onSigninClick }) {
                     name="username"
                     placeholder={isLangArab ? "الاسم الأول" : "First Name"}
                     required
-                    className={`${isLangArab ? "text-right" : "text-left"}`}
+                    className={` ${isLangArab ? "text-right" : "text-left"}`}
                     style={{
                       direction: isLangArab ? "rtl" : "ltr",
                       textAlign: isLangArab ? "right" : "left",
