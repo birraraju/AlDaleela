@@ -263,7 +263,7 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
 
   return (
     <div className="relative grid grid-cols-1 h-full ">
-      <div className="grid grid-cols-3 justify-start pt-3  h-[70%] overflow-y-auto items-start gap-y-4 gap-x-0">
+      <div className="grid grid-cols-3 justify-start pt-[1rem]  h-[81%] tab_s:h-[87%] laptop_s:h-[76%] overflow-y-auto items-start gap-y-4 gap-x-0">
   {bookmarks.length>0 ?bookmarks.map((image, index) => (
     <div key={image.id} className="relative flex flex-col  items-center">
       {/* Image and title section */}
@@ -308,14 +308,14 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
         </div>
       )}
     </div>
-  )):<div className=' fixed flex items-center justify-center right-3   left-3 pt-[3rem] pb-[3rem]   '>
+  )):<div className=' fixed flex items-center justify-center right-3  left-3 top-40 bottom-40   '>
     <p className=' text-center  text-black'>
-      bookmarks is not saved
+      No BookMark
     </p>
     </div>}
 </div>
-      <div className={`fixed bottom-5 left-3 right-3 flex flex-col  space-y-1 ${isManageVisible ? 'mt-2 ' : 'mt-2 '}`}>
-            <hr className='mx-2 mb-3 ' />
+      <div className={`fixed bottom-5 tab_s:bottom-5   left-3 right-3 flex flex-col  space-y-1 ${isManageVisible ? 'mt-2 ' : 'mt-2 '}`}>
+            <hr className='mx-2 mb-2 ' />
             {!isManageVisible ? (
               <span className="flex gap-x-1 justify-center items-center">
                 <img src={isDarkMode ? DarkBookMarkGreen : BookMarkGreen } alt="" className="h-5" />
