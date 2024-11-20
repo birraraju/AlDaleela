@@ -7,6 +7,7 @@ export default {
       
       letterSpacing:{
         tightest: '-.075em',
+        widget:'0.05rem',
       },  
       extend: {
         animation: {
