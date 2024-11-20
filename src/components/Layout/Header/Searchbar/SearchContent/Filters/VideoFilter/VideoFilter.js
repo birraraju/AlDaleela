@@ -16,7 +16,7 @@ export default function VideoFilter({ setSelectedItem,isLangArab, setIsFiltersOp
       <div>
         <img src={`${process.env.PUBLIC_URL}/Header/Searchbar/video.svg`} alt="" className="w-6" />
       </div>
-      <div className={`${isLangArab ? "mr-2" : "ml-2"} ${isDarkMode?"text-white":" text-black"}`}>{isLangArab?"فيديو":"Video"}</div>
+      <div className={`${isLangArab ? "mr-2" : "ml-2"} ${isDarkMode? (selectedItem === "video"?"text-black":"text-white"):" text-black"}`}>{isLangArab?"فيديو":"Video"}</div>
     </div>
     </div>
   );

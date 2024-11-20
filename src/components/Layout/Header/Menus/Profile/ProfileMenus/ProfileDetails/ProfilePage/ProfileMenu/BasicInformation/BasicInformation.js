@@ -466,7 +466,7 @@ export default function BasicInformation({
         className={`sm:p-2 p-1 rounded-lg h-auto ${
           isDarkMode
             ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none"
-            : "bg-white bg-opacity-70 backdrop-blur-lg border-white"
+            : "bg-[#F9F9F9] bg-opacity-70 backdrop-blur-lg border-white"
         }`}
       >
         <h1

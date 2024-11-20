@@ -31,6 +31,8 @@ export default {
           mobile_s: "100px",
           mobile_m: "375px",
           mobile_l: "425px",tab:"768px",
+          tab_s:"800px",
+          tab_m:"820px",
           laptop_s: "1024px",
           laptop_m: "1440px",
         },
