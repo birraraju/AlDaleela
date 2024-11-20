@@ -1,5 +1,5 @@
 // ThemeContext.js
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 const ThemeContext = createContext();
 
@@ -12,14 +12,25 @@ export const ThemeProvider = ({ children }) => {
   const [isSignup, setsSignup] = useState(false); // State to toggle between login and signup forms
   const [isPOIAddShow,setIsPOIAddShow]=useState(false);
 
-
+// Load theme preference from localStorage on mount
+useEffect(() => {
+  const themeUpdate = localStorage.getItem("AldaleelaThemeColor");
+  if (themeUpdate !== null) {
+    setIsDarkMode(JSON.parse(themeUpdate)); // Convert string to boolean
+  }
+}, []);
 
   const toggleLanguage = () => {
     setIsLangArab((prevMode) => !prevMode);
+    
   };
 
   const toggleTheme = () => {
-    setIsDarkMode((prevMode) => !prevMode);
+    setIsDarkMode((prevMode) => {
+      const newMode = !prevMode;
+      localStorage.setItem("AldaleelaThemeColor", JSON.stringify(newMode)); // Store as stringified boolean
+      return newMode;
+    });
   };
 
   return (
