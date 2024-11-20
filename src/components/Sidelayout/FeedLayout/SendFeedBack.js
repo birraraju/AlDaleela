@@ -529,12 +529,12 @@ export default function Feedback({
         </div>
         <div className="flex pt-6 justify-between items-baseline px-4  sm:px-2">
           <button
-            className={`sm:px-9 px-9 sm:py-2 py-2 border rounded-md transition-colors ${
+            className={`sm:px-12 px-9 sm:py-2 py-2 border rounded-lg transition-colors ${
               isLangArab ? "text-[14px] " : "text-[14px]" // Increased text size for Arabic
             } ${
               isDarkMode
                 ? "bg-transparent  border border-white text-white"
-                : "border-gray-300 text-gray-700"
+                : "border-[#909090] text-gray-700"
             }`}
             onClick={handleCancel}
             // Attach the click handler
@@ -544,7 +544,7 @@ export default function Feedback({
           </button>
           <button
             onClick={onSubmitFeedback}
-            className={`sm:px-9 px-9 sm:py-2 text-[14px]  py-2 rounded-md transition-colors ${
+            className={`sm:px-12 px-9 sm:py-2 text-[14px]  py-2 rounded-lg transition-colors ${
               validate()
                 ? "bg-custom-gradient text-white"
                 : "bg-gray-600/65 text-white"
