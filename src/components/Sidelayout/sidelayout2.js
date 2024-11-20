@@ -89,7 +89,7 @@ export default function SideLayout2({ children, onClose }) { //w-[${width}]
             <X className="h-5 w-6" />
           </button>
 
-          <div className="p-6 overflow-y-auto h-full">
+          <div className="p-6 overflow-y-hidden h-full">
             {children || (
               <>
                 <p className={`flex gap-x-2 justify-start items-center font-medium font-poppins ${
