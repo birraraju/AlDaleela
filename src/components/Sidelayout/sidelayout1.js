@@ -77,7 +77,7 @@ export default function SideLayout1({
       // style={{ width, height }} // Set height to 80% of viewport height
     >
      <div
-  className={`relative sm:h-[90%] laptop_s:h-[80%] h-[98%]  sm:w-full sm:float-none w-[100%] float-end rounded-2xl shadow-lg overflow-hidden border ${
+  className={`relative sm:h-[90%] tab_s:h-[65%] laptop_s:h-[80%] h-[98%]  sm:w-full sm:float-none w-[100%] float-end rounded-2xl shadow-lg overflow-hidden border ${
     isDarkMode
       ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
       : "bg-white bg-opacity-70 backdrop-blur-lg border-white" // Light mode styles

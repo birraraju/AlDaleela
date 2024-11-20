@@ -77,8 +77,8 @@ const POIShareForm = ({ onClose, queryresults }) => {
             </div>
             <hr className='my-4' />
             <div className='flex justify-center items-center gap-2 cursor-pointer' onClick={handleCopy}>
-                <img src={CopyIconSvg} alt="Copy Link" className='h-5 w-5' />
-                    <h2 className={`${isDarkMode?"text-gray-400":"text-blue-600"} text-[12px] font-medium`}>{isLangArab?"نسخ الوصلة":"Copy Link"}</h2>
+                <img src={CopyIconSvg} alt="Copy Link" className={` ${isDarkMode && "invert brightness-0 text-white "}h-5 w-5`} />
+                    <h2 className={`${isDarkMode?"text-white underline hover:text-white/90 ":"text-blue-600"} text-[12px] font-medium`}>{isLangArab?"نسخ الوصلة":"Copy Link"}</h2>
                 {copied && <span className="text-green-600 text-[12px] ml-2">{isLangArab?"منسوخ!":"Copied!"}</span>}
             </div>
         </div>
