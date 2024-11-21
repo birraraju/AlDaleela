@@ -16,7 +16,7 @@ export default function ProfileContent({
 }) {
   const { profiledetails } = useAuth();
   const { isDarkMode, isLangArab } = useTheme(); // Access the dark mode state
-  // const [profileImage, setProfileImage] = useState(SampleImageProfile); // State to manage the profile image
+  const [UploadprofileImage, setUploadProfileImage] = useState(null); // State to manage the profile image
   // const [file, setFile] = useState(null);
 
   // Handle file change
@@ -30,6 +30,7 @@ export default function ProfileContent({
         setFile(selectedFile);
         const reader = new FileReader();
         reader.onload = (e) => {
+          setUploadProfileImage(e.target.result)
           setProfileImage(e.target.result); // Update profile image preview
         };
         reader.readAsDataURL(selectedFile);
@@ -91,7 +92,7 @@ export default function ProfileContent({
         <div className="flex flex-col justify-center items-center">
           <div className="relative h-28 w-28 rounded-full overflow-hidden">
             <img
-              src={profiledetails && profiledetails.imageUrl ? profiledetails.imageUrl : profileImage}
+              src={UploadprofileImage ? UploadprofileImage :( profiledetails && profiledetails.imageUrl ? profiledetails.imageUrl : profileImage)}
               alt="Admin"
               className="w-full h-full rounded-full"
             />

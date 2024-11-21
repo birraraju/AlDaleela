@@ -7,7 +7,7 @@ export default function Leaderboard({ setIsLeaderboard, setIsPopoverOpen }) {
   const { isDarkMode,isLangArab } = useTheme(); // Use the theme hook to get dark mode state
 
   return (
-    <div className="py-1 cursor-pointer">
+    <div className="mt-1 py-1 cursor-pointer">
       <div
         onClick={() => {
           setIsLeaderboard(true);
@@ -24,9 +24,9 @@ export default function Leaderboard({ setIsLeaderboard, setIsPopoverOpen }) {
           className={`${
             isLangArab
               ? "font-medium font-omnes text-[14px] tab:text-[12px] laptop_s:text-[14px] tracking-widget"
-              : "font-medium font-omnes text-[16px] tab:text-[14px] laptop_s:text-[16px] tracking-widget"
+              : "font-medium font-omnes text-[14px] tab:text-[12px] laptop_s:text-[14px] tracking-widget"
           }  ${
-            isDarkMode ? "text-gray-300" : "text-[#505050]"
+            isDarkMode ? "text-gray-300" : "text-black/50"
           }`}
         >          {isLangArab?"لوحة المتصدرين":"Leaderboard"}</p>
       </div>
