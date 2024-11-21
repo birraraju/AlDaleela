@@ -8,13 +8,21 @@ img {
   user-select: none;
 }
 
-body {
+/* body {
+  font-family: 'Cairo', sans-serif;
+  font-family: 'Poppins', sans-serif;
+} */
+
+.body-poppins {
+  font-family: 'Poppins', sans-serif;
+}
+
+.body-cairo {
   font-family: 'Cairo', sans-serif;
 }
 
-
 /* Webkit browsers (Chrome, Safari) */
-.categories-scroll::-webkit-scrollbar {
+/* .categories-scroll::-webkit-scrollbar {
   width: 5px;
 }
 .font-plus-jakarta {
@@ -23,16 +31,16 @@ body {
 
 .categories-scroll::-webkit-scrollbar-track {
   background: #f1f1f1;
-}
+} */
 
-.categories-scroll::-webkit-scrollbar-thumb {
+/* .categories-scroll::-webkit-scrollbar-thumb {
   background: #bdbdbd;
   border-radius: 15px;
 }
 
 .categories-scroll::-webkit-scrollbar-thumb:hover {
   background: #555;
-}
+} */
 
 .custom-gradient {
   background: linear-gradient(
@@ -60,7 +68,7 @@ body {
 ::-webkit-scrollbar {
   width: 5px;
 }
-
+/* 
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
 }
@@ -72,7 +80,7 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
-}
+} */
 
 /* Input Hide */
 input[type="password"]::-webkit-inner-spin-button,

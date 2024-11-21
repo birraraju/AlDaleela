@@ -15,8 +15,8 @@ const PrintComponent = ({ mapview }) => {
       const layoutTab = document.querySelector('#printDiv__layoutTab');
       if (layoutTab) layoutTab.textContent = 'Print';
 
-      const exportsTab = document.querySelector('#printDiv__exportedFilesTab');
-      if (exportsTab) exportsTab.textContent = 'Result';
+      // const exportsTab = document.querySelector('#printDiv__exportedFilesTab');
+      // if (exportsTab) exportsTab.textContent = 'Result';
     });
 
    

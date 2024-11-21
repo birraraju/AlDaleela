@@ -180,7 +180,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
               />
             </div>
             <div className="mobile_s:ml-2 hidden sm:block laptop_m:ml-2">
-              <p className= {` ${isLangArab?"text-[9px] sm:text-[14px] laptop_s:text-[16px]":"text-[9px] sm:text-[14px] laptop_s:text-[16px] "} `}>{role !== null ? (profiledetails.username ? profiledetails.username: profiledetails.username === "" && profiledetails.firstName) : (isLangArab ? "الملف الشخصي":"Profile")}</p>
+              <p className= {` ${isLangArab?"text-[9px] sm:text-[14px] laptop_s:text-[14px]":"text-[9px] sm:text-[14px] laptop_s:text-[14px] "} `}>{role !== null ? (profiledetails.username ? profiledetails.username: profiledetails.username === "" && profiledetails.firstName) : (isLangArab ? "الملف الشخصي":"Profile")}</p>
             </div>
             <div className="mobile_s:mx-2 sm:block hidden laptop_m:mx-2">
               <IoMdArrowDropdown
@@ -218,17 +218,17 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
           {role === null ? (
             <div
               onClick={toggleAuthenticator}
-              className="py-2 w-full flex items-center justify-center custom-gradient text-white font-semibold text-[14px] rounded-lg cursor-pointer"
+              className="py-2 w-full flex items-center justify-center custom-gradient text-white font-medium text-[14px] rounded-lg cursor-pointer"
             >
               {isLangArab?"تسجيل الدخول" :"Login"}
             </div>
           ) : (
             <div onClick={handleLogout} className="flex cursor-pointer justify-start items-center gap-2">
       <HiOutlineLogout
-        className={`mx-1  text-[20px] ${isDarkMode ? "border-white  border-opacity-80 text-white" : ""}`}
+        className={`mx-1  text-[16px] ${isDarkMode ? "border-white  border-opacity-80 text-white" : ""}`}
         style={{ color: isDarkMode ? '#FFFFFFCC' : '#505050' }}
       />
-              <p className={`font-semibold  text-[16px] ${isDarkMode ? "text-gray-300" : "text-[#505050]"}`}>
+              <p className={`font-medium font-omnes text-[14px] tab:text-[12px] laptop_s:text-[14px] ${isDarkMode ? "text-gray-300" : "text-black/50"}`}>
               {isLangArab?"تسجيل الخروج":"Logout"}</p>
             </div>
           )}

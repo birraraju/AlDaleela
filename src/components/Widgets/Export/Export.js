@@ -27,8 +27,8 @@ const PrintComponent = ({ mapview }) => {
         List_Active.style.outline = "none";
       }
 
-      const exportsTab = document.querySelector("#exportDiv__exportedFilesTab");
-      if (exportsTab) exportsTab.textContent = "Result";
+      // const exportsTab = document.querySelector("#exportDiv__exportedFilesTab");
+      // if (exportsTab) exportsTab.textContent = "Result";
     });
 
     const bodyNode = document.querySelector("body");

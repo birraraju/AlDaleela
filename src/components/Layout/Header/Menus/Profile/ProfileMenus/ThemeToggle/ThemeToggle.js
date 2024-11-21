@@ -17,9 +17,9 @@ export default function ThemeToggle() {
           className={`${
             isLangArab
               ? "font-medium font-omnes text-[14px] tab:text-[12px] laptop_s:text-[14px] tracking-widget"
-              : "font-medium font-omnes text-[16px] tab:text-[14px] laptop_s:text-[16px] tracking-widget"
+              : "font-medium font-omnes text-[14px] tab:text-[12px] laptop_s:text-[14px] tracking-widget"
           }   ${
-            isDarkMode ? "text-gray-300" : "text-[#505050]"
+            isDarkMode ? "text-gray-300" : "text-black/50"
           }`}
         >           {isLangArab?"الوضع الداكن":"Dark mode"}</p>
       </div>

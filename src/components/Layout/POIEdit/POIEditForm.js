@@ -686,9 +686,9 @@ const Component = ({
             {/* Photos Section */}
             <div
               dir={isLangArab && "rtl"}
-              className="px-3 py-4 border border-none rounded-lg bg-white space-y-4"
+              className={`px-3 py-4 border border-none rounded-lg bg-white space-y-4 ${((videos.length > 0) ||( audios.length > 0)||(images.length > 0)) ?"block":"hidden"}`}
             >
-              <div dir={isLangArab && "rtl"}>
+              { (images.length > 0) && <div dir={isLangArab && "rtl"}>
                 <h3 className="text-[14px] text-[#303030] font-medium mb-2">
                   {isLangArab ? "صور" : "Photos"}
                 </h3>
@@ -718,10 +718,10 @@ const Component = ({
                     </p>
                   )}
                 </div>
-              </div>
+              </div>}
 
               {/* Videos Section */}
-              <div className=" z-20">
+             {(videos.length > 0) && <div className=" z-20">
                 <h3 className="text-[14px] font-medium text-[#303030] mb-2">
                   {isLangArab ? "فيديوهات" : "Videos"}
                 </h3>
@@ -808,9 +808,9 @@ const Component = ({
                   </p>
                 )}
               </div>
-
+}
               {/* Audio Section */}
-              <div>
+              {audios.length > 0 && <div>
                 <h3 className="text-[12px] font-medium mb-2 text-[#303030]">
                   {isLangArab ? "صوتي" : "Audio"}
                 </h3>
@@ -873,7 +873,7 @@ const Component = ({
                       : "No audio files available."}
                   </p>
                 )}
-              </div>
+              </div>}
             </div>
 
             {isEditShowPOI && (
