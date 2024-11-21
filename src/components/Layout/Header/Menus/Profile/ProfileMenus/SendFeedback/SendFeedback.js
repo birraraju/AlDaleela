@@ -1,5 +1,6 @@
 import feedback from "../../../../../../../assets/feedback.svg";
 import DarkFeedback from "../../../../../../../assets/DarkFeedback.svg";
+import WhiteFeedback from '../../../../../../../assets/WhiteFeedback.svg'
 import { useTheme } from '../../../../../ThemeContext/ThemeContext'; // Import the theme hook
 
 export default function SendFeedback({ setIsFeedBack, setIsPopoverOpen }) {
@@ -16,18 +17,18 @@ export default function SendFeedback({ setIsFeedBack, setIsPopoverOpen }) {
       <div className="flex justify-start gap-2 items-center">
         <div>
         <img 
-          src={isDarkMode ? DarkFeedback : feedback }
+          src={isDarkMode ? feedback : feedback }
 
-           alt="Logo" className=" w-4 " />        </div>
+           alt="Logo" className={` ${isDarkMode && "invert brightness-0 text-[#ffffff]"} w-4 `} />        </div>
         <p
-          className={` ${
+          className={`  ${
             isLangArab
-              ? "font-medium font-omnes text-[14px] mr-1 tab:text-[12px] laptop_s:text-[14px] tracking-widget"
-              : "font-medium font-omnes text-[14px] ml-1 tab:text-[12px] laptop_s:text-[14px] tracking-widget"
+              ? "font-omnes font-500 text-[14px] mr-1 tab:text-[12px] laptop_s:text-[14px] tracking-widget"
+              : "font-omnes font-500 text-[14px] ml-1 tab:text-[12px] laptop_s:text-[14px] tracking-widget"
           }  ${
-            isDarkMode ? "text-gray-300" : "text-black/50"
+            isDarkMode ? "text-gray-300" : "text-[#505050]"
           }`}
-        >          {isLangArab?"إرسال الملاحظات":"Send FeedBack"}</p>
+        >          {isLangArab?"إرسال الملاحظات":"Send Feedback"}</p>
       </div>
     </div>
   );
