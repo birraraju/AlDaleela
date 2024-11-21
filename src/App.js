@@ -44,6 +44,7 @@
 
 
 // App.js
+
 import React, { lazy, Suspense, useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from "./Providers/AuthProvider/AuthProvider";
@@ -53,9 +54,12 @@ import MobileDesktopoutline from './assets/LoaderMain/mobileLoader/MobileDesktop
 import './App.css';
 
 // Lazy-loaded components
-const AdminLayout = lazy(() => import('../src/components/Layout/Admin/Layout/AdminLayout'));
-const DefaultLayout = lazy(() => import('./components/Layout/DefaultLayout'));
-const UserActivation = lazy(() => import('../src/components/email/UserActivation'));
+// const AdminLayout = lazy(() => import('../src/components/Layout/Admin/Layout/AdminLayout'));
+// const DefaultLayout = lazy(() => import('./components/Layout/DefaultLayout'));
+// const UserActivation = lazy(() => import('../src/components/email/UserActivation'))  
+import AdminLayout from '../src/components/Layout/Admin/Layout/AdminLayout';
+ import DefaultLayout from  './components/Layout/DefaultLayout'
+  import UserActivation from '../src/components/email/UserActivation';
 
 // Splash Video Loader
 const SplashVideoLoader = ({ onFinish }) => {
@@ -96,48 +100,48 @@ const SplashVideoLoader = ({ onFinish }) => {
 
   // Timed Video Loader
 // Timed Video Loader
-const TimedVideoLoader = ({ timeout = 100000 }) => { // timeout is in milliseconds
-  const [showVideo, setShowVideo] = useState(true);
-  const [isMobile, setIsMobile] = useState(false);
+// const TimedVideoLoader = ({ timeout = 100000 }) => { // timeout is in milliseconds
+//   const [showVideo, setShowVideo] = useState(true);
+//   const [isMobile, setIsMobile] = useState(false);
 
-  useEffect(() => {
-    // Function to detect screen size
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768); // Adjust breakpoint as needed
-    };
+//   useEffect(() => {
+//     // Function to detect screen size
+//     const handleResize = () => {
+//       setIsMobile(window.innerWidth <= 768); // Adjust breakpoint as needed
+//     };
 
-    // Initial check
-    handleResize();
+//     // Initial check
+//     handleResize();
 
-    // Add resize event listener
-    window.addEventListener('resize', handleResize);
+//     // Add resize event listener
+//     window.addEventListener('resize', handleResize);
 
-    // Cleanup on component unmount
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+//     // Cleanup on component unmount
+//     return () => window.removeEventListener('resize', handleResize);
+//   }, []);
 
-  useEffect(() => {
-    const timer = setTimeout(() => setShowVideo(false), timeout);
-    return () => clearTimeout(timer); // Cleanup timer on component unmount
-  }, [timeout]);
+//   useEffect(() => {
+//     const timer = setTimeout(() => setShowVideo(false), timeout);
+//     return () => clearTimeout(timer); // Cleanup timer on component unmount
+//   }, [timeout]);
 
-  if (!showVideo) {
-    return <div className="text-center">Loading...</div>; // Fallback after video
-  }
+//   if (!showVideo) {
+//     return <div className="text-center">Loading...</div>; // Fallback after video
+//   }
 
-  return (
-    <div className="w-full h-full flex items-center justify-center">
-      <video
-        src={isMobile ? MobileDesktopoutline : WebLazyLoader} // Conditional video source
-        autoPlay
-        muted
-        className="w-full h-full object-cover"
-      >
-        Your browser does not support the video tag.
-      </video>
-    </div>
-  );
-};
+//   return (
+//     <div className="w-full h-full flex items-center justify-center">
+//       <video
+//         src={isMobile ? MobileDesktopoutline : WebLazyLoader} // Conditional video source
+//         autoPlay
+//         muted
+//         className="w-full h-full object-cover"
+//       >
+//         Your browser does not support the video tag.
+//       </video>
+//     </div>
+//   );
+// };
 
 
 
@@ -152,9 +156,9 @@ const App = () => {
     <BrowserRouter>
       <ThemeProvider>
         <AuthProvider>
-        <Suspense fallback={<TimedVideoLoader timeout={100000} />}>
+        {/* <Suspense fallback={<TimedVideoLoader timeout={100000} />}> */}
             <MainRoutes />
-          </Suspense>
+          {/* </Suspense> */}
         </AuthProvider>
       </ThemeProvider>
     </BrowserRouter>
