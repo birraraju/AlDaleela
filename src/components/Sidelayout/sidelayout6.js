@@ -133,7 +133,7 @@ export default function SideLayout6({
         className={`relative sm:h-[65%] tab:h-[90%]  h-[98%] sm:w-[80%] tab:w-full  w-[67%] bg-opacity-70 float-end sm:float-none backdrop-blur-lg rounded-2xl shadow-lg overflow-hidden border ${
           isDarkMode
             ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
-            : "bg-white bg-opacity-70 backdrop-blur-lg border-white"
+            : "bg-white  backdrop-blur-lg border-white"
         }`}
       >
         <div

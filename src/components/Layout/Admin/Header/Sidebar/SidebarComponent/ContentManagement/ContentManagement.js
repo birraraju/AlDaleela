@@ -48,7 +48,7 @@ export default function UserManagement({role}) {
     console.log(`Selected page: ${selectedPage}`);
     // Here, you can load data for the selected page if using an API
   };
-    // console.log("Passed Content Management data :", data)
+    console.log("Passed Content Management data :", data)
 
   const navigate = useNavigate();
 
