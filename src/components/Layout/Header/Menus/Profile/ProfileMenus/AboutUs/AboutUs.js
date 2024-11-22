@@ -1,6 +1,6 @@
 import React from "react";
 import About from "../../../../../../../assets/about.svg";
-import DarkAbout from "../../../../../../../assets/DarkAbout.svg";
+import DarkAbout from "../../../../../../../assets/ProfileDarkIcons/information_157933 1.svg";
 import { useTheme } from "../../../../../ThemeContext/ThemeContext"; // Import the theme hook
 export default function SendFeedback({ setIsAboutUs, setIsPopoverOpen }) {
   const { isDarkMode, isLangArab } = useTheme(); // Use the theme hook to get dark mode state

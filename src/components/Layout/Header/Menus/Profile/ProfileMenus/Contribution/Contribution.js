@@ -1,7 +1,7 @@
 import React from "react";
 import { useTheme } from '../../../../../ThemeContext/ThemeContext'; // Import the theme hook
 import ContributionIcon from "../../../../../../../assets/Contribution.svg"; // Update with the correct path for the contribution icon
-import DarkContribution from "../../../../../../../assets/DarkContribution.svg"; // Update with the correct path for the contribution icon
+import DarkContribution from "../../../../../../../assets/ProfileDarkIcons/Group.svg"; // Update with the correct path for the contribution icon
 
 export default function Contribution({ setIsContribution, setIsPopoverOpen }) {
   const { isDarkMode,isLangArab } = useTheme(); // Use the theme hook to get dark mode state

@@ -30,6 +30,8 @@ const Searchbar = ({
     }
   }, [isFooterOpen]);
 
+  
+
   // Manage search open/close state
   useEffect(() => {
     if (inputClicked) {
@@ -89,9 +91,7 @@ const Searchbar = ({
             setShowSearchContent(true)
           }}
           onChange={handleInputChange}
-          className={`mobile_s:w-[18rem] mobile_m:w-[22rem] mobile_l:w-[22rem] ${
-            inputClicked || iscategory ? "laptop_m:w-[24rem] laptop_s:w-[20rem] " :  " laptop_s:w-[18rem] laptop_m:w-[22rem]"
-          } mobile_s:h-9 laptop_s:h-8 laptop_m:h-9 border-none outline-none focus-visible:ring-0 focus-visible:ring-offset-0 bg-white rounded-full pl-16 relative z-[2] ${
+          className={`mobile_s:w-[22rem]  mobile_m:w-[23rem] mobile_l:w-[27rem] tab:w-[22rem] tab_s:w-[24rem] tab_l:w-[26rem] tab_l_1:w-[28rem]  laptop_s:w-[18rem] laptop_m:w-[22rem] mobile_s:h-9 laptop_s:h-8 laptop_m:h-9 border-none outline-none focus-visible:ring-0 focus-visible:ring-offset-0 bg-white rounded-full pl-16 relative z-[2] ${
              isDarkMode
               ? "text-[#FFFFFFCC]"
               : "text-black border-none shadow-none"
@@ -101,6 +101,7 @@ const Searchbar = ({
         <Props
           inputClicked={inputClicked}
           setInputValue={setInputValue}
+        setShowSearchContent={setShowSearchContent}
           setInputClicked={setInputClicked}
           setIscategory={setIscategory}
           handleCloseResponsiveSearch={handleCloseResponsiveSearch}
@@ -109,6 +110,8 @@ const Searchbar = ({
 
         {iscategory && (
           <Category
+          setInputValue={setInputValue}
+          setShowSearchContent={setShowSearchContent}
             inputClicked={inputClicked}
             setInputClicked={setInputClicked}
             isLangArab={isLangArab}

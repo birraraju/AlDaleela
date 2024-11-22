@@ -5,12 +5,19 @@ import { useAuth } from "../../../../../Providers/AuthProvider/AuthProvider";
 import config from '../../../../Common/config'; // Import your config file
 import { useTheme } from "../../../ThemeContext/ThemeContext";
 
-export default function Category({ inputClicked, isLangArab, setInputClicked }) {
+export default function Category({setInputValue,setShowSearchContent, inputClicked, isLangArab, setInputClicked }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("Category");
   const [categoryClasses, setCategoryClasses] = useState([]);
   const { contextMapView } = useAuth();
   const {isDarkMode} = useTheme()
+
+  useEffect(()=>{
+    if(inputClicked){
+      setIsOpen(false)
+      setSelectedCategory("Category")
+    }
+  },[inputClicked])
 
   const handleCategorySelect = (categoryName) => {
     // contextMapView.map.layers.items.forEach(function (layer) {
@@ -104,10 +111,10 @@ export default function Category({ inputClicked, isLangArab, setInputClicked }) 
       className="absolute bottom-1 right-1.5 z-[2]"
     >
       <button
-        onClick={() => setIsOpen(!isOpen)}
-        className={`rounded-full laptop_s:rounded-3xl laptop_m:rounded-full flex text-xs justify-center items-center mobile_s:px-2 laptop_s:px-1 laptop_m:px-4 laptop_s:py-3 py-0.5 sm:h-6 h-7 bg-[#C8C8C899] bg-opacity-50 ${isDarkMode?"text-white":"text-black"} `}
+        onClick={() => {setIsOpen(!isOpen);setShowSearchContent(false);setInputValue("")}}
+        className={`rounded-full w-[79px] mobile_s:w-[90px]  tab:w-[90px] laptop_s:w-[90px] laptop_s:rounded-3xl laptop_m:rounded-full flex text-xs justify-evenly items-center mobile_s:px-2 laptop_s:px-1 laptop_m:px-1 laptop_s:py-3 py-0.5 sm:h-6 h-7 bg-[#C8C8C899] bg-opacity-50 ${isDarkMode?"text-white":"text-black"} `}
       >
-        {(selectedCategory === "Category") ? (isLangArab ? "الفئة" : selectedCategory) : selectedCategory}
+        {(selectedCategory === "Category") ? (isLangArab ? "الفئة" : selectedCategory) : selectedCategory && selectedCategory?.length > 7 ? `${selectedCategory.substring(0, 8)}` : selectedCategory }
         {isOpen ? (
           <FaCaretUp className="ml-2" />
         ) : (

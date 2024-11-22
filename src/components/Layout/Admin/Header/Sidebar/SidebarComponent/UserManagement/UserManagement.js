@@ -285,7 +285,9 @@ const paginatedData = data.slice((currentPage - 1) * itemsPerPage, currentPage *
                   <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-28"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>{isLangArab?"عنوان":"Country"}</th>
                   <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>{isLangArab?"أدوار المستخدم ":"User Roles"}</th>
                   <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-20"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>{isLangArab?"نشاط المستخدم ":"User Activity"}</th>
-                  <th className="pb-3"></th>
+                  <th className={`pb-3 p-2 font-medium flex justify-center items-centers font-omnes text-[14px]  ${isLangArab?"pl-2":"pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+                  {isLangArab?"فعل":"Action"}</th>
+                  {/* <th className="pb-3"></th> */}
                 </tr>
               </thead>
               <tbody>
@@ -336,8 +338,8 @@ const paginatedData = data.slice((currentPage - 1) * itemsPerPage, currentPage *
                     </td>
                     <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
                       {user.lastlogin}</td>
-                    <td className="py-4">
-                    <button className={` aria-label="Delete user" ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-red-500 hover:text-red-600"}`} onClick={() => handleFeedbackDelete(user.id)}>
+                    <td className="py-4 flex justify-center items-center">
+                    <button className={` aria-label="Delete user"  ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-red-500 hover:text-red-600"}`} onClick={() => handleFeedbackDelete(user.id)}>
                         <Trash2 className="w-5 h-5" />
                       </button>
                     </td>

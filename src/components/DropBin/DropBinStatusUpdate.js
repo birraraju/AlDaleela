@@ -459,7 +459,7 @@ const DropBinStatusUpdate = ({setMessage,isLangArab,setFormShow,isDarkMode,setPO
 
   return (
     <div className="w-full max-w-lg bg-transparent overflow-y-auto">
-      <div className="px-2 py-1 h-full space-y-4">
+      <div className="px-2 py-1 h-full space-y-1">
         {/* {renderField( isLangArab?"منظمة":"Organization", poiData.organization)}
         {renderField("Name", poiData.name_en)}
         {renderField("Class", poiData.Class)}
@@ -544,7 +544,7 @@ const DropBinStatusUpdate = ({setMessage,isLangArab,setFormShow,isDarkMode,setPO
         {/* ============================= new mediao playing ========================= */}
         <div
               dir={isLangArab && "rtl"}
-              className={`px-3 py-4 border border-none rounded-lg bg-white space-y-4 ${((videos.length > 0) ||( audios.length > 0)||(images.length > 0)) ?"block":"hidden"}`}
+              className={`px-3  py-4 border border-none rounded-lg bg-white space-y-4 ${((videos.length > 0) ||( audios.length > 0)||(images.length > 0)) ?"block":"hidden"}`}
             >
               { (images.length > 0) && <div dir={isLangArab && "rtl"}>
                 <h3 className="text-[14px] text-[#303030] font-medium mb-2">

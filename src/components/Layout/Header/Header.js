@@ -30,7 +30,7 @@ const Header = ({  isFooterOpen, isHeaderOpen, mapview}) => {
   return (
     <>
     {isLangArab ?(<header
-      className={`text-white  px-2 laptop_s:px-0.5 laptop_m:px-2 ${isLangArab ?" pl-1 ":" sm:pr-10 laptop_s:pr-2 laptop_m:pr-10"} py-2 z-30 flex items-center justify-between z-8 w-screen 
+      className={`text-white  px-2 laptop_s:px-0.5 laptop_m:px-2 ${isLangArab ?" pl-1 ":" sm:pr-10 laptop_s:pr-2 laptop_m:pr-10"} py-1 z-30 flex items-center justify-between z-8 w-screen 
         ${isDarkMode ? 'bg-dark-gradient' : 'bg-custom-gradient'}`
       }
     >

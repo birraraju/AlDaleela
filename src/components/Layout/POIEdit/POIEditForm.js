@@ -468,7 +468,7 @@ const Component = ({
     disable
   ) => (
     <div
-      className={` ${!isEditShowPOI && " relative"} z-50 space-y-1`}
+      className={` ${!isEditShowPOI && " relative"} z-50`}
       dir={`${isLangArab && "rtl"} `}
     >
       {isEditShowPOI && (
@@ -547,7 +547,7 @@ const Component = ({
 
   return (
     <div className="w-full max-w-md bg-transparent overflow-y-auto ">
-      <div className="p-2 space-y-4">
+      <div className="p-2 space-y-1">
         {!queryresults.features || queryresults.features.length === 0 ? (
           <p></p> // Display message if there are no features
         ) : (
@@ -686,7 +686,7 @@ const Component = ({
             {/* Photos Section */}
             <div
               dir={isLangArab && "rtl"}
-              className={`px-3 py-4 border border-none rounded-lg bg-white space-y-4 ${((videos.length > 0) ||( audios.length > 0)||(images.length > 0)) ?"block":"hidden"}`}
+              className={`px-3 py-4  border border-none rounded-lg bg-white translate-y-2 space-y-4 ${((videos.length > 0) ||( audios.length > 0)||(images.length > 0)) ?"block":"hidden"}`}
             >
               { (images.length > 0) && <div dir={isLangArab && "rtl"}>
                 <h3 className="text-[14px] text-[#303030] font-medium mb-2">
@@ -927,7 +927,7 @@ const Component = ({
             )}
 
             <div
-              className={`text-[12px] ${
+              className={`text-[12px] w-[95%] flex justify-center items-center  ${
                 isDarkMode ? "text-white" : "text-gray-500"
               } sm:px-12 px-7`}
             >

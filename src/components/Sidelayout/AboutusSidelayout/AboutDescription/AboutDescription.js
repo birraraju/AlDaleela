@@ -5,13 +5,13 @@ export default function AboutDescription() {
 
   return (
     <>
-      <p className={`font-omnes text-[14px] font-medium m-0   laptop_s:mb-0 laptop_s:mt-1  ${isDarkMode ? 'text-[#FFFFFFCC] text-opacity-80' : 'text-[#505050]'} leading-5 mb-3`}>
+      <p className={`font-poppins text-[11px] laptop_lg:text-[14px] font-medium m-0   laptop_s:mb-0 laptop_s:mt-1  ${isDarkMode ? 'text-[#FFFFFFCC] text-opacity-80' : 'text-[#505050]'} leading-5 mb-3`}>
       {isLangArab ? " حماية الموارد الطبيعية في أبوظبي من أجل مستقبل مستدام" : "Safeguarding Abu Dhabi's natural resources for a sustainable future."}
       </p>
 
       <div className="">
         {content.map((item, index) => (
-          <p key={index} className={`bg-fontFamily-poppins-0 font-[400px] text-[12px] ${isDarkMode ? 'text-[#FFFFFFCC]' : 'text-[#505050]'} ${isLangArab?"laptop_m:leading-6":"laptop_m:leading-5"}   leading-4 `}>
+          <p key={index} className={` font-poppins font-400 text-[10px]  laptop_lg:text-[12px] ${isDarkMode ? 'text-[#FFFFFFCC]' : 'text-[#505050]'} ${isLangArab?"laptop_m:leading-6":"laptop_m:leading-5"}   leading-4 `}>
             {isLangArab ? item.arabicDescription : item.description} {/* Display Arabic or English based on language state */}
             </p>
         ))}

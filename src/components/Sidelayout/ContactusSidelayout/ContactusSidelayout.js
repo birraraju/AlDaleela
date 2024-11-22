@@ -51,20 +51,20 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
   //   opacity: 0,
   // }}
   // transition={{ ease: "easeInOut" }}
-    className={`p-4  sm:py-4  sm:h-[50vh]  laptop_s:h-[75vh] 2xl:h-[70vh]  transition-transform duration-300 ease-in-out  fixed top-16 ${isLangArab?"left-1  h-[73vh] sm:left-16 laptop_s:left-2":"right-1 sm:right-16 h-[75vh] laptop_s:right-2"}  backdrop-blur rounded-3xl text-black ${
+    className={`p-4  sm:py-4  sm:h-[50vh]  laptop_s:h-[75vh] 2xl:h-[70vh]  transition-transform duration-300 ease-in-out  fixed top-20 ${isLangArab?"left-1  h-[73vh] sm:left-16 laptop_s:left-6":"right-1 sm:right-16 h-[75vh] laptop_s:right-6"}  backdrop-blur rounded-3xl text-[#000000] ${
       isDarkMode
         ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none"
         : "bg-white bg-opacity-70 backdrop-blur-lg border-white"
     } ${
-      isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%] sm:-translate-x-[117%] laptop_s:-translate-x-[103%]":" translate-x-[103%] sm:translate-x-[117%] laptop_s:translate-x-[103%]")
+      isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%] sm:-translate-x-[117%] laptop_s:-translate-x-[107%]":" translate-x-[103%] sm:translate-x-[117%] laptop_s:translate-x-[107%]")
     } `} // Adjust background color based on dark mode
   >
     <div className="flex relative justify-between items-center">
-    <h1 className={`text-[16px]   font-medium ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#505050]"}`}>
+    <h1 className={`text-[16px]   font-poppins font-600  ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#505050]"}`}>
         {isLangArab?"اتصل بنا":"Contact Us"}
       </h1>
       <div
-        className={`p-2 cursor-pointer ${isDarkMode ? "text-white hover:text-gray-300" : "text-gray-600 hover:text-gray-900"} transition-colors`}
+        className={`p-2 cursor-pointer ${isDarkMode ? "text-white hover:text-gray-300" : "text-[#667085] hover:text-gray-900"} transition-colors`}
         onClick={() =>{
           setIsPopoverOpen(true);
           setIsContactUs(false)
@@ -80,16 +80,16 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
       <div className="space-y-4">
         <div>
           <h3 className="flex items-center mb-2 font-bold">
-            <img src={loc} alt="Location" className="h-5 w-5 mr-2" />
-            <span className={`text-[14px]  ${isDarkMode ? "text-[#FFFFFFCC]" : "bg-gradient-to-r from-[#036068] via-[#596451] to-[#036068] bg-clip-text text-transparent"}`}>
+            <img src={loc} alt="Location" className="h-5 w-5 mr-0.5" />
+            <span className={`text-[20px] font-omnes font-700  ${isDarkMode ? "text-[#FFFFFFCC]" : "bg-gradient-to-r from-[#036068] via-[#596451] to-[#036068] bg-clip-text text-transparent"}`}>
 
             {isLangArab ? "أبو ظبي" : "Abu Dhabi"}
             </span>
           </h3>
-          <h4 className={`font-medium mb-1 text-[14px] ${isDarkMode ? "text-white" : "text-gray-600"}`}>
+          <h4 className={`font-omnes font-500  mb-1 text-[14px] ${isDarkMode ? "text-white" : "text-[#667085]"}`}>
           {isLangArab ? "الموقع" : "Location"}
           </h4>
-          <p className={`text-[12px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-black"}`}>
+          <p className={`text-[12px] laptop_lg:text-[16px] font-omnes font-500  ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-[#000000]"}`}>
           {isLangArab ?
           "المقر الرئيسي مبنى المعمورة (أ) مبنى رقم (62) ، شارع المعمورة ، آل نهيان ، أبوظبي ، الإمارات العربية المتحدة، الرمز البريدي: 22221، ص.ب : 45553"
            : 
@@ -97,10 +97,10 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
         </div>
 
         <div>
-          <h4 className={`font-medium mb-1 text-[14px] ${isDarkMode ? "text-white" : "text-gray-600"}`}>
+          <h4 className={`font-omnes font-500 mb-1 text-[14px] ${isDarkMode ? "text-white" : "text-[#667085]"}`}>
           {isLangArab ? "ساعات العمل" : "Opening Hours"}
           </h4>
-          <p className={`text-[12px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-black"}`}>
+          <p className={`text-[12px] laptop_lg:text-[16px] font-omnes font-500 ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-[#000000]"}`}>
           {isLangArab ? 
           "من الساعة 7:30 صباحًا – 3:30 ظهرًا | الاثنين  ل جمعة"
           : "7:30 AM to 3:30 PM | Monday-Friday"}
@@ -108,39 +108,39 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
         </div>
 
         <div>
-          <h4 className={`font-medium mb-1 text-[14px] ${isDarkMode ? "text-white" : "text-gray-600"}`}>
+          <h4 className={` font-omnes font-500 mb-1 text-[14px] ${isDarkMode ? "text-white" : "text-[#667085]"}`}>
           {isLangArab ? "الهاتف" : "Phone"}
 
           </h4>
           <a   href="tel:+97126934444"  target="_blank" rel="noopener noreferrer"   >
-          <p className={`text-[12px] cursor-pointer font-medium ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-black"}`}>
+          <p className={`text-[12px] laptop_lg:text-[16px] cursor-pointer font-omnes font-500 ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-[#000000]"}`}>
           {isLangArab ? "+971 2 693 4444" : "+971 2 693 4444"}
           </p>
           </a>
         </div>
 
         <div>
-          <h4 className={`font-medium mb-1 text-[14px] ${isDarkMode ? "text-white/100" : "text-gray-600"}`}>
+          <h4 className={`font-omnes font-500 mb-1 text-[14px] ${isDarkMode ? "text-white/100" : "text-[#667085]"}`}>
           {isLangArab ? "البريد الإلكتروني" : "Email"}
 
           </h4>
           
           <a
   href="mailto:customerhappiness@ead.gov.ae" target="_blank" rel="noopener noreferrer"
-  className={`text-[12px] cursor-pointer outline-none font-medium ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-black"} `}
+  className={`text-[12px] laptop_lg:text-[16px] cursor-pointer outline-none font-omnes font-500 ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-[#000000]"} `}
 >
-<p className={`text-[12px]  font-medium ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-black"}`}>
+<p className={`text-[12px] laptop_lg:text-[16px]  font-omnes font-500 ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-[#000000]"}`}>
   customerhappiness@ead.gov.ae
   </p>
 </a>
         </div>
         <div>
-          <h4 className={`font-medium mb-1 text-[14px] ${isDarkMode ? "text-white" : "text-gray-600"}`}>
+          <h4 className={`font-omnes font-500 mb-1 text-[14px] ${isDarkMode ? "text-white" : "text-[#667085]"}`}>
           {isLangArab ? "الموقع الإلكتروني" : "Website"}
 
           </h4>
           <a href="https://www.ead.gov.ae/" target="_blank" rel="noopener noreferrer" className=" cursor-pointer">
-          <p className={`text-[12px]  font-medium ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-black"}`}>
+          <p className={`text-[12px] laptop_lg:text-[16px]  font-omnes font-500 ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-[#000000]"}`}>
             https://www.ead.gov.ae/
           </p>
           </a>
@@ -216,7 +216,7 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
           <FiChevronRight
             className={`transition-transform duration-300 ${isOpen ? "rotate-0" : "rotate-180"} ${
-              isDarkMode ? "text-white" : "text-black"
+              isDarkMode ? "text-white" : "text-[#000000]"
             }`}
           />
         </div>
@@ -239,11 +239,11 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
 //       </h3>
 //     )}
 //     {subtitle && (
-//             <h4 className={`font-medium mb-1 text-[14px] ${isDarkMode ? "text-[#FFFFFFCC]" : "text-gray-600"}`}>
+//             <h4 className={`font-omnes font-500 mb-1 text-[14px] ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#667085]"}`}>
 //         {subtitle}
 //       </h4>
 //     )}
-//             <p className={`text-[16px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]" : "text-black"}`}>
+//             <p className={`text-[16px] font-omnes font-500 ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#000000]"}`}>
 //             {description}
 //     </p>
 //   </div>

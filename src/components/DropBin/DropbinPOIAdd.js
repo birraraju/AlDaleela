@@ -730,7 +730,7 @@ const handleDrop = async (e) => {
           value={value} // Bind to the state value
           disabled={disable} // Disable the dropdown
           onChange={handleChange}
-          className="block w-full p-2 h-[42px] font-omnes font-500 rounded-md text-[13px] border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          className="block w-full p-2 h-[42px] font-omnes bg-white font-500 rounded-md text-[13px] border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
         >
           {options.length > 0 && (
             <>
@@ -778,7 +778,7 @@ const handleDrop = async (e) => {
 
         </button>
       </div>
-      <div className="p-1 space-y-4">
+      <div className="p-1 space-y-0.5">
       {renderField(
   "organization",
   isLangArab ? "منظمة" : "Organization",
@@ -895,7 +895,7 @@ const handleDrop = async (e) => {
         {renderField("city", "City", poiData.city)} */}
 
         {/* Coordinates Section */}
-        <div className="space-y-2">
+        <div className="space-y-2 pt-2 pb-6">
           <div className="flex items-center space-x-4">
             <label className="block text-[11px] font-medium text-gray-700">
               {isLangArab?"الإحداثيات":"Coordinates"}
@@ -1010,7 +1010,7 @@ const handleDrop = async (e) => {
         </div>
 
         {/* File Upload Section */}
-        <div className="bg-white p-4 grid grid-cols-1 gap-4 border border-none rounded-lg">
+        <div className="bg-white p-4  grid grid-cols-1 gap-4 border border-none rounded-lg">
           <h1 className="text-[#000000] font-poppins font-500 text-[12px] ">{isLangArab?"تحميل مقاطع الفيديو/الصور/التسجيلات الصوتية":"Upload Videos/Photos/Audios"}</h1>
           <div
             className={`border-2 border-dashed rounded-lg p-6 text-center bg-white ${

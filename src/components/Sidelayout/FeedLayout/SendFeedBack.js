@@ -385,8 +385,8 @@ export default function Feedback({
                     className="w-6 sm:w-6 h-10 sm:h-7 laptop_s:h-7 laptop_s:w-6 "
                   />
                   <p
-                    className={` w-8 sm:w-12  sm:h-6 h-3 ${
-                      isLangArab ? "text-[10px] sm:text-[12px] " : "text-[10px] sm:text-[12px]" // Increased text size for Arabic
+                    className={` w-8 sm:w-12 font-omnes font-400  sm:h-6 h-3 ${
+                      isLangArab ? "text-[10px] sm:text-[12px] laptop_lg:text-[13px] " : "text-[10px] sm:text-[12px]" // Increased text size for Arabic
                     } ${item.color}`}
                   >
                     {item.value} {/* Directly display the text */}
@@ -411,10 +411,10 @@ export default function Feedback({
             <div>
               <label
                 htmlFor="name"
-                className={`block  font-medium mb-1 transition-colors ${
+                className={`block  font-omnes font-500 mb-1 transition-colors ${
                   isLangArab ? "text-[14px] mr-2" : "text-[14px]" // Increased text size for Arabic
                 } ${
-                  isDarkMode ? "text-[#FFFFFF] bg-opacity-70" : "text-black"
+                  isDarkMode ? "text-[#FFFFFF] bg-opacity-70" : "text-[#000000]"
                 }`}
               >
                 {isLangArab ? "سيء" : "Name"}
@@ -427,10 +427,10 @@ export default function Feedback({
                 placeholder={
                   isLangArab ? "أدخل اسم المستخدم" : "Enter Your Name"
                 }
-                className={`w-full px-3 text-[13px] py-2 border rounded-md outline-none transition-colors ${
+                className={`w-full px-3  font-omnes font-400 text-[13px] py-2 border rounded-lg outline-none transition-colors ${
                   isDarkMode
                     ? "bg-[#444646]  text-[white] border-transparent "
-                    : "bg-white text-black border-gray-300"
+                    : "bg-[#FFFFFF] text-black border-gray-300"
                 }`}
               />
               {/* <div className="w-full">
@@ -448,10 +448,10 @@ export default function Feedback({
             <div>
               <label
                 htmlFor="email"
-                className={`block  font-medium mb-1 transition-colors ${
+                className={`block  font-omnes font-500 mb-1 transition-colors ${
                   isLangArab ? "text-[13px] mr-2" : "text-[13px]" // Increased text size for Arabic
                 } ${
-                  isDarkMode ? "text-[#FFFFFF] bg-opacity-70" : "text-black"
+                  isDarkMode ? "text-[#FFFFFF] bg-opacity-70" : "text-[#000000]"
                 }`}
               >
                 {" "}
@@ -468,10 +468,10 @@ export default function Feedback({
                     ? "أدخل بريدك الإلكتروني"
                     : "Enter Your Email Address"
                 }
-                className={`w-full px-3 text-[13px] py-2 border rounded-md outline-none transition-colors ${
+                className={`w-full px-3 font-omnes font-400 text-[13px] py-2 border rounded-lg outline-none transition-colors ${
                   isDarkMode
                     ? "bg-[#444646]  text-white border-transparent "
-                    : "bg-white text-black border-gray-300"
+                    : "bg-[#FFFFFF] text-black border-gray-300"
                 }`}
               />
               {/* <div className="w-full">
@@ -489,10 +489,10 @@ export default function Feedback({
             <div>
               <label
                 htmlFor="thoughts"
-                className={`block  font-medium mb-1 transition-colors ${
+                className={`block  font-omnes font-500 mb-1 transition-colors ${
                   isLangArab ? "text-[13px] mr-2" : "text-[14px]" // Increased text size for Arabic
                 } ${
-                  isDarkMode ? "text-[#FFFFFF] bg-opacity-70" : "text-black"
+                  isDarkMode ? "text-[#FFFFFF] bg-opacity-70" : "text-[#000000]"
                 }`}
               >
                 {" "}
@@ -508,10 +508,10 @@ export default function Feedback({
                 }
                 onChange={(e) =>{ setfbcomments(e.target.value)
                  }}
-                className={`w-full px-3 text-[13px]  resize-none h-30 py-2 border rounded-md outline-none transition-colors ${
+                className={`w-full px-3 text-[13px] font-omnes font-400  resize-none h-30 py-2 border rounded-lg outline-none transition-colors ${
                   isDarkMode
                     ? "bg-[#444646]  text-white border-transparent "
-                    : "bg-white text-black border-gray-300"
+                    : "bg-[#FFFFFF] text-[#000000] border-gray-300"
                 }`}
               ></textarea>
               {/* <div className="w-full">
@@ -529,12 +529,12 @@ export default function Feedback({
         </div>
         <div className="flex pt-6 justify-between items-baseline px-4  sm:px-2">
           <button
-            className={`sm:px-12 px-9 sm:py-2 py-2 border rounded-lg transition-colors ${
+            className={`sm:px-12 px-9  font-omnes font-500 sm:py-2 py-2 border rounded-lg transition-colors ${
               isLangArab ? "text-[14px] " : "text-[14px]" // Increased text size for Arabic
             } ${
               isDarkMode
                 ? "bg-transparent  border border-white text-white"
-                : "border-[#909090] text-gray-700"
+                : "border-[#909090] text-[#505050]"
             }`}
             onClick={handleCancel}
             // Attach the click handler
@@ -544,7 +544,7 @@ export default function Feedback({
           </button>
           <button
             onClick={onSubmitFeedback}
-            className={`sm:px-12 px-9 sm:py-2 text-[14px]  py-2 rounded-lg transition-colors ${
+            className={`sm:px-12 px-9 font-omnes font-500 sm:py-2 text-[14px]  py-2 rounded-lg transition-colors ${
               validate()
                 ? "bg-custom-gradient text-white"
                 : "bg-gray-600/65 text-white"

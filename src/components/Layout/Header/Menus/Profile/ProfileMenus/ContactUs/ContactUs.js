@@ -1,6 +1,6 @@
 import React from "react";
 import ContactIcon from "../../../../../../../assets/Contactus.svg"; // Import the Contact Us icon
-import DarkContactIcon from "../../../../../../../assets/DarkContactIcon.svg"; // Import the Contact Us icon
+import DarkContactIcon from "../../../../../../../assets/ProfileDarkIcons/Frame-1.svg"; // Import the Contact Us icon
 import { useTheme } from '../../../../../ThemeContext/ThemeContext'; // Import the theme hook
 
 export default function ContactUs({ setIsContactUs, setIsPopoverOpen }) {
