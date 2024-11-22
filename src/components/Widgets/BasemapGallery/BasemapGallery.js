@@ -26,7 +26,7 @@ const BasemapGalleryComponent = ({ mapview }) => {
           baseLayers: basemapConfig.baseLayers.map(
             (url) => new TileLayer({ url }) // Create TileLayer instances
           ),
-          thumbnailUrl:require('./images/Landsat_1972.png')
+          thumbnailUrl:require(`${basemapConfig.thumbnailImg}`) 
         });
       });
       // Add the basemap gallery
