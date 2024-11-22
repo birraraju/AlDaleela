@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect,useRef, useState } from "react";
 import SeaPOI from '../../assets/POIEdit/imagePOISea.png';
 import PlayIconPOI from '../../assets/POIEdit/imagePlayvideoIcon.png';
 import PlayThumbPOI from '../../assets/POIEdit/POIVideoThumb.png';
@@ -29,6 +29,9 @@ const DropBinStatusUpdate = ({setMessage,isLangArab,setFormShow,isDarkMode,setPO
   const [images, setimages] = useState([])
   const [videos, setvideos] = useState([])
   const [audios, setAudios] = useState([])
+  const audioRefs = useRef([]);
+  const [playingIndex, setPlayingIndex] = useState(null); // Track which audio is playing
+  const [pausedAt, setPausedAt] = useState(0); 
 
   useEffect(() => {
     let isMounted = true; // Track if the component is still mounted to avoid redundant calls
@@ -170,14 +173,36 @@ const DropBinStatusUpdate = ({setMessage,isLangArab,setFormShow,isDarkMode,setPO
   if(!isFormShow) return null; 
 
   const renderField = (label, value) => (
-    <div className="space-y-1">
-     { value && <> <label className="block text-[14px] font-medium text-gray-700">
+    <div className="space-y-1 relative">
+     {/* { value && <> <label className="block text-[14px] font-medium text-gray-700">
         {label}
       </label>
       <div className="block w-full p-2 text-[13px] h-9 rounded-md border-gray-300 shadow-sm bg-gray-50 text-gray-900">
         {value}
       </div>
-      </>}
+      </>} */}
+
+      {value && (
+        <>
+              <label
+                className={`block absolute font-poppins font-600 ${
+                  isLangArab ? " right-2" : " left-2"
+                } top-2  text-[13px]  font-semibold ${
+                  isDarkMode ? " text-[#303030]" : " text-[#303030]"
+                }`}
+              >
+                {label}
+              </label>
+               <p
+               className={` border ${value ? "p-2" : "p-5"}  input-fields ${
+                 isLangArab ? "text-left" : "text-right"
+               } w-auto    laptop_s:h-[37px]    h-9 text-[14px] rounded-lg text-[#399C72] font-poppins font-600 bg-[#FFFFFF]`}
+             >
+               {" "}
+               {value?.length > 40 ? `${value.substring(0, 20)}` : value}
+             </p>
+             </>
+            )}  
     </div>
   );
 
@@ -392,6 +417,44 @@ const DropBinStatusUpdate = ({setMessage,isLangArab,setFormShow,isDarkMode,setPO
       console.error("Error removing attachments:", error);
     }
   };
+
+  const handlePlayAudio = (index) => {
+    if (playingIndex === index) {
+      // If already playing, pause it
+      handlePauseAudio(index);
+    } else {
+      // If a different track is selected, pause the currently playing track
+      if (playingIndex !== null && audioRefs.current[playingIndex]) {
+        audioRefs.current[playingIndex].pause();
+      }
+      // Resume from last paused position if available
+      audioRefs.current[index].currentTime = pausedAt;
+      audioRefs.current[index].play();
+      setPlayingIndex(index);
+      setPausedAt(0); // Reset paused position when a new track is played
+    }
+  };
+
+  const handlePauseAudio = (index) => {
+    // Pause the audio and store the current position
+    audioRefs.current[index].pause();
+    setPausedAt(audioRefs.current[index].currentTime);
+    setPlayingIndex(null); // Set playingIndex to null when paused
+  };
+
+  const handleAudioLoadedMetadata = (index) => {
+    const audioElement = audioRefs.current[index];
+    if (audioElement) {
+      const duration = audioElement.duration; // Duration in seconds
+      console.log(`Audio ${index} duration: ${duration} seconds`);
+    }
+  };
+
+  const handleAudioEnded = () => {
+    // Reset state when audio finishes
+    setPlayingIndex(null);
+    setPausedAt(0);
+  };
   
 
   return (
@@ -422,9 +485,9 @@ const DropBinStatusUpdate = ({setMessage,isLangArab,setFormShow,isDarkMode,setPO
 {renderField(isLangArab ? "البلدية" : "Municipality", poiData.MunicipalityAr)}
 {renderField(isLangArab ? "الإمارة" : "Emirate", poiData.Emirate)}
 
-        {/* Photos Section */}
-        <div className="px-3 py-6 border border-none rounded-lg bg-white space-y-4">
-          <div>
+   
+        {/* <div className={`px-3 ${((videos.length > 0) ||( audios.length > 0)||(images.length > 0)) ?"block":"hidden"} py-6 border border-none rounded-lg bg-white space-y-4`}>
+          <div className={`${images.length > 0 ?" block":" hidden"}`}>
                 <h3 className={`text-[14px] ${isDarkMode ?"text-white":" text-gray-700 "} font-medium  mb-2`}>{isLangArab?"صور":"Photos"}</h3>
                 {images.length > 0 ? (
                   images.map((image, index) => (
@@ -437,8 +500,8 @@ const DropBinStatusUpdate = ({setMessage,isLangArab,setFormShow,isDarkMode,setPO
                 )}
             </div>
 
-          {/* Videos Section */}
-          <div>
+     
+          <div className={`${videos.length > 0 ?" block":" hidden"}`} >
                 <h3 className={` text-[14px] ${isDarkMode ?"text-white":" text-gray-700 "} font-medium mb-2`}>{isLangArab?"فيديوهات":"Videos"}</h3>
                 {videos.length > 0 ? (
                   <div className="grid grid-cols-2 gap-2">
@@ -460,8 +523,8 @@ const DropBinStatusUpdate = ({setMessage,isLangArab,setFormShow,isDarkMode,setPO
                 )}
               </div>
 
-          {/* Audio Section */}
-          <div>
+        
+          <div className={`${audios.length > 0 ?" block":" hidden"}`}>
                 <h3 className={` text-[14px] ${isDarkMode ?"text-white":" text-gray-700 "} text-sm font-medium mb-2`}>{isLangArab?"صوتي":"Audio"}</h3>
                 {audios.length > 0 ? (
                   audios.map((audio, index) => (
@@ -476,18 +539,211 @@ const DropBinStatusUpdate = ({setMessage,isLangArab,setFormShow,isDarkMode,setPO
                   <p className={`text-[14px] ${isDarkMode ?"text-white":" text-gray-700 "}`}>{isLangArab?"لا توجد ملفات صوتية متاحة.":"No audio files available."}</p>
                 )}
               </div>
-        </div>
+        </div> */}
 
-        <div className="flex justify-evenly  items-center">
-          <button onClick={handleApprovePOI} className="w-auto py-3 px-9 bg-custom-gradient text-xs border border-black rounded-lg">
+        {/* ============================= new mediao playing ========================= */}
+        <div
+              dir={isLangArab && "rtl"}
+              className={`px-3 py-4 border border-none rounded-lg bg-white space-y-4 ${((videos.length > 0) ||( audios.length > 0)||(images.length > 0)) ?"block":"hidden"}`}
+            >
+              { (images.length > 0) && <div dir={isLangArab && "rtl"}>
+                <h3 className="text-[14px] text-[#303030] font-medium mb-2">
+                  {isLangArab ? "صور" : "Photos"}
+                </h3>
+                <div className=" grid grid-cols-2">
+                  {images.length > 0 ? (
+                    images.map((image, index) => (
+                      <div
+                        key={index}
+                        className="relative m-2 w-full h-[90px] rounded-lg overflow-hidden"
+                      >
+                        <img
+                          src={image.url}
+                          alt={image.name}
+                          className="w-[95%] h-[80px] object-fill"
+                        />
+                      </div>
+                    ))
+                  ) : (
+                    <p
+                      className={`${
+                        isDarkMode ? " text-white" : "text-[#303030]"
+                      } text-[12px]  `}
+                    >
+                      {isLangArab
+                        ? "لا توجد صور متاحة."
+                        : "No photos available."}
+                    </p>
+                  )}
+                </div>
+              </div>}
+
+              {/* Videos Section */}
+             {(videos.length > 0) && <div className=" z-20">
+                <h3 className="text-[14px] font-medium text-[#303030] mb-2">
+                  {isLangArab ? "فيديوهات" : "Videos"}
+                </h3>
+                {videos.length > 0 ? (
+                  <div className="grid grid-cols-2 gap-2">
+                    {videos.map((video, index) => (
+                      <div
+                        key={index}
+                        className="relative h-[90px] rounded-lg overflow-hidden"
+                      >
+                        {/* Video thumbnail with poster */}
+                        <video
+                          id={`video-${index}`}
+                          src={video.url}
+                          className="w-full h-full object-fill"
+                          poster={PlayThumbPOI} // Thumbnail image
+                          controls={false} // Disable controls until play
+                          onClick={() => {
+                            const videoElement = document.getElementById(
+                              `video-${index}`
+                            );
+                            const playButton = document.getElementById(
+                              `play-button-${index}`
+                            );
+
+                            if (videoElement) {
+                              if (!videoElement.paused) {
+                                videoElement.pause(); // Pause the video
+                                if (playButton)
+                                  playButton.style.display = "flex"; // Show the play button
+                              } else {
+                                videoElement.play(); // Resume video playback
+                                if (playButton)
+                                  playButton.style.display = "none"; // Hide the play button
+                              }
+                            }
+                          }}
+                          onPlay={() => {
+                            const playButton = document.getElementById(
+                              `play-button-${index}`
+                            );
+                            if (playButton) playButton.style.display = "none"; // Hide play button on play
+                          }}
+                          onPause={() => {
+                            const playButton = document.getElementById(
+                              `play-button-${index}`
+                            );
+                            if (playButton) playButton.style.display = "flex"; // Show play button on pause
+                          }}
+                        />
+
+                        {/* Play button overlay */}
+                        <button
+                          id={`play-button-${index}`}
+                          className="absolute inset-0 z-10 bg-black/50 hover:bg-black/70 flex items-center justify-center"
+                          onClick={() => {
+                            const videoElement = document.getElementById(
+                              `video-${index}`
+                            );
+                            if (videoElement) {
+                              videoElement.play(); // Start video playback
+                              // videoElement.setAttribute("controls", "true"); // Show controls after play starts
+                            }
+                          }}
+                        >
+                          <img
+                            src={PlayIconPOI} // Play button image
+                            alt="Play button"
+                            className="w-10 h-10"
+                          />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p
+                    className={`${
+                      isDarkMode ? " text-white" : "text-[#303030]"
+                    } text-[12px]  `}
+                  >
+                    {isLangArab
+                      ? "لا توجد مقاطع فيديو متاحة."
+                      : "No videos available."}
+                  </p>
+                )}
+              </div>
+}
+              {/* Audio Section */}
+              {audios.length > 0 && <div>
+                <h3 className="text-[12px] font-medium mb-2 text-[#303030]">
+                  {isLangArab ? "صوتي" : "Audio"}
+                </h3>
+                {audios.length > 0 ? (
+                  audios.map((audio, index) => (
+                    <div
+                      key={index}
+                      className="flex p-2 h-10 bg-gray-300 rounded-full justify-start items-center overflow-hidden"
+                    >
+                      <button onClick={() => handlePlayAudio(index)}>
+                        {playingIndex === index ? (
+                          <img
+                            src={AudioPlayPOI}
+                            alt="Audio Wave"
+                            className={` ${
+                              isLangArab && "rotate-180"
+                            } w-[70%] h-full`}
+                          />
+                        ) : (
+                          <img
+                            src={AudioPlayPOI}
+                            alt="Audio Wave"
+                            className={`w-[70%] h-full ${
+                              isLangArab && "rotate-180"
+                            }`}
+                          />
+                        )}
+                      </button>
+                      <div className="relative w-[95%] h-full">
+                        <img
+                          src={AudioLineStylePOI}
+                          alt="Audio Wave"
+                          className={` w-full h-full`}
+                          style={{
+                            filter: `hue-rotate(${
+                              (audioRefs.current[index]?.currentTime /
+                                audioRefs.current[index]?.duration || 0) * 360
+                            }deg)`,
+                          }}
+                        />
+                      </div>
+                      <audio
+                        ref={(el) => (audioRefs.current[index] = el)}
+                        src={audio.url}
+                        onLoadedMetadata={() =>
+                          handleAudioLoadedMetadata(index)
+                        }
+                        onEnded={handleAudioEnded}
+                      />
+                    </div>
+                  ))
+                ) : (
+                  <p
+                    className={`${
+                      isDarkMode ? " text-white" : "text-[#303030]"
+                    } text-[12px]  `}
+                  >
+                    {isLangArab
+                      ? "لا توجد ملفات صوتية متاحة."
+                      : "No audio files available."}
+                  </p>
+                )}
+              </div>}
+            </div>
+
+        <div className="flex justify-between gap-4 h-[48px]  items-center">
+          <button onClick={handleApprovePOI} className="w-[185px] text-[#FFFFFF]  bg-custom-gradient text-[16px] h-[40px] font-omnes font-500 border border-transparent rounded-lg">
             {isLangArab?"تم الموافقة!":"Approve"}
           </button>
-          <button onClick={handleRejectPOI} className="w-auto py-3 text-black px-9 bg-[#FFE8E8] text-xs border border-[#909090] rounded-lg">
+          <button onClick={handleRejectPOI} className=" w-[185px] font-omnes font-500   bg-[#FFE8E8] h-[40px] text-[16px] text-[#8E4848] border border-[#909090] rounded-lg">
             {isLangArab?"تم الرفض!":"Reject"}
           </button>
         </div>
       </div>
-      <div className="text-sm text-gray-500 w-full flex justify-center items-center py-2">
+      <div className="  text-[#505050] font-omnes  font-500 text-[15px] w-full flex justify-center items-center py-2">
         X 54.2971051, Y 24.0622842
       </div>
     </div>
