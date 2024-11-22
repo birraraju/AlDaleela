@@ -11,6 +11,7 @@ export const ThemeProvider = ({ children }) => {
   const [isLogin, setIsLogin] = useState(false); // State to toggle between login and signup forms
   const [isSignup, setsSignup] = useState(false); // State to toggle between login and signup forms
   const [isPOIAddShow,setIsPOIAddShow]=useState(false);
+  
 
 // Load theme preference from localStorage on mount
 useEffect(() => {
@@ -19,6 +20,17 @@ useEffect(() => {
     setIsDarkMode(JSON.parse(themeUpdate)); // Convert string to boolean
   }
 }, []);
+
+useEffect(()=>{
+  const body = document.body;
+  if(isLangArab){
+    body.classList.add('body-cairo');
+    body.classList.remove('body-poppins');
+  }else{
+    body.classList.add('body-poppins');
+    body.classList.remove('body-cairo');
+  }
+},[isLangArab])
 
   const toggleLanguage = () => {
     setIsLangArab((prevMode) => !prevMode);

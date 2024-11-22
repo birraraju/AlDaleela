@@ -36,6 +36,8 @@ export default function ProfilePage({
       setProfileImage={setProfileImage}
       profileImage={profileImage}
       setFile={setFile}
+      file={file}
+      
         setIsProfile={setIsProfile}
         setIsEditProfile={setIsEditProfile}
         isEditProfile={isEditProfile}

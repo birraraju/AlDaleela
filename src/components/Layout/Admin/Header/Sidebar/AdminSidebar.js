@@ -91,7 +91,7 @@ export default function Sidebar({ activeItem, onItemClick,isCollapsed, setIsColl
               {[{LabelContent:(isLangArab?"إدارة المستخدمين":"User Management"), active:"User Management"}, {LabelContent:(isLangArab ? "إدارة المحتوى" :"Content Management"),active:"Content Management"},{LabelContent:(isLangArab ? "ردود الفعل":"Feedback"), active:"Feedback"}, {LabelContent:(isLangArab?"سجل نشاط المستخدم":"User Activity Log"),active:"User Activity Log"}].map((item) => (
                 <li key={item.active}>
                   <button
-                    className={`w-full text-[14px] text-left px-4 py-2 rounded  ${
+                    className={`w-full text-[12px] text-left px-4 py-2 rounded  ${
             isLangArab ? "text-right" : "text-left"
           } ${
                       activeItem === item.active

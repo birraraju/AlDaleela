@@ -10,6 +10,12 @@ export default {
         widget:'0.05rem',
       },  
       extend: {
+       
+        fontFamily: {
+          omnes: ['Omnes', 'sans-serif'],
+          poppins: ["Poppins", "sans-serif"],
+        jakarta: ['"Plus Jakarta Sans"', "sans-serif"],
+        },
         animation: {
           audioPulse: 'pulse 1s infinite',
         },
@@ -24,6 +30,7 @@ export default {
         },
         fontWeight: {
           '600': 600,
+          '500': '500'
         },
         lineHeight: {
           '24px': '24.55px',
@@ -34,7 +41,10 @@ export default {
           mobile_l: "425px",tab:"768px",
           tab_s:"800px",
           tab_m:"820px",
+          tab_l:"830px",
+          tab_l_1:"880px",
           laptop_s: "1024px",
+          laptop_l: "1280px",
           laptop_m: "1440px",
         },
         backgroundImage: {
@@ -100,11 +110,6 @@ export default {
             3: "hsl(var(--chart-3))",
             4: "hsl(var(--chart-4))",
             5: "hsl(var(--chart-5))",
-          },
-          fontFamily: {
-            omnes: ["Omnes", "sans-serif"],
-            poppins: ["Poppins", "sans-serif"],
-          jakarta: ['"Plus Jakarta Sans"', "sans-serif"],
           },
         },
         keyframes: {

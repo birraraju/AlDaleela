@@ -30,7 +30,7 @@ const Header = ({  isFooterOpen, isHeaderOpen, mapview}) => {
   return (
     <>
     {isLangArab ?(<header
-      className={`text-white  px-2 ${isLangArab ?" pl-1 ":" sm:pr-10"} py-2 z-30 flex items-center justify-between z-8 w-screen 
+      className={`text-white  px-2 laptop_s:px-0.5 laptop_m:px-2 ${isLangArab ?" pl-1 ":" sm:pr-10 laptop_s:pr-2 laptop_m:pr-10"} py-2 z-30 flex items-center justify-between z-8 w-screen 
         ${isDarkMode ? 'bg-dark-gradient' : 'bg-custom-gradient'}`
       }
     >
@@ -66,12 +66,12 @@ const Header = ({  isFooterOpen, isHeaderOpen, mapview}) => {
         <img src={ResponsiveSearch} alt="Search" />
       </button> */}
     </header>) :(<header
-      className={`text-white sm:pr-10 px-2 py-1.5 z-30 flex items-center justify-between z-8 w-screen 
+      className={`text-white sm:pr-10 laptop_s:pr-1 laptop_m: px-2 laptop_s:px-0.5 laptop_m:px-2 py-1.5 laptop_s:py-1 laptop_m:py-1.5 z-30 flex items-center justify-between z-8 w-screen 
         ${isDarkMode ? 'bg-dark-gradient' : 'bg-custom-gradient'}`
       }
     >
       {/* Logo Section */}
-     {!SearchResponsive && <div className={` items-center space-x-4 ${SearchResponsive ? "hidden" : "flex"}`}>
+     {!SearchResponsive && <div className={` items-center space-x-4 laptop_s:space-x-2 laptop_m:space-x-4 ${SearchResponsive ? "hidden" : "flex"}`}>
         <Logo />
       </div>}
 

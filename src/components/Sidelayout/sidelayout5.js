@@ -18,6 +18,8 @@ export default function SideLayout5({
   const panelRef = useRef(null); // Ref to the side panel div
   const { isDarkMode, isLangArab } = useTheme(); // Access the dark mode state
   const {exportWidget} = useAuth();
+  const [panelHeight, setPanelHeight] = useState("95%");
+  const [ToggleDragHeight,setToggleDragHeight] = useState(false)
 
   // Toggle function to slide panel in or out
   const toggleSideLayout = () => {
@@ -77,29 +79,80 @@ export default function SideLayout5({
 
   }, []);
 
+  useEffect(()=>{
+    if (window.innerWidth <= 600) {
+      setToggleDragHeight(true)
+    }else{
+      setToggleDragHeight(false)
+    }
+  },[])
+
+  const startYRef = useRef(null);
+  const startHeightRef = useRef(null);
+
+  const handleDragStart = (e) => {
+    startYRef.current = e.touches ? e.touches[0].clientY : e.clientY;
+    startHeightRef.current = panelRef.current.getBoundingClientRect().height;
+    window.addEventListener("mousemove", handleDragging);
+    window.addEventListener("mouseup", handleDragEnd);
+    window.addEventListener("touchmove", handleDragging);
+    window.addEventListener("touchend", handleDragEnd);
+};
+
+
+  const handleDragging = (e) => {
+    const currentY = e.touches ? e.touches[0].clientY : e.clientY;
+    const deltaY = currentY - startYRef.current; // Adjust for dragging down
+    const newHeight = startHeightRef.current - deltaY; // Reduce height from the top
+
+    if (newHeight < window.innerHeight * 0.2) {
+      setPanelHeight("20%"); // Set a minimum height
+    } else if (newHeight > window.innerHeight * 0.9) {
+      setPanelHeight("90%"); // Set a maximum height
+    } else {
+      setPanelHeight(newHeight + "px"); // Adjust height dynamically
+    }
+  };
+
+
+
+
+  const handleDragEnd = () => {
+    window.removeEventListener("mousemove", handleDragging);
+    window.removeEventListener("mouseup", handleDragEnd);
+    window.removeEventListener("touchmove", handleDragging);
+    window.removeEventListener("touchend", handleDragEnd);
+};
+
   if (isFullyClosed) return null;
 
   return (
     <div
     dir={isLangArab && "rtl"}
+    style={{ height: ToggleDragHeight && panelHeight }}
       ref={panelRef} // Assign the ref to the side panel div
-      className={`fixed top-16 w-[95%] sm:w-[400px] laptop_s:w-[${width}] 2xl:h-[73%] h-[75%] sm:h-[62%] tab_s:h-[50%]  laptop_s:h-[90%] ${ isLangArab?"right-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
+      className={`fixed -bottom-9  sm:top-16 w-[95%] sm:w-[400px] laptop_s:w-[${width}] 2xl:h-[73%] h-[75%] sm:h-[68%] laptop_s:h-[90%] ${ isLangArab?"right-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
         isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%] sm:-translate-x-[116%] laptop_s:-translate-x-[104%] ":"translate-x-[103%] sm:translate-x-[116%] laptop_s:translate-x-[103%]")
       }`}
       // style={{ width, height }}
     >
 
-      <div className={`relative   sm:h-[65%] tab:h-[90%]  h-[98%]  sm:w-[80%] tab:w-full  sm:float-none w-[67%] float-end rounded-2xl shadow-lg overflow-hidden border transition-colors duration-300 ${
+      <div className={`relative   sm:h-[65%] tab:h-[90%]  h-[98%]  sm:w-[80%] tab:w-full  sm:float-none w-full float-end rounded-2xl shadow-lg overflow-hidden border transition-colors duration-300 ${
 
           isDarkMode
             ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
             : "bg-white bg-opacity-70 border-white text-gray-700"
         }`}>
+          <div
+          className="absolute top-2 left-1/2 flex sm:hidden -translate-x-1/2 w-12 h-1 rounded-full bg-gray-400 cursor-pointer"
+          onMouseDown={handleDragStart}
+          onTouchStart={handleDragStart}
+        ></div>
         {/* X Close Button to slide the panel out */}
         <button
           onClick={closePanel}
           className={`absolute top-4 ${isLangArab?"left-4":"right-4"} p-1 transition-colors ${
-            isDarkMode ? "text-white hover:text-gray-300" : "text-gray-600 hover:text-gray-900"
+            isDarkMode ? "text-[#FFFFFFCC] text-opacity-80" : "text-gray-600 hover:text-gray-900"
           }`}
           aria-label="Close side panel"
         >
@@ -113,7 +166,7 @@ export default function SideLayout5({
             </p>
           )}
         </div>
-        <div className=" h-full 2xl:mb-0 sm:mt-[40px] tab_s:mt-[50px] tab_m:mt-[70px]" ><Export mapview={mapview}/></div>
+        <div className={` ${panelHeight < "50%" && "hidden"} h-full 2xl:mb-0`} ><Export mapview={mapview}/></div>
       </div>
 
       {/* Toggle button to slide panel in and out */}

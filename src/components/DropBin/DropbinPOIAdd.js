@@ -990,7 +990,7 @@ const handleDrop = async (e) => {
                   value={poiData.decimal.pointx}
                   onChange={handleDecimalCoordinateChange}
                   placeholder="e.g. 54.373"
-                  className="w-40 p-2 border rounded"
+                  className="w-[88%] p-2 border rounded"
                 />
               </div>
               <div className="flex items-center space-x-2">
@@ -1001,7 +1001,7 @@ const handleDrop = async (e) => {
                   value={poiData.decimal.pointy}
                   onChange={handleDecimalCoordinateChange}
                   placeholder="e.g. 24.466"
-                  className="w-40 p-2 border rounded"
+                  className="w-[88%] p-2 border rounded"
                 />
               </div>
             </div>

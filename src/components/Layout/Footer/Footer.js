@@ -4,20 +4,24 @@ import { Tooltip } from "react-tooltip";
 import PropTypes from 'prop-types';
 import "./Footer.css";
 import { useTheme } from '../../Layout/ThemeContext/ThemeContext'; // Import the theme context
+import usePrevious from '../../../Providers/Hooks/usePrevious'; // Adjust the path
 
 
-export default function Footer({ handleMenuItemClick,setPopup, resetTrigger }) {
+export default function Footer({handleClose, handleMenuItemClick,setPopup, resetTrigger }) {
   const [currentMenuPosition, setCurrentMenuPosition] = useState(0);
   const [currentItemDisplay, setCurrentItemDisplay] = useState("none");
   const [activeMenuIndex, setActiveMenuIndex] = useState(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(null);
+  
   const menuItemsRef = useRef([]);
   const navIndicatorRef = useRef(null);
   const { t } = useTranslation();
   const { isDarkMode,isLangArab } = useTheme(); // Access the dark mode state
+  const previousCount = usePrevious(selectedIndex);
 
-
+  console.log("Previous Index:", previousCount)
+  console.log("Current Index:", selectedIndex)
   const headingsMap = {
     0: t( isLangArab?"معرض الخريطة الأساسية":"Basemap Gallery"),
     1: t(isLangArab?"علامات مرجعية":"Bookmarks"),
@@ -30,6 +34,8 @@ export default function Footer({ handleMenuItemClick,setPopup, resetTrigger }) {
 
   const handleFooterItemClick = useCallback((e, index, isExpanded) => {
     e.preventDefault();
+
+    if(index === previousCount) return handleClose() ;
     console.log("Current footer index:", index);
     if (index <= 4) {
       setIsExpanded(false);
