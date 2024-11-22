@@ -83,7 +83,7 @@ export default function SideLayout5({
     <div
     dir={isLangArab && "rtl"}
       ref={panelRef} // Assign the ref to the side panel div
-      className={`fixed top-16 w-[95%] sm:w-[400px] laptop_s:w-[${width}] 2xl:h-[73%] h-[75%] sm:h-[68%] laptop_s:h-[90%] ${ isLangArab?"right-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
+      className={`fixed top-16 w-[95%] sm:w-[400px] laptop_s:w-[${width}] 2xl:h-[73%] h-[75%] sm:h-[62%] tab_s:h-[50%]  laptop_s:h-[90%] ${ isLangArab?"right-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
         isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%] sm:-translate-x-[116%] laptop_s:-translate-x-[104%] ":"translate-x-[103%] sm:translate-x-[116%] laptop_s:translate-x-[103%]")
       }`}
       // style={{ width, height }}
@@ -113,7 +113,7 @@ export default function SideLayout5({
             </p>
           )}
         </div>
-        <div className=" h-full 2xl:mb-0" ><Export mapview={mapview}/></div>
+        <div className=" h-full 2xl:mb-0 sm:mt-[40px] tab_s:mt-[50px] tab_m:mt-[70px]" ><Export mapview={mapview}/></div>
       </div>
 
       {/* Toggle button to slide panel in and out */}
