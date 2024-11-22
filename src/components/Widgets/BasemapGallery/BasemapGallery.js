@@ -3,8 +3,9 @@ import BasemapGallery from "@arcgis/core/widgets/BasemapGallery";
 import MapView from "@arcgis/core/views/MapView"; // Import the correct MapView type
 import './BasemapGallery.css';
 import { useTheme } from '../../Layout/ThemeContext/ThemeContext'; // Import the theme context
-
-// import '@arcgis/core/assets/esri/themes/light/main.css';
+import Basemap from "@arcgis/core/Basemap";
+import TileLayer from "@arcgis/core/layers/TileLayer";
+import config from '../../Common/config'; // Import your config file
 
 const BasemapGalleryComponent = ({ mapview }) => {
   const mapRef1 = useRef(null); // Specify type for useRef
@@ -14,14 +15,27 @@ const BasemapGalleryComponent = ({ mapview }) => {
   useEffect(() => {
     if (mapview && mapRef1.current) {
       console.log(mapview);
+      // const basemapGallery = new BasemapGallery({
+      //   view: mapview,
+      //   container: mapRef1.current,
+      // });
+      const basemaps = config.basemaps.map((basemapConfig) => {
+        return new Basemap({
+          title: basemapConfig.title,
+          id: basemapConfig.id,
+          baseLayers: basemapConfig.baseLayers.map(
+            (url) => new TileLayer({ url }) // Create TileLayer instances
+          ),
+          thumbnailUrl:require('./images/Landsat_1972.png')
+        });
+      });
+      // Add the basemap gallery
       const basemapGallery = new BasemapGallery({
         view: mapview,
-        container: mapRef1.current,
+        source: basemaps,
+        container: mapRef1.current
       });
-
-      // Optional: Add the basemap gallery to the view's UI (if needed)
-      // mapview.ui.add(basemapGallery, "top-right"); // Position can be adjusted
-
+      
       // Cleanup on component unmount
       return () => {
         // basemapGallery.destroy();
