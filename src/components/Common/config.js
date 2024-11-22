@@ -15,6 +15,7 @@ const config = {
       {
         title: "Arabic Dark Gray Geographic",
         id: "Basemap Arabic Dark Gray Geographic coordinates",
+        thumbnailImg: "./images/Basemap Arabic Dark Gray Geographic coordinates.png",
         baseLayers: [
           "https://arcgis.sdi.abudhabi.ae/agshost/rest/services/Hosted/BaseMapAra_DarkGray_GCS/MapServer"
         ]
@@ -22,6 +23,7 @@ const config = {
       {
         title: "Arabic Dark Gray Web Mercator",
         id: "Basemap Arabic Dark Gray Web Mercator coordinates",
+        thumbnailImg: "./images/Arabic Dark Gray Web Mercator .png",
         baseLayers: [
           "https://arcgis.sdi.abudhabi.ae/agshost/rest/services/Hosted/BaseMapAra_DarkGray_WM/MapServer"
         ]
@@ -29,6 +31,7 @@ const config = {
       {
         title: "Arabic light Gray Geographic",
         id: "Basemap Arabic light Gray Geographic coordinates",
+        thumbnailImg: "./images/Arabic light Gray Geographic.jpg",
         baseLayers: [
           "https://arcgis.sdi.abudhabi.ae/agshost/rest/services/Hosted/BaseMapAra_LightGray_GCS/MapServer"
         ]
@@ -36,6 +39,7 @@ const config = {
       {
         title: "Arabic light Gray Web Mercator",
         id: "Basemap Arabic light Gray Web Mercator coordinates",
+        thumbnailImg: "./images/Arabic light Gray Web Mercator.png",
         baseLayers: [
           "https://arcgis.sdi.abudhabi.ae/agshost/rest/services/Hosted/BaseMapAra_LightGray_WM/MapServer"
         ]
@@ -43,6 +47,7 @@ const config = {
       {
         title: "English Dark Gray Geographic",
         id: "Basemap English Dark Gray Geographic coordinates",
+        thumbnailImg: "./images/English Dark Gray Geographic.png",
         baseLayers: [
           "https://arcgis.sdi.abudhabi.ae/agshost/rest/services/Hosted/BaseMapEng_DarkGray_GCS/MapServer"
         ]
@@ -50,6 +55,7 @@ const config = {
       {
         title: "English Dark Gray Web Mercator",
         id: "Basemap English Dark Gray Web Mercator coordinates",
+        thumbnailImg: "./images/English Dark Gray Web Mercator.png",
         baseLayers: [
           "https://arcgis.sdi.abudhabi.ae/agshost/rest/services/Hosted/BaseMapEng_DarkGray_WM/MapServer"
         ]
@@ -57,6 +63,7 @@ const config = {
       {
         title: "English light Gray Geographic",
         id: "Basemap English light Gray Geographic coordinates",
+        thumbnailImg: "./images/English light Gray Geographic.png",
         baseLayers: [
           "https://arcgis.sdi.abudhabi.ae/agshost/rest/services/Hosted/BaseMapEng_LightGray_GCS/MapServer"
         ]
@@ -64,6 +71,7 @@ const config = {
       {
         title: "English light Gray Web Mercator",
         id: "Basemap English light Gray Web Mercator coordinates",
+        thumbnailImg: "./images/English Light Gray Web Mercator.png",
         baseLayers: [
           "https://arcgis.sdi.abudhabi.ae/agshost/rest/services/Hosted/BaseMapEng_LightGray_WM/MapServer"
         ]
@@ -71,6 +79,7 @@ const config = {
       {
         title: "Satellite imagery",
         id: "Satellite imagery",
+        thumbnailImg: "./images/Satellite Imagery.png",
         baseLayers: [
           "https://arcgis.sdi.abudhabi.ae/arcgis/rest/services/Pub/IMG_SAT_50CM_WM/MapServer"
         ]
