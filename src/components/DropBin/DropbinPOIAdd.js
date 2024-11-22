@@ -10,6 +10,7 @@ import config from "../Common/config"; // Import your config file
 import Graphic from "@arcgis/core/Graphic.js";
 import Point from "@arcgis/core/geometry/Point.js";
 import { UserActivityLog } from "../Common/UserActivityLog";
+import UploadMedia from '../../assets/Droppedpin/UploadMediaIcon.svg'
 
 
 const Component = ({mapview,isLangArab, selectedLayer, addPointGeometry, setFormShow,setPOIFormsuccessShow,setmessage,onClose,setPOIFormisOpenModalShow,isFormShow}) => {
@@ -720,7 +721,7 @@ const handleDrop = async (e) => {
     disable
   ) => (
     <div className="space-y-1">
-      <label htmlFor={id} className="block text-[13px] font-medium text-gray-700">
+      <label htmlFor={id} className="block text-[11px]  text-[#303030] font-poppins font-500">
         {label} <span className="text-red-500 ">*</span>
       </label>
       {inputType === "select" ? (
@@ -729,7 +730,7 @@ const handleDrop = async (e) => {
           value={value} // Bind to the state value
           disabled={disable} // Disable the dropdown
           onChange={handleChange}
-          className="block w-full p-2 rounded-md text-[13px] h-9 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          className="block w-full p-2 h-[42px] font-omnes font-500 rounded-md text-[13px] border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
         >
           {options.length > 0 && (
             <>
@@ -767,12 +768,12 @@ const handleDrop = async (e) => {
         <button
         
           onClick={onClose}
-          className="px-1 py-3 hover:text-blue-500 flex items-center text-black focus:outline-none"
+          className="px-1 py-3 hover:text-blue-500 flex justify-start items-center text-black focus:outline-none"
         >
-        {isLangArab ?<>        <span>{isLangArab?"خلف":"Back"}</span>  <ChevronLeft className="w-5 h-5" />
+        {isLangArab ?<>        <span className=" font-omnes font-500 text-[#00000099] text-[14px]" >{isLangArab?"خلف":"Back"}</span>  <ChevronLeft className="w-[17px] h-[17px]" />
           
-          </>:<>          <ChevronLeft className="w-5 h-5" />
-          <span>{isLangArab?"خلف":"Back"}</span>
+          </>:<>          <ChevronLeft className="w-[17px] h-[17px]" />
+          <span className=" font-omnes font-500 text-[#00000099] text-[14px]">{isLangArab?"خلف":"Back"}</span>
           </>}
 
         </button>
@@ -1010,7 +1011,7 @@ const handleDrop = async (e) => {
 
         {/* File Upload Section */}
         <div className="bg-white p-4 grid grid-cols-1 gap-4 border border-none rounded-lg">
-          <h1 className="text-black text-[12px] ">{isLangArab?"تحميل مقاطع الفيديو/الصور/التسجيلات الصوتية":"Upload Videos/Photos/Audios"}</h1>
+          <h1 className="text-[#000000] font-poppins font-500 text-[12px] ">{isLangArab?"تحميل مقاطع الفيديو/الصور/التسجيلات الصوتية":"Upload Videos/Photos/Audios"}</h1>
           <div
             className={`border-2 border-dashed rounded-lg p-6 text-center bg-white ${
               isDragging ? "border-blue-500" : "border-gray-300"
@@ -1020,7 +1021,12 @@ const handleDrop = async (e) => {
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
           >
-            <ImageIcon className="mx-auto h-12 w-12 text-gray-400" />
+             <img
+                src={UploadMedia}
+                className=" mx-auto h-16 w-16 text-white"
+                alt="Upload"
+              />
+            {/* <ImageIcon className="mx-auto h-12 w-12 text-gray-400" /> */}
             {files.length > 0 ? (
               <div className="mt-2 space-y-2">
                 {files.map((file, index) => (
@@ -1042,8 +1048,8 @@ const handleDrop = async (e) => {
                 ))}
               </div>
             ) : (
-              <p className="mt-2 text-[12px] text-gray-600">
-                {isLangArab?"قم بإسقاط الصور أو مقاطع الفيديو الخاصة بك هنا، أو":"Drop your images or videos here, or"}{" "}
+              <p className="mt-2 text-[11px] font-poppins font-400 text-[#132A00]">
+                {isLangArab?"قم بإسقاط الصور أو مقاطع الفيديو الخاصة بك هنا، أو":"Drop your file here, or"}{" "}
                 <button
                   onClick={handleBrowse}
                   className="text-blue-500 text-[12px] hover:text-blue-600 focus:outline-none focus:underline"
@@ -1052,8 +1058,8 @@ const handleDrop = async (e) => {
                 </button>
               </p>
             )}
-            <p className="mt-1 text-[12px] text-gray-500">
-              {isLangArab?"يدعم":"Supports"}: <strong>{isLangArab?"PNG، JPG، GIF، MP4، MOV، AVI":"PNG, JPG, GIF, MP4, MOV, AVI"}</strong>
+            <p className="mt-1 text-[7px] text-[#969DB2] font-poppins font-400 ">
+              {isLangArab?"يدعم":"Supports:"}{isLangArab?" PNG, JPG, JPEG, MP3, ":"PNG, JPG, JPEG, MP3, "}
             </p>
             <input
               type="file"
@@ -1068,11 +1074,11 @@ const handleDrop = async (e) => {
           <div className="flex justify-center items-center">
             <button
               onClick={handleDone}
-              className="w-auto flex items-center text-[10px] justify-center py-2 px-3 bg-[#3398B8] text-white text-xs gap-1 border border-gray-300 rounded-lg"
+              className=" w-[131px]  h-[31px] flex items-center font-poppins font-500 justify-center py-2 px-3 bg-[#3398B8] text-white text-[11px] gap-1 border border-gray-300 rounded-lg"
             >
               <img
                 src={UploadImage}
-                className="w-4 h-4 text-white"
+                className="w-[14px] h-[14px] text-white"
                 alt="Upload"
               />
               {isLangArab?"تحميل الوسائط":"Upload media"}
@@ -1113,10 +1119,10 @@ const handleDrop = async (e) => {
         )}
 
         {/* Action Buttons */}
-        <div className="flex justify-between px-4 sm:px-7  space-x-8 items-center pt-4 pb-16">
+        <div className="flex justify-between px-4 sm:px-1 laptop_s:space-x-4  space-x-8 items-center pt-4 pb-16">
           <button
             onClick={onClose}
-            className="w-auto py-3 px-9 bg-transparent text-xs border border-black rounded-lg"
+            className="w-auto py-3 px-9 laptop_s:px-12  bg-transparent text-xs border border-black rounded-lg"
           >
             {isLangArab ? "يلغي" : "Cancel"}
           </button>
@@ -1124,7 +1130,7 @@ const handleDrop = async (e) => {
             onClick={handleFormSubmit}
             disabled={!buttonDisable}
             
-            className={` ${!buttonDisable?"w-auto py-3 px-9 bg-custome-gray1 text-white text-xs border border-gray-300 rounded-lg":"w-auto py-3 px-9 bg-custom-gradient text-xs border border-gray-300 rounded-lg"}` }
+            className={` ${!buttonDisable?"w-auto py-3 px-9 laptop_s:px-12 bg-custome-gray1 text-white text-xs border border-gray-300 rounded-lg":"w-auto py-3 px-9 bg-custom-gradient text-xs border border-gray-300 rounded-lg"}` }
           >
             { isLangArab ? "يُقدِّم" : "Submit"}
           </button>

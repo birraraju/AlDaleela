@@ -68,30 +68,30 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
 
   return (
     <div
-      className={`fixed top-16 w-[95%] ${(POIFormisOpenModalShow || isShowEdit )?"h-[63%]":"h-[90%] "} sm:w-[400px] laptop_s:w-[330px]  ${ isLangArab?" right-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
+      className={`fixed top-16 w-[95%] ${(POIFormisOpenModalShow || isShowEdit )?"h-[63%] tab_l:h-[40%] laptop_s:h-[55%] laptop_lg:h-[40%] laptop_s:w-[400px] ":"h-[90%] laptop_s:w-[400px] "} sm:w-[400px]   ${ isLangArab?" right-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
         isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%] sm:-translate-x-[116%] laptop_s:-translate-x-[104%] ":"translate-x-[103%] sm:translate-x-[116%] laptop_s:translate-x-[103%]")
       }`}
       // style={{ width, height, zIndex: 50 }}  // Ensure it's above other elements
       ref={containerRef}  // Reference to the panel
     >
-      <div dir={isLangArab && "rtl"} className={`relative sm:h-[90%] ${POIFormsuccessShow?"laptop_s:h-[100%]":"h-[98%]"}    w-[99%] float-end sm:w-full rounded-2xl shadow-lg overflow-hidden border transition-colors duration-300 ${
+      <div dir={isLangArab && "rtl"} className={`relative sm:h-[90%] ${POIFormsuccessShow?" laptop_s:h-[100%] ":" h-[98%]"}    w-[99%] float-end sm:w-full rounded-2xl shadow-lg overflow-hidden border transition-colors duration-300 ${
           isDarkMode
             ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
             : "bg-white bg-opacity-70 border-white"
         }`}>
         {/* Sticky Dropped Pin */}
         <div className="sticky top-1 z-10 p-4 bg-opacity-70">
-          <div className="flex items-center gap-x-2">
-            {isFormShow ? <><img src={isDarkMode ? DarkLocation : Location} alt="Location" className="h-5" />
+          <div className="flex items-center gap-x-1">
+            {isFormShow ? <><img src={isDarkMode ? DarkLocation : Location} alt="Location" className=" h-[15px] w-[15px]" />
             <p
-              className={`font-medium font-poppins text-[16px] ${
-                isDarkMode ? "text-white" : "text-gray-600"
+              className={`font-500 font-poppins text-[14px] ${
+                isDarkMode ? "text-white" : "text-[#353535]"
               }`}
             >
               {isLangArab ? "دبوس مُنقَطِع" : "Dropped pin"}
             </p>
             </>: (!POIFormsuccessShow &&
-            <p className={` text-[16px] font-poppins font-medium ${isDarkMode ? "text-[#FFFFFFCC]" : "text-black"}`}>
+            <p className={` text-[16px] font-poppins font-600 ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#505050]"}`}>
                 {isLangArab ? "محرر" : "Editor"}
               </p>)}
           </div>
@@ -104,12 +104,12 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
             aria-label="Close side panel"
             style={{ zIndex: 100 }}
           >
-            <X className="h-5 w-6" />
+            <X className="h-5 w-5" />
           </button>
         </div>
 
         {/* Scrollable Content */}
-        <div className={`${POIFormsuccessShow?"py-1 px-4":"px-4 py-1"} overflow-y-auto h-full relative`}>
+        <div className={` px-3 overflow-y-auto h-full relative`}>
           {children || (
             <>    
               <div className="overflow-y-auto h-full">

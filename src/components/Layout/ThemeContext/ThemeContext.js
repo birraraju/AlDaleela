@@ -25,9 +25,9 @@ useEffect(()=>{
   const body = document.body;
   if(isLangArab){
     body.classList.add('body-cairo');
-    body.classList.remove('body-poppins');
+    body.classList.remove('body_omnes');
   }else{
-    body.classList.add('body-poppins');
+    body.classList.add('body_omnes');
     body.classList.remove('body-cairo');
   }
 },[isLangArab])

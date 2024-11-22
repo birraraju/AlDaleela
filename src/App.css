@@ -12,7 +12,9 @@ img {
   font-family: 'Cairo', sans-serif;
   font-family: 'Poppins', sans-serif;
 } */
-
+.body_omnes {
+  font-family: 'Omnes', sans-serif;
+}
 .body-poppins {
   font-family: 'Poppins', sans-serif;
 }
