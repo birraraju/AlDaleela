@@ -141,7 +141,7 @@ export default function PhotoContent({setInputClicked,setIscategory}) {
     {mediaItems.map((item) => (
       <div
         key={item.objectId}
-        className=" tab:rounded-xl rounded-md  overflow-hidden   laptop_s:w-[85px] h-[60px] tab:h-[60px]" // Set fixed dimensions for each container
+        className=" tab:rounded-lg rounded-md  overflow-hidden   laptop_s:w-[80px] h-[60px] tab:h-[60px]" // Set fixed dimensions for each container
         onClick={() => handleImageClick(item.objectId, item.layerName)}
       >
         {item.type.startsWith('image/') && (

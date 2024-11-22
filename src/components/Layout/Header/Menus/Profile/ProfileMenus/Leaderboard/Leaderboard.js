@@ -1,6 +1,6 @@
 import React from "react";
 import leaderboard from "../../../../../../../assets/Leaderboard.svg";
-import DarkLeaderboard from "../../../../../../../assets/DarkLeaderboard.svg"; // Import the Leaderboard icon
+import DarkLeaderboard from "../../../../../../../assets/ProfileDarkIcons/Frame-2.svg"; // Import the Leaderboard icon
 import { useTheme } from '../../../../../ThemeContext/ThemeContext'; // Import the theme hook
 
 export default function Leaderboard({ setIsLeaderboard, setIsPopoverOpen }) {

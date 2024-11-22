@@ -1,5 +1,5 @@
 import { useTheme } from "../../../../../ThemeContext/ThemeContext"; // Adjust the import path as necessary
-import DarkBrush from "../../../../../../../assets/DarkBrush.svg"
+import DarkBrush from "../../../../../../../assets/ProfileDarkIcons/Frame.svg"
 import Brush from "../../../../../../../assets/Header/Profile/Brush.svg"
 import ToggleCircle from "../../../../../../../assets/Header/Profile/ThemeToggle/switch-dark.svg"
 

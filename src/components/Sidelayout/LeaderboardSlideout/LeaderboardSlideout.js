@@ -93,12 +93,12 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
     //   opacity: 0 
     // }}
     // transition={{ ease: "easeInOut" }}
-      className={`px-8 py-4 fixed sm:top-16 top-12 ${isLangArab?"sm:left-10 laptop_s:left-3 left-4":"sm:right-10 laptop_s:right-3 right-4"} sm:h-[45vh] laptop_s:h-[80vh] h-[85vh] sm:w-[20rem] laptop_s:w-[20rem] w-[21rem] ${
+      className={`px-4 py-4 fixed sm:top-20 top-12 ${isLangArab?"sm:left-10 laptop_s:left-6 left-4":"sm:right-10 laptop_s:right-6 right-4"} sm:h-[45vh] laptop_s:h-[80vh] h-[85vh] sm:w-[20rem] laptop_s:w-[20rem] w-[21rem] ${
         isDarkMode
           ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none"
           : "bg-white bg-opacity-70 backdrop-blur-lg border-white"
-      } rounded-3xl fontFamily-poppins-0 transition-transform duration-300 ease-in-out ${
-        isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%] sm:-translate-x-[112%] laptop_s:-translate-x-[104%]":" translate-x-[103%] sm:translate-x-[112%] laptop_s:translate-x-[104%]")
+      } rounded-3xl font-omnes transition-transform duration-300 ease-in-out ${
+        isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%] sm:-translate-x-[112%] laptop_s:-translate-x-[108%]":" translate-x-[103%] sm:translate-x-[112%] laptop_s:translate-x-[108%]")
       }`}    >
       <div className="flex relative justify-between items-center">
       <h1

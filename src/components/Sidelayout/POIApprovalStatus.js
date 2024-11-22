@@ -51,10 +51,10 @@ export default function POIApprovalStatus({ children, onClose, mapview }) {
   return (
     <div
     dir={isLangArab && "rtl"}
-      className={`fixed top-16 w-[510px] ${POIFormIsOpenModalShow ? "h-[63%]" : "h-[90%]"} sm:w-[400px] laptop_s:w-[340px] ${
-        isLangArab ? "left-3 sm:left-16 laptop_s:left-3" : "right-3 sm:right-16 laptop_s:right-3"
+      className={`fixed top-20 w-[510px] ${POIFormIsOpenModalShow ? "h-[63%]" : "h-[90%]"} sm:w-[400px] laptop_s:w-[340px] ${
+        isLangArab ? "left-3 sm:left-16 laptop_s:left-6" : "right-3 sm:right-16 laptop_s:right-6"
       } transition-transform duration-300 ease-in-out ${
-        isOpen ? "translate-x-0" : isLangArab ? "-translate-x-[104%]" : "translate-x-[103%]"
+        isOpen ? "translate-x-0" : isLangArab ? "-translate-x-[106%]" : "translate-x-[106%]"
       }`}
       ref={containerRef}
     >

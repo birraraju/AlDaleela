@@ -120,23 +120,17 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
    }
 
   return (
-    <motion.div
+    <div
       ref={containerRef}
-      initial={{ x: "100%", opacity: 0 }}
-      whileInView={{
-        x: isOpen ? 0 : isLangArab ? "-109%" : "109%", // Move to left if Arabic
-        opacity: 1,
-      }}
-      exit={{
-        x: isLangArab ? "-90%" : "100%", // Exit to left for Arabic, right for others
-        opacity: 0,
-      }}
+     
       transition={{ ease: "easeInOut" }}
-      className={`sm:px-3 px-2 py-4 fixed sm:top-16 laptop_s:top-16 top-14 ${
-        isLangArab ? "sm:left-10 left-3" : "sm:right-2  right-3"
+      className={`sm:px-3 px-2 py-4 fixed sm:top-16 laptop_s:top-20 top-14 ${
+        isLangArab ? "sm:left-6 left-3" : "sm:right-6  right-3"
       } bg-opacity-75 backdrop-blur sm:rounded-3xl rounded-xl ${
         isDarkMode ? "bg-[rgba(96,96,96,0.8)]" : "bg-white bg-opacity-70"
-      } text-black backdrop-blur border-none`}
+      } text-black backdrop-blur border-none transition-transform duration-300 ease-in-out  ${
+        isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%] sm:-translate-x-[112%] laptop_s:-translate-x-[108%]":" translate-x-[103%] sm:translate-x-[112%] laptop_s:translate-x-[108%]")
+      } `}
     >
       <div className={`flex relative justify-between items-center ${isLangArab ? "flex-row-reverse" : ""}`}>
         <h1
@@ -312,6 +306,6 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
           />
         </button>
       </div>
-    </motion.div>
+    </div>
   );
 }

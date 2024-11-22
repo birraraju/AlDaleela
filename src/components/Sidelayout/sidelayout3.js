@@ -306,10 +306,10 @@ export default function SideLayout3({ children, width = "454.84px", onClose, map
     dir={isLangArab && "rtl"}
       ref={panelRef}
       style={{ height: ToggleDragHeight && panelHeight }} // Update height dynamically here
-      className={`fixed  w-full sm:w-[400px]  laptop_s:w-[${width}] h-[98%] -bottom-9  sm:top-16 ${
-        isLangArab ? " sm:left-16 laptop_s:left-3" : "  sm:right-16 laptop_s:right-3"
+      className={`fixed  w-full sm:w-[400px]  laptop_s:w-[${width}] h-[98%] -bottom-9  sm:top-20 ${
+        isLangArab ? " sm:left-16 laptop_s:left-6" : "  sm:right-16 laptop_s:right-6"
       } transition-transform duration-300 ease-in-out ${
-        isOpen ? "translate-x-0" : isLangArab ? "-translate-x-[104%] sm:-translate-x-[116%] laptop_s:-translate-x-[104%]" : "sm:translate-x-[116%] laptop_s:translate-x-[103%] translate-x-[103%]"
+        isOpen ? "translate-x-0" : isLangArab ? "-translate-x-[104%] sm:-translate-x-[116%] laptop_s:-translate-x-[106%]" : "sm:translate-x-[116%] laptop_s:translate-x-[106%] translate-x-[103%]"
       }`}
     >
       <div

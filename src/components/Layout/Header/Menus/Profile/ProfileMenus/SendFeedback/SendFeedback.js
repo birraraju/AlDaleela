@@ -1,5 +1,5 @@
 import feedback from "../../../../../../../assets/feedback.svg";
-import DarkFeedback from "../../../../../../../assets/DarkFeedback.svg";
+import DarkFeedback from "../../../../../../../assets/ProfileDarkIcons/review_6042986 1.svg";
 import WhiteFeedback from '../../../../../../../assets/WhiteFeedback.svg'
 import { useTheme } from '../../../../../ThemeContext/ThemeContext'; // Import the theme hook
 
@@ -17,9 +17,9 @@ export default function SendFeedback({ setIsFeedBack, setIsPopoverOpen }) {
       <div className="flex justify-start gap-2 items-center">
         <div>
         <img 
-          src={isDarkMode ? feedback : feedback }
+          src={isDarkMode ? DarkFeedback : feedback }
 
-           alt="Logo" className={` ${isDarkMode && "invert brightness-0 text-[#ffffff]"} w-4 `} />        </div>
+           alt="Logo" className={` w-4 `} />        </div>
         <p
           className={`  ${
             isLangArab

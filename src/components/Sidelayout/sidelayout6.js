@@ -116,16 +116,16 @@ export default function SideLayout6({
       dir={isLangArab && "rtl"}
       style={{ height: ToggleDragHeight && panelHeight }} // Update height dynamically here
       ref={panelRef} // Attach ref to the panel div
-      className={`fixed -bottom-9  sm:top-16 ${
+      className={`fixed -bottom-9  sm:top-20 ${
         isLangArab
-          ? " right-3 sm:left-16 laptop_s:left-3"
-          : "right-3 sm:right-16 laptop_s:right-3"
+          ? " right-3 sm:left-16 laptop_s:left-6"
+          : "right-3 sm:right-16 laptop_s:right-6"
       } w-[500px] sm:w-[400px] laptop_s:w-[${width}] 2xl:h-[73%] h-[75%] sm:h-[68%] laptop_s:h-[90%]  transition-transform duration-300 ease-in-out ${
         isOpen
           ? "translate-x-0"
           : isLangArab
-          ? "-translate-x-[103%] sm:-translate-x-[116%] laptop_s:-translate-x-[103%] "
-          : "translate-x-[103%] sm:translate-x-[116%] laptop_s:translate-x-[103%]"
+          ? "-translate-x-[103%] sm:-translate-x-[116%] laptop_s:-translate-x-[106%] "
+          : "translate-x-[103%] sm:translate-x-[116%] laptop_s:translate-x-[106%]"
       }`}
       // style={{ width, height }}
     >

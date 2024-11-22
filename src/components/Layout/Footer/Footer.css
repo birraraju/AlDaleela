@@ -46,6 +46,26 @@ body.theme-light {
     --edraw-labelText: #808080;
 }
 
+.ToolTipEnvi {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.6) 100%) !important; 
+    border: 3px solid #FFFFFFB2 !important; 
+    color: #212121 !important; 
+    font-family: "Poppins", sans-serif !important;
+    font-weight: bold !important;
+    font-size: 12px !important;
+    padding: 4px 8px !important;
+    border-radius: 20px !important; /* Rounded corners */
+    box-shadow: -6px 7px 40px 0px #0000004D !important; /* Shadow effect */
+    backdrop-filter: blur(24px) !important; /* Blur effect behind the tooltip */
+    width: 128.69px !important; /* Fixed width */
+    height: 31.91px !important; /* Fixed height */
+}
+
+
+
+
+
+
 
 body.theme-dark {
     --link: #8FD8DB; /* Light teal */
@@ -247,8 +267,8 @@ main {
     max-width: 350px; */
     margin: auto;
     left: 0;
-    margin-bottom: 28px;
-    bottom: 5px;
+    margin-bottom: 20px;
+    bottom: 1px;
     right: 0;
     font-size: 26px;
     /*background-image: radial-gradient(circle at 36px 6px, transparent 36px, rgba(17, 69, 41, 0.4) 37px);*/

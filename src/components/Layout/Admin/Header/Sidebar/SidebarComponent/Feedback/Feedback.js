@@ -181,7 +181,7 @@ const Feedback = () => {
       } text-black backdrop-blur border-none`}>
       <div className="flex justify-between items-center mb-6">
       <h2 className={`text-[22px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]" : "text-gray-800"}`}>
-      {isLangArab?"إدارة المستخدمين":"Feedback"}</h2>
+      {isLangArab?"إدارة المستخدمين":"Feedbacks"}</h2>
       <button  onClick={toggleEdit} 
             className={isEditing ? "text-gray-500 hover:text-gray-700" : "text-teal-600 hover:text-teal-700"} 
             aria-label={isEditing ? "Close edit mode" : "Edit"}
@@ -214,7 +214,9 @@ const Feedback = () => {
       <th className={`pb-3 p-2 font-medium font-omnes text-[14px] ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
         {isLangArab ? "تاريخ التقديم" : "Submission Date"}
       </th>
-      <th className="pb-3"></th>
+      <th className={`pb-3 p-2 flex justify-center items-center font-medium font-omnes text-[14px] ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+        {isLangArab ? "فعل" : "Action"}
+      </th> 
       <th className="pb-3"></th>
     </tr>
   </thead>

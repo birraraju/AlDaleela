@@ -131,8 +131,8 @@ export default function SideLayout5({
     dir={isLangArab && "rtl"}
     style={{ height: ToggleDragHeight && panelHeight }}
       ref={panelRef} // Assign the ref to the side panel div
-      className={`fixed -bottom-9  sm:top-16 w-[95%] sm:w-[400px] laptop_s:w-[${width}] 2xl:h-[73%] h-[75%] sm:h-[68%] laptop_s:h-[90%] ${ isLangArab?"right-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
-        isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%] sm:-translate-x-[116%] laptop_s:-translate-x-[104%] ":"translate-x-[103%] sm:translate-x-[116%] laptop_s:translate-x-[103%]")
+      className={`fixed -bottom-9  sm:top-20 w-[95%] sm:w-[400px] laptop_s:w-[${width}] 2xl:h-[73%] h-[75%] sm:h-[68%] laptop_s:h-[90%] ${ isLangArab?"right-3 sm:left-16 laptop_s:left-6":"right-3 sm:right-16 laptop_s:right-6"} transition-transform duration-300 ease-in-out ${
+        isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%] sm:-translate-x-[116%] laptop_s:-translate-x-[106%] ":"translate-x-[103%] sm:translate-x-[116%] laptop_s:translate-x-[106%]")
       }`}
       // style={{ width, height }}
     >
