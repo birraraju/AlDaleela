@@ -15,27 +15,27 @@ const BasemapGalleryComponent = ({ mapview }) => {
   useEffect(() => {
     if (mapview && mapRef1.current) {
       console.log(mapview);
-      // const basemapGallery = new BasemapGallery({
-      //   view: mapview,
-      //   container: mapRef1.current,
-      // });
-      const basemaps = config.basemaps.map((basemapConfig) => {
-        return new Basemap({
-          title: basemapConfig.title,
-          id: basemapConfig.id,
-          baseLayers: basemapConfig.baseLayers.map(
-            (url) => new TileLayer({ url }) // Create TileLayer instances
-          ),
-          thumbnailUrl:require('./images/Landsat_1972.png')
-        });
-      });
-      // Add the basemap gallery
       const basemapGallery = new BasemapGallery({
         view: mapview,
-        source: basemaps,
-        container: mapRef1.current
+        container: mapRef1.current,
       });
-      
+      // const basemaps = config.basemaps.map((basemapConfig) => {
+      //   return new Basemap({
+      //     title: basemapConfig.title,
+      //     id: basemapConfig.id,
+      //     baseLayers: basemapConfig.baseLayers.map(
+      //       (url) => new TileLayer({ url }) // Create TileLayer instances
+      //     ),
+      //     thumbnailUrl:require('./images/Landsat_1972.png')
+      //   });
+      // });
+      // // Add the basemap gallery
+      // const basemapGallery = new BasemapGallery({
+      //   view: mapview,
+      //   source: basemaps,
+      //   container: mapRef1.current
+      // });
+
       // Cleanup on component unmount
       return () => {
         // basemapGallery.destroy();
