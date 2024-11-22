@@ -273,7 +273,7 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
           alt={image.title}
           className=" sm:w-full w-[100%]   sm:h-full object-cover shadow-xl rounded-md"
         />
-        <h3 className="text-start w-full border text-white text-xs border-transparent rounded-md absolute bg-[#504848] h-6 justify-start items-center pl-2 flex bottom-0 text-[9px] leading-4 break-words">
+        <h3 className="text-start w-full border text-white text-[10px] sm:text-[12px]  border-transparent rounded-md absolute bg-[#504848] h-6 justify-start items-center pl-2 flex bottom-0  leading-4 break-words">
         {image.title?.length > 12 ? `${image.title.substring(0, 15)}` : image.title}
         </h3>
         {/* <div className="absolute w-full pl-1 bottom-4 flex">
@@ -325,14 +325,14 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
               <div className={`flex justify-center  ${isLangArab?"gap-4":"space-x-9"}  items-center`}>
                 
                 <button onClick={handleClose}
-                  className="w-auto py-3 px-14 text-black bg-white text-xs border border-gray-300 rounded-lg"
+                  className="w-auto py-3 text-[12px] mobile_s:text-[10px] mobile_m:text-[12px] px-14 text-black bg-white  border border-gray-300 rounded-lg"
                 >
                   {isLangArab ? "إلغاء":"Cancel"}
                 </button>
                 <button
                   onClick={handleSave}
                   disabled={ids.length === 0}
-                  className={ids.length===0?"w-auto py-3 px-10 bg-custome-gray1 text-[12px] border border-gray-300 rounded-lg":"w-auto py-3 px-10 bg-custom-gradient text-[12px] border border-gray-300 rounded-lg"}
+                  className={ids.length===0?"w-auto py-3 px-9 mobile_s:px-6 mobile_m:px-6  sm:px-10 bg-custome-gray1 text-[12px] mobile_s:text-[10px] mobile_m:text-[12px]  border border-gray-300 rounded-lg":"w-auto py-3 px-9 mobile_s:px-6 mobile_m:px-6  sm:px-10 bg-custom-gradient text-[12px] mobile_s:text-[10px] mobile_m:text-[12px] border border-gray-300 rounded-lg"}
                 >
                   {isLangArab?"حفظ التغييرات":"Save Changes"}
                 </button>

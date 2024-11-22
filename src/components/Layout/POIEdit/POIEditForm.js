@@ -537,7 +537,7 @@ const Component = ({
               } w-auto    laptop_s:h-[39px]    h-9 text-[14px] rounded-lg text-[#399C72] font-medium bg-[#FFFFFF]`}
             >
               {" "}
-              {value?.length > 40 ? `${value.substring(0, 20)}...` : value}
+              {value?.length > 40 ? `${value.substring(0, 20)}` : value}
             </p>
           </div>
         )

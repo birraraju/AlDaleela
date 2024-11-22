@@ -84,17 +84,18 @@ const SplashVideoLoader = ({ onFinish }) => {
   }, []);
 
   return (
-    <div className="w-full h-full flex items-center justify-center">
-      <video
-        src={isMobile ? MobileDesktopoutline : WebLazyLoader} // Conditional video source
-        autoPlay
-        muted
-        className="w-full h-full object-cover"
-        onEnded={onFinish} // Trigger when the video finishes
-      >
-        Your browser does not support the video tag.
-      </video>
-    </div>
+    <div className="fixed inset-0 flex items-center justify-center">
+  <video
+    src={isMobile ? MobileDesktopoutline : WebLazyLoader} // Conditional video source
+    autoPlay
+    muted
+    className="w-full h-full object-cover" // Ensure full screen
+    onEnded={onFinish} // Trigger when the video finishes
+  >
+    Your browser does not support the video tag.
+  </video>
+</div>
+
   );
 };
 
