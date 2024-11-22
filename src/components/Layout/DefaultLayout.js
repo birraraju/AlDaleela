@@ -312,6 +312,7 @@ const DefaultLayout = ({role}) => {
           handleMenuItemClick={handleMenuItemClick}
           resetTrigger={resetFooter}
           setPopup={setPopup}
+          handleClose={handleClose}
         />
       </div>
     </div>

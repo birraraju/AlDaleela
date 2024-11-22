@@ -16,6 +16,7 @@ const Searchbar = ({
   const [inputValue, setInputValue] = useState("");
   const [inputClicked, setInputClicked] = useState(false);
   const [iscategory, setIscategory] = useState(false);
+  const [ShowSearchContent,setShowSearchContent]= useState(false)
 
   const contentRef = useRef(null);
   const { isDarkMode,isLangArab } = useTheme(); // Access the dark mode state
@@ -23,7 +24,9 @@ const Searchbar = ({
   // Close search when the footer opens
   useEffect(() => {
     if (isFooterOpen) {
+      setShowSearchContent(false)
       setInputClicked(false);
+
     }
   }, [isFooterOpen]);
 
@@ -48,8 +51,10 @@ const Searchbar = ({
     function handleClickOutside(event) {
       if (contentRef.current && !contentRef.current.contains(event.target)) {
         setInputClicked(false);
+        setShowSearchContent(false)
         setInputValue("")
         setIscategory(false);
+
       }
     }
 
@@ -63,6 +68,7 @@ const Searchbar = ({
   useEffect(() => {
     if (SearchResponsive) {
       setInputClicked(true);
+      
       setIscategory(true);
     }
   }, [SearchResponsive]);
@@ -72,7 +78,7 @@ const Searchbar = ({
   };
 
   return (
-    <div className={`mobile_s:mr-2 ${SearchResponsive ? "grid" : "sm:grid hidden"} laptop_m:mr-2 mr-4`}>
+    <div className={`mobile_s:mr-2 laptop_s:mr-0.5 ${SearchResponsive ? "grid" : "sm:grid hidden"} laptop_m:mr-2 mr-4`}>
       <div className="relative" ref={contentRef}>
         <Input
           id="search"
@@ -80,11 +86,12 @@ const Searchbar = ({
           onClick={() => {
             setInputClicked(true);
             setIscategory(true);
+            setShowSearchContent(true)
           }}
           onChange={handleInputChange}
           className={`mobile_s:w-[18rem] mobile_m:w-[22rem] mobile_l:w-[22rem] ${
-            inputClicked || iscategory ? "laptop_m:w-[24rem]" :  "laptop_m:w-[22rem]"
-          } mobile_s:h-9 laptop_m:h-9 border-none outline-none focus-visible:ring-0 focus-visible:ring-offset-0 bg-white rounded-full pl-16 relative z-[2] ${
+            inputClicked || iscategory ? "laptop_m:w-[24rem] laptop_s:w-[20rem] " :  " laptop_s:w-[18rem] laptop_m:w-[22rem]"
+          } mobile_s:h-9 laptop_s:h-8 laptop_m:h-9 border-none outline-none focus-visible:ring-0 focus-visible:ring-offset-0 bg-white rounded-full pl-16 relative z-[2] ${
              isDarkMode
               ? "text-[#FFFFFFCC]"
               : "text-black border-none shadow-none"
@@ -108,7 +115,7 @@ const Searchbar = ({
           />
         )}
 
-        {inputClicked && (
+        { ShowSearchContent && (
           <SearchContent iscategory={iscategory} inputClicked={inputClicked} setIscategory={setIscategory} inputValue={inputValue} setInputValue={setInputValue} setInputClicked={setInputClicked}/>
         )}
       </div>

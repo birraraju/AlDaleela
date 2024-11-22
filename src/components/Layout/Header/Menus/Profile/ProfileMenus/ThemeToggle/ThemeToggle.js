@@ -16,8 +16,8 @@ export default function ThemeToggle() {
         <p
           className={`${
             isLangArab
-              ? "font-medium font-omnes text-[14px] tab:text-[12px] laptop_s:text-[14px] tracking-widget"
-              : "font-medium font-omnes text-[16px] tab:text-[14px] laptop_s:text-[16px] tracking-widget"
+              ? " font-omnes  font-500 text-[14px] tab:text-[12px] laptop_s:text-[14px] tracking-widget"
+              : " font-omnes font-500 text-[14px] tab:text-[12px] laptop_s:text-[14px] tracking-widget"
           }   ${
             isDarkMode ? "text-gray-300" : "text-[#505050]"
           }`}
@@ -35,7 +35,7 @@ export default function ThemeToggle() {
           className={`bg-[#FFAC4B] w-5 h-5 rounded-full shadow-lg transform duration-300 ease-in-out flex justify-center items-center ${
             isDarkMode ? " " : "translate-x-5"
           }${
-            isLangArab ? "translate-x-[-1.75rem]" : "translate-x-5"
+            isLangArab ? "translate-x-[-1.20rem]" : "translate-x-5"
           }`}
         >
           <img

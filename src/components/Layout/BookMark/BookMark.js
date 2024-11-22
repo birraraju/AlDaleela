@@ -274,7 +274,7 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
           className=" sm:w-full w-[100%]   sm:h-full object-cover shadow-xl rounded-md"
         />
         <h3 className="text-start w-full border text-white text-xs border-transparent rounded-md absolute bg-[#504848] h-6 justify-start items-center pl-2 flex bottom-0 text-[9px] leading-4 break-words">
-        {image.title?.length > 15 ? `${image.title.substring(0, 17)}` : image.title}
+        {image.title?.length > 12 ? `${image.title.substring(0, 15)}` : image.title}
         </h3>
         {/* <div className="absolute w-full pl-1 bottom-4 flex">
               {image.icon.map((icons, iconIndex) => (
