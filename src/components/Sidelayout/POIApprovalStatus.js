@@ -51,21 +51,21 @@ export default function POIApprovalStatus({ children, onClose, mapview }) {
   return (
     <div
     dir={isLangArab && "rtl"}
-      className={`fixed top-16 w-[510px] ${POIFormIsOpenModalShow ? "h-[63%]" : "h-[90%]"} sm:w-[400px] laptop_s:w-[320px] ${
+      className={`fixed top-16 w-[510px] ${POIFormIsOpenModalShow ? "h-[63%]" : "h-[90%]"} sm:w-[400px] laptop_s:w-[340px] ${
         isLangArab ? "left-3 sm:left-16 laptop_s:left-3" : "right-3 sm:right-16 laptop_s:right-3"
       } transition-transform duration-300 ease-in-out ${
         isOpen ? "translate-x-0" : isLangArab ? "-translate-x-[104%]" : "translate-x-[103%]"
       }`}
       ref={containerRef}
     >
-      <div className={`relative sm:h-[80%] laptop_s:h-[90%] h-[98%] w-[65%] float-end sm:w-full rounded-2xl shadow-lg overflow-hidden border transition-colors duration-300 ${
+      <div className={`relative sm:h-[76%] tab_s:h-[60%] laptop_l:h-[95%] laptop_m:h-[98%] laptop_lg:h-[68%] tab_m:h-[65%] tab_l:h-[65%] laptop_s:h-[90%] h-[98%] w-[65%] float-end sm:w-full rounded-2xl shadow-lg overflow-hidden border transition-colors duration-300 ${
         isDarkMode ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" : "bg-white bg-opacity-70 border-white"
       }`}>
         {/* Sticky Dropped Pin */}
         <div className="sticky top-4 z-10 p-4 bg-opacity-70">
-          <div className="flex w-[40%] justify-start items-center gap-x-1">
-            <img src={isDarkMode ? DarkLocation : Location} alt="Location" className="h-4" />
-            <p className={`font-semibold font-poppins ${isDarkMode ? "text-white" : "text-gray-600"}`}>
+          <div className="flex w-[70%] justify-start items-center gap-x-1">
+            <img src={isDarkMode ? DarkLocation : Location} alt="Location" className=" w-[32px] h-[32px]" />
+            <p className={`font-600 text-[15px] font-poppins ${isDarkMode ? "text-white" : "text-[#505050]"}`}>
               <h2 className="text-[12px]">Barqa Rashid</h2>
             </p>
           </div>
@@ -76,17 +76,17 @@ export default function POIApprovalStatus({ children, onClose, mapview }) {
 
        
         >{isLangArab ?<>
-         <span className={isDarkMode?"text-white hover:text-gray-200":" text-black hover:text-blue-500"}>{isLangArab?"خلف":"Back"}</span>
-          <ChevronLeft className={isDarkMode?"w-5 h-5 text-white":"w-5 h-5 text-black"} />
+         <span className={isDarkMode?"text-white hover:text-gray-200":" text-[#00000099] hover:text-blue-500"}>{isLangArab?"خلف":"Back"}</span>
+          <ChevronLeft className={isDarkMode?"w-[17px] h-[17px] text-white":"w-[17px] h-[17px] text-[#1E1E1E]"} />
                    </> :<>
-          <ChevronLeft className={isDarkMode?"w-5 h-5 text-white":"w-5 h-5 text-black"} />
-          <span className={isDarkMode?"text-white hover:text-gray-200":" text-black hover:text-blue-500"}>{isLangArab?"خلف":"Back"}</span>
+          <ChevronLeft className={isDarkMode?"w-[17px] h-[17px] text-white":" w-[17px] h-[17px] text-[#1E1E1E]"} />
+          <span className={isDarkMode?"text-white hover:text-gray-200":" text-black font-omnes font-500 text-[13px] text-[#00000099] hover:text-blue-500"}>{isLangArab?"خلف":"Back"}</span>
           </>}
         </button></div>}
         </div>
 
         {/* Scrollable Content */}
-        <div className="px-4 py-1 overflow-y-auto h-full relative">
+        <div className="px-3 py-1 overflow-y-auto h-full relative">
           {children || (
             <>
               <div className="overflow-y-auto  h-[79%]">
