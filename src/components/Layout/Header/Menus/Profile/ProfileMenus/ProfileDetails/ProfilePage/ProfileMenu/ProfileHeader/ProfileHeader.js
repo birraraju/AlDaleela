@@ -19,7 +19,7 @@ export default function ProfileHeader({ setIsPopoverOpen,setIsEditProfile,setIsP
   return (
     <>
       <div className="flex justify-between items-center">
-        <h1 className={`font-medium sm:text-[16px] text-lg text-${isDarkMode ? '[#FFFFFFCC]' : 'gray-600'} `}>{isLangArab?"معلوماتي":"My Info"}</h1>
+        <h1 className={`font-500 font-omnes  sm:text-[16px] text-lg text-${isDarkMode ? '[#FFFFFFCC]' : '[#000000CC]'} `}>{isLangArab?"معلوماتي":"My Info"}</h1>
         <div
           onClick={() => {handleProfileClose()          
           }}

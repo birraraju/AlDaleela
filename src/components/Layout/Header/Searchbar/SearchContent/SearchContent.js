@@ -170,7 +170,7 @@ export default function SearchContent({ inputClicked, iscategory,setIscategory, 
 
         <div>
           {/* Filters */}
-          <div className="flex justify-start items-center px-4 py-2">
+          <div className="flex justify-start items-center px-4 py-1">
             <FilterBtn
               isFiltersOpen={isFiltersOpen}
               setIsFiltersOpen={setIsFiltersOpen}

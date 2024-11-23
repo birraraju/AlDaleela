@@ -44,7 +44,7 @@ export default function GeneralInformation({ onClose }) {
         {/* Heading & close button */}
         <div>
   <h1
-    className={`text-[14px] font-omnes font-medium ${
+    className={`text-[16px] font-omnes font-500 ${
       isLangArab ? "text-right" : "text-left"
     }`}
   >

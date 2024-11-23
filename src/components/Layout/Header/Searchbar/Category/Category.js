@@ -112,7 +112,7 @@ export default function Category({setInputValue,setShowSearchContent, inputClick
     >
       <button
         onClick={() => {setIsOpen(!isOpen);setShowSearchContent(false);setInputValue("")}}
-        className={`rounded-full w-[79px] mobile_s:w-[90px]  tab:w-[90px] laptop_s:w-[90px] laptop_s:rounded-3xl laptop_m:rounded-full flex text-xs justify-evenly items-center mobile_s:px-2 laptop_s:px-1 laptop_m:px-1 laptop_s:py-3 py-0.5 sm:h-6 h-7 bg-[#C8C8C899] bg-opacity-50 ${isDarkMode?"text-white":"text-black"} `}
+        className={`rounded-full font-omnes font-500 w-[79px] mobile_s:w-[90px]  tab:w-[90px] laptop_s:w-[90px] laptop_s:rounded-3xl laptop_m:rounded-full flex text-xs justify-evenly items-center mobile_s:px-2 laptop_s:px-1 laptop_m:px-1 laptop_s:py-3 py-0.5 sm:h-6 h-7 bg-[#C8C8C899] bg-opacity-50 ${isDarkMode?"text-white":"text-[#000000]"} `}
       >
         {(selectedCategory === "Category") ? (isLangArab ? "الفئة" : selectedCategory) : selectedCategory && selectedCategory?.length > 7 ? `${selectedCategory.substring(0, 8)}` : selectedCategory }
         {isOpen ? (
@@ -123,12 +123,12 @@ export default function Category({setInputValue,setShowSearchContent, inputClick
       </button>
 
       {isOpen && (
-        <div className={`absolute w-24  h-44 border py-2 rounded ${isDarkMode?" bg-black bg-opacity-60 border-none":"bg-white"} shadow-lg overflow-y-auto  mt-3`}>
+        <div className={`absolute w-24  h-44 border py-2 rounded ${isDarkMode?" bg-black bg-opacity-60 border-none":"bg-white"} shadow-lg overflow-y-scroll  mt-3`}>
           <div className=" ">
             {categoryClasses.map((category, index) => (
               <div
                 key={index} // Using index as key since category names may not be unique
-                className={`text-[11px] overflow-x-hidden cursor-pointer px-3 py-0.5  ${isDarkMode?"text-white hover:bg-[#C8C8C899] ":"text-black hover:bg-gray-100"}`}
+                className={`text-[11px] font-omnes font-500 overflow-x-hidden cursor-pointer px-3 py-0.5  ${isDarkMode?"text-white hover:bg-[#C8C8C899] ":"text-[#000000] hover:bg-gray-100"}`}
                 onClick={() => handleCategorySelect(category)}
               >
                 {category}

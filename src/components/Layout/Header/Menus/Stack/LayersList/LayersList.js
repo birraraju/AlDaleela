@@ -138,7 +138,7 @@ export default function LayersList({ onClose, mapview }) {
             </span>
             <label
               htmlFor={`checkbox-${service.name}`}
-              className={``}
+              className={` font-omnes font-500 text-[14px]`}
             >
               {service.name}
             </label>

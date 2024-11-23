@@ -470,8 +470,8 @@ export default function BasicInformation({
         }`}
       >
         <h1
-          className={`font-medium tracking-wider sm:text-[14px] text-sm ${
-            isDarkMode ? "text-white" : "text-black"
+          className={`font-500 font-omnes  tracking-wider sm:text-[16px] text-sm ${
+            isDarkMode ? "text-white" : "text-[#000000]"
           }`}
         >
           {isLangArab ? "المعلومات الأساسية" : "Basic Information"}
@@ -479,12 +479,12 @@ export default function BasicInformation({
 
         <div className="h-[1px] w-full bg-[#0000001A] my-4"></div>
 
-        <div className="grid sm:grid-cols-2 grid-cols-1 sm:gap-4 gap-3 mb-4  px-4">
+        <div className="grid sm:grid-cols-2 grid-cols-1 sm:gap-6 gap-3 mb-4  px-4">
           {userInfo1.map((info, index) => (
             <div key={index}>
               <h1
-                className={`tracking-wider sm:text-sm text-xs ${
-                  isDarkMode ? "text-white" : "text-black"
+                className={`tracking-wider font-omnes font-500 sm:text-[12px] text-xs ${
+                  isDarkMode ? "text-white" : "text-[#00000099]" 
                 }`}
               >
                 {info.heading}
@@ -493,10 +493,10 @@ export default function BasicInformation({
                 info.headingRead === "Country" ? (
                   <div className="relative">
   <div
-    className="flex justify-between items-center p-1 sm:h-auto h-3/4 border rounded cursor-pointer bg-white"
+    className="flex justify-between items-center p-1 sm:h-auto h-3/4 border rounded cursor-pointer bg-[#E7EFF0]"
     onClick={toggleDropdown}
   >
-    <span className="whitespace-nowrap overflow-hidden text-ellipsis text-base" >{selectedCountry}</span>
+    <span className="whitespace-nowrap overflow-hidden text-ellipsis font-omnes font-500  text-[14px] text-[#000000]" >{selectedCountry}</span>
     <span className="ml-2">
       {/* Down arrow SVG */}
       <svg
@@ -518,7 +518,7 @@ export default function BasicInformation({
       {countries.map((country, i) => (
         <div
           key={i}
-          className="p-2 hover:bg-gray-100 text-base whitespace-nowrap overflow-hidden text-ellipsis cursor-pointer"
+          className="p-2 hover:bg-gray-100 text-[14px] font-omnes font-500 whitespace-nowrap overflow-hidden text-ellipsis cursor-pointer"
           onClick={() => handleCountrySelect(country)}
         >
           {country}
@@ -533,7 +533,7 @@ export default function BasicInformation({
                     onChange={handleInputChange}
                     defaultValue={info.value}
                     name={info.headingRead}
-                    className={`w-full sm:h-auto h-3/4 ${isDarkMode ? "text-[#FFFFFFCC]" : "text-black"}`}
+                    className={`w-full sm:h-auto my-0.5  bg-[#E7EFF0] font-omnes font-500  h-3/4 ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#000000]"}`}
                   />
                   {info.headingRead === "Email" && emailError && <p className="text-red-500 text-xs">{emailError}</p>}
                   {info.headingRead === "Phone Number" && phoneError && <p className="text-red-500 text-xs">{phoneError}</p>}
@@ -541,8 +541,8 @@ export default function BasicInformation({
                 )
               ) : (
                 <p
-                  className={`font-medium tracking-wide sm:text-[11px] text-[11px] ${
-                    isDarkMode ? "text-[#FFFFFFCC]" : "text-black"
+                  className={`font-500 font-omnes tracking-wide sm:text-[11px] text-[11px] ${
+                    isDarkMode ? "text-[#FFFFFFCC]" : "text-[#000000]"
                   }`}
                 >
                   {info.value}
@@ -555,7 +555,7 @@ export default function BasicInformation({
             <Button asChild disabled={!isFormValid()}>
               <div
                 onClick={isFormValid() ? handleUpdate : undefined}
-                className={`h-12 sm:py-5 py-1 cursor-pointer btn-gradient text-white text-base sm:rounded-xl rounded-md mt-4 tracking-wide ${
+                className={`h-[40px] w-[122px]   cursor-pointer btn-gradient font-omnes font-500 text-[#FFFFFF] text-[14px] sm:rounded-xl rounded-md mt-4 tracking-wide ${
                   isFormValid() ? "" : "opacity-50 cursor-not-allowed"
                 }`}
               >
