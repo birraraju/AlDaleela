@@ -37,108 +37,207 @@ export default function Footer({
     6: t(isLangArab ? "طباعة البيانات" : "Print Data"),
   };
 
+  // const handleFooterItemClick = useCallback(
+  //   (e, index, isExpanded) => {
+  //     e.preventDefault();
+  //     if(previousCount === null) setSelectedIndex(index);
+  //     if (  index === previousCount) return ;
+  //     console.log("Current footer index:", index);
+  //     if (index <= 4) {
+  //       setIsExpanded(false);
+  //     }
+
+  //     if (index >= 4) {
+  //       if (index === 4) {
+  //         setCurrentMenuPosition(0);
+  //         setCurrentItemDisplay("none");
+  //         setActiveMenuIndex(0);
+  //         setSelectedIndex(null);
+  //         setPopup(null);
+  //         setIsExpanded(true);
+
+  //         const menuBar = document.querySelector(".sc-bottom-bar");
+  //         if (menuBar) {
+  //           menuBar.style.backgroundPosition = ``;
+  //           menuBar.style.backgroundImage = document.body.classList.contains(
+  //             "theme-dark"
+  //           )
+  //             ? ""
+  //             : "";
+  //         }
+
+  //         menuItemsRef.current.forEach(
+  //           (item) => item && item.classList.remove("sc-current")
+  //         );
+
+  //         const menuIndicator = document.querySelector(".sc-nav-indicator");
+  //         if (menuIndicator) {
+  //           menuIndicator.style.left = "0px";
+  //         }
+  //       }
+  //     }
+
+  //     if (index < 4 || index === 5 || index === 6) {
+  //       const clickedElement = e.currentTarget;
+  //       const position = clickedElement.offsetLeft;
+  //       setCurrentMenuPosition(position);
+  //       setCurrentItemDisplay("block");
+
+  //       const menuIndicator = document.querySelector(".sc-nav-indicator");
+  //       if (menuIndicator) {
+  //         menuIndicator.style.left = `${position}px`;
+  //       }
+
+  //       const menuBar = document.querySelector(".sc-bottom-bar");
+  //       if (menuBar) {
+  //         let size = position - 11; // Default size assignment
+
+  //         // Check if the menu is expanded and set the position based on index and language
+  //         if (isExpanded) {
+  //           switch (index) {
+  //             case 0:
+  //               size = isLangArab ? position - 60 : position - 11;
+  //               break;
+  //             case 1:
+  //               size = isLangArab ? position - 65 : position - 7;
+  //               break;
+  //             case 2:
+  //               size = isLangArab ? position - 70 : position - 3;
+  //               break;
+  //             case 3:
+  //               size = isLangArab ? position - 75 : position + 3;
+  //               break;
+  //             case 4:
+  //             case 5:
+  //             case 6:
+  //               size = position - 11; // Same for indexes 4, 5, and 6
+  //               break;
+  //             default:
+  //               break;
+  //           }
+  //         }
+
+  //         // Apply the calculated size to the menuBar's background position
+  //         menuBar.style.backgroundPosition = `${size}px`;
+  //         menuBar.style.backgroundImage = document.body.classList.contains(
+  //           "theme-dark"
+  //         )
+  //           ? "radial-gradient(circle at 38px 4px, transparent 28px, rgba(0, 0, 0, 0.2) 29px)"
+  //           : "radial-gradient(circle at 38px 4px, transparent 28px, rgba(18, 69, 41, 0.2) 29px)";
+  //       }
+
+  //       setActiveMenuIndex(index);
+  //       setSelectedIndex(index);
+  //       menuItemsRef.current.forEach(
+  //         (item) => item && item.classList.remove("sc-current")
+  //       );
+  //       clickedElement.classList.add("sc-current");
+  //     }
+
+  //     if (index !== 4) {
+  //       handleMenuItemClick(e, index);
+  //     }
+  //   },
+  //   [handleMenuItemClick]
+  // );
+
   const handleFooterItemClick = useCallback(
-    (e, index, isExpanded) => {
+    (e, index) => {
       e.preventDefault();
 
-      if (index === previousCount) return handleClose();
+      // Prevent recalculation when clicking the same index consecutively
+      if (index === selectedIndex) return;
+
       console.log("Current footer index:", index);
-      if (index <= 4) {
-        setIsExpanded(false);
-      }
 
-      if (index >= 4) {
-        if (index === 4) {
-          setCurrentMenuPosition(0);
-          setCurrentItemDisplay("none");
-          setActiveMenuIndex(0);
-          setSelectedIndex(null);
-          setPopup(null);
-          setIsExpanded(true);
-
-          const menuBar = document.querySelector(".sc-bottom-bar");
-          if (menuBar) {
-            menuBar.style.backgroundPosition = ``;
-            menuBar.style.backgroundImage = document.body.classList.contains(
-              "theme-dark"
-            )
-              ? ""
-              : "";
-          }
-
-          menuItemsRef.current.forEach(
-            (item) => item && item.classList.remove("sc-current")
-          );
-
-          const menuIndicator = document.querySelector(".sc-nav-indicator");
-          if (menuIndicator) {
-            menuIndicator.style.left = "0px";
-          }
-        }
-      }
-
-      if (index < 4 || index === 5 || index === 6) {
-        const clickedElement = e.currentTarget;
-        const position = clickedElement.offsetLeft;
-        setCurrentMenuPosition(position);
-        setCurrentItemDisplay("block");
-
-        const menuIndicator = document.querySelector(".sc-nav-indicator");
-        if (menuIndicator) {
-          menuIndicator.style.left = `${position}px`;
-        }
+      // Handle resetting logic for index 4
+      if (index === 4) {
+        setCurrentMenuPosition(0);
+        setCurrentItemDisplay("none");
+        setActiveMenuIndex(0);
+        setSelectedIndex(null);
+        setPopup(null);
+        setIsExpanded(true);
 
         const menuBar = document.querySelector(".sc-bottom-bar");
         if (menuBar) {
-          let size = position - 11; // Default size assignment
-
-          // Check if the menu is expanded and set the position based on index and language
-          if (isExpanded) {
-            switch (index) {
-              case 0:
-                size = isLangArab ? position - 60 : position - 11;
-                break;
-              case 1:
-                size = isLangArab ? position - 65 : position - 7;
-                break;
-              case 2:
-                size = isLangArab ? position - 70 : position - 3;
-                break;
-              case 3:
-                size = isLangArab ? position - 75 : position + 3;
-                break;
-              case 4:
-              case 5:
-              case 6:
-                size = position - 11; // Same for indexes 4, 5, and 6
-                break;
-              default:
-                break;
-            }
-          }
-
-          // Apply the calculated size to the menuBar's background position
-          menuBar.style.backgroundPosition = `${size}px`;
+          menuBar.style.backgroundPosition = "";
           menuBar.style.backgroundImage = document.body.classList.contains(
             "theme-dark"
           )
-            ? "radial-gradient(circle at 38px 4px, transparent 28px, rgba(0, 0, 0, 0.2) 29px)"
-            : "radial-gradient(circle at 38px 4px, transparent 28px, rgba(18, 69, 41, 0.2) 29px)";
+            ? ""
+            : "";
         }
 
-        setActiveMenuIndex(index);
-        setSelectedIndex(index);
         menuItemsRef.current.forEach(
           (item) => item && item.classList.remove("sc-current")
         );
-        clickedElement.classList.add("sc-current");
+
+        const menuIndicator = document.querySelector(".sc-nav-indicator");
+        if (menuIndicator) {
+          menuIndicator.style.left = "0px";
+        }
+        return;
       }
 
-      if (index !== 4) {
-        handleMenuItemClick(e, index);
+      // Handle menu indicator and background position for other indexes
+      const clickedElement = e.currentTarget;
+      const position = clickedElement.offsetLeft;
+      setCurrentMenuPosition(position);
+      setCurrentItemDisplay("block");
+
+      const menuIndicator = document.querySelector(".sc-nav-indicator");
+      if (menuIndicator) {
+        menuIndicator.style.left = `${position}px`;
       }
+
+      const menuBar = document.querySelector(".sc-bottom-bar");
+      if (menuBar) {
+        let size = position - 11; // Default size assignment
+
+        if (isExpanded) {
+          switch (index) {
+            case 0:
+              size = isLangArab ? position - 60 : position - 11;
+              break;
+            case 1:
+              size = isLangArab ? position - 65 : position - 7;
+              break;
+            case 2:
+              size = isLangArab ? position - 70 : position - 3;
+              break;
+            case 3:
+              size = isLangArab ? position - 75 : position + 3;
+              break;
+            case 4:
+            case 5:
+            case 6:
+              size = position - 11;
+              break;
+            default:
+              break;
+          }
+        }
+
+        menuBar.style.backgroundPosition = `${size}px`;
+        menuBar.style.backgroundImage = document.body.classList.contains(
+          "theme-dark"
+        )
+          ? "radial-gradient(circle at 38px 4px, transparent 28px, rgba(0, 0, 0, 0.2) 29px)"
+          : "radial-gradient(circle at 38px 4px, transparent 28px, rgba(18, 69, 41, 0.2) 29px)";
+      }
+
+      setActiveMenuIndex(index);
+      setSelectedIndex(index);
+      menuItemsRef.current.forEach(
+        (item) => item && item.classList.remove("sc-current")
+      );
+      clickedElement.classList.add("sc-current");
+
+      // Trigger the menu item click handler
+      handleMenuItemClick(e, index);
     },
-    [handleMenuItemClick]
+    [selectedIndex, isLangArab, isExpanded, handleMenuItemClick]
   );
 
   useEffect(() => {
@@ -214,12 +313,12 @@ export default function Footer({
                         alt={`Icon ${index + 1}`}
                         style={{ width: "200px", height: "200px" }}
                       />
-                       <ReactTooltip
-  id={`tooltip-${index}`}
-  content="This is a tooltip"
-  place="top"
-  className="ToolTipEnvi"
-/>
+                      <ReactTooltip
+                        id={`tooltip-${index}`}
+                        content="This is a tooltip"
+                        place="top"
+                        className="ToolTipEnvi"
+                      />
                     </button>
                   </div>
                 )}
@@ -250,12 +349,12 @@ export default function Footer({
                         alt={`Icon ${index + 1}`}
                         style={{ width: "200px", height: "200px" }}
                       />
-                       <ReactTooltip
-  id={`tooltip-${index}`}
-  content="This is a tooltip"
-  place="top"
-  className="ToolTipEnvi"
-/>
+                      <ReactTooltip
+                        id={`tooltip-${index}`}
+                        content="This is a tooltip"
+                        place="top"
+                        className="ToolTipEnvi"
+                      />
                     </button>
                   </div>
                 )}
@@ -287,12 +386,12 @@ export default function Footer({
                         alt={`Icon ${index + 1}`}
                         style={{ width: "200px", height: "200px" }}
                       />
-                       <ReactTooltip
-  id={`tooltip-${index}`}
-  content="This is a tooltip"
-  place="top"
-  className="ToolTipEnvi"
-/>
+                      <ReactTooltip
+                        id={`tooltip-${index}`}
+                        content="This is a tooltip"
+                        place="top"
+                        className="ToolTipEnvi"
+                      />
                     </button>
                   </div>
                 )}
@@ -329,11 +428,11 @@ export default function Footer({
                       style={{ width: "200px", height: "200px" }}
                     />
                     <ReactTooltip
-  id={`tooltip-${index}`}
-  content="This is a tooltip"
-  place="top"
-  className="ToolTipEnvi"
-/>
+                      id={`tooltip-${index}`}
+                      content="This is a tooltip"
+                      place="top"
+                      className="ToolTipEnvi"
+                    />
                   </button>
                 </div>
               )}
@@ -364,12 +463,12 @@ export default function Footer({
                       alt={`Icon ${index + 1}`}
                       style={{ width: "200px", height: "200px" }}
                     />
-                      <ReactTooltip
-  id={`tooltip-${index}`}
-  content="This is a tooltip"
-  place="top"
-  className="ToolTipEnvi"
-/>
+                    <ReactTooltip
+                      id={`tooltip-${index}`}
+                      content="This is a tooltip"
+                      place="top"
+                      className="ToolTipEnvi"
+                    />
                   </button>
                 </div>
               )}
@@ -401,12 +500,12 @@ export default function Footer({
                       alt={`Icon ${index + 1}`}
                       style={{ width: "200px", height: "200px" }}
                     />
-                      <ReactTooltip
-  id={`tooltip-${index}`}
-  content="This is a tooltip"
-  place="top"
-  className="ToolTipEnvi"
-/>
+                    <ReactTooltip
+                      id={`tooltip-${index}`}
+                      content="This is a tooltip"
+                      place="top"
+                      className="ToolTipEnvi"
+                    />
                   </button>
                 </div>
               )}

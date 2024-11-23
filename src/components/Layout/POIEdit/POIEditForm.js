@@ -223,6 +223,13 @@ const Component = ({
     featchattachments();
   }, [queryresults]);
 
+  useEffect(()=>{
+    if(!((videos.length > 0) ||( audios.length > 0)||(images.length > 0))) {
+      setIsShowMore(true)
+      
+    }
+  },[videos,audios,images])
+
   const handleAudioLoadedMetadata = (index) => {
     const audioElement = audioRefs.current[index];
     if (audioElement) {
@@ -666,7 +673,7 @@ const Component = ({
 
             </>} */}
 
-            {!isEditShowPOI && (
+            {(!isEditShowPOI && ((videos.length > 0) ||( audios.length > 0)||(images.length > 0))) && (
               <div dir={isLangArab && "rtl"} className=" flex justify-end ">
                 <button
                   className=" text-[#028DC8] font-medium text-[12px] underline"
@@ -927,7 +934,7 @@ const Component = ({
             )}
 
             <div
-              className={`text-[12px] w-[95%] flex justify-center items-center  ${
+              className={`text-[12px] py-2 w-[95%] ${((videos.length > 0) ||( audios.length > 0)||(images.length > 0)) ? " ": " absolute bottom-1" } flex justify-center items-center  ${
                 isDarkMode ? "text-white" : "text-gray-500"
               } sm:px-12 px-7`}
             >

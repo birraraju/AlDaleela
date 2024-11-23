@@ -30,7 +30,7 @@ const LanguageSelector = () => {
       <span
         className={`z-10 mobile_s:text-xs laptop_s:text-[10px] laptop_m:text-[14px]
           ${isLangArab ? "ml-auto mobile_s:pr-8 laptop_s:pr-[22px] laptop_m:pr-7" : "sm:pl-8 laptop_s:pl-6 laptop_m:pl-8 pl-9"}
-          ${isLangArab ? "text-sm font-semibold" : "text-xs font-normal"}`}
+          ${isLangArab ? "text-[16px] font-400" : "text-[16px] font-400"}`}
       >
         {isLangArab ? "عربي" : "ENG"}
       </span>

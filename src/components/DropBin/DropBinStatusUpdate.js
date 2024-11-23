@@ -170,6 +170,7 @@ const DropBinStatusUpdate = ({setMessage,isLangArab,setFormShow,isDarkMode,setPO
     featchattachments()
   },[])
 
+
   if(!isFormShow) return null; 
 
   const renderField = (label, value) => (
