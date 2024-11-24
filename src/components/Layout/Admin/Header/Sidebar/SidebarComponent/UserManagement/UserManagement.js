@@ -255,7 +255,7 @@ const paginatedData = data.slice((currentPage - 1) * itemsPerPage, currentPage *
         isDarkMode ? "bg-[#303031] bg-opacity-90" : "bg-white "
       } text-black backdrop-blur border-none`}>
     <div className="flex justify-between items-center mb-6">
-    <h2 className={`text-[22px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]" : "text-gray-800"}`}>
+    <h2 className={`text-[22px] font-omnes font-500 ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#464646]"}`}>
     {isLangArab ?"إدارة المستخدمين":"User Management"}</h2>
           <button 
             onClick={toggleEdit} 
@@ -279,13 +279,13 @@ const paginatedData = data.slice((currentPage - 1) * itemsPerPage, currentPage *
             <thead className={`sticky top-0   z-10 ${isDarkMode ? "bg-[#303031] " : "bg-white"}`}>
             <tr  className="text-left text-sm font-medium text-gray-500 border-b">
                   {isEditing && <th className="pb-3 w-8"></th>}
-                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>{isLangArab?"اسم المستخدم":"Username"}</th>
-                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>{isLangArab?"معرف البريد الإلكتروني id":"Email Id"}</th>
-                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-4"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>{isLangArab?"رقم الهاتف":"Phone Number"}</th>
-                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-28"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>{isLangArab?"عنوان":"Country"}</th>
-                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>{isLangArab?"أدوار المستخدم ":"User Roles"}</th>
-                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-20"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>{isLangArab?"نشاط المستخدم ":"User Activity"}</th>
-                  <th className={`pb-3 p-2 font-medium flex justify-center items-centers font-omnes text-[14px]  ${isLangArab?"pl-2":"pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+                  <th className={`pb-3 p-2 font-500 font-omnes text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>{isLangArab?"اسم المستخدم":"Username"}</th>
+                  <th className={`pb-3 p-2 font-500 font-omnes text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>{isLangArab?"معرف البريد الإلكتروني id":"Email id"}</th>
+                  <th className={`pb-3 p-2 font-500 font-omnes text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-4"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>{isLangArab?"رقم الهاتف":"Phone Number"}</th>
+                  <th className={`pb-3 p-2 font-500 font-omnes text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-28"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>{isLangArab?"عنوان":"Country"}</th>
+                  <th className={`pb-3 p-2 font-500 font-omnes text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>{isLangArab?"أدوار المستخدم ":"User Roles"}</th>
+                  <th className={`pb-3 p-2 font-500 font-omnes text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-20"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>{isLangArab?"نشاط المستخدم ":"User Activity"}</th>
+                  <th className={`pb-3 p-2 font-500 flex justify-center items-centers font-omnes text-[14px]  ${isLangArab?"pl-2":"pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
                   {isLangArab?"فعل":"Action"}</th>
                   {/* <th className="pb-3"></th> */}
                 </tr>
@@ -310,11 +310,11 @@ const paginatedData = data.slice((currentPage - 1) * itemsPerPage, currentPage *
                         />
                       </td>
                     )}
-                    <td className={`py-4 font-medium font-omnes text-[14px]  ${isLangArab?"pr-2":"pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{user.username}</td>
-                    <td className={`py-4 font-medium font-omnes text-[14px]  ${isLangArab?"pr-2":"pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{user.email}</td>
-                    <td className={`py-4 font-medium font-omnes text-[14px]  ${isLangArab?"pr-2":"pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{user.phoneNumber}</td>
-                    <td className={`py-4 font-medium font-omnes text-[14px]  ${isLangArab?"pr-2":"pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{user.country}</td>
-                    <td className={`py-4 font-medium font-omnes text-[14px]  ${isLangArab?"pr-2":"pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
+                    <td className={`py-4 font-500 font-omnes text-[14px]  ${isLangArab?"pr-2":"pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#101828]"}`}>{user.username}</td>
+                    <td className={`py-4 font-500 font-omnes text-[14px]  ${isLangArab?"pr-2":"pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#101828]"}`}>{user.email}</td>
+                    <td className={`py-4 font-500 font-omnes text-[14px]  ${isLangArab?"pr-2":"pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#101828]"}`}>{user.phoneNumber}</td>
+                    <td className={`py-4 font-500 font-omnes text-[14px]  ${isLangArab?"pr-2":"pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#101828]"}`}>{user.country}</td>
+                    <td className={`py-4 font-500 font-omnes text-[14px]  ${isLangArab?"pr-2":"pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#626262]"}`}>
 
                       {isEditing ? (
                         <Select defaultValue={user.role} onValueChange={(value) => {

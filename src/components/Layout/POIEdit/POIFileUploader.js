@@ -132,12 +132,14 @@ import { useState, useRef } from 'react';
 import { ImageIcon, FileIcon } from 'lucide-react';
 import { ChevronLeft } from 'lucide-react';
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer"; 
+import CloseUploadedFile from '../../../assets/POIEdit/FileUploadCancel.svg'
 
 const FileUploader = ({ POIFormUploader,isLangArab,setPOIFormisOpenModalShow,setPOImessageShow,setPOIFormsuccessShow, setPOIFormShow, setPOIUploaderShow, queryresults, uploadedFiles, setUploadedFiles }) => {
   const [files, setFiles] = useState([]); // Store the selected files
   //const [uploadedFiles, setUploadedFiles] = useState([]); // Store the uploaded files
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef(null);
+  const [filesShow,setFilesShow] = useState([])
 
   if (!POIFormUploader) return null;
 
@@ -314,14 +316,45 @@ const FileUploader = ({ POIFormUploader,isLangArab,setPOIFormisOpenModalShow,set
   };
 
   // Handle "Done" button click - move files to the uploaded state
+  // const handleDone = () => {
+  //   setUploadedFiles([...uploadedFiles, ...files]); // Add selected files to uploaded
+  //   setFiles([]); // Clear the current selection
+  // };
+
   const handleDone = () => {
-    setUploadedFiles([...uploadedFiles, ...files]); // Add selected files to uploaded
-    setFiles([]); // Clear the current selection
+   setUploadedFiles([...uploadedFiles, ...files]); // Add selected files to uploaded
+    const newFiles = files.map((file) => ({
+      file,
+      name: file.name,
+      progress: 0, // Initialize progress
+      preview: URL.createObjectURL(file), // Generate a preview URL
+    }));
+   
+    setFilesShow((prev) => [...prev, ...newFiles]);
+    simulateUploads(newFiles);
+    setFiles([]);
+  };
+
+  const simulateUploads = (newFiles) => {
+    newFiles.forEach((file, index) => {
+      const interval = setInterval(() => {
+        setFilesShow((prev) =>
+          prev.map((item, idx) =>
+            idx === filesShow.length + index && item.progress < 100
+              ? { ...item, progress: item.progress + 10 }
+              : item
+          )
+        );
+      }, 300);
+
+      setTimeout(() => clearInterval(interval), 3000);
+    });
   };
 
   // Handle remove uploaded file
   const handleRemoveUploadedFile = (index) => {
     setUploadedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+    setFilesShow((prevFiles) => prevFiles.filter((_, i) => i !== index));
   };
 
   const handleUploadFile = async() => {
@@ -365,7 +398,7 @@ const FileUploader = ({ POIFormUploader,isLangArab,setPOIFormisOpenModalShow,set
               {files.map((file, index) => (
                 <div key={index} className="flex items-center justify-between">
                   <div className="flex items-center">
-                    <FileIcon className="h-8 w-8 text-gray-600" />
+                    <img src={URL.createObjectURL(file)}  className="h-8 w-8 text-gray-600"  alt={file.name} />
                     <span className="ml-2 text-[11px] text-gray-700">{file.name}</span>
                   </div>
                 </div>
@@ -414,30 +447,50 @@ const FileUploader = ({ POIFormUploader,isLangArab,setPOIFormisOpenModalShow,set
       </div>
 
       {/* Display uploaded files */}
-      {uploadedFiles.length > 0 && (
-        <div className='mt-4 p-6 bg-gray-50 rounded-lg shadow-sm'>
-          <h2 className="text-black text-lg mb-3 font-semibold">{isLangArab?"الملفات المرفوعة":"Uploaded Files"}:</h2>
-          <ul className="space-y-2">
-            {uploadedFiles.map((file, index) => (
-              <li 
-                key={index} 
-                className="flex items-center justify-between p-3 bg-white shadow-md rounded-md border border-gray-200"
-              >
-                <div className="flex items-center">
-                  <FileIcon className="h-6 w-6 text-gray-500" />
-                  <span className="ml-3 text-gray-700 font-medium text-ellipsis text-[9px]  ">{file.name}</span>
-                </div>
-                <button 
-                  onClick={() => handleRemoveUploadedFile(index)}
-                  className="text-red-500 hover:underline text-xs"
-                >
-                  {isLangArab ? "يلغي" : "Cancel"}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      
+      {filesShow.length > 0 && (
+  <div className="mt-4 p-6 bg-transparent rounded-lg shadow-sm">
+    <ul className="space-y-2">
+      {filesShow.map((file, index) => (
+        <li
+          key={index}
+          className="flex flex-col px-2 py-2 bg-transparent rounded-md border border-[#E4E9F0]"
+        >
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <img
+                src={file.preview}
+                alt={file.name}
+                className="h-9 w-9 rounded-lg object-cover"
+              />
+              <div className="ml-3">
+                <span className="text-gray-700 font-medium text-ellipsis text-[9px] block">
+                  {file.name}
+                </span>
+              </div>
+            </div>
+            <button
+              onClick={() => handleRemoveUploadedFile(index)}
+              className="text-red-500 hover:underline text-xs"
+            >
+              <img src={CloseUploadedFile} alt="Remove" />
+            </button>
+          </div>
+
+          {/* Progress Bar */}
+          <div className="w-full bg-gray-200 my-1 mx-1 border-transparent rounded-3xl h-1">
+            <div
+              className="bg-[#1F4690] h-1 border-transparent rounded-3xl"
+              style={{ width: `${file.progress}%` }}
+            ></div>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
+
+
       <div className=" flex justify-center space-x-8 items-center">
         <button
           onClick={() => {

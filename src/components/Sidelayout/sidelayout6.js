@@ -118,9 +118,9 @@ export default function SideLayout6({
       ref={panelRef} // Attach ref to the panel div
       className={`fixed -bottom-9  sm:top-20 ${
         isLangArab
-          ? " right-3 sm:left-16 laptop_s:left-6"
-          : "right-3 sm:right-16 laptop_s:right-6"
-      } w-[500px] sm:w-[400px] laptop_s:w-[${width}] 2xl:h-[73%] h-[75%] sm:h-[68%] laptop_s:h-[90%]  transition-transform duration-300 ease-in-out ${
+          ? " right-0 sm:left-16 laptop_s:left-6"
+          : "right-0 sm:right-16 laptop_s:right-6"
+      } w-full sm:w-[400px] laptop_s:w-[${width}] 2xl:h-[73%] h-[75%] sm:h-[68%] laptop_s:h-[90%]  transition-transform duration-300 ease-in-out ${
         isOpen
           ? "translate-x-0"
           : isLangArab
@@ -130,7 +130,7 @@ export default function SideLayout6({
       // style={{ width, height }}
     >
       <div
-        className={`relative sm:h-[65%] tab:h-[90%]  h-[98%] sm:w-[80%] tab:w-full  w-[67%] bg-opacity-70 float-end sm:float-none backdrop-blur-lg rounded-2xl shadow-lg overflow-hidden border ${
+        className={`relative sm:h-[65%] tab:h-[90%]  h-[98%] sm:w-[80%] tab:w-full  w-full bg-opacity-70 float-end sm:float-none backdrop-blur-lg rounded-2xl shadow-lg overflow-hidden border ${
           isDarkMode
             ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
             : "bg-white  backdrop-blur-lg border-white"
@@ -151,17 +151,17 @@ export default function SideLayout6({
           } transition-colors`}
           aria-label="Close side panel"
         >
-          <X className="h-6 w-6" />
+          <X className="h-[19px] w-[19px]" />
         </button>
 
         <div style={{ height: ToggleDragHeight && panelHeight }}  className="p-6 overflow-y-auto  2xl:mb-[50px]  h-full">
           {children || (
             <p
-              className={`${
+              className={` font-poppins font-600 text-[12px] tab:text-[14px] laptop_s:text-[16px] laptop_lg:text-[18px] ${
                 isDarkMode
                   ? "text-[#FFFFFFCC] text-opacity-80"
-                  : " text-gray-700"
-              } font-poppins font-medium`}
+                  : " text-[#505050]"
+              } `}
             >
               {isLangArab ? "طباعة" : "Print"}
             </p>

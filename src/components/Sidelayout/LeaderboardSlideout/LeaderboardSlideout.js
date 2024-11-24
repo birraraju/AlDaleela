@@ -102,7 +102,7 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
       }`}    >
       <div className="flex relative justify-between items-center">
       <h1
-          className={`font-semibold ${
+          className={`font-600 ${
             isDarkMode ? "text-white" : "text-[#505050]"
           } font-poppins text-[16px]`}
         >          {isLangArab?"لوحة المتصدرين":"Leaderboard"}</h1>
@@ -166,8 +166,8 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
               />
             </div>
             <h1
-              className={`font-semibold text-[14px] font-plus-jakarta mt-2 ${
-                isDarkMode ? "text-white" : "text-[#505050]"
+              className={`font-700 text-[14px] font-plus-jakarta line-clamp-3 mt-2 ${
+                isDarkMode ? "text-white" : "text-[#000000]"
               }`}
             >              {user.userName}</h1>
             <p className={`text-xs font-plus-jakarta ${isDarkMode ? "text-gray-300" : "text-[#898989]"}`}>
@@ -181,7 +181,7 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
         {data.slice(3).map((user, index) => (
           <div
             key={user.rank}
-            className={`rounded-xl py-2 px-4 flex items-center justify-between gap-4 ${
+            className={`rounded-xl py-3  px-4 flex items-center justify-between gap-4 ${
               isDarkMode ? "bg-[#505050]" : "bg-white"
             }`}
           >

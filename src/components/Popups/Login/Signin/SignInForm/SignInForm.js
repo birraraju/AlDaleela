@@ -150,12 +150,12 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
 
           <div
             onClick={onForgotPasswordClick}
-            className={`${
+            className={` bg-clip-text text-[14px] font-medium cursor-pointer text-transparent ${
               form.formState.isValid
-                ? "text-[#196162] text-[14px] font-medium cursor-pointer"
+                ? "text-[#196162] "
                 : isDarkMode
-                ? "text-white hover:text-gray-200 text-[14px] font-medium cursor-pointer"
-                : "text-[#004987] text-[14px] font-medium cursor-pointer"
+                ? "text-white hover:text-gray-200 "
+                : "bg-gradient-to-r from-[#036068] via-[#1199A8] to-[#036068]"
             }`}
           >
             {isLangArab ?"نسيت كلمة المرور":"Forgot Password?"}
