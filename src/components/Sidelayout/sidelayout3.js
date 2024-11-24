@@ -328,7 +328,7 @@ export default function SideLayout3({ children, width = "454.84px", onClose, map
         <div className="p-6 overflow-y-auto h-full">
           {children || (
             <div className=" flex justify-between items-center">
-              <p className={`${isDarkMode ? 'text-[#FFFFFFCC] text-opacity-80' : ' text-black'} text-[16px] font-poppins font-medium`}>
+              <p className={`${isDarkMode ? 'text-[#FFFFFFCC] text-opacity-80' : ' text-[#000000]'} text-[16px] font-omnes font-500`}>
                 {isLangArab ? "القياس" : "Measurement"}
               </p>
               <button
@@ -338,7 +338,7 @@ export default function SideLayout3({ children, width = "454.84px", onClose, map
           }`}
           aria-label="Close side panel"
         >
-          <X className="h-6 w-6" />
+          <X className="h-[19px] w-[19px]" />
         </button>
             </div>
           )}

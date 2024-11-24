@@ -131,7 +131,7 @@ export default function SideLayout5({
     dir={isLangArab && "rtl"}
     style={{ height: ToggleDragHeight && panelHeight }}
       ref={panelRef} // Assign the ref to the side panel div
-      className={`fixed -bottom-9  sm:top-20 w-[95%] sm:w-[400px] laptop_s:w-[${width}] 2xl:h-[73%] h-[75%] sm:h-[68%] laptop_s:h-[90%] ${ isLangArab?"right-3 sm:left-16 laptop_s:left-6":"right-3 sm:right-16 laptop_s:right-6"} transition-transform duration-300 ease-in-out ${
+      className={`fixed -bottom-9  sm:top-20 w-full sm:w-[400px] laptop_s:w-[${width}] 2xl:h-[73%] h-[75%] sm:h-[68%] laptop_s:h-[90%] ${ isLangArab?"right-0 sm:left-16 laptop_s:left-6":"right-0 sm:right-16 laptop_s:right-6"} transition-transform duration-300 ease-in-out ${
         isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%] sm:-translate-x-[116%] laptop_s:-translate-x-[106%] ":"translate-x-[103%] sm:translate-x-[116%] laptop_s:translate-x-[106%]")
       }`}
       // style={{ width, height }}
@@ -156,12 +156,12 @@ export default function SideLayout5({
           }`}
           aria-label="Close side panel"
         >
-          <X className="h-6 w-6" />
+          <X className="h-[19px] w-[19px]" />
         </button>
 
         <div className="p-6 overflow-y-auto  2xl:mb-[50px]  h-full">
           {children || (
-            <p className={`font-poppins font-medium text-${isDarkMode ? "[#FFFFFFCC]" : "black"}`}>
+            <p className={`font-poppins font-600 text-[12px] tab:text-[14px] laptop_s:text-[16px] laptop_lg:text-[18px] ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#505050]"}`}>
              { isLangArab?"تصدير البيانات": " Export Data"}
             </p>
           )}
