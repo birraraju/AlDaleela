@@ -21,6 +21,8 @@ import AdminLogo from '../../../../../assets/Header/Profile/admin.png';
 import ProfileLogo from '../../../../../assets/Header/Profile/profile.png';
 import PopModal from "../../../../Common/SuccessFailureMessageModel";
 import { useNavigate } from 'react-router-dom';
+import Toast from '../../../../Common/taost';
+
 
 const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => {
   const [showAuthenticator, setShowAuthenticator] = useState(false);
@@ -38,7 +40,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
   const [isProfile, setIsProfile] = useState(true);
   const { role, setRole ,setIsEditPOI} = useAuth();
   const {profiledetails , setprofiledetails} = useAuth()
-  const { isDarkMode,isLangArab,setIsLogin,isLogin,isSignup,setsSignup } = useTheme(); // Use the theme hook
+  const { isDarkMode,isLangArab,setIsLogin,isLogin,isSignup,setsSignup,showToast,toastMessage } = useTheme(); // Use the theme hook
   const [isMsgStatus, setIsMsgStatus] = useState("");
   const [modalMessage, setModalMessage] = useState("")
   const navigate = useNavigate();
@@ -296,6 +298,11 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
               setIsPopoverOpen(true)
             }}
           />
+          <Toast 
+    message={toastMessage} 
+    showToast={showToast} 
+     // Reset `showToast` after display
+  />
       </AnimatePresence>
       </div>
     </>

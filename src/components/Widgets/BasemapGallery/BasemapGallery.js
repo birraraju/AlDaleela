@@ -43,6 +43,36 @@ const BasemapGalleryComponent = ({ mapview }) => {
     }
   }, [mapview]); // Include mapview in the dependency array
 
+  // MutationObserver logic to handle dynamic grid styling
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      // Apply the grid layout with auto-fill and minmax for column size
+      const container = mapRef1.current?.querySelector('.esri-basemap-gallery__item-container');
+      if (container) {
+        container.style.display = 'grid';
+        container.style.gridTemplateColumns = 'repeat(auto-fill, minmax(120px, 1fr))'; // auto-fill with minmax columns
+        container.style.gap = '5px'; // Gap between the grid items
+        container.style.paddingBlock = '0px'; // Assuming you want no padding block-wise, change if needed
+        container.style.paddingInline = '10px'; // Padding on the left and right
+      }
+    });
+  
+    // Observe changes in the gallery container
+    if (mapRef1.current) {
+      observer.observe(mapRef1.current, {
+        childList: true, // Observe direct children changes (e.g., items added)
+        subtree: true, // Observe all descendants as well
+      });
+    }
+  
+    // Cleanup observer on component unmount
+    return () => {
+      observer.disconnect();
+    };
+  }, []); // Empty dependency array ensures it runs only once on mount
+  
+
+
   return (
     <div
       id="basemapDiv"

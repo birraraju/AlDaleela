@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { XIcon } from "lucide-react";
 import Logo from "../../../../assets/GreenLogo.svg";
 import SignInForm from "./SignInForm/SignInForm";
@@ -7,6 +7,7 @@ import { useTheme } from '../../../Layout/ThemeContext/ThemeContext'; // Import 
 
 export default function Signin({ onClose, onSignupClick, onForgotPasswordClick }) {
   const modalRef = useRef(null);
+ 
   const { isDarkMode, isLangArab } = useTheme(); // Access the dark mode state
 
 
@@ -26,6 +27,7 @@ export default function Signin({ onClose, onSignupClick, onForgotPasswordClick }
 
   return (
     <div className="fixed sm:inset-10 inset-1 z-50 flex items-center justify-center">
+
       <div className="absolute inset-10 pointer-events-none"></div> {/* Backdrop with no pointer events */}
       <div
         ref={modalRef}

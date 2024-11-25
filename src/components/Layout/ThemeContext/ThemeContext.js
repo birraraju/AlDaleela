@@ -11,6 +11,8 @@ export const ThemeProvider = ({ children }) => {
   const [isLogin, setIsLogin] = useState(false); // State to toggle between login and signup forms
   const [isSignup, setsSignup] = useState(false); // State to toggle between login and signup forms
   const [isPOIAddShow,setIsPOIAddShow]=useState(false);
+  const [showToast, setShowToast] = useState(false)
+  const[toastMessage, setToastMessage] = useState("")
   
 
 // Load theme preference from localStorage on mount
@@ -32,6 +34,8 @@ useEffect(()=>{
   }
 },[isLangArab])
 
+
+
   const toggleLanguage = () => {
     setIsLangArab((prevMode) => !prevMode);
     
@@ -46,7 +50,7 @@ useEffect(()=>{
   };
 
   return (
-    <ThemeContext.Provider value={{isLangArab,setIsPOIAddShow,isPOIAddShow, isDarkMode,isLogin,isSignup,setIsLogin,setsSignup, toggleTheme,toggleLanguage }}>
+    <ThemeContext.Provider value={{isLangArab,setIsPOIAddShow,showToast, setShowToast,toastMessage, setToastMessage,isPOIAddShow, isDarkMode,isLogin,isSignup,setIsLogin,setsSignup, toggleTheme,toggleLanguage }}>
       {children}
     </ThemeContext.Provider>
   );

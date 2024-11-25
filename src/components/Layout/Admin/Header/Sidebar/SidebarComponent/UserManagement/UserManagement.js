@@ -18,7 +18,7 @@ import { useTheme } from "../../../../../ThemeContext/ThemeContext"; // Importin
 import { useAuth } from "../../../../../../../Providers/AuthProvider/AuthProvider";
 import DeleteConfirmation from '../../../../../../Common/deleteConfirmation';
 import Pagination from "../../../../Layout/Pagination/PaginationBar"
-import Toast from '../../../../../../Common/taost';
+// import Toast from '../../../../../../Common/taost';
 const users = [
   { username: "User name", email: "user@gmail.com", phone: "+971 500001010", address: "Rabdan - Abu Dhabi", role: "Public User", activity: "Today" },
   { username: "User name", email: "user@gmail.com", phone: "+971 500001010", address: "Rabdan - Abu Dhabi", role: "Admin User", activity: "Yesterday" },
@@ -50,12 +50,10 @@ export default function UserManagement() {
   const tableRef = useRef(null);
   const [isShowConfirmation, setIsShowConfirmation] = useState(false);
   const [data, setData] = useState([]);
-  const { isDarkMode, isLangArab } = useTheme(); // Access dark mode from theme context
+  const { isDarkMode, isLangArab,setShowToast ,setToastMessage ,showToast,toastMessage } = useTheme(); // Access dark mode from theme context
   const [latestDate, setLatestDate] = useState(null);
   const {profiledetails} = useAuth()
   const [totalItems,setTotalItems] = useState(0); // Example total items count
-  const [showToast, setShowToast] = useState(false)
-  const[toastMessage, setToastMessage] = useState("")
   // const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9; // Number of items per page
@@ -244,7 +242,12 @@ const paginatedData = data.slice((currentPage - 1) * itemsPerPage, currentPage *
   return (
     <>
     <div className="flex h-[calc(100vh-6rem)]">
-    <Toast message={toastMessage} showToast={showToast} />
+    {/* <Toast 
+  message={toastMessage} 
+  showToast={showToast} 
+// Reset `showToast` after display
+/> */}
+
       <DeleteConfirmation Label={"user"}
       isLangArab={isLangArab}
         isShowConfirmation={isShowConfirmation}
