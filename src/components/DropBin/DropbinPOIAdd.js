@@ -11,6 +11,8 @@ import Graphic from "@arcgis/core/Graphic.js";
 import Point from "@arcgis/core/geometry/Point.js";
 import { UserActivityLog } from "../Common/UserActivityLog";
 import UploadMedia from '../../assets/Droppedpin/UploadMediaIcon.svg'
+import CloseUploadedFile from '../../assets/POIEdit/FileUploadCancel.svg'
+
 
 
 const Component = ({mapview,isLangArab, selectedLayer, addPointGeometry, setFormShow,setPOIFormsuccessShow,setmessage,onClose,setPOIFormisOpenModalShow,isFormShow}) => {
@@ -40,23 +42,8 @@ const Component = ({mapview,isLangArab, selectedLayer, addPointGeometry, setForm
     },
   });
   const [buttonDisable, setButtonDisable] = useState(false);
-  
-  // const [errors, setErrors] = useState({
-  //   organization: "organization Field is Required",
-  //   name: " Name Field is Required",
-  //   class: "Class  Field is Required",
-  //   classD: " ClassD Field is Required",
-  //   status: "Status Field is Required",
-  //   comment: "Comment Field is Required",
-  //   description: " Description Field is Required",
-  //   poems: "Poems Field is Required",
-  //   stories: " Store Field is Required",
-  //   // classification: " Classification Field is Required",
-  //   municipality: " Municipality Field is Required",
-  //   emirate: " Emirate  Field is Required",
-  //   city: " City Field is Required",
-  // });
 
+  
   const [errors, setErrors] = useState({});
   
   console.log("pioData :>> ", poiData);
@@ -352,6 +339,7 @@ const Component = ({mapview,isLangArab, selectedLayer, addPointGeometry, setForm
 
   const [files, setFiles] = useState([]);
   const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [filesShow,setFilesShow] = useState([])
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef(null);
 
@@ -474,12 +462,38 @@ const handleDrop = async (e) => {
   // Move files to uploaded state and clear current selection
   const handleDone = () => {
     setUploadedFiles([...uploadedFiles, ...files]);
+    const newFiles = files.map((file) => ({
+      file,
+      name: file.name,
+      progress: 0, // Initialize progress
+      preview: URL.createObjectURL(file), // Generate a preview URL
+    }));
+   
+    setFilesShow((prev) => [...prev, ...newFiles]);
+    simulateUploads(newFiles);
     setFiles([]);
+  };
+
+  const simulateUploads = (newFiles) => {
+    newFiles.forEach((file, index) => {
+      const interval = setInterval(() => {
+        setFilesShow((prev) =>
+          prev.map((item, idx) =>
+            idx === filesShow.length + index && item.progress < 100
+              ? { ...item, progress: item.progress + 10 }
+              : item
+          )
+        );
+      }, 300);
+
+      setTimeout(() => clearInterval(interval), 3000);
+    });
   };
 
   // Remove uploaded file
   const handleRemoveUploadedFile = (index) => {
     setUploadedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+    setFilesShow((prevFiles) => prevFiles.filter((_, i) => i !== index));
   };
 
   const handleFormSubmit = async () => {
@@ -766,119 +780,69 @@ const handleDrop = async (e) => {
     <div className="w-full max-w-md bg-transparent text-black overflow-y-auto">
       <div>
         <button
-        
           onClick={onClose}
           className="px-1 py-3 hover:text-blue-500 flex justify-start items-center text-black focus:outline-none"
         >
-        {isLangArab ?<>        <span className=" font-omnes font-500 text-[#00000099] text-[14px]" >{isLangArab?"خلف":"Back"}</span>  <ChevronLeft className="w-[17px] h-[17px]" />
-          
-          </>:<>          <ChevronLeft className="w-[17px] h-[17px]" />
-          <span className=" font-omnes font-500 text-[#00000099] text-[14px]">{isLangArab?"خلف":"Back"}</span>
-          </>}
-
+          {isLangArab ? (
+            <>
+              {" "}
+              <span className=" font-omnes font-500 text-[#00000099] text-[14px]">
+                {isLangArab ? "خلف" : "Back"}
+              </span>{" "}
+              <ChevronLeft className="w-[17px] h-[17px]" />
+            </>
+          ) : (
+            <>
+              {" "}
+              <ChevronLeft className="w-[17px] h-[17px]" />
+              <span className=" font-omnes font-500 text-[#00000099] text-[14px]">
+                {isLangArab ? "خلف" : "Back"}
+              </span>
+            </>
+          )}
         </button>
       </div>
       <div className="p-1 space-y-0.5">
-      {renderField(
-  "organization",
-  isLangArab ? "منظمة" : "Organization",
-  poiData.organization,
-  organizationOptions,
-  "select"
-)}
-{renderField(
-  "name",
-  isLangArab ? "الاسم" : "Name",
-  poiData.name
-)}
-{renderField(
-  "class",
-  isLangArab ? "الفئة" : "Class",
-  poiData.class
-)}
-{renderField(
-  "classD",
-  isLangArab ? "الفئة D" : "ClassD",
-  poiData.classD
-)}
-{renderField(
-  "status",
-  isLangArab ? "الحالة" : "Status",
-  poiData.status,
-  statusOptions,
-  "select"
-)}
-{renderField(
-  "comment",
-  isLangArab ? "تعليق" : "Comment",
-  poiData.comment
-)}
-{renderField(
-  "description",
-  isLangArab ? "الوصف" : "Description",
-  poiData.description
-)}
-{renderField(
-  "poems",
-  isLangArab ? "الأشعار" : "Poems",
-  poiData.poems
-)}
-{renderField(
-  "stories",
-  isLangArab ? "القصص" : "Stories",
-  poiData.stories
-)}
-{renderField(
-  "classification",
-  isLangArab ? "التصنيف" : "Classification",
-  poiData.classification || selectedLayer,
-  [],
-  "text",
-  true
-)}
-{renderField(
-  "municipality",
-  isLangArab ? "البلدية" : "Municipality",
-  poiData.municipality,
-  municipalityOptions,
-  "select"
-)}
-{renderField(
-  "emirate",
-  isLangArab ? "الإمارة" : "Emirate",
-  poiData.emirate
-)}
-{renderField(
-  "city",
-  isLangArab ? "المدينة" : "City",
-  poiData.city
-)}
-
-        {/* {renderField(
+        {renderField(
           "organization",
-          isLangArab?"منظمة":
-          "Organization",
+          isLangArab ? "منظمة" : "Organization",
           poiData.organization,
           organizationOptions,
           "select"
         )}
-        {renderField("name", "Name", poiData.name)}
-        {renderField("class", "Class", poiData.class)}
-        {renderField("classD", "ClassD", poiData.classD)}
+        {renderField("name", isLangArab ? "الاسم" : "Name", poiData.name)}
+        {renderField("class", isLangArab ? "الفئة" : "Class", poiData.class)}
+        {renderField(
+          "classD",
+          isLangArab ? "الفئة D" : "ClassD",
+          poiData.classD
+        )}
         {renderField(
           "status",
-          "Status",
+          isLangArab ? "الحالة" : "Status",
           poiData.status,
           statusOptions,
           "select"
         )}
-        {renderField("comment", "Comment", poiData.comment)}
-        {renderField("description", "Description", poiData.description)}
-        {renderField("poems", "Poems", poiData.poems)}
-        {renderField("stories", "Stories", poiData.stories)}
+        {renderField(
+          "comment",
+          isLangArab ? "تعليق" : "Comment",
+          poiData.comment
+        )}
+        {renderField(
+          "description",
+          isLangArab ? "الوصف" : "Description",
+          poiData.description
+        )}
+        {renderField("poems", isLangArab ? "الأشعار" : "Poems", poiData.poems)}
+        {renderField(
+          "stories",
+          isLangArab ? "القصص" : "Stories",
+          poiData.stories
+        )}
         {renderField(
           "classification",
-          "Classification",
+          isLangArab ? "التصنيف" : "Classification",
           poiData.classification || selectedLayer,
           [],
           "text",
@@ -886,19 +850,23 @@ const handleDrop = async (e) => {
         )}
         {renderField(
           "municipality",
-          "Municipality",
+          isLangArab ? "البلدية" : "Municipality",
           poiData.municipality,
           municipalityOptions,
           "select"
         )}
-        {renderField("emirate", "Emirate", poiData.emirate)}
-        {renderField("city", "City", poiData.city)} */}
+        {renderField(
+          "emirate",
+          isLangArab ? "الإمارة" : "Emirate",
+          poiData.emirate
+        )}
+        {renderField("city", isLangArab ? "المدينة" : "City", poiData.city)}
 
         {/* Coordinates Section */}
         <div className="space-y-2 pt-2 pb-6">
           <div className="flex items-center space-x-4">
             <label className="block text-[11px] font-medium text-gray-700">
-              {isLangArab?"الإحداثيات":"Coordinates"}
+              {isLangArab ? "الإحداثيات" : "Coordinates"}
             </label>
             <label className="inline-flex items-center">
               <input
@@ -909,7 +877,9 @@ const handleDrop = async (e) => {
                 checked={poiData.coordinateType === "dms"}
                 onChange={handleCoordinateTypeChange}
               />
-              <span className="ml-1 text-[11px]">{isLangArab?"درجات دقائق ثواني":"Degrees Minutes Seconds"}</span>
+              <span className="ml-1 text-[11px]">
+                {isLangArab ? "درجات دقائق ثواني" : "Degrees Minutes Seconds"}
+              </span>
             </label>
             <label className="inline-flex items-center">
               <input
@@ -920,13 +890,17 @@ const handleDrop = async (e) => {
                 checked={poiData.coordinateType === "decimal"}
                 onChange={handleCoordinateTypeChange}
               />
-              <span className="ml-1 text-[11px]">{isLangArab?"الدرجات العشرية":"Decimal Degrees"}</span>
+              <span className="ml-1 text-[11px]">
+                {isLangArab ? "الدرجات العشرية" : "Decimal Degrees"}
+              </span>
             </label>
           </div>
           {poiData.coordinateType === "dms" && (
             <div className="space-y-2">
               <div className="flex items-center space-x-2">
-                <label className=" text-[11px] w-16">{isLangArab?"نقطة X":"Point_X"}</label>
+                <label className=" text-[11px] w-16">
+                  {isLangArab ? "نقطة X" : "Point_X"}
+                </label>
                 <input
                   type="text"
                   id="dms_pointx_degrees"
@@ -953,7 +927,9 @@ const handleDrop = async (e) => {
                 />
               </div>
               <div className="flex items-center space-x-2">
-                <label className=" text-[11px] w-16">{isLangArab? "نقطة Y" : "Point_Y" }</label>
+                <label className=" text-[11px] w-16">
+                  {isLangArab ? "نقطة Y" : "Point_Y"}
+                </label>
                 <input
                   type="text"
                   id="dms_pointy_degrees"
@@ -984,7 +960,9 @@ const handleDrop = async (e) => {
           {poiData.coordinateType === "decimal" && (
             <div className="space-y-2">
               <div className="flex items-center space-x-2">
-                <label className="w-16">{isLangArab?"نقطة X":"Point_X"}</label>
+                <label className="w-16">
+                  {isLangArab ? "نقطة X" : "Point_X"}
+                </label>
                 <input
                   type="text"
                   id="decimal_pointx"
@@ -995,7 +973,9 @@ const handleDrop = async (e) => {
                 />
               </div>
               <div className="flex items-center space-x-2">
-                <label className="w-16">{isLangArab? "نقطة Y" : "Point_Y" }</label>
+                <label className="w-16">
+                  {isLangArab ? "نقطة Y" : "Point_Y"}
+                </label>
                 <input
                   type="text"
                   id="decimal_pointy"
@@ -1011,7 +991,11 @@ const handleDrop = async (e) => {
 
         {/* File Upload Section */}
         <div className="bg-white p-4  grid grid-cols-1 gap-4 border border-none rounded-lg">
-          <h1 className="text-[#000000] font-poppins font-500 text-[12px] ">{isLangArab?"تحميل مقاطع الفيديو/الصور/التسجيلات الصوتية":"Upload Videos/Photos/Audios"}</h1>
+          <h1 className="text-[#000000] font-poppins font-500 text-[12px] ">
+            {isLangArab
+              ? "تحميل مقاطع الفيديو/الصور/التسجيلات الصوتية"
+              : "Upload Videos/Photos/Audios"}
+          </h1>
           <div
             className={`border-2 border-dashed rounded-lg p-6 text-center bg-white ${
               isDragging ? "border-blue-500" : "border-gray-300"
@@ -1021,46 +1005,54 @@ const handleDrop = async (e) => {
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
           >
-             <img
+            {!files.length > 0 && (
+              <img
                 src={UploadMedia}
                 className=" mx-auto h-16 w-16 text-white"
                 alt="Upload"
               />
+            )}
             {/* <ImageIcon className="mx-auto h-12 w-12 text-gray-400" /> */}
             {files.length > 0 ? (
-              <div className="mt-2 space-y-2">
+              <div className="mt-2  space-y-2">
                 {files.map((file, index) => (
                   <div
                     key={index}
-                    className="flex items-center justify-between"
+                    className="flex w-full h-full items-center justify-between"
                   >
-                    <div className="flex items-center">
-                      <FileIcon className="h-8 w-8 text-gray-600" />
-                      <span className="ml-2 text-gray-700">{file.name}</span>
+                    <div className="flex w-full h-full items-center">
+                      <img
+                        src={URL.createObjectURL(file)}
+                        className=" mx-auto rounded-xl w-full h-full text-white"
+                        alt="Upload"
+                      />
                     </div>
-                    <button
+                    {/* <button
                       onClick={() => removeFile(index)}
                       className="text-red-500 hover:text-red-700"
                     >
                       <XCircleIcon className="w-5 h-5" />
-                    </button>
+                    </button> */}
                   </div>
                 ))}
               </div>
             ) : (
               <p className="mt-2 text-[11px] font-poppins font-400 text-[#132A00]">
-                {isLangArab?"قم بإسقاط الصور أو مقاطع الفيديو الخاصة بك هنا، أو":"Drop your file here, or"}{" "}
+                {isLangArab
+                  ? "قم بإسقاط الصور أو مقاطع الفيديو الخاصة بك هنا، أو"
+                  : "Drop your file here, or"}{" "}
                 <button
                   onClick={handleBrowse}
                   className="text-blue-500 text-[12px] hover:text-blue-600 focus:outline-none focus:underline"
                 >
-                  {isLangArab?"تصفح":"browse"}
+                  {isLangArab ? "تصفح" : "browse"}
                 </button>
               </p>
             )}
-            <p className="mt-1 text-[7px] text-[#969DB2] font-poppins font-400 ">
-              {isLangArab?"يدعم":"Supports:"}{isLangArab?" PNG, JPG, JPEG, MP3, ":"PNG, JPG, JPEG, MP3, "}
-            </p>
+           { !files.length > 0 && <p className="mt-1 text-[7px] text-[#969DB2] font-poppins font-400 ">
+              {isLangArab ? "يدعم" : "Supports:"}
+              {isLangArab ? " PNG, JPG, JPEG, MP3, " : "PNG, JPG, JPEG, MP3, "}
+            </p>}
             <input
               type="file"
               ref={fileInputRef}
@@ -1081,40 +1073,51 @@ const handleDrop = async (e) => {
                 className="w-[14px] h-[14px] text-white"
                 alt="Upload"
               />
-              {isLangArab?"تحميل الوسائط":"Upload media"}
+              {isLangArab ? "تحميل الوسائط" : "Upload media"}
             </button>
           </div>
         </div>
 
         {/* Uploaded Files Section */}
-        {uploadedFiles.length > 0 && (
-          <div className="space-y-4">
-            <h2 className="text-gray-700 text-[13px]">{isLangArab?"الملفات المرفوعة":"Uploaded Files"}</h2>
-            {uploadedFiles.map((file, index) => (
-              <div
-                key={index}
-                className="flex items-center w-full bg-black/55 h-[60px] justify-between border p-1 rounded-md"
-              >
-                {file.type.startsWith("image/") ? (
-                  <img
-                    src={URL.createObjectURL(file)}
-                    alt={file.name}
-                    className="w-[80%] h-[80%] object-cover rounded-md"
-                  />
-                ) : (
-                  <div className="flex items-center">
-                    <FileIcon className="h-8 w-8 text-gray-600" />
-                    <span className="ml-2  text-gray-700">{file.name}</span>
-                  </div>
-                )}
-                <button
-                  onClick={() => handleRemoveUploadedFile(index)}
-                  className="text-red-500 hover:text-red-700"
+        {filesShow.length > 0 && (
+          <div className="mt-4 p-6 bg-transparent rounded-lg shadow-sm">
+            <ul className="space-y-2">
+              {filesShow.map((file, index) => (
+                <li
+                  key={index}
+                  className="flex flex-col px-2 py-2 bg-transparent rounded-md border border-[#E4E9F0]"
                 >
-                  <XCircleIcon className="w-5 h-5" />
-                </button>
-              </div>
-            ))}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center">
+                      <img
+                        src={file.preview}
+                        alt={file.name}
+                        className="h-9 w-9 rounded-lg object-cover"
+                      />
+                      <div className="ml-3">
+                        <span className="text-gray-700 font-medium text-ellipsis text-[9px] block">
+                          {file.name}
+                        </span>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => handleRemoveUploadedFile(index)}
+                      className="text-red-500 hover:underline text-xs"
+                    >
+                      <img src={CloseUploadedFile} alt="Remove" />
+                    </button>
+                  </div>
+
+                  {/* Progress Bar */}
+                  <div className="w-full bg-gray-200 my-1 mx-1 border-transparent rounded-3xl h-1">
+                    <div
+                      className="bg-[#1F4690] h-1 border-transparent rounded-3xl"
+                      style={{ width: `${file.progress}%` }}
+                    ></div>
+                  </div>
+                </li>
+              ))}
+            </ul>
           </div>
         )}
 
@@ -1129,10 +1132,13 @@ const handleDrop = async (e) => {
           <button
             onClick={handleFormSubmit}
             disabled={!buttonDisable}
-            
-            className={` ${!buttonDisable?"w-auto py-3 px-9 laptop_s:px-12 bg-custome-gray1 text-white text-xs border border-gray-300 rounded-lg":"w-auto py-3 px-9 bg-custom-gradient text-xs border border-gray-300 rounded-lg"}` }
+            className={` ${
+              !buttonDisable
+                ? "w-auto py-3 px-9 laptop_s:px-12 bg-custome-gray1 text-white text-xs border border-gray-300 rounded-lg"
+                : "w-auto py-3 px-9 bg-custom-gradient text-xs border border-gray-300 rounded-lg"
+            }`}
           >
-            { isLangArab ? "يُقدِّم" : "Submit"}
+            {isLangArab ? "يُقدِّم" : "Submit"}
           </button>
         </div>
       </div>

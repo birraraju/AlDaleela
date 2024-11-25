@@ -100,7 +100,7 @@ export default function SideLayout1({
             </p>
           )}
         </div>
-        <div className=""><BasemapGallery mapview={mapview}/></div>
+        <div className=" w-full"><BasemapGallery mapview={mapview}/></div>
       </div>
 
       {/* Toggle button */}
