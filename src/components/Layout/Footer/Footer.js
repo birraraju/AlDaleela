@@ -30,7 +30,7 @@ export default function Footer({
   const headingsMap = {
     0: t(isLangArab ? "معرض الخريطة الأساسية" : "Basemap Gallery"),
     1: t(isLangArab ? "علامات مرجعية" : "Bookmarks"),
-    2: t(isLangArab ? "القياس" : "Measurment"),
+    2: t(isLangArab ? "القياس" : "Measurement"),
     3: t(isLangArab ? "دبوس مُنقَطِع" : "Dropped Pin"),
     4: t(isLangArab ? "مشاركة" : "Share"),
     5: t(isLangArab ? "تصدير البيانات" : "Export Data"),

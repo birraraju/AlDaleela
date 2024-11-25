@@ -80,7 +80,7 @@ export default function POIApprovalStatus({ children, onClose, mapview }) {
           <ChevronLeft className={isDarkMode?"w-[17px] h-[17px] text-white":"w-[17px] h-[17px] text-[#1E1E1E]"} />
                    </> :<>
           <ChevronLeft className={isDarkMode?"w-[17px] h-[17px] text-white":" w-[17px] h-[17px] text-[#1E1E1E]"} />
-          <span className={isDarkMode?"text-white hover:text-gray-200":" text-black font-omnes font-500 text-[13px] text-[#00000099] hover:text-blue-500"}>{isLangArab?"خلف":"Back"}</span>
+          <span className={isDarkMode?"text-white hover:text-gray-200":" text-black   font-500 text-[13px] text-[#00000099] hover:text-blue-500"}>{isLangArab?"خلف":"Back"}</span>
           </>}
         </button></div>}
         </div>

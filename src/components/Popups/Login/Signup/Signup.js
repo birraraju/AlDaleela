@@ -24,7 +24,8 @@ export default function Signup({ onClose, onSigninClick }) {
     confirmPassword: "",
     phoneNumber: "",
     username: "",
-  
+    organization:"",
+    firstName:"",
     email: "",
   });
 
@@ -59,13 +60,15 @@ export default function Signup({ onClose, onSigninClick }) {
   };
 
   const validateForm = (data) => {
-    const { password, confirmPassword, phoneNumber,email} = data;
+    const { password, confirmPassword,username,firstName,organization, phoneNumber,email} = data;
     setErrorMessages({
       password: "",
       confirmPassword: "",
       phoneNumber: "",
       username: "",
-   email:""
+      firstName:"",
+   email:"",
+   organization:""
     });
 
     let valid = true;
@@ -77,6 +80,7 @@ export default function Signup({ onClose, onSigninClick }) {
       // Optionally set error messages for specific fields
     }
 
+    const CharacterRegex = /^[A-Za-z]+$/;
     // Check password length
 
     const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
@@ -100,20 +104,54 @@ export default function Signup({ onClose, onSigninClick }) {
       }));
     }
 
+    if(!organization){
+      valid = false;
+      setErrorMessages((prev) => ({
+        ...prev,
+        organization: "Organization required.",
+      }));
+    }else if(!CharacterRegex.test(organization)){
+      valid = false;
+      setErrorMessages((prev) => ({
+        ...prev,
+        organization: "organization should contain only alphabets.",
+      }));
+    }
     // Check if the username already exists
     const isUsernameAvailable = !usernameExists; // Ensure username does not exist
+    const usernameRegex = /^[A-Za-z]+$/;
     if (!isUsernameAvailable) {
       valid = false;
       setErrorMessages((prev) => ({
         ...prev,
         username: "Username already exists.",
       }));
-    }else{
+    }else if(!username){
       setErrorMessages((prev)=>({
         ...prev,
         username:"Username is required"
       }))
+    }else if (!usernameRegex.test(username)) {
+      valid = false;
+      setErrorMessages((prev) => ({
+        ...prev,
+        username: "Username should contain only alphabets.",
+      }));
     }
+
+    if(!firstName){
+      valid = false;
+      setErrorMessages((prev) => ({
+        ...prev,
+        firstName: "firstName required",
+      }));
+    }else if(!usernameRegex.test(firstName)){
+      valid = false;
+      setErrorMessages((prev) => ({
+        ...prev,
+        firstName: "firstName should contain only alphabets.",
+      }));
+    } 
 
     // Check if phone number is exactly 10 digits and contains only numbers
     const isPhoneNumberValid =
@@ -177,10 +215,10 @@ export default function Signup({ onClose, onSigninClick }) {
         setEmailExists(false);
         onClose();
       } else {
-        if (data.message == "Username already exists.") {
+        if (data.message === "Username already exists.") {
           setUsernameExists(true);
         }
-        if (data.message == "Email already exists.") {
+        if (data.message === "Email already exists.") {
           setEmailExists(true);
         }
       }
@@ -263,7 +301,7 @@ export default function Signup({ onClose, onSigninClick }) {
             >
               Please create your account
             </p>
-            <form onSubmit={handleSubmit} className="space-y-3 ">
+            <form onSubmit={handleSubmit} className="space-y-1 laptop_lg:space-y-2 ">
               <div className="grid sm:grid-cols-2 grid-cols-1 gap-2">
                 <span>
                   <Input
@@ -281,13 +319,14 @@ export default function Signup({ onClose, onSigninClick }) {
                       handleChange(e);
                     }}
                   />
-                  {usernameExists && (
-                    <p className=" text-sm" style={{ color: "red" }}>
-                      {"Username already exists."}
+                  {errorMessages.username && (
+                    <p className=" text-xs" style={{ color: "red" }}>
+                      {errorMessages.username}
                     </p>
                   )}{" "}
                   {/* Username error message */}
                 </span>
+                <span>
                 <Input
                   type="text"
                   name="firstName"
@@ -298,6 +337,13 @@ export default function Signup({ onClose, onSigninClick }) {
                   }`}
                   onChange={handleChange}
                 />
+                {errorMessages.firstName && (
+                    <p className=" text-xs" style={{ color: "red" }}>
+                      {errorMessages.firstName}
+                    </p>
+                  )}{" "}
+                  {/* First Name error message */}
+                </span>
               </div>
               <div className="grid sm:grid-cols-2 grid-cols-1 gap-2">
                 <div className="relative">
@@ -425,6 +471,7 @@ export default function Signup({ onClose, onSigninClick }) {
                 </span>
               </div>
               <div className="grid sm:grid-cols-2 grid-cols-1 gap-2">
+                <span className=" flex flex-col">
                 <Input
                   type="text"
                   name="organization"
@@ -432,6 +479,12 @@ export default function Signup({ onClose, onSigninClick }) {
                   required
                   onChange={handleChange}
                 />
+                {errorMessages.organization && (
+                    <p className=" text-xs" style={{ color: "red" }}>
+                      {errorMessages.organization}
+                    </p>
+                  )}{" "}
+                  </span>
                 <div className="relative">
                   <select
                     name="country"
@@ -478,10 +531,10 @@ export default function Signup({ onClose, onSigninClick }) {
               </div>
             </form>
           </div>
-          <div className="w-full mt-2">
+          <div className="w-full mt-1">
             <button
               type="submit"
-              className={`sm:w-[308px] w-[270px] h-[48px] mx-auto block py-2 rounded-xl transition duration-300 text-sm mt-10
+              className={`sm:w-[308px] w-[270px] h-[48px] mx-auto block py-1 rounded-xl transition duration-300 text-sm mt-5
                 ${
                   formIsValid
                     ? isDarkMode

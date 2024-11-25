@@ -328,7 +328,7 @@ export default function SideLayout3({ children, width = "454.84px", onClose, map
         <div className="p-6 overflow-y-auto h-full">
           {children || (
             <div className=" flex justify-between items-center">
-              <p className={`${isDarkMode ? 'text-[#FFFFFFCC] text-opacity-80' : ' text-[#000000]'} text-[16px] font-omnes font-500`}>
+              <p className={`${isDarkMode ? 'text-[#FFFFFFCC] text-opacity-80' : ' text-[#000000]'} text-[16px]   font-500`}>
                 {isLangArab ? "القياس" : "Measurement"}
               </p>
               <button

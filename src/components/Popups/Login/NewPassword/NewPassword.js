@@ -247,7 +247,7 @@ const newError={}
             </form>
             <button
               onClick={handleSubmit}
-              className={`w-full h-[40px] mt-5 mb-4 rounded-xl font-omnes transition duration-300 ${
+              className={`w-full h-[40px] mt-5 mb-4 rounded-xl   transition duration-300 ${
                 isResetDisabled
                   ? isDarkMode
                     ? 'bg-[white] bg-opacity-20 text-white font-medium'

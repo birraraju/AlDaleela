@@ -10,7 +10,7 @@ export default function SidebarComponent({ activeItem, onItemClick,isCollapsed, 
       {/* Uncomment and modify the following lines if needed */}
       {/* 
       <div className="ml-[190px] p-8 flex-1">
-        <div className="ml-[190px] p-8 flex-1 font-omnes font-medium bg-white rounded-lg w-[calc(100%-230px)] h-[calc(100vh-5rem)] py-2 fixed top-20 mt-2 left-5 z-10">
+        <div className="ml-[190px] p-8 flex-1   font-medium bg-white rounded-lg w-[calc(100%-230px)] h-[calc(100vh-5rem)] py-2 fixed top-20 mt-2 left-5 z-10">
           <Heading activeItem={activeItem} />
           {renderContent()}
         </div>

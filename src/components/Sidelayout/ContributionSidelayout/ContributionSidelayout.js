@@ -155,15 +155,15 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
 
       <div className={`px-1 py-3 sm:w-[350px]  laptop_s:w-[325px] w-[320px] max-h-[calc(79vh-200px)]  overflow-y-auto mt-2 ${featureServiceData.length === 0 ? 'min-h-[350px]' : ''}`}>
         <div
-          className={`grid font-omnes grid-cols-3 gap-4 font-medium text-[12px] mb-2 px-4 ${
+          className={`grid   grid-cols-3 gap-4 font-medium text-[12px] mb-2 px-4 ${
             isDarkMode ? "text-gray-300" : "text-gray-600"
           } ${isLangArab ? "text-right" : "text-left"} ${
             isLangArab ? "direction-rtl" : ""
           }`} // RTL for Arabic
         >
-          <div className=" font-omnes font-500 text-[#667085]">{isLangArab ? "التاريخ" : "Date"}</div>
-          <div className=" font-omnes font-500 text-[#667085]" >{isLangArab ? "اسم نقطة الاهتمام" : "POI Name"}</div>
-          <div className="mr-12 font-omnes font-500 text-[#667085] ">{isLangArab ? "الحالة" : "Status"}</div>
+          <div className="   font-500 text-[#667085]">{isLangArab ? "التاريخ" : "Date"}</div>
+          <div className="   font-500 text-[#667085]" >{isLangArab ? "اسم نقطة الاهتمام" : "POI Name"}</div>
+          <div className="mr-12   font-500 text-[#667085] ">{isLangArab ? "الحالة" : "Status"}</div>
         </div>
         {featureServiceData.map((contribution, index) => (
           <div
@@ -173,7 +173,7 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
             } ${isLangArab ? "text-right" : "text-left"}`}
           >
         <div
-  className={`font-500 font-omnes sm:text-[13px] text-[10px] ${
+  className={`font-500   sm:text-[13px] text-[10px] ${
     isDarkMode ? "text-[#FFFFFFCC]" : "text-[#101828]"
   }`}
 >
@@ -193,7 +193,7 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
 
 
             <div
-              className={`font-500 font-omnes sm:text-[12px] laptop_s:text-[13px] text-[9px] ${
+              className={`font-500   sm:text-[12px] laptop_s:text-[13px] text-[9px] ${
                 isDarkMode ? "text-[#FFFFFFCC]" : "text-[#3E3E3E]"
               }`}
             >
@@ -207,14 +207,14 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
             isDarkMode
               ? "text-white/70"
               : "bg-custom-gradient"
-          } font-omnes ${
+          }   ${
             isLangArab ? "sm:text-[12px] text-[14px]" : "sm:text-[12px] text-[14px]"
           } font-500 bg-clip-text text-transparent`
         : contribution.approvalStatus === "Rejected"
-          ? "text-red-500 font-omnes sm:text-[12px] text-[14px] font-500"
+          ? "text-red-500   sm:text-[12px] text-[14px] font-500"
         : `${
             isDarkMode ? "text-white/70" : "text-[#EFB45D]"
-          } font-omnes sm:text-[13px] text-[14px] font-500`
+          }   sm:text-[13px] text-[14px] font-500`
     }`}
   >
     {contribution.approvalStatus === "Approved" &&

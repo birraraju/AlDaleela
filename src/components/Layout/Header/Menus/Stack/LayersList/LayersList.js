@@ -82,7 +82,7 @@ export default function LayersList({ onClose, mapview }) {
       >
         <div>
           <h1
-            className={`font-omnes text-[16px] font-medium ${
+            className={`  text-[16px] font-medium ${
               isLangArab ? "text-right" : "text-left"
             }`}
           >
@@ -138,7 +138,7 @@ export default function LayersList({ onClose, mapview }) {
             </span>
             <label
               htmlFor={`checkbox-${service.name}`}
-              className={` font-omnes font-500 text-[14px]`}
+              className={`   font-500 text-[14px]`}
             >
               {service.name}
             </label>

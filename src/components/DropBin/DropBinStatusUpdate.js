@@ -736,15 +736,15 @@ const DropBinStatusUpdate = ({setMessage,isLangArab,setFormShow,isDarkMode,setPO
             </div>
 
         <div className="flex justify-between gap-4 h-[48px]  items-center">
-          <button onClick={handleApprovePOI} className="w-[185px] text-[#FFFFFF]  bg-custom-gradient text-[16px] h-[40px] font-omnes font-500 border border-transparent rounded-lg">
+          <button onClick={handleApprovePOI} className="w-[185px] text-[#FFFFFF]  bg-custom-gradient text-[16px] h-[40px]   font-500 border border-transparent rounded-lg">
             {isLangArab?"تم الموافقة!":"Approve"}
           </button>
-          <button onClick={handleRejectPOI} className=" w-[185px] font-omnes font-500   bg-[#FFE8E8] h-[40px] text-[16px] text-[#8E4848] border border-[#909090] rounded-lg">
+          <button onClick={handleRejectPOI} className=" w-[185px]   font-500   bg-[#FFE8E8] h-[40px] text-[16px] text-[#8E4848] border border-[#909090] rounded-lg">
             {isLangArab?"تم الرفض!":"Reject"}
           </button>
         </div>
       </div>
-      <div className="  text-[#505050] font-omnes  font-500 text-[15px] w-full flex justify-center items-center py-2">
+      <div className="  text-[#505050]    font-500 text-[15px] w-full flex justify-center items-center py-2">
         X 54.2971051, Y 24.0622842
       </div>
     </div>

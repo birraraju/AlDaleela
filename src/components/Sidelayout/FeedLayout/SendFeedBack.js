@@ -385,7 +385,7 @@ export default function Feedback({
                     className="w-6 sm:w-6 h-10 sm:h-7 laptop_s:h-7 laptop_s:w-6 "
                   />
                   <p
-                    className={` w-8 sm:w-12 font-omnes font-400  sm:h-6 h-3 ${
+                    className={` w-8 sm:w-12   font-400  sm:h-6 h-3 ${
                       isLangArab ? "text-[10px] sm:text-[12px] laptop_lg:text-[13px] " : "text-[10px] sm:text-[12px]" // Increased text size for Arabic
                     } ${item.color}`}
                   >
@@ -411,7 +411,7 @@ export default function Feedback({
             <div>
               <label
                 htmlFor="name"
-                className={`block  font-omnes font-500 mb-1 transition-colors ${
+                className={`block    font-500 mb-1 transition-colors ${
                   isLangArab ? "text-[14px] mr-2" : "text-[14px]" // Increased text size for Arabic
                 } ${
                   isDarkMode ? "text-[#FFFFFF] bg-opacity-70" : "text-[#000000]"
@@ -427,7 +427,7 @@ export default function Feedback({
                 placeholder={
                   isLangArab ? "أدخل اسم المستخدم" : "Enter Your Name"
                 }
-                className={`w-full px-3  font-omnes font-400 text-[13px] py-2 border rounded-lg outline-none transition-colors ${
+                className={`w-full px-3    font-400 text-[13px] py-2 border rounded-lg outline-none transition-colors ${
                   isDarkMode
                     ? "bg-[#444646]  text-[white] border-transparent "
                     : "bg-[#FFFFFF] text-black border-gray-300"
@@ -448,7 +448,7 @@ export default function Feedback({
             <div>
               <label
                 htmlFor="email"
-                className={`block  font-omnes font-500 mb-1 transition-colors ${
+                className={`block    font-500 mb-1 transition-colors ${
                   isLangArab ? "text-[13px] mr-2" : "text-[13px]" // Increased text size for Arabic
                 } ${
                   isDarkMode ? "text-[#FFFFFF] bg-opacity-70" : "text-[#000000]"
@@ -468,7 +468,7 @@ export default function Feedback({
                     ? "أدخل بريدك الإلكتروني"
                     : "Enter Your Email Address"
                 }
-                className={`w-full px-3 font-omnes font-400 text-[13px] py-2 border rounded-lg outline-none transition-colors ${
+                className={`w-full px-3   font-400 text-[13px] py-2 border rounded-lg outline-none transition-colors ${
                   isDarkMode
                     ? "bg-[#444646]  text-white border-transparent "
                     : "bg-[#FFFFFF] text-black border-gray-300"
@@ -489,7 +489,7 @@ export default function Feedback({
             <div>
               <label
                 htmlFor="thoughts"
-                className={`block  font-omnes font-500 mb-1 transition-colors ${
+                className={`block    font-500 mb-1 transition-colors ${
                   isLangArab ? "text-[13px] mr-2" : "text-[14px]" // Increased text size for Arabic
                 } ${
                   isDarkMode ? "text-[#FFFFFF] bg-opacity-70" : "text-[#000000]"
@@ -508,7 +508,7 @@ export default function Feedback({
                 }
                 onChange={(e) =>{ setfbcomments(e.target.value)
                  }}
-                className={`w-full px-3 text-[13px] font-omnes font-400  resize-none h-30 py-2 border rounded-lg outline-none transition-colors ${
+                className={`w-full px-3 text-[13px]   font-400  resize-none h-30 py-2 border rounded-lg outline-none transition-colors ${
                   isDarkMode
                     ? "bg-[#444646]  text-white border-transparent "
                     : "bg-[#FFFFFF] text-[#000000] border-gray-300"
@@ -529,7 +529,7 @@ export default function Feedback({
         </div>
         <div className="flex pt-6 justify-between items-baseline px-4  sm:px-2">
           <button
-            className={`sm:px-12 px-9  font-omnes font-500 sm:py-2 py-2 border rounded-lg transition-colors ${
+            className={`sm:px-12 px-9    font-500 sm:py-2 py-2 border rounded-lg transition-colors ${
               isLangArab ? "text-[14px] " : "text-[14px]" // Increased text size for Arabic
             } ${
               isDarkMode
@@ -544,7 +544,7 @@ export default function Feedback({
           </button>
           <button
             onClick={onSubmitFeedback}
-            className={`sm:px-12 px-9 font-omnes font-500 sm:py-2 text-[14px]  py-2 rounded-lg transition-colors ${
+            className={`sm:px-12 px-9   font-500 sm:py-2 text-[14px]  py-2 rounded-lg transition-colors ${
               validate()
                 ? "bg-custom-gradient text-white"
                 : "bg-gray-600/65 text-white"

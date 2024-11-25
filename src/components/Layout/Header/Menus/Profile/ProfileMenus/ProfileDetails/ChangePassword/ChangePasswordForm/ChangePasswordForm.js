@@ -134,7 +134,7 @@ export default function ChangePasswordForm({setIsProfileData,setModalMessage,set
           name="currentPassword"
           render={({ field }) => (
             <FormItem c>
-              <FormLabel className={`font-400 font-omnes sm:text-[14px] tracking-wide ${
+              <FormLabel className={`font-400   sm:text-[14px] tracking-wide ${
               isDarkMode ? "text-white" : "text-[#000000CC]"
             }`}>
                  

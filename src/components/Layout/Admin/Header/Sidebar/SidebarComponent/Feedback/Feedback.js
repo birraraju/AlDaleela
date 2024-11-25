@@ -180,8 +180,8 @@ const Feedback = () => {
         isDarkMode ? "bg-[#303031] bg-opacity-90" : "bg-white "
       } text-black backdrop-blur border-none`}>
       <div className="flex justify-between items-center mb-6">
-      <h2 className={`text-[22px] font-500 font-omnes ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#464646]"}`}>
-      {isLangArab?"إدارة المستخدمين":"Feedbacks"}</h2>
+      <h2 className={`text-[22px] font-500   ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#464646]"}`}>
+      {isLangArab?"إدارة المستخدمين":"Feedback"}</h2>
       <button  onClick={toggleEdit} 
             className={isEditing ? "text-gray-500 hover:text-gray-700" : "text-teal-600 hover:text-teal-700"} 
             aria-label={isEditing ? "Close edit mode" : "Edit"}
@@ -204,17 +204,17 @@ const Feedback = () => {
   <thead className={`${!selectedUser && "sticky"} top-0 z-10 ${isDarkMode ? "bg-[#303031]" : "bg-white"}`}>
     <tr className={`${isLangArab ? "text-right" : "text-left"} text-sm font-500 text-gray-500 border-b`}>
       {isEditing && <th className="pb-3 w-8"></th>}
-      <th className={`pb-3 p-2 font-500 font-omnes text-[14px] ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}></th>
-      <th className={`pb-3 p-2 font-500 font-omnes text-[14px] ${isLangArab ? "pr-2" : "pl-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+      <th className={`pb-3 p-2 font-500   text-[14px] ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}></th>
+      <th className={`pb-3 p-2 font-500   text-[14px] ${isLangArab ? "pr-2" : "pl-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
         {isLangArab ? "اسم المستخدم" : "Username"}
       </th>
-      <th className={`pb-3 p-2 font-500 font-omnes text-[14px] ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+      <th className={`pb-3 p-2 font-500   text-[14px] ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
         {isLangArab ? "معرف البريد الإلكتروني" : "Email id"}
       </th>
-      <th className={`pb-3 p-2 font-500 font-omnes text-[14px] ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+      <th className={`pb-3 p-2 font-500   text-[14px] ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
         {isLangArab ? "تاريخ التقديم" : "Submission date"}
       </th>
-      <th className={`pb-3 p-2 flex justify-center items-center font-500 font-omnes text-[14px] ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+      <th className={`pb-3 p-2 flex justify-center items-center font-500   text-[14px] ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
         {isLangArab ? "فعل" : "Action"}
       </th> 
       <th className="pb-3"></th>
@@ -251,13 +251,13 @@ const Feedback = () => {
           </td>
         )}
 
-        <td className={`py-4 font-500 font-omnes text-[14px] pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
+        <td className={`py-4 font-500   text-[14px] pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
           {user.username}
         </td>
-        <td className={`py-4 font-500 font-omnes text-[14px] pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
+        <td className={`py-4 font-500   text-[14px] pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
           {user.email}
         </td>
-        <td className={`py-4 font-500 font-omnes text-[14px] pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
+        <td className={`py-4 font-500   text-[14px] pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
           {new Date(user.createdDate).toLocaleDateString()}
         </td>
 

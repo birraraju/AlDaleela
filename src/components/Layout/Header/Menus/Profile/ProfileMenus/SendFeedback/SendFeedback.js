@@ -1,5 +1,5 @@
 import feedback from "../../../../../../../assets/feedback.svg";
-import DarkFeedback from "../../../../../../../assets/ProfileDarkIcons/review_6042986 1.svg";
+import DarkFeedback from "../../../../../../../assets/FeedBack/review.svg";
 import WhiteFeedback from '../../../../../../../assets/WhiteFeedback.svg'
 import { useTheme } from '../../../../../ThemeContext/ThemeContext'; // Import the theme hook
 
@@ -23,8 +23,8 @@ export default function SendFeedback({ setIsFeedBack, setIsPopoverOpen }) {
         <p
           className={`  ${
             isLangArab
-              ? "font-omnes font-500 text-[14px] mr-1 tab:text-[12px] laptop_s:text-[14px] tracking-widget"
-              : "font-omnes font-500 text-[14px] ml-1 tab:text-[12px] laptop_s:text-[14px] tracking-widget"
+              ? "  font-500 text-[14px] mr-1 tab:text-[12px] laptop_s:text-[14px] tracking-widget"
+              : "  font-500 text-[14px] ml-1 tab:text-[12px] laptop_s:text-[14px] tracking-widget"
           }  ${
             isDarkMode ? "text-gray-300" : "text-[#505050]"
           }`}

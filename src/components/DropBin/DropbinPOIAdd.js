@@ -12,6 +12,7 @@ import Point from "@arcgis/core/geometry/Point.js";
 import { UserActivityLog } from "../Common/UserActivityLog";
 import UploadMedia from '../../assets/Droppedpin/UploadMediaIcon.svg'
 import CloseUploadedFile from '../../assets/POIEdit/FileUploadCancel.svg'
+import { useTheme } from "../Layout/ThemeContext/ThemeContext";
 
 
 
@@ -43,7 +44,7 @@ const Component = ({mapview,isLangArab, selectedLayer, addPointGeometry, setForm
   });
   const [buttonDisable, setButtonDisable] = useState(false);
 
-  
+  const {isDarkMode} = useTheme()
   const [errors, setErrors] = useState({});
   
   console.log("pioData :>> ", poiData);
@@ -735,7 +736,7 @@ const handleDrop = async (e) => {
     disable
   ) => (
     <div className="space-y-1">
-      <label htmlFor={id} className="block text-[11px]  text-[#303030] font-poppins font-500">
+      <label htmlFor={id} className={`block text-[11px]  ${isDarkMode?"text-white":"text-[#303030]"} font-poppins font-500`}>
         {label} <span className="text-red-500 ">*</span>
       </label>
       {inputType === "select" ? (
@@ -744,7 +745,7 @@ const handleDrop = async (e) => {
           value={value} // Bind to the state value
           disabled={disable} // Disable the dropdown
           onChange={handleChange}
-          className="block w-full p-2 h-[42px] font-omnes bg-white font-500 rounded-md text-[13px] border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          className="block w-full p-2 h-[42px]   bg-white font-500 rounded-md text-[13px] border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
         >
           {options.length > 0 && (
             <>
@@ -786,16 +787,16 @@ const handleDrop = async (e) => {
           {isLangArab ? (
             <>
               {" "}
-              <span className=" font-omnes font-500 text-[#00000099] text-[14px]">
+              <span className=  {`font-500 ${isDarkMode?"text-white":"text-[#00000099]"} text-[14px]`}>
                 {isLangArab ? "خلف" : "Back"}
               </span>{" "}
-              <ChevronLeft className="w-[17px] h-[17px]" />
+              <ChevronLeft className={`w-[17px] ${isDarkMode && 'text-white'} h-[17px]`} />
             </>
           ) : (
             <>
               {" "}
-              <ChevronLeft className="w-[17px] h-[17px]" />
-              <span className=" font-omnes font-500 text-[#00000099] text-[14px]">
+              <ChevronLeft className={`w-[17px] ${isDarkMode && 'text-white'} h-[17px]`} />
+              <span className=  {`font-500 ${isDarkMode?"text-white":"text-[#00000099]"} text-[14px]`}>
                 {isLangArab ? "خلف" : "Back"}
               </span>
             </>
@@ -865,7 +866,7 @@ const handleDrop = async (e) => {
         {/* Coordinates Section */}
         <div className="space-y-2 pt-2 pb-6">
           <div className="flex items-center space-x-4">
-            <label className="block text-[11px] font-medium text-gray-700">
+            <label className={`block text-[11px] font-medium ${isDarkMode?"text-white":"text-gray-700"}`}>
               {isLangArab ? "الإحداثيات" : "Coordinates"}
             </label>
             <label className="inline-flex items-center">
@@ -877,7 +878,7 @@ const handleDrop = async (e) => {
                 checked={poiData.coordinateType === "dms"}
                 onChange={handleCoordinateTypeChange}
               />
-              <span className="ml-1 text-[11px]">
+              <span className={`ml-1 ${isDarkMode?"text-white":"text-[11px]"}`}>
                 {isLangArab ? "درجات دقائق ثواني" : "Degrees Minutes Seconds"}
               </span>
             </label>
@@ -890,7 +891,7 @@ const handleDrop = async (e) => {
                 checked={poiData.coordinateType === "decimal"}
                 onChange={handleCoordinateTypeChange}
               />
-              <span className="ml-1 text-[11px]">
+              <span className={`ml-1 ${isDarkMode?"text-white":"text-[11px]"}`}>
                 {isLangArab ? "الدرجات العشرية" : "Decimal Degrees"}
               </span>
             </label>
@@ -898,7 +899,7 @@ const handleDrop = async (e) => {
           {poiData.coordinateType === "dms" && (
             <div className="space-y-2">
               <div className="flex items-center space-x-2">
-                <label className=" text-[11px] w-16">
+                <label className={` ${isDarkMode && "text-white"} text-[11px] w-16`}>
                   {isLangArab ? "نقطة X" : "Point_X"}
                 </label>
                 <input
@@ -926,8 +927,8 @@ const handleDrop = async (e) => {
                   className="w-20 p-2 border rounded"
                 />
               </div>
-              <div className="flex items-center space-x-2">
-                <label className=" text-[11px] w-16">
+              <div className={`flex items-center  space-x-2`}>
+                <label className={` ${isDarkMode && "text-white"} text-[11px] w-16`}>
                   {isLangArab ? "نقطة Y" : "Point_Y"}
                 </label>
                 <input
@@ -959,7 +960,7 @@ const handleDrop = async (e) => {
           )}
           {poiData.coordinateType === "decimal" && (
             <div className="space-y-2">
-              <div className="flex items-center space-x-2">
+              <div className={`flex items-center ${isDarkMode && " text-white"} space-x-2`}>
                 <label className="w-16">
                   {isLangArab ? "نقطة X" : "Point_X"}
                 </label>
@@ -972,7 +973,7 @@ const handleDrop = async (e) => {
                   className="w-[88%] p-2 border rounded"
                 />
               </div>
-              <div className="flex items-center space-x-2">
+              <div className={`flex items-center ${isDarkMode && " text-white"} space-x-2`}>
                 <label className="w-16">
                   {isLangArab ? "نقطة Y" : "Point_Y"}
                 </label>

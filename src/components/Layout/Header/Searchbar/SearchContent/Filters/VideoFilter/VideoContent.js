@@ -137,7 +137,7 @@ export default function VideoContent({setInputClicked,setIscategory}) {
     return <div>{error}</div>;
   }
   return (
-    <div className="p-4 h-[17rem]  overflow-y-scroll">
+    <div className="p-4 h-[13rem]  overflow-y-scroll">
       <div className="grid tab:grid-cols-3 grid-cols-3 gap-2">
         {mediaItems.map((item) => (
           <div key={item.objectId} className="relative bg-black laptop_s:rounded-lg rounded-md  overflow-hidden" onClick={() => handleVideoClick(item.objectId, item.layerName)}>

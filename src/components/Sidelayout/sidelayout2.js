@@ -92,7 +92,7 @@ export default function SideLayout2({ children, onClose }) { //w-[${width}]
           <div className="p-6 overflow-y-hidden h-full">
             {children || (
               <>
-                <p className={`flex gap-x-2 justify-start items-center font-500 font-omnes ${
+                <p className={`flex gap-x-2 justify-start items-center font-500   ${
                   isDarkMode ? "text-white/80" : "text-[#505050]"
                 }`}>
                   {isManageVisible && (

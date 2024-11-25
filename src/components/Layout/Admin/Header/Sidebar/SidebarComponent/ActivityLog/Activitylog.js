@@ -108,10 +108,10 @@ const paginatedData = data.slice((currentPage - 1) * itemsPerPage, currentPage *
         isDarkMode ? "bg-[#303031] bg-opacity-90" : "bg-white "
       } text-[#101828] backdrop-blur border-none`}>
               <div className="flex justify-between items-center mb-6">
-              <h2 className={`text-[22px] font-500 font-omnes  ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#464646]"}`}>
+              <h2 className={`text-[22px] font-500    ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#464646]"}`}>
               {isLangArab?"سجل نشاط المستخدم":"User Activity Log"}</h2>
         <button  onClick={handleExport}
-          className="bg-[#3B8686] text-[#FFFFFF] px-4 py-2 rounded-lg font-500 font-omnes text-sm flex items-center"
+          className="bg-[#3B8686] text-[#FFFFFF] px-4 py-2 rounded-lg font-500   text-sm flex items-center"
         >
           {isLangArab?"تصدير السجل":"Export log"}
           {/* <ArrowDown className="ml-2 h-4 w-4" /> */}
@@ -125,15 +125,15 @@ const paginatedData = data.slice((currentPage - 1) * itemsPerPage, currentPage *
           <table className="w-full border-collapse">
           <thead className={`sticky top-0   z-10 ${isDarkMode ? "bg-[#303031] " : "bg-white"}`}>
               <tr className={`${isLangArab?"text-right":"text-left"} border-b border-[#E5E7EB]`}>
-              <th className={`pb-3 p-2 font-500 font-omnes text-[14px]  ${isLangArab?"pr-2":"pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+              <th className={`pb-3 p-2 font-500   text-[14px]  ${isLangArab?"pr-2":"pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
               {isLangArab?"اسم المستخدم":"User Name"}</th>
-              <th className={`pb-3 p-2 font-500 font-omnes text-[14px]  ${isLangArab?"pl-2":"pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+              <th className={`pb-3 p-2 font-500   text-[14px]  ${isLangArab?"pl-2":"pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
               {isLangArab?"معرف البريد الإلكتروني":"Email iD"}</th>
-              <th className={`pb-3 p-2 font-500 font-omnes text-[14px]  ${isLangArab?"pl-2":"pr-32"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+              <th className={`pb-3 p-2 font-500   text-[14px]  ${isLangArab?"pl-2":"pr-32"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
               {isLangArab?"التاريخ والوقت":"Date & Time"}</th>
-              <th className={`pb-3 p-2 font-500 font-omnes text-[14px]  ${isLangArab?"pl-2":"pr-4"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+              <th className={`pb-3 p-2 font-500   text-[14px]  ${isLangArab?"pl-2":"pr-4"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
               {isLangArab?"عنوان IP":"IP Address"}</th>
-              <th className={`pb-3 p-2 font-500 font-omnes text-[14px]  ${isLangArab?"pl-2":"pr-10"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+              <th className={`pb-3 p-2 font-500   text-[14px]  ${isLangArab?"pl-2":"pr-10"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
               {isLangArab?"فعل":"Action"}</th>
               </tr>
             </thead>
@@ -148,11 +148,11 @@ const paginatedData = data.slice((currentPage - 1) * itemsPerPage, currentPage *
                     ? "bg-[#D5E5DE] bg-opacity-30"
                     : "bg-white"
                 }`} >
-                  <td className={`py-4 font-500 font-omnes text-[14px]  ${isLangArab?"pr-2":"pr-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#101828]"}`}>{log.username}</td>
-                  <td className={`py-4 font-500 font-omnes text-[14px]  ${isLangArab?"pl-2":"pr-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#101828]"}`}>{log.email}</td>
-                  <td dir={isLangArab && "ltr"} className={`py-4 font-500 font-omnes text-[14px]  ${isLangArab?" text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#101828]"}`}>{new Date(`${log.createdDate}Z`).toLocaleString()}</td>
-                  <td className={`py-4 font-500 font-omnes text-[14px]  ${isLangArab?"pl-2":"pr-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#101828]"}`}>{log.ipaddress}</td>
-                  <td className={`py-4 font-500 font-omnes text-[14px]  ${isLangArab?"pl-2":"pr-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#101828]"}`}>{log.action}</td>
+                  <td className={`py-4 font-500   text-[14px]  ${isLangArab?"pr-2":"pr-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#101828]"}`}>{log.username}</td>
+                  <td className={`py-4 font-500   text-[14px]  ${isLangArab?"pl-2":"pr-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#101828]"}`}>{log.email}</td>
+                  <td dir={isLangArab && "ltr"} className={`py-4 font-500   text-[14px]  ${isLangArab?" text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#101828]"}`}>{new Date(`${log.createdDate}Z`).toLocaleString()}</td>
+                  <td className={`py-4 font-500   text-[14px]  ${isLangArab?"pl-2":"pr-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#101828]"}`}>{log.ipaddress}</td>
+                  <td className={`py-4 font-500   text-[14px]  ${isLangArab?"pl-2":"pr-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#101828]"}`}>{log.action}</td>
 
              
                 </tr>
