@@ -40,7 +40,7 @@ export default function Input({
       />
       {/* Floating label with red asterisk if required */}
       <div
-        className={`absolute w-full font-omnes text-[14px] px-3  top-3 text-sm pointer-events-none transition-all
+        className={`absolute w-full   text-[14px] px-3  top-3 text-sm pointer-events-none transition-all
         ${isFocused || hasContent ? "text-transparent" : "text-black"}
         ${isFocused || hasContent ? " text-transparent" : ""}`}
       >

@@ -81,15 +81,15 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
         <div>
           <h3 className="flex items-center mb-2 font-bold">
             <img src={loc} alt="Location" className="h-5 w-5 mr-0.5" />
-            <span className={`text-[20px] font-omnes font-700  ${isDarkMode ? "text-[#FFFFFFCC]" : "bg-gradient-to-r from-[#036068] via-[#596451] to-[#036068] bg-clip-text text-transparent"}`}>
+            <span className={`text-[20px]   font-700  ${isDarkMode ? "text-[#FFFFFFCC]" : "bg-gradient-to-r from-[#036068] via-[#596451] to-[#036068] bg-clip-text text-transparent"}`}>
 
             {isLangArab ? "أبو ظبي" : "Abu Dhabi"}
             </span>
           </h3>
-          <h4 className={`font-omnes font-500  mb-1 text-[14px] ${isDarkMode ? "text-white" : "text-[#667085]"}`}>
+          <h4 className={`  font-500  mb-1 text-[14px] ${isDarkMode ? "text-white" : "text-[#667085]"}`}>
           {isLangArab ? "الموقع" : "Location"}
           </h4>
-          <p className={`text-[12px] laptop_lg:text-[16px] font-omnes font-500  ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-[#000000]"}`}>
+          <p className={`text-[12px] laptop_lg:text-[16px]   font-500  ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-[#000000]"}`}>
           {isLangArab ?
           "المقر الرئيسي مبنى المعمورة (أ) مبنى رقم (62) ، شارع المعمورة ، آل نهيان ، أبوظبي ، الإمارات العربية المتحدة، الرمز البريدي: 22221، ص.ب : 45553"
            : 
@@ -97,10 +97,10 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
         </div>
 
         <div>
-          <h4 className={`font-omnes font-500 mb-1 text-[14px] ${isDarkMode ? "text-white" : "text-[#667085]"}`}>
+          <h4 className={`  font-500 mb-1 text-[14px] ${isDarkMode ? "text-white" : "text-[#667085]"}`}>
           {isLangArab ? "ساعات العمل" : "Opening Hours"}
           </h4>
-          <p className={`text-[12px] laptop_lg:text-[16px] font-omnes font-500 ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-[#000000]"}`}>
+          <p className={`text-[12px] laptop_lg:text-[16px]   font-500 ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-[#000000]"}`}>
           {isLangArab ? 
           "من الساعة 7:30 صباحًا – 3:30 ظهرًا | الاثنين  ل جمعة"
           : "7:30 AM to 3:30 PM | Monday-Friday"}
@@ -108,39 +108,39 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
         </div>
 
         <div>
-          <h4 className={` font-omnes font-500 mb-1 text-[14px] ${isDarkMode ? "text-white" : "text-[#667085]"}`}>
+          <h4 className={`   font-500 mb-1 text-[14px] ${isDarkMode ? "text-white" : "text-[#667085]"}`}>
           {isLangArab ? "الهاتف" : "Phone"}
 
           </h4>
           <a   href="tel:+97126934444"  target="_blank" rel="noopener noreferrer"   >
-          <p className={`text-[12px] laptop_lg:text-[16px] cursor-pointer font-omnes font-500 ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-[#000000]"}`}>
+          <p className={`text-[12px] laptop_lg:text-[16px] cursor-pointer   font-500 ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-[#000000]"}`}>
           {isLangArab ? "+971 2 693 4444" : "+971 2 693 4444"}
           </p>
           </a>
         </div>
 
         <div>
-          <h4 className={`font-omnes font-500 mb-1 text-[14px] ${isDarkMode ? "text-white/100" : "text-[#667085]"}`}>
+          <h4 className={`  font-500 mb-1 text-[14px] ${isDarkMode ? "text-white/100" : "text-[#667085]"}`}>
           {isLangArab ? "البريد الإلكتروني" : "Email"}
 
           </h4>
           
           <a
   href="mailto:customerhappiness@ead.gov.ae" target="_blank" rel="noopener noreferrer"
-  className={`text-[12px] laptop_lg:text-[16px] cursor-pointer outline-none font-omnes font-500 ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-[#000000]"} `}
+  className={`text-[12px] laptop_lg:text-[16px] cursor-pointer outline-none   font-500 ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-[#000000]"} `}
 >
-<p className={`text-[12px] laptop_lg:text-[16px]  font-omnes font-500 ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-[#000000]"}`}>
+<p className={`text-[12px] laptop_lg:text-[16px]    font-500 ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-[#000000]"}`}>
   customerhappiness@ead.gov.ae
   </p>
 </a>
         </div>
         <div>
-          <h4 className={`font-omnes font-500 mb-1 text-[14px] ${isDarkMode ? "text-white" : "text-[#667085]"}`}>
+          <h4 className={`  font-500 mb-1 text-[14px] ${isDarkMode ? "text-white" : "text-[#667085]"}`}>
           {isLangArab ? "الموقع الإلكتروني" : "Website"}
 
           </h4>
           <a href="https://www.ead.gov.ae/" target="_blank" rel="noopener noreferrer" className=" cursor-pointer">
-          <p className={`text-[12px] laptop_lg:text-[16px]  font-omnes font-500 ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-[#000000]"}`}>
+          <p className={`text-[12px] laptop_lg:text-[16px]    font-500 ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-[#000000]"}`}>
             https://www.ead.gov.ae/
           </p>
           </a>
@@ -233,17 +233,17 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
 //     {icon && (
 //       <h3 className="flex items-center mb-2 font-bold">
 //         <img src={icon} alt={title} className="h-5 w-5 mr-2" />
-//         <span className="font-omnes bg-custom-gradient bg-clip-text text-transparent text-lg">
+//         <span className="  bg-custom-gradient bg-clip-text text-transparent text-lg">
 //           {title}
 //         </span>
 //       </h3>
 //     )}
 //     {subtitle && (
-//             <h4 className={`font-omnes font-500 mb-1 text-[14px] ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#667085]"}`}>
+//             <h4 className={`  font-500 mb-1 text-[14px] ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#667085]"}`}>
 //         {subtitle}
 //       </h4>
 //     )}
-//             <p className={`text-[16px] font-omnes font-500 ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#000000]"}`}>
+//             <p className={`text-[16px]   font-500 ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#000000]"}`}>
 //             {description}
 //     </p>
 //   </div>

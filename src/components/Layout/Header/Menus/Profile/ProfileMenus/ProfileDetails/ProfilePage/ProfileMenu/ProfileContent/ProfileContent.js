@@ -59,7 +59,7 @@ export default function ProfileContent({
 
           <div className="w-[80%]">
             <div className="tracking-wide">
-              <h1 className={`sm:text-[18px] text-[14px] font-omnes font-500 text-${isDarkMode ? 'white' : '[#000000]'} `}>
+              <h1 className={`sm:text-[18px] text-[14px]   font-500 text-${isDarkMode ? 'white' : '[#000000]'} `}>
                 {profiledetails.username ? profiledetails.username : profiledetails.firstName}
               </h1>
               <p className={`sm:text-[16px] text-[14px] font-400 text-${isDarkMode ? '[#FFFFFFCC]' : '[#00000099]'} `}>
@@ -70,7 +70,7 @@ export default function ProfileContent({
 
             <div className="flex justify-between items-center gap-4">
               <Button onClick={() => { setIsEditProfile(true); }} asChild>
-                <div className="w-2/3 h-10 py-5 cursor-pointer font-omnes font-500 btn-gradient text-white text-[14px] rounded-xl mt-4 tracking-wide">
+                <div className="w-2/3 h-10 py-5 cursor-pointer   font-500 btn-gradient text-white text-[14px] rounded-xl mt-4 tracking-wide">
                   {isLangArab ? "تعديل المعلومات" : "Edit Info"}
                 </div>
               </Button>
@@ -82,7 +82,7 @@ export default function ProfileContent({
                   setChangeCloseProfile(true);
                 }}
                 variant="outline"
-                className={`w-1/2 sm:h-10 h-9 bg-none font-omnes font-500  shadow-none sm:rounded-xl rounded-md mt-4 tracking-wide  sm:text-[14px] text-xs border border-[#909090] text-${isDarkMode ? '[#FFFFFFCC]' : '[#1C1C1C]'} `}
+                className={`w-1/2 sm:h-10 h-9 bg-none   font-500  shadow-none sm:rounded-xl rounded-md mt-4 tracking-wide  sm:text-[14px] text-xs border border-[#909090] text-${isDarkMode ? '[#FFFFFFCC]' : '[#1C1C1C]'} `}
               >
                 {isLangArab ? "تغيير كلمة المرور" : "Change Password"}
               </Button>

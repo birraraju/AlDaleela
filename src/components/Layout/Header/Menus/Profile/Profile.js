@@ -230,7 +230,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
         className={`mx-1  text-[20px] ${isDarkMode ? "border-white  border-opacity-80 text-white" : ""}`}
         style={{ color: isDarkMode ? '#FFFFFFCC' : '#505050' }}
       />
-              <p className={`font-500 font-omnes text-[14px] tab:text-[12px] laptop_s:text-[16px] ${isDarkMode ? "text-gray-300" : "text-[#505050]"}`}>
+              <p className={`font-500   text-[14px] tab:text-[12px] laptop_s:text-[16px] ${isDarkMode ? "text-gray-300" : "text-[#505050]"}`}>
               {isLangArab?"تسجيل الخروج":"Logout"}</p>
             </div>
           )}

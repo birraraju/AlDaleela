@@ -24,7 +24,7 @@ export default function PasswordChangeSuccess({ onDone }) {
             className="mx-auto w-20 h-20"
           />
         </div>
-        <h2 className="text-2xl font-medium font-omnes text-black mb-6">
+        <h2 className="text-2xl font-medium   text-black mb-6">
           New Password Changed Successfully
         </h2>
         <Button 

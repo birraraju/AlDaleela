@@ -44,10 +44,10 @@ export default function Signin({ onClose, onSignupClick, onForgotPasswordClick }
         <div className="flex justify-center mb-4">
           <img src={Logo} alt="Logo" className="h-12" />
         </div>
-        <h2 className={`font-omnes text-[28px] leading-tight text-${isDarkMode ? '[#FFFFFFCC] text-opacity-80' : 'black'} mb-1 font-medium`}>
+        <h2 className={`  text-[28px] leading-tight text-${isDarkMode ? '[#FFFFFFCC] text-opacity-80' : 'black'} mb-1 font-medium`}>
           {isLangArab?"مرحبًا بعودتك":"Welcome Back"}
         </h2>
-        <p className={`font-omnes text-[14px] font-[400] text-${isDarkMode ? '[#FFFFFFCC]' : 'gray-500'} leading-5 mb-6`}>
+        <p className={`  text-[14px] font-[400] text-${isDarkMode ? '[#FFFFFFCC]' : 'gray-500'} leading-5 mb-6`}>
           {isLangArab?"يرجى تسجيل الدخول إلى حسابك":"Please sign in to your account"}
         </p>
 

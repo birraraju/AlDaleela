@@ -23,21 +23,32 @@ useEffect(() => {
   }
 }, []);
 
+useEffect(() => {
+  const themeUpdate = localStorage.getItem("AldaleelaLangaugeTheme");
+  if (themeUpdate !== null) {
+    setIsLangArab(JSON.parse(themeUpdate)); // Convert string to boolean
+  }
+}, []);
+
 useEffect(()=>{
   const body = document.body;
   if(isLangArab){
-    body.classList.add('body-cairo');
+    body.classList.add('body_cairo');
     body.classList.remove('body_omnes');
   }else{
     body.classList.add('body_omnes');
-    body.classList.remove('body-cairo');
+    body.classList.remove('body_cairo');
   }
 },[isLangArab])
 
 
 
   const toggleLanguage = () => {
-    setIsLangArab((prevMode) => !prevMode);
+    setIsLangArab((prevMode) => {
+      const newMode = !prevMode;
+      localStorage.setItem("AldaleelaLangaugeTheme", JSON.stringify(newMode)); // Store as stringified boolean
+      return newMode;
+    });
     
   };
 

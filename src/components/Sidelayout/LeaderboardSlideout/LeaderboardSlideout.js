@@ -97,7 +97,7 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
         isDarkMode
           ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none"
           : "bg-white bg-opacity-70 backdrop-blur-lg border-white"
-      } rounded-3xl font-omnes transition-transform duration-300 ease-in-out ${
+      } rounded-3xl   transition-transform duration-300 ease-in-out ${
         isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%] sm:-translate-x-[112%] laptop_s:-translate-x-[108%]":" translate-x-[103%] sm:translate-x-[112%] laptop_s:translate-x-[108%]")
       }`}    >
       <div className="flex relative justify-between items-center">

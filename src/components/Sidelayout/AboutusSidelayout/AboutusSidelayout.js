@@ -35,7 +35,7 @@ export default function AboutusSidelayout({ setIsPopoverOpen, setIsAboutUs }) {
         
         className={`px-8 sm:py-2  sm:px-5 py-4 fixed ${
           isLangArab ? "sm:left-6  left-1" : "sm:right-6  right-1"
-        } font-omnes transition-transform duration-300 ease-in-out ${
+        }   transition-transform duration-300 ease-in-out ${
         isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%] sm:-translate-x-[112%] laptop_s:-translate-x-[108%]":" translate-x-[103%] sm:translate-x-[112%] laptop_s:translate-x-[108%]")
       } top-20 backdrop-blur rounded-3xl text-black ${
           isDarkMode

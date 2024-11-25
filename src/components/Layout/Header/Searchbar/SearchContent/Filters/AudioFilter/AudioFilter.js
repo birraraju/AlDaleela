@@ -16,7 +16,7 @@ export default function AudioFilter({ setSelectedItem, isLangArab,setIsFiltersOp
       <div>
         <img src={`${process.env.PUBLIC_URL}/Header/Searchbar/audio.svg`} alt="" className="w-5" />
       </div>
-      <div className={` text-[10px] font-omnes font-500 ${isLangArab ? "mr-0.5" : "ml-0.5"} ${isDarkMode ? (selectedItem === "audio" ?"text-[#000000]":"text-white"):" text-[#000000]"}`}>{isLangArab?"صوت":"Audio"}</div>
+      <div className={` text-[10px]   font-500 ${isLangArab ? "mr-0.5" : "ml-0.5"} ${isDarkMode ? (selectedItem === "audio" ?"text-[#000000]":"text-white"):" text-[#000000]"}`}>{isLangArab?"صوت":"Audio"}</div>
     </div>
     </div>
   );

@@ -9,7 +9,7 @@ export default function ChangePassword({ setIsProfileData,setModalMessage,setIsC
 
   return (
     <>
-      <div className="flex justify-between font-omnes font-500  items-center px-2 py-2">
+      <div className="flex justify-between   font-500  items-center px-2 py-2">
         <h1 className={`font-medium sm:text-[16px] text-lg ${
               isDarkMode ? "text-white" : "text-[#000000CC]"
             }`}>{isLangArab ?"تغيير كلمة المرور":"Change Password"}</h1>

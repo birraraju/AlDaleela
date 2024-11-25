@@ -24,8 +24,8 @@ export default function Contribution({ setIsContribution, setIsPopoverOpen }) {
         <p
           className={`${
             isLangArab
-              ? " font-omnes font-500 text-[14px] tab:text-[12px] laptop_s:text-[14px] tracking-widget"
-              : "font-omnes font-500 text-[14px] tab:text-[12px] laptop_s:text-[14px] tracking-widget"
+              ? "   font-500 text-[14px] tab:text-[12px] laptop_s:text-[14px] tracking-widget"
+              : "  font-500 text-[14px] tab:text-[12px] laptop_s:text-[14px] tracking-widget"
           }  ${
             isDarkMode ? "text-gray-300" : "text-[#505050]"
           }`}

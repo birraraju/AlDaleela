@@ -18,7 +18,7 @@ export default function PhotoFilter({ setSelectedItem, isLangArab,setIsFiltersOp
     {/* <img src="/Header/Searchbar/photo.svg" alt="" className="w-6" /> */}
     <img src={PhotoSvg} alt="" className="w-5" />
   </div>
-  <div className={`  text-[10px] font-omnes font-500 ${isLangArab ? "mr-0.5" : "ml-0.5"} ${isDarkMode?(selectedItem === "photo" ?"text-black":"text-white"):" text-black"}`}>{isLangArab ? "صوت" : "Photo"}</div>
+  <div className={`  text-[10px]   font-500 ${isLangArab ? "mr-0.5" : "ml-0.5"} ${isDarkMode?(selectedItem === "photo" ?"text-black":"text-white"):" text-black"}`}>{isLangArab ? "صوت" : "Photo"}</div>
 </div>
     </div>
   );
