@@ -494,7 +494,7 @@ const Component = ({
             id={id}
             value={poiData[id]}
             onChange={handleChange}
-            className="block w-full p-2 rounded-md text-black text-[13px] h-9 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            className={` ${((id === "organization")||(id === "MunicipalityAr")) ?" font-cairo":"" } block w-full p-2 rounded-md text-black text-[13px] h-9 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500`}
           >
             {options.length > 0 && (
               <>
@@ -520,7 +520,7 @@ const Component = ({
             value={poiData[id]}
             disabled={disable}
             onChange={handleChange}
-            className="block text-[13px] h-9 w-full rounded-md p-2 text-black bg-[#FFFFFF] border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            className={` ${((id === "organization")||(id === "MunicipalityAr")) ?" font-cairo":"" } block text-[13px] h-9 w-full rounded-md p-2 text-black bg-[#FFFFFF] border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500`}
           />
         )
       ) : (
@@ -529,7 +529,7 @@ const Component = ({
             {value && !isEditShowPOI && (
               <label
                 htmlFor={id}
-                className={`block absolute ${
+                className={`block  absolute ${
                   isLangArab ? " right-2" : " left-2"
                 } top-2  text-[14px]  font-semibold ${
                   isDarkMode ? " text-[#303030]" : " text-[#303030]"
@@ -539,7 +539,7 @@ const Component = ({
               </label>
             )}
             <p
-              className={` border ${value ? "p-2" : "p-5"}  input-fields ${
+              className={` border ${value ? "p-2" : "p-5"} ${((id === "organization")||(id === "MunicipalityAr")) ?" font-cairo":"" }   input-fields ${
                 isLangArab ? "text-left" : "text-right"
               } w-auto    laptop_s:h-[39px]    h-9 text-[14px] rounded-lg text-[#399C72] font-medium bg-[#FFFFFF]`}
             >

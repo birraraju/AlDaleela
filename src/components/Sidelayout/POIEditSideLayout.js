@@ -275,7 +275,7 @@
                 <img src={isDarkMode ? DarkLocation : Location }alt="Location" className={`"h-6 w-5" ${isLangArab && "mr-1 sm:mr-2"}`} />
                 <p className={`font-semibold    ${
                       isDarkMode ? "text-white" : "text-gray-600"
-                    }`}> <h1 className=" text-[12px]">{queryresults.features[0].attributes.name_ar}</h1>
+                    }`}> <h1 className=" font-cairo text-[12px]">{queryresults.features[0].attributes.name_ar}</h1>
                     <h2 className=" text-[12px]">{queryresults.features[0].attributes.name_en}</h2></p>
                     {!POIShareShow && <div className={`flex justify-center items-center absolute ${isLangArab?"-left-1":"right-3"} -top-2   p-2 transition-colors h-10 cursor-pointer z-50`}>
   {/* POI Share Icon */}
