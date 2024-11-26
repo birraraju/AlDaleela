@@ -699,7 +699,7 @@ const Component = ({
                 <h3 className="text-[14px] text-[#303030] font-medium mb-2">
                   {isLangArab ? "صور" : "Photos"}
                 </h3>
-                <div className=" grid grid-cols-2">
+                <div className=" grid grid-cols-2 gap-2 ">
                   {images.length > 0 ? (
                     images.map((image, index) => (
                       <div
@@ -709,7 +709,7 @@ const Component = ({
                         <img
                           src={image.url}
                           alt={image.name}
-                          className="w-[95%] h-[80px] object-fill"
+                          className="w-full h-full object-cover"
                         />
                       </div>
                     ))

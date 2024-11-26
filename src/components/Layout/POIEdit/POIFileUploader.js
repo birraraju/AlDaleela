@@ -5,6 +5,10 @@ import { ImageIcon, FileIcon } from 'lucide-react';
 import { ChevronLeft } from 'lucide-react';
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer"; 
 import CloseUploadedFile from '../../../assets/POIEdit/FileUploadCancel.svg'
+import UploadMedia from '../../../assets/Droppedpin/UploadMediaIcon.svg'
+import { isDragActive } from 'framer-motion';
+import { useTheme } from '../ThemeContext/ThemeContext';
+
 
 const FileUploader = ({ POIFormUploader,isLangArab,setPOIFormisOpenModalShow,setPOImessageShow,setPOIFormsuccessShow, setPOIFormShow, setPOIUploaderShow, queryresults, uploadedFiles, setUploadedFiles }) => {
   const [files, setFiles] = useState([]); // Store the selected files
@@ -12,6 +16,7 @@ const FileUploader = ({ POIFormUploader,isLangArab,setPOIFormisOpenModalShow,set
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef(null);
   const [filesShow,setFilesShow] = useState([])
+  const {isDarkMode} = useTheme()
 
   if (!POIFormUploader) return null;
 
@@ -21,17 +26,17 @@ const FileUploader = ({ POIFormUploader,isLangArab,setPOIFormisOpenModalShow,set
   const MAX_AUDIO_SIZE = 10 * 1024 * 1024; // 10 MB for audio
   
   // Helper function to check image dimensions
-  const checkImageDimensions = (file) => {
-    return new Promise((resolve) => {
-      const img = new Image();
-      img.src = URL.createObjectURL(file);
-      img.onload = () => {
-        const { width, height } = img;
-        URL.revokeObjectURL(img.src); // clean up the object URL
-        resolve(width >= 500 && width <= 2000 && height >= 500 && height <= 2000);
-      };
-    });
-  };
+  // const checkImageDimensions = (file) => {
+  //   return new Promise((resolve) => {
+  //     const img = new Image();
+  //     img.src = URL.createObjectURL(file);
+  //     img.onload = () => {
+  //       const { width, height } = img;
+  //       URL.revokeObjectURL(img.src); // clean up the object URL
+  //       resolve(width >= 500 && width <= 2000 && height >= 500 && height <= 2000);
+  //     };
+  //   });
+  // };
   
   // Main validation function for each file
   const validateFile = async (file) => {
@@ -49,11 +54,11 @@ const FileUploader = ({ POIFormUploader,isLangArab,setPOIFormisOpenModalShow,set
         alert(`${ isLangArab ?"حجم الصورة يجب أن يكون أقل من 10 ميجابايت.":"Image size must be under 10 MB."}`);
         return false;
       }
-      const isValidDimensions = await checkImageDimensions(file);
-      if (!isValidDimensions) {
-        alert(`${ isLangArab ?"يجب أن يكون حجم الصورة أقل من 10 ميغابايت.":"Image dimensions must be between 500x500 and 2000x2000 pixels."}`);
-        return false;
-      }
+      // const isValidDimensions = await checkImageDimensions(file);
+      // if (!isValidDimensions) {
+      //   alert(`${ isLangArab ?"يجب أن يكون حجم الصورة أقل من 10 ميغابايت.":"Image dimensions must be between 500x500 and 2000x2000 pixels."}`);
+      //   return false;
+      // }
     } else if (file.type.startsWith('audio/')) {
       if (file.size > MAX_AUDIO_SIZE) {
         alert(`${isLangArab?"يجب أن يكون حجم الصوت أقل من 10 ميغابايت.":"Audio size must be under 10 MB."}`);
@@ -126,14 +131,30 @@ const FileUploader = ({ POIFormUploader,isLangArab,setPOIFormisOpenModalShow,set
   // };
 
   const handleDone = () => {
-   setUploadedFiles([...uploadedFiles, ...files]); // Add selected files to uploaded
-    const newFiles = files.map((file) => ({
-      file,
-      name: file.name,
-      progress: 0, // Initialize progress
-      preview: URL.createObjectURL(file), // Generate a preview URL
-    }));
-   
+    setUploadedFiles([...uploadedFiles, ...files]);
+  
+    const newFiles = files.map((file) => {
+      let preview;
+  
+      if (file.type.startsWith('image/')) {
+        // Generate preview for images
+        preview = URL.createObjectURL(file);
+      } else if (file.type.startsWith('video/')) {
+        // Placeholder for video files
+        preview = `${process.env.PUBLIC_URL}/Header/Searchbar/video.svg`;
+      } else if (file.type.startsWith('audio/')) {
+        // Placeholder for audio files
+        preview = `${process.env.PUBLIC_URL}/Header/Searchbar/audio.svg`;
+      } 
+  
+      return {
+        file,
+        name: file.name,
+        progress: 0, // Initialize progress
+        preview, // Dynamically assigned preview or placeholder
+      };
+    });
+  
     setFilesShow((prev) => [...prev, ...newFiles]);
     simulateUploads(newFiles);
     setFiles([]);
@@ -196,13 +217,17 @@ const FileUploader = ({ POIFormUploader,isLangArab,setPOIFormisOpenModalShow,set
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
         >
-          <ImageIcon className="mx-auto h-12 w-12 text-gray-400" />
+           <img
+                src={UploadMedia}
+                className=" mx-auto h-16 w-16 text-white"
+                alt="Upload"
+              />
           {files.length > 0 ? (
             <div className="mt-2 space-y-2">
               {files.map((file, index) => (
                 <div key={index} className="flex items-center justify-between">
                   <div className="flex items-center">
-                    <img src={URL.createObjectURL(file)}  className="h-8 w-8 text-gray-600"  alt={file.name} />
+                    {/* <img src={URL.createObjectURL(file)}  className="h-8 w-8 text-gray-600"  alt={file.name} /> */}
                     <span className="ml-2 text-[11px] text-gray-700">{file.name}</span>
                   </div>
                 </div>
@@ -263,12 +288,12 @@ const FileUploader = ({ POIFormUploader,isLangArab,setPOIFormisOpenModalShow,set
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               <img
-                src={file.preview}
+                src={file.preview }
                 alt={file.name}
                 className="h-9 w-9 rounded-lg object-cover"
               />
               <div className="ml-3">
-                <span className="text-gray-700 font-medium text-ellipsis text-[9px] block">
+                <span className={`${isDarkMode?"text-white":"text-gray-700"} font-medium text-ellipsis text-[9px] block`}>
                   {file.name}
                 </span>
               </div>

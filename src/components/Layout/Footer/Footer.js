@@ -315,7 +315,7 @@ export default function Footer({
                       />
                       <ReactTooltip
                         id={`tooltip-${index}`}
-                        content="This is a tooltip"
+                        
                         place="top"
                         className="ToolTipEnvi"
                       />
@@ -351,7 +351,7 @@ export default function Footer({
                       />
                       <ReactTooltip
                         id={`tooltip-${index}`}
-                        content="This is a tooltip"
+                        
                         place="top"
                         className="ToolTipEnvi"
                       />
@@ -388,7 +388,7 @@ export default function Footer({
                       />
                       <ReactTooltip
                         id={`tooltip-${index}`}
-                        content="This is a tooltip"
+                        
                         place="top"
                         className="ToolTipEnvi"
                       />
@@ -429,7 +429,7 @@ export default function Footer({
                     />
                     <ReactTooltip
                       id={`tooltip-${index}`}
-                      content="This is a tooltip"
+                      
                       place="top"
                       className="ToolTipEnvi"
                     />
@@ -465,7 +465,7 @@ export default function Footer({
                     />
                     <ReactTooltip
                       id={`tooltip-${index}`}
-                      content="This is a tooltip"
+                      
                       place="top"
                       className="ToolTipEnvi"
                     />
@@ -502,7 +502,7 @@ export default function Footer({
                     />
                     <ReactTooltip
                       id={`tooltip-${index}`}
-                      content="This is a tooltip"
+                      
                       place="top"
                       className="ToolTipEnvi"
                     />
