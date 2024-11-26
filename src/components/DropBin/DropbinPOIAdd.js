@@ -763,7 +763,7 @@ const handleDrop = async (e) => {
           value={value} // Bind to the state value
           disabled={disable} // Disable the dropdown
           onChange={handleChange}
-          className="block w-full p-2 h-[42px]   bg-white font-500 rounded-md text-[13px] border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          className={` ${((id === "organization")||(id === "municipality")) ?" font-cairo":"" } block w-full p-2 h-[42px]   bg-white font-500 rounded-md text-[13px] border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500`}
         >
           {options.length > 0 && (
             <>
