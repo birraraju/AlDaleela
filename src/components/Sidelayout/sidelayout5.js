@@ -161,7 +161,7 @@ export default function SideLayout5({
 
         <div className="p-6 overflow-y-auto  2xl:mb-[50px]  h-full">
           {children || (
-            <p className={`font-poppins font-600 text-[12px] tab:text-[14px] laptop_s:text-[16px] laptop_lg:text-[18px] ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#505050]"}`}>
+            <p className={`   font-600 text-[12px] tab:text-[14px] laptop_s:text-[16px] laptop_lg:text-[18px] ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#505050]"}`}>
              { isLangArab?"تصدير البيانات": " Export Data"}
             </p>
           )}

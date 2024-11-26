@@ -134,7 +134,7 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
     >
       <div dir={isLangArab && "rtl"} className={`flex relative px-3 justify-between items-center `}>
         <h1
-          className={`text-[15px] sm:text-[16px] laptop_s:text-[16px] font-poppins font-600 ${
+          className={`text-[15px] sm:text-[16px] laptop_s:text-[16px]    font-600 ${
             isDarkMode ? "text-[#FFFFFFCC]" : "text-[#505050]"
           }`}
         >

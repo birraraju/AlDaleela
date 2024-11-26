@@ -25,10 +25,10 @@ export default function Mottos() {
           </div>
 
           <div className="w-[80%]">
-            <h1 className={` font-poppins font-600 text-[12px] laptop_lg:text-[14px] ${isDarkMode ? 'text-[#FFFFFFCC] text-opacity-80': 'text-gray-600'} `}>
+            <h1 className={`    font-600 text-[12px] laptop_lg:text-[14px] ${isDarkMode ? 'text-[#FFFFFFCC] text-opacity-80': 'text-gray-600'} `}>
             {isLangArab ? content.arabicTitle : content.title} {/* Display Arabic or English based on language state */}
             </h1>
-            <p className={` laptop_lg:text-[12px] text-[10px] font-poppins font-400   ${isLangArab?"leading-5":"leading-4"} mt-0 ${isDarkMode ? 'text-[#FFFFFFCC]' : 'text-[#000000]'}`}>
+            <p className={` laptop_lg:text-[12px] text-[10px]    font-400   ${isLangArab?"leading-5":"leading-4"} mt-0 ${isDarkMode ? 'text-[#FFFFFFCC]' : 'text-[#000000]'}`}>
             {isLangArab ? content.arabicDescription : content.description} {/* Display Arabic or English based on language state */}
             </p>
           </div>

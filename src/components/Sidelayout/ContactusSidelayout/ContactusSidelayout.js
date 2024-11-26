@@ -60,7 +60,7 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
     } `} // Adjust background color based on dark mode
   >
     <div className="flex relative justify-between items-center">
-    <h1 className={`text-[16px]   font-poppins font-600  ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#505050]"}`}>
+    <h1 className={`text-[16px]      font-600  ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#505050]"}`}>
         {isLangArab?"اتصل بنا":"Contact Us"}
       </h1>
       <div

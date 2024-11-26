@@ -157,7 +157,7 @@ export default function SideLayout6({
         <div style={{ height: ToggleDragHeight && panelHeight }}  className="p-6 overflow-y-auto  2xl:mb-[50px]  h-full">
           {children || (
             <p
-              className={` font-poppins font-600 text-[12px] tab:text-[14px] laptop_s:text-[16px] laptop_lg:text-[18px] ${
+              className={`    font-600 text-[12px] tab:text-[14px] laptop_s:text-[16px] laptop_lg:text-[18px] ${
                 isDarkMode
                   ? "text-[#FFFFFFCC] text-opacity-80"
                   : " text-[#505050]"
