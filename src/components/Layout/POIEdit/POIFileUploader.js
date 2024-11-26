@@ -36,7 +36,7 @@ const FileUploader = ({ POIFormUploader,isLangArab,setPOIFormisOpenModalShow,set
   // Main validation function for each file
   const validateFile = async (file) => {
     const isValidType = (file.type.startsWith('image/') && (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif')) ||
-                        (file.type === 'audio/mp3' || file.type === 'audio/wav') ||
+                        (file.type === 'audio/mpeg' || file.type === 'audio/wav') ||
                         (file.type === 'video/mp4');
   
     if (!isValidType) {

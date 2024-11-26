@@ -371,7 +371,7 @@ const checkImageDimensions = (file) => {
 const isValidFile = async (file) => {
   const isImage = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif';
   const isVideo = file.type === 'video/mp4';
-  const isAudio = file.type === 'audio/mp3' || file.type === 'audio/wav';
+  const isAudio = file.type === 'audio/mpeg' || file.type === 'audio/wav';
 
   if (!isImage && !isVideo && !isAudio) {
     alert(` ${isLangArab ? "نوع الملف غير صالح. يُسمح فقط بصور JPEG و PNG و GIF، وملفات الصوت MP3 و WAV، وفيديو MP4.":"Invalid file type. Only JPEG, PNG, GIF images, MP3, WAV audio, and MP4 video are allowed."}`);
