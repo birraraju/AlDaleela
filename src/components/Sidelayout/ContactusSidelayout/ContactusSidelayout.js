@@ -4,10 +4,13 @@ import { X } from "lucide-react";
 import { FiChevronRight } from "react-icons/fi";
 import loc from "../../../assets/Contact/location1.svg";
 import fb from "../../../assets/Contact/fb.svg";
-import twitter from "../../../assets/Contact/twitter.svg";
 import x from "../../../assets/Contact/x.svg";
 import linkedin from "../../../assets/Contact/linkedin.svg";
 import insta from "../../../assets/Contact/instagram.svg";
+import Darkfb from "../../../assets/Contact/DarkThemeContactUs/facebook.svg";
+import Darkx from "../../../assets/Contact/DarkThemeContactUs/x.svg";
+import Darklinkedin from "../../../assets/Contact/DarkThemeContactUs/linkedin.svg";
+import Darkinsta from "../../../assets/Contact/DarkThemeContactUs/instagram.svg";
 import { useTheme } from "../../Layout/ThemeContext/ThemeContext"; // Import your theme context
 
 export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
@@ -147,11 +150,11 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
         </div>
  
         <div  dir={isLangArab && "ltr"} className="flex justify-center space-x-4 pt-4 border-t border-gray-400">
-          <a href="https://www.facebook.com/EnvironmentAbuDhabi/ "  target="_blank" rel="noopener noreferrer"><img src={fb} alt="Facebook" className="h-5 w-5" /></a>
+          <a href="https://www.facebook.com/EnvironmentAbuDhabi/ "  target="_blank" rel="noopener noreferrer"><img src={isDarkMode?Darkfb:fb} alt="Facebook" className="h-5 w-5" /></a>
           {/* <a href="https://x.com/EADTweets"  target="_blank" rel="noopener noreferrer"><img src={twitter} alt="Twitter" className="h-6 w-6" /></a> */}
-          <a href="https://x.com/EADTweets"  target="_blank" rel="noopener noreferrer" ><img src={x} alt="X" className="h-5 w-5" /></a>
-          <a href="https://www.linkedin.com/company/environment-agency-abu-dhabi/"  target="_blank" rel="noopener noreferrer"><img src={linkedin} alt="LinkedIn" className="h-5 w-5" /></a>
-          <a href="https://www.instagram.com/Environmentabudhabi/"  target="_blank" rel="noopener noreferrer"><img src={insta} alt="Instagram" className="h-5 w-5" /></a>
+          <a href="https://x.com/EADTweets"  target="_blank" rel="noopener noreferrer" ><img src={isDarkMode?Darkx:x} alt="X" className="h-5 w-5" /></a>
+          <a href="https://www.linkedin.com/company/environment-agency-abu-dhabi/"  target="_blank" rel="noopener noreferrer"><img src={isDarkMode?Darklinkedin:linkedin} alt="LinkedIn" className="h-5 w-5" /></a>
+          <a href="https://www.instagram.com/Environmentabudhabi/"  target="_blank" rel="noopener noreferrer"><img src={isDarkMode?Darkinsta:insta} alt="Instagram" className="h-5 w-5" /></a>
         </div>
       </div>
     </div>
