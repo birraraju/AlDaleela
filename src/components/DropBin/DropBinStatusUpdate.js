@@ -195,7 +195,7 @@ const DropBinStatusUpdate = ({setMessage,isLangArab,setFormShow,isDarkMode,setPO
                 {label}
               </label>
                <p
-               className={` border ${value ? "p-2" : "p-5"}  input-fields ${
+               className={` border ${value ? "p-2" : "p-5"} ${((label === "Organization")||(label === "Municipality")) ?" font-cairo":"" }  input-fields ${
                  isLangArab ? "text-left" : "text-right"
                } w-auto    laptop_s:h-[37px]    h-9 text-[14px] rounded-lg text-[#399C72]    font-600 bg-[#FFFFFF]`}
              >
