@@ -493,10 +493,10 @@ export default function BasicInformation({
                 info.headingRead === "Country" ? (
                   <div className="relative">
   <div
-    className="flex justify-between items-center p-1 sm:h-auto h-3/4 border rounded cursor-pointer bg-[#E7EFF0]"
+    className={`flex justify-between items-center p-1 sm:h-auto h-3/4 border border-transparent rounded cursor-pointer ${isDarkMode?" bg-black/20":"bg-[#E7EFF0]"}`}
     onClick={toggleDropdown}
   >
-    <span className="whitespace-nowrap overflow-hidden text-ellipsis   font-500  text-[14px] text-[#000000]" >{selectedCountry}</span>
+    <span className={`whitespace-nowrap overflow-hidden text-ellipsis   font-500  text-[14px] ${isDarkMode?"text-[#FFFFFFCC]":"text-[#000000]"}`} >{selectedCountry}</span>
     <span className="ml-2">
       {/* Down arrow SVG */}
       <svg
@@ -514,11 +514,11 @@ export default function BasicInformation({
     </span>
   </div>
   {isDropdownOpen && (
-    <div className="absolute -top-40 h-40 border rounded bg-white w-full z-10 overflow-y-auto max-h-40">
+    <div className={`absolute -top-40 h-40 border border-transparent rounded-md ${ isDarkMode?"bg-black/90 text-[#FFFFFFCC] ":"bg-white text-[#000000] "}w-full z-10 overflow-y-auto max-h-40`}>
       {countries.map((country, i) => (
         <div
           key={i}
-          className="p-2 hover:bg-gray-100 text-[14px]   font-500 whitespace-nowrap overflow-hidden text-ellipsis cursor-pointer"
+          className={`p-2 ${isDarkMode?" hover:bg-white/70":"hover:bg-gray-100"} text-[14px] w-full   font-500 whitespace-nowrap overflow-hidden text-ellipsis cursor-pointer`}
           onClick={() => handleCountrySelect(country)}
         >
           {country}
@@ -533,7 +533,7 @@ export default function BasicInformation({
                     onChange={handleInputChange}
                     defaultValue={info.value}
                     name={info.headingRead}
-                    className={`w-full sm:h-auto my-0.5  bg-[#E7EFF0]   font-500  h-3/4 ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#000000]"}`}
+                    className={`w-full sm:h-auto my-0.5  bg-[#E7EFF0]   font-500  h-3/4 ${isDarkMode ? "text-[#FFFFFFCC] bg-black/20 " : "bg-[#E7EFF0] text-[#000000]"}`}
                   />
                   {info.headingRead === "Email" && emailError && <p className="text-red-500 text-xs">{emailError}</p>}
                   {info.headingRead === "Phone Number" && phoneError && <p className="text-red-500 text-xs">{phoneError}</p>}
