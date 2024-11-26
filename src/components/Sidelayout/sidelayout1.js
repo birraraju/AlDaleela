@@ -95,7 +95,7 @@ export default function SideLayout1({
 
         <div className="p-6 overflow-y-auto h-[109%] 2xl:h-[100%] ">
           {children || (
-            <p className={`${isDarkMode ? 'text-[#FFFFFFCC] text-opacity-80' : 'text-[#505050]'} laptop_lg:text-[16px] text-[14px]  font-poppins font-600`}>
+            <p className={`${isDarkMode ? 'text-[#FFFFFFCC] text-opacity-80' : 'text-[#505050]'} laptop_lg:text-[16px] text-[14px]     font-600`}>
               { isLangArab?"معرض الخريطة الأساسية":"Basemap Gallery"}
             </p>
           )}

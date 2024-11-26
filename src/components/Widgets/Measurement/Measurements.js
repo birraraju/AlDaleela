@@ -172,7 +172,7 @@ if (calciteButton?.shadowRoot) {
                     } dark:bg-violet-600 peer-checked:dark:bg-gray-700`}
                   >
                     <img src={Measurment} alt="Distance" className={`w-5 ${isLangArab?"ml -1 sm:ml-2":"mr-1 sm:mr-2"}`} />
-                    <button id="distance" className={` font-poppins font-500 ${isDistanceSelected? (isDarkMode ?" text-[#404040]":"text-[#404040]"):(isDarkMode?" text-white ":"text-[#404040]")}`} title="Distance Measurement Tool">{isLangArab?"قياس المسافة":"Distance Measurement"}</button>
+                    <button id="distance" className={`    font-500 ${isDistanceSelected? (isDarkMode ?" text-[#404040]":"text-[#404040]"):(isDarkMode?" text-white ":"text-[#404040]")}`} title="Distance Measurement Tool">{isLangArab?"قياس المسافة":"Distance Measurement"}</button>
                   </span>
                   <span
                     onClick={() => {handleClickArea()}}
@@ -181,7 +181,7 @@ if (calciteButton?.shadowRoot) {
                     } dark:bg-gray-700 peer-checked:dark:bg-violet-600`}
                   >
                     <img src={AreaMeasurment} alt="Area" className={`w-5 ${isLangArab?"ml -1 sm:ml-2":"mr-1 sm:mr-2"}`} />
-                    <button id="area" className={ ` font-poppins font-500 ${isAreaSelected? (isDarkMode ?" text-[#404040]":"text-[#404040]"):(isDarkMode?" text-white ":"text-[#404040]")}`} title="Area Measurement Tool">{isLangArab?"قياس المساحة":"Area Measurement"}</button>
+                    <button id="area" className={ `    font-500 ${isAreaSelected? (isDarkMode ?" text-[#404040]":"text-[#404040]"):(isDarkMode?" text-white ":"text-[#404040]")}`} title="Area Measurement Tool">{isLangArab?"قياس المساحة":"Area Measurement"}</button>
                   </span>
                 </label>
               </div>        

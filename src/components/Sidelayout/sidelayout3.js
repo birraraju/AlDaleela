@@ -121,7 +121,7 @@
 
 //         <div className="p-6 overflow-y-auto h-full">
 //           {children || (<>
-//             <p className={`text-${isDarkMode ? '[#FFFFFFCC] text-opacity-80' : 'black'}  font-poppins font-medium`}>
+//             <p className={`text-${isDarkMode ? '[#FFFFFFCC] text-opacity-80' : 'black'}     font-medium`}>
 //               { isLangArab?"القياس": "Measurement"}
 //             </p>
             

@@ -49,7 +49,7 @@ export default function SideLayout({ children, width = "454.84px", height = "cal
         </button>
 
         <div className="p-6 overflow-y-auto h-full">
-          {children || <p className="text-gray-700 font-poppins font-medium">Print</p>}
+          {children || <p className="text-gray-700    font-medium">Print</p>}
         </div>
       </div>
 

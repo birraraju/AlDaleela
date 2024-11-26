@@ -736,7 +736,7 @@ const handleDrop = async (e) => {
     disable
   ) => (
     <div className="space-y-1">
-      <label htmlFor={id} className={`block text-[11px]  ${isDarkMode?"text-white":"text-[#303030]"} font-poppins font-500`}>
+      <label htmlFor={id} className={`block text-[11px]  ${isDarkMode?"text-white":"text-[#303030]"}    font-500`}>
         {label} <span className="text-red-500 ">*</span>
       </label>
       {inputType === "select" ? (
@@ -992,7 +992,7 @@ const handleDrop = async (e) => {
 
         {/* File Upload Section */}
         <div className="bg-white p-4  grid grid-cols-1 gap-4 border border-none rounded-lg">
-          <h1 className="text-[#000000] font-poppins font-500 text-[12px] ">
+          <h1 className="text-[#000000]    font-500 text-[12px] ">
             {isLangArab
               ? "تحميل مقاطع الفيديو/الصور/التسجيلات الصوتية"
               : "Upload Videos/Photos/Audios"}
@@ -1038,7 +1038,7 @@ const handleDrop = async (e) => {
                 ))}
               </div>
             ) : (
-              <p className="mt-2 text-[11px] font-poppins font-400 text-[#132A00]">
+              <p className="mt-2 text-[11px]    font-400 text-[#132A00]">
                 {isLangArab
                   ? "قم بإسقاط الصور أو مقاطع الفيديو الخاصة بك هنا، أو"
                   : "Drop your file here, or"}{" "}
@@ -1050,7 +1050,7 @@ const handleDrop = async (e) => {
                 </button>
               </p>
             )}
-           { !files.length > 0 && <p className="mt-1 text-[7px] text-[#969DB2] font-poppins font-400 ">
+           { !files.length > 0 && <p className="mt-1 text-[7px] text-[#969DB2]    font-400 ">
               {isLangArab ? "يدعم" : "Supports:"}
               {isLangArab ? " PNG, JPG, JPEG, MP3, " : "PNG, JPG, JPEG, MP3, "}
             </p>}
@@ -1067,7 +1067,7 @@ const handleDrop = async (e) => {
           <div className="flex justify-center items-center">
             <button
               onClick={handleDone}
-              className=" w-[131px]  h-[31px] flex items-center font-poppins font-500 justify-center py-2 px-3 bg-[#3398B8] text-white text-[11px] gap-1 border border-gray-300 rounded-lg"
+              className=" w-[131px]  h-[31px] flex items-center    font-500 justify-center py-2 px-3 bg-[#3398B8] text-white text-[11px] gap-1 border border-gray-300 rounded-lg"
             >
               <img
                 src={UploadImage}

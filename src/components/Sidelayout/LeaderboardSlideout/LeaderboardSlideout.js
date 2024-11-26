@@ -104,7 +104,7 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
       <h1
           className={`font-600 ${
             isDarkMode ? "text-white" : "text-[#505050]"
-          } font-poppins text-[16px]`}
+          }    text-[16px]`}
         >          {isLangArab?"لوحة المتصدرين":"Leaderboard"}</h1>
         <button
           onClick={() => {

@@ -84,14 +84,14 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
           <div className="flex items-center gap-x-1">
             {isFormShow ? <><img src={isDarkMode ? DarkLocation : Location} alt="Location" className=" h-[15px] w-[15px]" />
             <p
-              className={`font-500 font-poppins text-[14px] ${
+              className={`font-500    text-[14px] ${
                 isDarkMode ? "text-white" : "text-[#353535]"
               }`}
             >
               {isLangArab ? "دبوس مُنقَطِع" : "Dropped pin"}
             </p>
             </>: (!POIFormsuccessShow &&
-            <p className={` text-[16px] font-poppins font-600 ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#505050]"}`}>
+            <p className={` text-[16px]    font-600 ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#505050]"}`}>
                 {isLangArab ? "محرر" : "Editor"}
               </p>)}
           </div>

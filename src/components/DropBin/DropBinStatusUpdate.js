@@ -186,7 +186,7 @@ const DropBinStatusUpdate = ({setMessage,isLangArab,setFormShow,isDarkMode,setPO
       {value && (
         <>
               <label
-                className={`block absolute font-poppins font-600 ${
+                className={`block absolute    font-600 ${
                   isLangArab ? " right-2" : " left-2"
                 } top-2  text-[13px]  font-semibold ${
                   isDarkMode ? " text-[#303030]" : " text-[#303030]"
@@ -197,7 +197,7 @@ const DropBinStatusUpdate = ({setMessage,isLangArab,setFormShow,isDarkMode,setPO
                <p
                className={` border ${value ? "p-2" : "p-5"}  input-fields ${
                  isLangArab ? "text-left" : "text-right"
-               } w-auto    laptop_s:h-[37px]    h-9 text-[14px] rounded-lg text-[#399C72] font-poppins font-600 bg-[#FFFFFF]`}
+               } w-auto    laptop_s:h-[37px]    h-9 text-[14px] rounded-lg text-[#399C72]    font-600 bg-[#FFFFFF]`}
              >
                {" "}
                {value?.length > 40 ? `${value.substring(0, 20)}` : value}
