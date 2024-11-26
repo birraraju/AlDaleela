@@ -23,19 +23,19 @@ export default function ProfileDetails({
             <img 
             // src={`${process.env.PUBLIC_URL}/Header/Profile/ProfileDetails/Profile.svg`} 
             src={profiledetails && profiledetails.imageUrl ? profiledetails.imageUrl : `${process.env.PUBLIC_URL}/Header/Profile/ProfileDetails/Profile.svg`}
-            alt="" className=" w-full h-full  rounded-full object-cover" />
+            alt="" className=" w-full h-full  rounded-full object-fill" />
           </div>
 
           <div className="flex flex-col cursor-pointer gap-1">
 
           <p
-              className={` font-bold text-lg tracking-wider ${
-                isDarkMode ? "text-gray-200" : "text-[#505050]"
+              className={` font-bold text-[16px]  tracking-wider ${
+                isDarkMode ? "text-gray-200" : "text-[#000000]"
               }`}
             >              {profiledetails.username ? profiledetails.username: profiledetails.username === "" && profiledetails.firstName}
             </p>
             <p
-              className={`  text-sm tracking-wider ${
+              className={`  text-[11px] tracking-wider ${
                 isDarkMode ? "text-gray-200" : "text-[#505050]"
               }`}
             >               {profiledetails.email}</p>

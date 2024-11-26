@@ -10,6 +10,11 @@ import config from "../Common/config"; // Import your config file
 import Graphic from "@arcgis/core/Graphic.js";
 import Point from "@arcgis/core/geometry/Point.js";
 import { UserActivityLog } from "../Common/UserActivityLog";
+import UploadMedia from '../../assets/Droppedpin/UploadMediaIcon.svg'
+import CloseUploadedFile from '../../assets/POIEdit/FileUploadCancel.svg'
+import { useTheme } from "../Layout/ThemeContext/ThemeContext";
+
+
 
 
 const Component = ({mapview,isLangArab, selectedLayer, addPointGeometry, setFormShow,setPOIFormsuccessShow,setmessage,onClose,setPOIFormisOpenModalShow,isFormShow}) => {
@@ -39,23 +44,8 @@ const Component = ({mapview,isLangArab, selectedLayer, addPointGeometry, setForm
     },
   });
   const [buttonDisable, setButtonDisable] = useState(false);
-  
-  // const [errors, setErrors] = useState({
-  //   organization: "organization Field is Required",
-  //   name: " Name Field is Required",
-  //   class: "Class  Field is Required",
-  //   classD: " ClassD Field is Required",
-  //   status: "Status Field is Required",
-  //   comment: "Comment Field is Required",
-  //   description: " Description Field is Required",
-  //   poems: "Poems Field is Required",
-  //   stories: " Store Field is Required",
-  //   // classification: " Classification Field is Required",
-  //   municipality: " Municipality Field is Required",
-  //   emirate: " Emirate  Field is Required",
-  //   city: " City Field is Required",
-  // });
 
+  const {isDarkMode} = useTheme()
   const [errors, setErrors] = useState({});
   
   console.log("pioData :>> ", poiData);
@@ -351,6 +341,7 @@ const Component = ({mapview,isLangArab, selectedLayer, addPointGeometry, setForm
 
   const [files, setFiles] = useState([]);
   const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [filesShow,setFilesShow] = useState([])
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef(null);
 
@@ -361,27 +352,27 @@ const MAX_VIDEO_SIZE = 50 * 1024 * 1024; // 50 MB for videos
 const MAX_AUDIO_SIZE = 10 * 1024 * 1024; // 10 MB for audio
 
 // Helper function to check image dimensions
-const checkImageDimensions = (file) => {
-  return new Promise((resolve) => {
-    const img = new Image();
-    img.src = URL.createObjectURL(file);
-    img.onload = () => {
-      const { width, height } = img;
-      URL.revokeObjectURL(img.src); // Clean up the object URL
-      const isValid = width >= 500 && width <= 2000 && height >= 500 && height <= 2000;
-      if (!isValid) {
-        alert(`${ isLangArab ?"يجب أن يكون حجم الصورة أقل من 10 ميغابايت.":"Image dimensions must be between 500x500 and 2000x2000 pixels."}`);
-      }
-      resolve(isValid);
-    };
-  });
-};
+// const checkImageDimensions = (file) => {
+//   return new Promise((resolve) => {
+//     const img = new Image();
+//     img.src = URL.createObjectURL(file);
+//     img.onload = () => {
+//       const { width, height } = img;
+//       URL.revokeObjectURL(img.src); // Clean up the object URL
+//       const isValid = width >= 500 && width <= 2000 && height >= 500 && height <= 2000;
+//       if (!isValid) {
+//         alert(`${ isLangArab ?"يجب أن يكون حجم الصورة أقل من 10 ميغابايت.":"Image dimensions must be between 500x500 and 2000x2000 pixels."}`);
+//       }
+//       resolve(isValid);
+//     };
+//   });
+// };
 
 // Helper function to validate file type, size, and dimensions for images
 const isValidFile = async (file) => {
   const isImage = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif';
   const isVideo = file.type === 'video/mp4';
-  const isAudio = file.type === 'audio/mp3' || file.type === 'audio/wav';
+  const isAudio = file.type === 'audio/mpeg' || file.type === 'audio/wav';
 
   if (!isImage && !isVideo && !isAudio) {
     alert(` ${isLangArab ? "نوع الملف غير صالح. يُسمح فقط بصور JPEG و PNG و GIF، وملفات الصوت MP3 و WAV، وفيديو MP4.":"Invalid file type. Only JPEG, PNG, GIF images, MP3, WAV audio, and MP4 video are allowed."}`);
@@ -393,8 +384,8 @@ const isValidFile = async (file) => {
       alert(`${ isLangArab ?"حجم الصورة يجب أن يكون أقل من 10 ميجابايت.":"Image size must be under 10 MB."}`);
       return false;
     }
-    const isValidDimensions = await checkImageDimensions(file);
-    if (!isValidDimensions) return false;
+    // const isValidDimensions = await checkImageDimensions(file);
+    // if (!isValidDimensions) return false;
   } else if (isVideo) {
     if (file.size > MAX_VIDEO_SIZE) {
       alert(`${isLangArab?"يجب أن يكون حجم الفيديو أقل من 50 ميغابايت.":"Video size must be under 50 MB."}`);
@@ -473,12 +464,55 @@ const handleDrop = async (e) => {
   // Move files to uploaded state and clear current selection
   const handleDone = () => {
     setUploadedFiles([...uploadedFiles, ...files]);
+  
+    const newFiles = files.map((file) => {
+      let preview;
+  
+      if (file.type.startsWith('image/')) {
+        // Generate preview for images
+        preview = URL.createObjectURL(file);
+      } else if (file.type.startsWith('video/')) {
+        // Placeholder for video files
+        preview = `${process.env.PUBLIC_URL}/Header/Searchbar/video.svg`;
+      } else if (file.type.startsWith('audio/')) {
+        // Placeholder for audio files
+        preview = `${process.env.PUBLIC_URL}/Header/Searchbar/audio.svg`;
+      } 
+  
+      return {
+        file,
+        name: file.name,
+        progress: 0, // Initialize progress
+        preview, // Dynamically assigned preview or placeholder
+      };
+    });
+  
+    setFilesShow((prev) => [...prev, ...newFiles]);
+    simulateUploads(newFiles);
     setFiles([]);
+  };
+  
+
+  const simulateUploads = (newFiles) => {
+    newFiles.forEach((file, index) => {
+      const interval = setInterval(() => {
+        setFilesShow((prev) =>
+          prev.map((item, idx) =>
+            idx === filesShow.length + index && item.progress < 100
+              ? { ...item, progress: item.progress + 10 }
+              : item
+          )
+        );
+      }, 300);
+
+      setTimeout(() => clearInterval(interval), 3000);
+    });
   };
 
   // Remove uploaded file
   const handleRemoveUploadedFile = (index) => {
     setUploadedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+    setFilesShow((prevFiles) => prevFiles.filter((_, i) => i !== index));
   };
 
   const handleFormSubmit = async () => {
@@ -720,7 +754,7 @@ const handleDrop = async (e) => {
     disable
   ) => (
     <div className="space-y-1">
-      <label htmlFor={id} className="block text-[13px] font-medium text-gray-700">
+      <label htmlFor={id} className={`block text-[11px]  ${isDarkMode?"text-white":"text-[#303030]"}    font-500`}>
         {label} <span className="text-red-500 ">*</span>
       </label>
       {inputType === "select" ? (
@@ -729,7 +763,7 @@ const handleDrop = async (e) => {
           value={value} // Bind to the state value
           disabled={disable} // Disable the dropdown
           onChange={handleChange}
-          className="block w-full p-2 rounded-md text-[13px] h-9 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          className="block w-full p-2 h-[42px]   bg-white font-500 rounded-md text-[13px] border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
         >
           {options.length > 0 && (
             <>
@@ -765,119 +799,69 @@ const handleDrop = async (e) => {
     <div className="w-full max-w-md bg-transparent text-black overflow-y-auto">
       <div>
         <button
-        
           onClick={onClose}
-          className="px-1 py-3 hover:text-blue-500 flex items-center text-black focus:outline-none"
+          className="px-1 py-3 hover:text-blue-500 flex justify-start items-center text-black focus:outline-none"
         >
-        {isLangArab ?<>        <span>{isLangArab?"خلف":"Back"}</span>  <ChevronLeft className="w-5 h-5" />
-          
-          </>:<>          <ChevronLeft className="w-5 h-5" />
-          <span>{isLangArab?"خلف":"Back"}</span>
-          </>}
-
+          {isLangArab ? (
+            <>
+              {" "}
+              <span className=  {`font-500 ${isDarkMode?"text-white":"text-[#00000099]"} text-[14px]`}>
+                {isLangArab ? "خلف" : "Back"}
+              </span>{" "}
+              <ChevronLeft className={`w-[17px] ${isDarkMode && 'text-white'} h-[17px]`} />
+            </>
+          ) : (
+            <>
+              {" "}
+              <ChevronLeft className={`w-[17px] ${isDarkMode && 'text-white'} h-[17px]`} />
+              <span className=  {`font-500 ${isDarkMode?"text-white":"text-[#00000099]"} text-[14px]`}>
+                {isLangArab ? "خلف" : "Back"}
+              </span>
+            </>
+          )}
         </button>
       </div>
-      <div className="p-1 space-y-4">
-      {renderField(
-  "organization",
-  isLangArab ? "منظمة" : "Organization",
-  poiData.organization,
-  organizationOptions,
-  "select"
-)}
-{renderField(
-  "name",
-  isLangArab ? "الاسم" : "Name",
-  poiData.name
-)}
-{renderField(
-  "class",
-  isLangArab ? "الفئة" : "Class",
-  poiData.class
-)}
-{renderField(
-  "classD",
-  isLangArab ? "الفئة D" : "ClassD",
-  poiData.classD
-)}
-{renderField(
-  "status",
-  isLangArab ? "الحالة" : "Status",
-  poiData.status,
-  statusOptions,
-  "select"
-)}
-{renderField(
-  "comment",
-  isLangArab ? "تعليق" : "Comment",
-  poiData.comment
-)}
-{renderField(
-  "description",
-  isLangArab ? "الوصف" : "Description",
-  poiData.description
-)}
-{renderField(
-  "poems",
-  isLangArab ? "الأشعار" : "Poems",
-  poiData.poems
-)}
-{renderField(
-  "stories",
-  isLangArab ? "القصص" : "Stories",
-  poiData.stories
-)}
-{renderField(
-  "classification",
-  isLangArab ? "التصنيف" : "Classification",
-  poiData.classification || selectedLayer,
-  [],
-  "text",
-  true
-)}
-{renderField(
-  "municipality",
-  isLangArab ? "البلدية" : "Municipality",
-  poiData.municipality,
-  municipalityOptions,
-  "select"
-)}
-{renderField(
-  "emirate",
-  isLangArab ? "الإمارة" : "Emirate",
-  poiData.emirate
-)}
-{renderField(
-  "city",
-  isLangArab ? "المدينة" : "City",
-  poiData.city
-)}
-
-        {/* {renderField(
+      <div className="p-1 space-y-0.5">
+        {renderField(
           "organization",
-          isLangArab?"منظمة":
-          "Organization",
+          isLangArab ? "منظمة" : "Organization",
           poiData.organization,
           organizationOptions,
           "select"
         )}
-        {renderField("name", "Name", poiData.name)}
-        {renderField("class", "Class", poiData.class)}
-        {renderField("classD", "ClassD", poiData.classD)}
+        {renderField("name", isLangArab ? "الاسم" : "Name", poiData.name)}
+        {renderField("class", isLangArab ? "الفئة" : "Class", poiData.class)}
+        {renderField(
+          "classD",
+          isLangArab ? "الفئة D" : "ClassD",
+          poiData.classD
+        )}
         {renderField(
           "status",
-          "Status",
+          isLangArab ? "الحالة" : "Status",
           poiData.status,
           statusOptions,
           "select"
         )}
-        {renderField("comment", "Comment", poiData.comment)}
-        {renderField("description", "Description", poiData.description)}
-        {renderField("poems", "Poems", poiData.poems)}
-        {renderField("stories", "Stories", poiData.stories)}
+        {renderField(
+          "comment",
+          isLangArab ? "تعليق" : "Comment",
+          poiData.comment
+        )}
+        {renderField(
+          "description",
+          isLangArab ? "الوصف" : "Description",
+          poiData.description
+        )}
+        {renderField("poems", isLangArab ? "الأشعار" : "Poems", poiData.poems)}
+        {renderField(
+          "stories",
+          isLangArab ? "القصص" : "Stories",
+          poiData.stories
+        )}
         {renderField(
           "classification",
-          "Classification",
+          isLangArab ? "التصنيف" : "Classification",
           poiData.classification || selectedLayer,
           [],
           "text",
@@ -885,19 +869,23 @@ const handleDrop = async (e) => {
         )}
         {renderField(
           "municipality",
-          "Municipality",
+          isLangArab ? "البلدية" : "Municipality",
           poiData.municipality,
           municipalityOptions,
           "select"
         )}
-        {renderField("emirate", "Emirate", poiData.emirate)}
-        {renderField("city", "City", poiData.city)} */}
+        {renderField(
+          "emirate",
+          isLangArab ? "الإمارة" : "Emirate",
+          poiData.emirate
+        )}
+        {renderField("city", isLangArab ? "المدينة" : "City", poiData.city)}
 
         {/* Coordinates Section */}
-        <div className="space-y-2">
+        <div className="space-y-2 pt-2 pb-6">
           <div className="flex items-center space-x-4">
-            <label className="block text-[11px] font-medium text-gray-700">
-              {isLangArab?"الإحداثيات":"Coordinates"}
+            <label className={`block text-[11px] font-medium ${isDarkMode?"text-white":"text-gray-700"}`}>
+              {isLangArab ? "الإحداثيات" : "Coordinates"}
             </label>
             <label className="inline-flex items-center">
               <input
@@ -908,7 +896,9 @@ const handleDrop = async (e) => {
                 checked={poiData.coordinateType === "dms"}
                 onChange={handleCoordinateTypeChange}
               />
-              <span className="ml-1 text-[11px]">{isLangArab?"درجات دقائق ثواني":"Degrees Minutes Seconds"}</span>
+              <span className={`ml-1 ${isDarkMode?"text-white":"text-[11px]"}`}>
+                {isLangArab ? "درجات دقائق ثواني" : "Degrees Minutes Seconds"}
+              </span>
             </label>
             <label className="inline-flex items-center">
               <input
@@ -919,13 +909,17 @@ const handleDrop = async (e) => {
                 checked={poiData.coordinateType === "decimal"}
                 onChange={handleCoordinateTypeChange}
               />
-              <span className="ml-1 text-[11px]">{isLangArab?"الدرجات العشرية":"Decimal Degrees"}</span>
+              <span className={`ml-1 ${isDarkMode?"text-white":"text-[11px]"}`}>
+                {isLangArab ? "الدرجات العشرية" : "Decimal Degrees"}
+              </span>
             </label>
           </div>
           {poiData.coordinateType === "dms" && (
             <div className="space-y-2">
               <div className="flex items-center space-x-2">
-                <label className=" text-[11px] w-16">{isLangArab?"نقطة X":"Point_X"}</label>
+                <label className={` ${isDarkMode && "text-white"} text-[11px] w-16`}>
+                  {isLangArab ? "نقطة X" : "Point_X"}
+                </label>
                 <input
                   type="text"
                   id="dms_pointx_degrees"
@@ -951,8 +945,10 @@ const handleDrop = async (e) => {
                   className="w-20 p-2 border rounded"
                 />
               </div>
-              <div className="flex items-center space-x-2">
-                <label className=" text-[11px] w-16">{isLangArab? "نقطة Y" : "Point_Y" }</label>
+              <div className={`flex items-center  space-x-2`}>
+                <label className={` ${isDarkMode && "text-white"} text-[11px] w-16`}>
+                  {isLangArab ? "نقطة Y" : "Point_Y"}
+                </label>
                 <input
                   type="text"
                   id="dms_pointy_degrees"
@@ -982,26 +978,30 @@ const handleDrop = async (e) => {
           )}
           {poiData.coordinateType === "decimal" && (
             <div className="space-y-2">
-              <div className="flex items-center space-x-2">
-                <label className="w-16">{isLangArab?"نقطة X":"Point_X"}</label>
+              <div className={`flex items-center ${isDarkMode && " text-white"} space-x-2`}>
+                <label className="w-16">
+                  {isLangArab ? "نقطة X" : "Point_X"}
+                </label>
                 <input
                   type="text"
                   id="decimal_pointx"
                   value={poiData.decimal.pointx}
                   onChange={handleDecimalCoordinateChange}
                   placeholder="e.g. 54.373"
-                  className="w-40 p-2 border rounded"
+                  className="w-[88%] p-2 border rounded"
                 />
               </div>
-              <div className="flex items-center space-x-2">
-                <label className="w-16">{isLangArab? "نقطة Y" : "Point_Y" }</label>
+              <div className={`flex items-center ${isDarkMode && " text-white"} space-x-2`}>
+                <label className="w-16">
+                  {isLangArab ? "نقطة Y" : "Point_Y"}
+                </label>
                 <input
                   type="text"
                   id="decimal_pointy"
                   value={poiData.decimal.pointy}
                   onChange={handleDecimalCoordinateChange}
                   placeholder="e.g. 24.466"
-                  className="w-40 p-2 border rounded"
+                  className="w-[88%] p-2 border rounded"
                 />
               </div>
             </div>
@@ -1009,8 +1009,12 @@ const handleDrop = async (e) => {
         </div>
 
         {/* File Upload Section */}
-        <div className="bg-white p-4 grid grid-cols-1 gap-4 border border-none rounded-lg">
-          <h1 className="text-black text-[12px] ">{isLangArab?"تحميل مقاطع الفيديو/الصور/التسجيلات الصوتية":"Upload Videos/Photos/Audios"}</h1>
+        <div className="bg-white p-4  grid grid-cols-1 gap-4 border border-none rounded-lg">
+          <h1 className="text-[#000000]    font-500 text-[12px] ">
+            {isLangArab
+              ? "تحميل مقاطع الفيديو/الصور/التسجيلات الصوتية"
+              : "Upload Videos/Photos/Audios"}
+          </h1>
           <div
             className={`border-2 border-dashed rounded-lg p-6 text-center bg-white ${
               isDragging ? "border-blue-500" : "border-gray-300"
@@ -1020,41 +1024,59 @@ const handleDrop = async (e) => {
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
           >
-            <ImageIcon className="mx-auto h-12 w-12 text-gray-400" />
+          
+             <img
+                src={UploadMedia}
+                className=" mx-auto h-16 w-16 text-white"
+                alt="Upload"
+              />
+         
+            {/* <ImageIcon className="mx-auto h-12 w-12 text-gray-400" /> */}
             {files.length > 0 ? (
-              <div className="mt-2 space-y-2">
+              <div className="mt-2  space-y-2">
                 {files.map((file, index) => (
                   <div
                     key={index}
-                    className="flex items-center justify-between"
+                    className="flex w-full h-full items-center justify-between"
                   >
-                    <div className="flex items-center">
-                      <FileIcon className="h-8 w-8 text-gray-600" />
-                      <span className="ml-2 text-gray-700">{file.name}</span>
+                    <div className="flex w-full h-full items-center">
+                      {/* <img
+                        src={URL.createObjectURL(file)}
+                        className=" mx-auto rounded-xl w-full h-full text-white"
+                        alt="Upload"
+                      /> */}
+                      <div className="">
+                        <span className="text-gray-700 font-medium text-ellipsis text-[9px] block">
+                          {file.name}
+                        </span>
+                      </div>
                     </div>
-                    <button
+                    {/* <button
                       onClick={() => removeFile(index)}
                       className="text-red-500 hover:text-red-700"
                     >
                       <XCircleIcon className="w-5 h-5" />
-                    </button>
+                    </button> */}
                   </div>
                 ))}
               </div>
             ) : (
-              <p className="mt-2 text-[12px] text-gray-600">
-                {isLangArab?"قم بإسقاط الصور أو مقاطع الفيديو الخاصة بك هنا، أو":"Drop your images or videos here, or"}{" "}
+              <p className="mt-2 text-[11px]    font-400 text-[#132A00]">
+                {isLangArab
+                  ? "قم بإسقاط الصور أو مقاطع الفيديو الخاصة بك هنا، أو"
+                  : "Drop your file here, or"}{" "}
                 <button
                   onClick={handleBrowse}
                   className="text-blue-500 text-[12px] hover:text-blue-600 focus:outline-none focus:underline"
                 >
-                  {isLangArab?"تصفح":"browse"}
+                  {isLangArab ? "تصفح" : "browse"}
                 </button>
               </p>
             )}
-            <p className="mt-1 text-[12px] text-gray-500">
-              {isLangArab?"يدعم":"Supports"}: <strong>{isLangArab?"PNG، JPG، GIF، MP4، MOV، AVI":"PNG, JPG, GIF, MP4, MOV, AVI"}</strong>
-            </p>
+           { !files.length > 0 && <p className="mt-1 text-[7px] text-[#969DB2]    font-400 ">
+              {isLangArab ? "يدعم" : "Supports:"}
+              {isLangArab ? " PNG, JPG, JPEG, MP3, " : "PNG, JPG, JPEG, MP3, "}
+            </p>}
             <input
               type="file"
               ref={fileInputRef}
@@ -1068,65 +1090,79 @@ const handleDrop = async (e) => {
           <div className="flex justify-center items-center">
             <button
               onClick={handleDone}
-              className="w-auto flex items-center text-[10px] justify-center py-2 px-3 bg-[#3398B8] text-white text-xs gap-1 border border-gray-300 rounded-lg"
+              className=" w-[131px]  h-[31px] flex items-center    font-500 justify-center py-2 px-3 bg-[#3398B8] text-white text-[11px] gap-1 border border-gray-300 rounded-lg"
             >
               <img
                 src={UploadImage}
-                className="w-4 h-4 text-white"
+                className="w-[14px] h-[14px] text-white"
                 alt="Upload"
               />
-              {isLangArab?"تحميل الوسائط":"Upload media"}
+              {isLangArab ? "تحميل الوسائط" : "Upload media"}
             </button>
           </div>
         </div>
 
         {/* Uploaded Files Section */}
-        {uploadedFiles.length > 0 && (
-          <div className="space-y-4">
-            <h2 className="text-gray-700 text-[13px]">{isLangArab?"الملفات المرفوعة":"Uploaded Files"}</h2>
-            {uploadedFiles.map((file, index) => (
-              <div
-                key={index}
-                className="flex items-center w-full bg-black/55 h-[60px] justify-between border p-1 rounded-md"
-              >
-                {file.type.startsWith("image/") ? (
-                  <img
-                    src={URL.createObjectURL(file)}
-                    alt={file.name}
-                    className="w-[80%] h-[80%] object-cover rounded-md"
-                  />
-                ) : (
-                  <div className="flex items-center">
-                    <FileIcon className="h-8 w-8 text-gray-600" />
-                    <span className="ml-2  text-gray-700">{file.name}</span>
-                  </div>
-                )}
-                <button
-                  onClick={() => handleRemoveUploadedFile(index)}
-                  className="text-red-500 hover:text-red-700"
+        {filesShow.length > 0 && (
+          <div className="mt-4 p-6 bg-transparent rounded-lg shadow-sm">
+            <ul className="space-y-2">
+              {filesShow.map((file, index) => (
+                <li
+                  key={index}
+                  className="flex flex-col px-2 py-2 bg-transparent rounded-md border border-[#E4E9F0]"
                 >
-                  <XCircleIcon className="w-5 h-5" />
-                </button>
-              </div>
-            ))}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center">
+                      <img
+                        src={file.preview}
+                        alt={file.name}
+                        className="h-9 w-9 rounded-lg object-cover"
+                      />
+                      <div className="ml-3">
+                        <span className={`${isDarkMode?"text-white":"text-gray-700"} font-medium text-ellipsis text-[9px] block`}>
+                          {file.name}
+                        </span>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => handleRemoveUploadedFile(index)}
+                      className="text-red-500 hover:underline text-xs"
+                    >
+                      <img src={CloseUploadedFile} alt="Remove" />
+                    </button>
+                  </div>
+
+                  {/* Progress Bar */}
+                  <div className="w-full bg-gray-200 my-1 mx-1 border-transparent rounded-3xl h-1">
+                    <div
+                      className="bg-[#1F4690] h-1 border-transparent rounded-3xl"
+                      style={{ width: `${file.progress}%` }}
+                    ></div>
+                  </div>
+                </li>
+              ))}
+            </ul>
           </div>
         )}
 
         {/* Action Buttons */}
-        <div className="flex justify-between px-4 sm:px-7  space-x-8 items-center pt-4 pb-16">
+        <div className="flex justify-between px-4 sm:px-1 laptop_s:space-x-4  space-x-8 items-center pt-4 pb-16">
           <button
             onClick={onClose}
-            className="w-auto py-3 px-9 bg-transparent text-xs border border-black rounded-lg"
+            className="w-auto py-3 px-9 laptop_s:px-12  bg-transparent text-xs border border-black rounded-lg"
           >
             {isLangArab ? "يلغي" : "Cancel"}
           </button>
           <button
             onClick={handleFormSubmit}
             disabled={!buttonDisable}
-            
-            className={` ${!buttonDisable?"w-auto py-3 px-9 bg-custome-gray1 text-white text-xs border border-gray-300 rounded-lg":"w-auto py-3 px-9 bg-custom-gradient text-xs border border-gray-300 rounded-lg"}` }
+            className={` ${
+              !buttonDisable
+                ? "w-auto py-3 px-9 laptop_s:px-12 bg-custome-gray1 text-white text-xs border border-gray-300 rounded-lg"
+                : "w-auto py-3 px-9 bg-custom-gradient text-xs border border-gray-300 rounded-lg"
+            }`}
           >
-            { isLangArab ? "يُقدِّم" : "Submit"}
+            {isLangArab ? "يُقدِّم" : "Submit"}
           </button>
         </div>
       </div>
@@ -1135,215 +1171,3 @@ const handleDrop = async (e) => {
 };
 
 export default Component;
-
-// "use client";
-
-// import React, { useState,useRef } from "react";
-// import { ImageIcon, FileIcon } from 'lucide-react';
-// // import { ChevronLeft } from 'lucide-react';
-// import UploadImage from '../../assets/Droppedpin/Upload.svg'
-
-// const Component = () => {
-//   const [poiData, setPoiData] = useState({
-//     organization: "DMT",
-//     name: "Al Buwam",
-//     class: "Zubara",
-//     classD: "DMT",
-//     status: "Needs Review",
-//     comment: "Imported from UAEU Atlas",
-//     description: "Eastern and western",
-//     poems: "بيت الزوم وبه ... ما جرى الاحسان بالي شوالك بحر ... ما هو ما",
-//     stories: "",
-//     classification: "Marine",
-//     municipality: "Al Dhafra",
-//     emirate: "Abu Dhabi",
-//   });
-
-//   const handleChange = (e) => {
-//     const { id, value } = e.target;
-//     setPoiData((prevData) => ({
-//       ...prevData,
-//       [id]: value,
-//     }));
-//   };
-
-//   const [files, setFiles] = useState([]); // Store the selected files
-//   const [uploadedFiles, setUploadedFiles] = useState([]); // Store the uploaded files
-//   const [isDragging, setIsDragging] = useState(false);
-//   const fileInputRef = useRef(null);
-
-//   // Handle file selection
-//   const handleFileChange = (e) => {
-//     const selectedFiles = e.target.files ? Array.from(e.target.files) : [];
-//     const validFiles = selectedFiles.filter(
-//       (file) => file.type.startsWith('image/') || file.type.startsWith('video/')
-//     );
-
-//     if (validFiles.length !== selectedFiles.length) {
-//       alert('Only images or videos are allowed.');
-//     }
-
-//     setFiles((prevFiles) => [...prevFiles, ...validFiles]); // Add new files to the existing ones
-//   };
-
-//   // Handle file drop
-//   const handleDrop = (e) => {
-//     e.preventDefault();
-//     setIsDragging(false);
-//     const droppedFiles = Array.from(e.dataTransfer.files);
-//     const validFiles = droppedFiles.filter(
-//       (file) => file.type.startsWith('image/') || file.type.startsWith('video/')
-//     );
-
-//     if (validFiles.length !== droppedFiles.length) {
-//       alert('Only images or videos are allowed.');
-//     }
-
-//     setFiles((prevFiles) => [...prevFiles, ...validFiles]); // Add dropped files to the existing ones
-//   };
-
-//   const handleDragEnter = (e) => {
-//     e.preventDefault();
-//     setIsDragging(true);
-//   };
-
-//   const handleDragLeave = (e) => {
-//     e.preventDefault();
-//     setIsDragging(false);
-//   };
-
-//   const handleBrowse = () => {
-//     fileInputRef.current?.click();
-//   };
-
-//   const removeFile = (index) => {
-//     setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
-//   };
-
-//   // Handle "Done" button click - move files to the uploaded state
-//   const handleDone = () => {
-//     setUploadedFiles([...uploadedFiles, ...files]); // Add selected files to uploaded
-//     setFiles([]); // Clear the current selection
-//   };
-
-//   // Handle remove uploaded file
-//   const handleRemoveUploadedFile = (index) => {
-//     setUploadedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
-//   };
-
-//   const renderField = (id, label, value, inputType = "text") => (
-//     <div className="space-y-2">
-//       <label htmlFor={id} className="block text-sm font-medium text-gray-700">
-//         {label}
-//       </label>
-//       {inputType === "select" ? (
-//         <select
-//           id={id}
-//           value={value}
-//           onChange={handleChange}
-//           className="block w-full p-2 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-//         >
-//           <option value={value}>{value}</option>
-//           {/* Add additional options here if needed */}
-//         </select>
-//       ) : (
-//         <input
-//           id={id}
-//           value={value}
-//           onChange={handleChange}
-//           className="block w-full rounded-md p-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-//         />
-//       )}
-//     </div>
-//   );
-
-//   return (
-//     <div className="w-full max-w-md bg-transparent overflow-y-auto ">
-//       <div className="p-1 space-y-4">
-//         {renderField("organization", "Organization", poiData.organization, "select")}
-//         {renderField("name", "Name", poiData.name)}
-//         {renderField("class", "Class", poiData.class, "select")}
-//         {renderField("classD", "ClassD", poiData.classD)}
-//         {renderField("status", "Status", poiData.status, "select")}
-//         {renderField("comment", "Comment", poiData.comment)}
-//         {renderField("description", "Description", poiData.description)}
-//         {renderField("poems", "Poems", poiData.poems)}
-//         {renderField("stories", "Stories", poiData.stories)}
-//         {renderField("classification", "Classification", poiData.classification, "select")}
-//         {renderField("municipality", "Municipality", poiData.municipality, "select")}
-//         {renderField("emirate", "Emirate", poiData.emirate)}
-
-//         <div className='bg-white p-4 grid grid-cols-1 gap-4 border border-none rounded-lg'>
-//         <h1 className='text-black'>Upload Videos/Photos/Audios</h1>
-//         <div
-//           className={`border-2 border-dashed rounded-lg p-6 text-center bg-white ${
-//             isDragging ? 'border-blue-500 ' : 'border-gray-300'
-//           }`}
-//           onDragEnter={handleDragEnter}
-//           onDragOver={handleDragEnter}
-//           onDragLeave={handleDragLeave}
-//           onDrop={handleDrop}
-//         >
-//           <ImageIcon className="mx-auto h-12 w-12 text-gray-400" />
-//           {files.length > 0 ? (
-//             <div className="mt-2 space-y-2">
-//               {files.map((file, index) => (
-//                 <div key={index} className="flex items-center justify-between">
-//                   <div className="flex items-center">
-//                     <FileIcon className="h-8 w-8 text-gray-600" />
-//                     <span className="ml-2 text-gray-700">{file.name}</span>
-//                   </div>
-//                 </div>
-//               ))}
-//             </div>
-//           ) : (
-//             <p className="mt-2 text-sm text-gray-600">
-//               Drop your images or videos here, or{' '}
-//               <button
-//                 onClick={handleBrowse}
-//                 className="text-blue-500 hover:text-blue-600 focus:outline-none focus:underline"
-//               >
-//                 browse
-//               </button>
-//             </p>
-//           )}
-//           <p className="mt-1 text-xs text-gray-500">
-//             Supports: <strong>PNG, JPG, GIF, MP4, MOV, AVI</strong>
-//           </p>
-//           <input
-//             type="file"
-//             ref={fileInputRef}
-//             onChange={handleFileChange}
-//             className="hidden"
-//             accept="image/*,video/*"
-//             multiple // Allow multiple file selection
-//           />
-//         </div>
-//         <div className='flex justify-center items-center'>
-//           <span className='flex justify-center items-center gap-2'>
-//             <button
-//               onClick={handleDone}
-//               className="w-auto flex items-center justify-center py-2 px-3 bg-[#3398B8] text-white text-xs gap-1 border border-gray-300 rounded-lg"
-//             >
-//                 <img src={UploadImage} className=" w-4 h-4 text-white" alt="" />
-//               Upload media
-//             </button>
-//           </span>
-//         </div>
-//       </div>
-
-//         {/* Action Buttons */}
-//         <div className="flex justify-center space-x-8 items-center">
-//           <button className="w-auto py-3 px-9 bg-transparent text-xs border border-black rounded-lg">
-//             Cancel
-//           </button>
-//           <button className="w-auto py-3 px-9 bg-custom-gradient text-xs border border-gray-300 rounded-lg">
-//             Update
-//           </button>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Component;

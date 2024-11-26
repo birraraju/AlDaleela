@@ -263,33 +263,23 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
 
   return (
     <div className="relative grid grid-cols-1 h-full ">
-      <div className="grid grid-cols-3 justify-start pt-3  h-[70%] overflow-y-auto items-start gap-y-4 gap-x-0">
-  {bookmarks.length>0 ?bookmarks.map((image, index) => (
+      <div className="grid grid-cols-3 justify-start pt-[1rem]  h-[81%] tab_s:h-[87%] laptop_s:h-[76%] overflow-y-auto items-start gap-y-4 gap-x-0">
+  {(bookmarks.length > 0) ? bookmarks.map((image, index) => (
     <div key={image.id} className="relative flex flex-col  items-center">
-      {/* Image and title section */}
+  
       <div onClick={() => handleZoomtoLocation(image.id, image.objectid, image.layername)} className=" relative sm:w-28 w-[96%] h-20  sm:h-24 flex flex-col items-center">
         <img
           src={image.src}
           alt={image.title}
           className=" sm:w-full w-[100%]   sm:h-full object-cover shadow-xl rounded-md"
         />
-        <h3 className="text-start w-full border text-white text-xs border-transparent rounded-md absolute bg-[#504848] h-6 justify-start items-center pl-2 flex bottom-0 text-[9px] leading-4 break-words">
-          {image.title}
+        <h3 className="text-start   font-500 w-full border text-[#FFFFFF] text-[10px] sm:text-[12px]  border-transparent rounded-md absolute bg-[#504848] h-6 justify-start items-center pl-2 flex bottom-0  leading-4 break-words">
+        {image.title?.length > 12 ? `${image.title.substring(0, 15)}` : image.title}
         </h3>
-        {/* <div className="absolute w-full pl-1 bottom-4 flex">
-              {image.icon.map((icons, iconIndex) => (
-                <span
-                  className="relative p-[3%] bg-[#504848] border-[#504848] rounded-full"
-                  key={iconIndex}
-                >
-                  <img src={icons.iconBg} className="relative h-4 w-4" alt="Icon Background" />
-                  <img src={icons.Icon} className="absolute top-1.5 left-1.5 h-2 w-2.5" alt="Icon" />
-                </span>
-              ))}
-            </div> */}
+       
       </div>
 
-      {/* Bookmark button outside image wrapper */}
+      
       {isManageVisible && (
         <div className="mt-1">
           <button
@@ -308,31 +298,31 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
         </div>
       )}
     </div>
-  )):<div className=' fixed flex items-center justify-center right-3   left-3 pt-[3rem] pb-[3rem]   '>
-    <p className=' text-center  text-black'>
-      bookmarks is not saved
+  )):<div className=' fixed flex items-center justify-center right-3  left-3 top-40 bottom-40   '>
+    <p className={`text-center  ${isDarkMode?"text-white":"text-black"}`}>
+   {isLangArab?"لا توجد إشارات مرجعية متاحة":" No Bookmarks Available"}
     </p>
     </div>}
 </div>
-      <div className={`fixed bottom-5 left-3 right-3 flex flex-col  space-y-1 ${isManageVisible ? 'mt-2 ' : 'mt-2 '}`}>
-            <hr className='mx-2 mb-3 ' />
+      <div className={` absolute bottom-5 tab_s:bottom-5   left-3 right-3 flex flex-col  space-y-1 ${isManageVisible ? 'mt-2 ' : 'mt-2 '}`}>
+            <hr className='mx-2 mb-2 ' />
             {!isManageVisible ? (
               <span className="flex gap-x-1 justify-center items-center">
                 <img src={isDarkMode ? DarkBookMarkGreen : BookMarkGreen } alt="" className="h-5" />
-                <p className="text-[#1365B1] underline text-sm cursor-pointer font-medium" onClick={() => setIsManageVisible(true)}>{ isLangArab?"إدارة العلامات المرجعية":"Manage Bookmarks"}</p>
+                <p className="text-[#1365B1] underline text-sm laptop_s:text-[14px] laptop_lg:tett-[16px] cursor-pointer    font-medium" onClick={() => setIsManageVisible(true)}>{ isLangArab?"إدارة العلامات المرجعية":"Manage Bookmarks"}</p>
               </span>
             ) : (
               <div className={`flex justify-center  ${isLangArab?"gap-4":"space-x-9"}  items-center`}>
                 
                 <button onClick={handleClose}
-                  className="w-auto py-3 px-14 text-black bg-white text-xs border border-gray-300 rounded-lg"
+                  className="w-auto py-3 text-[12px]   font-500 mobile_s:text-[10px] mobile_m:text-[12px] px-14 text-black bg-white/20  border border-gray-300 rounded-lg"
                 >
                   {isLangArab ? "إلغاء":"Cancel"}
                 </button>
                 <button
                   onClick={handleSave}
                   disabled={ids.length === 0}
-                  className={ids.length===0?"w-auto py-3 px-10 bg-custome-gray1 text-[12px] border border-gray-300 rounded-lg":"w-auto py-3 px-10 bg-custom-gradient text-[12px] border border-gray-300 rounded-lg"}
+                  className={ids.length===0?"w-auto py-3   font-500 text-[#FFFFFF] px-9 mobile_s:px-6 mobile_m:px-6  sm:px-10 bg-custome-gray1 text-[12px] mobile_s:text-[10px] mobile_m:text-[12px]  border border-gray-300 rounded-lg":"w-auto py-3 px-9 mobile_s:px-6 mobile_m:px-6  sm:px-10 bg-custom-gradient text-[12px] mobile_s:text-[10px] mobile_m:text-[12px] border border-gray-300 rounded-lg"}
                 >
                   {isLangArab?"حفظ التغييرات":"Save Changes"}
                 </button>

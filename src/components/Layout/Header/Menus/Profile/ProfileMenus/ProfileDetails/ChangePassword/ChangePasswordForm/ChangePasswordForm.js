@@ -134,8 +134,8 @@ export default function ChangePasswordForm({setIsProfileData,setModalMessage,set
           name="currentPassword"
           render={({ field }) => (
             <FormItem c>
-              <FormLabel className={`font-[400] font-omes text-gray-800 sm:text-[14px] tracking-wide ${
-              isDarkMode ? "text-white" : "text-gray"
+              <FormLabel className={`font-400   sm:text-[14px] tracking-wide ${
+              isDarkMode ? "text-white" : "text-[#000000CC]"
             }`}>
                  
                 {isLangArab?"كلمة المرور الحالية  ":"Current Password "}
@@ -172,7 +172,7 @@ export default function ChangePasswordForm({setIsProfileData,setModalMessage,set
           name="newPassword"
           render={({ field }) => (
             <FormItem className="flex flex-col ">
-              <FormLabel className="font-[400] font-omes text-gray-800 text-[14px] tracking-wide">
+              <FormLabel className="font-400 font-omes text-[#000000CC] text-[14px] tracking-wide">
                 
                 {isLangArab?"كلمة المرور الجديدة":"New Password"}
 
@@ -210,7 +210,7 @@ export default function ChangePasswordForm({setIsProfileData,setModalMessage,set
           name="confirmNewPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-[400] font-omes text-gray-800 text-[14px]  tracking-wide">
+              <FormLabel className="font-400 font-omes text-[#000000CC] text-[14px]  tracking-wide">
                
                 {isLangArab?"تأكيد كلمة المرور الجديدة":" Confirm New Password"}
               </FormLabel>

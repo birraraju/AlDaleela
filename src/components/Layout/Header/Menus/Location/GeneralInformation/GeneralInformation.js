@@ -44,7 +44,7 @@ export default function GeneralInformation({ onClose }) {
         {/* Heading & close button */}
         <div>
   <h1
-    className={`text-[14px] font-omnes font-medium ${
+    className={`text-[16px]   font-500 ${
       isLangArab ? "text-right" : "text-left"
     }`}
   >
@@ -139,21 +139,21 @@ export default function GeneralInformation({ onClose }) {
                   {isLangArab ? (
                     <>
                       <td
-                        className={`px-4 py-2 font-omnes font-medium text-[14px] ${
+                        className={`px-4 py-2   font-medium text-[14px] ${
                           isDarkMode ? "text-white" : "text-black"
                         }`}
                       >
                         {row.description}
                       </td>
                       <td
-                        className={`px-4 py-2 font-omnes font-medium text-[14px] ${
+                        className={`px-4 py-2   font-medium text-[14px] ${
                           isDarkMode ? "text-white" : "text-black"
                         }`}
                       >
                         {row.class}
                       </td>
                       <td
-                        className={`px-4 py-2 font-omnes font-medium text-[14px] ${
+                        className={`px-4 py-2   font-medium text-[14px] ${
                           isDarkMode ? "text-white" : "text-black"
                         }`}
                       >
@@ -163,21 +163,21 @@ export default function GeneralInformation({ onClose }) {
                   ) : (
                     <>
                       <td
-                        className={`px-4 py-2 font-omnes font-medium text-[14px] ${
+                        className={`px-4 py-2   font-medium text-[14px] ${
                           isDarkMode ? "text-white" : "text-black"
                         }`}
                       >
                         {index + 1}
                       </td>
                       <td
-                        className={`px-4 py-2 font-omnes font-medium text-[14px] ${
+                        className={`px-4 py-2   font-medium text-[14px] ${
                           isDarkMode ? "text-white" : "text-black"
                         }`}
                       >
                         {row.class}
                       </td>
                       <td
-                        className={`px-4 py-2 font-omnes font-medium text-[14px] ${
+                        className={`px-4 py-2   font-medium text-[14px] ${
                           isDarkMode ? "text-white" : "text-black"
                         }`}
                       >

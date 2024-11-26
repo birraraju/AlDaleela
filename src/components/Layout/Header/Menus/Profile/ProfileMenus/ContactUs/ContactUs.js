@@ -1,13 +1,13 @@
 import React from "react";
 import ContactIcon from "../../../../../../../assets/Contactus.svg"; // Import the Contact Us icon
-import DarkContactIcon from "../../../../../../../assets/DarkContactIcon.svg"; // Import the Contact Us icon
+import DarkContactIcon from "../../../../../../../assets/ProfileDarkIcons/Frame-1.svg"; // Import the Contact Us icon
 import { useTheme } from '../../../../../ThemeContext/ThemeContext'; // Import the theme hook
 
 export default function ContactUs({ setIsContactUs, setIsPopoverOpen }) {
   const { isDarkMode,isLangArab } = useTheme(); // Use the theme hook to get dark mode state
 
   return (
-    <div className="py-2 cursor-pointer">
+    <div className="py-1 mt-1 cursor-pointer">
       <div
         onClick={() => {
           setIsContactUs(true);
@@ -23,12 +23,12 @@ export default function ContactUs({ setIsContactUs, setIsPopoverOpen }) {
         <p
           className={`${
             isLangArab
-              ? "font-medium font-omnes text-[14px] tab:text-[12px] laptop_s:text-[14px]"
-              : "font-medium font-omnes text-[16px] tab:text-[14px] laptop_s:text-[16px]"
+              ? "  font-500 text-[14px] tab:text-[12px] laptop_s:text-[14px] tracking-widget"
+              : "  font-500 text-[14px] tab:text-[12px] laptop_s:text-[14px] tracking-widget"
           }  ${
             isDarkMode ? "text-gray-300" : "text-[#505050]"
           }`}
-        >          {isLangArab?"اتصل بنا":"Contact Us"}</p>
+        >          {isLangArab?"اتصل بنا":"Contact us"}</p>
       </div>
     </div>
   );

@@ -30,21 +30,14 @@ export default function AboutusSidelayout({ setIsPopoverOpen, setIsAboutUs }) {
 
   return (
     <div dir={isLangArab ? "rtl" : "ltr"}>
-      <motion.div
+      <div
         ref={containerRef}
-        initial={{ x: "100%", opacity: 0 }}
-        whileInView={{
-          x: isOpen ? 0 : isLangArab ? "-106.8%" : "110%", // Move to left if Arabic
-          opacity: 1,
-        }}
-        exit={{
-          x: isLangArab ? "-100%" : "100%", // Exit to left for Arabic, right for others
-          opacity: 0,
-        }}
-        transition={{ ease: "easeInOut" }}
+        
         className={`px-8 sm:py-2  sm:px-5 py-4 fixed ${
-          isLangArab ? "sm:left-7  left-1" : "sm:right-2  right-1"
-        } top-16 backdrop-blur rounded-3xl text-black ${
+          isLangArab ? "sm:left-6  left-1" : "sm:right-6  right-1"
+        }   transition-transform duration-300 ease-in-out ${
+        isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%] sm:-translate-x-[112%] laptop_s:-translate-x-[108%]":" translate-x-[103%] sm:translate-x-[112%] laptop_s:translate-x-[108%]")
+      } top-20 backdrop-blur rounded-3xl text-black ${
           isDarkMode
             ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
             : "bg-white bg-opacity-70 backdrop-blur-lg border-white" // Light mode styles
@@ -52,7 +45,7 @@ export default function AboutusSidelayout({ setIsPopoverOpen, setIsAboutUs }) {
       >
         <div className="flex relative justify-between items-center mb-2 mobile_l:mb-0 ">
           <h1
-            className={`text-[16px] font-medium ${
+            className={`text-[16px]    font-600 ${
               isDarkMode ? "text-[#FFFFFFCC] text-opacity-80" : "text-[#505050]"
             }`}
           >
@@ -156,7 +149,7 @@ export default function AboutusSidelayout({ setIsPopoverOpen, setIsAboutUs }) {
             </div>
           </button>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 }

@@ -10,15 +10,16 @@ import { ChevronLeft } from 'lucide-react';
 import { useTheme } from '../ThemeContext/ThemeContext';
 
 const POIShareForm = ({ onClose, queryresults }) => {
+    const {isLangArab, isDarkMode} = useTheme();
     const Links = [
-        { src: WhatsAppSvg, name: "WhatsApp" },
-        { src: FaceBookSvg, name: "Facebook" },
-        { src: TwitterSvg, name: "X" },
-        { src: GoogleMapSvg, name: "Google Map" },
+        { src: WhatsAppSvg, name: isLangArab?"واتساب": "WhatsApp" },
+        { src: FaceBookSvg, name: isLangArab?"فيسبوك": "Facebook" },
+        { src: TwitterSvg, name: isLangArab ?"إكس (تويتر)": "X" },
+        { src: GoogleMapSvg, name: isLangArab?"خريطة جوجل": "Google Map" },
         //{ src: InstgramSvg, name: "Instagram" },
     ];
     const [copied, setCopied] = useState(false);
-    const {isLangArab, isDarkMode} = useTheme();
+
     const message = "Check this out!"; // Custom message for WhatsApp or other platforms
     const shareUrl = `${window.location.protocol}//${window.location.host}/${process.env.REACT_APP_BASE_URL}/${queryresults.features[0].layer.layerId}/${queryresults.features[0].attributes.OBJECTID}` // The URL you want to share
     const latitude = queryresults.features[0].geometry.latitude; 
@@ -77,8 +78,8 @@ const POIShareForm = ({ onClose, queryresults }) => {
             </div>
             <hr className='my-4' />
             <div className='flex justify-center items-center gap-2 cursor-pointer' onClick={handleCopy}>
-                <img src={CopyIconSvg} alt="Copy Link" className='h-5 w-5' />
-                    <h2 className={`${isDarkMode?"text-gray-400":"text-blue-600"} text-[12px] font-medium`}>{isLangArab?"نسخ الوصلة":"Copy Link"}</h2>
+                <img src={CopyIconSvg} alt="Copy Link" className={` ${isDarkMode && "invert brightness-0 text-white "}h-5 w-5`} />
+                    <h2 className={`${isDarkMode?"text-white underline hover:text-white/90 ":"text-blue-600"} text-[12px] font-medium`}>{isLangArab?"نسخ الوصلة":"Copy Link"}</h2>
                 {copied && <span className="text-green-600 text-[12px] ml-2">{isLangArab?"منسوخ!":"Copied!"}</span>}
             </div>
         </div>

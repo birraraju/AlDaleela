@@ -121,7 +121,7 @@
 
 //         <div className="p-6 overflow-y-auto h-full">
 //           {children || (<>
-//             <p className={`text-${isDarkMode ? '[#FFFFFFCC] text-opacity-80' : 'black'}  font-poppins font-medium`}>
+//             <p className={`text-${isDarkMode ? '[#FFFFFFCC] text-opacity-80' : 'black'}     font-medium`}>
 //               { isLangArab?"القياس": "Measurement"}
 //             </p>
             
@@ -306,15 +306,15 @@ export default function SideLayout3({ children, width = "454.84px", onClose, map
     dir={isLangArab && "rtl"}
       ref={panelRef}
       style={{ height: ToggleDragHeight && panelHeight }} // Update height dynamically here
-      className={`fixed  w-full sm:w-[400px]  laptop_s:w-[${width}] h-[98%] -bottom-9  sm:top-16 ${
-        isLangArab ? " sm:left-16 laptop_s:left-3" : "  sm:right-16 laptop_s:right-3"
+      className={`fixed  w-full sm:w-[400px]  laptop_s:w-[${width}] h-[98%] -bottom-9  sm:top-20 ${
+        isLangArab ? " sm:left-16 laptop_s:left-6" : "  sm:right-16 laptop_s:right-6"
       } transition-transform duration-300 ease-in-out ${
-        isOpen ? "translate-x-0" : isLangArab ? "-translate-x-[104%] sm:-translate-x-[116%] laptop_s:-translate-x-[104%]" : "sm:translate-x-[116%] laptop_s:translate-x-[103%] translate-x-[103%]"
+        isOpen ? "translate-x-0" : isLangArab ? "-translate-x-[104%] sm:-translate-x-[116%] laptop_s:-translate-x-[106%]" : "sm:translate-x-[116%] laptop_s:translate-x-[106%] translate-x-[103%]"
       }`}
     >
       <div
         className={`relative sm:h-[40%] laptop_s:h-[65%] h-[90%] sm:w-full w-full float-end sm:float-none   ${((startYRef !== null) || (startHeightRef !== null) ) ?" border-t sm:rounded-2xl sm:border rounded-t-xl":"rounded-2xl border"}  shadow-lg overflow-hidden  transition-colors duration-300 ${
-          isDarkMode ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" : "  sm:bg-white  sm:bg-opacity-70 sm:border-white text-gray-700"
+          isDarkMode ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" : "  bg-white bg-opacity-70 sm:border-white text-gray-700"
         }`}
         style={{ height: ToggleDragHeight && panelHeight }}
       >
@@ -328,7 +328,7 @@ export default function SideLayout3({ children, width = "454.84px", onClose, map
         <div className="p-6 overflow-y-auto h-full">
           {children || (
             <div className=" flex justify-between items-center">
-              <p className={`${isDarkMode ? 'text-[#FFFFFFCC] text-opacity-80' : ' text-black'} text-[16px] font-poppins font-medium`}>
+              <p className={`${isDarkMode ? 'text-[#FFFFFFCC] text-opacity-80' : ' text-[#000000]'} text-[16px]   font-500`}>
                 {isLangArab ? "القياس" : "Measurement"}
               </p>
               <button
@@ -338,7 +338,7 @@ export default function SideLayout3({ children, width = "454.84px", onClose, map
           }`}
           aria-label="Close side panel"
         >
-          <X className="h-6 w-6" />
+          <X className="h-[19px] w-[19px]" />
         </button>
             </div>
           )}

@@ -5,12 +5,19 @@ import { useAuth } from "../../../../../Providers/AuthProvider/AuthProvider";
 import config from '../../../../Common/config'; // Import your config file
 import { useTheme } from "../../../ThemeContext/ThemeContext";
 
-export default function Category({ inputClicked, isLangArab, setInputClicked }) {
+export default function Category({setInputValue,setShowSearchContent, inputClicked, isLangArab, setInputClicked }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("Category");
   const [categoryClasses, setCategoryClasses] = useState([]);
   const { contextMapView } = useAuth();
   const {isDarkMode} = useTheme()
+
+  useEffect(()=>{
+    if(inputClicked){
+      setIsOpen(false)
+      setSelectedCategory("Category")
+    }
+  },[inputClicked])
 
   const handleCategorySelect = (categoryName) => {
     // contextMapView.map.layers.items.forEach(function (layer) {
@@ -104,10 +111,10 @@ export default function Category({ inputClicked, isLangArab, setInputClicked }) 
       className="absolute bottom-1 right-1.5 z-[2]"
     >
       <button
-        onClick={() => setIsOpen(!isOpen)}
-        className={`rounded-full flex text-xs justify-center items-center mobile_s:px-2 laptop_m:px-4 laptop_s:py-3.5 py-0.5 sm:h-6 h-7 bg-[#C8C8C899] bg-opacity-50 ${isDarkMode?"text-white":"text-black"} `}
+        onClick={() => {setIsOpen(!isOpen);setShowSearchContent(false);setInputValue("")}}
+        className={`rounded-full   font-500 w-[79px] mobile_s:w-[90px]  tab:w-[90px] laptop_s:w-[90px] laptop_s:rounded-3xl laptop_m:rounded-full flex text-xs justify-evenly items-center mobile_s:px-2 laptop_s:px-1 laptop_m:px-1 laptop_s:py-3 py-0.5 sm:h-6 h-7 bg-[#C8C8C899] bg-opacity-50 ${isDarkMode?"text-white":"text-[#000000]"} `}
       >
-        {(selectedCategory === "Category") ? (isLangArab ? "الفئة" : selectedCategory) : selectedCategory}
+        {(selectedCategory === "Category") ? (isLangArab ? "الفئة" : selectedCategory) : selectedCategory && selectedCategory?.length > 7 ? `${selectedCategory.substring(0, 8)}` : selectedCategory }
         {isOpen ? (
           <FaCaretUp className="ml-2" />
         ) : (
@@ -116,12 +123,12 @@ export default function Category({ inputClicked, isLangArab, setInputClicked }) 
       </button>
 
       {isOpen && (
-        <div className={`absolute w-24  h-44 border py-2 rounded ${isDarkMode?" bg-black bg-opacity-60 border-none":"bg-white"} shadow-lg overflow-y-auto  mt-3`}>
+        <div className={`absolute w-24  h-44 border py-2 rounded ${isDarkMode?" bg-black bg-opacity-60 border-none":"bg-white"} shadow-lg overflow-y-scroll  mt-3`}>
           <div className=" ">
             {categoryClasses.map((category, index) => (
               <div
                 key={index} // Using index as key since category names may not be unique
-                className={`text-[11px] overflow-x-hidden cursor-pointer px-3 py-0.5  ${isDarkMode?"text-white hover:bg-[#C8C8C899] ":"text-black hover:bg-gray-100"}`}
+                className={`text-[11px]   font-500 overflow-x-hidden cursor-pointer px-3 py-0.5  ${isDarkMode?"text-white hover:bg-[#C8C8C899] ":"text-[#000000] hover:bg-gray-100"}`}
                 onClick={() => handleCategorySelect(category)}
               >
                 {category}

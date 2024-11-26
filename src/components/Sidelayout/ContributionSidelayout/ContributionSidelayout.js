@@ -120,34 +120,28 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
    }
 
   return (
-    <motion.div
+    <div
       ref={containerRef}
-      initial={{ x: "100%", opacity: 0 }}
-      whileInView={{
-        x: isOpen ? 0 : isLangArab ? "-109%" : "109%", // Move to left if Arabic
-        opacity: 1,
-      }}
-      exit={{
-        x: isLangArab ? "-90%" : "100%", // Exit to left for Arabic, right for others
-        opacity: 0,
-      }}
+     
       transition={{ ease: "easeInOut" }}
-      className={`sm:px-3 px-2 py-4 fixed sm:top-16 laptop_s:top-16 top-14 ${
-        isLangArab ? "sm:left-10 left-3" : "sm:right-2  right-3"
+      className={`sm:px-3 px-2 py-4 fixed sm:top-16 laptop_s:top-20 top-14 ${
+        isLangArab ? "sm:left-6 left-3" : "sm:right-6  right-3"
       } bg-opacity-75 backdrop-blur sm:rounded-3xl rounded-xl ${
         isDarkMode ? "bg-[rgba(96,96,96,0.8)]" : "bg-white bg-opacity-70"
-      } text-black backdrop-blur border-none`}
+      } text-black backdrop-blur border-none transition-transform duration-300 ease-in-out  ${
+        isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%] sm:-translate-x-[112%] laptop_s:-translate-x-[108%]":" translate-x-[103%] sm:translate-x-[112%] laptop_s:translate-x-[108%]")
+      } `}
     >
-      <div className={`flex relative justify-between items-center ${isLangArab ? "flex-row-reverse" : ""}`}>
+      <div dir={isLangArab && "rtl"} className={`flex relative px-3 justify-between items-center `}>
         <h1
-          className={`text-[15px] sm:text-[16px] laptop_s:text-[16px] font-semibold ${
-            isDarkMode ? "text-[#FFFFFFCC]" : "text-black"
+          className={`text-[15px] sm:text-[16px] laptop_s:text-[16px]    font-600 ${
+            isDarkMode ? "text-[#FFFFFFCC]" : "text-[#505050]"
           }`}
         >
           {isLangArab ? "المساهمة" : "Contribution"}
         </h1>
         <div
-          className={`p-2 cursor-pointer ${
+          className={` w-[19px] h-[19px] flex justify-center items-center cursor-pointer ${
             isDarkMode ? "text-white hover:text-gray-300" : "text-gray-600 hover:text-gray-900"
           } transition-colors`}
           onClick={() => {
@@ -155,21 +149,21 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
             setIsContribution(false);
           }}
         >
-          <X />
+          <X className=" w-full h-full" />
         </div>
       </div>
 
-      <div className={`p-1 sm:w-[350px] laptop_s:w-[325px] w-[320px] max-h-[calc(79vh-200px)]  overflow-y-auto mt-2 ${featureServiceData.length === 0 ? 'min-h-[350px]' : ''}`}>
+      <div className={`px-1 py-3 sm:w-[350px]  laptop_s:w-[325px] w-[320px] max-h-[calc(79vh-200px)]  overflow-y-auto mt-2 ${featureServiceData.length === 0 ? 'min-h-[350px]' : ''}`}>
         <div
-          className={`grid font-omnes grid-cols-3 gap-4 font-medium text-[14px] mb-2 px-4 ${
+          className={`grid   grid-cols-3 gap-4 font-medium text-[12px] mb-2 px-4 ${
             isDarkMode ? "text-gray-300" : "text-gray-600"
           } ${isLangArab ? "text-right" : "text-left"} ${
             isLangArab ? "direction-rtl" : ""
           }`} // RTL for Arabic
         >
-          <div>{isLangArab ? "التاريخ" : "Date"}</div>
-          <div>{isLangArab ? "اسم نقطة الاهتمام" : "POI Name"}</div>
-          <div className="mr-12">{isLangArab ? "الحالة" : "Status"}</div>
+          <div className="   font-500 text-[#667085]">{isLangArab ? "التاريخ" : "Date"}</div>
+          <div className="   font-500 text-[#667085]" >{isLangArab ? "اسم نقطة الاهتمام" : "POI Name"}</div>
+          <div className="mr-12   font-500 text-[#667085] ">{isLangArab ? "الحالة" : "Status"}</div>
         </div>
         {featureServiceData.map((contribution, index) => (
           <div
@@ -179,7 +173,7 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
             } ${isLangArab ? "text-right" : "text-left"}`}
           >
         <div
-  className={`font-medium font-omnes sm:text-[13px] text-[10px] ${
+  className={`font-500   sm:text-[13px] text-[10px] ${
     isDarkMode ? "text-[#FFFFFFCC]" : "text-[#101828]"
   }`}
 >
@@ -199,7 +193,7 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
 
 
             <div
-              className={`font-medium font-omnes sm:text-[12px] laptop_s:text-[13px] text-[9px] ${
+              className={`font-500   sm:text-[12px] laptop_s:text-[13px] text-[9px] ${
                 isDarkMode ? "text-[#FFFFFFCC]" : "text-[#3E3E3E]"
               }`}
             >
@@ -213,14 +207,14 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
             isDarkMode
               ? "text-white/70"
               : "bg-custom-gradient"
-          } font-omnes ${
-            isLangArab ? "sm:text-[13px] text-[14px]" : "sm:text-[13px] text-[14px]"
-          } font-medium bg-clip-text text-transparent`
+          }   ${
+            isLangArab ? "sm:text-[12px] text-[14px]" : "sm:text-[12px] text-[14px]"
+          } font-500 bg-clip-text text-transparent`
         : contribution.approvalStatus === "Rejected"
-          ? "text-red-500 font-omnes sm:text-[13px] text-[14px] font-medium"
+          ? "text-red-500   sm:text-[12px] text-[14px] font-500"
         : `${
             isDarkMode ? "text-white/70" : "text-[#EFB45D]"
-          } font-omnes sm:text-[13px] text-[14px] font-medium`
+          }   sm:text-[13px] text-[14px] font-500`
     }`}
   >
     {contribution.approvalStatus === "Approved" &&
@@ -312,6 +306,6 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
           />
         </button>
       </div>
-    </motion.div>
+    </div>
   );
 }

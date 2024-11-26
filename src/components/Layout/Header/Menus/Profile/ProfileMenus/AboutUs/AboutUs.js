@@ -1,12 +1,12 @@
 import React from "react";
 import About from "../../../../../../../assets/about.svg";
-import DarkAbout from "../../../../../../../assets/DarkAbout.svg";
+import DarkAbout from "../../../../../../../assets/ProfileDarkIcons/information_157933 1.svg";
 import { useTheme } from "../../../../../ThemeContext/ThemeContext"; // Import the theme hook
 export default function SendFeedback({ setIsAboutUs, setIsPopoverOpen }) {
   const { isDarkMode, isLangArab } = useTheme(); // Use the theme hook to get dark mode state
 
   return (
-    <div className=" py-1  cursor-pointer">
+    <div className=" py-1 mt-1 cursor-pointer">
       <div
         onClick={() => {
           setIsAboutUs(true);
@@ -24,13 +24,13 @@ export default function SendFeedback({ setIsAboutUs, setIsPopoverOpen }) {
         <p
           className={`${
             isLangArab
-              ? "font-medium font-omnes text-[14px] tab:text-[12px] laptop_s:text-[14px]"
-              : "font-medium font-omnes text-[16px] tab:text-[14px] laptop_s:text-[16px]"
+              ? "  font-500 text-[14px] tab:text-[12px] laptop_s:text-[14px] tracking-widget"
+              : "  font-500 text-[14px] tab:text-[12px] laptop_s:text-[14px] tracking-widget"
           } 
             ${isDarkMode ? "text-gray-300" : "text-[#505050]"}`}
         >
           {" "}
-          {isLangArab ? "حولنا" : "About Us"}
+          {isLangArab ? "حولنا" : "About us"}
         </p>
       </div>
     </div>

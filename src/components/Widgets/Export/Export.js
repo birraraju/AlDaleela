@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import Print from "@arcgis/core/widgets/Print";
 import "./Export.css";
 import { useAuth } from "../../../Providers/AuthProvider/AuthProvider";
+import config from "../../Common/config";
 
 const PrintComponent = ({ mapview }) => {
   const exportRef = useRef(null);
@@ -27,8 +28,8 @@ const PrintComponent = ({ mapview }) => {
         List_Active.style.outline = "none";
       }
 
-      const exportsTab = document.querySelector("#exportDiv__exportedFilesTab");
-      if (exportsTab) exportsTab.textContent = "Result";
+      // const exportsTab = document.querySelector("#exportDiv__exportedFilesTab");
+      // if (exportsTab) exportsTab.textContent = "Result";
     });
 
     const bodyNode = document.querySelector("body");
@@ -46,13 +47,9 @@ const PrintComponent = ({ mapview }) => {
         const exportWidget = new Print({
           view: mapview,
           container: exportRef.current,
-          printServiceUrl:
-            "https://maps.smartgeoapps.com/server/rest/services/AlDaleela/Print_Layout_Aldaleela/GPServer/Export%20Web%20Map",
-          allowedFormats: [
-            "32-bit Portable Network Graphics (PNG32)",
-            "Joint Photographic Experts Group (JPG)",
-          ],
-          allowedLayouts: ["Map"],
+          printServiceUrl: config.Export.printServiceUrl,
+          allowedFormats: config.Export.allowedFormats,
+          allowedLayouts: config.Export.allowedLayouts,
           templateOptions: {
             title: "My Print",
             //author: "Sam",

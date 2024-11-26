@@ -180,7 +180,7 @@ const Feedback = () => {
         isDarkMode ? "bg-[#303031] bg-opacity-90" : "bg-white "
       } text-black backdrop-blur border-none`}>
       <div className="flex justify-between items-center mb-6">
-      <h2 className={`text-[22px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]" : "text-gray-800"}`}>
+      <h2 className={`text-[22px] font-500   ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#464646]"}`}>
       {isLangArab?"إدارة المستخدمين":"Feedback"}</h2>
       <button  onClick={toggleEdit} 
             className={isEditing ? "text-gray-500 hover:text-gray-700" : "text-teal-600 hover:text-teal-700"} 
@@ -200,72 +200,96 @@ const Feedback = () => {
 
         <div className="overflow-hidden flex-grow relative">
           <div ref={tableRef} className={`overflow-x-auto overflow-y-auto absolute inset-0 ${isLangArab?"pl-4":"pr-4"}`}>
-            <table className="w-full">
-            <thead className={`${!selectedUser &&"sticky"} top-0   z-10 ${isDarkMode ? "bg-[#303031] " : "bg-white"}`}>
-                <tr className={`${isLangArab?"text-right":"text-left"} text-sm font-medium text-gray-500 border-b`}>
-                  {isEditing && <th className="pb-3 w-8"></th>}
-                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px]   ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
-                    
-                  </th>
-                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px] ${isLangArab ?"pr-2":"pl-2"}  ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
-                    {isLangArab ?"اسم المستخدم":"Username"}</th>
-                    <th className={`pb-3 p-2 font-medium font-omnes text-[14px]   ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
-                    {isLangArab ?"معرف البريد الإلكتروني":"Email"}</th>
-                    <th className={`pb-3 p-2 font-medium font-omnes text-[14px]   ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
-                    {isLangArab ?"تاريخ التقديم":"Submission Date"}</th>
-                  <th className="pb-3"></th>
-                  <th className="pb-3"></th>
-                </tr>
-              </thead>
-              <tbody>
-                {paginatedData.map((user, index) => (
-                  <tr key={user.id} className={`${
-                    isDarkMode
-                      ? user.id % 2 === 0
-                        ? "bg-transparent"
-                        : "bg-white bg-opacity-10"
-                      : user.id % 2 === 0
-                      ? "bg-[#D5E5DE] bg-opacity-30"
-                      : "bg-white"
-                  }`}>
-                    <td className={`py-4 ${isLangArab?"pr-4":"pl-2"}`}>
-                      {user.readStatus !== "Read" && <span className="inline-block w-3 h-3 bg-green-500 rounded-full" title={user.readStatus}></span>}
-                      {/* <span className="inline-block w-3 h-3 bg-green-500 rounded-full" title={"Read"}></span> */}
-                    </td>
-                    {isEditing && (
-                      <td className={`py-4 ${isLangArab?"pr-4":"pl-2"}`}>
-                        <CustomCheckbox
-                          checked={selectedUsers.includes(user.id)}
-                          onCheckedChange={() => toggleUserSelection(user.id)}
-                        />
-                      </td>
-                    )}
+          <table className="w-full">
+  <thead className={`${!selectedUser && "sticky"} top-0 z-10 ${isDarkMode ? "bg-[#303031]" : "bg-white"}`}>
+    <tr className={`${isLangArab ? "text-right" : "text-left"} text-sm font-500 text-gray-500 border-b`}>
+      {isEditing && <th className="pb-3 w-8"></th>}
+      <th className={`pb-3 p-2 font-500   text-[14px] ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}></th>
+      <th className={`pb-3 p-2 font-500   text-[14px] ${isLangArab ? "pr-2" : "pl-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+        {isLangArab ? "اسم المستخدم" : "Username"}
+      </th>
+      <th className={`pb-3 p-2 font-500   text-[14px] ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+        {isLangArab ? "معرف البريد الإلكتروني" : "Email id"}
+      </th>
+      <th className={`pb-3 p-2 font-500   text-[14px] ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+        {isLangArab ? "تاريخ التقديم" : "Submission date"}
+      </th>
+      <th className={`pb-3 p-2 flex justify-center items-center font-500   text-[14px] ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+        {isLangArab ? "فعل" : "Action"}
+      </th> 
+      <th className="pb-3"></th>
+    </tr>
+  </thead>
+  <tbody>
+    {paginatedData.map((user, index) => (
+      <tr
+        key={user.id}
+        className={`${
+          isDarkMode
+            ? user.id % 2 === 0
+              ? "bg-transparent"
+              : "bg-white bg-opacity-10"
+            : user.id % 2 === 0
+            ? "bg-[#D5E5DE] bg-opacity-30"
+            : "bg-white"
+        }`}
+      >
+        <td className={`py-4 ${isLangArab ? "pr-4" : "pl-2"}`}>
+          {user.readStatus !== "Read" && (
+            <span
+              className="inline-block w-3 h-3 bg-green-500 rounded-full"
+              title={user.readStatus}
+            ></span>
+          )}
+        </td>
+        {isEditing && (
+          <td className={`py-4 ${isLangArab ? "pr-4" : "pl-2"}`}>
+            <CustomCheckbox
+              checked={selectedUsers.includes(user.id)}
+              onCheckedChange={() => toggleUserSelection(user.id)}
+            />
+          </td>
+        )}
 
-                    <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{user.username}</td>
-                    <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{user.email}</td>
-                    <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{new Date(user.createdDate).toLocaleDateString()}</td>
+        <td className={`py-4 font-500   text-[14px] pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
+          {user.username}
+        </td>
+        <td className={`py-4 font-500   text-[14px] pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
+          {user.email}
+        </td>
+        <td className={`py-4 font-500   text-[14px] pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
+          {new Date(user.createdDate).toLocaleDateString()}
+        </td>
 
-                    <td className="py-4">
-                      <button onClick={() => handleUserDetail(user)}>
-                      <Eye className={` h-5 w-5 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-gray-800 hover:text-gray-600"}`}/>
-                      </button>
-                    </td>
-                    <td className="py-4">
-                      <button className={` aria-label="Delete user" ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-red-500 hover:text-red-600"}`} onClick={() => handleFeedbackDelete(user.id)}>
-                        <Trash2 className="w-5 h-5" />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        {/* Icons with spacing */}
+        <td className="py-4 flex gap-4 pl-2 items-center justify-center">
+          <button onClick={() => handleUserDetail(user)}>
+            <Eye
+              className={`h-5 w-5 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-gray-800 hover:text-gray-600"}`}
+            />
+          </button>
+          <button
+            aria-label="Delete user"
+            className={`${
+              isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-red-500 hover:text-red-600"
+            }`}
+            onClick={() => handleFeedbackDelete(user.id)}
+          >
+            <Trash2 className="w-5 h-5" />
+          </button>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
             {selectedUser && <FeedbackData isLangArab={isLangArab} user={selectedUser} onClose={closeFeedbackData} />}
           </div>
         </div>
         {isEditing && (
           <div className="mt-4">
             <button onClick={() => setIsShowConfirmation(true)}
-              className="bg-[#EDB3B3] text-[#870202] px-4 py-2 rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+              className="bg-[#EDB3B3] text-[#870202] px-4 py-2 rounded-lg font-500 disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={selectedUsers.length === 0}
             >
              { isLangArab?"حذف المحدد":"Delete Selected"}

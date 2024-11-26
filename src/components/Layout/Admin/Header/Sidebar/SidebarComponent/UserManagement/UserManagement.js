@@ -18,7 +18,7 @@ import { useTheme } from "../../../../../ThemeContext/ThemeContext"; // Importin
 import { useAuth } from "../../../../../../../Providers/AuthProvider/AuthProvider";
 import DeleteConfirmation from '../../../../../../Common/deleteConfirmation';
 import Pagination from "../../../../Layout/Pagination/PaginationBar"
-import Toast from '../../../../../../Common/taost';
+// import Toast from '../../../../../../Common/taost';
 const users = [
   { username: "User name", email: "user@gmail.com", phone: "+971 500001010", address: "Rabdan - Abu Dhabi", role: "Public User", activity: "Today" },
   { username: "User name", email: "user@gmail.com", phone: "+971 500001010", address: "Rabdan - Abu Dhabi", role: "Admin User", activity: "Yesterday" },
@@ -50,12 +50,10 @@ export default function UserManagement() {
   const tableRef = useRef(null);
   const [isShowConfirmation, setIsShowConfirmation] = useState(false);
   const [data, setData] = useState([]);
-  const { isDarkMode, isLangArab } = useTheme(); // Access dark mode from theme context
+  const { isDarkMode, isLangArab,setShowToast ,setToastMessage ,showToast,toastMessage } = useTheme(); // Access dark mode from theme context
   const [latestDate, setLatestDate] = useState(null);
   const {profiledetails} = useAuth()
   const [totalItems,setTotalItems] = useState(0); // Example total items count
-  const [showToast, setShowToast] = useState(false)
-  const[toastMessage, setToastMessage] = useState("")
   // const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9; // Number of items per page
@@ -244,7 +242,12 @@ const paginatedData = data.slice((currentPage - 1) * itemsPerPage, currentPage *
   return (
     <>
     <div className="flex h-[calc(100vh-6rem)]">
-    <Toast message={toastMessage} showToast={showToast} />
+    {/* <Toast 
+  message={toastMessage} 
+  showToast={showToast} 
+// Reset `showToast` after display
+/> */}
+
       <DeleteConfirmation Label={"user"}
       isLangArab={isLangArab}
         isShowConfirmation={isShowConfirmation}
@@ -255,7 +258,7 @@ const paginatedData = data.slice((currentPage - 1) * itemsPerPage, currentPage *
         isDarkMode ? "bg-[#303031] bg-opacity-90" : "bg-white "
       } text-black backdrop-blur border-none`}>
     <div className="flex justify-between items-center mb-6">
-    <h2 className={`text-[22px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]" : "text-gray-800"}`}>
+    <h2 className={`text-[22px]   font-500 ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#464646]"}`}>
     {isLangArab ?"إدارة المستخدمين":"User Management"}</h2>
           <button 
             onClick={toggleEdit} 
@@ -279,13 +282,15 @@ const paginatedData = data.slice((currentPage - 1) * itemsPerPage, currentPage *
             <thead className={`sticky top-0   z-10 ${isDarkMode ? "bg-[#303031] " : "bg-white"}`}>
             <tr  className="text-left text-sm font-medium text-gray-500 border-b">
                   {isEditing && <th className="pb-3 w-8"></th>}
-                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>{isLangArab?"اسم المستخدم":"Username"}</th>
-                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>{isLangArab?"معرف البريد الإلكتروني id":"Email Id"}</th>
-                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>{isLangArab?"رقم الهاتف":"Phone Number"}</th>
-                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>{isLangArab?"عنوان":"Country"}</th>
-                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>{isLangArab?"أدوار المستخدم ":"User Roles"}</th>
-                  <th className={`pb-3 p-2 font-medium font-omnes text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>{isLangArab?"نشاط المستخدم ":"User Activity"}</th>
-                  <th className="pb-3"></th>
+                  <th className={`pb-3 p-2 font-500   text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>{isLangArab?"اسم المستخدم":"Username"}</th>
+                  <th className={`pb-3 p-2 font-500   text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>{isLangArab?"معرف البريد الإلكتروني id":"Email id"}</th>
+                  <th className={`pb-3 p-2 font-500   text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-4"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>{isLangArab?"رقم الهاتف":"Phone Number"}</th>
+                  <th className={`pb-3 p-2 font-500   text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-28"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>{isLangArab?"عنوان":"Country"}</th>
+                  <th className={`pb-3 p-2 font-500   text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>{isLangArab?"أدوار المستخدم ":"User Roles"}</th>
+                  <th className={`pb-3 p-2 font-500   text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-20"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>{isLangArab?"نشاط المستخدم ":"User Activity"}</th>
+                  <th className={`pb-3 p-2 font-500 flex justify-center items-centers   text-[14px]  ${isLangArab?"pl-2":"pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
+                  {isLangArab?"فعل":"Action"}</th>
+                  {/* <th className="pb-3"></th> */}
                 </tr>
               </thead>
               <tbody>
@@ -308,11 +313,11 @@ const paginatedData = data.slice((currentPage - 1) * itemsPerPage, currentPage *
                         />
                       </td>
                     )}
-                    <td className={`py-4 font-medium font-omnes text-[14px]  ${isLangArab?"pr-2":"pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{user.username}</td>
-                    <td className={`py-4 font-medium font-omnes text-[14px]  ${isLangArab?"pr-2":"pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{user.email}</td>
-                    <td className={`py-4 font-medium font-omnes text-[14px]  ${isLangArab?"pr-2":"pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{user.phoneNumber}</td>
-                    <td className={`py-4 font-medium font-omnes text-[14px]  ${isLangArab?"pr-2":"pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>{user.country}</td>
-                    <td className={`py-4 font-medium font-omnes text-[14px]  ${isLangArab?"pr-2":"pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
+                    <td className={`py-4 font-500   text-[14px]  ${isLangArab?"pr-2":"pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#101828]"}`}>{user.username}</td>
+                    <td className={`py-4 font-500   text-[14px]  ${isLangArab?"pr-2":"pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#101828]"}`}>{user.email}</td>
+                    <td className={`py-4 font-500   text-[14px]  ${isLangArab?"pr-2":"pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#101828]"}`}>{user.phoneNumber}</td>
+                    <td className={`py-4 font-500   text-[14px]  ${isLangArab?"pr-2":"pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#101828]"}`}>{user.country}</td>
+                    <td className={`py-4 font-500   text-[14px]  ${isLangArab?"pr-2":"pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#626262]"}`}>
 
                       {isEditing ? (
                         <Select defaultValue={user.role} onValueChange={(value) => {
@@ -334,10 +339,10 @@ const paginatedData = data.slice((currentPage - 1) * itemsPerPage, currentPage *
                         user.role
                       )}
                     </td>
-                    <td className={`py-4 font-medium font-omnes text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
+                    <td className={`py-4 font-medium   text-[14px]  pl-2 ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
                       {user.lastlogin}</td>
-                    <td className="py-4">
-                    <button className={` aria-label="Delete user" ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-red-500 hover:text-red-600"}`} onClick={() => handleFeedbackDelete(user.id)}>
+                    <td className="py-4 flex justify-center items-center">
+                    <button className={` aria-label="Delete user"  ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-red-500 hover:text-red-600"}`} onClick={() => handleFeedbackDelete(user.id)}>
                         <Trash2 className="w-5 h-5" />
                       </button>
                     </td>
@@ -351,7 +356,7 @@ const paginatedData = data.slice((currentPage - 1) * itemsPerPage, currentPage *
         {isEditing && (
           <div className="mt-4">
             <button onClick={() => setIsShowConfirmation(true)}
-              className="bg-[#EDB3B3] text-[#870202] px-4 py-2 rounded-lg font-medium font-omnes text-[16px] disabled:opacity-50 disabled:cursor-not-allowed"
+              className="bg-[#EDB3B3] text-[#870202] px-4 py-2 rounded-lg font-medium   text-[16px] disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={selectedUsers.length === 0}
             >
              { isLangArab?"حذف المحدد":"Delete Selected"}

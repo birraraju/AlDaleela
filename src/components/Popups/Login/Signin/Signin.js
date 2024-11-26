@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { XIcon } from "lucide-react";
 import Logo from "../../../../assets/GreenLogo.svg";
 import SignInForm from "./SignInForm/SignInForm";
@@ -7,6 +7,7 @@ import { useTheme } from '../../../Layout/ThemeContext/ThemeContext'; // Import 
 
 export default function Signin({ onClose, onSignupClick, onForgotPasswordClick }) {
   const modalRef = useRef(null);
+ 
   const { isDarkMode, isLangArab } = useTheme(); // Access the dark mode state
 
 
@@ -26,6 +27,7 @@ export default function Signin({ onClose, onSignupClick, onForgotPasswordClick }
 
   return (
     <div className="fixed sm:inset-10 inset-1 z-50 flex items-center justify-center">
+
       <div className="absolute inset-10 pointer-events-none"></div> {/* Backdrop with no pointer events */}
       <div
         ref={modalRef}
@@ -42,10 +44,10 @@ export default function Signin({ onClose, onSignupClick, onForgotPasswordClick }
         <div className="flex justify-center mb-4">
           <img src={Logo} alt="Logo" className="h-12" />
         </div>
-        <h2 className={`font-omnes text-[28px] leading-tight text-${isDarkMode ? '[#FFFFFFCC] text-opacity-80' : 'black'} mb-1 font-medium`}>
+        <h2 className={`  text-[28px] leading-tight text-${isDarkMode ? '[#FFFFFFCC] text-opacity-80' : 'black'} mb-1 font-medium`}>
           {isLangArab?"مرحبًا بعودتك":"Welcome Back"}
         </h2>
-        <p className={`font-omnes text-[14px] font-[400] text-${isDarkMode ? '[#FFFFFFCC]' : 'gray-500'} leading-5 mb-6`}>
+        <p className={`  text-[14px] font-[400] text-${isDarkMode ? '[#FFFFFFCC]' : 'gray-500'} leading-5 mb-6`}>
           {isLangArab?"يرجى تسجيل الدخول إلى حسابك":"Please sign in to your account"}
         </p>
 

@@ -16,7 +16,7 @@ export default function ProfileContent({
 }) {
   const { profiledetails } = useAuth();
   const { isDarkMode, isLangArab } = useTheme(); // Access the dark mode state
-  // const [profileImage, setProfileImage] = useState(SampleImageProfile); // State to manage the profile image
+  const [UploadprofileImage, setUploadProfileImage] = useState(null); // State to manage the profile image
   // const [file, setFile] = useState(null);
 
   // Handle file change
@@ -30,6 +30,7 @@ export default function ProfileContent({
         setFile(selectedFile);
         const reader = new FileReader();
         reader.onload = (e) => {
+          setUploadProfileImage(e.target.result)
           setProfileImage(e.target.result); // Update profile image preview
         };
         reader.readAsDataURL(selectedFile);
@@ -52,23 +53,24 @@ export default function ProfileContent({
               // src={`${process.env.PUBLIC_URL}/Header/Profile/ProfileDetails/Profile.svg`}
               src={profiledetails && profiledetails.imageUrl ? profiledetails.imageUrl : `${process.env.PUBLIC_URL}/Header/Profile/ProfileDetails/Profile.svg`}
               alt="Profile"
-              className="sm:w-16 w-18 h-18 sm:h-16 rounded-full sm:rounded-full object-cover"
+              className="sm:w-[70px] w-18 h-18 sm:h-[70px] rounded-full sm:rounded-full object-cover"
             />
           </div>
 
           <div className="w-[80%]">
             <div className="tracking-wide">
-              <h1 className={`sm:text-[14px] text-sm font-medium text-${isDarkMode ? 'white' : 'gray-600'} `}>
+              <h1 className={`sm:text-[18px] text-[14px]   font-500 text-${isDarkMode ? 'white' : '[#000000]'} `}>
                 {profiledetails.username ? profiledetails.username : profiledetails.firstName}
               </h1>
-              <p className={`sm:text-[14px] text-xs font-light text-${isDarkMode ? '[#FFFFFFCC]' : 'gray-600'} `}>
+              <p className={`sm:text-[16px] text-[14px] font-400 text-${isDarkMode ? '[#FFFFFFCC]' : '[#00000099]'} `}>
+
                 {profiledetails.email}
               </p>
             </div>
 
             <div className="flex justify-between items-center gap-4">
               <Button onClick={() => { setIsEditProfile(true); }} asChild>
-                <div className="w-2/3 h-10 py-5 cursor-pointer btn-gradient text-white text-base rounded-xl mt-4 tracking-wide">
+                <div className="w-2/3 h-10 py-5 cursor-pointer   font-500 btn-gradient text-white text-[14px] rounded-xl mt-4 tracking-wide">
                   {isLangArab ? "تعديل المعلومات" : "Edit Info"}
                 </div>
               </Button>
@@ -80,7 +82,7 @@ export default function ProfileContent({
                   setChangeCloseProfile(true);
                 }}
                 variant="outline"
-                className={`w-1/2 sm:h-10 h-9 bg-none shadow-none sm:rounded-xl rounded-md mt-4 tracking-wide font-normal sm:text-sm text-xs border border-[#909090] text-${isDarkMode ? '[#FFFFFFCC]' : 'black'} `}
+                className={`w-1/2 sm:h-10 h-9 bg-none   font-500  shadow-none sm:rounded-xl rounded-md mt-4 tracking-wide  sm:text-[14px] text-xs border border-[#909090] text-${isDarkMode ? '[#FFFFFFCC]' : '[#1C1C1C]'} `}
               >
                 {isLangArab ? "تغيير كلمة المرور" : "Change Password"}
               </Button>
@@ -91,7 +93,7 @@ export default function ProfileContent({
         <div className="flex flex-col justify-center items-center">
           <div className="relative h-28 w-28 rounded-full overflow-hidden">
             <img
-              src={profiledetails && profiledetails.imageUrl ? profiledetails.imageUrl : profileImage}
+              src={UploadprofileImage ? UploadprofileImage :( profiledetails && profiledetails.imageUrl ? profiledetails.imageUrl : profileImage)}
               alt="Admin"
               className="w-full h-full rounded-full"
             />

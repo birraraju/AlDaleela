@@ -9,16 +9,16 @@ export default function PhotoFilter({ setSelectedItem, isLangArab,setIsFiltersOp
         setSelectedItem("photo");
         setIsFiltersOpen("photo");
       }}
-      className={`px-2 py-1 rounded-full flex justify-center items-center gap-1 ${
+      className={`px-1.5 py-0.5 rounded-full flex justify-center items-center gap-0.5 ${
         selectedItem === "photo" ? "bg-white" : "bg-none opacity-50"
       }`}
     >
 <div className={`flex items-center ${isLangArab ? "flex-row-reverse" : ""}`}>
   <div>
     {/* <img src="/Header/Searchbar/photo.svg" alt="" className="w-6" /> */}
-    <img src={PhotoSvg} alt="" className="w-6" />
+    <img src={PhotoSvg} alt="" className="w-5" />
   </div>
-  <div className={`${isLangArab ? "mr-2" : "ml-2"} ${isDarkMode?"text-white":" text-black"}`}>{isLangArab ? "صوت" : "Photo"}</div>
+  <div className={`  text-[10px]   font-500 ${isLangArab ? "mr-0.5" : "ml-0.5"} ${isDarkMode?(selectedItem === "photo" ?"text-black":"text-white"):" text-black"}`}>{isLangArab ? "صوت" : "Photo"}</div>
 </div>
     </div>
   );

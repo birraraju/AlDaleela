@@ -71,13 +71,13 @@ export default function SideLayout1({
   return (
     <div
       ref={panelRef} // Attach the ref to the panel
-      className={`fixed w-[90%] sm:w-[430px] laptop_s:w-[400px]  h-[90%]  tab:h-[80%] laptop_s:h-[90%] top-16 ${ isLangArab?" right-3 sm:left-16 laptop_s:left-3":"right-3 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
-        isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%] sm:-translate-x-[115%] laptop_s:-translate-x-[104%] ":"translate-x-[103%] sm:translate-x-[115%] laptop_s:translate-x-[103%] ")
+      className={`fixed w-[90%] sm:w-[430px] laptop_s:w-[400px]  h-[90%]  tab:h-[80%] laptop_s:h-[90%] top-20 ${ isLangArab?" right-3 sm:left-16 laptop_s:left-6":"right-3 sm:right-16 laptop_s:right-6"} transition-transform duration-300 ease-in-out ${
+        isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%] sm:-translate-x-[115%] laptop_s:-translate-x-[106%] ":"translate-x-[103%] sm:translate-x-[115%] laptop_s:translate-x-[106%] ")
       }`}
       // style={{ width, height }} // Set height to 80% of viewport height
     >
      <div
-  className={`relative sm:h-[90%] laptop_s:h-[80%] h-[98%]  sm:w-full sm:float-none w-[100%] float-end rounded-2xl shadow-lg overflow-hidden border ${
+  className={`relative sm:h-[90%] tab_s:h-[65%]  laptop_s:h-[80%] laptop_lg:h-[55%]  h-[98%]  sm:w-full sm:float-none w-[100%] float-end rounded-2xl shadow-lg overflow-hidden border ${
     isDarkMode
       ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
       : "bg-white bg-opacity-70 backdrop-blur-lg border-white" // Light mode styles
@@ -95,12 +95,12 @@ export default function SideLayout1({
 
         <div className="p-6 overflow-y-auto h-[109%] 2xl:h-[100%] ">
           {children || (
-            <p className={`text-${isDarkMode ? '[#FFFFFFCC] text-opacity-80' : 'black'} text-[16px]  font-poppins font-medium`}>
+            <p className={`${isDarkMode ? 'text-[#FFFFFFCC] text-opacity-80' : 'text-[#505050]'} laptop_lg:text-[16px] text-[14px]     font-600`}>
               { isLangArab?"معرض الخريطة الأساسية":"Basemap Gallery"}
             </p>
           )}
         </div>
-        <div className=""><BasemapGallery mapview={mapview}/></div>
+        <div className=" w-full"><BasemapGallery mapview={mapview}/></div>
       </div>
 
       {/* Toggle button */}

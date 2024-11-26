@@ -420,15 +420,15 @@ async function processMediaItems(mediaItems) {
 
   console.log("Media AudioConsole Data",mediaItems)
   return (
-    <div dir={isLangArab && "rtl"} className="p-4 h-[17rem] overflow-y-scroll">
-      <div className="grid  tab:grid-cols-4 grid-cols-2 mobile_m:grid-cols-3 gap-2">
+    <div dir={isLangArab && "rtl"} className="p-4 h-[13rem] overflow-y-scroll">
+      <div className="grid  tab:grid-cols-3 grid-cols-2 mobile_m:grid-cols-3 gap-2">
         {mediaItems.map((audio, audioIndex) => (
           <div
             key={audio.objectId}
-            className="bg-white p-2 rounded-xl overflow-hidden"
+            className="bg-white py-0.5 px-1 h-[42px] rounded-lg overflow-hidden"
             onClick={() => handleVideoClick(audio.objectId, audio.layerName)}
           >
-            <p className="text-xs text-black whitespace-nowrap font-medium truncate mb-4">
+            <p className="text-[13px] text-[#000000] whitespace-nowrap   font-500 truncate mb-0.5">
               {audio.addPOIName}
             </p>
 

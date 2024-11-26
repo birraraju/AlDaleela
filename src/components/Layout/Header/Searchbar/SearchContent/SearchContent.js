@@ -156,21 +156,21 @@ export default function SearchContent({ inputClicked, iscategory,setIscategory, 
 
   return (
     <div
-      className={`mobile_s:w-[18rem] mobile_m:w-[22rem] mobile_l:w-[22rem] tab:   ${(inputClicked || iscategory) ? "laptop_m:w-[24rem]" : "laptop_m:w-[22rem]"} rounded-2xl mb-8 absolute top-0 left-0 h-80 ${
+      className={` mobile_s:w-[22rem]  mobile_m:w-[23rem] mobile_l:w-[27rem]  tab:w-[22rem] tab_s:w-[24rem] tab_l:w-[26rem] tab_l_1:w-[28rem]  laptop_s:w-[18rem] laptop_m:w-[22rem] rounded-2xl mb-8 absolute top-0 left-0 h-80 ${
         isDarkMode ? "bg-[#606060CC] text-black" : "bg-white text-black"
       } bg-opacity-70 backdrop-blur-lg z-[1]`}
     >
       <div className="relative mt-10">
         {/* Line */}
         <div
-          className={`absolute top-0 left-0 h-[1px] w-full ${
+          className={`absolute -top-1 left-0 h-[1px] w-full ${
             isDarkMode ? "bg-[#FFFFFF33]" : "bg-black bg-opacity-10"
           }`}
         ></div>
 
         <div>
           {/* Filters */}
-          <div className="flex justify-start items-center px-4 py-2">
+          <div className="flex justify-start items-center px-4 py-1">
             <FilterBtn
               isFiltersOpen={isFiltersOpen}
               setIsFiltersOpen={setIsFiltersOpen}

@@ -7,8 +7,15 @@ export default {
       
       letterSpacing:{
         tightest: '-.075em',
+        widget:'0.05rem',
       },  
       extend: {
+       
+        fontFamily: {
+          omnes: ['Omnes', 'sans-serif'],
+          poppins: ["Poppins", "sans-serif"],
+        jakarta: ['"Plus Jakarta Sans"', "sans-serif"],
+        },
         animation: {
           audioPulse: 'pulse 1s infinite',
         },
@@ -23,6 +30,9 @@ export default {
         },
         fontWeight: {
           '600': 600,
+          '500': '500',
+          "400":400,
+          "700":700
         },
         lineHeight: {
           '24px': '24.55px',
@@ -31,8 +41,14 @@ export default {
           mobile_s: "100px",
           mobile_m: "375px",
           mobile_l: "425px",tab:"768px",
+          tab_s:"800px",
+          tab_m:"820px",
+          tab_l:"830px",
+          tab_l_1:"880px",
           laptop_s: "1024px",
+          laptop_l: "1280px",
           laptop_m: "1440px",
+          laptop_lg: "1720px"
         },
         backgroundImage: {
           'mobile-gradient-Pops': 'linear-gradient(160.48deg, rgba(242, 247, 252, 0.86) 4.52%, rgba(248, 252, 255, 0.86) 44.74%, rgba(221, 236, 249, 0.86) 102.82%)',
@@ -97,11 +113,6 @@ export default {
             3: "hsl(var(--chart-3))",
             4: "hsl(var(--chart-4))",
             5: "hsl(var(--chart-5))",
-          },
-          fontFamily: {
-            omnes: ["Omnes", "sans-serif"],
-            poppins: ["Poppins", "sans-serif"],
-          jakarta: ['"Plus Jakarta Sans"', "sans-serif"],
           },
         },
         keyframes: {

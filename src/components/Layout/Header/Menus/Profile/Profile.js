@@ -21,6 +21,8 @@ import AdminLogo from '../../../../../assets/Header/Profile/admin.png';
 import ProfileLogo from '../../../../../assets/Header/Profile/profile.png';
 import PopModal from "../../../../Common/SuccessFailureMessageModel";
 import { useNavigate } from 'react-router-dom';
+import Toast from '../../../../Common/taost';
+
 
 const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => {
   const [showAuthenticator, setShowAuthenticator] = useState(false);
@@ -38,7 +40,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
   const [isProfile, setIsProfile] = useState(true);
   const { role, setRole ,setIsEditPOI} = useAuth();
   const {profiledetails , setprofiledetails} = useAuth()
-  const { isDarkMode,isLangArab,setIsLogin,isLogin,isSignup,setsSignup } = useTheme(); // Use the theme hook
+  const { isDarkMode,isLangArab,setIsLogin,isLogin,isSignup,setsSignup,showToast,toastMessage } = useTheme(); // Use the theme hook
   const [isMsgStatus, setIsMsgStatus] = useState("");
   const [modalMessage, setModalMessage] = useState("")
   const navigate = useNavigate();
@@ -162,25 +164,25 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
             onClick={() => setIsPopoverOpen(true)}
             className={`relative  ${isDarkMode ? "sm:bg-black" : "sm:bg-white"} 
                         sm:bg-opacity-5 backdrop-blur rounded-full flex justify-between items-center 
-                        mobile_s:py-0.5 laptop_m:py-1 cursor-pointer ${isLangArab && " sm:mr-2 "}`}
+                        mobile_s:py-0.5 laptop_m:py-1 cursor-pointer ${isLangArab && " sm:mr-2 laptop_s:mr-0 laptop_m:mr-2 "}`}
           >
-            <div className="ml-1  sm:hidden grid">
+            <div className={`${isLangArab?"mr-1 ml-1":"ml-1"}  sm:hidden grid`}>
             <img
               src={SmallLogo}
               alt="Profile"
               className="mobile_s:w-8 block sm:hidden laptop_m:w-9 text-black"
             />
             </div>
-            <div className="ml-1 hidden sm:block">
+            <div className={`${isLangArab?"mr-1 ml-1":"ml-1"} hidden sm:block`}>
               <img
                 //src={`${((role === "admin")||(role === "user")) ? AdminLogo : ProfileLogo}`} // الملف الشخصي
                 src={profiledetails && profiledetails.imageUrl ? profiledetails.imageUrl : ProfileLogo}
                 alt="Profile"
-                className="mobile_s:w-10 mobile_s:h-6 laptop_m:w-6 laptop_m:h-6 w-8 h-8 rounded-full object-cover"
+                className="mobile_s:w-14 mobile_s:h-7 tab_l:w-10 tab_l_1:w-7  tab:w-20 tab:h-7 tab:h- laptop_s:w-6 laptop_s:h-6 laptop_m:w-6 laptop_m:h-6 w-8 h-8 rounded-full object-cover"
               />
             </div>
             <div className="mobile_s:ml-2 hidden sm:block laptop_m:ml-2">
-              <p className= {` ${isLangArab?"text-[9px] laptop_s:text-[14px]":"text-[9px] laptop_s:text-[14px] "} `}>{role !== null ? (profiledetails.username ? profiledetails.username: profiledetails.username === "" && profiledetails.firstName) : (isLangArab ? "الملف الشخصي":"Profile")}</p>
+              <p className= {` ${isLangArab?"text-[9px] sm:text-[14px] laptop_s:text-[14px]":"text-[9px] sm:text-[14px] laptop_s:text-[11px] laptop_m:text-[14px] "} `}>{role !== null ? (profiledetails.username ? profiledetails.username: profiledetails.username === "" && profiledetails.firstName) : (isLangArab ? "الملف الشخصي":"Profile")}</p>
             </div>
             <div className="mobile_s:mx-2 sm:block hidden laptop_m:mx-2">
               <IoMdArrowDropdown
@@ -191,7 +193,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
         </PopoverTrigger>
 
         <PopoverContent
-          className={` mt-3 w-[210px]  mobile_s:w-[210px] tab:w-[200px] laptop_m:w-[258px] border bg-opacity-90
+          className={` mt-3 w-[240px]  ${isLangArab?" mobile_s:w-[240px]":"mobile_s:w-[250px]"} tab:w-[250px] laptop_s:w-[260px] laptop_m:w-[258px] border bg-opacity-90
                       ${isDarkMode ? "bg-gray-900 border-gray-700" : "bg-white border-white"}
                       backdrop-blur-xl p-4 rounded-2xl shadow-lg z-10 sm:mr-8 mr-2`}
         >
@@ -218,7 +220,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
           {role === null ? (
             <div
               onClick={toggleAuthenticator}
-              className="py-2 w-full flex items-center justify-center custom-gradient text-white font-semibold text-[14px] rounded-lg cursor-pointer"
+              className="py-2 w-full flex items-center justify-center custom-gradient text-[#FFFFFF] font-500 text-[16px] rounded-lg cursor-pointer"
             >
               {isLangArab?"تسجيل الدخول" :"Login"}
             </div>
@@ -228,7 +230,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
         className={`mx-1  text-[20px] ${isDarkMode ? "border-white  border-opacity-80 text-white" : ""}`}
         style={{ color: isDarkMode ? '#FFFFFFCC' : '#505050' }}
       />
-              <p className={`font-semibold  text-[16px] ${isDarkMode ? "text-gray-300" : "text-[#505050]"}`}>
+              <p className={`font-500   text-[14px] tab:text-[12px] laptop_s:text-[16px] ${isDarkMode ? "text-gray-300" : "text-[#505050]"}`}>
               {isLangArab?"تسجيل الخروج":"Logout"}</p>
             </div>
           )}
@@ -296,6 +298,11 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
               setIsPopoverOpen(true)
             }}
           />
+          <Toast 
+    message={toastMessage} 
+    showToast={showToast} 
+     // Reset `showToast` after display
+  />
       </AnimatePresence>
       </div>
     </>

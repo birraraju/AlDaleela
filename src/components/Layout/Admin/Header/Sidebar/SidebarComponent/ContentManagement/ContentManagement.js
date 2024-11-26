@@ -48,7 +48,7 @@ export default function UserManagement({role}) {
     console.log(`Selected page: ${selectedPage}`);
     // Here, you can load data for the selected page if using an API
   };
-    // console.log("Passed Content Management data :", data)
+    console.log("Passed Content Management data :", data)
 
   const navigate = useNavigate();
 
@@ -113,77 +113,153 @@ export default function UserManagement({role}) {
       
  <div  className={`p-8 rounded-lg shadow-sm flex flex-col flex-grow overflow-hidden ${
         isDarkMode ? "bg-[#303031] bg-opacity-90" : "bg-white "
-      } text-black backdrop-blur border-none`}>
+      } text-[#101828] backdrop-blur border-none`}>
                 <div className="flex justify-between items-center mb-6">
-                <h2 className={`text-[22px] font-medium ${isDarkMode ? "text-[#FFFFFFCC]" : "text-gray-800"}`}>
+                <h2 className={`text-[22px] font-500   ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#464646]"}`}>
                 {isLangArab ?"إدارة المحتوى":"Content Management"}</h2>
         </div>
 
         <hr className={`border-t  my-4 ${isDarkMode ? "border-[#FFFFFF] border-opacity-10" : "border-gray-300"}`} />
 
-        <div className="overflow-x-auto laptop_s:overflow-hidden flex-grow relative ">
-          <div ref={tableRef} className={`overflow-x-auto overflow-y-auto absolute inset-0 ${isLangArab ?"pl-4":"pr-4"}`}>
-            <table className="w-full">
-            <thead className={`sticky top-0   z-10 ${isDarkMode ? "bg-[#303031] " : "bg-white"}`}>  
-                <tr className="text-left text-sm  font-medium text-gray-500 border-b">
-                <th className={`pb-3 p-2 laptop_s:p-2 sm:p-1 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
-                {isLangArab?"اسم المستخدم":"Username"}</th>
-                <th className={`pb-3 laptop_s:p-2 sm:p-1 p-2 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
-                {isLangArab?"معرف البريد الإلكتروني":"Email Id"}</th>
-                <th className={`pb-3 laptop_s:p-2 sm:p-1 p-2 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
-                {isLangArab?"التاريخ والوقت":"Date & time"}</th>
-                <th className={`pb-3 laptop_s:p-2 sm:p-1 p-2 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
-                {isLangArab?"اسم النقطة المهمة":"POI Name"}</th>
-                <th className={`pb-3 laptop_s:p-2 sm:p-1 p-2 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
-                {isLangArab?"منظمة":"Organization"}</th>
-                <th className={`pb-3 laptop_s:p-2 sm:p-1 p-2 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
-                {isLangArab?"تصنيف":"Classification"}</th>
-                <th className={`pb-3 laptop_s:p-2 sm:p-1 p-2 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[14px]  ${isLangArab?"text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
-                {isLangArab?"بلدية":"Municipality"}</th>
-                <th className={`pb-1 laptop_s:p-2 sm:p-1 p-2 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[14px]   flex gap-x-1 ${isLangArab?"text-right pl-2":" text-left pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
-                {isLangArab?"وسائط":"Media"}<img src={MediaPinPoint} className={` ${isDarkMode ?"filter invert brightness-0":" "} h-4`} alt="" /></th>
-                  <th className="pb-3 laptop_s:p-2 sm:p-4 "></th>
-                </tr>
-              </thead>
-              <tbody>
-                {paginatedData.map((user, index) => (
-                  <tr key={index} 
-                  className={`  ${
-                    isDarkMode
-                      ? index % 2 === 0
-                        ? "bg-transparent"
-                        : "bg-white bg-opacity-10"
-                      : index % 2 === 0
-                      ? "bg-[#D5E5DE] bg-opacity-30"
-                      : "bg-white"
-                  }`}                  >
-<td className={`py-4 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[14px]  ${isLangArab?"pr-2":"pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
-{user.email}</td>
-<td className={`py-4 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[14px]  ${isLangArab?"pr-2":"pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
-                      {user.username}</td>
-                      <td dir={isLangArab && "ltr"} className={`py-4 font-medium font-omnes text-[14px]  ${isLangArab?"pr-2 text-right":"text-left pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
-                      {new Date(`${user.createdAt}Z`).toLocaleString()}</td>
-                      <td className={`py-4 font-medium font-omnes text-[14px]  ${isLangArab?"pr-2":"pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
-                      {user.nameEn}</td>
-                      <td  className={`py-4 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[14px]  ${isLangArab?"pr-2":"pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
-                      {user.organizationEn}</td>
-                      <td className={`py-4 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[14px]  ${isLangArab?"pr-2":"pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
-                      {user.classification}</td>
-                      <td className={`py-4 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[14px]  ${isLangArab?"pr-2":"pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
-                      {user.municipality}</td>
-                      <td className={`py-4 font-medium font-omnes text-[9px] sm:text-[10px] laptop_s:text-[14px]  ${isLangArab?"pr-2":"pl-2"} ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-black"}`}>
-                      {user.attachementsObjectIds ? user.attachementsObjectIds.split(',').length : 0}</td>
-                    <td className="py-4  w-auto sm:w-8 ">
-                      <button onClick={()=>{handleDropPin(user.featureObjectId, user.featureServiceURL, user.id, user.poiOperation, user.featureObjectId)}} className="text-red-500 hover:text-red-600">
-                        <img src={PinPoint} alt="" className={`sm:h-7 h-4 w-4 sm:w-auto `} />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
+       <div className="overflow-x-auto laptop_s:overflow-hidden flex-grow relative">
+  <div
+    ref={tableRef}
+    className={`overflow-x-auto overflow-y-auto absolute inset-0 ${isLangArab ? "pl-4" : "pr-4"}`}
+  >
+    <table className="w-full table-auto">
+      <thead
+        className={`sticky top-0 z-10 ${isDarkMode ? "bg-[#303031]" : "bg-white"}`}
+      >
+        <tr className="text-left text-sm    font-500 text-[#667085] border-b">
+          {[
+            { label: isLangArab ? "اسم المستخدم" : "Username" },
+            { label: isLangArab ? "معرف البريد الإلكتروني" : "Email id" },
+            { label: isLangArab ? "التاريخ والوقت" : "Date & time" },
+            { label: isLangArab ? "اسم النقطة المهمة" : "POI Name" },
+            { label: isLangArab ? "منظمة" : "Organization" },
+            { label: isLangArab ? "تصنيف" : "Classification" },
+            { label: isLangArab ? "بلدية" : "Municipality" },
+            { label: isLangArab ? "وسائط" : "Media", icon: true },
+          ].map((header, idx) => (
+            <th
+              key={idx}
+              className={`pb-3 laptop_s:p-2 sm:p-1 p-2 font-500   text-[9px] sm:text-[10px] laptop_s:text-[14px] ${
+                isLangArab ? "text-right pl-2" : "text-left pr-2"
+              } ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}
+            >
+              {header.label}
+              {header.icon && (
+                <img
+                  src={MediaPinPoint}
+                  className={`${isDarkMode ? "filter invert brightness-0" : ""} h-4 inline-block`}
+                  alt=""
+                />
+              )}
+            </th>
+          ))}
+          <th className="pb-3 laptop_s:p-2 sm:p-4"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {paginatedData.map((user, index) => (
+          <tr
+            key={index}
+            className={`${
+              isDarkMode
+                ? index % 2 === 0
+                  ? "bg-transparent"
+                  : "bg-white bg-opacity-10"
+                : index % 2 === 0
+                ? "bg-[#D5E5DE] bg-opacity-30"
+                : "bg-white"
+            }`}
+          >
+            <td
+              className={`py-4 font-500   text-[10px] sm:text-[12px] laptop_s:text-[14px] ${
+                isLangArab ? "pr-2" : "pl-2"
+              } ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#101828]"} whitespace-nowrap`}
+            >
+              {user.username}
+            </td>
+            <td
+              className={`py-4 font-500   text-[10px] sm:text-[12px] laptop_s:text-[14px] ${
+                isLangArab ? "pr-2" : "pl-2"
+              } ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#101828]"} whitespace-nowrap`}
+            >
+              {user.email}
+            </td>
+            <td
+              dir={isLangArab && "ltr"}
+              className={`py-4 font-500   text-[10px] sm:text-[12px] laptop_s:text-[14px] ${
+                isLangArab ? "pr-2 text-right" : "text-left pl-2"
+              } ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#101828]"} whitespace-nowrap`}
+            >
+              {new Date(`${user.createdAt}Z`).toLocaleString()}
+            </td>
+            <td
+              className={`py-4 font-500   text-[10px] sm:text-[12px] laptop_s:text-[14px] ${
+                isLangArab ? "pr-2" : "pl-2"
+              } ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#101828]"} whitespace-nowrap`}
+            >
+              {user.nameEn}
+            </td>
+            <td
+              className={`py-4 font-500   text-[10px] sm:text-[12px] laptop_s:text-[14px] ${
+                isLangArab ? "pr-2" : "pl-2"
+              } ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#101828]"} whitespace-nowrap`}
+            >
+              {user.organizationEn}
+            </td>
+            <td
+              className={`py-4 font-500   text-[10px] sm:text-[12px] laptop_s:text-[14px] ${
+                isLangArab ? "pr-2" : "pl-2"
+              } ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#101828]"} whitespace-nowrap`}
+            >
+              {user.classification}
+            </td>
+            <td
+              className={`py-4 font-500   text-[10px] sm:text-[12px] laptop_s:text-[14px] ${
+                isLangArab ? "pr-2" : "pl-2"
+              } ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#101828]"} whitespace-nowrap`}
+            >
+              {user.municipality}
+            </td>
+            <td
+              className={`py-4 font-500   text-[10px] sm:text-[12px] laptop_s:text-[14px] ${
+                isLangArab ? "pr-2" : "pl-2"
+              } ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#101828]"} whitespace-nowrap`}
+            >
+              {user.attachementsObjectIds
+                ? user.attachementsObjectIds.split(",").length
+                : 0}
+            </td>
+            <td className="py-4 w-auto sm:w-8 whitespace-nowrap">
+              <button
+                onClick={() => {
+                  handleDropPin(
+                    user.featureObjectId,
+                    user.featureServiceURL,
+                    user.id,
+                    user.poiOperation,
+                    user.featureObjectId
+                  );
+                }}
+                className="text-red-500 hover:text-red-600"
+              >
+                <img
+                  src={PinPoint}
+                  alt=""
+                  className={`sm:h-7 h-4 w-4 sm:w-auto`}
+                />
+              </button>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</div>
+
         <div className=' flex justify-end'>
         <Pagination 
           currentPage={currentPage} totalPages={totalItems} onPageChange={handlePageChange}
@@ -192,7 +268,7 @@ export default function UserManagement({role}) {
       </div>
       {data.length > 0 && <div className={`w-2 rounded-full mr-3 mt-12 mb-10 ml-2 relative ${
         isDarkMode ? "bg-[rgba(96,96,96,0.8)]" : "bg-[rgba(96,96,96,0.8)]"
-      } text-black backdrop-blur border-none`}>
+      } text-[#101828] backdrop-blur border-none`}>
                 <div 
           className="w-full bg-[#B2CACC] absolute rounded-full transition-all duration-300 ease-out"
           style={{

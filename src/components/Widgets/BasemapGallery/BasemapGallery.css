@@ -53,10 +53,10 @@
     color: white; /* Change text color to white in dark mode */
 }
 
-.esri-basemap-gallery--grid .esri-basemap-gallery__item-container {
+/* .esri-basemap-gallery--grid .esri-basemap-gallery__item-container {
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     gap: 5px;
     padding-block: px;
     padding-inline: 10px;
     display: grid;
-}
+} */

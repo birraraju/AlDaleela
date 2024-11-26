@@ -137,11 +137,11 @@ export default function PhotoContent({setInputClicked,setIscategory}) {
 
   return (
     <div className="p-3 h-[13rem] overflow-y-scroll">
-  <div className="grid grid-cols-4 gap-2">
+  <div className="grid grid-cols-3 gap-2">
     {mediaItems.map((item) => (
       <div
         key={item.objectId}
-        className=" tab:rounded-xl rounded-md  overflow-hidden   laptop_s:w-[90px] h-[60px] tab:h-[60px]" // Set fixed dimensions for each container
+        className=" tab:rounded-lg rounded-md  overflow-hidden   laptop_s:w-[99%] h-[60px] tab:h-[60px]" // Set fixed dimensions for each container
         onClick={() => handleImageClick(item.objectId, item.layerName)}
       >
         {item.type.startsWith('image/') && (

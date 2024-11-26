@@ -3,7 +3,7 @@ import { X, ChevronLeft } from 'lucide-react';
 import Logo from '../../../../assets/GreenLogo.svg';
 import Input from '../Input/Input';
 import PasswordChangeSuccess from './PasswordPopup/PasswordPopup';
-import { IoEyeOff } from "react-icons/io5";
+import { IoEyeOff,IoEye } from "react-icons/io5";
 import { useTheme } from '../../../Layout/ThemeContext/ThemeContext'; // Import the theme context
 import {UserActivityLog} from "../../../Common/UserActivityLog";
 import { useAuth } from "../../../../Providers/AuthProvider/AuthProvider";
@@ -216,7 +216,7 @@ const newError={}
                   onClick={() => setShowPassword(!showPassword)}
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
-                  <IoEyeOff className={`text-2xl ${isDarkMode ? 'text-white' : 'text-black'} opacity-50`} />
+                  {showPassword ? <IoEye className={`text-2xl ${isDarkMode ? 'text-white' : 'text-black'} opacity-50`} /> :<IoEyeOff className={`text-2xl ${isDarkMode ? 'text-white' : 'text-black'} opacity-50`} />}
                 </button>
               </div>
               {errors.password && <span className="text-red-500 text-xs">{errors.password}</span>}
@@ -238,7 +238,7 @@ const newError={}
                     showConfirmPassword ? 'Hide confirm password' : 'Show confirm password'
                   }
                 >
-                  <IoEyeOff className={`text-2xl ${isDarkMode ? 'text-white' : 'text-black'} opacity-50`} />
+                  {showConfirmPassword ? <IoEye className={`text-2xl ${isDarkMode ? 'text-white' : 'text-black'} opacity-50`} /> :<IoEyeOff className={`text-2xl ${isDarkMode ? 'text-white' : 'text-black'} opacity-50`} />}
                 </button>
               </div>
               <div>
@@ -247,7 +247,7 @@ const newError={}
             </form>
             <button
               onClick={handleSubmit}
-              className={`w-full h-[40px] mt-5 mb-4 rounded-xl font-omnes transition duration-300 ${
+              className={`w-full h-[40px] mt-5 mb-4 rounded-xl   transition duration-300 ${
                 isResetDisabled
                   ? isDarkMode
                     ? 'bg-[white] bg-opacity-20 text-white font-medium'
@@ -258,7 +258,8 @@ const newError={}
               }`}
               // disabled={isResetDisabled}
             >
-              {isLangArab?"إعادة تعيين كلمة المرور":"Reset Password"}
+              <p className=' text-[#FFFFFF] '>{isLangArab?"إعادة تعيين كلمة المرور":"Reset Password"}</p>
+              
             </button>
             <div className="mt-6 text-center">
               <p className="text-sm text-black">

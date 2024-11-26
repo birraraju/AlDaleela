@@ -53,8 +53,8 @@ export default function SendFeedBack({
   return (
     <div
       ref={feedbackRef}
-      className={`fixed sm:top-14 w-[98%] sm:w-[355px] top-14 ${ isLangArab?" left-3 sm:left-16 laptop_s:left-3":"right-2 sm:right-16 laptop_s:right-3"} transition-transform duration-300 ease-in-out ${
-        isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%] sm:-translate-x-[116%] laptop_s:-translate-x-[104%]":" translate-x-[103%] sm:translate-x-[116%] laptop_s:translate-x-[103%]")
+      className={`fixed sm:top-20 w-[98%] sm:w-[355px] top-14 ${ isLangArab?" left-3 sm:left-16 laptop_s:left-6":"right-2 sm:right-16 laptop_s:right-6"} transition-transform duration-300 ease-in-out ${
+        isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%] sm:-translate-x-[116%] laptop_s:-translate-x-[107%]":" translate-x-[103%] sm:translate-x-[116%] laptop_s:translate-x-[107%]")
       }`}
       style={{  height }}
     >
@@ -71,7 +71,7 @@ export default function SendFeedBack({
         <div dir={isLangArab ? "rtl" : "ltr"}>
 
         <div className={`flex items-center justify-between  mt-3 py-2 px-4 ${isLangArab ?  "laptop_s:mt-0" : " laptop_s:mt-2 "}`}>
-          <span className={`text-[16px] font-medium ${isDarkMode ? 'text-[#FFFFFFCC] text-opacity-80' : 'text-[#505050]'}`}>
+          <span className={`text-[16px]    font-600  ${isDarkMode ? 'text-[#FFFFFFCC] text-opacity-80' : 'text-[#505050]'}`}>
             {isLangArab?"ملاحظات":"Feedback"}
           </span>
           <button
