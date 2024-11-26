@@ -561,7 +561,7 @@ const DropBinStatusUpdate = ({setMessage,isLangArab,setFormShow,isDarkMode,setPO
                         <img
                           src={image.url}
                           alt={image.name}
-                          className="w-[95%] h-[80px] object-fill"
+                          className="w-full h-full object-cover"
                         />
                       </div>
                     ))

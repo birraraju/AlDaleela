@@ -266,7 +266,7 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
       <div className="grid grid-cols-3 justify-start pt-[1rem]  h-[81%] tab_s:h-[87%] laptop_s:h-[76%] overflow-y-auto items-start gap-y-4 gap-x-0">
   {(bookmarks.length > 0) ? bookmarks.map((image, index) => (
     <div key={image.id} className="relative flex flex-col  items-center">
-      {/* Image and title section */}
+  
       <div onClick={() => handleZoomtoLocation(image.id, image.objectid, image.layername)} className=" relative sm:w-28 w-[96%] h-20  sm:h-24 flex flex-col items-center">
         <img
           src={image.src}
@@ -276,20 +276,10 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
         <h3 className="text-start   font-500 w-full border text-[#FFFFFF] text-[10px] sm:text-[12px]  border-transparent rounded-md absolute bg-[#504848] h-6 justify-start items-center pl-2 flex bottom-0  leading-4 break-words">
         {image.title?.length > 12 ? `${image.title.substring(0, 15)}` : image.title}
         </h3>
-        {/* <div className="absolute w-full pl-1 bottom-4 flex">
-              {image.icon.map((icons, iconIndex) => (
-                <span
-                  className="relative p-[3%] bg-[#504848] border-[#504848] rounded-full"
-                  key={iconIndex}
-                >
-                  <img src={icons.iconBg} className="relative h-4 w-4" alt="Icon Background" />
-                  <img src={icons.Icon} className="absolute top-1.5 left-1.5 h-2 w-2.5" alt="Icon" />
-                </span>
-              ))}
-            </div> */}
+       
       </div>
 
-      {/* Bookmark button outside image wrapper */}
+      
       {isManageVisible && (
         <div className="mt-1">
           <button
@@ -314,7 +304,7 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
     </p>
     </div>}
 </div>
-      <div className={`fixed bottom-5 tab_s:bottom-5   left-3 right-3 flex flex-col  space-y-1 ${isManageVisible ? 'mt-2 ' : 'mt-2 '}`}>
+      <div className={` absolute bottom-5 tab_s:bottom-5   left-3 right-3 flex flex-col  space-y-1 ${isManageVisible ? 'mt-2 ' : 'mt-2 '}`}>
             <hr className='mx-2 mb-2 ' />
             {!isManageVisible ? (
               <span className="flex gap-x-1 justify-center items-center">

@@ -16,6 +16,7 @@ import { useTheme } from "../Layout/ThemeContext/ThemeContext";
 
 
 
+
 const Component = ({mapview,isLangArab, selectedLayer, addPointGeometry, setFormShow,setPOIFormsuccessShow,setmessage,onClose,setPOIFormisOpenModalShow,isFormShow}) => {
 
   const [poiData, setPoiData] = useState({
@@ -351,21 +352,21 @@ const MAX_VIDEO_SIZE = 50 * 1024 * 1024; // 50 MB for videos
 const MAX_AUDIO_SIZE = 10 * 1024 * 1024; // 10 MB for audio
 
 // Helper function to check image dimensions
-const checkImageDimensions = (file) => {
-  return new Promise((resolve) => {
-    const img = new Image();
-    img.src = URL.createObjectURL(file);
-    img.onload = () => {
-      const { width, height } = img;
-      URL.revokeObjectURL(img.src); // Clean up the object URL
-      const isValid = width >= 500 && width <= 2000 && height >= 500 && height <= 2000;
-      if (!isValid) {
-        alert(`${ isLangArab ?"يجب أن يكون حجم الصورة أقل من 10 ميغابايت.":"Image dimensions must be between 500x500 and 2000x2000 pixels."}`);
-      }
-      resolve(isValid);
-    };
-  });
-};
+// const checkImageDimensions = (file) => {
+//   return new Promise((resolve) => {
+//     const img = new Image();
+//     img.src = URL.createObjectURL(file);
+//     img.onload = () => {
+//       const { width, height } = img;
+//       URL.revokeObjectURL(img.src); // Clean up the object URL
+//       const isValid = width >= 500 && width <= 2000 && height >= 500 && height <= 2000;
+//       if (!isValid) {
+//         alert(`${ isLangArab ?"يجب أن يكون حجم الصورة أقل من 10 ميغابايت.":"Image dimensions must be between 500x500 and 2000x2000 pixels."}`);
+//       }
+//       resolve(isValid);
+//     };
+//   });
+// };
 
 // Helper function to validate file type, size, and dimensions for images
 const isValidFile = async (file) => {
@@ -383,8 +384,8 @@ const isValidFile = async (file) => {
       alert(`${ isLangArab ?"حجم الصورة يجب أن يكون أقل من 10 ميجابايت.":"Image size must be under 10 MB."}`);
       return false;
     }
-    const isValidDimensions = await checkImageDimensions(file);
-    if (!isValidDimensions) return false;
+    // const isValidDimensions = await checkImageDimensions(file);
+    // if (!isValidDimensions) return false;
   } else if (isVideo) {
     if (file.size > MAX_VIDEO_SIZE) {
       alert(`${isLangArab?"يجب أن يكون حجم الفيديو أقل من 50 ميغابايت.":"Video size must be under 50 MB."}`);
@@ -463,17 +464,34 @@ const handleDrop = async (e) => {
   // Move files to uploaded state and clear current selection
   const handleDone = () => {
     setUploadedFiles([...uploadedFiles, ...files]);
-    const newFiles = files.map((file) => ({
-      file,
-      name: file.name,
-      progress: 0, // Initialize progress
-      preview: URL.createObjectURL(file), // Generate a preview URL
-    }));
-   
+  
+    const newFiles = files.map((file) => {
+      let preview;
+  
+      if (file.type.startsWith('image/')) {
+        // Generate preview for images
+        preview = URL.createObjectURL(file);
+      } else if (file.type.startsWith('video/')) {
+        // Placeholder for video files
+        preview = `${process.env.PUBLIC_URL}/Header/Searchbar/video.svg`;
+      } else if (file.type.startsWith('audio/')) {
+        // Placeholder for audio files
+        preview = `${process.env.PUBLIC_URL}/Header/Searchbar/audio.svg`;
+      } 
+  
+      return {
+        file,
+        name: file.name,
+        progress: 0, // Initialize progress
+        preview, // Dynamically assigned preview or placeholder
+      };
+    });
+  
     setFilesShow((prev) => [...prev, ...newFiles]);
     simulateUploads(newFiles);
     setFiles([]);
   };
+  
 
   const simulateUploads = (newFiles) => {
     newFiles.forEach((file, index) => {
@@ -1006,13 +1024,13 @@ const handleDrop = async (e) => {
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
           >
-            {!files.length > 0 && (
-              <img
+          
+             <img
                 src={UploadMedia}
                 className=" mx-auto h-16 w-16 text-white"
                 alt="Upload"
               />
-            )}
+         
             {/* <ImageIcon className="mx-auto h-12 w-12 text-gray-400" /> */}
             {files.length > 0 ? (
               <div className="mt-2  space-y-2">
@@ -1022,11 +1040,16 @@ const handleDrop = async (e) => {
                     className="flex w-full h-full items-center justify-between"
                   >
                     <div className="flex w-full h-full items-center">
-                      <img
+                      {/* <img
                         src={URL.createObjectURL(file)}
                         className=" mx-auto rounded-xl w-full h-full text-white"
                         alt="Upload"
-                      />
+                      /> */}
+                      <div className="">
+                        <span className="text-gray-700 font-medium text-ellipsis text-[9px] block">
+                          {file.name}
+                        </span>
+                      </div>
                     </div>
                     {/* <button
                       onClick={() => removeFile(index)}
@@ -1096,7 +1119,7 @@ const handleDrop = async (e) => {
                         className="h-9 w-9 rounded-lg object-cover"
                       />
                       <div className="ml-3">
-                        <span className="text-gray-700 font-medium text-ellipsis text-[9px] block">
+                        <span className={`${isDarkMode?"text-white":"text-gray-700"} font-medium text-ellipsis text-[9px] block`}>
                           {file.name}
                         </span>
                       </div>
