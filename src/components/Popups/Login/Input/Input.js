@@ -31,12 +31,13 @@ export default function Input({
         type={type}
         name={name}
         required={required}
-        className={`w-full h-[48px] px-3 py-2 text-sm text-black  bg-white border border-gray-300 rounded-[10px] focus:outline-none
+        className={`w-full h-[48px] px-3 py-2   text-sm text-black  bg-white border border-gray-300 rounded-[10px] focus:outline-none
         ${isFocused || hasContent ? "placeholder-transparent" : "placeholder-gray-400"}`}
         onFocus={handleFocus}
         // placeholder={placeholder}
         onBlur={handleBlur}
         onChange={handleChange}
+        
       />
       {/* Floating label with red asterisk if required */}
       <div

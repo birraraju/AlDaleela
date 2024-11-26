@@ -112,7 +112,7 @@ export default function Category({setInputValue,setShowSearchContent, inputClick
     >
       <button
         onClick={() => {setIsOpen(!isOpen);setShowSearchContent(false);setInputValue("")}}
-        className={`rounded-full   font-500 w-[79px] mobile_s:w-[90px]  tab:w-[90px] laptop_s:w-[90px] laptop_s:rounded-3xl laptop_m:rounded-full flex text-xs justify-evenly items-center mobile_s:px-2 laptop_s:px-1 laptop_m:px-1 laptop_s:py-3 py-0.5 sm:h-6 h-7 bg-[#C8C8C899] bg-opacity-50 ${isDarkMode?"text-white":"text-[#000000]"} `}
+        className={`rounded-full   font-500 w-[79px] mobile_s:w-[90px]  tab:w-[90px] laptop_s:w-[80px] laptop_l:w-[90px] laptop_s:rounded-3xl laptop_m:rounded-full flex text-xs justify-evenly items-center mobile_s:px-2 laptop_s:px-1 laptop_m:px-1 laptop_s:py-3 py-0.5 sm:h-6 h-7 bg-[#C8C8C899] bg-opacity-50 ${isDarkMode?"text-white":"text-[#000000]"} `}
       >
         {(selectedCategory === "Category") ? (isLangArab ? "الفئة" : selectedCategory) : selectedCategory && selectedCategory?.length > 7 ? `${selectedCategory.substring(0, 8)}` : selectedCategory }
         {isOpen ? (
@@ -123,7 +123,7 @@ export default function Category({setInputValue,setShowSearchContent, inputClick
       </button>
 
       {isOpen && (
-        <div className={`absolute w-24  h-44 border py-2 rounded ${isDarkMode?" bg-black bg-opacity-60 border-none":"bg-white"} shadow-lg overflow-y-scroll  mt-3`}>
+        <div className={`absolute w-24  h-44 border py-2 rounded-lg ${isDarkMode?" bg-black bg-opacity-60 border-none":"bg-white"} shadow-lg overflow-y-scroll  mt-3`}>
           <div className=" ">
             {categoryClasses.map((category, index) => (
               <div

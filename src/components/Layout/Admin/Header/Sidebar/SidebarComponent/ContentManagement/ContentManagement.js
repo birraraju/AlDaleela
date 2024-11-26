@@ -144,17 +144,19 @@ export default function UserManagement({role}) {
             <th
               key={idx}
               className={`pb-3 laptop_s:p-2 sm:p-1 p-2 font-500   text-[9px] sm:text-[10px] laptop_s:text-[14px] ${
-                isLangArab ? "text-right pl-2" : "text-left pr-2"
+                isLangArab ? "text-right " : "text-left "
               } ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}
             >
+              <span className='flex  items-center gap-1 '>
               {header.label}
               {header.icon && (
                 <img
                   src={MediaPinPoint}
-                  className={`${isDarkMode ? "filter invert brightness-0" : ""} h-4 inline-block`}
+                  className={`${isDarkMode ? "filter invert brightness-0" : ""} h-[12px] w-[12px] inline-block`}
                   alt=""
                 />
               )}
+              </span>
             </th>
           ))}
           <th className="pb-3 laptop_s:p-2 sm:p-4"></th>
@@ -249,7 +251,7 @@ export default function UserManagement({role}) {
                 <img
                   src={PinPoint}
                   alt=""
-                  className={`sm:h-7 h-4 w-4 sm:w-auto`}
+                  className={` h-[24px] w-[24px] `}
                 />
               </button>
             </td>
