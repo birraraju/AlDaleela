@@ -4,6 +4,7 @@ import './Print.css';
 import { useAuth } from "../../../Providers/AuthProvider/AuthProvider";
 import PrintIcon from "../../../assets/print/printLogo.svg"; // Correct import path
 import { queries } from "@testing-library/react";
+import config from "../../Common/config";
 
 const PrintComponent = ({ mapview }) => {
   const printRef = useRef(null);
@@ -36,9 +37,9 @@ const PrintComponent = ({ mapview }) => {
         const printWidget = new Print({
           view: mapview,
           container: printRef.current,
-          printServiceUrl: "https://maps.smartgeoapps.com/server/rest/services/AlDaleela/Al_daleela_Print/GPServer/Export%20Web%20Map",
-          allowedFormats: ["Portable Document Format (PDF)"],
-          allowedLayouts: ["POI_PRINT"],
+          printServiceUrl: config.Print.printServiceUrl,
+          allowedFormats: config.Print.allowedFormats,
+          allowedLayouts: config.Print.allowedLayouts,
           templateOptions: {
             title: "My Print",
           },

@@ -2,7 +2,7 @@
   "name": "al-daleela-react-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "AlDaleelaWebApp",
+  "homepage": "AlDaleela",
   "dependencies": {
     "@arcgis/core": "^4.30.9",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
@@ -63,8 +63,10 @@
   "scripts": {
     "start": "react-scripts start",
     "start:atlas": "env-cmd -f .env.atlas react-scripts start",
+    "start:devedp": "env-cmd -f .env.devedp react-scripts start",
     "build": "react-scripts build && copy web.config build",
     "build:atlas": "env-cmd -f .env.atlas react-scripts build build-atlas && copy web.config build",
+    "build:devedp": "env-cmd -f .env.devedp react-scripts build build-atlas && copy web.config build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
