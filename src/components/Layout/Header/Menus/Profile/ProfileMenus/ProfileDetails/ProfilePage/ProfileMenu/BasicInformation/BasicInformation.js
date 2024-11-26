@@ -303,7 +303,7 @@ export default function BasicInformation({
         value: profiledetails.username,
       },
       {
-        heading: isLangArab ? "البريد الإلكتروني" : "Email",
+        heading: isLangArab ? "البريد الإلكتروني" : "Email id",
         headingRead:"Email",
         value: profiledetails.email,
       },

@@ -943,10 +943,10 @@ const Component = ({
 
             {/* Action Buttons */}
             {isEditShowPOI && (
-              <div className="flex justify-center space-x-8 items-center">
+              <div className="flex justify-center py-1 space-x-8 items-center">
                 <button
                   onClick={() => setIsShowEditPOI(false)}
-                  className="w-auto py-3 px-9 outline-none bg-transparent text-xs text-black border border-[#909090] rounded-lg"
+                  className={`w-auto py-3 px-14 outline-none bg-transparent text-xs ${ isDarkMode?" text-white":"text-[#505050]"} border border-[#909090] rounded-lg`}
                 >
                   {isLangArab ? "يلغي" : "Cancel"}
                 </button>
@@ -954,7 +954,7 @@ const Component = ({
                   onClick={() => {
                     handleAttributesUpdate();
                   }}
-                  className="w-auto py-3 px-9 bg-custom-gradient text-xs border border-gray-300 rounded-lg"
+                  className="w-auto py-3 px-14 bg-custom-gradient text-xs border border-transparent rounded-lg"
                 >
                   {isLangArab ? "تحديث" : "Update"}
                 </button>
