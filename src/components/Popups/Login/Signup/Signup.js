@@ -157,14 +157,16 @@ export default function Signup({ onClose, onSigninClick }) {
   const [emailExists, setEmailExists] = useState(false);
   // const [formIsValid, setFormIsValid] = useState(false);
   const [isFormFilled, setFormFilled] = useState(false);
-
+  const [filterText, setFilterText] = useState("");
   const modalRef = useRef(null);
 
   const [isOpen, setIsOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState("");
   const [selectedCountry, setSelectedCountry] = useState(null);
+  const [isCodeOpen,setCodeOpen] = useState(false)
 
   const toggleDropdown = () => setIsOpen(!isOpen);
+  const  toggleCodeDropdown = ()=> setCodeOpen(!isCodeOpen)
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -196,9 +198,19 @@ export default function Signup({ onClose, onSigninClick }) {
     // validateForm({ ...formData, [name]: value });
   };
 
+  const handleFilterChange = (e) => {
+    setFilterText(e.target.value);
+  };
+
+  // Filter the countries based on the input text
+  const filteredCountries = countries.filter((country) =>
+    country.country.toLowerCase().includes(filterText.toLowerCase())
+  );
+
   const handleSelect = ({ name, value }) => {
     setSelectedValue(value);
     setFormData((prevData) => ({ ...prevData, [name]: value }));
+    setFilterText(""); 
     setIsOpen(false);
   };
 
@@ -512,7 +524,7 @@ export default function Signup({ onClose, onSigninClick }) {
       console.error("Error sending email:", error);
     }
   };
-
+  console.log("Form Signin :", formData)
   return (
     <div
       dir={isLangArab && "rtl"}
@@ -714,19 +726,51 @@ export default function Signup({ onClose, onSigninClick }) {
                 </span>
                 <span className=" ">
                 <span className="flex gap-1 ">
-                  <input
-                    type="text"
-                    disabled
+                <span onClick={toggleCodeDropdown} className="">
+                  
+                  <p
                     name="code"
-                    placeholder={"+000"}
-                    value={selectedCountry?.code}
-                    className={` h-[48px] max-w-16 flex items-center  px-3 py-1.5 border-gray-300 rounded-[10px]  text-sm appearance-none border transition-colors ${
+                    className={` h-[48px] min-w-14 max-w-16 flex items-center justify-between  px-3 py-1.5 border-gray-300 rounded-[10px]  text-sm appearance-none border transition-colors ${
                       isDarkMode
-                        ? "bg-[#FFFFFF] bg-opacity-30 text-white border-transparent "
+                        ? "bg-[#FFFFFF]  text-black border-transparent "
                         : "bg-white text-black border-transparent"
                     }`}
-                    required
-                  />
+                
+                  >
+                    <p className="">
+                     { selectedCountry ?selectedCountry?.code: "+00"}
+                     </p>
+                     <img
+                      src={CountryDropdown}
+                      alt="Dropdown"
+                      className=" mx-1"
+                    />
+                    </p>
+                  {isCodeOpen && (
+                      <ul
+                        className={`absolute mt-1 grid justify-start   max-w-24 px-2 py-1 max-h-[80px] overflow-y-auto rounded-lg shadow-lg z-10 ${
+                          isDarkMode
+                            ? "bg-[#FFFFFF] bg-opacity-30 text-white"
+                            : "bg-white text-black"
+                        }`}
+                      >
+                        {countries.map((country, index) => (
+                          <li
+                            key={index}
+                            name="country"
+                            onClick={() => {
+                              setSelectedCountry(country);
+                            }}
+                            className={` px-2 py-0.5 w-full text-[12px] font-500 cursor-pointer  ${
+                              isDarkMode ? "hover:bg-opacity-40 bg-black/90" : "hover:bg-gray-200"
+                            }`}
+                          >
+                            {country.code}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </span>
                   <Input
                     type="tel"
                     name="phoneNumber"
@@ -760,7 +804,7 @@ export default function Signup({ onClose, onSigninClick }) {
                   )}{" "}
                 </span>
                 <div className="relative">
-                  <span onClick={toggleDropdown} className="">
+                  <span  className="">
                     {/* <select
                       name="country"
                       className={`w-full h-[48px] px-3 py-1.5 rounded-xl text-sm appearance-none border transition-colors ${
@@ -791,26 +835,31 @@ export default function Signup({ onClose, onSigninClick }) {
                       ))}
                     </select> */}
                     {/* Dropdown Header */}
-                    <p
+                    {!isOpen ? <p onClick={toggleDropdown}
                       className={`w-full h-[48px] flex items-center  px-3 py-1.5 rounded-xl text-sm appearance-none border transition-colors ${
                         isDarkMode
-                          ? "bg-[#FFFFFF] bg-opacity-30 text-white border-transparent "
+                          ? "bg-[#FFFFFF]  text-black border-transparent "
                           : "bg-white text-black border-transparent"
                       }`}
                     >
                       {selectedValue || (isLangArab ? "الدولة" : "Country")}
-                    </p>
+                    </p>:  <input type="text" value={filterText}
+          onChange={handleFilterChange} className={`w-full h-[48px] flex items-center  px-3 py-1.5 rounded-xl text-sm appearance-none border transition-colors ${
+                        isDarkMode
+                          ? "bg-[#FFFFFF]  text-black border-transparent "
+                          : "bg-white text-black border-transparent"
+                      }`} /> }
 
                     {/* Dropdown Menu */}
                     {isOpen && (
                       <ul
-                        className={`absolute mt-1 bottom-14 w-full max-h-[100px] overflow-y-auto rounded-xl shadow-lg z-10 ${
+                        className={`absolute mt-1 w-full max-h-[80px] min-h-[40px] overflow-y-auto rounded-lg shadow-lg z-10 ${
                           isDarkMode
                             ? "bg-[#FFFFFF] bg-opacity-30 text-white"
                             : "bg-white text-black"
                         }`}
                       >
-                        {countries.map((country, index) => (
+                        { filteredCountries.length > 0 ? filteredCountries?.map((country, index) => (
                           <li
                             key={index}
                             name="country"
@@ -819,15 +868,21 @@ export default function Signup({ onClose, onSigninClick }) {
                                 name: "country",
                                 value: country.country,
                               });
-                              setSelectedCountry(country);
+                              
                             }}
-                            className={`px-3 py-2 cursor-pointer hover:bg-gray-200 ${
-                              isDarkMode ? "hover:bg-opacity-40" : ""
+                            className={` px-2 py-1 w-full text-[12px] font-500 cursor-pointer  ${
+                              isDarkMode ? "hover:bg-opacity-40 bg-black/90" : "hover:bg-gray-200"
                             }`}
                           >
                             {country.country}
                           </li>
-                        ))}
+                        )): <li
+                        className={`px-2 py-0.5 w-full text-[12px] font-500 ${
+                          isDarkMode ? "text-gray-400" : "text-gray-600"
+                        }`}
+                      >
+                        {isLangArab ? "لا توجد نتائج" : "No results found"}
+                      </li>}
                       </ul>
                     )}
                     {/* <img
