@@ -933,13 +933,27 @@ const Component = ({
               </>
             )}
 
-            <div
-              className={`text-[12px] py-2 w-[95%] ${((videos.length > 0) ||( audios.length > 0)||(images.length > 0)) ? " ": " absolute bottom-1" } flex justify-center items-center  ${
+           {(((videos.length > 0) ||( audios.length > 0)||(images.length > 0)) && !isEditShowPOI) ? 
+           <div
+           className={`text-[12px] py-2 w-[95%]  flex justify-center items-center  ${
+             isDarkMode ? "text-white" : "text-gray-500"
+           } sm:px-12 px-7`}
+         >
+           X 54.2971051, Y 24.0622842
+         </div> : (!isEditShowPOI ?
+         <div
+              className={`text-[12px] py-2 w-[95%] absolute bottom-1  flex justify-center items-center  ${
                 isDarkMode ? "text-white" : "text-gray-500"
               } sm:px-12 px-7`}
             >
               X 54.2971051, Y 24.0622842
-            </div>
+            </div>: <div
+           className={`text-[12px] py-2 w-[95%]  flex justify-center items-center  ${
+             isDarkMode ? "text-white" : "text-gray-500"
+           } sm:px-12 px-7`}
+         >
+           X 54.2971051, Y 24.0622842
+         </div>)}
 
             {/* Action Buttons */}
             {isEditShowPOI && (

@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import { X } from "lucide-react";
 import Logo from "../../../../assets/GreenLogo.svg";
+import Darklogo from "../../../../assets/Whitelogo.svg";
+
 import Input from "../Input/Input";
 import CountryDropdown from "../../../../../src/assets/CountryDropdown.svg";
 import { IoEyeOff, IoEye } from "react-icons/io5";
@@ -231,11 +233,12 @@ export default function Signup({ onClose, onSigninClick }) {
     // Define the data to populate the email template
     const emailData = {
       toEmail: userresult.email,
-      subject: "Confirm Your Email to Activate Your Account",
+      subject: isLangArab? "قم بتأكيد بريدك الإلكتروني لتفعيل حسابك ": "Confirm Your Email to Activate Your Account",
       body: createEmailBody({
         username: userresult.username,
         link: `${window.location.protocol}//${window.location.host}/${process.env.REACT_APP_BASE_URL}/activate/${userresult.username}`,
         message:
+        isLangArab? " يرجى تأكيد عنوان بريدك الإلكتروني بالنقر فوق الارتباط أدناه. " :
           "Please confirm your email address by clicking the link below.",
       }),
     };
@@ -255,7 +258,7 @@ export default function Signup({ onClose, onSigninClick }) {
       const result = await response.json();
       if (result.success) {
         console.log("Email sent successfully:", result);
-        alert("Email sent successfully:");
+        alert(  isLangArab?"تم إرسال البريد الإلكتروني بنجاح:": "Email sent successfully!");
       } else {
         console.log(result.message || "Email sent failed, Please try again.");
       }
@@ -285,7 +288,7 @@ export default function Signup({ onClose, onSigninClick }) {
         <div className="flex flex-col items-center justify-between max-h-[80vh] overflow-y-auto">
           <div className="w-full">
             <div className="flex justify-center mb-4">
-              <img src={Logo} alt="Logo" className="h-14" />
+              <img src={ isDarkMode? Darklogo: Logo} alt="Logo" className="h-14" />
             </div>
             <h2
               className={`font-omnes text-[28px] font-medium leading-tight text-left mb-1 ${
