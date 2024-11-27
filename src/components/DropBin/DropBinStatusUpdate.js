@@ -486,61 +486,6 @@ const DropBinStatusUpdate = ({setMessage,isLangArab,setFormShow,isDarkMode,setPO
 {renderField(isLangArab ? "البلدية" : "Municipality", poiData.MunicipalityAr)}
 {renderField(isLangArab ? "الإمارة" : "Emirate", poiData.Emirate)}
 
-   
-        {/* <div className={`px-3 ${((videos.length > 0) ||( audios.length > 0)||(images.length > 0)) ?"block":"hidden"} py-6 border border-none rounded-lg bg-white space-y-4`}>
-          <div className={`${images.length > 0 ?" block":" hidden"}`}>
-                <h3 className={`text-[14px] ${isDarkMode ?"text-white":" text-gray-700 "} font-medium  mb-2`}>{isLangArab?"صور":"Photos"}</h3>
-                {images.length > 0 ? (
-                  images.map((image, index) => (
-                    <div key={index} className="relative h-[90px] rounded-lg overflow-hidden">
-                      <img src={image.url} alt={image.name} className="w-[50%] h-[90px] object-cover" />
-                    </div>
-                  ))
-                ) : (
-                  <p className={`text-[14px] ${isDarkMode ?"text-white":" text-gray-700 "}`}>{isLangArab?"لا توجد صور متاحة.":"No photos available."}</p>
-                )}
-            </div>
-
-     
-          <div className={`${videos.length > 0 ?" block":" hidden"}`} >
-                <h3 className={` text-[14px] ${isDarkMode ?"text-white":" text-gray-700 "} font-medium mb-2`}>{isLangArab?"فيديوهات":"Videos"}</h3>
-                {videos.length > 0 ? (
-                  <div className="grid grid-cols-2 gap-2">
-                    {videos.map((video, index) => (
-                      <div key={index} className="relative h-[90px] rounded-lg overflow-hidden">
-                        <img src={PlayThumbPOI} alt={`Video thumbnail ${index}`} className="w-full h-auto object-cover" />
-                        <button className="absolute inset-0 m-auto bg-black/50 hover:bg-black/70 flex items-center justify-center">
-                          <video
-                            src={video.url}
-                            className="w-full h-auto"
-                            controls
-                          />
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className={`text-[14px] ${isDarkMode ?"text-white":" text-gray-700 "}`}>{isLangArab?"لا توجد مقاطع فيديو متاحة.":"No videos available."}</p>
-                )}
-              </div>
-
-        
-          <div className={`${audios.length > 0 ?" block":" hidden"}`}>
-                <h3 className={` text-[14px] ${isDarkMode ?"text-white":" text-gray-700 "} text-sm font-medium mb-2`}>{isLangArab?"صوتي":"Audio"}</h3>
-                {audios.length > 0 ? (
-                  audios.map((audio, index) => (
-                    <div key={index} className={`flex text-[14px] ${isDarkMode ?"text-white":" text-gray-700 "} p-2 h-10 bg-gray-300  rounded-full justify-center items-center overflow-hidden`}>
-                      <audio controls className="w-13" style={{ width: '100px' }}>
-                        <source src={audio.url} />
-                        {isLangArab?"متصفحك لا يدعم علامة الصوت.":"Your browser does not support the audio tag."}
-                      </audio>
-                    </div>
-                  ))
-                ) : (
-                  <p className={`text-[14px] ${isDarkMode ?"text-white":" text-gray-700 "}`}>{isLangArab?"لا توجد ملفات صوتية متاحة.":"No audio files available."}</p>
-                )}
-              </div>
-        </div> */}
 
         {/* ============================= new mediao playing ========================= */}
         <div
