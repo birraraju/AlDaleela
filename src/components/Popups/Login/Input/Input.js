@@ -26,7 +26,7 @@ export default function Input({
 
 
   return (
-    <div dir={isLangArab && "rtl"} className="relative">
+    <div dir={isLangArab && "rtl"} className=" w-full relative">
       <input
         type={type}
         name={name}

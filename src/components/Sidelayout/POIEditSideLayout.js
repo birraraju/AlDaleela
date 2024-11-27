@@ -11,7 +11,9 @@
   import FeatureLayer from "@arcgis/core/layers/FeatureLayer";  
   import RoleServices from '../servicces/RoleServices';
   import config from '../Common/config'; // Import your config file
-  
+  import LeftArrow from "../../assets/Droppedpin/leftArrow.svg"
+  import RigthArrow from "../../assets/Droppedpin/RigthArrow.svg"
+
 
   import { X } from "lucide-react";
   import DarkLocation from '../../assets/Droppedpin/Dropped Pin.svg';
@@ -38,6 +40,10 @@
     const [queryresults , setQueryResults]=useState("");
     const [uploadedFiles, setUploadedFiles] = useState([]); // Store the uploaded files
     const [isBookMarkClick,setBookMarkClick]=useState(false)
+    const [POIPoints, setPOIPoinst] = useState({
+      CurrentPoint:0,
+      TotalPoints:0
+    })
     console.log("POI Share status:", POIShareShow)
 
 
@@ -55,6 +61,14 @@
       setIsOpen(prev => !prev); // Toggle visibility
       setToggleCount(prev => prev + 1); // Increment toggle count
     };
+
+    const handleRigthPOIPoint = ()=>{
+      console.log("RigthPOI clicked!")
+    }
+
+    const handleLeftPOIPoint = ()=>{
+      console.log("LeftPOI clicked!")
+    }
 
     // Completely closes the side panel
     const closePanel = () => {
@@ -269,6 +283,7 @@
   </button>
 </div>}       </div>}
               <div className={`${POIShareShow?"mt-3":"mt-20"} overflow-y-auto`}>
+                {isEditShowPOI && <div dir={isLangArab && "rtl"} className=" w-[95%] flex justify-end items-center"><span className=" flex justify-between gap-0.5  items-center"> <button onClick={handleLeftPOIPoint}><img src={LeftArrow} alt="" className={`w-2.5 ${isLangArab && " rotate-180"} h-2.5`} /></button> <span className= {`flex justify-between gap-0.5 items-center ${ isDarkMode?"text-white":"text-[#808080]"} font-500 text-[12px]`}><p>{POIPoints.CurrentPoint}</p> <p>of</p> <p>{POIPoints.TotalPoints}</p></span>  <button onClick={handleRigthPOIPoint} ><img src={RigthArrow} alt="" className={`w-2.5 ${isLangArab && " rotate-180"} h-2.5 ${isDarkMode && " text-white"} `} /></button></span></div>}
               {POIShareShow && <POShareForm  onClose={()=>{setPOIFormShow(true);setPOIShareShow(false);}} queryresults={queryresults}/>}
              {(isEditShowPOI||POIFormShow) && <POIEditForm isLangArab={isLangArab} isEditShowPOI={isEditShowPOI}  setIsShowEditPOI={setIsShowEditPOI}  POIFormShow={POIFormShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow} queryresults={queryresults} setIsEditPOI={setIsEditPOI} uploadedFiles={uploadedFiles} setPOImessageShow={setPOImessageShow} setPOIFormsuccessShow={setPOIFormsuccessShow} setPOIFormisOpenModalShow={setPOIFormisOpenModalShow} setUploadedFiles={setUploadedFiles}/>}
               <POIEditFileUploader isLangArab={isLangArab} setPOImessageShow={setPOImessageShow} setPOIFormsuccessShow={setPOIFormsuccessShow} POIFormUploader={POIFormUploader} setPOIFormisOpenModalShow={setPOIFormisOpenModalShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow} queryresults={queryresults} uploadedFiles={uploadedFiles} setUploadedFiles={setUploadedFiles}/>
