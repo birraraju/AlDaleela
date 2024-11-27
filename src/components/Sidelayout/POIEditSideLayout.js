@@ -127,68 +127,6 @@
       }
     }
 
-    // const handleBookmarkEvent = async(e) =>{
-    //   //alert(popupselectedgeo.graphic[0].geometry.x)
-    //   let layerUrl =''
-    //   let Objectid =''
-    //   if(popupselectedgeo?.layerName){
-    //     // Find the URL for the "Terrestrial"
-    //     const terrestrialLayerConfig = config.featureServices.find(service => 
-    //       service.name === popupselectedgeo?.layerName // Find the service by name
-    //     );
-    //     layerUrl = terrestrialLayerConfig?.url;
-    //     Objectid = "OBJECTID="+popupselectedgeo?.feature?.attributes?.OBJECTID;
-    //   }
-    //   else if(popupselectedgeo?.layer?.layerId !== null && popupselectedgeo?.layer?.layerId !== 'undefined'){
-    //     layerUrl = popupselectedgeo?.layer?.url+"/"+popupselectedgeo?.layer?.layerId;
-    //     Objectid = "OBJECTID="+popupselectedgeo?.attributes?.OBJECTID;
-    //   }else{
-    //     layerUrl = popupselectedgeo?.layer?.url
-    //     Objectid = "OBJECTID="+popupselectedgeo?.attributes?.OBJECTID;
-    //   }
-    //   let featureLayer = new FeatureLayer({
-    //     url : layerUrl
-    //   })
-    //   // Now you can safely access spatialReference
-    //     //const projectedPoint = projection.project(popupselectedgeo.mapPoint, featureLayer.spatialReference);
-
-    //     let query = featureLayer.createQuery();
-    //     //query.geometry = projectedPoint;
-    //     query.where = Objectid
-    //     //query.where = "OBJECTID="+popupselectedgeo.graphic.attributes.OBJECTID
-    //     query.returnGeometry = true;
-    //     query.outFields = ['*'];
-    
-    //     // Execute the query
-    //     featureLayer.queryFeatures(query).then(function(response) {
-    //       console.log('Features found:', response.features);
-    //       if(e !== "onload"){
-    //         handleInsertBookmarkData(response);
-    //       }
-    //       else{
-    //         //setIsEditPOI(true);
-    //         setQueryResults(response)
-    //       }          
-    //     });
-    //   // Wait for the layer to load     
-
-    //   // const query = new Query();
-    //   // query.geometry = popupselectedgeo.mapPoint; // Use the clicked map point
-    //   // query.spatialRelationship = 'intersects'; // Define the spatial relationship
-    //   // query.returnGeometry = true; // Return geometry
-    //   // query.outFields = ['*']; // Specify fields to return
-    //   // query.outSpatialReference = { wkid: 3857 };
-    //   // // Execute the query
-    //   // try {
-    //   //   const response = await featureLayer.queryFeatures(query);
-    //   //   console.log('Features found:', response.features);
-    //   //   // Handle the features (e.g., display them on the map)
-    //   //   handleInsertBookmarkData(response);
-    //   // } catch (error) {
-    //   //   console.error('Query failed:', error);
-    //   // }
-    // };
-
     const handleBookmarkEvent = async (eventType) => {
       if(eventType === "click"){
         setBookMarkClick(true)

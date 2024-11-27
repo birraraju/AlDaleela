@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { X, ChevronLeft } from 'lucide-react';
 import Logo from '../../../../assets/GreenLogo.svg';
+import Darklogo from "../../../../assets/Whitelogo.svg";
+
 import Input from '../Input/Input';
 import { useTheme } from '../../../Layout/ThemeContext/ThemeContext'; // Import the theme context
 import createForgotPasswordEmailBody from "../../../../components/email/ForgotPasswordTemplate";
@@ -53,11 +55,11 @@ export default function ForgetPassword({ onClose, onBackToLogin, onSignup, onNex
     // Define the data to populate the email template
     const emailData = {
       toEmail: formData.email,
-      subject: "Reset Your Password",
+      subject: isLangArab ? "إعادة تعيين كلمة المرور الخاصة بك" : "Reset Your Password",
       body: createForgotPasswordEmailBody({
         username: formData.email,
         code: newCode, // Use the generated code
-        message:
+        message: isLangArab ? "تلقينا طلبا لإعادة تعيين كلمة المرور الخاصة بك. استخدم الرمز أدناه لإعادة تعيينه." :
           "We received a request to reset your password. Use the code below to reset it.",
       }),
     };
@@ -76,7 +78,7 @@ export default function ForgetPassword({ onClose, onBackToLogin, onSignup, onNex
   
       const result = await response.json();
       if (result.success) {
-        alert("Email sent successfully!"); // Notify the user the email was sent
+        alert( isLangArab?"تم إرسال البريد الإلكتروني بنجاح:": "Email sent successfully!"); // Notify the user the email was sent
       } else {
         console.log(result.message || "Email sending failed. Please try again.");
       }
@@ -117,7 +119,7 @@ export default function ForgetPassword({ onClose, onBackToLogin, onSignup, onNex
           <X className="w-5 h-5 text-black" />
         </button>
         <div className="flex justify-center mb-2">
-          <img src={Logo} alt="Logo" className="h-12" />
+          <img src={ isDarkMode? Darklogo : Logo} alt="Logo" className="h-12" />
         </div>
         <div className="flex flex-col justify-between h-full">
           <div className="w-full">
@@ -155,7 +157,7 @@ export default function ForgetPassword({ onClose, onBackToLogin, onSignup, onNex
             <div className="mt-auto pt-2 text-center">
               <p className={`text-sm text-${isDarkMode ? '[#FFFFFFCC]' : 'gray-600'} text-center mt-10`}>
               {isLangArab ? "ليس لديك حساب":"Don't have an account?"}{' '}
-                <button onClick={onSignup} className={`text-${isDarkMode ? '[#004987]' : '[#004987]'} font-medium underline`}>
+                <button onClick={onSignup} className={`${isDarkMode ? ' text-white hover:text-white/80' : 'text-[#004987]'} font-medium underline`}>
                 {isLangArab?"تسجيل":"Sign Up"}
                 </button>
               </p>

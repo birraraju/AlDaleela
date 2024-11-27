@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import { X, ChevronLeft } from 'lucide-react';
 import Logo from '../../../../assets/GreenLogo.svg';
+import Darklogo from "../../../../assets/Whitelogo.svg";
+
 import Input from '../Input/Input';
 import PasswordChangeSuccess from './PasswordPopup/PasswordPopup';
 import { IoEyeOff,IoEye } from "react-icons/io5";
@@ -172,7 +174,7 @@ const newError={}
           <X className="w-5 h-5 text-black" />
         </button>
         <div className="flex justify-center mb-6 sm:w-auto w-60 ">
-          <img src={Logo} alt="Logo" className="h-12" />
+          <img src={ isDarkMode? Darklogo : Logo} alt="Logo" className="h-12" />
         </div>
         <div className="flex flex-col justify-between">
           <div className="w-full">
@@ -262,9 +264,9 @@ const newError={}
               
             </button>
             <div className="mt-6 text-center">
-              <p className="text-sm text-black">
+              <p className={`text-sm ${ isDarkMode?" text-white":"text-black "}`}>
               {isLangArab ? "ليس لديك حساب":"Don't have an account?"}{' '}
-                <button onClick={onSignup} className="text-[#004987] ml-2 font-medium underline">
+                <button onClick={onSignup} className={`${ isDarkMode?" text-white hover:text-white/75":"text-[#004987]"} ml-2 font-medium underline`}>
                 {isLangArab?"تسجيل":"Sign Up"}
                 </button>
               </p>
