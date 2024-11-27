@@ -161,9 +161,9 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
             isLangArab ? "direction-rtl" : ""
           }`} // RTL for Arabic
         >
-          <div className="   font-500 text-[#667085]">{isLangArab ? "التاريخ" : "Date"}</div>
-          <div className="   font-500 text-[#667085]" >{isLangArab ? "اسم نقطة الاهتمام" : "POI Name"}</div>
-          <div className="mr-12   font-500 text-[#667085] ">{isLangArab ? "الحالة" : "Status"}</div>
+          <div className={` font-500 ${isDarkMode?"text-[#FFFFFFCC]":"text-[#667085]"} `}>{isLangArab ? "التاريخ" : "Date"}</div>
+          <div className={` font-500 ${isDarkMode?"text-[#FFFFFFCC]":"text-[#667085]"}`} >{isLangArab ? "اسم نقطة الاهتمام" : "POI Name"}</div>
+          <div className={` mr-12 font-500 ${isDarkMode?"text-[#FFFFFFCC]":"text-[#667085]"}`}>{isLangArab ? "الحالة" : "Status"}</div>
         </div>
         {featureServiceData.map((contribution, index) => (
           <div
