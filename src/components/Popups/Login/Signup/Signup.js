@@ -436,7 +436,7 @@ export default function Signup({ onClose, onSigninClick }) {
         lastname: formData.firstName,
         password: formData.password,
         email: formData.email,
-        phoneNumber: formData.phoneNumber,
+        phoneNumber: selectedCountry?.code + formData.phoneNumber  ,
         organization: formData.organization,
         country: formData.country,
         role: "user",
