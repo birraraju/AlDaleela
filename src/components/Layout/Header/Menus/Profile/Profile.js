@@ -176,7 +176,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
             <div className={`${isLangArab?"mr-1 ml-1":"ml-1"} hidden sm:block`}>
               <img
                 //src={`${((role === "admin")||(role === "user")) ? AdminLogo : ProfileLogo}`} // الملف الشخصي
-                src={profiledetails && profiledetails.imageUrl ? profiledetails.imageUrl : ProfileLogo}
+                src={profiledetails && profiledetails.imageUrl ? profiledetails.imageUrl : AdminLogo}
                 alt="Profile"
                 className="mobile_s:w-14 mobile_s:h-7 tab_l:w-10 tab_l_1:w-7  tab:w-20 tab:h-7 tab:h- laptop_s:w-6 laptop_s:h-6 laptop_m:w-6 laptop_m:h-6 w-8 h-8 rounded-full object-cover"
               />
