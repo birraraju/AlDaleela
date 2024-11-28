@@ -165,8 +165,14 @@ export default function Signup({ onClose, onSigninClick }) {
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [isCodeOpen,setCodeOpen] = useState(false)
 
-  const toggleDropdown = () => setIsOpen(!isOpen);
-  const  toggleCodeDropdown = ()=> setCodeOpen(!isCodeOpen)
+  const toggleDropdown = () => {
+    setCodeOpen(false)
+    setIsOpen(!isOpen);
+  }
+  const  toggleCodeDropdown = ()=> {
+    setIsOpen(false)
+    setCodeOpen(!isCodeOpen)
+  }
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -726,7 +732,7 @@ export default function Signup({ onClose, onSigninClick }) {
                 </span>
                 <span className=" ">
                 <span className="flex gap-1 ">
-                <span onClick={toggleCodeDropdown} className="">
+                <span onClick={toggleCodeDropdown} className=" cursor-pointer">
                   
                   <p
                     name="code"
@@ -804,7 +810,7 @@ export default function Signup({ onClose, onSigninClick }) {
                   )}{" "}
                 </span>
                 <div className="relative">
-                  <span  className="">
+                  <span  className=" cursor-pointer">
                     {/* <select
                       name="country"
                       className={`w-full h-[48px] px-3 py-1.5 rounded-xl text-sm appearance-none border transition-colors ${
