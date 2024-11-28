@@ -40,6 +40,9 @@
     const [queryresults , setQueryResults]=useState("");
     const [uploadedFiles, setUploadedFiles] = useState([]); // Store the uploaded files
     const [isBookMarkClick,setBookMarkClick]=useState(false)
+    const [isBookMarked, setIsBookMarked] = useState(false)
+    const [userBookmarkIds,setuserBookmarkIds]= useState([])
+
     const [POIPoints, setPOIPoinst] = useState({
       CurrentPoint:0,
       TotalPoints:0
@@ -103,9 +106,24 @@
 
     useEffect(()=>{
       handleBookmarkEvent("onload");
-    },[popupselectedgeo])
+      const numbers = userBookmarkIds;
+      const target = popupselectedgeo?.feature?.attributes?.OBJECTID;
+      console.log("Passed Geo POI edit:",target)
+      console.log("Passed userIds POI edit:",userBookmarkIds)
+
+      const result = numbers.some(num => num === target);
+      if(result){
+        setIsBookMarked(true)
+      }else{
+        setIsBookMarked(false)
+      }
+    },[popupselectedgeo,userBookmarkIds])
 
     const handleInsertBookmarkData = async(res)=>{
+      if(isBookMarked){
+        alert("Bookmark Already Marked!")
+        return ;
+      }
       if(res){
         try {
           if(res.features[0].attributes.name_en === undefined){
@@ -129,6 +147,7 @@
             UserActivityLog(profiledetails, "Bookmark Added")  
             setBookMarkClick(false)
             alert(data.message === "Bookmark created successfully." && (isLangArab ?"تم إنشاء الإشارة المرجعية بنجاح.":"Bookmark created successfully."));
+            fetchBookmarks()
           }
           else{
             //console.log(data)         
@@ -140,6 +159,37 @@
         } 
       }
     }
+
+    
+  const fetchBookmarks = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/Bookmarks/${profiledetails.email}`);
+
+      // Check if the response is ok (status code 200-299)
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const res = await response.json();
+      if(res.success){              
+        const objectIds = res.data.map(feature => feature.objectid);
+        if(objectIds.length > 0){
+          setuserBookmarkIds(objectIds)
+        }
+      }
+      else{
+        //console.log(data)           
+      }
+      
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  useEffect(() => {   
+
+    fetchBookmarks();
+  }, []); // Empty dependency array means this effect runs once on mount
 
     const handleBookmarkEvent = async (eventType) => {
       if(eventType === "click"){
@@ -205,7 +255,7 @@
         setIsAuthPopUp(true);
       }
     }
-    console.log("Edit POI Status:", isEditShowPOI)
+    console.log("Edit POI Status:", userBookmarkIds)
 
     return (
       <div
@@ -264,7 +314,7 @@
   <img
     src={POILabelMark}
     alt="Location Mark"
-    className={`${ isDarkMode ? ( isBookMarkClick ? "invert brightness-0 text-yellow-600":"invert brightness-0 text-white ") : " "} h-full`}
+    className={`${ isBookMarked? "invert brightness-0 text-white": isDarkMode ? ( isBookMarkClick ? "invert brightness-0 text-white":" invert brightness-0 text-white") :( isBookMarkClick ? "invert brightness-0 text-white":" ")} h-full`}
   />
 </button>
 
