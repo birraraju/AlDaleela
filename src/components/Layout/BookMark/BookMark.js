@@ -319,7 +319,7 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
             {!isManageVisible ? (
               <span className="flex gap-x-1 justify-center items-center">
                 <img src={isDarkMode ? DarkBookMarkGreen : BookMarkGreen } alt="" className="h-5" />
-                <p className="text-[#1365B1] underline text-sm laptop_s:text-[14px] laptop_lg:tett-[16px] cursor-pointer font-poppins font-medium" onClick={() => setIsManageVisible(true)}>{ isLangArab?"إدارة العلامات المرجعية":"Manage Bookmarks"}</p>
+                <p className={`${ isDarkMode?"text-white font-400":"text-[#1365B1]"} underline text-sm laptop_s:text-[14px] laptop_lg:tett-[16px] cursor-pointer  font-medium`} onClick={() => setIsManageVisible(true)}>{ isLangArab?"إدارة العلامات المرجعية":"Manage Bookmarks"}</p>
               </span>
             ) : (
               <div className={`flex justify-center  ${isLangArab?"gap-4":"space-x-9"}  items-center`}>

@@ -531,34 +531,61 @@ const Component = ({
           />
         )
       ) : (
-        value && (
-          <div className=" relative">
-            {value && !isEditShowPOI && (
-              <label
-                htmlFor={id}
-                className={`block  absolute ${
-                  isLangArab ? " right-2" : " left-2"
-                } top-2  text-[14px]  font-semibold ${
-                  isDarkMode ? " text-[#303030]" : " text-[#303030]"
-                }`}
+        value &&
+        (value?.length > 30 ? (
+          <>
+            <div dir={isLangArab && "rtl"} className=" border flex flex-col p-2 border-transparent rounded-md  bg-[#FFFFFF]">
+              {value && !isEditShowPOI && (
+                 <label
+                 htmlFor={id}
+                 className={`block text-[14px] font-semibold ${
+                   isDarkMode ? "text-[#303030]" : "text-[#303030]"
+                 }`}
+               >
+                 {label}
+               </label>
+              )}
+              <p
+      className={`input-fields break-words  ${
+        (id === "organization" || id === "MunicipalityAr") ? "font-cairo font-700" : " font-600 "
+      } ${isLangArab ? "text-left" : "text-rigth"} 
+         h-auto w-full text-[14px] rounded-lg text-[#399C72] `}
+    >
+      {value}
+    </p>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className=" relative">
+              {value && !isEditShowPOI && (
+                <label
+                  htmlFor={id}
+                  className={`block  absolute ${
+                    isLangArab ? " right-2" : " left-2"
+                  } top-2  text-[14px]  font-semibold ${
+                    isDarkMode ? " text-[#303030]" : " text-[#303030]"
+                  }`}
+                >
+                  {label}
+                </label>
+              )}
+              <p
+                className={` border ${value ? "p-2" : "p-5"} ${
+                  id === "organization" || id === "MunicipalityAr"
+                    ? " font-cairo"
+                    : ""
+                }   input-fields ${
+                  isLangArab ? "text-left" : "text-right"
+                } w-auto    laptop_s:h-[39px]    h-9 text-[14px] rounded-lg text-[#399C72] font-600 bg-[#FFFFFF]`}
               >
-                {label}
-              </label>
-            )}
-            <p
-              className={` border ${value ? "p-2" : "p-5"} ${
-                id === "organization" || id === "MunicipalityAr"
-                  ? " font-cairo"
-                  : ""
-              }   input-fields ${
-                isLangArab ? "text-left" : "text-right"
-              } w-auto    laptop_s:h-[39px]    h-9 text-[14px] rounded-lg text-[#399C72] font-medium bg-[#FFFFFF]`}
-            >
-              {" "}
-              {value?.length > 40 ? `${value.substring(0, 20)}` : value}
-            </p>
-          </div>
-        )
+                {" "}
+                {/* {value?.length > 40 ? `${value.substring(0, 20)}` : value} */}
+                {value}
+              </p>
+            </div>
+          </>
+        ))
       )}
     </div>
   );
@@ -967,11 +994,11 @@ const Component = ({
             ) : !isEditShowPOI ? (
               <div
                 dir={isLangArab && "rtl"}
-                className={`text-[12px] py-2 w-[95%] absolute bottom-1  flex justify-center gap-1 items-center  ${
+                className={`text-[12px] py-2 w-[95%] absolute -bottom-1   flex justify-center gap-1 items-center  ${
                   isDarkMode ? "text-white" : "text-gray-500"
                 } sm:px-12 px-7`}
               >
-               <p> X 54.2971051</p>,<p> Y 24.0622842</p>
+                <p> X 54.2971051</p>,<p> Y 24.0622842</p>
               </div>
             ) : (
               <div
@@ -979,8 +1006,7 @@ const Component = ({
                   isDarkMode ? "text-white" : "text-gray-500"
                 } sm:px-12 px-7`}
               >
-                <p>
-                X 54.2971051</p>,<p> Y 24.0622842</p>
+                <p>X 54.2971051</p>,<p> Y 24.0622842</p>
               </div>
             )}
 
