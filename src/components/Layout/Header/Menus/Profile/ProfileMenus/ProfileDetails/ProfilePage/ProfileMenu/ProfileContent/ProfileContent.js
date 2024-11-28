@@ -59,7 +59,7 @@ export default function ProfileContent({
 
           <div className="w-[80%]">
             <div className="tracking-wide">
-              <h1 className={`sm:text-[18px] text-[14px]   font-500 text-${isDarkMode ? 'white' : '[#000000]'} `}>
+              <h1 className={`sm:text-[18px] text-[14px]   font-500 ${isDarkMode ? 'text-white' : 'text-[#000000]'} `}>
                 {profiledetails.username ? profiledetails.username : profiledetails.firstName}
               </h1>
               <p className={`sm:text-[16px] text-[14px] font-400 text-${isDarkMode ? '[#FFFFFFCC]' : '[#00000099]'} `}>

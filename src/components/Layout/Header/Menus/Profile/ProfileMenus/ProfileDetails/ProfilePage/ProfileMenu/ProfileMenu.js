@@ -70,7 +70,6 @@ export default function ProfileMenu({
             setIsFailure={setIsFailure}
             setIsMsgStatus={setIsMsgStatus}
             setModalMessage={setModalMessage}
-            
           />
         )}
 
