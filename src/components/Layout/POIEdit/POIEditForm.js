@@ -59,6 +59,7 @@ const Component = ({
   const [organizationOptions, setOrganizationOptions] = useState([]);
   const [statusOptions, setStatusOptions] = useState([]);
   const [municipalityOptions, setMunicipalityOptions] = useState([]);
+  const [classOption, setClassOptions] = useState([]);
 
   const audioRefs = useRef([]); // Array of refs for each audio
   const [playingIndex, setPlayingIndex] = useState(null); // Track which audio is playing
@@ -126,6 +127,7 @@ const Component = ({
         const newOrganizationOptions = [];
         const newStatusOptions = [];
         const newMunicipalityOptions = [];
+        const newClassOptions = [];
 
         domainFields.forEach((field) => {
           const options = field.domain.codedValues.map((codedValue) => ({
@@ -143,6 +145,9 @@ const Component = ({
             case "MunicipalityAr":
               newMunicipalityOptions.push(...options);
               break;
+            case "Class":
+              newClassOptions.push(...options);
+              break;
             default:
               console.warn(`Unhandled field: ${field.fieldName}`);
           }
@@ -152,6 +157,7 @@ const Component = ({
         setOrganizationOptions(newOrganizationOptions);
         setStatusOptions(newStatusOptions);
         setMunicipalityOptions(newMunicipalityOptions);
+        setClassOptions(newClassOptions);
       } catch (error) {
         console.error("Error fetching domains:", error);
       }
@@ -617,7 +623,9 @@ const Component = ({
             {renderFieldOrText(
               "Class",
               isLangArab ? "الفئة" : "Class",
-              queryresults.features[0].attributes.Class
+              queryresults.features[0].attributes.Class,
+              classOption,
+              "select"
             )}
 
             {renderFieldOrText(
