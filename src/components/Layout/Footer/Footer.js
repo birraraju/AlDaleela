@@ -198,16 +198,16 @@ export default function Footer({
         if (isExpanded) {
           switch (index) {
             case 0:
-              size = isLangArab ? position - 60 : position - 11;
+              size = isLangArab ? position - 8 : position - 11;
               break;
             case 1:
-              size = isLangArab ? position - 65 : position - 7;
+              size = isLangArab ? position - 10 : position - 10;
               break;
             case 2:
-              size = isLangArab ? position - 70 : position - 3;
+              size = isLangArab ? position - 10 : position - 10;
               break;
             case 3:
-              size = isLangArab ? position - 75 : position + 3;
+              size = isLangArab ? position - 10 : position - 10;
               break;
             case 4:
             case 5:

@@ -15,6 +15,7 @@ export default {
           omnes: ['Omnes', 'sans-serif'],
           poppins: ["Poppins", "sans-serif"],
         jakarta: ['"Plus Jakarta Sans"', "sans-serif"],
+        cairo: ['Cairo', 'sans-serif'],
         },
         animation: {
           audioPulse: 'pulse 1s infinite',

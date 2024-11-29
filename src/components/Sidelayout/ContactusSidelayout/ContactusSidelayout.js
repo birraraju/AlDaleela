@@ -54,7 +54,7 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
   //   opacity: 0,
   // }}
   // transition={{ ease: "easeInOut" }}
-    className={`p-4  sm:py-4  sm:h-[50vh]  laptop_s:h-[75vh] 2xl:h-[70vh]  transition-transform duration-300 ease-in-out  fixed top-20 ${isLangArab?"left-1  h-[73vh] sm:left-16 laptop_s:left-6":"right-1 sm:right-16 h-[75vh] laptop_s:right-6"}  backdrop-blur rounded-3xl text-[#000000] ${
+    className={`p-4  sm:py-4  sm:h-[50vh]  laptop_s:h-[65vh] laptop_m:h-[70vh]  2xl:h-[70vh] laptop_lg:h-[50vh]  transition-transform duration-300 ease-in-out  fixed top-20 ${isLangArab?"left-1  h-[73vh] sm:left-16 laptop_s:left-6":"right-1 sm:right-16 h-[75vh] laptop_s:right-6"}  backdrop-blur rounded-3xl text-[#000000] ${
       isDarkMode
         ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none"
         : "bg-white bg-opacity-70 backdrop-blur-lg border-white"
@@ -92,7 +92,7 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
           <h4 className={`  font-500  mb-1 text-[14px] ${isDarkMode ? "text-white" : "text-[#667085]"}`}>
           {isLangArab ? "الموقع" : "Location"}
           </h4>
-          <p className={`text-[12px] laptop_lg:text-[16px]   font-500  ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-[#000000]"}`}>
+          <p className={`text-[12px]    font-500  ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-[#000000]"}`}>
           {isLangArab ?
           "المقر الرئيسي مبنى المعمورة (أ) مبنى رقم (62) ، شارع المعمورة ، آل نهيان ، أبوظبي ، الإمارات العربية المتحدة، الرمز البريدي: 22221، ص.ب : 45553"
            : 
@@ -103,7 +103,7 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
           <h4 className={`  font-500 mb-1 text-[14px] ${isDarkMode ? "text-white" : "text-[#667085]"}`}>
           {isLangArab ? "ساعات العمل" : "Opening Hours"}
           </h4>
-          <p className={`text-[12px] laptop_lg:text-[16px]   font-500 ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-[#000000]"}`}>
+          <p className={`text-[12px]    font-500 ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-[#000000]"}`}>
           {isLangArab ? 
           "من الساعة 7:30 صباحًا – 3:30 ظهرًا | الاثنين  ل جمعة"
           : "7:30 AM to 3:30 PM | Monday-Friday"}
@@ -116,7 +116,7 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
 
           </h4>
           <a   href="tel:+97126934444"  target="_blank" rel="noopener noreferrer"   >
-          <p className={`text-[12px] laptop_lg:text-[16px] cursor-pointer   font-500 ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-[#000000]"}`}>
+          <p className={`text-[12px]  cursor-pointer   font-500 ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-[#000000]"}`}>
           {isLangArab ? "+971 2 693 4444" : "+971 2 693 4444"}
           </p>
           </a>
@@ -130,9 +130,9 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
           
           <a
   href="mailto:customerhappiness@ead.gov.ae" target="_blank" rel="noopener noreferrer"
-  className={`text-[12px] laptop_lg:text-[16px] cursor-pointer outline-none   font-500 ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-[#000000]"} `}
+  className={`text-[12px]  cursor-pointer outline-none   font-500 ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-[#000000]"} `}
 >
-<p className={`text-[12px] laptop_lg:text-[16px]    font-500 ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-[#000000]"}`}>
+<p className={`text-[12px]     font-500 ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-[#000000]"}`}>
   customerhappiness@ead.gov.ae
   </p>
 </a>
@@ -143,7 +143,7 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
 
           </h4>
           <a href="https://www.ead.gov.ae/" target="_blank" rel="noopener noreferrer" className=" cursor-pointer">
-          <p className={`text-[12px] laptop_lg:text-[16px]    font-500 ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-[#000000]"}`}>
+          <p className={`text-[12px]     font-500 ${isDarkMode ? "text-[#FFFFFFCC]/80" : "text-[#000000]"}`}>
             https://www.ead.gov.ae/
           </p>
           </a>

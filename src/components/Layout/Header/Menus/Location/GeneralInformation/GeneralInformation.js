@@ -56,7 +56,7 @@ export default function GeneralInformation({ onClose }) {
     }`}
     onClick={onClose}
   >
-    <X className="h-6 w-6" />
+    <X className={`h-6 ${isDarkMode && " backdrop-invert-0 text-white"} w-6`} />
   </button>
 </div>
 

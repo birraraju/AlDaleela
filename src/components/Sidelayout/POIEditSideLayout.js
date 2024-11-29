@@ -11,7 +11,9 @@
   import FeatureLayer from "@arcgis/core/layers/FeatureLayer";  
   import RoleServices from '../servicces/RoleServices';
   import config from '../Common/config'; // Import your config file
-  
+  import LeftArrow from "../../assets/Droppedpin/leftArrow.svg"
+  import RigthArrow from "../../assets/Droppedpin/RigthArrow.svg"
+
 
   import { X } from "lucide-react";
   import DarkLocation from '../../assets/Droppedpin/Dropped Pin.svg';
@@ -38,6 +40,13 @@
     const [queryresults , setQueryResults]=useState("");
     const [uploadedFiles, setUploadedFiles] = useState([]); // Store the uploaded files
     const [isBookMarkClick,setBookMarkClick]=useState(false)
+    const [isBookMarked, setIsBookMarked] = useState(false)
+    const [userBookmarkIds,setuserBookmarkIds]= useState([])
+
+    const [POIPoints, setPOIPoinst] = useState({
+      CurrentPoint:0,
+      TotalPoints:0
+    })
     console.log("POI Share status:", POIShareShow)
 
 
@@ -55,6 +64,14 @@
       setIsOpen(prev => !prev); // Toggle visibility
       setToggleCount(prev => prev + 1); // Increment toggle count
     };
+
+    const handleRigthPOIPoint = ()=>{
+      console.log("RigthPOI clicked!")
+    }
+
+    const handleLeftPOIPoint = ()=>{
+      console.log("LeftPOI clicked!")
+    }
 
     // Completely closes the side panel
     const closePanel = () => {
@@ -89,9 +106,24 @@
 
     useEffect(()=>{
       handleBookmarkEvent("onload");
-    },[popupselectedgeo])
+      const numbers = userBookmarkIds;
+      const target = popupselectedgeo?.feature?.attributes?.OBJECTID;
+      console.log("Passed Geo POI edit:",target)
+      console.log("Passed userIds POI edit:",userBookmarkIds)
+
+      const result = numbers.some(num => num === target);
+      if(result){
+        setIsBookMarked(true)
+      }else{
+        setIsBookMarked(false)
+      }
+    },[popupselectedgeo,userBookmarkIds])
 
     const handleInsertBookmarkData = async(res)=>{
+      if(isBookMarked){
+        alert("Bookmark Already Marked!")
+        return ;
+      }
       if(res){
         try {
           if(res.features[0].attributes.name_en === undefined){
@@ -115,6 +147,7 @@
             UserActivityLog(profiledetails, "Bookmark Added")  
             setBookMarkClick(false)
             alert(data.message === "Bookmark created successfully." && (isLangArab ?"تم إنشاء الإشارة المرجعية بنجاح.":"Bookmark created successfully."));
+            fetchBookmarks()
           }
           else{
             //console.log(data)         
@@ -127,67 +160,36 @@
       }
     }
 
-    // const handleBookmarkEvent = async(e) =>{
-    //   //alert(popupselectedgeo.graphic[0].geometry.x)
-    //   let layerUrl =''
-    //   let Objectid =''
-    //   if(popupselectedgeo?.layerName){
-    //     // Find the URL for the "Terrestrial"
-    //     const terrestrialLayerConfig = config.featureServices.find(service => 
-    //       service.name === popupselectedgeo?.layerName // Find the service by name
-    //     );
-    //     layerUrl = terrestrialLayerConfig?.url;
-    //     Objectid = "OBJECTID="+popupselectedgeo?.feature?.attributes?.OBJECTID;
-    //   }
-    //   else if(popupselectedgeo?.layer?.layerId !== null && popupselectedgeo?.layer?.layerId !== 'undefined'){
-    //     layerUrl = popupselectedgeo?.layer?.url+"/"+popupselectedgeo?.layer?.layerId;
-    //     Objectid = "OBJECTID="+popupselectedgeo?.attributes?.OBJECTID;
-    //   }else{
-    //     layerUrl = popupselectedgeo?.layer?.url
-    //     Objectid = "OBJECTID="+popupselectedgeo?.attributes?.OBJECTID;
-    //   }
-    //   let featureLayer = new FeatureLayer({
-    //     url : layerUrl
-    //   })
-    //   // Now you can safely access spatialReference
-    //     //const projectedPoint = projection.project(popupselectedgeo.mapPoint, featureLayer.spatialReference);
-
-    //     let query = featureLayer.createQuery();
-    //     //query.geometry = projectedPoint;
-    //     query.where = Objectid
-    //     //query.where = "OBJECTID="+popupselectedgeo.graphic.attributes.OBJECTID
-    //     query.returnGeometry = true;
-    //     query.outFields = ['*'];
     
-    //     // Execute the query
-    //     featureLayer.queryFeatures(query).then(function(response) {
-    //       console.log('Features found:', response.features);
-    //       if(e !== "onload"){
-    //         handleInsertBookmarkData(response);
-    //       }
-    //       else{
-    //         //setIsEditPOI(true);
-    //         setQueryResults(response)
-    //       }          
-    //     });
-    //   // Wait for the layer to load     
+  const fetchBookmarks = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/Bookmarks/${profiledetails.email}`);
 
-    //   // const query = new Query();
-    //   // query.geometry = popupselectedgeo.mapPoint; // Use the clicked map point
-    //   // query.spatialRelationship = 'intersects'; // Define the spatial relationship
-    //   // query.returnGeometry = true; // Return geometry
-    //   // query.outFields = ['*']; // Specify fields to return
-    //   // query.outSpatialReference = { wkid: 3857 };
-    //   // // Execute the query
-    //   // try {
-    //   //   const response = await featureLayer.queryFeatures(query);
-    //   //   console.log('Features found:', response.features);
-    //   //   // Handle the features (e.g., display them on the map)
-    //   //   handleInsertBookmarkData(response);
-    //   // } catch (error) {
-    //   //   console.error('Query failed:', error);
-    //   // }
-    // };
+      // Check if the response is ok (status code 200-299)
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const res = await response.json();
+      if(res.success){              
+        const objectIds = res.data.map(feature => feature.objectid);
+        if(objectIds.length > 0){
+          setuserBookmarkIds(objectIds)
+        }
+      }
+      else{
+        //console.log(data)           
+      }
+      
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  useEffect(() => {   
+
+    fetchBookmarks();
+  }, []); // Empty dependency array means this effect runs once on mount
 
     const handleBookmarkEvent = async (eventType) => {
       if(eventType === "click"){
@@ -253,7 +255,7 @@
         setIsAuthPopUp(true);
       }
     }
-    console.log("Edit POI Status:", isEditShowPOI)
+    console.log("Edit POI Status:", userBookmarkIds)
 
     return (
       <div
@@ -275,7 +277,7 @@
                 <img src={isDarkMode ? DarkLocation : Location }alt="Location" className={`"h-6 w-5" ${isLangArab && "mr-1 sm:mr-2"}`} />
                 <p className={`font-semibold    ${
                       isDarkMode ? "text-white" : "text-gray-600"
-                    }`}> <h1 className=" text-[12px]">{queryresults.features[0].attributes.name_ar}</h1>
+                    }`}> <h1 className=" font-cairo text-[12px]">{queryresults.features[0].attributes.name_ar}</h1>
                     <h2 className=" text-[12px]">{queryresults.features[0].attributes.name_en}</h2></p>
                     {!POIShareShow && <div className={`flex justify-center items-center absolute ${isLangArab?"-left-1":"right-3"} -top-2   p-2 transition-colors h-10 cursor-pointer z-50`}>
   {/* POI Share Icon */}
@@ -312,7 +314,7 @@
   <img
     src={POILabelMark}
     alt="Location Mark"
-    className={`${ isDarkMode ? ( isBookMarkClick ? "invert brightness-0 text-yellow-600":"invert brightness-0 text-white ") : " "} h-full`}
+    className={`${ isBookMarked? "invert brightness-0 text-white": isDarkMode ? ( isBookMarkClick ? "invert brightness-0 text-white":" invert brightness-0 text-white") :( isBookMarkClick ? "invert brightness-0 text-white":" ")} h-full`}
   />
 </button>
 
@@ -331,6 +333,7 @@
   </button>
 </div>}       </div>}
               <div className={`${POIShareShow?"mt-3":"mt-20"} overflow-y-auto`}>
+                {!isEditShowPOI && <div dir={isLangArab && "rtl"} className=" w-[95%] flex justify-end items-center"><span className=" flex justify-between gap-0.5  items-center"> <button onClick={handleLeftPOIPoint}><img src={LeftArrow} alt="" className={`w-2.5 ${isLangArab && " rotate-180"} h-2.5`} /></button> <span className= {`flex justify-between gap-0.5 items-center ${ isDarkMode?"text-white":"text-[#808080]"} font-500 text-[12px]`}><p>{POIPoints.CurrentPoint}</p> <p>of</p> <p>{POIPoints.TotalPoints}</p></span>  <button onClick={handleRigthPOIPoint} ><img src={RigthArrow} alt="" className={`w-2.5 ${isLangArab && " rotate-180"} h-2.5 ${isDarkMode && " text-white"} `} /></button></span></div>}
               {POIShareShow && <POShareForm  onClose={()=>{setPOIFormShow(true);setPOIShareShow(false);}} queryresults={queryresults}/>}
              {(isEditShowPOI||POIFormShow) && <POIEditForm isLangArab={isLangArab} isEditShowPOI={isEditShowPOI}  setIsShowEditPOI={setIsShowEditPOI}  POIFormShow={POIFormShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow} queryresults={queryresults} setIsEditPOI={setIsEditPOI} uploadedFiles={uploadedFiles} setPOImessageShow={setPOImessageShow} setPOIFormsuccessShow={setPOIFormsuccessShow} setPOIFormisOpenModalShow={setPOIFormisOpenModalShow} setUploadedFiles={setUploadedFiles}/>}
               <POIEditFileUploader isLangArab={isLangArab} setPOImessageShow={setPOImessageShow} setPOIFormsuccessShow={setPOIFormsuccessShow} POIFormUploader={POIFormUploader} setPOIFormisOpenModalShow={setPOIFormisOpenModalShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow} queryresults={queryresults} uploadedFiles={uploadedFiles} setUploadedFiles={setUploadedFiles}/>

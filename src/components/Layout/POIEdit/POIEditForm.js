@@ -59,6 +59,7 @@ const Component = ({
   const [organizationOptions, setOrganizationOptions] = useState([]);
   const [statusOptions, setStatusOptions] = useState([]);
   const [municipalityOptions, setMunicipalityOptions] = useState([]);
+  const [classOption, setClassOptions] = useState([]);
 
   const audioRefs = useRef([]); // Array of refs for each audio
   const [playingIndex, setPlayingIndex] = useState(null); // Track which audio is playing
@@ -126,6 +127,7 @@ const Component = ({
         const newOrganizationOptions = [];
         const newStatusOptions = [];
         const newMunicipalityOptions = [];
+        const newClassOptions = [];
 
         domainFields.forEach((field) => {
           const options = field.domain.codedValues.map((codedValue) => ({
@@ -143,6 +145,9 @@ const Component = ({
             case "MunicipalityAr":
               newMunicipalityOptions.push(...options);
               break;
+            case "Class":
+              newClassOptions.push(...options);
+              break;
             default:
               console.warn(`Unhandled field: ${field.fieldName}`);
           }
@@ -152,6 +157,7 @@ const Component = ({
         setOrganizationOptions(newOrganizationOptions);
         setStatusOptions(newStatusOptions);
         setMunicipalityOptions(newMunicipalityOptions);
+        setClassOptions(newClassOptions);
       } catch (error) {
         console.error("Error fetching domains:", error);
       }
@@ -223,12 +229,11 @@ const Component = ({
     featchattachments();
   }, [queryresults]);
 
-  useEffect(()=>{
-    if(!((videos.length > 0) ||( audios.length > 0)||(images.length > 0))) {
-      setIsShowMore(true)
-      
+  useEffect(() => {
+    if (!(videos.length > 0 || audios.length > 0 || images.length > 0)) {
+      setIsShowMore(true);
     }
-  },[videos,audios,images])
+  }, [videos, audios, images]);
 
   const handleAudioLoadedMetadata = (index) => {
     const audioElement = audioRefs.current[index];
@@ -494,7 +499,11 @@ const Component = ({
             id={id}
             value={poiData[id]}
             onChange={handleChange}
-            className="block w-full p-2 rounded-md text-black text-[13px] h-9 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            className={` ${
+              id === "organization" || id === "MunicipalityAr"
+                ? " font-cairo"
+                : ""
+            } block w-full p-2 rounded-md text-black text-[13px] h-9 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500`}
           >
             {options.length > 0 && (
               <>
@@ -520,34 +529,69 @@ const Component = ({
             value={poiData[id]}
             disabled={disable}
             onChange={handleChange}
-            className="block text-[13px] h-9 w-full rounded-md p-2 text-black bg-[#FFFFFF] border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            className={` ${
+              id === "organization" || id === "MunicipalityAr"
+                ? " font-cairo"
+                : ""
+            } block text-[13px] h-9 w-full rounded-md p-2 text-black bg-[#FFFFFF] border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500`}
           />
         )
       ) : (
-        value && (
-          <div className=" relative">
-            {value && !isEditShowPOI && (
-              <label
-                htmlFor={id}
-                className={`block absolute ${
-                  isLangArab ? " right-2" : " left-2"
-                } top-2  text-[14px]  font-semibold ${
-                  isDarkMode ? " text-[#303030]" : " text-[#303030]"
-                }`}
+        value &&
+        (value?.length > 30 ? (
+          <>
+            <div dir={isLangArab && "rtl"} className=" border flex flex-col p-2 border-transparent rounded-md  bg-[#FFFFFF]">
+              {value && !isEditShowPOI && (
+                 <label
+                 htmlFor={id}
+                 className={`block text-[14px] font-semibold ${
+                   isDarkMode ? "text-[#303030]" : "text-[#303030]"
+                 }`}
+               >
+                 {label}
+               </label>
+              )}
+              <p
+      className={`input-fields break-words  ${
+        (id === "organization" || id === "MunicipalityAr") ? "font-cairo font-700" : " font-600 "
+      } ${isLangArab ? "text-left" : "text-rigth"} 
+         h-auto w-full text-[14px] rounded-lg text-[#399C72] `}
+    >
+      {value}
+    </p>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className=" relative">
+              {value && !isEditShowPOI && (
+                <label
+                  htmlFor={id}
+                  className={`block  absolute ${
+                    isLangArab ? " right-2" : " left-2"
+                  } top-2  text-[14px]  font-semibold ${
+                    isDarkMode ? " text-[#303030]" : " text-[#303030]"
+                  }`}
+                >
+                  {label}
+                </label>
+              )}
+              <p
+                className={` border ${value ? "p-2" : "p-5"} ${
+                  id === "organization" || id === "MunicipalityAr"
+                    ? " font-cairo"
+                    : ""
+                }   input-fields ${
+                  isLangArab ? "text-left" : "text-right"
+                } w-auto    laptop_s:h-[39px]    h-9 text-[14px] rounded-lg text-[#399C72] font-600 bg-[#FFFFFF]`}
               >
-                {label}
-              </label>
-            )}
-            <p
-              className={` border ${value ? "p-2" : "p-5"}  input-fields ${
-                isLangArab ? "text-left" : "text-right"
-              } w-auto    laptop_s:h-[39px]    h-9 text-[14px] rounded-lg text-[#399C72] font-medium bg-[#FFFFFF]`}
-            >
-              {" "}
-              {value?.length > 40 ? `${value.substring(0, 20)}` : value}
-            </p>
-          </div>
-        )
+                {" "}
+                {/* {value?.length > 40 ? `${value.substring(0, 20)}` : value} */}
+                {value}
+              </p>
+            </div>
+          </>
+        ))
       )}
     </div>
   );
@@ -579,7 +623,9 @@ const Component = ({
             {renderFieldOrText(
               "Class",
               isLangArab ? "الفئة" : "Class",
-              queryresults.features[0].attributes.Class
+              queryresults.features[0].attributes.Class,
+              classOption,
+              "select"
             )}
 
             {renderFieldOrText(
@@ -673,43 +719,208 @@ const Component = ({
 
             </>} */}
 
-            {(!isEditShowPOI && ((videos.length > 0) ||( audios.length > 0)||(images.length > 0))) && (
-              <div dir={isLangArab && "rtl"} className=" flex justify-end ">
-                <button
-                  className=" text-[#028DC8] font-medium text-[12px] underline"
-                  onClick={() => setIsShowMore(!isShowMore)}
-                >
-                  {isShowMore
-                    ? isLangArab
-                      ? "يخفي"
-                      : "Hide"
-                    : isLangArab
-                    ? "أكثر"
-                    : "More"}{" "}
-                  {isLangArab ? "معلومات" : "Info"}
-                </button>
-              </div>
-            )}
+            {!isEditShowPOI &&
+              (videos.length > 0 || audios.length > 0 || images.length > 0) && (
+                <div dir={isLangArab && "rtl"} className=" flex justify-end ">
+                  <button
+                    className=" text-[#028DC8] font-medium text-[12px] underline"
+                    onClick={() => setIsShowMore(!isShowMore)}
+                  >
+                    {isShowMore
+                      ? isLangArab
+                        ? "يخفي"
+                        : "Hide"
+                      : isLangArab
+                      ? "أكثر"
+                      : "More"}{" "}
+                    {isLangArab ? "معلومات" : "Info"}
+                  </button>
+                </div>
+              )}
             {/* Photos Section */}
             <div
               dir={isLangArab && "rtl"}
-              className={`px-3 py-4  border border-none rounded-lg bg-white translate-y-2 space-y-4 ${((videos.length > 0) ||( audios.length > 0)||(images.length > 0)) ?"block":"hidden"}`}
+              className={`px-3 py-4  border border-none rounded-lg bg-white translate-y-2 space-y-4 ${
+                videos.length > 0 || audios.length > 0 || images.length > 0
+                  ? "block"
+                  : "hidden"
+              }`}
             >
-              { (images.length > 0) && <div dir={isLangArab && "rtl"}>
-                <h3 className="text-[14px] text-[#303030] font-medium mb-2">
-                  {isLangArab ? "صور" : "Photos"}
-                </h3>
-                <div className=" grid grid-cols-2 gap-2 ">
-                  {images.length > 0 ? (
-                    images.map((image, index) => (
+              {images.length > 0 && (
+                <div dir={isLangArab && "rtl"}>
+                  <h3 className="text-[14px] text-[#303030] font-medium mb-2">
+                    {isLangArab ? "صور" : "Photos"}
+                  </h3>
+                  <div className=" grid grid-cols-2 gap-2 ">
+                    {images.length > 0 ? (
+                      images.map((image, index) => (
+                        <div
+                          key={index}
+                          className="relative m-2 w-full h-[90px] rounded-lg overflow-hidden"
+                        >
+                          <img
+                            src={image.url}
+                            alt={image.name}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      ))
+                    ) : (
+                      <p
+                        className={`${
+                          isDarkMode ? " text-white" : "text-[#303030]"
+                        } text-[12px]  `}
+                      >
+                        {isLangArab
+                          ? "لا توجد صور متاحة."
+                          : "No photos available."}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Videos Section */}
+              {videos.length > 0 && (
+                <div className=" z-20">
+                  <h3 className="text-[14px] font-medium text-[#303030] mb-2">
+                    {isLangArab ? "فيديوهات" : "Videos"}
+                  </h3>
+                  {videos.length > 0 ? (
+                    <div className="grid grid-cols-2 gap-2">
+                      {videos.map((video, index) => (
+                        <div
+                          key={index}
+                          className="relative h-[90px] rounded-lg overflow-hidden"
+                        >
+                          {/* Video thumbnail with poster */}
+                          <video
+                            id={`video-${index}`}
+                            src={video.url}
+                            className="w-full h-full object-fill"
+                            poster={PlayThumbPOI} // Thumbnail image
+                            controls={false} // Disable controls until play
+                            onClick={() => {
+                              const videoElement = document.getElementById(
+                                `video-${index}`
+                              );
+                              const playButton = document.getElementById(
+                                `play-button-${index}`
+                              );
+
+                              if (videoElement) {
+                                if (!videoElement.paused) {
+                                  videoElement.pause(); // Pause the video
+                                  if (playButton)
+                                    playButton.style.display = "flex"; // Show the play button
+                                } else {
+                                  videoElement.play(); // Resume video playback
+                                  if (playButton)
+                                    playButton.style.display = "none"; // Hide the play button
+                                }
+                              }
+                            }}
+                            onPlay={() => {
+                              const playButton = document.getElementById(
+                                `play-button-${index}`
+                              );
+                              if (playButton) playButton.style.display = "none"; // Hide play button on play
+                            }}
+                            onPause={() => {
+                              const playButton = document.getElementById(
+                                `play-button-${index}`
+                              );
+                              if (playButton) playButton.style.display = "flex"; // Show play button on pause
+                            }}
+                          />
+
+                          {/* Play button overlay */}
+                          <button
+                            id={`play-button-${index}`}
+                            className="absolute inset-0 z-10 bg-black/50 hover:bg-black/70 flex items-center justify-center"
+                            onClick={() => {
+                              const videoElement = document.getElementById(
+                                `video-${index}`
+                              );
+                              if (videoElement) {
+                                videoElement.play(); // Start video playback
+                                // videoElement.setAttribute("controls", "true"); // Show controls after play starts
+                              }
+                            }}
+                          >
+                            <img
+                              src={PlayIconPOI} // Play button image
+                              alt="Play button"
+                              className="w-10 h-10"
+                            />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p
+                      className={`${
+                        isDarkMode ? " text-white" : "text-[#303030]"
+                      } text-[12px]  `}
+                    >
+                      {isLangArab
+                        ? "لا توجد مقاطع فيديو متاحة."
+                        : "No videos available."}
+                    </p>
+                  )}
+                </div>
+              )}
+              {/* Audio Section */}
+              {audios.length > 0 && (
+                <div>
+                  <h3 className="text-[12px] font-medium mb-2 text-[#303030]">
+                    {isLangArab ? "صوتي" : "Audio"}
+                  </h3>
+                  {audios.length > 0 ? (
+                    audios.map((audio, index) => (
                       <div
                         key={index}
-                        className="relative m-2 w-full h-[90px] rounded-lg overflow-hidden"
+                        className="flex p-2 h-10 bg-gray-300 rounded-full justify-start items-center overflow-hidden"
                       >
-                        <img
-                          src={image.url}
-                          alt={image.name}
-                          className="w-full h-full object-cover"
+                        <button onClick={() => handlePlayAudio(index)}>
+                          {playingIndex === index ? (
+                            <img
+                              src={AudioPlayPOI}
+                              alt="Audio Wave"
+                              className={` ${
+                                isLangArab && "rotate-180"
+                              } w-[70%] h-full`}
+                            />
+                          ) : (
+                            <img
+                              src={AudioPlayPOI}
+                              alt="Audio Wave"
+                              className={`w-[70%] h-full ${
+                                isLangArab && "rotate-180"
+                              }`}
+                            />
+                          )}
+                        </button>
+                        <div className="relative w-[95%] h-full">
+                          <img
+                            src={AudioLineStylePOI}
+                            alt="Audio Wave"
+                            className={` w-full h-full`}
+                            style={{
+                              filter: `hue-rotate(${
+                                (audioRefs.current[index]?.currentTime /
+                                  audioRefs.current[index]?.duration || 0) * 360
+                              }deg)`,
+                            }}
+                          />
+                        </div>
+                        <audio
+                          ref={(el) => (audioRefs.current[index] = el)}
+                          src={audio.url}
+                          onLoadedMetadata={() =>
+                            handleAudioLoadedMetadata(index)
+                          }
+                          onEnded={handleAudioEnded}
                         />
                       </div>
                     ))
@@ -720,167 +931,12 @@ const Component = ({
                       } text-[12px]  `}
                     >
                       {isLangArab
-                        ? "لا توجد صور متاحة."
-                        : "No photos available."}
+                        ? "لا توجد ملفات صوتية متاحة."
+                        : "No audio files available."}
                     </p>
                   )}
                 </div>
-              </div>}
-
-              {/* Videos Section */}
-             {(videos.length > 0) && <div className=" z-20">
-                <h3 className="text-[14px] font-medium text-[#303030] mb-2">
-                  {isLangArab ? "فيديوهات" : "Videos"}
-                </h3>
-                {videos.length > 0 ? (
-                  <div className="grid grid-cols-2 gap-2">
-                    {videos.map((video, index) => (
-                      <div
-                        key={index}
-                        className="relative h-[90px] rounded-lg overflow-hidden"
-                      >
-                        {/* Video thumbnail with poster */}
-                        <video
-                          id={`video-${index}`}
-                          src={video.url}
-                          className="w-full h-full object-fill"
-                          poster={PlayThumbPOI} // Thumbnail image
-                          controls={false} // Disable controls until play
-                          onClick={() => {
-                            const videoElement = document.getElementById(
-                              `video-${index}`
-                            );
-                            const playButton = document.getElementById(
-                              `play-button-${index}`
-                            );
-
-                            if (videoElement) {
-                              if (!videoElement.paused) {
-                                videoElement.pause(); // Pause the video
-                                if (playButton)
-                                  playButton.style.display = "flex"; // Show the play button
-                              } else {
-                                videoElement.play(); // Resume video playback
-                                if (playButton)
-                                  playButton.style.display = "none"; // Hide the play button
-                              }
-                            }
-                          }}
-                          onPlay={() => {
-                            const playButton = document.getElementById(
-                              `play-button-${index}`
-                            );
-                            if (playButton) playButton.style.display = "none"; // Hide play button on play
-                          }}
-                          onPause={() => {
-                            const playButton = document.getElementById(
-                              `play-button-${index}`
-                            );
-                            if (playButton) playButton.style.display = "flex"; // Show play button on pause
-                          }}
-                        />
-
-                        {/* Play button overlay */}
-                        <button
-                          id={`play-button-${index}`}
-                          className="absolute inset-0 z-10 bg-black/50 hover:bg-black/70 flex items-center justify-center"
-                          onClick={() => {
-                            const videoElement = document.getElementById(
-                              `video-${index}`
-                            );
-                            if (videoElement) {
-                              videoElement.play(); // Start video playback
-                              // videoElement.setAttribute("controls", "true"); // Show controls after play starts
-                            }
-                          }}
-                        >
-                          <img
-                            src={PlayIconPOI} // Play button image
-                            alt="Play button"
-                            className="w-10 h-10"
-                          />
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p
-                    className={`${
-                      isDarkMode ? " text-white" : "text-[#303030]"
-                    } text-[12px]  `}
-                  >
-                    {isLangArab
-                      ? "لا توجد مقاطع فيديو متاحة."
-                      : "No videos available."}
-                  </p>
-                )}
-              </div>
-}
-              {/* Audio Section */}
-              {audios.length > 0 && <div>
-                <h3 className="text-[12px] font-medium mb-2 text-[#303030]">
-                  {isLangArab ? "صوتي" : "Audio"}
-                </h3>
-                {audios.length > 0 ? (
-                  audios.map((audio, index) => (
-                    <div
-                      key={index}
-                      className="flex p-2 h-10 bg-gray-300 rounded-full justify-start items-center overflow-hidden"
-                    >
-                      <button onClick={() => handlePlayAudio(index)}>
-                        {playingIndex === index ? (
-                          <img
-                            src={AudioPlayPOI}
-                            alt="Audio Wave"
-                            className={` ${
-                              isLangArab && "rotate-180"
-                            } w-[70%] h-full`}
-                          />
-                        ) : (
-                          <img
-                            src={AudioPlayPOI}
-                            alt="Audio Wave"
-                            className={`w-[70%] h-full ${
-                              isLangArab && "rotate-180"
-                            }`}
-                          />
-                        )}
-                      </button>
-                      <div className="relative w-[95%] h-full">
-                        <img
-                          src={AudioLineStylePOI}
-                          alt="Audio Wave"
-                          className={` w-full h-full`}
-                          style={{
-                            filter: `hue-rotate(${
-                              (audioRefs.current[index]?.currentTime /
-                                audioRefs.current[index]?.duration || 0) * 360
-                            }deg)`,
-                          }}
-                        />
-                      </div>
-                      <audio
-                        ref={(el) => (audioRefs.current[index] = el)}
-                        src={audio.url}
-                        onLoadedMetadata={() =>
-                          handleAudioLoadedMetadata(index)
-                        }
-                        onEnded={handleAudioEnded}
-                      />
-                    </div>
-                  ))
-                ) : (
-                  <p
-                    className={`${
-                      isDarkMode ? " text-white" : "text-[#303030]"
-                    } text-[12px]  `}
-                  >
-                    {isLangArab
-                      ? "لا توجد ملفات صوتية متاحة."
-                      : "No audio files available."}
-                  </p>
-                )}
-              </div>}
+              )}
             </div>
 
             {isEditShowPOI && (
@@ -933,20 +989,43 @@ const Component = ({
               </>
             )}
 
-            <div
-              className={`text-[12px] py-2 w-[95%] ${((videos.length > 0) ||( audios.length > 0)||(images.length > 0)) ? " ": " absolute bottom-1" } flex justify-center items-center  ${
-                isDarkMode ? "text-white" : "text-gray-500"
-              } sm:px-12 px-7`}
-            >
-              X 54.2971051, Y 24.0622842
-            </div>
+            {(videos.length > 0 || audios.length > 0 || images.length > 0) &&
+            !isEditShowPOI ? (
+              <div
+                dir={isLangArab && "rtl"}
+                className={`text-[12px] py-2 w-[95%]  flex justify-center items-center  ${
+                  isDarkMode ? "text-white" : "text-gray-500"
+                } sm:px-12 px-7`}
+              >
+                X 54.2971051, Y 24.0622842
+              </div>
+            ) : !isEditShowPOI ? (
+              <div
+                dir={isLangArab && "rtl"}
+                className={`text-[12px] py-2 w-[95%] absolute -bottom-1   flex justify-center gap-1 items-center  ${
+                  isDarkMode ? "text-white" : "text-gray-500"
+                } sm:px-12 px-7`}
+              >
+                <p> X 54.2971051</p>,<p> Y 24.0622842</p>
+              </div>
+            ) : (
+              <div
+                className={`text-[12px] py-2 w-[95%]  flex justify-center gap-1 items-center  ${
+                  isDarkMode ? "text-white" : "text-gray-500"
+                } sm:px-12 px-7`}
+              >
+                <p>X 54.2971051</p>,<p> Y 24.0622842</p>
+              </div>
+            )}
 
             {/* Action Buttons */}
             {isEditShowPOI && (
-              <div className="flex justify-center space-x-8 items-center">
+              <div className="flex justify-center py-1 space-x-8 items-center">
                 <button
                   onClick={() => setIsShowEditPOI(false)}
-                  className="w-auto py-3 px-9 outline-none bg-transparent text-xs text-black border border-[#909090] rounded-lg"
+                  className={`w-auto py-3 px-14 outline-none bg-transparent text-xs ${
+                    isDarkMode ? " text-white" : "text-[#505050]"
+                  } border border-[#909090] rounded-lg`}
                 >
                   {isLangArab ? "يلغي" : "Cancel"}
                 </button>
@@ -954,7 +1033,7 @@ const Component = ({
                   onClick={() => {
                     handleAttributesUpdate();
                   }}
-                  className="w-auto py-3 px-9 bg-custom-gradient text-xs border border-gray-300 rounded-lg"
+                  className="w-auto py-3 px-14 bg-custom-gradient text-xs border border-transparent rounded-lg"
                 >
                   {isLangArab ? "تحديث" : "Update"}
                 </button>

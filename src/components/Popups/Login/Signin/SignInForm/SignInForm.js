@@ -159,10 +159,10 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
         <div className="flex justify-between items-center">
           <div className="flex items-center space-x-1">
             {/* <Checkbox className={`${isDarkMode ? "bg-gray-400 border-gray-700" : "bg-white"}`} /> */}
-            <button onClick={()=>setIsRemember((pre)=> !pre)}><img src={isRemember?ClickRemember:NotClickRemember} className=" w-4 h-4" alt="" /></button>
-            <Label className={`${isDarkMode ? ' text-white/80' : ' text-black/90'} text-[14px] font-[400]`}>
-              {form.formState.isValid ? "Remember me" : isLangArab ? "البقاء مسجلًا":"Stay logged in"}
-            </Label>
+            <label onClick={()=>{setIsRemember((pre)=> !pre)}}><img src={isRemember?ClickRemember:NotClickRemember} className=" w-4 h-4" alt="" /></label>
+            <label className={`${isDarkMode ? ' text-white/80' : ' text-black/90'} text-[14px] font-[400]`}>
+              {(form.formState.isValid) ? "Remember me" : isLangArab ? "البقاء مسجلًا":"Stay logged in"}
+            </label>
           </div>
 
           <div

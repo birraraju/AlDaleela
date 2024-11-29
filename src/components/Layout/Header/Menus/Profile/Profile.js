@@ -176,7 +176,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
             <div className={`${isLangArab?"mr-1 ml-1":"ml-1"} hidden sm:block`}>
               <img
                 //src={`${((role === "admin")||(role === "user")) ? AdminLogo : ProfileLogo}`} // الملف الشخصي
-                src={profiledetails && profiledetails.imageUrl ? profiledetails.imageUrl : ProfileLogo}
+                src={profiledetails && profiledetails.imageUrl ? profiledetails.imageUrl : AdminLogo}
                 alt="Profile"
                 className="mobile_s:w-14 mobile_s:h-7 tab_l:w-10 tab_l_1:w-7  tab:w-20 tab:h-7 tab:h- laptop_s:w-6 laptop_s:h-6 laptop_m:w-6 laptop_m:h-6 w-8 h-8 rounded-full object-cover"
               />
@@ -193,9 +193,9 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
         </PopoverTrigger>
 
         <PopoverContent
-          className={` mt-3 w-[240px]  ${isLangArab?" mobile_s:w-[240px]":"mobile_s:w-[250px]"} tab:w-[250px] laptop_s:w-[260px] laptop_m:w-[258px] border bg-opacity-90
+          className={` mt-3 w-[240px]  ${isLangArab?" mobile_s:w-[240px] sm:ml-8 ml-2 ":"sm:mr-8 mr-2 mobile_s:w-[250px]"} tab:w-[250px] laptop_s:w-[260px] laptop_m:w-[258px] border bg-opacity-90
                       ${isDarkMode ? "bg-gray-900 border-gray-700" : "bg-white border-white"}
-                      backdrop-blur-xl p-4 rounded-2xl shadow-lg z-10 sm:mr-8 mr-2`}
+                      backdrop-blur-xl p-4 rounded-2xl shadow-lg z-10 `}
         >
         <ProfileDetails
             role={role}
@@ -227,7 +227,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
           ) : (
             <div onClick={handleLogout} className="flex cursor-pointer justify-start items-center gap-2">
       <HiOutlineLogout
-        className={`mx-1  text-[20px] ${isDarkMode ? "border-white  border-opacity-80 text-white" : ""}`}
+        className={`mx-1 ${isLangArab && " rotate-180"}  text-[20px] ${isDarkMode ? "border-white  border-opacity-80 text-white" : ""}`}
         style={{ color: isDarkMode ? '#FFFFFFCC' : '#505050' }}
       />
               <p className={`font-500   text-[14px] tab:text-[12px] laptop_s:text-[16px] ${isDarkMode ? "text-gray-300" : "text-[#505050]"}`}>

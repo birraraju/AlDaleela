@@ -1,6 +1,8 @@
 import { useRef, useEffect, useState } from "react";
 import { XIcon } from "lucide-react";
 import Logo from "../../../../assets/GreenLogo.svg";
+import Darklogo from "../../../../assets/Whitelogo.svg";
+
 import SignInForm from "./SignInForm/SignInForm";
 import { useTheme } from '../../../Layout/ThemeContext/ThemeContext'; // Import the theme context
 
@@ -42,7 +44,7 @@ export default function Signin({ onClose, onSignupClick, onForgotPasswordClick }
           <XIcon className="w-5 h-5" />
         </button>
         <div className="flex justify-center mb-4">
-          <img src={Logo} alt="Logo" className="h-12" />
+          <img src={ isDarkMode? Darklogo :Logo} alt="Logo" className="h-12" />
         </div>
         <h2 className={`  text-[28px] leading-tight text-${isDarkMode ? '[#FFFFFFCC] text-opacity-80' : 'black'} mb-1 font-medium`}>
           {isLangArab?"مرحبًا بعودتك":"Welcome Back"}

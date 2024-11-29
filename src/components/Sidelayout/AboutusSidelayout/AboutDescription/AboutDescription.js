@@ -5,13 +5,13 @@ export default function AboutDescription() {
 
   return (
     <>
-      <p className={`   text-[11px] laptop_lg:text-[14px] font-medium m-0   laptop_s:mb-0 laptop_s:mt-1  ${isDarkMode ? 'text-[#FFFFFFCC] text-opacity-80' : 'text-[#505050]'} leading-5 mb-3`}>
-      {isLangArab ? " حماية الموارد الطبيعية في أبوظبي من أجل مستقبل مستدام" : "Safeguarding Abu Dhabi's natural resources for a sustainable future."}
+      <p className={`   text-[11px] laptop_lg:text-[14px] font-medium m-0    laptop_s:mb-0 laptop_s:mt-1  ${isDarkMode ? 'text-[#FFFFFFCC] text-opacity-80' : 'text-[#505050]'} leading-[21px] mb-3`}>
+      {isLangArab ? " حماية الموارد الطبيعية في أبوظبي من أجل مستقبل مستدام" : <>Safeguarding Abu Dhabi's natural resources for a <br /> sustainable future.</>}
       </p>
 
-      <div className="">
+      <div className=" max-w-[418px] leading-[24px]">
         {content.map((item, index) => (
-          <p key={index} className={`    font-400 text-[10px]  laptop_lg:text-[12px] ${isDarkMode ? 'text-[#FFFFFFCC]' : 'text-[#505050]'} ${isLangArab?"laptop_m:leading-6":"laptop_m:leading-5"}   leading-4 `}>
+          <p key={index} className={`    font-400 text-[10px]  laptop_lg:text-[12px] ${isDarkMode ? 'text-[#FFFFFFCC]' : 'text-[#505050]'} ${isLangArab?"laptop_m:leading-[21px]":"laptop_m:leading-[21px]"}  `}>
             {isLangArab ? item.arabicDescription : item.description} {/* Display Arabic or English based on language state */}
             </p>
         ))}
@@ -23,7 +23,7 @@ export default function AboutDescription() {
 const content = [
   {
     description:
-      "EAD regulates and enforces Abu Dhabi's environmental laws to protect biodiversity and preserve the quality of life for a sustainable future.",
+      "EAD regulates and enforces Abu Dhabi's environmental laws to  protect biodiversity and preserve the quality of life for a sustainable future.",
       arabicDescription:
        "تقوم هيئة البيئة - أبوظبي بتشريع وإنفاذ القوانين البيئية في أبوظبي لحماية التنوع البيولوجي والمحافظة على جودة الحياة من أجل مستقبل مستدام."
     },
