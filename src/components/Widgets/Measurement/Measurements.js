@@ -75,61 +75,62 @@ const MeasurementsComponent = ({ mapview }) => {
   }, [mapview]);
 
   useEffect(() => {
-    // Function to update styles for the calcite-select component
     const updateCalciteSelectStyles = () => {
       const calciteSelect = document.querySelector('calcite-select');
-      if (calciteSelect?.shadowRoot) {
+      if (calciteSelect && calciteSelect.shadowRoot) {
         calciteSelect.setAttribute('size', '4');
-        calciteSelect.style.height = "40px"
+        calciteSelect.style.height = '40px';
+  
         const interactionContainer = calciteSelect.shadowRoot.querySelector('.interaction-container');
         const selectElement = interactionContainer?.querySelector('select');
   
         if (selectElement) {
-          selectElement.style.borderColor = "white";
-          selectElement.style.height = "40px";
-          selectElement.style.borderRadius = "10px";
+          selectElement.style.borderColor = 'white';
+          selectElement.style.height = '40px';
+          selectElement.style.borderRadius = '10px';
         }
-        
       }
-
+  
+      const calciteLabel = document.querySelector('calcite-label');
+      if (calciteLabel?.shadowRoot) {
+        const container = calciteLabel.shadowRoot.querySelector('.container');
+        if (container) {
+          container.style.color = isDarkMode ? 'white' : 'black';
+        }
+      }
+  
       const calciteButton = document.querySelector('calcite-button');
-
-if (calciteButton?.shadowRoot) {
-  const interactionContainer = calciteButton.shadowRoot.querySelector('.interaction-container');
-  const button = interactionContainer?.querySelector('button')
-  if (button) {
-    // Reset display to its default value
-    button.style.borderRadius = "12px";
-    button.style.height = "40px"
-    button.style.background = "linear-gradient(270.18deg, #036068 -14.27%, #596451 47.55%, #1E7C87 76.37%, #4C7950 107.69%, #1199A8 147.31%)"
-     // Removes inline "none"
-
-    // Alternatively, remove all inline styles
-    // interactionContainer.removeAttribute('style');
-  }
-}
-
+      if (calciteButton?.shadowRoot) {
+        const interactionContainer = calciteButton.shadowRoot.querySelector('.interaction-container');
+        const button = interactionContainer?.querySelector('button');
+        if (button) {
+          button.style.borderRadius = '12px';
+          button.style.height = '40px';
+          button.style.background =
+            'linear-gradient(270.18deg, #036068 -14.27%, #596451 47.55%, #1E7C87 76.37%, #4C7950 107.69%, #1199A8 147.31%)';
+        }
+      }
     };
   
-    // Create a MutationObserver to observe changes in the DOM
+    // MutationObserver to watch for DOM changes
     const buttonObserver = new MutationObserver(() => {
       updateCalciteSelectStyles();
     });
   
-    // Start observing the body for changes
     const bodyNode = document.querySelector('body');
     if (bodyNode) {
       buttonObserver.observe(bodyNode, { childList: true, subtree: true });
     }
   
-    // Initial update to ensure styles are applied immediately
+    // Initial update
     updateCalciteSelectStyles();
   
-    // Cleanup observer on component unmount
+    // Cleanup on unmount
     return () => {
       buttonObserver.disconnect();
     };
   }, []);
+  
     
 
   const handleClickDistance = () => {
