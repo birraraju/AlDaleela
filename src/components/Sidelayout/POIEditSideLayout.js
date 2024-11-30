@@ -3,7 +3,11 @@
   import Location from '../../assets/POIEdit/POIBIN.svg';
   import PoiEditShare from '../../assets/POIEdit/PoiEditShare.svg';
   import POIEditWrite from '../../assets/POIEdit/POIEditWrite.svg';
-  import POILabelMark from '../../assets/POIEdit/POILabelMark.svg';
+  import POILabelMark from '../../assets/BookmarkThemeicons/Green Outline.svg';
+  import POILabelFillMark from '../../assets/BookmarkThemeicons/Green Fill.svg';
+  import POILabelDarkMark from '../../assets/BookmarkThemeicons/White Outline.svg';
+  import POILabelDarkFillMark from '../../assets/BookmarkThemeicons/White Fill.svg';
+  
   import  POIEditForm from '../Layout/POIEdit/POIEditForm'
   import  POShareForm from '../Layout/POIEdit/POIShareForm'
   import  POIEditFileUploader from '../Layout/POIEdit/POIFileUploader'
@@ -19,7 +23,6 @@
   import DarkLocation from '../../assets/Droppedpin/Dropped Pin.svg';
   import { useTheme } from '../Layout/ThemeContext/ThemeContext'; // Import the theme context
   import { useAuth } from "../../Providers/AuthProvider/AuthProvider";
-  import BookYellow from '../../assets/bookmarks/imageBookYellow.png';
   import {UserActivityLog} from "../Common/UserActivityLog";
 
 
@@ -76,6 +79,8 @@
     // Completely closes the side panel
     const closePanel = () => {
       setIsFullyClosed(true);
+      setIsEditPOI(false)
+      onClose()
     };
 
     // Handle outside click detection (removed the close functionality)
@@ -312,9 +317,9 @@
   {/* POI Label Mark */}
   <button onClick={() => RoleServices.isAuth() ? handleBookmarkEvent('click') : setIsAuthPopUp(true)}>
   <img
-    src={POILabelMark}
+    src={isBookMarked? (isDarkMode ? POILabelDarkFillMark :POILabelFillMark): (isDarkMode ? POILabelDarkMark :POILabelMark)}
     alt="Location Mark"
-    className={`${ isBookMarked? "invert brightness-0 text-white": isDarkMode ? ( isBookMarkClick ? "invert brightness-0 text-white":" invert brightness-0 text-white") :( isBookMarkClick ? "invert brightness-0 text-white":" ")} h-full`}
+    className={` h-full`}
   />
 </button>
 
@@ -322,7 +327,7 @@
 
   {/* Close Button (X) */}
   <button
-    onClick={() => setIsEditPOI(false)}
+    onClick={closePanel}
     className={`transition-colors cursor-pointer z-50 ${
       isDarkMode ? "text-white" : "text-green-900"
     }`}  // Ensure it's clickable

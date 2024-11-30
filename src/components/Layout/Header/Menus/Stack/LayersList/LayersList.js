@@ -140,7 +140,8 @@ export default function LayersList({ onClose, mapview }) {
               htmlFor={`checkbox-${service.name}`}
               className={`   font-500 text-[14px]`}
             >
-              {service.name}
+              {service.name === "Protected" ? "Protected_Area" :service.name ==="Pearl"?"Pearl_sites_2024":service.name}
+              {/* {service.name} */}
             </label>
           </li>
           
