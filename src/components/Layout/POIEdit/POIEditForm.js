@@ -229,11 +229,11 @@ const Component = ({
     featchattachments();
   }, [queryresults]);
 
-  useEffect(() => {
-    if (!(videos.length > 0 || audios.length > 0 || images.length > 0)) {
-      setIsShowMore(true);
-    }
-  }, [videos, audios, images]);
+  // useEffect(() => {
+  //   if (!(videos.length > 0 || audios.length > 0 || images.length > 0)) {
+  //     setIsShowMore(true);
+  //   }
+  // }, [videos, audios, images]);
 
   const handleAudioLoadedMetadata = (index) => {
     const audioElement = audioRefs.current[index];
@@ -720,7 +720,7 @@ const Component = ({
             </>} */}
 
             {!isEditShowPOI &&
-              (videos.length > 0 || audios.length > 0 || images.length > 0) && (
+              // (videos.length > 0 || audios.length > 0 || images.length > 0) && (
                 <div dir={isLangArab && "rtl"} className=" flex justify-end ">
                   <button
                     className=" text-[#028DC8] font-medium text-[12px] underline"
@@ -736,7 +736,7 @@ const Component = ({
                     {isLangArab ? "معلومات" : "Info"}
                   </button>
                 </div>
-              )}
+              }
             {/* Photos Section */}
             <div
               dir={isLangArab && "rtl"}
