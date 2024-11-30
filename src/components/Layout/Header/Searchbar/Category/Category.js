@@ -114,7 +114,7 @@ export default function Category({setInputValue, setShowSearchContent, inputClic
   return (
     <div
     onClick={() => setInputClicked(false)}
-    className="absolute bottom-1 right-1.5 z-[2]"
+    className={`absolute bottom-1 ${isLangArab?"left-1.5":"right-1.5"} z-[2]`}
   >
     <button
       onClick={() => {
@@ -127,8 +127,8 @@ export default function Category({setInputValue, setShowSearchContent, inputClic
         isDarkMode ? "text-white" : "text-[#000000]"
       } z-[10] relative`} // Added relative positioning and z-index
     >
-      {(selectedCategory === "Category") ? (isLangArab ? "الفئة" : selectedCategory) : selectedCategory && selectedCategory?.length > 7 ? `${selectedCategory.substring(0, 8)}` : selectedCategory}
-      {isOpen ? <FaCaretUp className="ml-2" /> : <FaCaretDown className="ml-2" />}
+      {(selectedCategory === "Category") ? (isLangArab ? "الفئة" : selectedCategory) : selectedCategory && selectedCategory?.length > 7 ? `${selectedCategory.substring(0, isLangArab?10:8)}` : selectedCategory}
+      {isOpen ? <FaCaretUp className={`${isLangArab?"mr-2":"ml-2"}`} /> : <FaCaretDown className={`${isLangArab?"mr-2":"ml-2"}`} />}
     </button>
 
     {isOpen && (
