@@ -756,7 +756,7 @@ export default function Signup({ onClose, onSigninClick }) {
                       <ul
                         className={`absolute mt-1 grid justify-start   max-w-24 px-2 py-1 max-h-[80px] overflow-y-auto rounded-lg shadow-lg z-10 ${
                           isDarkMode
-                            ? "bg-[#FFFFFF] bg-opacity-30 text-white"
+                            ? "bg-[#FFFFFF]  text-black"
                             : "bg-white text-black"
                         }`}
                       >
@@ -768,7 +768,7 @@ export default function Signup({ onClose, onSigninClick }) {
                               setSelectedCountry(country);
                             }}
                             className={` px-2 py-0.5 w-full text-[12px] font-500 cursor-pointer  ${
-                              isDarkMode ? "hover:bg-opacity-40 bg-black/90" : "hover:bg-gray-200"
+                              isDarkMode ? "bg-[#FFFFFF]  text-black" : "hover:bg-gray-200"
                             }`}
                           >
                             {country.code}
@@ -778,7 +778,7 @@ export default function Signup({ onClose, onSigninClick }) {
                     )}
                   </span>
                   <Input
-                    type="tel"
+                    type="text"
                     name="phoneNumber"
                     className=" w-full"
                     placeholder={isLangArab ? "رقم الهاتف" : "Phone Number"}
@@ -861,7 +861,7 @@ export default function Signup({ onClose, onSigninClick }) {
                       <ul
                         className={`absolute mt-1 w-full max-h-[80px] min-h-[40px] overflow-y-auto rounded-lg shadow-lg z-10 ${
                           isDarkMode
-                            ? "bg-[#FFFFFF] bg-opacity-30 text-white"
+                            ? "bg-[#FFFFFF]  text-black"
                             : "bg-white text-black"
                         }`}
                       >
@@ -877,7 +877,7 @@ export default function Signup({ onClose, onSigninClick }) {
                               
                             }}
                             className={` px-2 py-1 w-full text-[12px] font-500 cursor-pointer  ${
-                              isDarkMode ? "hover:bg-opacity-40 bg-black/90" : "hover:bg-gray-200"
+                              isDarkMode ? "bg-[#FFFFFF]  text-black" : "hover:bg-gray-200"
                             }`}
                           >
                             {country.country}

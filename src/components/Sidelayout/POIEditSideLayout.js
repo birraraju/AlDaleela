@@ -324,7 +324,7 @@
   <button
     onClick={() => setIsEditPOI(false)}
     className={`transition-colors cursor-pointer z-50 ${
-      isDarkMode ? "hover:text-gray-300" : "text-green-900"
+      isDarkMode ? "text-white" : "text-green-900"
     }`}  // Ensure it's clickable
     aria-label="Close side panel"
     style={{ zIndex: 100 }} // Ensure the "X" button is on top

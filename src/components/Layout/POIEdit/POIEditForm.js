@@ -971,7 +971,7 @@ const Component = ({
                     }}
                     className={`cursor-pointer ${
                       isDarkMode
-                        ? "hover:text-blue-500 text-[12px] text-blue-800 "
+                        ? "hover:text-white/70 text-[12px] text-white "
                         : "text-blue-500 hover:text-blue-800"
                     } underline`}
                   >
