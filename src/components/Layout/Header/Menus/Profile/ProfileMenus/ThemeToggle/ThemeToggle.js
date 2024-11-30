@@ -26,16 +26,18 @@ export default function ThemeToggle() {
 
       {/* Toggle Switch */}
       <div
-        className={`w-12  h-6  flex items-center rounded-full p-1 shadow-md cursor-pointer ${
+        className={` ${
+          isLangArab ? "h-5 w-10" : "h-4 w-9"
+        }   flex items-center rounded-full p-1 shadow-md cursor-pointer ${
           isDarkMode ? 'bg-gray-500' : 'bg-white'
         }`}
         onClick={toggleTheme} // Toggle the theme on click
       >
         <div
-          className={`bg-[#FFAC4B] w-5 h-5 rounded-full shadow-lg transform duration-300 ease-in-out flex justify-center items-center ${
+          className={`bg-[#FFAC4B] ${isLangArab ? "w-4 h-4" : "w-3 h-3"} rounded-full shadow-lg transform duration-300 ease-in-out flex justify-center items-center ${
             isDarkMode ? " " : "translate-x-5"
           }${
-            isLangArab ? "translate-x-[-1.20rem]" : "translate-x-5"
+            isLangArab ? "translate-x-[-1.10rem]" : "translate-x-4"
           }`}
         >
           <img

@@ -5,7 +5,7 @@ export default function AboutDescription() {
 
   return (
     <>
-      <p className={`   text-[11px] laptop_lg:text-[14px] font-medium m-0    laptop_s:mb-0 laptop_s:mt-1  ${isDarkMode ? 'text-[#FFFFFFCC] text-opacity-80' : 'text-[#505050]'} leading-[21px] mb-3`}>
+      <p className={`   text-[11px] laptop_lg:text-[14px]  m-0    laptop_s:mb-0 laptop_s:mt-1  ${isDarkMode ? 'text-[#FFFFFFCC] text-opacity-80 font-500' : 'text-[#171717] font-500'} leading-[21px] mb-3`}>
       {isLangArab ? " حماية الموارد الطبيعية في أبوظبي من أجل مستقبل مستدام" : <>Safeguarding Abu Dhabi's natural resources for a <br /> sustainable future.</>}
       </p>
 
