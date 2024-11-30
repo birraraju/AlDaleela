@@ -18,11 +18,11 @@ export default function POIEditSucessFailure({ message,label, success, isOpenMod
         <img
           src={success === "Success" ? SuccessSvg : FailureIcon} // Show Success or Failure SVG
           alt={success === "Success" ? "Success" : "Failure"}
-          className="w-40 h-30" // Adjust size of the SVG
+          className="w-35 h-25" // Adjust size of the SVG
         />
 
         {/* Display the message */}
-        <p className="font-medium text-xl text-center text-black">
+        <p className={` ${isDarkMode?" text-white":"text-[#101828]"} font-medium text-[16px] text-center `}>
           {message}
         </p>
 

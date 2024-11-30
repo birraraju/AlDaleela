@@ -8,6 +8,9 @@ import Draw from "@arcgis/core/views/draw/Draw.js";
 import Graphic from "@arcgis/core/Graphic.js";
 import Point from "@arcgis/core/geometry/Point.js";
 import * as webMercatorUtils from "@arcgis/core/geometry/support/webMercatorUtils.js";
+import Terrestrial from "../../assets/LayerSvgs/Terrestrial.svg";
+import Marine from "../../assets/LayerSvgs/Marine.svg";
+import Island from "../../assets/LayerSvgs/Island.svg";
 
 export default function EditAddPOI({
   children,
@@ -24,9 +27,9 @@ export default function EditAddPOI({
   const panelRef = useRef(null);
   const { isDarkMode, isLangArab} = useTheme();
   const poiOptions = [
-    { label: "Terrestrial", isHighlighted: false },
-    { label: "Marine", isHighlighted: false },
-    { label: "Island", isHighlighted: true }
+    { label: "Terrestrial", isHighlighted: false, img: Terrestrial },
+    { label: "Marine", isHighlighted: false, img: Marine },
+    { label: "Island", isHighlighted: true, img: Island }
   ];
 
   const [selectedIndex, setSelectedIndex] = useState(null); // Track the selected item
@@ -119,7 +122,7 @@ export default function EditAddPOI({
               selectedIndex === index ? "bg-[#DFE2E3]" : ""
             }`}
           >
-            <img src={EditPOIPoint} className="w-3" alt="Icon" />
+            <img src={option.img} className="w-3" alt="Icon" />
             <p className={` ${isDarkMode?" text-white":"text-[#101828]"}    font-500`}>{option.label}</p>
           </div>
         ))}
