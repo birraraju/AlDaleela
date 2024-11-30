@@ -70,7 +70,7 @@ const Searchbar = ({
   useEffect(() => {
     if (SearchResponsive) {
       setInputClicked(true);
-      
+      setShowSearchContent(true)
       setIscategory(true);
     }
   }, [SearchResponsive]);
@@ -80,7 +80,7 @@ const Searchbar = ({
   };
 
   return (
-    <div className={`mobile_s:mr-2 laptop_s:mr-0.5 ${SearchResponsive ? "grid" : "sm:grid hidden"} laptop_m:mr-2 mr-4`}>
+    <div dir={isLangArab && "rtl"} className={`mobile_s:mr-2 laptop_s:mr-0.5 ${SearchResponsive ? "grid" : "sm:grid hidden"} laptop_m:mr-2 mr-4`}>
       <div className="relative" ref={contentRef}>
         <Input
           id="search"

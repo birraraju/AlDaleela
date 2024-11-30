@@ -1159,7 +1159,7 @@ const handleDrop = async (e) => {
             className={` ${
               !buttonDisable
                 ? "w-auto py-3 px-9 laptop_s:px-12 bg-custome-gray1 text-white text-xs border border-gray-300 rounded-lg"
-                : "w-auto py-3 px-9 bg-custom-gradient text-xs border border-gray-300 rounded-lg"
+                : "w-auto py-3 px-9 bg-custom-gradient text-xs border text-white border-gray-300 rounded-lg"
             }`}
           >
             {isLangArab ? "يُقدِّم" : "Submit"}
