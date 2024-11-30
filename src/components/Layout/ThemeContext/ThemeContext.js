@@ -41,6 +41,17 @@ useEffect(()=>{
   }
 },[isLangArab])
 
+useEffect(()=>{
+
+  const bodyElement = document.querySelector('body');
+
+if (isDarkMode) {
+    bodyElement.classList.add('dark-mode');
+} else {
+    bodyElement.classList.remove('dark-mode');
+}
+},[isDarkMode])
+
 
 
   const toggleLanguage = () => {

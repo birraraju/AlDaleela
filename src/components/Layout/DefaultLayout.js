@@ -39,6 +39,7 @@ const DefaultLayout = ({role}) => {
   const {isEditPOI,setIsEditPOI,isAuthPopUp,setPopupSelectedGeo,printWidget, setprintWidget, exportWidget, setexportWidget, MeasurementOpenWidget, setMeasurementOpenWidget} = useAuth();
   const [lastRendered, setLastRendered] = useState("");  // Track last rendered component
   const { isPOIAddShow,isLogin,setIsLogin,setIsPOIAddShow } = useTheme();
+  const [isExpanded, setIsExpanded] = useState(false);
   console.log("POI status Default:", isEditPOI);
   const { LayerId, objectid } = useParams();   
 
@@ -152,6 +153,12 @@ const DefaultLayout = ({role}) => {
   };
  
   const handleClose = () => {  
+
+    setPopup(null);
+    setResetFooter(true);
+    setIsPOIAddShow(false)
+    setIsEditPOI(false)
+    
     if(printWidget){
       printWidget.destroy(); // Destroy the widget
       setprintWidget(null); // Set to null to reset the state
@@ -167,10 +174,7 @@ const DefaultLayout = ({role}) => {
       MeasurementOpenWidget.destroy();
       setMeasurementOpenWidget(null);
     }
-    setPopup(null);
-    setResetFooter(true);
-    setIsPOIAddShow(false)
-    setIsEditPOI(false)
+   
     setTimeout(() => setResetFooter(false), 100);
   };
 
@@ -269,7 +273,10 @@ const DefaultLayout = ({role}) => {
   useEffect(()=>{
     if(isEditPOI){
       setPopup(renderComponent("POIEdit"));
-    }else if(!isEditPOI && !sides){
+      setResetFooter(true);
+      setIsExpanded(false)
+    }
+    else if(!isEditPOI && !sides){
       setPopup(renderComponent(""));
     }
   },[isEditPOI])
@@ -309,6 +316,8 @@ const DefaultLayout = ({role}) => {
       <div className="flex-1 relative overflow-hidden">
         <MapComponent setMapview={setMapview} mapview={mapview}/>
         <Footer
+        isExpanded={isExpanded} 
+        setIsExpanded={setIsExpanded}
           handleMenuItemClick={handleMenuItemClick}
           resetTrigger={resetFooter}
           setPopup={setPopup}

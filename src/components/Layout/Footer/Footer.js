@@ -11,12 +11,12 @@ export default function Footer({
   handleClose,
   handleMenuItemClick,
   setPopup,
-  resetTrigger,
+  resetTrigger,isExpanded, setIsExpanded
 }) {
   const [currentMenuPosition, setCurrentMenuPosition] = useState(0);
   const [currentItemDisplay, setCurrentItemDisplay] = useState("none");
   const [activeMenuIndex, setActiveMenuIndex] = useState(null);
-  const [isExpanded, setIsExpanded] = useState(false);
+  
   const [selectedIndex, setSelectedIndex] = useState(null);
 
   const menuItemsRef = useRef([]);
