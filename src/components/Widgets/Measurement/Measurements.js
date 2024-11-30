@@ -4,6 +4,8 @@ import './Measurement.css';
 import '@arcgis/core/assets/esri/themes/light/main.css';
 import Measurment from "../../../assets/Measurment.svg";
 import AreaMeasurment from "../../../assets/AreaMeasurment.svg";
+import DarkMeasurment from "../../../assets/DarkMeasurment.svg";
+import DarkAreaMeasurement from "../../../assets/DarkAreaMeasurement.svg";
 import { FaTrash } from "react-icons/fa";
 import { useAuth } from "../../../Providers/AuthProvider/AuthProvider";
 import { useTheme } from "../../Layout/ThemeContext/ThemeContext";
@@ -169,11 +171,11 @@ const MeasurementsComponent = ({ mapview }) => {
                   <span 
                     onClick={() => {handleClickDistance()}}   
                     className={`flex items-center  px-1 py-2 font-medium text-black text-[10px] rounded-md ${
-                      isDistanceSelected ? "bg-white" : ""
+                      isDistanceSelected ? "bg-white" :  ""
                     } dark:bg-violet-600 peer-checked:dark:bg-gray-700`}
                   >
-                    <img src={Measurment} alt="Distance" className={`w-5 ${isLangArab?"ml -1 sm:ml-2":"mr-1 sm:mr-2"}`} />
-                    <button id="distance" className={`    font-500 ${isDistanceSelected? (isDarkMode ?" text-[#404040]":"text-[#404040]"):(isDarkMode?" text-white ":"text-[#404040]")}`} title="Distance Measurement Tool">{isLangArab?"قياس المسافة":"Distance Measurement"}</button>
+                    <img src={isDarkMode?isDistanceSelected?Measurment: DarkMeasurment : Measurment} alt="Distance" className={`w-5 ${isLangArab?"ml -1 sm:ml-2":"mr-1 sm:mr-2"}`} />
+                    <button id="distance" className={` font-500 ${isDistanceSelected? (isDarkMode ?" text-[#404040]":"text-[#404040]"):(isDarkMode?" text-white ":"text-[#404040]")}`} title="Distance Measurement Tool">{isLangArab?"قياس المسافة":"Distance Measurement"}</button>
                   </span>
                   <span
                     onClick={() => {handleClickArea()}}
@@ -181,7 +183,7 @@ const MeasurementsComponent = ({ mapview }) => {
                         isAreaSelected ? "bg-white" : ""
                     } dark:bg-gray-700 peer-checked:dark:bg-violet-600`}
                   >
-                    <img src={AreaMeasurment} alt="Area" className={`w-5 ${isLangArab?"ml -1 sm:ml-2":"mr-1 sm:mr-2"}`} />
+                    <img src={isDarkMode ? isAreaSelected?AreaMeasurment:DarkAreaMeasurement : AreaMeasurment} alt="Area" className={`w-5 ${isLangArab?"ml -1 sm:ml-2":"mr-1 sm:mr-2"}`} />
                     <button id="area" className={ `    font-500 ${isAreaSelected? (isDarkMode ?" text-[#404040]":"text-[#404040]"):(isDarkMode?" text-white ":"text-[#404040]")}`} title="Area Measurement Tool">{isLangArab?"قياس المساحة":"Area Measurement"}</button>
                   </span>
                 </label>
