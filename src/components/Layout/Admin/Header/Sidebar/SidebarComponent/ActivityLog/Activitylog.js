@@ -115,7 +115,7 @@ const paginatedData = data.slice((currentPage - 1) * itemsPerPage, currentPage *
         >
           {isLangArab?"تصدير السجل":"Export log"}
           {/* <ArrowDown className="ml-2 h-4 w-4" /> */}
-          <img src={ExportArrow} className="ml-2 h-4 w-3"  alt="" />
+          <img src={ExportArrow} className={`${isLangArab?"mr-2":"ml-2"} h-4 w-3`}  alt="" />
         </button>
       </div>
       <hr className={`border-t  my-4 ${isDarkMode ? "border-[#FFFFFF] border-opacity-10" : "border-gray-300"}`} />
