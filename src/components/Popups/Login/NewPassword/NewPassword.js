@@ -171,7 +171,7 @@ const newError={}
           onClick={onClose}
           aria-label="Close"
         >
-          <X className="w-5 h-5 text-black" />
+          <X className={`w-5 h-5 ${isDarkMode?" text-white":"text-black"}`} />
         </button>
         <div className="flex justify-center mb-6 sm:w-auto w-60 ">
           <img src={ isDarkMode? Darklogo : Logo} alt="Logo" className="h-12" />

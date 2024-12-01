@@ -272,7 +272,7 @@
         // style={{ width, height, zIndex: 50 }}  // Ensure it's above other elements
         ref={containerRef}  // Reference to the panel
       >
-        <div className={`relative sm:h-[80%] laptop_s:h-[89%] h-[98%]  w-[99%] mobile_m:w-[80%] float-end sm:w-full rounded-2xl shadow-lg overflow-hidden border transition-colors duration-300 ${
+        <div className={`relative sm:h-[80%] laptop_s:h-[89%] laptop_lg:h-[70%] h-[98%]  w-[99%] mobile_m:w-[80%] float-end sm:w-full rounded-2xl shadow-lg overflow-hidden border transition-colors duration-300 ${
             isDarkMode
               ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
               : "bg-white bg-opacity-80 border-white"

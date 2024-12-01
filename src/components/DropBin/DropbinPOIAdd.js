@@ -277,18 +277,21 @@ const Component = ({mapview,isLangArab, selectedLayer, addPointGeometry, setForm
     municipality: "",
     emirate: "",
     city: "", */ 
+
+    // (
+    //   poiData.name !== "" &&
+    //   poiData.class !== "" &&
+    //   poiData.classD !== "" &&
+    //   poiData.status !== ""&&
+    //   poiData.comment !== ""&&
+    //   poiData.description !== ""&&
+    //   poiData.poems !== ""&&
+    //   poiData.stories !== ""&&
+    //   poiData.municipality !== ""&&
+    //   poiData.emirate !== ""&&
+    //   poiData.city !== "")
     if (
-      poiData.name !== "" &&
-      poiData.class !== "" &&
-      poiData.classD !== "" &&
-      poiData.status !== ""&&
-      poiData.comment !== ""&&
-      poiData.description !== ""&&
-      poiData.poems !== ""&&
-      poiData.stories !== ""&&
-      poiData.municipality !== ""&&
-      poiData.emirate !== ""&&
-      poiData.city !== "") {
+      poiData.name !== "") {
       setButtonDisable(true);
     }
     if (poiData.coordinateType === "dms") {
@@ -522,54 +525,54 @@ const handleDrop = async (e) => {
   let isValid = true;
 
   // Check required fields
-  if (!poiData.organization) {
-    validationErrors.organization = isLangArab ? "حقل المنظمة مطلوب" : "Organization Field is Required";
-    isValid = false;
-  }
+  // if (!poiData.organization) {
+  //   validationErrors.organization = isLangArab ? "حقل المنظمة مطلوب" : "Organization Field is Required";
+  //   isValid = false;
+  // }
   if (!poiData.name) {
     validationErrors.name = isLangArab ? "حقل الاسم مطلوب" : "Name Field is Required";
     isValid = false;
   }
-  if (!poiData.class) {
-    validationErrors.class = isLangArab ? "حقل الفئة مطلوب" : "Class Field is Required";
-    isValid = false;
-  }
-  if (!poiData.classD) {
-    validationErrors.classD = isLangArab ? "حقل ClassD مطلوب" : "ClassD Field is Required";
-    isValid = false;
-  }
-  if (!poiData.status) {
-    validationErrors.status = isLangArab ? "حقل الحالة مطلوب" : "Status Field is Required";
-    isValid = false;
-  }
-  if (!poiData.comment) {
-    validationErrors.comment = isLangArab ? "حقل التعليق مطلوب" : "Comment Field is Required";
-    isValid = false;
-  }
-  if (!poiData.description) {
-    validationErrors.description = isLangArab ? "حقل الوصف مطلوب" : "Description Field is Required";
-    isValid = false;
-  }
-  if (!poiData.poems) {
-    validationErrors.poems = isLangArab ? "حقل القصائد مطلوب" : "Poems Field is Required";
-    isValid = false;
-  }
-  if (!poiData.stories) {
-    validationErrors.stories = isLangArab ? "حقل القصص مطلوب" : "Stories Field is Required";
-    isValid = false;
-  }
-  if (!poiData.municipality) {
-    validationErrors.municipality = isLangArab ? "حقل البلدية مطلوب" : "Municipality Field is Required";
-    isValid = false;
-  }
-  if (!poiData.emirate) {
-    validationErrors.emirate = isLangArab ? "حقل الإمارة مطلوب" : "Emirate Field is Required";
-    isValid = false;
-  }
-  if (!poiData.city) {
-    validationErrors.city = isLangArab ? "حقل المدينة مطلوب" : "City Field is Required";
-    isValid = false;
-  }
+  // if (!poiData.class) {
+  //   validationErrors.class = isLangArab ? "حقل الفئة مطلوب" : "Class Field is Required";
+  //   isValid = false;
+  // }
+  // if (!poiData.classD) {
+  //   validationErrors.classD = isLangArab ? "حقل ClassD مطلوب" : "ClassD Field is Required";
+  //   isValid = false;
+  // }
+  // if (!poiData.status) {
+  //   validationErrors.status = isLangArab ? "حقل الحالة مطلوب" : "Status Field is Required";
+  //   isValid = false;
+  // }
+  // if (!poiData.comment) {
+  //   validationErrors.comment = isLangArab ? "حقل التعليق مطلوب" : "Comment Field is Required";
+  //   isValid = false;
+  // }
+  // if (!poiData.description) {
+  //   validationErrors.description = isLangArab ? "حقل الوصف مطلوب" : "Description Field is Required";
+  //   isValid = false;
+  // }
+  // if (!poiData.poems) {
+  //   validationErrors.poems = isLangArab ? "حقل القصائد مطلوب" : "Poems Field is Required";
+  //   isValid = false;
+  // }
+  // if (!poiData.stories) {
+  //   validationErrors.stories = isLangArab ? "حقل القصص مطلوب" : "Stories Field is Required";
+  //   isValid = false;
+  // }
+  // if (!poiData.municipality) {
+  //   validationErrors.municipality = isLangArab ? "حقل البلدية مطلوب" : "Municipality Field is Required";
+  //   isValid = false;
+  // }
+  // if (!poiData.emirate) {
+  //   validationErrors.emirate = isLangArab ? "حقل الإمارة مطلوب" : "Emirate Field is Required";
+  //   isValid = false;
+  // }
+  // if (!poiData.city) {
+  //   validationErrors.city = isLangArab ? "حقل المدينة مطلوب" : "City Field is Required";
+  //   isValid = false;
+  // }
 
   // Set errors if validation fails
   if (!isValid) {
@@ -755,7 +758,7 @@ const handleDrop = async (e) => {
   ) => (
     <div className="space-y-1">
       <label htmlFor={id} className={`block text-[11px]  ${isDarkMode?"text-white":"text-[#303030]"}    font-500`}>
-        {label} <span className="text-red-500 ">*</span>
+        {label} {((label === "Name")||( label === "الاسم")) && <span className="text-red-500 ">*</span>}
       </label>
       {inputType === "select" ? (
         <select
