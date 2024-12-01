@@ -830,7 +830,9 @@ const handleDrop = async (e) => {
           "select"
         )}
         {renderField("name", isLangArab ? "الاسم" : "Name", poiData.name)}
-        {renderField("class", isLangArab ? "الفئة" : "Class", poiData.class)}
+        {renderField("class", isLangArab ? "الفئة" : "Class", poiData.class,
+          organizationOptions,
+          "select")}
         {renderField(
           "classD",
           isLangArab ? "الفئة D" : "ClassD",
@@ -1149,7 +1151,7 @@ const handleDrop = async (e) => {
         <div className="flex justify-between px-4 sm:px-1 laptop_s:space-x-4  space-x-8 items-center pt-4 pb-16">
           <button
             onClick={onClose}
-            className="w-auto py-3 px-9 laptop_s:px-12  bg-transparent text-xs border border-black rounded-lg"
+            className={`w-auto py-3 px-9 laptop_s:px-12  ${isDarkMode?"bg-white border-white":"bg-transparent border-black"} text-xs border  rounded-lg`}
           >
             {isLangArab ? "يلغي" : "Cancel"}
           </button>
