@@ -76,7 +76,7 @@ export default function BasicInformation({
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target) && !isDropdownOpen) {
         setIsDropdownOpen(false);
       }
     };
@@ -279,7 +279,20 @@ export default function BasicInformation({
                       </span>
                       <span className="ml-2">
                         {/* Down arrow SVG */}
-                        <svg
+                        {isDarkMode ? (
+                          <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-4 w-4"
+                          viewBox="0 0 20 20"
+                          fill="white"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                        ) : (<svg
                           xmlns="http://www.w3.org/2000/svg"
                           className="h-4 w-4"
                           viewBox="0 0 20 20"
@@ -291,10 +304,13 @@ export default function BasicInformation({
                             clipRule="evenodd"
                           />
                         </svg>
+
+                        )}
                       </span>
                     </div>
                     {isDropdownOpen && (
                       <div
+                      ref={dropdownRef}
                         className={`absolute -top-40 h-40 border border-transparent rounded-md ${
                           isDarkMode
                             ? "bg-black/90 text-[#FFFFFFCC] "

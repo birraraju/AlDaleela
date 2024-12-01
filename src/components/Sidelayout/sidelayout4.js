@@ -68,7 +68,7 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
 
   return (
     <div
-      className={`fixed top-20 w-[95%] ${(POIFormisOpenModalShow || isShowEdit )?"h-[63%] tab_l:h-[40%] laptop_s:h-[55%] laptop_lg:h-[40%] laptop_s:w-[400px] ":"h-[90%] laptop_s:w-[400px] "} sm:w-[400px]   ${ isLangArab?" right-3 sm:left-16 laptop_s:left-6":"right-3 sm:right-16 laptop_s:right-6"} transition-transform duration-300 ease-in-out ${
+      className={`fixed top-20 w-[95%] ${(POIFormisOpenModalShow || isShowEdit )?"h-[63%] tab_l:h-[40%] laptop_s:h-[60%] laptop_lg:h-[40%] laptop_s:w-[400px] ":"h-[90%] laptop_s:w-[400px] "} sm:w-[400px]   ${ isLangArab?" right-3 sm:left-16 laptop_s:left-6":"right-3 sm:right-16 laptop_s:right-6"} transition-transform duration-300 ease-in-out ${
         isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[104%] sm:-translate-x-[116%] laptop_s:-translate-x-[106%] ":"translate-x-[103%] sm:translate-x-[116%] laptop_s:translate-x-[106%]")
       }`}
       // style={{ width, height, zIndex: 50 }}  // Ensure it's above other elements
