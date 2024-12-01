@@ -1116,7 +1116,7 @@ const handleDrop = async (e) => {
                       <img
                         src={file.preview}
                         alt={file.name}
-                        className="h-9 w-9 rounded-lg object-cover"
+                        className="h-9 w-9 mx-1 rounded-lg object-cover"
                       />
                       <div className="ml-3">
                         <span className={`${isDarkMode?"text-white":"text-gray-700"} font-medium text-ellipsis text-[9px] block`}>

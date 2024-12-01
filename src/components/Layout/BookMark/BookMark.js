@@ -226,7 +226,7 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
             setIds([]) // Reset the selected marks
             fetchBookmarks()
             setisMsgStatus("Success")
-            setIsmodalMessage("Bookmark Deleted Sucessfully")
+            setIsmodalMessage(isLangArab?"تم حذف الإشارة المرجعية بنجاح":"Bookmark Deleted Sucessfully")
             setIsSuccess(true)
             setIsManageVisible(false);
           }
@@ -235,7 +235,7 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
             setSelectedMarks({});
             setIds([]) // Reset the selected marks
             fetchBookmarks()
-            setIsmodalMessage(" Failed to Deleted Bookmark!")
+            setIsmodalMessage(isLangArab?"فشل حذف الإشارة المرجعية!":"Failed to Deleted Bookmark!")
             setIsSuccess(true)
             setIsManageVisible(false); // Close management view
 
@@ -249,7 +249,7 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
         setSelectedMarks({});
             setIds([]) // Reset the selected marks
             fetchBookmarks()
-            setIsmodalMessage(" Failed to Deleted Bookmark!")
+            setIsmodalMessage(isLangArab?"فشل حذف الإشارة المرجعية!":" Failed to Deleted Bookmark!")
             setIsSuccess(true)
             setIsManageVisible(false);
           console.error('Error submitting form:', error);

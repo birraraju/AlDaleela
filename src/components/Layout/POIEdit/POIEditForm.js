@@ -723,7 +723,7 @@ const Component = ({
               // (videos.length > 0 || audios.length > 0 || images.length > 0) && (
                 <div dir={isLangArab && "rtl"} className=" flex justify-end ">
                   <button
-                    className=" text-[#028DC8] font-medium text-[12px] underline"
+                    className={` ${ isDarkMode?" text-white":"text-[#028DC8]"} font-medium text-[12px] underline`}
                     onClick={() => setIsShowMore(!isShowMore)}
                   >
                     {isShowMore
