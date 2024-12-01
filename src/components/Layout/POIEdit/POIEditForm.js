@@ -1023,8 +1023,8 @@ const Component = ({
               <div className="flex justify-center py-1 space-x-8 items-center">
                 <button
                   onClick={() => setIsShowEditPOI(false)}
-                  className={`w-auto py-3 px-14 outline-none bg-transparent text-xs ${
-                    isDarkMode ? " text-white" : "text-[#505050]"
+                  className={`w-auto py-3 px-14 outline-none  text-xs ${
+                    isDarkMode ? " text-[#505050] bg-white" : "text-[#505050] bg-transparent"
                   } border border-[#909090] rounded-lg`}
                 >
                   {isLangArab ? "يلغي" : "Cancel"}

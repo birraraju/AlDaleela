@@ -37,7 +37,7 @@ export default function Signin({ onClose, onSignupClick, onForgotPasswordClick }
       >
         <button
           onClick={onClose}
-          className={`absolute top-4 right-4 hover:text-gray-800 ${
+          className={`absolute top-4 right-4  ${
             isDarkMode ? "text-[#FFFFFFFF] text-opacity-80" : "text-gray-800"
           }`}
         >
