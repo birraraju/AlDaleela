@@ -100,7 +100,7 @@ export default function Category({setInputValue, setShowSearchContent, inputClic
   const getScrollThumbHeight = () => {
     const { scrollHeight, clientHeight } = scrollInfo;
     const scrollRatio = clientHeight / scrollHeight;
-    const thumbHeight = Math.max(scrollRatio * clientHeight, 30);
+    const thumbHeight = Math.max(scrollRatio * clientHeight, 28);
     return thumbHeight;
   };
  
@@ -113,65 +113,77 @@ export default function Category({setInputValue, setShowSearchContent, inputClic
  
   return (
     <div
-      onClick={() => setInputClicked(false)}
-      className="absolute bottom-1 right-1.5 z-[2]"
+    onClick={() => setInputClicked(false)}
+    className={`absolute bottom-1 ${isLangArab?"left-1.5":"right-1.5"} z-[2]`}
+  >
+    <button
+      onClick={() => {
+        // Prevents dropdown from closing when clicking on the button
+        setIsOpen(!isOpen);
+        setShowSearchContent(false);
+        setInputValue("");
+      }}
+      className={`rounded-full font-omnes font-500 w-[79px] mobile_s:w-[90px] tab:w-[90px] laptop_s:w-[90px] laptop_s:rounded-3xl laptop_m:rounded-full flex text-xs justify-evenly items-center mobile_s:px-2 laptop_s:px-1 laptop_m:px-1 laptop_s:py-3 py-0.5 sm:h-6 h-7 bg-[#C8C8C899] bg-opacity-50 ${
+        isDarkMode ? "text-white" : "text-[#000000]"
+      } z-[10] relative`} // Added relative positioning and z-index
     >
-      <button
-        onClick={() => {setIsOpen(!isOpen);setShowSearchContent(false);setInputValue("")}}
-        className={`rounded-full font-omnes font-500 w-[79px] mobile_s:w-[90px] tab:w-[90px] laptop_s:w-[90px] laptop_s:rounded-3xl laptop_m:rounded-full flex text-xs justify-evenly items-center mobile_s:px-2 laptop_s:px-1 laptop_m:px-1 laptop_s:py-3 py-0.5 sm:h-6 h-7 bg-[#C8C8C899] bg-opacity-50 ${isDarkMode?"text-white":"text-[#000000]"}`}
+      {(selectedCategory === "Category") ? (isLangArab ? "الفئة" : selectedCategory) : selectedCategory && selectedCategory?.length > 7 ? `${selectedCategory.substring(0, isLangArab?10:8)}` : selectedCategory}
+      {isOpen ? <FaCaretUp className={`${isLangArab?"mr-2":"ml-2"}`} /> : <FaCaretDown className={`${isLangArab?"mr-2":"ml-2"}`} />}
+    </button>
+
+    {isOpen && (
+      <div
+        className="absolute w-[100px] h-44"
+        style={{
+          top: '2.5rem', // Adjust the dropdown’s position relative to the button
+          zIndex: 9, // Ensure dropdown appears below the button
+        }}
       >
-        {(selectedCategory === "Category") ? (isLangArab ? "الفئة" : selectedCategory) : selectedCategory && selectedCategory?.length > 7 ? `${selectedCategory.substring(0, 8)}` : selectedCategory}
-        {isOpen ? <FaCaretUp className="ml-2" /> : <FaCaretDown className="ml-2" />}
-      </button>
- 
-      {isOpen && (
-        <div className="relative  w-24 h-44">
-          <div
-            ref={scrollContainerRef}
-            onScroll={handleScroll}
-            className={`absolute w-full h-full mt-[185px] border py-2 rounded-lg ${
-              isDarkMode ? "bg-black bg-opacity-60 border-none" : "bg-white"
-            } shadow-lg  overflow-y-scroll`}
-            style={{
-              scrollbarWidth: 'none',
-              msOverflowStyle: 'none',
-              '::-webkit-scrollbar': {
-                display: 'none'
-              }
-            }}
-          >
-            <div className="pr-2 ">
-              {categoryClasses.map((category, index) => (
-                <div
-                  key={index}
-                  className={`text-[11px] font-omnes font-500 cursor-pointer px-3 py-0.5 ${
-                    isDarkMode ? "text-white hover:bg-[#C8C8C899]" : "text-[#000000] hover:bg-gray-100"
-                  }`}
-                  onClick={() => handleCategorySelect(category)}
-                >
-                  {category}
-                </div>
-              ))}
-            </div>
-          </div>
-          <div
-            className="absolute right-0.5 mt-[185px] top-2 bottom-2 w-[3px]"
-            style={{
-              backgroundColor: '#E5E7EB',
-              borderRadius: '9999px',
-            }}
-          >
-            <div
-              className="absolute w-full rounded-full bg-gray-400"
-              style={{
-                height: `${getScrollThumbHeight()}px`,
-                top: `${getScrollThumbPosition()}px`,
-                transition: 'top 0.1s',
-              }}
-            />
+        <div
+          ref={scrollContainerRef}
+          onScroll={handleScroll}
+          className={`absolute w-full h-full border py-2 rounded-lg ${
+            isDarkMode ? "bg-black bg-opacity-60 border-none" : "bg-white"
+          } shadow-lg overflow-y-scroll`}
+          style={{
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+          }}
+        >
+          <div className="pr-2 ">
+            {categoryClasses.map((category, index) => (
+              <div
+                key={index}
+                className={`text-[11px] font-omnes font-500 cursor-pointer px-3 py-0.5 ${
+                  isDarkMode
+                    ? "text-white hover:bg-[#C8C8C899]"
+                    : "text-[#000000] hover:bg-gray-100"
+                }`}
+                onClick={() => handleCategorySelect(category)}
+              >
+                {category}
+              </div>
+            ))}
           </div>
         </div>
-      )}
-    </div>
+        <div
+          className="absolute right-0.5 top-2 bottom-0  w-[3px]"
+          style={{
+            backgroundColor: ' transparent',
+            borderRadius: '9999px',
+          }}
+        >
+          <div
+            className="absolute w-full rounded-full bg-gray-400"
+            style={{
+              height: `${getScrollThumbHeight()}px`,
+              top: `${getScrollThumbPosition()}px`,
+              transition: 'top 0.1s',
+            }}
+          />
+        </div>
+      </div>
+    )}
+  </div>
   );
 }

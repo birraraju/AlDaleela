@@ -240,7 +240,8 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
 
       <AnimatePresence>
         {showAuthenticator && (
-          <Login onClose={() => {handleLoginClose()}} />
+          <Login setIsMsgStatus={setIsMsgStatus}
+          setModalMessage={setModalMessage}  setIsSuccess={setIsSuccess} onClose={() => {handleLoginClose()}} />
         )}
         {isLeaderboard && (
           <LeaderboardSlideout

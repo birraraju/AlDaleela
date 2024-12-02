@@ -277,18 +277,21 @@ const Component = ({mapview,isLangArab, selectedLayer, addPointGeometry, setForm
     municipality: "",
     emirate: "",
     city: "", */ 
+
+    // (
+    //   poiData.name !== "" &&
+    //   poiData.class !== "" &&
+    //   poiData.classD !== "" &&
+    //   poiData.status !== ""&&
+    //   poiData.comment !== ""&&
+    //   poiData.description !== ""&&
+    //   poiData.poems !== ""&&
+    //   poiData.stories !== ""&&
+    //   poiData.municipality !== ""&&
+    //   poiData.emirate !== ""&&
+    //   poiData.city !== "")
     if (
-      poiData.name !== "" &&
-      poiData.class !== "" &&
-      poiData.classD !== "" &&
-      poiData.status !== ""&&
-      poiData.comment !== ""&&
-      poiData.description !== ""&&
-      poiData.poems !== ""&&
-      poiData.stories !== ""&&
-      poiData.municipality !== ""&&
-      poiData.emirate !== ""&&
-      poiData.city !== "") {
+      poiData.name !== "") {
       setButtonDisable(true);
     }
     if (poiData.coordinateType === "dms") {
@@ -522,54 +525,54 @@ const handleDrop = async (e) => {
   let isValid = true;
 
   // Check required fields
-  if (!poiData.organization) {
-    validationErrors.organization = isLangArab ? "حقل المنظمة مطلوب" : "Organization Field is Required";
-    isValid = false;
-  }
+  // if (!poiData.organization) {
+  //   validationErrors.organization = isLangArab ? "حقل المنظمة مطلوب" : "Organization Field is Required";
+  //   isValid = false;
+  // }
   if (!poiData.name) {
     validationErrors.name = isLangArab ? "حقل الاسم مطلوب" : "Name Field is Required";
     isValid = false;
   }
-  if (!poiData.class) {
-    validationErrors.class = isLangArab ? "حقل الفئة مطلوب" : "Class Field is Required";
-    isValid = false;
-  }
-  if (!poiData.classD) {
-    validationErrors.classD = isLangArab ? "حقل ClassD مطلوب" : "ClassD Field is Required";
-    isValid = false;
-  }
-  if (!poiData.status) {
-    validationErrors.status = isLangArab ? "حقل الحالة مطلوب" : "Status Field is Required";
-    isValid = false;
-  }
-  if (!poiData.comment) {
-    validationErrors.comment = isLangArab ? "حقل التعليق مطلوب" : "Comment Field is Required";
-    isValid = false;
-  }
-  if (!poiData.description) {
-    validationErrors.description = isLangArab ? "حقل الوصف مطلوب" : "Description Field is Required";
-    isValid = false;
-  }
-  if (!poiData.poems) {
-    validationErrors.poems = isLangArab ? "حقل القصائد مطلوب" : "Poems Field is Required";
-    isValid = false;
-  }
-  if (!poiData.stories) {
-    validationErrors.stories = isLangArab ? "حقل القصص مطلوب" : "Stories Field is Required";
-    isValid = false;
-  }
-  if (!poiData.municipality) {
-    validationErrors.municipality = isLangArab ? "حقل البلدية مطلوب" : "Municipality Field is Required";
-    isValid = false;
-  }
-  if (!poiData.emirate) {
-    validationErrors.emirate = isLangArab ? "حقل الإمارة مطلوب" : "Emirate Field is Required";
-    isValid = false;
-  }
-  if (!poiData.city) {
-    validationErrors.city = isLangArab ? "حقل المدينة مطلوب" : "City Field is Required";
-    isValid = false;
-  }
+  // if (!poiData.class) {
+  //   validationErrors.class = isLangArab ? "حقل الفئة مطلوب" : "Class Field is Required";
+  //   isValid = false;
+  // }
+  // if (!poiData.classD) {
+  //   validationErrors.classD = isLangArab ? "حقل ClassD مطلوب" : "ClassD Field is Required";
+  //   isValid = false;
+  // }
+  // if (!poiData.status) {
+  //   validationErrors.status = isLangArab ? "حقل الحالة مطلوب" : "Status Field is Required";
+  //   isValid = false;
+  // }
+  // if (!poiData.comment) {
+  //   validationErrors.comment = isLangArab ? "حقل التعليق مطلوب" : "Comment Field is Required";
+  //   isValid = false;
+  // }
+  // if (!poiData.description) {
+  //   validationErrors.description = isLangArab ? "حقل الوصف مطلوب" : "Description Field is Required";
+  //   isValid = false;
+  // }
+  // if (!poiData.poems) {
+  //   validationErrors.poems = isLangArab ? "حقل القصائد مطلوب" : "Poems Field is Required";
+  //   isValid = false;
+  // }
+  // if (!poiData.stories) {
+  //   validationErrors.stories = isLangArab ? "حقل القصص مطلوب" : "Stories Field is Required";
+  //   isValid = false;
+  // }
+  // if (!poiData.municipality) {
+  //   validationErrors.municipality = isLangArab ? "حقل البلدية مطلوب" : "Municipality Field is Required";
+  //   isValid = false;
+  // }
+  // if (!poiData.emirate) {
+  //   validationErrors.emirate = isLangArab ? "حقل الإمارة مطلوب" : "Emirate Field is Required";
+  //   isValid = false;
+  // }
+  // if (!poiData.city) {
+  //   validationErrors.city = isLangArab ? "حقل المدينة مطلوب" : "City Field is Required";
+  //   isValid = false;
+  // }
 
   // Set errors if validation fails
   if (!isValid) {
@@ -755,7 +758,7 @@ const handleDrop = async (e) => {
   ) => (
     <div className="space-y-1">
       <label htmlFor={id} className={`block text-[11px]  ${isDarkMode?"text-white":"text-[#303030]"}    font-500`}>
-        {label} <span className="text-red-500 ">*</span>
+        {label} {((label === "Name")||( label === "الاسم")) && <span className="text-red-500 ">*</span>}
       </label>
       {inputType === "select" ? (
         <select
@@ -830,7 +833,9 @@ const handleDrop = async (e) => {
           "select"
         )}
         {renderField("name", isLangArab ? "الاسم" : "Name", poiData.name)}
-        {renderField("class", isLangArab ? "الفئة" : "Class", poiData.class)}
+        {renderField("class", isLangArab ? "الفئة" : "Class", poiData.class,
+          organizationOptions,
+          "select")}
         {renderField(
           "classD",
           isLangArab ? "الفئة D" : "ClassD",
@@ -1116,7 +1121,7 @@ const handleDrop = async (e) => {
                       <img
                         src={file.preview}
                         alt={file.name}
-                        className="h-9 w-9 rounded-lg object-cover"
+                        className="h-9 w-9 mx-1 rounded-lg object-cover"
                       />
                       <div className="ml-3">
                         <span className={`${isDarkMode?"text-white":"text-gray-700"} font-medium text-ellipsis text-[9px] block`}>
@@ -1149,7 +1154,7 @@ const handleDrop = async (e) => {
         <div className="flex justify-between px-4 sm:px-1 laptop_s:space-x-4  space-x-8 items-center pt-4 pb-16">
           <button
             onClick={onClose}
-            className="w-auto py-3 px-9 laptop_s:px-12  bg-transparent text-xs border border-black rounded-lg"
+            className={`w-auto py-3 px-9 laptop_s:px-12  ${isDarkMode?"bg-white border-white":"bg-transparent border-black"} text-xs border  rounded-lg`}
           >
             {isLangArab ? "يلغي" : "Cancel"}
           </button>
@@ -1159,7 +1164,7 @@ const handleDrop = async (e) => {
             className={` ${
               !buttonDisable
                 ? "w-auto py-3 px-9 laptop_s:px-12 bg-custome-gray1 text-white text-xs border border-gray-300 rounded-lg"
-                : "w-auto py-3 px-9 bg-custom-gradient text-xs border border-gray-300 rounded-lg"
+                : "w-auto py-3 px-9 bg-custom-gradient text-xs border text-white border-gray-300 rounded-lg"
             }`}
           >
             {isLangArab ? "يُقدِّم" : "Submit"}

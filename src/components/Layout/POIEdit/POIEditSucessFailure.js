@@ -18,18 +18,18 @@ export default function POIEditSucessFailure({ message,label, success, isOpenMod
         <img
           src={success === "Success" ? SuccessSvg : FailureIcon} // Show Success or Failure SVG
           alt={success === "Success" ? "Success" : "Failure"}
-          className="w-40 h-30" // Adjust size of the SVG
+          className="w-35 h-25" // Adjust size of the SVG
         />
 
         {/* Display the message */}
-        <p className="font-medium text-xl text-center text-black">
+        <p className={` ${isDarkMode?" text-white":"text-[#101828]"} font-medium text-[16px] text-center `}>
           {message}
         </p>
 
         {(label !== "Approval") && <div className=" w-full  flex border border-none rounded-3xl bg-[#FF9A032E]">
           <span className=" flex justify-between px-2 py-2 items-center">
             <img src={Warning} className=" w-5" alt="" />
-            <p className=" pl-1 text-[11px] text-[#000000]">{isLangArab?"سيتم نشر ملفك بمجرد موافقة المشرف عليه.":"Your file will go live once approved by the admin."}</p>
+            <p className={`pl-1 text-[11px] ${isDarkMode?" text-white":"text-[#000000]"}`}>{isLangArab?"سيتم نشر ملفك بمجرد موافقة المشرف عليه.":"Your file will go live once approved by the admin."}</p>
             </span>
         </div>}
 

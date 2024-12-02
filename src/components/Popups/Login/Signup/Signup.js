@@ -33,121 +33,261 @@ export default function Signup({ onClose, onSigninClick }) {
   });
 
   const countries = [
-    { country: "Afghanistan", code: "+93", limit: 9 },
-    { country: "Albania", code: "+355", limit: 9 },
-    { country: "Algeria", code: "+213", limit: 9 },
-    { country: "Andorra", code: "+376", limit: 6 },
-    { country: "Angola", code: "+244", limit: 9 },
-    { country: "Antigua and Barbuda", code: "+1", limit: 10 },
-    { country: "Argentina", code: "+54", limit: 10 },
-    { country: "Armenia", code: "+374", limit: 8 },
-    { country: "Australia", code: "+61", limit: 9 },
-    { country: "Austria", code: "+43", limit: 10 },
-    { country: "Azerbaijan", code: "+994", limit: 9 },
-    { country: "Bahamas", code: "+1", limit: 10 },
-    { country: "Bahrain", code: "+973", limit: 8 },
-    { country: "Bangladesh", code: "+880", limit: 10 },
-    { country: "Barbados", code: "+1", limit: 10 },
-    { country: "Belarus", code: "+375", limit: 9 },
-    { country: "Belgium", code: "+32", limit: 9 },
-    { country: "Belize", code: "+501", limit: 7 },
-    { country: "Benin", code: "+229", limit: 8 },
-    { country: "Bhutan", code: "+975", limit: 8 },
-    { country: "Bolivia", code: "+591", limit: 8 },
-    { country: "Bosnia and Herzegovina", code: "+387", limit: 8 },
-    { country: "Botswana", code: "+267", limit: 7 },
-    { country: "Brazil", code: "+55", limit: 10 },
-    { country: "Brunei", code: "+673", limit: 7 },
-    { country: "Bulgaria", code: "+359", limit: 9 },
-    { country: "Burkina Faso", code: "+226", limit: 8 },
-    { country: "Burundi", code: "+257", limit: 8 },
-    { country: "Cabo Verde", code: "+238", limit: 7 },
-    { country: "Cambodia", code: "+855", limit: 9 },
-    { country: "Cameroon", code: "+237", limit: 9 },
-    { country: "Canada", code: "+1", limit: 10 },
-    { country: "Central African Republic", code: "+236", limit: 8 },
-    { country: "Chad", code: "+235", limit: 8 },
-    { country: "Chile", code: "+56", limit: 9 },
-    { country: "China", code: "+86", limit: 11 },
-    { country: "Colombia", code: "+57", limit: 10 },
-    { country: "Comoros", code: "+269", limit: 7 },
-    { country: "Costa Rica", code: "+506", limit: 8 },
-    { country: "Croatia", code: "+385", limit: 9 },
-    { country: "Cuba", code: "+53", limit: 8 },
-    { country: "Cyprus", code: "+357", limit: 8 },
-    { country: "Czech Republic", code: "+420", limit: 9 },
-    { country: "Democratic Republic of the Congo", code: "+243", limit: 9 },
-    { country: "Denmark", code: "+45", limit: 8 },
-    { country: "Djibouti", code: "+253", limit: 6 },
-    { country: "Dominica", code: "+1", limit: 10 },
-    { country: "Dominican Republic", code: "+1", limit: 10 },
-    { country: "Ecuador", code: "+593", limit: 9 },
-    { country: "Egypt", code: "+20", limit: 10 },
-    { country: "El Salvador", code: "+503", limit: 8 },
-    { country: "Equatorial Guinea", code: "+240", limit: 9 },
-    { country: "Eritrea", code: "+291", limit: 7 },
-    { country: "Estonia", code: "+372", limit: 8 },
-    { country: "Eswatini", code: "+268", limit: 8 },
-    { country: "Ethiopia", code: "+251", limit: 9 },
-    { country: "Fiji", code: "+679", limit: 7 },
-    { country: "Finland", code: "+358", limit: 10 },
-    { country: "France", code: "+33", limit: 9 },
-    { country: "Gabon", code: "+241", limit: 7 },
-    { country: "Gambia", code: "+220", limit: 7 },
-    { country: "Georgia", code: "+995", limit: 9 },
-    { country: "Germany", code: "+49", limit: 10 },
-    { country: "Ghana", code: "+233", limit: 9 },
-    { country: "Greece", code: "+30", limit: 10 },
-    { country: "Grenada", code: "+1", limit: 10 },
-    { country: "Guatemala", code: "+502", limit: 8 },
-    { country: "Guinea", code: "+224", limit: 9 },
-    { country: "Guinea-Bissau", code: "+245", limit: 7 },
-    { country: "Guyana", code: "+592", limit: 7 },
-    { country: "Haiti", code: "+509", limit: 8 },
-    { country: "Honduras", code: "+504", limit: 8 },
-    { country: "Hungary", code: "+36", limit: 9 },
-    { country: "Iceland", code: "+354", limit: 7 },
-    { country: "India", code: "+91", limit: 10 },
-    { country: "Indonesia", code: "+62", limit: 12 },
-    { country: "Iran", code: "+98", limit: 10 },
-    { country: "Iraq", code: "+964", limit: 10 },
-    { country: "Ireland", code: "+353", limit: 9 },
-    { country: "Israel", code: "+972", limit: 9 },
-    { country: "Italy", code: "+39", limit: 10 },
-    { country: "Ivory Coast", code: "+225", limit: 8 },
-    { country: "Jamaica", code: "+1", limit: 10 },
-    { country: "Japan", code: "+81", limit: 10 },
-    { country: "Jordan", code: "+962", limit: 9 },
-    { country: "Kazakhstan", code: "+7", limit: 10 },
-    { country: "Kenya", code: "+254", limit: 9 },
-    { country: "Kiribati", code: "+686", limit: 8 },
-    { country: "Korea, South", code: "+82", limit: 10 },
-    { country: "Kuwait", code: "+965", limit: 8 },
-    { country: "Kyrgyzstan", code: "+996", limit: 9 },
-    { country: "Laos", code: "+856", limit: 9 },
-    { country: "Latvia", code: "+371", limit: 8 },
-    { country: "Lebanon", code: "+961", limit: 8 },
-    { country: "Lesotho", code: "+266", limit: 8 },
-    { country: "Liberia", code: "+231", limit: 8 },
-    { country: "Libya", code: "+218", limit: 9 },
-    { country: "Liechtenstein", code: "+423", limit: 7 },
-    { country: "Lithuania", code: "+370", limit: 8 },
-    { country: "Luxembourg", code: "+352", limit: 9 },
-    { country: "Madagascar", code: "+261", limit: 9 },
-    { country: "Malawi", code: "+265", limit: 9 },
-    { country: "Malaysia", code: "+60", limit: 10 },
-    { country: "Maldives", code: "+960", limit: 7 },
-    { country: "Mali", code: "+223", limit: 8 },
-    { country: "Malta", code: "+356", limit: 8 },
-    { country: "Marshall Islands", code: "+692", limit: 7 },
-    { country: "Mauritania", code: "+222", limit: 8 },
-    { country: "Mauritius", code: "+230", limit: 8 },
-    { country: "Mexico", code: "+52", limit: 10 },
-    { country: "Micronesia", code: "+691", limit: 7 },
-    { country: "Moldova", code: "+373", limit: 8 },
-    { country: "Monaco", code: "+377", limit: 8 },
-    { country: "Mongolia", code: "+976", limit: 8 },
+    { country: "Afghanistan" }, { country: "Albania" }, { country: "Algeria" },
+    { country: "Andorra" }, { country: "Angola" }, { country: "Antigua and Barbuda" },
+    { country: "Argentina" }, { country: "Armenia" }, { country: "Australia" },
+    { country: "Austria" }, { country: "Azerbaijan" }, { country: "Bahamas" },
+    { country: "Bahrain" }, { country: "Bangladesh" }, { country: "Barbados" },
+    { country: "Belarus" }, { country: "Belgium" }, { country: "Belize" },
+    { country: "Benin" }, { country: "Bhutan" }, { country: "Bolivia" },
+    { country: "Bosnia and Herzegovina" }, { country: "Botswana" }, { country: "Brazil" },
+    { country: "Brunei" }, { country: "Bulgaria" }, { country: "Burkina Faso" },
+    { country: "Burundi" }, { country: "Cabo Verde" }, { country: "Cambodia" },
+    { country: "Cameroon" }, { country: "Canada" }, { country: "Central African Republic" },
+    { country: "Chad" }, { country: "Chile" }, { country: "China" }, { country: "Colombia" },
+    { country: "Comoros" }, { country: "Costa Rica" }, { country: "Croatia" },
+    { country: "Cuba" }, { country: "Cyprus" }, { country: "Czech Republic" },
+    { country: "Democratic Republic of the Congo" }, { country: "Denmark" }, 
+    { country: "Djibouti" }, { country: "Dominica" }, { country: "Dominican Republic" },
+    { country: "Ecuador" }, { country: "Egypt" }, { country: "El Salvador" },
+    { country: "Equatorial Guinea" }, { country: "Eritrea" }, { country: "Estonia" },
+    { country: "Eswatini" }, { country: "Ethiopia" }, { country: "Fiji" },
+    { country: "Finland" }, { country: "France" }, { country: "Gabon" },
+    { country: "Gambia" }, { country: "Georgia" }, { country: "Germany" },
+    { country: "Ghana" }, { country: "Greece" }, { country: "Grenada" },
+    { country: "Guatemala" }, { country: "Guinea" }, { country: "Guinea-Bissau" },
+    { country: "Guyana" }, { country: "Haiti" }, { country: "Honduras" },
+    { country: "Hungary" }, { country: "Iceland" }, { country: "India" },
+    { country: "Indonesia" }, { country: "Iran" }, { country: "Iraq" },
+    { country: "Ireland" }, { country: "Israel" }, { country: "Italy" },
+    { country: "Ivory Coast" }, { country: "Jamaica" }, { country: "Japan" },
+    { country: "Jordan" }, { country: "Kazakhstan" }, { country: "Kenya" },
+    { country: "Kiribati" }, { country: "Korea, North" }, { country: "Korea, South" },
+    { country: "Kuwait" }, { country: "Kyrgyzstan" }, { country: "Laos" },
+    { country: "Latvia" }, { country: "Lebanon" }, { country: "Lesotho" },
+    { country: "Liberia" }, { country: "Libya" }, { country: "Liechtenstein" },
+    { country: "Lithuania" }, { country: "Luxembourg" }, { country: "Madagascar" },
+    { country: "Malawi" }, { country: "Malaysia" }, { country: "Maldives" },
+    { country: "Mali" }, { country: "Malta" }, { country: "Marshall Islands" },
+    { country: "Mauritania" }, { country: "Mauritius" }, { country: "Mexico" },
+    { country: "Micronesia" }, { country: "Moldova" }, { country: "Monaco" },
+    { country: "Mongolia" }, { country: "Montenegro" }, { country: "Morocco" },
+    { country: "Mozambique" }, { country: "Myanmar (Burma)" }, { country: "Namibia" },
+    { country: "Nauru" }, { country: "Nepal" }, { country: "Netherlands" },
+    { country: "New Zealand" }, { country: "Nicaragua" }, { country: "Niger" },
+    { country: "Nigeria" }, { country: "North Macedonia (Macedonia)" }, 
+    { country: "Norway" }, { country: "Oman" }, { country: "Pakistan" },
+    { country: "Palau" }, { country: "Panama" }, { country: "Papua New Guinea" },
+    { country: "Paraguay" }, { country: "Peru" }, { country: "Philippines" },
+    { country: "Poland" }, { country: "Portugal" }, { country: "Qatar" },
+    { country: "Romania" }, { country: "Russia" }, { country: "Rwanda" },
+    { country: "Saint Kitts and Nevis" }, { country: "Saint Lucia" },
+    { country: "Saint Vincent and the Grenadines" }, { country: "Samoa" },
+    { country: "San Marino" }, { country: "Sao Tome and Principe" },
+    { country: "Saudi Arabia" }, { country: "Senegal" }, { country: "Serbia" },
+    { country: "Seychelles" }, { country: "Sierra Leone" }, { country: "Singapore" },
+    { country: "Slovakia" }, { country: "Slovenia" }, { country: "Solomon Islands" },
+    { country: "Somalia" }, { country: "South Africa" }, { country: "South Sudan" },
+    { country: "Spain" }, { country: "Sri Lanka" }, { country: "Sudan" },
+    { country: "Suriname" }, { country: "Sweden" }, { country: "Switzerland" },
+    { country: "Syria" }, { country: "Taiwan" }, { country: "Tajikistan" },
+    { country: "Tanzania" }, { country: "Thailand" }, { country: "Timor-Leste" },
+    { country: "Togo" }, { country: "Tonga" }, { country: "Trinidad and Tobago" },
+    { country: "Tunisia" }, { country: "Turkey" }, { country: "Turkmenistan" },
+    { country: "Tuvalu" }, { country: "Uganda" }, { country: "Ukraine" },
+    { country: "United Arab Emirates" }, { country: "United Kingdom" },
+    { country: "United States" }, { country: "Uruguay" }, { country: "Uzbekistan" },
+    { country: "Vanuatu" }, { country: "Vatican City" }, { country: "Venezuela" },
+    { country: "Vietnam" }, { country: "Yemen" }, { country: "Zambia" },
+    { country: "Zimbabwe" }
   ];
+
+  const countriesCode = [
+    { code: "+1", limit: 10 },
+    { code: "+20", limit: 10 },
+    { code: "+211", limit: 9 },
+    { code: "+212", limit: 9 },
+    { code: "+213", limit: 9 },
+    { code: "+216", limit: 8 },
+    { code: "+218", limit: 9 },
+    { code: "+220", limit: 7 },
+    { code: "+221", limit: 9 },
+    { code: "+222", limit: 8 },
+    { code: "+223", limit: 8 },
+    { code: "+224", limit: 9 },
+    { code: "+225", limit: 8 },
+    { code: "+226", limit: 8 },
+    { code: "+227", limit: 8 },
+    { code: "+228", limit: 8 },
+    { code: "+229", limit: 8 },
+    { code: "+230", limit: 8 },
+    { code: "+231", limit: "7-8" },
+    { code: "+232", limit: "8-10" },
+    { code: "+233", limit: 9 },
+    { code: "+234", limit: "8-10" },
+    { code: "+235", limit: 8 },
+    { code: "+236", limit: 8 },
+    { code: "+237", limit: 9 },
+    { code: "+238", limit: 7 },
+    { code: "+239", limit: 7 },
+    { code: "+240", limit: 9 },
+    { code: "+241", limit: 7 },
+    { code: "+243", limit: 9 },
+    { code: "+244", limit: 9 },
+    { code: "+245", limit: 7 },
+    { code: "+248", limit: 7 },
+    { code: "+249", limit: 9 },
+    { code: "+250", limit: 9 },
+    { code: "+251", limit: 9 },
+    { code: "+252", limit: "7-10" },
+    { code: "+253", limit: 6 },
+    { code: "+254", limit: 9 },
+    { code: "+255", limit: 9 },
+    { code: "+256", limit: 9 },
+    { code: "+257", limit: 8 },
+    { code: "+258", limit: 9 },
+    { code: "+260", limit: 9 },
+    { code: "+261", limit: 9 },
+    { code: "+263", limit: 9 },
+    { code: "+264", limit: 9 },
+    { code: "+265", limit: 9 },
+    { code: "+266", limit: 8 },
+    { code: "+267", limit: 7 },
+    { code: "+268", limit: 8 },
+    { code: "+269", limit: 7 },
+    { code: "+27", limit: 9 },
+    { code: "+291", limit: 7 },
+    { code: "+30", limit: 10 },
+    { code: "+31", limit: 9 },
+    { code: "+32", limit: 9 },
+    { code: "+33", limit: 9 },
+    { code: "+34", limit: 9 },
+    { code: "+351", limit: 9 },
+    { code: "+352", limit: 9 },
+    { code: "+353", limit: 9 },
+    { code: "+354", limit: 7 },
+    { code: "+355", limit: 9 },
+    { code: "+356", limit: 8 },
+    { code: "+357", limit: 8 },
+    { code: "+358", limit: 10 },
+    { code: "+359", limit: 9 },
+    { code: "+36", limit: 9 },
+    { code: "+370", limit: 8 },
+    { code: "+371", limit: 8 },
+    { code: "+372", limit: 8 },
+    { code: "+373", limit: 8 },
+    { code: "+374", limit: 8 },
+    { code: "+375", limit: 9 },
+    { code: "+376", limit: 6 },
+    { code: "+377", limit: 8 },
+    { code: "+378", limit: 6 },
+    { code: "+380", limit: 9 },
+    { code: "+381", limit: 8 },
+    { code: "+382", limit: 8 },
+    { code: "+385", limit: 9 },
+    { code: "+386", limit: 9 },
+    { code: "+387", limit: 8 },
+    { code: "+389", limit: 8 },
+    { code: "+39", limit: "9-10" },
+    { code: "+39", limit: 6 },
+    { code: "+40", limit: 10 },
+    { code: "+41", limit: 9 },
+    { code: "+420", limit: 9 },
+    { code: "+421", limit: 9 },
+    { code: "+423", limit: 7 },
+    { code: "+43", limit: 10 },
+    { code: "+44", limit: 10 },
+    { code: "+45", limit: 8 },
+    { code: "+46", limit: 9 },
+    { code: "+47", limit: 8 },
+    { code: "+48", limit: 9 },
+    { code: "+49", limit: "10-11" },
+    { code: "+501", limit: 7 },
+    { code: "+502", limit: 8 },
+    { code: "+503", limit: 8 },
+    { code: "+504", limit: 8 },
+    { code: "+505", limit: 8 },
+    { code: "+506", limit: 8 },
+    { code: "+507", limit: 8 },
+    { code: "+509", limit: 8 },
+    { code: "+51", limit: 9 },
+    { code: "+52", limit: 10 },
+    { code: "+53", limit: 8 },
+    { code: "+54", limit: 10 },
+    { code: "+55", limit: "10-11" },
+    { code: "+56", limit: 9 },
+    { code: "+57", limit: 10 },
+    { code: "+58", limit: 10 },
+    { code: "+591", limit: 8 },
+    { code: "+592", limit: 7 },
+    { code: "+593", limit: 9 },
+    { code: "+595", limit: 9 },
+    { code: "+597", limit: "6-7" },
+    { code: "+598", limit: 9 },
+    { code: "+60", limit: "9-10" },
+    { code: "+61", limit: 9 },
+    { code: "+62", limit: "10-12" },
+    { code: "+63", limit: 10 },
+    { code: "+64", limit: "8-10" },
+    { code: "+65", limit: 8 },
+    { code: "+66", limit: 9 },
+    { code: "+670", limit: 8 },
+    { code: "+673", limit: 7 },
+    { code: "+674", limit: 7 },
+    { code: "+675", limit: 8 },
+    { code: "+676", limit: 5 },
+    { code: "+677", limit: 7 },
+    { code: "+678", limit: 7 },
+    { code: "+679", limit: 7 },
+    { code: "+680", limit: 7 },
+    { code: "+685", limit: "5-7" },
+    { code: "+686", limit: 8 },
+    { code: "+688", limit: 5 },
+    { code: "+691", limit: 7 },
+    { code: "+692", limit: 7 },
+    { code: "+7", limit: 10 },
+    { code: "+81", limit: 10 },
+    { code: "+82", limit: "9-10" },
+    { code: "+84", limit: "9-10" },
+    { code: "+850", limit: "6-10" },
+    { code: "+855", limit: 9 },
+    { code: "+856", limit: 9 },
+    { code: "+86", limit: 11 },
+    { code: "+880", limit: 10 },
+    { code: "+886", limit: 9 },
+    { code: "+90", limit: 10 },
+    { code: "+91", limit: 10 },
+    { code: "+92", limit: 10 },
+    { code: "+93", limit: 9 },
+    { code: "+94", limit: 10 },
+    { code: "+95", limit: 9 },
+    { code: "+960", limit: 7 },
+    { code: "+961", limit: 8 },
+    { code: "+962", limit: 9 },
+    { code: "+963", limit: 9 },
+    { code: "+964", limit: 9 },
+    { code: "+965", limit: 8 },
+    { code: "+966", limit: 9 },
+    { code: "+967", limit: 9 },
+    { code: "+968", limit: 8 },
+    { code: "+970", limit: 9 },
+    { code: "+971", limit: 9 },
+    { code: "+972", limit: 9 },
+    { code: "+973", limit: 8 },
+    { code: "+974", limit: 8 },
+    { code: "+975", limit: 8 },
+    { code: "+976", limit: 8 },
+    { code: "+977", limit: 10 },
+    { code: "+98", limit: 10 },
+    { code: "+992", limit: 9 },
+    { code: "+993", limit: 9 },
+    { code: "+994", limit: 9 },
+    { code: "+995", limit: 9 },
+    { code: "+996", limit: 9 },
+    { code: "+998", limit: 9 }
+  ];
+  
+  
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -313,14 +453,14 @@ export default function Signup({ onClose, onSigninClick }) {
   //     }));
   //   }
 
-  //   // Check if phone number is exactly 10 digits and contains only numbers
+  //   // Check if phone number is exactly 10 limit and contains only numbers
   //   const isPhoneNumberValid =
   //     phoneNumber.length === 10 && /^\d+$/.test(phoneNumber);
   //   if (!isPhoneNumberValid) {
   //     valid = false;
   //     setErrorMessages((prev) => ({
   //       ...prev,
-  //       phoneNumber: "Phone number must be exactly 10 digits.",
+  //       phoneNumber: "Phone number must be exactly 10 limit.",
   //     }));
   //   }
 
@@ -416,16 +556,42 @@ export default function Signup({ onClose, onSigninClick }) {
       errors.firstName = "First name should contain only alphabets.";
     }
 
-    const validPhoneCount = selectedCountry?.limit; // Get the limit (number of digits)
+    const validPhoneCount = selectedCountry?.limit; // Get the limit (number of limit)
+
+// Function to handle range or fixed number limit
+const validatePhoneNumber = (phoneNumber, limit) => {
+  if (typeof limit === 'string' && limit.includes('-')) {
+    // It's a range (e.g., "6-10")
+    const [min, max] = limit.split('-').map(Number);
+    const phoneLength = phoneNumber.length;
+    return phoneLength >= min && phoneLength <= max;
+  } else if (typeof limit === 'number') {
+    // It's a fixed number (e.g., 9)
+    return phoneNumber.length === limit;
+  } else {
+    // Invalid limit format
+    return false;
+  }
+}
+
+// Phone Number Validation
+if (
+  !validPhoneCount ||
+  !validatePhoneNumber(phoneNumber, validPhoneCount)
+) {
+  valid = false;
+  errors.phoneNumber = `Please enter a phone number with ${validPhoneCount} digits`;
+}
+
 
     // Phone Number Validation
-    if (
-      !validPhoneCount ||
-      !new RegExp(`^\\d{${validPhoneCount}}$`).test(phoneNumber)
-    ) {
-      valid = false;
-      errors.phoneNumber = `Please enter a ${validPhoneCount}-digit number`;
-    }
+    // if (
+    //   !validPhoneCount ||
+    //   !new RegExp(`^\\d{${validPhoneCount}}$`).test(phoneNumber)
+    // ) {
+    //   valid = false;
+    //   errors.phoneNumber = `Please enter a ${validPhoneCount}-digit number`;
+    // }
 
     // Email Validation
     if (!emailRegex.test(email)) {
@@ -546,7 +712,7 @@ export default function Signup({ onClose, onSigninClick }) {
       >
         <button
           onClick={onClose}
-          className={`absolute top-4 right-4 hover:text-gray-800 ${
+          className={`absolute top-4 right-4 ${
             isDarkMode ? "text-[#FFFFFFFF] text-opacity-80" : "text-gray-800"
           }`}
         >
@@ -754,13 +920,13 @@ export default function Signup({ onClose, onSigninClick }) {
                     </p>
                   {isCodeOpen && (
                       <ul
-                        className={`absolute mt-1 grid justify-start   max-w-24 px-2 py-1 max-h-[80px] overflow-y-auto rounded-lg shadow-lg z-10 ${
+                        className={`absolute mt-0.5 grid justify-start   max-w-24 px-2 py-1 max-h-[80px] overflow-y-auto rounded-md shadow-lg z-10 ${
                           isDarkMode
-                            ? "bg-[#FFFFFF] bg-opacity-30 text-white"
+                            ? "bg-[#FFFFFF]  text-black"
                             : "bg-white text-black"
                         }`}
                       >
-                        {countries.map((country, index) => (
+                        {countriesCode.map((country, index) => (
                           <li
                             key={index}
                             name="country"
@@ -768,7 +934,7 @@ export default function Signup({ onClose, onSigninClick }) {
                               setSelectedCountry(country);
                             }}
                             className={` px-2 py-0.5 w-full text-[12px] font-500 cursor-pointer  ${
-                              isDarkMode ? "hover:bg-opacity-40 bg-black/90" : "hover:bg-gray-200"
+                              isDarkMode ? "bg-[#FFFFFF]  text-black" : "hover:bg-gray-200"
                             }`}
                           >
                             {country.code}
@@ -778,7 +944,7 @@ export default function Signup({ onClose, onSigninClick }) {
                     )}
                   </span>
                   <Input
-                    type="tel"
+                    type="text"
                     name="phoneNumber"
                     className=" w-full"
                     placeholder={isLangArab ? "رقم الهاتف" : "Phone Number"}
@@ -859,9 +1025,9 @@ export default function Signup({ onClose, onSigninClick }) {
                     {/* Dropdown Menu */}
                     {isOpen && (
                       <ul
-                        className={`absolute mt-1 w-full max-h-[80px] min-h-[40px] overflow-y-auto rounded-lg shadow-lg z-10 ${
+                        className={`absolute mt-0.5 w-full max-h-[80px] min-h-[40px] overflow-y-auto rounded-md shadow-lg z-10 ${
                           isDarkMode
-                            ? "bg-[#FFFFFF] bg-opacity-30 text-white"
+                            ? "bg-[#FFFFFF]  text-black"
                             : "bg-white text-black"
                         }`}
                       >
@@ -877,7 +1043,7 @@ export default function Signup({ onClose, onSigninClick }) {
                               
                             }}
                             className={` px-2 py-1 w-full text-[12px] font-500 cursor-pointer  ${
-                              isDarkMode ? "hover:bg-opacity-40 bg-black/90" : "hover:bg-gray-200"
+                              isDarkMode ? "bg-[#FFFFFF]  text-black" : "hover:bg-gray-200"
                             }`}
                           >
                             {country.country}

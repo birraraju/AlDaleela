@@ -200,9 +200,9 @@ const FileUploader = ({ POIFormUploader,isLangArab,setPOIFormisOpenModalShow,set
             setPOIFormShow(true);
             setPOIUploaderShow(false);
           }}
-          className="px-1 py-3 hover:text-blue-500 flex items-center text-black focus:outline-none"
+          className={`px-1 py-3  flex items-center ${isDarkMode?"text-white":"text-black hover:text-blue-500"} focus:outline-none`}
         >
-          <ChevronLeft className="w-5 h-5" />
+          <ChevronLeft className={` ${isDarkMode && " text-white"}w-5 h-5`} />
           <span className=''>{isLangArab ?"خلف":"Back"}</span>
         </button>
       </div>

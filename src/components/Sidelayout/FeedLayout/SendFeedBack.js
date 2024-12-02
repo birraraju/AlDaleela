@@ -15,6 +15,7 @@ import badDark from "../../../assets/FeedBack/badDark.svg";
 import { useTheme } from "../../Layout/ThemeContext/ThemeContext";
 import {UserActivityLog} from "../../Common/UserActivityLog";
 import { useAuth } from "../../../Providers/AuthProvider/AuthProvider";
+import { FaEmber } from "react-icons/fa";
 export default function Feedback({
   setIsSuccess,
   setIsMsgStatus,
@@ -26,7 +27,7 @@ export default function Feedback({
   const [fbname, setfbname] = useState("-");
   const [fbemail, setfbemail] = useState("-");
   const [fbcomments, setfbcomments] = useState("-");
-  // const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({});
   const { isDarkMode, isLangArab } = useTheme();
   // const [isValid,setIsValid]=useState(false)
   const {profiledetails}= useAuth();
@@ -77,17 +78,93 @@ export default function Feedback({
     },
   ];
 
-  const onSubmitFeedback = async () => {
-    if (!validate()) return; // Stop if validation fails
+  useEffect(()=>{
+    if(!fbemail){
+      setfbemail("-")
+      setErrors({ email: "" });
+    }
+  },[fbemail])
 
+  // const onSubmitFeedback = async () => {
+  //   if (!validate()) return; // Stop if validation fails
+    
+  //   // Only perform email validation if fbemail is not empty
+  // if (fbemail) {
+  //   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  //   const isEmailValid = emailRegex.test(fbemail);
+  //   if (!isEmailValid) {
+  //     setErrors({ email: "Please enter a valid email address (e.g., example@domain.com)." });
+  //     return; // Return early if email is invalid
+  //   }
+  // }
+
+  //   const feedbackObj = {
+  //     username: fbname,
+  //     email: fbemail,
+  //     feedbackstatus: rating,
+  //     feedbackinfo: fbcomments,
+  //   };
+
+  //   try {
+  //     const response = await fetch(
+  //       `${process.env.REACT_APP_API_URL}/FeedBack/feedbacksent`,
+  //       {
+  //         method: "POST",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify(feedbackObj),
+  //       }
+  //     );
+
+  //     const data = await response.json();
+  //     if (data.success) {
+  //       if(profiledetails){
+  //         UserActivityLog(profiledetails, "Feedback Submited")
+  //       }else{
+  //         UserActivityLog({"username":fbname,"email":fbemail}, "Feedback Submited")   
+  //       }
+  //       setIsSuccess(true);
+  //       setModalMessage( isLangArab?"شكرا لتعليقاتك!":"Thank you for your feedback!");
+  //       setIsMsgStatus("Success");
+  //       setIsFeedBack(false);
+  //     } else {
+  //       setIsSuccess(true);
+  //       setModalMessage(isLangArab?"فشل في إرسال ردود الفعل":"Failed to submit feedback");
+  //       setIsMsgStatus("Failure");
+  //       setIsFeedBack(false);
+  //     }
+  //   } catch (error) {
+  //     setIsSuccess(true);
+  //     setModalMessage(isLangArab?"حدث خطأ أثناء إرسال التعليقات":"Error submitting feedback");
+  //     setIsMsgStatus("Failure");
+  //     setIsFeedBack(false);
+  //   }
+  // };
+
+  const onSubmitFeedback = async () => {
+    // First, validate the form using the validate() function
+    if (!validate()) return; // Stop if validation fails
+  
+    // Only perform email validation if fbemail is not empty
+    if (fbemail !== "-") {
+      console.log("Feedback email:", fbemail)
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      const isEmailValid = emailRegex.test(fbemail);
+      if (!isEmailValid) {
+        setErrors({ email:isLangArab?"يرجى إدخال عنوان بريد إلكتروني صالح (على سبيل المثال ، example@domain.com).": "Please enter a valid email address (e.g., example@domain.com)." });
+        return; // Return early if email is invalid
+      }
+    }
+  
+    // Prepare the feedback object
     const feedbackObj = {
       username: fbname,
       email: fbemail,
       feedbackstatus: rating,
       feedbackinfo: fbcomments,
     };
-
+  
     try {
+      // Send the feedback data via a POST request
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/FeedBack/feedbacksent`,
         {
@@ -96,31 +173,36 @@ export default function Feedback({
           body: JSON.stringify(feedbackObj),
         }
       );
-
+  
       const data = await response.json();
+      
+      // Handle success or failure based on the response data
       if (data.success) {
-        if(profiledetails){
-          UserActivityLog(profiledetails, "Feedback Submited")
-        }else{
-          UserActivityLog({"username":fbname,"email":fbemail}, "Feedback Submited")   
+        // Log the user activity, either using profiledetails or fallback to user input
+        if (profiledetails) {
+          UserActivityLog(profiledetails, "Feedback Submitted");
+        } else {
+          UserActivityLog({ username: fbname, email: fbemail }, "Feedback Submitted");
         }
+  
         setIsSuccess(true);
-        setModalMessage( isLangArab?"شكرا لتعليقاتك!":"Thank you for your feedback!");
+        setModalMessage(isLangArab ? "شكرا لتعليقاتك!" : "Thank you for your feedback!");
         setIsMsgStatus("Success");
         setIsFeedBack(false);
       } else {
         setIsSuccess(true);
-        setModalMessage(isLangArab?"فشل في إرسال ردود الفعل":"Failed to submit feedback");
+        setModalMessage(isLangArab ? "فشل في إرسال ردود الفعل" : "Failed to submit feedback");
         setIsMsgStatus("Failure");
         setIsFeedBack(false);
       }
     } catch (error) {
       setIsSuccess(true);
-      setModalMessage(isLangArab?"حدث خطأ أثناء إرسال التعليقات":"Error submitting feedback");
+      setModalMessage(isLangArab ? "حدث خطأ أثناء إرسال التعليقات" : "Error submitting feedback");
       setIsMsgStatus("Failure");
       setIsFeedBack(false);
     }
   };
+  
 
   const handleCancel = () => {
     setIsFeedBack(false);
@@ -244,7 +326,7 @@ export default function Feedback({
                     : "bg-[#FFFFFF] text-black border-gray-300"
                 }`}
               />
-              {/* <div className="w-full">
+              <div className="w-full">
                 {errors.email && (
                   <p
                     className="text-start text-xs mt-0 "
@@ -253,7 +335,7 @@ export default function Feedback({
                     {errors.email}
                   </p>
                 )}
-              </div> */}
+              </div>
             </div>
 
             <div>

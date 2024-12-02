@@ -31,4 +31,33 @@ html,
         box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 2px;
       }
 
+      /* Light mode (default) styles */
+p.esri-measurement-widget-content__hint-text {
+  font-size: 12px;
+  line-height: auto;
+  color: #008000 !important; /* Default green color */
+}
+
+/* Dark mode styles */
+.dark-mode p.esri-measurement-widget-content__hint-text {
+  color: white !important; /* White text for dark mode */
+}
+
+span.esri-measurement-widget-content__measurement-item__title {
+  color: black;
+}
+
+.dark-mode span.esri-measurement-widget-content__measurement-item__title {
+  color: white;
+}
+
+ span.esri-measurement-widget-content__measurement-item__value {
+  color: black;
+ }
+  
+  .dark-mode span.esri-measurement-widget-content__measurement-item__value {
+  color: white;
+ }
+
+
        

@@ -3,7 +3,11 @@
   import Location from '../../assets/POIEdit/POIBIN.svg';
   import PoiEditShare from '../../assets/POIEdit/PoiEditShare.svg';
   import POIEditWrite from '../../assets/POIEdit/POIEditWrite.svg';
-  import POILabelMark from '../../assets/POIEdit/POILabelMark.svg';
+  import POILabelMark from '../../assets/BookmarkThemeicons/Green Outline.svg';
+  import POILabelFillMark from '../../assets/BookmarkThemeicons/Green Fill.svg';
+  import POILabelDarkMark from '../../assets/BookmarkThemeicons/White Outline.svg';
+  import POILabelDarkFillMark from '../../assets/BookmarkThemeicons/White Fill.svg';
+  
   import  POIEditForm from '../Layout/POIEdit/POIEditForm'
   import  POShareForm from '../Layout/POIEdit/POIShareForm'
   import  POIEditFileUploader from '../Layout/POIEdit/POIFileUploader'
@@ -13,13 +17,14 @@
   import config from '../Common/config'; // Import your config file
   import LeftArrow from "../../assets/Droppedpin/leftArrow.svg"
   import RigthArrow from "../../assets/Droppedpin/RigthArrow.svg"
+  import DarkLeftArrow from "../../assets/Droppedpin/DarkArrowleft.svg"
+  import DarkRigthArrow from "../../assets/Droppedpin/DarkArrowRigth.svg"
 
 
   import { X } from "lucide-react";
   import DarkLocation from '../../assets/Droppedpin/Dropped Pin.svg';
   import { useTheme } from '../Layout/ThemeContext/ThemeContext'; // Import the theme context
   import { useAuth } from "../../Providers/AuthProvider/AuthProvider";
-  import BookYellow from '../../assets/bookmarks/imageBookYellow.png';
   import {UserActivityLog} from "../Common/UserActivityLog";
 
 
@@ -76,6 +81,8 @@
     // Completely closes the side panel
     const closePanel = () => {
       setIsFullyClosed(true);
+      setIsEditPOI(false)
+      onClose()
     };
 
     // Handle outside click detection (removed the close functionality)
@@ -265,7 +272,7 @@
         // style={{ width, height, zIndex: 50 }}  // Ensure it's above other elements
         ref={containerRef}  // Reference to the panel
       >
-        <div className={`relative sm:h-[80%] laptop_s:h-[89%] h-[98%]  w-[99%] mobile_m:w-[80%] float-end sm:w-full rounded-2xl shadow-lg overflow-hidden border transition-colors duration-300 ${
+        <div className={`relative sm:h-[80%] laptop_s:h-[89%] laptop_lg:h-[70%] h-[98%]  w-[99%] mobile_m:w-[80%] float-end sm:w-full rounded-2xl shadow-lg overflow-hidden border transition-colors duration-300 ${
             isDarkMode
               ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
               : "bg-white bg-opacity-80 border-white"
@@ -312,9 +319,9 @@
   {/* POI Label Mark */}
   <button onClick={() => RoleServices.isAuth() ? handleBookmarkEvent('click') : setIsAuthPopUp(true)}>
   <img
-    src={POILabelMark}
+    src={isBookMarked? (isDarkMode ? POILabelDarkFillMark :POILabelFillMark): (isDarkMode ? POILabelDarkMark :POILabelMark)}
     alt="Location Mark"
-    className={`${ isBookMarked? "invert brightness-0 text-white": isDarkMode ? ( isBookMarkClick ? "invert brightness-0 text-white":" invert brightness-0 text-white") :( isBookMarkClick ? "invert brightness-0 text-white":" ")} h-full`}
+    className={` h-full`}
   />
 </button>
 
@@ -322,9 +329,9 @@
 
   {/* Close Button (X) */}
   <button
-    onClick={() => setIsEditPOI(false)}
+    onClick={closePanel}
     className={`transition-colors cursor-pointer z-50 ${
-      isDarkMode ? "hover:text-gray-300" : "text-green-900"
+      isDarkMode ? "text-white" : "text-green-900"
     }`}  // Ensure it's clickable
     aria-label="Close side panel"
     style={{ zIndex: 100 }} // Ensure the "X" button is on top
@@ -333,7 +340,7 @@
   </button>
 </div>}       </div>}
               <div className={`${POIShareShow?"mt-3":"mt-20"} overflow-y-auto`}>
-                {!isEditShowPOI && <div dir={isLangArab && "rtl"} className=" w-[95%] flex justify-end items-center"><span className=" flex justify-between gap-0.5  items-center"> <button onClick={handleLeftPOIPoint}><img src={LeftArrow} alt="" className={`w-2.5 ${isLangArab && " rotate-180"} h-2.5`} /></button> <span className= {`flex justify-between gap-0.5 items-center ${ isDarkMode?"text-white":"text-[#808080]"} font-500 text-[12px]`}><p>{POIPoints.CurrentPoint}</p> <p>of</p> <p>{POIPoints.TotalPoints}</p></span>  <button onClick={handleRigthPOIPoint} ><img src={RigthArrow} alt="" className={`w-2.5 ${isLangArab && " rotate-180"} h-2.5 ${isDarkMode && " text-white"} `} /></button></span></div>}
+                {(!isEditShowPOI && !POIShareShow) && <div dir={isLangArab && "rtl"} className=" w-[95%] flex justify-end items-center"><span className=" flex justify-between gap-0.5  items-center"> <button onClick={handleLeftPOIPoint}><img src={ isDarkMode?DarkLeftArrow:LeftArrow} alt="" className={`w-2.5 ${isLangArab && " rotate-180"} h-2.5`} /></button> <span className= {`flex justify-between gap-0.5 items-center ${ isDarkMode?"text-white":"text-[#808080]"} font-500 text-[12px]`}><p>{POIPoints.CurrentPoint}</p> <p>of</p> <p>{POIPoints.TotalPoints}</p></span>  <button onClick={handleRigthPOIPoint} ><img src={ isDarkMode?DarkRigthArrow: RigthArrow} alt="" className={`w-2.5 ${isLangArab && " rotate-180"} h-2.5 ${isDarkMode && " text-white"} `} /></button></span></div>}
               {POIShareShow && <POShareForm  onClose={()=>{setPOIFormShow(true);setPOIShareShow(false);}} queryresults={queryresults}/>}
              {(isEditShowPOI||POIFormShow) && <POIEditForm isLangArab={isLangArab} isEditShowPOI={isEditShowPOI}  setIsShowEditPOI={setIsShowEditPOI}  POIFormShow={POIFormShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow} queryresults={queryresults} setIsEditPOI={setIsEditPOI} uploadedFiles={uploadedFiles} setPOImessageShow={setPOImessageShow} setPOIFormsuccessShow={setPOIFormsuccessShow} setPOIFormisOpenModalShow={setPOIFormisOpenModalShow} setUploadedFiles={setUploadedFiles}/>}
               <POIEditFileUploader isLangArab={isLangArab} setPOImessageShow={setPOImessageShow} setPOIFormsuccessShow={setPOIFormsuccessShow} POIFormUploader={POIFormUploader} setPOIFormisOpenModalShow={setPOIFormisOpenModalShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow} queryresults={queryresults} uploadedFiles={uploadedFiles} setUploadedFiles={setUploadedFiles}/>

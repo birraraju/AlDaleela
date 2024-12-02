@@ -1,0 +1,22 @@
+<svg
+            width="32"
+            height="128"
+            viewBox="0 0 64 371"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            style={{ position: 'relative', top: '1px', right: '3px' }}
+          >
+            <g clipPath="url(#clip0_4011_11301)">
+              <path
+                d="M3.82642 130.396L3.82598 244.617C3.82594 252.779 6.14893 260.773 10.5235 267.664L70.7275 362.497V8.50244L10.1031 108.027C5.99796 114.766 3.82645 122.505 3.82642 130.396Z"
+                fill={ "#EBEFF2"} 
+                stroke={ "#EEF3F7"}
+                strokeWidth="6"
+              />
+            </g>
+            <defs>
+              <clipPath id="clip0_4011_11301">
+                <rect width="64" height="371" fill="white" />
+              </clipPath>
+            </defs>
+          </svg>

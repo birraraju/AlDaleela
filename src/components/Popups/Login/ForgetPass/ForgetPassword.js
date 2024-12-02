@@ -116,7 +116,7 @@ export default function ForgetPassword({ onClose, onBackToLogin, onSignup, onNex
           }`}
           onClick={onClose}
         >
-          <X className="w-5 h-5 text-black" />
+          <X className={`w-5 h-5 ${isDarkMode?" text-white":"text-black"}`} />
         </button>
         <div className="flex justify-center mb-2">
           <img src={ isDarkMode? Darklogo : Logo} alt="Logo" className="h-12" />
