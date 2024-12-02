@@ -26,7 +26,9 @@ const formSchema = z.object({
   password: z.string().min(8, "Password must be at least 8 characters"),
 });
 
-export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClose }) {
+export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClose,setIsSuccess,
+  setIsMsgStatus,
+  setModalMessage }) {
   const [isPassword, setIsPassword] = useState(false);
   const { setRole } = useAuth();
   const {profiledetails , setprofiledetails} = useAuth()
@@ -68,8 +70,11 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
       setRole(data.data.role);
       localStorage.setItem("AldaleelaRole", data.data.role);
       localStorage.setItem("AldaleelaUserDetails:",JSON.stringify(data.data))
-      setToastMessage(isLangArab?"تم تسجيل الدخول بنجاح!":"Logged in Successfully !")
-      setShowToast(true)
+      setIsSuccess(true);
+        setIsMsgStatus("Success");
+        setModalMessage(isLangArab?"تم تسجيل الدخول بنجاح!":"Logged in Successfully !");
+      // setToastMessage(isLangArab?"تم تسجيل الدخول بنجاح!":"Logged in Successfully !")
+      // setShowToast(true)
       onClose();
       
       //setRole("user");
@@ -77,14 +82,22 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
     }      
     else{
       console.log(data.message)
-      setToastMessage(data.message)
-      setShowToast(true)
+      setIsSuccess(true);
+      setIsMsgStatus("Failure");
+      setModalMessage(data.message);
+      // setToastMessage(data.message)
+      // setShowToast(true)
       setErrors(data.message)
+      onClose();
     }
   }catch (error) {
-    setToastMessage( isLangArab?"فشل تسجيل الدخول!": "Failed to Logged !")
-    setShowToast(true)
+    setIsSuccess(true);
+    setIsMsgStatus("Failure");
+    setModalMessage(isLangArab?"فشل تسجيل الدخول!": "Failed to Logged !");
+    // setToastMessage( )
+    // setShowToast(true)
     console.error('Error submitting form:', error);
+    onClose();
   }
 
   }
@@ -159,7 +172,7 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
         <div className="flex justify-between items-center">
           <div className="flex items-center space-x-1">
             {/* <Checkbox className={`${isDarkMode ? "bg-gray-400 border-gray-700" : "bg-white"}`} /> */}
-            <label onClick={()=>{setIsRemember((pre)=> !pre)}}><img src={isRemember?ClickRemember:NotClickRemember} className=" w-4 h-4" alt="" /></label>
+            <label onClick={()=>{setIsRemember((pre)=> !pre)}}><img src={isRemember?ClickRemember:NotClickRemember} className={`${isLangArab?"mx-1":" "} w-4 h-4`} alt="" /></label>
             <label className={`${isDarkMode ? ' text-white/80' : ' text-black/90'} text-[14px] font-[400]`}>
               {(form.formState.isValid) ? "Remember me" : isLangArab ? "البقاء مسجلًا":"Stay logged in"}
             </label>

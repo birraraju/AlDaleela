@@ -70,9 +70,9 @@
 
 .dark-mode .esri-basemap-gallery__item-title:hover,
 .dark-mode .esri-basemap-gallery__item[aria-checked="true"] .esri-basemap-gallery__item-title {
-    color: white !important; /* Ensures no change in dark mode */
+    color: #6e6e6e !important; /* Ensures no change in dark mode */
 }
 
 .dark-mode .esri-basemap-gallery__item:hover .esri-basemap-gallery__item-title {
-    color: white !important; /* Ensures hover doesn't affect color in dark mode */
+    color: #6e6e6e !important; /* Ensures hover doesn't affect color in dark mode */
 }
