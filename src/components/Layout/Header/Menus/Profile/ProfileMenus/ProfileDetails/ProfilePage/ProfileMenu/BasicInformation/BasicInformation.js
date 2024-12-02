@@ -148,7 +148,7 @@ export default function BasicInformation({
         profiledetails.email = finaluserInfo.email;
         profiledetails.organization = finaluserInfo.organization;
         profiledetails.country = finaluserInfo.country;
-        if (profiledetails.imageUrl) {
+        if (data.data.imageUrl) {
           profiledetails.imageUrl = data.data.imageUrl;
         }
         localStorage.setItem(
