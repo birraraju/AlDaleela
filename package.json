@@ -2,7 +2,7 @@
   "name": "al-daleela-react-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "/AlDaleelaWebApp",
+  "homepage": "/AlDaleela",
   "dependencies": {
     "@arcgis/core": "^4.30.9",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
