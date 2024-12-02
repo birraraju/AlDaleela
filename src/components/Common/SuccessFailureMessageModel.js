@@ -7,12 +7,12 @@ import FailureIcon from "../../assets/EmailVerfication/failureIcon.svg"
 import { useTheme } from "../Layout/ThemeContext/ThemeContext";
 
 export default function PopModal({ message, success, isOpenModal, onClose }) {
-  const {isLangArab} = useTheme()
+  const {isLangArab, isDarkMode} = useTheme()
   if (!isOpenModal) return null; // Modal won't render if not open
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-transparent z-50">
-      <div className="bg-white p-8 rounded-lg shadow-lg flex flex-col items-center gap-6 w-[90%] sm:w-[400px] min-h-[300px]">
+      <div className={`${isDarkMode?"bg-[rgba(96,96,96,0.8)]":"bg-white"} p-8 rounded-lg shadow-lg flex flex-col items-center gap-6 w-[90%] sm:w-[400px] min-h-[300px]`}>
         {/* Display the appropriate image based on success value */}
         <img
           src={success === "Success" ? SuccessSvg : FailureIcon} // Show Success or Failure SVG
@@ -21,7 +21,7 @@ export default function PopModal({ message, success, isOpenModal, onClose }) {
         />
 
         {/* Display the message */}
-        <p className="font-medium text-xl text-center text-black">
+        <p className={`font-medium text-xl text-center ${isDarkMode?" text-white":"text-black"}`}>
           {message}
         </p>
 

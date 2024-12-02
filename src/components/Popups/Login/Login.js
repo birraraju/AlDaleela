@@ -6,7 +6,9 @@ import ResetPassword from "./NewPassword/NewPassword";
 import { useTheme } from '../../Layout/ThemeContext/ThemeContext'; // Import the theme hook
 
 
-export default function Login({ onClose }) {
+export default function Login({ onClose,setIsSuccess,
+  setIsMsgStatus,
+  setModalMessage }) {
   const [currentView, setCurrentView] = useState("signin");
   const [email, setEmail] = useState("");
   const {isLogin,isSignup } = useTheme(); // Use the theme hook  
@@ -44,6 +46,9 @@ export default function Login({ onClose }) {
         return (
           <Signin
             onClose={handleClose}
+            setIsMsgStatus={setIsMsgStatus}
+          setModalMessage={setModalMessage}  
+          setIsSuccess={setIsSuccess}
             onSignupClick={() => handleViewChange("signup")}
             onForgotPasswordClick={() => handleViewChange("forgotpassword")}
           />
