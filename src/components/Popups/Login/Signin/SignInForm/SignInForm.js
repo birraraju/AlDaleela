@@ -99,7 +99,6 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
     console.error('Error submitting form:', error);
     onClose();
   }
-
   }
 
   return (
