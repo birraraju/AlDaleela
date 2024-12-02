@@ -7,7 +7,9 @@ import SignInForm from "./SignInForm/SignInForm";
 import { useTheme } from '../../../Layout/ThemeContext/ThemeContext'; // Import the theme context
 
 
-export default function Signin({ onClose, onSignupClick, onForgotPasswordClick }) {
+export default function Signin({ onClose, onSignupClick, onForgotPasswordClick,setIsSuccess,
+  setIsMsgStatus,
+  setModalMessage }) {
   const modalRef = useRef(null);
  
   const { isDarkMode, isLangArab } = useTheme(); // Access the dark mode state
@@ -54,6 +56,9 @@ export default function Signin({ onClose, onSignupClick, onForgotPasswordClick }
         </p>
 
         <SignInForm
+         setIsMsgStatus={setIsMsgStatus}
+         setModalMessage={setModalMessage}  
+         setIsSuccess={setIsSuccess}
           onForgotPasswordClick={onForgotPasswordClick}
           onSignupClick={onSignupClick}
           onClose={onClose}

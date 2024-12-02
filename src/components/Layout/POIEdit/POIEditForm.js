@@ -884,14 +884,9 @@ const Component = ({
                       >
                         <button onClick={() => handlePlayAudio(index)}>
                           {playingIndex === index ? (
-                            <img
-                              src={AudioPlayPOI}
-                              alt="Audio Wave"
-                              className={` ${
-                                isLangArab && "rotate-180"
-                              } w-[70%] h-full`}
-                            />
-                          ) : (
+ <FaPause className={` ${
+  isLangArab && "rotate-180"
+} w-[70%] p-1 m-1 h-full`}/>) : (
                             <img
                               src={AudioPlayPOI}
                               alt="Audio Wave"

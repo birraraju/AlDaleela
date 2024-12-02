@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useEffect,useRef, useState } from "react";
+import { FaPlay, FaPause } from "react-icons/fa"; // Example using Font Awesome icons
+
 import SeaPOI from '../../assets/POIEdit/imagePOISea.png';
 import PlayIconPOI from '../../assets/POIEdit/imagePlayvideoIcon.png';
 import PlayThumbPOI from '../../assets/POIEdit/POIVideoThumb.png';
@@ -626,13 +628,9 @@ const DropBinStatusUpdate = ({setMessage,isLangArab,setFormShow,isDarkMode,setPO
                     >
                       <button onClick={() => handlePlayAudio(index)}>
                         {playingIndex === index ? (
-                          <img
-                            src={AudioPlayPOI}
-                            alt="Audio Wave"
-                            className={` ${
-                              isLangArab && "rotate-180"
-                            } w-[70%] h-full`}
-                          />
+                          <FaPause className={` ${
+                            isLangArab && "rotate-180"
+                          } w-[70%] p-1 m-1 h-full`}/>
                         ) : (
                           <img
                             src={AudioPlayPOI}
