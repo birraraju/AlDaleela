@@ -920,7 +920,7 @@ if (
                     </p>
                   {isCodeOpen && (
                       <ul
-                        className={`absolute mt-1 grid justify-start   max-w-24 px-2 py-1 max-h-[80px] overflow-y-auto rounded-lg shadow-lg z-10 ${
+                        className={`absolute mt-0.5 grid justify-start   max-w-24 px-2 py-1 max-h-[80px] overflow-y-auto rounded-md shadow-lg z-10 ${
                           isDarkMode
                             ? "bg-[#FFFFFF]  text-black"
                             : "bg-white text-black"
@@ -1025,7 +1025,7 @@ if (
                     {/* Dropdown Menu */}
                     {isOpen && (
                       <ul
-                        className={`absolute mt-1 w-full max-h-[80px] min-h-[40px] overflow-y-auto rounded-lg shadow-lg z-10 ${
+                        className={`absolute mt-0.5 w-full max-h-[80px] min-h-[40px] overflow-y-auto rounded-md shadow-lg z-10 ${
                           isDarkMode
                             ? "bg-[#FFFFFF]  text-black"
                             : "bg-white text-black"
