@@ -226,7 +226,7 @@ const handleMapClick = (view) => async(event) => {
         ref={mapDiv}
       />
       {/* Display Lat, Lon, and Scale */}
-      {(lat && lon) && <div dir={isLangArab && "rtl"} className={`absolute  mobile_l:bottom-24 laptop_s:bottom-4 bottom-24 text-[#2C2C2C]    font-medium sm:text-[12px] text-[9px] ${isLangArab?"sm:right-10  right-2":"sm:left-10 left-2"} bg-white bg-opacity-40 backdrop-blur sm:p-3 p-1 rounded-lg shadow-md`}>
+      {(lat && lon) && <div dir={isLangArab && "rtl"} className={`absolute  tab:h-[55px] sm:w-[12rem] w-[11rem]  sm:h-[60px] h-[50px] mobile_l:bottom-24 laptop_s:bottom-4 bottom-24 text-[#2C2C2C]    font-medium sm:text-[12px] text-[9px] ${isLangArab?"sm:right-10  right-2":"sm:left-10 left-2"} bg-white bg-opacity-40 backdrop-blur sm:p-3 p-1 rounded-lg shadow-md`}>
         <p className="text-[#2C2C2C]    font-medium text-[12px] mb-1">
           {isLangArab?"خط الطول":"Long"}: <span className="font-normal">{lon?.toFixed(3)}</span>
           <span className="mx-4">|</span>

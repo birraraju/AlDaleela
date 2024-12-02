@@ -224,7 +224,7 @@ export default function Footer({
           "theme-dark"
         )
           ? "radial-gradient(circle at 38px 4px, transparent 28px, rgba(0, 0, 0, 0.2) 29px)"
-          : "radial-gradient(circle at 38px 4px, transparent 28px, rgba(18, 69, 41, 0.2) 29px)";
+          : isDarkMode?"radial-gradient(circle at 38px 4px, transparent 28px, rgba(0, 0, 0, 0.2) 29px)": "radial-gradient(circle at 38px 4px, transparent 28px, rgba(18, 69, 41, 0.2) 29px)";
       }
 
       setActiveMenuIndex(index);
@@ -317,7 +317,7 @@ export default function Footer({
                         id={`tooltip-${index}`}
                         
                         place="top"
-                        className="ToolTipEnvi"
+                        className="ToolTipEnvi z-30"
                       />
                     </button>
                   </div>
@@ -353,7 +353,7 @@ export default function Footer({
                         id={`tooltip-${index}`}
                         
                         place="top"
-                        className="ToolTipEnvi"
+                        className="ToolTipEnvi z-30"
                       />
                     </button>
                   </div>
@@ -390,7 +390,7 @@ export default function Footer({
                         id={`tooltip-${index}`}
                         
                         place="top"
-                        className="ToolTipEnvi"
+                        className="ToolTipEnvi z-30"
                       />
                     </button>
                   </div>
@@ -431,7 +431,7 @@ export default function Footer({
                       id={`tooltip-${index}`}
                       
                       place="top"
-                      className="ToolTipEnvi"
+                      className="ToolTipEnvi z-30"
                     />
                   </button>
                 </div>
@@ -467,7 +467,7 @@ export default function Footer({
                       id={`tooltip-${index}`}
                       
                       place="top"
-                      className="ToolTipEnvi"
+                      className="ToolTipEnvi z-30"
                     />
                   </button>
                 </div>
@@ -504,7 +504,7 @@ export default function Footer({
                       id={`tooltip-${index}`}
                       
                       place="top"
-                      className="ToolTipEnvi"
+                      className="ToolTipEnvi z-30"
                     />
                   </button>
                 </div>
@@ -513,7 +513,7 @@ export default function Footer({
           ))}
       <button
         ref={navIndicatorRef}
-        className="sc-nav-indicator"
+        className="sc-nav-indicator z-10"
         style={{
           bottom: `${currentMenuPosition}px`,
           display: currentItemDisplay,
