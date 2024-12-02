@@ -723,7 +723,7 @@ const Component = ({
               // (videos.length > 0 || audios.length > 0 || images.length > 0) && (
                 <div dir={isLangArab && "rtl"} className=" flex justify-end ">
                   <button
-                    className=" text-[#028DC8] font-medium text-[12px] underline"
+                    className={` ${ isDarkMode?" text-white":"text-[#028DC8]"} font-medium text-[12px] underline`}
                     onClick={() => setIsShowMore(!isShowMore)}
                   >
                     {isShowMore
@@ -884,14 +884,9 @@ const Component = ({
                       >
                         <button onClick={() => handlePlayAudio(index)}>
                           {playingIndex === index ? (
-                            <img
-                              src={AudioPlayPOI}
-                              alt="Audio Wave"
-                              className={` ${
-                                isLangArab && "rotate-180"
-                              } w-[70%] h-full`}
-                            />
-                          ) : (
+ <FaPause className={` ${
+  isLangArab && "rotate-180"
+} w-[70%] p-1 m-1 h-full`}/>) : (
                             <img
                               src={AudioPlayPOI}
                               alt="Audio Wave"
@@ -1023,8 +1018,8 @@ const Component = ({
               <div className="flex justify-center py-1 space-x-8 items-center">
                 <button
                   onClick={() => setIsShowEditPOI(false)}
-                  className={`w-auto py-3 px-14 outline-none bg-transparent text-xs ${
-                    isDarkMode ? " text-white" : "text-[#505050]"
+                  className={`w-auto py-3 px-14 outline-none  text-xs ${
+                    isDarkMode ? " text-[#505050] bg-white" : "text-[#505050] bg-transparent"
                   } border border-[#909090] rounded-lg`}
                 >
                   {isLangArab ? "يلغي" : "Cancel"}

@@ -1,15 +1,18 @@
 import { X } from "lucide-react";
 import DeleteAdminSvg from '../../assets/Admin/logo/DeletePopIcon.svg'
+import { useTheme } from "../Layout/ThemeContext/ThemeContext";
 export default function DeleteConfirmation({isLangArab,isShowConfirmation,Label,handleDeleteConfirm, handleDeleteCancel }) {
+    const {isDarkMode} = useTheme()
     if (!isShowConfirmation) return null;
+
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-            <div className="bg-gray-200 rounded-xl shadow-lg px-5 py-8 w-[440px] relative">
+            <div className={`${isDarkMode?"bg-[#303031]  border border-white":"bg-gray-200"} rounded-xl shadow-lg px-5 py-8 w-[440px] relative`}>
                 
                 {/* Close Button */}
                 <X
-                    className="absolute top-4 right-4 text-gray-600 hover:text-black cursor-pointer"
+                    className={`absolute top-4 right-4 ${isDarkMode?"text-[#FFFFFFCC]":"text-gray-600"}  cursor-pointer`}
                     onClick={handleDeleteCancel}
                     aria-label="Cancel"
                 />
@@ -18,10 +21,10 @@ export default function DeleteConfirmation({isLangArab,isShowConfirmation,Label,
                     <img src={DeleteAdminSvg} alt="Logo" /> 
                 </div>
                 
-                <h1 className="text-start py-4 text-lg font-semibold text-black">
+                <h1 className={`text-start py-4 text-lg font-semibold ${isDarkMode?"text-[#FFFFFFCC]":"text-black"}`}>
                 {isLangArab?"تأكيد للحذف":"Confirm to Delete"} { Label === "user" ?(isLangArab?"مستخدم": "User") :(isLangArab?"ملاحظات":"FeedBack")}
                 </h1>
-                <h2 className=" text-sm text-black/65">{isLangArab?"هل أنت متأكد أنك تريد حذف هذا":"Are you sure you want to delete this"} { Label === "user" ?(isLangArab?"مستخدم": "User") :(isLangArab?"ملاحظات":"FeedBack")}? {isLangArab?"هذا الإجراء لا يمكن":"This action cannot"} <br/> {isLangArab?"يمكن التراجع عنه":"be undone"}</h2>
+                <h2 className={` text-sm ${isDarkMode?"text-[#FFFFFFCC]":"text-black/65"}`}>{isLangArab?"هل أنت متأكد أنك تريد حذف هذا":"Are you sure you want to delete this"} { Label === "user" ?(isLangArab?"مستخدم": "User") :(isLangArab?"ملاحظات":"FeedBack")}? {isLangArab?"هذا الإجراء لا يمكن":"This action cannot"} <br/> {isLangArab?"يمكن التراجع عنه":"be undone"}</h2>
                     <div className=" flex gap-3 pt-4 ">
                 <button
                     className="w-full  py-2 rounded-lg bg-white text-black/85 border border-gray-500 font-medium"

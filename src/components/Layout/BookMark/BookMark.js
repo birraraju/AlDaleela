@@ -226,7 +226,7 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
             setIds([]) // Reset the selected marks
             fetchBookmarks()
             setisMsgStatus("Success")
-            setIsmodalMessage("Bookmark Deleted Sucessfully")
+            setIsmodalMessage(isLangArab?"تم حذف الإشارة المرجعية بنجاح":"Bookmark Deleted Sucessfully")
             setIsSuccess(true)
             setIsManageVisible(false);
           }
@@ -235,7 +235,7 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
             setSelectedMarks({});
             setIds([]) // Reset the selected marks
             fetchBookmarks()
-            setIsmodalMessage(" Failed to Deleted Bookmark!")
+            setIsmodalMessage(isLangArab?"فشل حذف الإشارة المرجعية!":"Failed to Deleted Bookmark!")
             setIsSuccess(true)
             setIsManageVisible(false); // Close management view
 
@@ -249,7 +249,7 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
         setSelectedMarks({});
             setIds([]) // Reset the selected marks
             fetchBookmarks()
-            setIsmodalMessage(" Failed to Deleted Bookmark!")
+            setIsmodalMessage(isLangArab?"فشل حذف الإشارة المرجعية!":" Failed to Deleted Bookmark!")
             setIsSuccess(true)
             setIsManageVisible(false);
           console.error('Error submitting form:', error);
@@ -325,14 +325,14 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
               <div className={`flex justify-center  ${isLangArab?"gap-4":"space-x-9"}  items-center`}>
                 
                 <button onClick={handleClose}
-                  className="w-auto py-3 text-[12px]   font-500 mobile_s:text-[10px] mobile_m:text-[12px] px-12 text-black bg-white/20  border border-gray-300 rounded-lg"
+                  className={`w-auto py-3 text-[12px]   font-500 mobile_s:text-[10px] mobile_m:text-[12px] px-12 text-black ${isDarkMode?" bg-white":" bg-transparent border-[#909090]"}  border  rounded-lg`}
                 >
                   {isLangArab ? "إلغاء":"Cancel"}
                 </button>
                 <button
                   onClick={handleSave}
                   disabled={ids.length === 0}
-                  className={ids.length===0?"w-auto py-3   font-500 text-[#FFFFFF] px-9 mobile_s:px-6 mobile_m:px-6  sm:px-8 bg-custome-gray1 text-[12px] mobile_s:text-[10px] mobile_m:text-[12px]  border border-gray-300 rounded-lg":"w-auto py-3 px-9 mobile_s:px-6 mobile_m:px-6  sm:px-10 bg-custom-gradient text-[12px] mobile_s:text-[10px] mobile_m:text-[12px] border border-gray-300 rounded-lg"}
+                  className={ids.length===0?"w-auto py-3   font-500 text-[#FFFFFF] px-9 mobile_s:px-6 mobile_m:px-6  sm:px-8 bg-custome-gray1 text-[12px] mobile_s:text-[10px] mobile_m:text-[12px]  border border-transparent rounded-lg":"w-auto py-3 px-9 mobile_s:px-6 mobile_m:px-6  sm:px-10 bg-custom-gradient text-[12px] mobile_s:text-[10px] mobile_m:text-[12px] border border-transparent rounded-lg"}
                 >
                   {isLangArab?"حفظ التغييرات":"Save Changes"}
                 </button>

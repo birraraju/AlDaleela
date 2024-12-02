@@ -1,6 +1,7 @@
 import { Label } from "../../../../ui/label";
 import { useAuth } from "../../../../../Providers/AuthProvider/AuthProvider";
 import { useTheme } from "../../../ThemeContext/ThemeContext";
+import { FiX } from 'react-icons/fi';
 export default function Props({
   inputClicked,
   setInputValue,
@@ -46,7 +47,7 @@ export default function Props({
             }}
             className={`absolute mobile_s:-top-7 laptop_s:-top-[26px]  laptop_m:-top-[26px] ${isLangArab?"sm:left-[31%] left-32":"sm:right-[31%] right-32"} cursor-pointer`}
           >
-            <img src={`${process.env.PUBLIC_URL}/Header/Searchbar/close.svg`} alt="" className="w-5 laptop_s:w-6 laptop_m:w-6" />
+           {isDarkMode?<FiX className="w-5 laptop_s:w-6 laptop_m:w-6" size={20} color="white" />: <img src={`${process.env.PUBLIC_URL}/Header/Searchbar/close.svg`} alt="" className="w-5 laptop_s:w-6 laptop_m:w-6" />}
           </div>
         )}
 
