@@ -181,9 +181,28 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
                 className="mobile_s:w-14 mobile_s:h-7 tab_l:w-10 tab_l_1:w-7  tab:w-20 tab:h-7 tab:h- laptop_s:w-6 laptop_s:h-6 laptop_m:w-6 laptop_m:h-6 w-8 h-8 rounded-full object-cover"
               />
             </div>
-            <div className="mobile_s:ml-2 hidden sm:block laptop_m:ml-2">
+            {/* <div className="mobile_s:ml-2 hidden sm:block laptop_m:ml-2">
               <p className= {` ${isLangArab?"text-[9px] sm:text-[11px] laptop_s:text-[14px]":"text-[9px] sm:text-[14px] laptop_s:text-[11px] laptop_m:text-[14px] "} `}>{role !== null ? (profiledetails.username ? profiledetails.username: profiledetails.username === "" && profiledetails.firstName) : (isLangArab ? "الملف الشخصي":"Profile")}</p>
-            </div>
+            </div> */}
+            <div className="mobile_s:ml-2 hidden sm:block laptop_m:ml-2">
+  <p
+    className={`truncate max-w-[45px] laptop_s:max-w-max overflow-hidden text-ellipsis ${
+      isLangArab
+        ? "text-[9px] sm:text-[11px] laptop_s:text-[14px]"
+        : "text-[9px] sm:text-[14px] laptop_s:text-[11px] laptop_m:text-[14px]"
+    }`}
+    title={role !== null && profiledetails.username ? profiledetails.username : ""}
+  >
+    {role !== null
+      ? profiledetails.username
+        ? profiledetails.username
+        : profiledetails.username === "" && profiledetails.firstName
+      : isLangArab
+      ? "الملف الشخصي"
+      : "Profile"}
+  </p>
+</div>
+
             <div className="mobile_s:mx-2 sm:block hidden laptop_m:mx-2">
               <IoMdArrowDropdown
                 className={`text-xl ${isPopoverOpen && "rotate-360"} transition-all ease-in-out duration-500`}

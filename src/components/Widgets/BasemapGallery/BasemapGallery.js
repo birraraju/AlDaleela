@@ -76,7 +76,7 @@ const BasemapGalleryComponent = ({ mapview }) => {
   return (
     <div
       id="basemapDiv"
-      className={`sm:-mt-[150%] tab_s:-mt-[145%] tab_m:-mt-[130%] tab_l_1:-mt-[120%]    laptop_s:h-[450px] laptop_m:-mt-[120%] 2xl:-mt-[110%] mobile_m:-mt-[165%]  mobile_l:-mt-[185%]  sm:h-[600px] h-[530px] -mt-[137%] bg-transparent overflow-y-auto ${isDarkMode ? 'dark-mode' : ''}`}
+      className={`sm:-mt-[150%] tab_s:-mt-[145%] tab_m:-mt-[130%] tab_l_1:-mt-[120%] flip:-mt-[105%] laptop_l:-mt-[120%]   laptop_s:h-[450px] laptop_m:-mt-[120%] 2xl:-mt-[110%] mobile_m:-mt-[165%]  mobile_l:-mt-[185%]  sm:h-[600px] h-[530px] -mt-[137%] bg-transparent overflow-y-auto ${isDarkMode ? 'dark-mode' : ''}`}
     >
       
       <div ref={mapRef1} />
