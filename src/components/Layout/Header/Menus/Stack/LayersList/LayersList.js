@@ -89,7 +89,7 @@ export default function LayersList({ onClose, mapview }) {
             {isLangArab ? "قائمة الطبقات" : "Layer List"}
           </h1>
           <button
-            className={`absolute top-4 ${isLangArab ? "left-4" : "right-4"} hover:text-gray-800 ${
+            className={`absolute top-4 ${isLangArab ? "left-4" : "right-4"}  ${
               isDarkMode ? "text-[#FFFFFFFF] text-opacity-80" : "text-gray-800"
             }`}
             onClick={onClose}
