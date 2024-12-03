@@ -112,6 +112,9 @@ switch (environment) {
   case "devedp":
     config = require("./config.devedp.js").default;
     break;
+  case "localhost":
+    config = require("./config.atlas.js").default;
+    break;
   default:
     throw new Error(`No config file found for environment: ${environment}`);
 }
