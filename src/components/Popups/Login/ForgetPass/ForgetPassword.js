@@ -111,7 +111,7 @@ export default function ForgetPassword({ onClose, onBackToLogin, onSignup, onNex
           isDarkMode ? 'bg-[rgba(96,96,96,0.8)] text-white' : 'bg-white bg-opacity-50 backdrop-filter backdrop-blur-lg text-black'
         }`}      >
         <button
-          className={`absolute top-4 right-4 hover:text-gray-800 ${
+          className={`absolute top-4 ${ isLangArab?" left-4":"right-4"} hover:text-gray-800 ${
             isDarkMode ? "text-[#FFFFFFFF] text-opacity-80" : "text-gray-800"
           }`}
           onClick={onClose}

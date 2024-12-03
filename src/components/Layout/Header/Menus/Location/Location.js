@@ -28,7 +28,7 @@ const Location = ({ isHeaderOpen,isLocationOpen }) => {
       <div
   className={`bg-white ${
     !showInfo && "bg-opacity-5"
-  } sm:flex hidden rounded-full z-40  mobile_s:h-9 laptop_s:h-7 laptop_s:w-7  laptop_s:mr-0.5  laptop_m:h-8 mobile_s:w-9 laptop_m:w-8 mobile_s:mr-2 laptop_m:mr-2 justify-center items-center cursor-pointer`} 
+  } sm:flex hidden rounded-full z-40  mobile_s:h-9 tab:h-7  laptop_s:h-7 laptop_s:w-7 tab:p-1 laptop_s:p-0  laptop_s:mr-0.5  laptop_m:h-8 mobile_s:w-9 laptop_m:w-8 mobile_s:mr-2 tab:mr-0.5  laptop_m:mr-2 justify-center items-center cursor-pointer`} 
   onClick={handleClick}
       >
         <img

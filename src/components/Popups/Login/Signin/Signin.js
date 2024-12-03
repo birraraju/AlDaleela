@@ -39,7 +39,7 @@ export default function Signin({ onClose, onSignupClick, onForgotPasswordClick,s
       >
         <button
           onClick={onClose}
-          className={`absolute top-4 right-4  ${
+          className={`absolute top-4 ${ isLangArab?" left-4":"right-4"}  ${
             isDarkMode ? "text-[#FFFFFFFF] text-opacity-80" : "text-gray-800"
           }`}
         >

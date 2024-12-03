@@ -896,10 +896,10 @@ const handleDrop = async (e) => {
         {/* Coordinates Section */}
         <div className="space-y-2 pt-2 pb-6">
           <div className="flex items-center space-x-4">
-            <label className={`block text-[11px] font-medium ${isDarkMode?"text-white":"text-gray-700"}`}>
+            <label className={`block text-[11px] mx-1 font-medium ${isDarkMode?"text-white":"text-gray-700"}`}>
               {isLangArab ? "الإحداثيات" : "Coordinates"}
             </label>
-            <label className="inline-flex items-center">
+            <label className="inline-flex gap-1 items-center">
               <input
                 type="radio"
                 className="form-radio"
@@ -912,7 +912,7 @@ const handleDrop = async (e) => {
                 {isLangArab ? "درجات دقائق ثواني" : "Degrees Minutes Seconds"}
               </span>
             </label>
-            <label className="inline-flex items-center">
+            <label className="inline-flex gap-1 items-center">
               <input
                 type="radio"
                 className="form-radio"
