@@ -16,11 +16,11 @@ export default function Mottos() {
             isDarkMode ? "bg-white bg-opacity-20 text-white" : "bg-white text-black"
           }`} // Adjust background and text colors based on dark mode
         >
-          <div className="w-[15%]">
+          <div className="w-[40px]">
             <img
               src={content.image}
               alt=""
-              className="w-6"
+              className=" w-full"
             />
           </div>
 
