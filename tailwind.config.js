@@ -49,7 +49,8 @@ export default {
           laptop_s: "1024px",
           laptop_l: "1280px",
           laptop_m: "1440px",
-          laptop_lg: "1720px"
+          laptop_lg: "1720px",
+          flip:"1114px"
         },
         backgroundImage: {
           'mobile-gradient-Pops': 'linear-gradient(160.48deg, rgba(242, 247, 252, 0.86) 4.52%, rgba(248, 252, 255, 0.86) 44.74%, rgba(221, 236, 249, 0.86) 102.82%)',
