@@ -298,6 +298,7 @@ export default function Signup({ onClose, onSigninClick }) {
   // const [formIsValid, setFormIsValid] = useState(false);
   const [isFormFilled, setFormFilled] = useState(false);
   const [filterText, setFilterText] = useState("");
+  const [filterCode, setFilterCode] = useState("");
   const modalRef = useRef(null);
 
   const [isOpen, setIsOpen] = useState(false);
@@ -348,10 +349,16 @@ export default function Signup({ onClose, onSigninClick }) {
     setFilterText(e.target.value);
   };
 
+  const handleFilterCodeChange=(e)=>{
+    setFilterCode(e.target.value)
+  }
+
   // Filter the countries based on the input text
   const filteredCountries = countries.filter((country) =>
     country.country.toLowerCase().includes(filterText.toLowerCase())
   );
+
+  const filterCountryCodes = countriesCode.filter((code)=> code.code.toLowerCase().includes(filterCode.toLowerCase()))
 
   const handleSelect = ({ name, value }) => {
     setSelectedValue(value);
@@ -712,7 +719,7 @@ if (
       >
         <button
           onClick={onClose}
-          className={`absolute top-4 right-4 ${
+          className={`absolute top-4 ${ isLangArab?" left-4":"right-4"} ${
             isDarkMode ? "text-[#FFFFFFFF] text-opacity-80" : "text-gray-800"
           }`}
         >
@@ -898,10 +905,9 @@ if (
                 </span>
                 <span className=" ">
                 <span className="flex gap-1 ">
-                <span onClick={toggleCodeDropdown} className=" cursor-pointer">
-                  
-                  <p
-                    name="code"
+                <span  className=" cursor-pointer">                  
+                 {!isCodeOpen? <p
+                      onClick={toggleCodeDropdown}
                     className={` h-[48px] min-w-14 max-w-16 flex items-center justify-between  px-3 py-1.5 border-gray-300 rounded-[10px]  text-sm appearance-none border transition-colors ${
                       isDarkMode
                         ? "bg-[#FFFFFF]  text-black border-transparent "
@@ -917,7 +923,14 @@ if (
                       alt="Dropdown"
                       className=" mx-1"
                     />
-                    </p>
+                    </p> : 
+                    <input type="text" value={filterCode}
+          onChange={handleFilterCodeChange} className={`h-[48px] min-w-14 max-w-16 flex items-center  px-3 py-1.5 rounded-[10px] text-sm appearance-none border transition-colors ${
+                        isDarkMode
+                          ? "bg-[#FFFFFF]  text-black border-transparent "
+                          : "bg-white text-black border-transparent"
+                      }`} /> 
+                      }
                   {isCodeOpen && (
                       <ul
                         className={`absolute mt-0.5 grid justify-start   max-w-24 px-2 py-1 max-h-[80px] overflow-y-auto rounded-md shadow-lg z-10 ${
@@ -926,12 +939,13 @@ if (
                             : "bg-white text-black"
                         }`}
                       >
-                        {countriesCode.map((country, index) => (
+                        {filterCountryCodes.map((country, index) => (
                           <li
                             key={index}
                             name="country"
                             onClick={() => {
-                              setSelectedCountry(country);
+                              setSelectedCountry(country); setCodeOpen(!isCodeOpen)
+
                             }}
                             className={` px-2 py-0.5 w-full text-[12px] font-500 cursor-pointer  ${
                               isDarkMode ? "bg-[#FFFFFF]  text-black" : "hover:bg-gray-200"

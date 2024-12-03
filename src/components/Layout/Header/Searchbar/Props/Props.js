@@ -38,9 +38,12 @@ export default function Props({
           <div
             onClick={() => {
               // setInputClicked(false);
-              setInputValue("")
               // setIscategory(false);
               handleCloseResponsiveSearch();
+              setInputClicked(false);
+              setShowSearchContent(false)
+              setInputValue("")
+              setIscategory(false);
               setIsEditPOI(false)
               contextMapView.graphics.removeAll();
               // setShowSearchContent(false)
