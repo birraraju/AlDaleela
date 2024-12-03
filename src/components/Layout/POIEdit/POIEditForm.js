@@ -481,10 +481,10 @@ const Component = ({
   ) => (
     <div
       className={` ${!isEditShowPOI && " relative"} z-50`}
-      dir={`${isLangArab && "rtl"} `}
     >
       {isEditShowPOI && (
         <label
+        dir={isLangArab && "rtl"}
           htmlFor={id}
           className={`block  text-[14px] font-medium ${
             isDarkMode ? "text-white" : "text-gray-700"
@@ -496,6 +496,7 @@ const Component = ({
       {isEditShowPOI ? (
         inputType === "select" ? (
           <select
+          dir={isLangArab && "rtl"}
             id={id}
             value={poiData[id]}
             onChange={handleChange}
@@ -525,6 +526,7 @@ const Component = ({
           </select>
         ) : (
           <input
+          dir={isLangArab && "rtl"}
             id={id}
             value={poiData[id]}
             disabled={disable}
@@ -984,7 +986,16 @@ const Component = ({
               </>
             )}
 
-            {(videos.length > 0 || audios.length > 0 || images.length > 0) &&
+                <div
+                dir={isLangArab && "rtl"}
+                className={`text-[12px] py-2 w-[95%] ${ !isShowMore && "absolute bottom-0"}  flex justify-center items-center  ${
+                  isDarkMode ? "text-white" : "text-gray-500"
+                } sm:px-12 px-7`}
+              >
+                X 54.2971051, Y 24.0622842
+              </div>
+
+            {/* {(videos.length > 0 || audios.length > 0 || images.length > 0) &&
             !isEditShowPOI ? (
               <div
                 dir={isLangArab && "rtl"}
@@ -994,7 +1005,7 @@ const Component = ({
               >
                 X 54.2971051, Y 24.0622842
               </div>
-            ) : !isEditShowPOI ? (
+            ) : (!isEditShowPOI) ? (
               <div
                 dir={isLangArab && "rtl"}
                 className={`text-[12px] py-2 w-[95%] absolute -bottom-1   flex justify-center gap-1 items-center  ${
@@ -1011,11 +1022,11 @@ const Component = ({
               >
                 <p>X 54.2971051</p>,<p> Y 24.0622842</p>
               </div>
-            )}
+            )} */}
 
             {/* Action Buttons */}
             {isEditShowPOI && (
-              <div className="flex justify-center py-1 space-x-8 items-center">
+              <div dir={isLangArab && "rtl"} className={`flex  ${isLangArab?"justify-between":" justify-center"} py-1 space-x-8 items-center`}>
                 <button
                   onClick={() => setIsShowEditPOI(false)}
                   className={`w-auto py-3 px-14 outline-none  text-xs ${
@@ -1028,7 +1039,7 @@ const Component = ({
                   onClick={() => {
                     handleAttributesUpdate();
                   }}
-                  className="w-auto py-3 px-14 bg-custom-gradient text-xs border border-transparent rounded-lg"
+                  className="w-auto py-3 px-14 bg-custom-gradient text-white text-xs border border-transparent rounded-lg"
                 >
                   {isLangArab ? "تحديث" : "Update"}
                 </button>

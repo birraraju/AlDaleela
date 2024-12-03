@@ -35,7 +35,7 @@ const Stack = ({isSearchOpen,isLocationOpen, isFooterOpen,isProfileOpen, isHeade
   return (
     <>
        <div
-        className={`bg-white ${!showLayers && "bg-opacity-5"}  sm:flex hidden rounded-full mobile_s:h-9 mobile_s:w-9 laptop_s:w-8 laptop_s:h-8 laptop_m:h-8 laptop_m:w-8 mobile_s:mr-2 laptop_s:mr-0.5 laptop_m:mr-2 justify-center items-center cursor-pointer`}
+        className={`bg-white ${!showLayers && "bg-opacity-5"}  sm:flex hidden rounded-full mobile_s:h-9 tab:h-7 mobile_s:w-9 tab:p-1 laptop_s:p-0   laptop_s:w-8 laptop_s:h-8 laptop_m:h-8 laptop_m:w-8 mobile_s:mr-2 tab:mr-0.5 laptop_s:mr-0.5 laptop_m:mr-2 justify-center items-center cursor-pointer`}
         onClick={toggleLayers}
       >
         <img

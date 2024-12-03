@@ -123,7 +123,7 @@ export default function Category({setInputValue, setShowSearchContent, inputClic
         setShowSearchContent(false);
         setInputValue("");
       }}
-      className={`rounded-full font-omnes font-500 w-[79px] mobile_s:w-[90px] tab:w-[90px] laptop_s:w-[90px] laptop_s:rounded-3xl laptop_m:rounded-full flex text-xs justify-evenly items-center mobile_s:px-2 laptop_s:px-1 laptop_m:px-1 laptop_s:py-3 py-0.5 sm:h-6 h-7 bg-[#C8C8C899] bg-opacity-50 ${
+      className={`rounded-full font-omnes font-500 w-[79px] mobile_s:w-[90px] tab:w-[90px] tab_m:w-[97px] tab_l:w-[102px] laptop_s:w-[75px] laptop_m:w-[90px] laptop_s:rounded-3xl laptop_m:rounded-full flex text-xs justify-evenly items-center mobile_s:px-2 laptop_s:px-1 laptop_m:px-1 laptop_s:py-1  laptop_m:py-3 py-0.5 sm:h-5 tab:h-7  laptop_s:h-5 laptop_m:h-6  h-7 bg-[#C8C8C899] bg-opacity-50 ${
         isDarkMode ? "text-white" : "text-[#000000]"
       } z-[10] relative`} // Added relative positioning and z-index
     >

@@ -167,7 +167,7 @@ const newError={}
           isDarkMode ? 'bg-[rgba(96,96,96,0.8)] text-white' : 'bg-white bg-opacity-65 backdrop-filter backdrop-blur-lg text-black'
         }`}      >
         <button
-          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+          className={`absolute top-4 ${ isLangArab?" left-4":"right-4"} text-gray-500 hover:text-gray-700`}
           onClick={onClose}
           aria-label="Close"
         >
