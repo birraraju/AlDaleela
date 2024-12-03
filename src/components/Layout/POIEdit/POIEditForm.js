@@ -984,7 +984,16 @@ const Component = ({
               </>
             )}
 
-            {(videos.length > 0 || audios.length > 0 || images.length > 0) &&
+                <div
+                dir={isLangArab && "rtl"}
+                className={`text-[12px] py-2 w-[95%] ${ !isShowMore && "absolute bottom-0"}  flex justify-center items-center  ${
+                  isDarkMode ? "text-white" : "text-gray-500"
+                } sm:px-12 px-7`}
+              >
+                X 54.2971051, Y 24.0622842
+              </div>
+
+            {/* {(videos.length > 0 || audios.length > 0 || images.length > 0) &&
             !isEditShowPOI ? (
               <div
                 dir={isLangArab && "rtl"}
@@ -994,7 +1003,7 @@ const Component = ({
               >
                 X 54.2971051, Y 24.0622842
               </div>
-            ) : !isEditShowPOI ? (
+            ) : (!isEditShowPOI) ? (
               <div
                 dir={isLangArab && "rtl"}
                 className={`text-[12px] py-2 w-[95%] absolute -bottom-1   flex justify-center gap-1 items-center  ${
@@ -1011,7 +1020,7 @@ const Component = ({
               >
                 <p>X 54.2971051</p>,<p> Y 24.0622842</p>
               </div>
-            )}
+            )} */}
 
             {/* Action Buttons */}
             {isEditShowPOI && (
