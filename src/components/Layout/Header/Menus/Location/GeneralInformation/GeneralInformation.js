@@ -51,7 +51,7 @@ export default function GeneralInformation({ onClose }) {
     {isLangArab ? "معلومات عامة" : "General Information"}
   </h1>
   <button
-    className={`absolute top-4 ${isLangArab ? "left-4" : "right-4"} hover:text-gray-800 ${
+    className={`absolute top-4 ${isLangArab ? "left-4" : "right-4"}  ${
       isDarkMode ? "text-gray-400" : "text-gray-600"
     }`}
     onClick={onClose}
