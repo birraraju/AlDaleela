@@ -481,10 +481,10 @@ const Component = ({
   ) => (
     <div
       className={` ${!isEditShowPOI && " relative"} z-50`}
-      dir={`${isLangArab && "rtl"} `}
     >
       {isEditShowPOI && (
         <label
+        dir={isLangArab && "rtl"}
           htmlFor={id}
           className={`block  text-[14px] font-medium ${
             isDarkMode ? "text-white" : "text-gray-700"
@@ -496,6 +496,7 @@ const Component = ({
       {isEditShowPOI ? (
         inputType === "select" ? (
           <select
+          dir={isLangArab && "rtl"}
             id={id}
             value={poiData[id]}
             onChange={handleChange}
@@ -525,6 +526,7 @@ const Component = ({
           </select>
         ) : (
           <input
+          dir={isLangArab && "rtl"}
             id={id}
             value={poiData[id]}
             disabled={disable}
@@ -1024,7 +1026,7 @@ const Component = ({
 
             {/* Action Buttons */}
             {isEditShowPOI && (
-              <div className="flex justify-center py-1 space-x-8 items-center">
+              <div dir={isLangArab && "rtl"} className={`flex  ${isLangArab?"justify-between":" justify-center"} py-1 space-x-8 items-center`}>
                 <button
                   onClick={() => setIsShowEditPOI(false)}
                   className={`w-auto py-3 px-14 outline-none  text-xs ${
@@ -1037,7 +1039,7 @@ const Component = ({
                   onClick={() => {
                     handleAttributesUpdate();
                   }}
-                  className="w-auto py-3 px-14 bg-custom-gradient text-xs border border-transparent rounded-lg"
+                  className="w-auto py-3 px-14 bg-custom-gradient text-white text-xs border border-transparent rounded-lg"
                 >
                   {isLangArab ? "تحديث" : "Update"}
                 </button>
