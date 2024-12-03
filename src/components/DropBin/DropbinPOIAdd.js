@@ -61,6 +61,7 @@ const Component = ({mapview,isLangArab, selectedLayer, addPointGeometry, setForm
   const [organizationOptions, setOrganizationOptions] = useState([]);
   const [statusOptions, setStatusOptions] = useState([]);
   const [municipalityOptions, setMunicipalityOptions] = useState([]);
+  const [classOption, setClassOptions] = useState([]);
 
   useEffect(() => {
     const fetchDomains = async () => {
@@ -88,6 +89,7 @@ const Component = ({mapview,isLangArab, selectedLayer, addPointGeometry, setForm
         const newOrganizationOptions = [];
         const newStatusOptions = [];
         const newMunicipalityOptions = [];
+        const newClassOptions = [];
 
         domainFields.forEach((field) => {
           const options = field.domain.codedValues.map((codedValue) => ({
@@ -105,6 +107,9 @@ const Component = ({mapview,isLangArab, selectedLayer, addPointGeometry, setForm
             case "MunicipalityAr":
               newMunicipalityOptions.push(...options);
               break;
+            case "Class":
+              newClassOptions.push(...options);
+              break;
             default:
               console.warn(`Unhandled field: ${field.fieldName}`);
           }
@@ -114,6 +119,7 @@ const Component = ({mapview,isLangArab, selectedLayer, addPointGeometry, setForm
         setOrganizationOptions(newOrganizationOptions);
         setStatusOptions(newStatusOptions);
         setMunicipalityOptions(newMunicipalityOptions);
+        setClassOptions(newClassOptions);
 
         // Update poiData only if options are available
         if (newOrganizationOptions.length > 0) {
@@ -122,6 +128,7 @@ const Component = ({mapview,isLangArab, selectedLayer, addPointGeometry, setForm
             organization: newOrganizationOptions[0].value, // Update organization
             status: newStatusOptions[0]?.value || "", // Update status
             municipality: newMunicipalityOptions[0]?.value || "", // Update municipality
+            class: newClassOptions[0]?.value || "", // Update class
           }));
         }
       } catch (error) {
@@ -834,7 +841,7 @@ const handleDrop = async (e) => {
         )}
         {renderField("name", isLangArab ? "الاسم" : "Name", poiData.name)}
         {renderField("class", isLangArab ? "الفئة" : "Class", poiData.class,
-          organizationOptions,
+          classOption,
           "select")}
         {renderField(
           "classD",
