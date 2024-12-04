@@ -988,7 +988,7 @@ const Component = ({
 
                 <div
                 dir={isLangArab && "rtl"}
-                className={`text-[12px] py-2 w-[95%] ${ !isShowMore && "absolute bottom-0"}  flex justify-center items-center  ${
+                className={`text-[12px] py-2 w-[95%] ${ (!isShowMore && !(videos.length > 0 || audios.length > 0 || images.length > 0)) && "absolute bottom-0"}  flex justify-center items-center  ${
                   isDarkMode ? "text-white" : "text-gray-500"
                 } sm:px-12 px-7`}
               >

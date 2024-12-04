@@ -431,8 +431,8 @@
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
               <IoIosArrowForward
                 className={`text-black text-xl transition-transform duration-300 ${
-                  isOpen ? "rotate-360" : ""
-                } ${!isOpen && (toggleCount > 0 ? "rotate-180" : "")}`}
+                  isOpen ? (isLangArab? "rotate-180 " : "rotate-360") : ""
+                } ${!isOpen && (toggleCount > 0 ? isLangArab? "rotate-360" : "rotate-180" : "")}`}
                 style={{ color: isDarkMode ? "#fff" : "#000" }}
               />
             </div>
