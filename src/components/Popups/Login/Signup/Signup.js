@@ -9,7 +9,9 @@ import { IoEyeOff, IoEye } from "react-icons/io5";
 import { useTheme } from "../../../Layout/ThemeContext/ThemeContext"; // Import the theme context
 import createEmailBody from "../../../../components/email/emailTemplate";
 
-export default function Signup({ onClose, onSigninClick }) {
+export default function Signup({ onClose, onSigninClick,setIsSuccess,
+  setIsMsgStatus,
+  setModalMessage }) {
   const [formData, setFormData] = useState({
     username: "",
     firstName: "",
@@ -691,11 +693,16 @@ if (
       const result = await response.json();
       if (result.success) {
         console.log("Email sent successfully:", result);
-        alert(
-          isLangArab
-            ? "تم إرسال البريد الإلكتروني بنجاح:"
-            : "Email sent successfully!"
-        );
+        setIsMsgStatus("Success");
+        setModalMessage(isLangArab
+          ? "تم إرسال البريد الإلكتروني بنجاح:"
+          : "Email sent successfully!");
+        setIsSuccess(true);
+        // alert(
+        //   isLangArab
+        //     ? "تم إرسال البريد الإلكتروني بنجاح:"
+        //     : "Email sent successfully!"
+        // );
       } else {
         console.log(result.message || "Email sent failed, Please try again.");
       }

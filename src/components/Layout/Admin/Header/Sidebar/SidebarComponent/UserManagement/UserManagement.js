@@ -42,7 +42,7 @@ const CustomCheckbox = React.forwardRef(({ className, ...props }, ref) => (
 ));
 CustomCheckbox.displayName = 'CustomCheckbox';
 
-export default function UserManagement() {
+export default function UserManagement({setIsMsgStatus,setModalMessage,setIsSuccess}) {
   const [isEditing, setIsEditing] = useState(false);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [selectedUsersid, setSelectedUsersId] = useState(undefined);
@@ -221,18 +221,27 @@ setData(sortedItems);
       });
       const data = await response.json();
         if(data.success){
-          setToastMessage(isLangArab?"تم تحديث دور المستخدم!":"User Role updated!")
-          setShowToast(true)
+          setIsMsgStatus("Success");
+        setModalMessage(isLangArab?"تم تحديث دور المستخدم!":"User Role updated!");
+        setIsSuccess(true);
+          // setToastMessage(isLangArab?"تم تحديث دور المستخدم!":"User Role updated!")
+          // setShowToast(true)
           console.log(data.message);
         }
         else{
-          setToastMessage(isLangArab?"فشل في تحديث دور المستخدم!":"Failed to update User Role !")
-          setShowToast(true)
+          setIsMsgStatus("Failure");
+        setModalMessage(isLangArab?"فشل في تحديث دور المستخدم!":"Failed to update User Role !");
+        setIsSuccess(true);
+          // setToastMessage(isLangArab?"فشل في تحديث دور المستخدم!":"Failed to update User Role !")
+          // setShowToast(true)
           console.log(data.message);
         }     
     }catch (error) {
-      setToastMessage(isLangArab?"فشل في تحديث دور المستخدم!":"Failed to update User Role !")
-      setShowToast(true)
+      setIsMsgStatus("Failure");
+        setModalMessage(isLangArab?"فشل في تحديث دور المستخدم!":"Failed to update User Role !");
+        setIsSuccess(true);
+      // setToastMessage(isLangArab?"فشل في تحديث دور المستخدم!":"Failed to update User Role !")
+      // setShowToast(true)
       console.error('Error submitting form:', error);
     }  
 };

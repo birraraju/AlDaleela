@@ -7,7 +7,7 @@
   import POILabelFillMark from '../../assets/BookmarkThemeicons/Green Fill.svg';
   import POILabelDarkMark from '../../assets/BookmarkThemeicons/White Outline.svg';
   import POILabelDarkFillMark from '../../assets/BookmarkThemeicons/White Fill.svg';
-  
+
   import  POIEditForm from '../Layout/POIEdit/POIEditForm'
   import  POShareForm from '../Layout/POIEdit/POIShareForm'
   import  POIEditFileUploader from '../Layout/POIEdit/POIFileUploader'
@@ -28,7 +28,8 @@
   import {UserActivityLog} from "../Common/UserActivityLog";
 
 
-  export default function POIEditSideLayout({ children,onClose, mapview }) { //height = "calc(95vh - 2rem)",
+  export default function POIEditSideLayout({ children,onClose,setIsMsgStatus,
+    setModalMessage,setIsSuccess, mapview }) { //height = "calc(95vh - 2rem)",
     const [isOpen, setIsOpen] = useState(true);   // Controls slide in/out
     const [isFullyClosed, setIsFullyClosed] = useState(false); // Controls visibility
     const [toggleCount, setToggleCount] = useState(0);
@@ -47,6 +48,8 @@
     const [isBookMarkClick,setBookMarkClick]=useState(false)
     const [isBookMarked, setIsBookMarked] = useState(false)
     const [userBookmarkIds,setuserBookmarkIds]= useState([])
+    
+
 
     const [POIPoints, setPOIPoinst] = useState({
       CurrentPoint:0,
@@ -128,7 +131,10 @@
 
     const handleInsertBookmarkData = async(res)=>{
       if(isBookMarked){
-        alert("Bookmark Already Marked!")
+        // alert("Bookmark Already Marked!")
+        setIsMsgStatus("Success");
+        setModalMessage( isLangArab?"المرجعية ملحوظ بالفعل!":"Bookmark Already Marked!");
+        setIsSuccess(true);
         return ;
       }
       if(res){
@@ -153,7 +159,10 @@
             //console.log(values);
             UserActivityLog(profiledetails, "Bookmark Added")  
             setBookMarkClick(false)
-            alert(data.message === "Bookmark created successfully." && (isLangArab ?"تم إنشاء الإشارة المرجعية بنجاح.":"Bookmark created successfully."));
+            setIsMsgStatus("Success");
+            setModalMessage(data.message === "Bookmark created successfully." && (isLangArab ?"تم إنشاء الإشارة المرجعية بنجاح.":"Bookmark created successfully."));
+            setIsSuccess(true);
+            // alert(data.message === "Bookmark created successfully." && (isLangArab ?"تم إنشاء الإشارة المرجعية بنجاح.":"Bookmark created successfully."));
             fetchBookmarks()
           }
           else{
@@ -340,10 +349,12 @@
   </button>
 </div>}       </div>}
               <div className={`${POIShareShow?"mt-3":"mt-20"} overflow-y-auto`}>
-                {(!isEditShowPOI && !POIShareShow) && <div dir={isLangArab && "rtl"} className=" w-[95%] flex justify-end items-center"><span className=" flex justify-between gap-0.5  items-center"> <button onClick={handleLeftPOIPoint}><img src={ isDarkMode?DarkLeftArrow:LeftArrow} alt="" className={`w-2.5 ${isLangArab && " rotate-180"} h-2.5`} /></button> <span className= {`flex justify-between gap-0.5 items-center ${ isDarkMode?"text-white":"text-[#808080]"} font-500 text-[12px]`}><p>{POIPoints.CurrentPoint}</p> <p>of</p> <p>{POIPoints.TotalPoints}</p></span>  <button onClick={handleRigthPOIPoint} ><img src={ isDarkMode?DarkRigthArrow: RigthArrow} alt="" className={`w-2.5 ${isLangArab && " rotate-180"} h-2.5 ${isDarkMode && " text-white"} `} /></button></span></div>}
+                {/* {(!isEditShowPOI && !POIShareShow) && <div dir={isLangArab && "rtl"} className=" w-[95%] flex justify-end items-center"><span className=" flex justify-between gap-0.5  items-center"> <button onClick={handleLeftPOIPoint}><img src={ isDarkMode?DarkLeftArrow:LeftArrow} alt="" className={`w-2.5 ${isLangArab && " rotate-180"} h-2.5`} /></button> <span className= {`flex justify-between gap-0.5 items-center ${ isDarkMode?"text-white":"text-[#808080]"} font-500 text-[12px]`}><p>{POIPoints.CurrentPoint}</p> <p>of</p> <p>{POIPoints.TotalPoints}</p></span>  <button onClick={handleRigthPOIPoint} ><img src={ isDarkMode?DarkRigthArrow: RigthArrow} alt="" className={`w-2.5 ${isLangArab && " rotate-180"} h-2.5 ${isDarkMode && " text-white"} `} /></button></span></div>} */}
               {POIShareShow && <POShareForm  onClose={()=>{setPOIFormShow(true);setPOIShareShow(false);}} queryresults={queryresults}/>}
              {(isEditShowPOI||POIFormShow) && <POIEditForm isLangArab={isLangArab} isEditShowPOI={isEditShowPOI}  setIsShowEditPOI={setIsShowEditPOI}  POIFormShow={POIFormShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow} queryresults={queryresults} setIsEditPOI={setIsEditPOI} uploadedFiles={uploadedFiles} setPOImessageShow={setPOImessageShow} setPOIFormsuccessShow={setPOIFormsuccessShow} setPOIFormisOpenModalShow={setPOIFormisOpenModalShow} setUploadedFiles={setUploadedFiles}/>}
-              <POIEditFileUploader isLangArab={isLangArab} setPOImessageShow={setPOImessageShow} setPOIFormsuccessShow={setPOIFormsuccessShow} POIFormUploader={POIFormUploader} setPOIFormisOpenModalShow={setPOIFormisOpenModalShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow} queryresults={queryresults} uploadedFiles={uploadedFiles} setUploadedFiles={setUploadedFiles}/>
+              <POIEditFileUploader  setIsSuccess={setIsSuccess}
+            setIsMsgStatus={setIsMsgStatus}
+            setModalMessage={setModalMessage} isLangArab={isLangArab} setPOImessageShow={setPOImessageShow} setPOIFormsuccessShow={setPOIFormsuccessShow} POIFormUploader={POIFormUploader} setPOIFormisOpenModalShow={setPOIFormisOpenModalShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow} queryresults={queryresults} uploadedFiles={uploadedFiles} setUploadedFiles={setUploadedFiles}/>
                {/* Render the modal only when the state is true */}
   {POIFormisOpenModalShow && (
     <POIEditFileUploaderStatusMOdel  
@@ -358,12 +369,11 @@
       }} 
     />
   )}
+ 
            </div>
               </>
             )}
           </div>
-          
-          
         </div>
 
         {/* Toggle button */}

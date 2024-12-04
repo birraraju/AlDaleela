@@ -28,6 +28,7 @@ import AthenticatePopLogin from '../../components/Popups/Login/Footerpopups/Foot
 import config from "../Common/config"
 import Graphic from '@arcgis/core/Graphic';
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer"; 
+import PopModal from "../Common/SuccessFailureMessageModel";
 
 
 const DefaultLayout = ({role}) => {
@@ -40,6 +41,9 @@ const DefaultLayout = ({role}) => {
   const [lastRendered, setLastRendered] = useState("");  // Track last rendered component
   const { isPOIAddShow,isLogin,setIsLogin,setIsPOIAddShow } = useTheme();
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isMsgStatus, setIsMsgStatus] = useState("");
+    const [modalMessage, setModalMessage] = useState("")
+  const [isSuccess, setIsSuccess] = useState(false);
   console.log("POI status Default:", isEditPOI);
   const { LayerId, objectid } = useParams();   
 
@@ -233,9 +237,13 @@ const DefaultLayout = ({role}) => {
         return <SideLayout3 onClose={handleClose} mapview={mapview} />;
       case "Hand":
         console.log("Rendering SideLayout4");
-        return <SideLayout4 onClose={handleClose} mapview={mapview} />;
+        return <SideLayout4  setIsSuccess={setIsSuccess}
+        setIsMsgStatus={setIsMsgStatus}
+        setModalMessage={setModalMessage} onClose={handleClose} mapview={mapview} />;
       case "HandPOIAdd":
-          return <SideLayout4 onClose={handleClose} mapview={mapview} />;
+          return <SideLayout4  setIsSuccess={setIsSuccess}
+          setIsMsgStatus={setIsMsgStatus}
+          setModalMessage={setModalMessage} onClose={handleClose} mapview={mapview} />;
       case "Next":
         return <SideLayout onClose={handleClose} mapview={mapview} />;
       case "Export":
@@ -243,7 +251,9 @@ const DefaultLayout = ({role}) => {
       case "Print":
         return <SideLayout6 onClose={handleClose} mapview={mapview} />;
       case "POIEdit":
-        return <POIEditLayout1 onClose={handleClose}  mapview={mapview} />;
+        return <POIEditLayout1  setIsSuccess={setIsSuccess}
+        setIsMsgStatus={setIsMsgStatus}
+        setModalMessage={setModalMessage} onClose={handleClose}  mapview={mapview} />;
       case "POIApproval":
           return <POIApproval onClose={handlePOIUpdateClose} mapview={mapview} />;
       case "AuthPopUp":
@@ -323,6 +333,14 @@ const DefaultLayout = ({role}) => {
           setPopup={setPopup}
           handleClose={handleClose}
         />
+         <PopModal
+            message={modalMessage} // Pass the message from state
+            success={isMsgStatus} // Pass "Success" or "Failed" status
+            isOpenModal={isSuccess} // Modal is open if either isSuccess or isFailure is true
+            onClose={() => {
+              setIsSuccess(false); // Close success modal
+            }}
+          />
       </div>
     </div>
   );
