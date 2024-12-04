@@ -130,7 +130,7 @@ export default function SideLayout6({
       // style={{ width, height }}
     >
       <div
-        className={`relative sm:h-[65%] tab:h-[72%] tab_s:h-[56%] tab_m:h-[60%] tab_l_1:h-[65%] laptop_s:h-[65%] laptop_l_2:h-[75%] laptop_m:h-[70%]  h-[98%] sm:w-[80%] tab:w-full  w-full bg-opacity-70 float-end sm:float-none backdrop-blur-lg rounded-2xl shadow-lg overflow-hidden border ${
+        className={`relative sm:h-[65%] tab:h-[72%] tab_s:h-[56%] tab_m:h-[60%] tab_l_1:h-[65%] laptop_s:h-[65%] laptop_l_2:h-[75%] laptop_m:h-[75%]  h-[98%] sm:w-[80%] tab:w-full  w-full bg-opacity-70 float-end sm:float-none backdrop-blur-lg rounded-2xl shadow-lg overflow-hidden border ${
           isDarkMode
             ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
             : "bg-white  backdrop-blur-lg border-white"
