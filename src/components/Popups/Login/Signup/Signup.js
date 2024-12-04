@@ -695,8 +695,8 @@ if (
         console.log("Email sent successfully:", result);
         setIsMsgStatus("Success");
         setModalMessage(isLangArab
-          ? "تم إرسال البريد الإلكتروني بنجاح:"
-          : "Email sent successfully!");
+          ? "تم إرسال بريد إلكتروني بنجاح إلى بريدك الإلكتروني المسجل. يرجى التحقق من صندوق الوارد للتحقق."
+          : "An email has been successfully sent to your registered email. Please check your inbox to verify.");
         setIsSuccess(true);
         // alert(
         //   isLangArab
