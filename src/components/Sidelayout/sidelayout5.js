@@ -137,7 +137,7 @@ export default function SideLayout5({
       // style={{ width, height }}
     >
 
-      <div className={`relative   sm:h-[65%] tab:h-[72%] tab_s:h-[56%] tab_m:h-[60%] tab_l_1:h-[65%]   sm:w-[80%] tab:w-full  sm:float-none w-full float-end rounded-2xl shadow-lg overflow-hidden border transition-colors duration-300 ${
+      <div className={`relative   sm:h-[65%] tab:h-[72%] tab_s:h-[56%] tab_m:h-[60%] tab_l_1:h-[65%] laptop_s:h-[65%] laptop_l_2:h-[75%] laptop_m:h-[65%]    sm:w-[80%] tab:w-full  sm:float-none w-full float-end rounded-2xl shadow-lg overflow-hidden border transition-colors duration-300 ${
 
           isDarkMode
             ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
@@ -162,7 +162,7 @@ export default function SideLayout5({
         <div className="p-6 overflow-y-auto  2xl:mb-[50px]  h-full">
           {children || (
             <p className={`   font-600 text-[12px] tab:text-[14px] laptop_s:text-[16px] laptop_lg:text-[18px] ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#505050]"}`}>
-             { isLangArab?"تصدير البيانات": " Export Data"}
+             { isLangArab?"تصدير البيانات": " Export"}
             </p>
           )}
         </div>

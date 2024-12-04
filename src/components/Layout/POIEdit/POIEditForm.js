@@ -350,7 +350,10 @@ const Component = ({
         console.error("Error adding attachments:", error);
       }
     } else {
-      alert("Please upload files before proceeding."); // Optional alert for user feedback
+      setPOImessageShow( isLangArab?"يرجى تحميل الملفات قبل المتابعة.": "Please upload files before proceeding.");
+      setPOIFormsuccessShow("Failure"); // or "Failure" based on your logic
+      setPOIFormisOpenModalShow(true);
+      // alert("Please upload files before proceeding."); 
     }
   };
 
