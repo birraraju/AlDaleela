@@ -52,6 +52,7 @@ export default {
           laptop_l_2: "1300px",
           laptop_m: "1440px",
           laptop_lg: "1720px",
+          laptop_lg_2: "1920px",
           flip:"1114px"
         },
         backgroundImage: {
