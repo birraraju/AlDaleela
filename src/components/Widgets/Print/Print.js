@@ -110,7 +110,7 @@ const PrintComponent = ({ mapview }) => {
   }, []);
   
 
-  return <div className=" sm:-mt-[500px] h-[400px] overflow-auto   laptop_s:-mt-[450px] -mt-[420px]" id="printDiv" ref={printRef} />;
+  return <div className=" sm:-mt-[500px] tab:-mt-[100%] h-[400px] laptop_s:h-[353px] overflow-auto   laptop_s:-mt-[365px] laptop_m:-mt-[365px] -mt-[420px]" id="printDiv" ref={printRef} />;
 };
 
 export default PrintComponent;
