@@ -192,7 +192,7 @@ const newError={}
             </h2>
 
             <form onSubmit={handleSubmit} className="space-y-2 flex-grow">
-
+            <span className="text-red-500 text-[9px]">{isLangArab?"تم إرسال الكود إلى بريدك الإلكتروني. يرجى التحقق من صندوق الوارد.":"Code has been sent to your email. Please check your inbox."}</span>
             <div className="relative">
                 <Input
                   type='text'

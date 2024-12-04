@@ -80,11 +80,11 @@ export default function ForgetPassword({ onClose, onBackToLogin, onSignup, onNex
   
       const result = await response.json();
       if (result.success) {
-        setIsMsgStatus("Success");
-        setModalMessage(isLangArab
-          ? "تم إرسال البريد الإلكتروني بنجاح:"
-          : "Email sent successfully!");
-        setIsSuccess(true);
+        // setIsMsgStatus("Success");
+        // setModalMessage(isLangArab
+        //   ? "تم إرسال البريد الإلكتروني بنجاح:"
+        //   : "Email sent successfully!");
+        // setIsSuccess(true);
         // alert( isLangArab?"تم إرسال البريد الإلكتروني بنجاح:": "Email sent successfully!"); 
       } else {
         console.log(result.message || "Email sending failed. Please try again.");
