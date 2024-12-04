@@ -118,12 +118,12 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
                   </button>
       </div>
 
-      <div className="flex justify-between items-end relative mt-10">
+      <div className="flex justify-between items-center  relative mt-10">
         {data.slice(0, 3).map((user, index) => (
           <div
             key={user.rank}
             className={`flex flex-col items-center ${
-              index === 0 ? "absolute left-1/2 -translate-x-1/2 -top-8" : ""
+              index === 0 ? "absolute left-1/4 translate-x-1/4  -top-8" : ""
             }`}
           >
             <div className="relative flex flex-col justify-center items-center">
@@ -154,7 +154,8 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
         </pattern>
         <image
           id={`image0_502_105402${user.rank}`}
-           className=" h-30 w-70 "
+           width="512" height="512"
+           className=" object-cover"
           href={user.profilePicture || men} // Replace with the actual image URL or path
         />
       </defs>

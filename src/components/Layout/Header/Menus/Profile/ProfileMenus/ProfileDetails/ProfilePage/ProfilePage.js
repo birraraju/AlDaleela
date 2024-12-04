@@ -37,6 +37,9 @@ export default function ProfilePage({
       profileImage={profileImage}
       setFile={setFile}
       file={file}
+      setIsSuccess={setIsSuccess}
+      setIsMsgStatus={setIsMsgStatus}
+      setModalMessage={setModalMessage}
       
         setIsProfile={setIsProfile}
         setIsEditProfile={setIsEditProfile}

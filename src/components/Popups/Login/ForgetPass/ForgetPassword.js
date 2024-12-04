@@ -7,7 +7,9 @@ import Input from '../Input/Input';
 import { useTheme } from '../../../Layout/ThemeContext/ThemeContext'; // Import the theme context
 import createForgotPasswordEmailBody from "../../../../components/email/ForgotPasswordTemplate";
 
-export default function ForgetPassword({ onClose, onBackToLogin, onSignup, onNext ,code, setCode, expiryTime, setExpiryTime}) {
+export default function ForgetPassword({ onClose, onBackToLogin, onSignup, onNext ,code, setCode, expiryTime, setExpiryTime,setIsSuccess,
+  setIsMsgStatus,
+  setModalMessage}) {
   const [formData, setFormData] = useState({
     email: '',
   });
@@ -78,7 +80,12 @@ export default function ForgetPassword({ onClose, onBackToLogin, onSignup, onNex
   
       const result = await response.json();
       if (result.success) {
-        alert( isLangArab?"تم إرسال البريد الإلكتروني بنجاح:": "Email sent successfully!"); // Notify the user the email was sent
+        setIsMsgStatus("Success");
+        setModalMessage(isLangArab
+          ? "تم إرسال البريد الإلكتروني بنجاح:"
+          : "Email sent successfully!");
+        setIsSuccess(true);
+        // alert( isLangArab?"تم إرسال البريد الإلكتروني بنجاح:": "Email sent successfully!"); 
       } else {
         console.log(result.message || "Email sending failed. Please try again.");
       }

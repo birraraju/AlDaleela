@@ -57,12 +57,18 @@ export default function Login({ onClose,setIsSuccess,
         return (
           <Signup
             onClose={handleClose}
+            setIsMsgStatus={setIsMsgStatus}
+            setModalMessage={setModalMessage}  
+            setIsSuccess={setIsSuccess}
             onSigninClick={() => handleViewChange("signin")}
           />
         );
       case "forgotpassword":
         return (
           <Forgetpassword
+          setIsMsgStatus={setIsMsgStatus}
+            setModalMessage={setModalMessage}  
+            setIsSuccess={setIsSuccess}
             onClose={handleClose}
             onBackToLogin={() => handleViewChange("signin")}
             onSignup={() => handleViewChange("signup")}

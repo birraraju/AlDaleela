@@ -9,7 +9,7 @@ import AddPOI from '../DropBin/DropbinPOIAdd'
 import  POIEditFileUploaderStatusMOdel from '../Layout/POIEdit/POIEditSucessFailure'
 import EditAddPOI from "./EditAddPOI";
 
-export default function SideLayout4({ children,onClose, mapview }) { //height = "calc(95vh - 2rem)",
+export default function SideLayout4({ children,onClose,setIsMsgStatus,setModalMessage,setIsSuccess, mapview }) { //height = "calc(95vh - 2rem)",
   const [isOpen, setIsOpen] = useState(true);   // Controls slide in/out
   const [isFullyClosed, setIsFullyClosed] = useState(false); // Controls visibility
   const [toggleCount, setToggleCount] = useState(0);
@@ -122,6 +122,9 @@ export default function SideLayout4({ children,onClose, mapview }) { //height = 
                   setPOIFormsuccessShow={setPOIFormsuccessShow}
                   setPOIFormisOpenModalShow={setPOIFormisOpenModalShow}
                   setmessage={setmessage}
+                  setIsSuccess={setIsSuccess}
+            setIsMsgStatus={setIsMsgStatus}
+            setModalMessage={setModalMessage}
                   setFormShow={setFormShow}
                   onClose={()=>{setIsShowEdit(true);setFormShow(false);}}
                 />

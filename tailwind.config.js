@@ -49,6 +49,7 @@ export default {
           tab_l_1:"880px",
           laptop_s: "1024px",
           laptop_l: "1280px",
+          laptop_l_2: "1300px",
           laptop_m: "1440px",
           laptop_lg: "1720px",
           flip:"1114px"
