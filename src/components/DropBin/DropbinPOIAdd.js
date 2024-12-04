@@ -191,7 +191,10 @@ const Component = ({mapview,isLangArab,setIsMsgStatus,setModalMessage,setIsSucce
       });
       mapview.graphics.add(pointGraphic);
     } else {
-      alert("Please enter valid coordinates.");
+      setIsMsgStatus("Failure");
+        setModalMessage("Please enter valid coordinates.");
+        setIsSuccess(true);
+      // alert("Please enter valid coordinates.");
     }
   };
 
