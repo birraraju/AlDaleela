@@ -992,7 +992,7 @@ const Component = ({
                   isDarkMode ? "text-white" : "text-gray-500"
                 } sm:px-12 px-7`}
               >
-                X 54.2971051, Y 24.0622842
+                <span> X 54.2971051 </span> , <span>Y 24.0622842</span>
               </div>
 
             {/* {(videos.length > 0 || audios.length > 0 || images.length > 0) &&
