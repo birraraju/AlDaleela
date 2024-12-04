@@ -84,7 +84,7 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
       console.log(data.message)
       setIsSuccess(true);
       setIsMsgStatus("Failure");
-      setModalMessage(data.message);
+      setModalMessage(isLangArab? "اسم المستخدم أو كلمة المرور غير صحيحة." :data.message);
       // setToastMessage(data.message)
       // setShowToast(true)
       setErrors(data.message)
