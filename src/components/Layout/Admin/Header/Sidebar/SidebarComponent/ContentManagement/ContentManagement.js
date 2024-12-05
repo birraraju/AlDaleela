@@ -159,7 +159,7 @@ export default function UserManagement({role}) {
               </span>
             </th>
           ))}
-          <th className="pb-3 laptop_s:p-2 sm:p-4"></th>
+          <th className="pb-3 laptop_s:p-4 laptop_m:p-2 sm:p-4"></th>
         </tr>
       </thead>
       <tbody>

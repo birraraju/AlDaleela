@@ -569,7 +569,7 @@ const Component = ({
         ) : (
           <>
             <div className=" relative">
-              {value && !isEditShowPOI && (
+              {(value && value !== " " && !isEditShowPOI) && (
                 <label
                   htmlFor={id}
                   className={`block  absolute ${
@@ -581,7 +581,7 @@ const Component = ({
                   {label}
                 </label>
               )}
-              <p
+             {(value && value !== " " && !isEditShowPOI) &&  <p
                 className={` border ${value ? "p-2" : "p-5"} ${
                   id === "organization" || id === "MunicipalityAr"
                     ? " font-cairo"
@@ -593,7 +593,7 @@ const Component = ({
                 {" "}
                 {/* {value?.length > 40 ? `${value.substring(0, 20)}` : value} */}
                 {value}
-              </p>
+              </p>}
             </div>
           </>
         ))

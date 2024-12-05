@@ -114,7 +114,7 @@ const [isSuccess, setIsSuccess] = useState(false);
         <SidebarComponent activeItem={activeItem} setIsCollapsed={setIsCollapsed} isCollapsed={isCollapsed} onItemClick={handleItemClick} />
 
         {/* Main Content Area */}
-        <main className={`flex-1 pr-3  ${isCollapsed ?(isLangArab ? " pr-14" : " pl-14"):(isLangArab? "pr-52" :"pl-52")} py-1 overflow-y-auto`}>
+        <main className={`flex-1 ${isCollapsed ?(isLangArab ? " pr-20 " : " pl-20"):(isLangArab? "pr-52" :"pl-52")} py-1 overflow-y-auto`}>
         <div className="  rounded-lg shadow-lg max-h-full">
         {/* Dynamic content */}
             <div className="flex-1 overflow-auto">
