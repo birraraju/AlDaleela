@@ -290,17 +290,17 @@
           <div className="p-2 overflow-y-auto h-full relative">
             {children || (<>
               {!POIShareShow && queryresults !== "" && <div dir={isLangArab && "rtl"} className={`absolute top-3 w-[95%]  ${!isLangArab && "left-4"} flex   gap-x-1`}>
-                <img src={isDarkMode ? DarkLocation : Location }alt="Location" className={`"h-6 w-5" ${isLangArab && "mr-1 sm:mr-2"}`} />
+                <img src={isDarkMode ? DarkLocation : Location }alt="Location" className={`"h-6 w-5" ${isLangArab && "mr-1 sm:mr-2"} ${POIFormisOpenModalShow ?"opacity-0":" "}`} />
                 <p className={`font-semibold    ${
                       isDarkMode ? "text-white" : "text-gray-600"
-                    }`}> <h1 className=" font-cairo text-[12px]">{queryresults.features[0].attributes.name_ar}</h1>
-                    <h2 className=" text-[12px]">{queryresults.features[0].attributes.name_en}</h2></p>
-                    {!POIShareShow && <div className={`flex justify-center items-center absolute ${isLangArab?"-left-1":"right-3"} -top-2   p-2 transition-colors h-10 cursor-pointer z-50`}>
+                    }`}> <h1 className={` font-cairo text-[12px] ${POIFormisOpenModalShow ?"opacity-0":" "}`}>{queryresults.features[0].attributes.name_ar}</h1>
+                    <h2 className={` text-[12px] ${POIFormisOpenModalShow ?"opacity-0":" "}`}>{queryresults.features[0].attributes.name_en}</h2></p>
+                    {!POIShareShow && <div className={`flex justify-center items-center absolute ${isLangArab?"-left-1":"right-3"} -top-2   p-2 transition-colors h-10 cursor-pointer z-50 `}>
   {/* POI Share Icon */}
   <button
     onClick={() => {setPOIShareShow(true);setPOIFormShow(false);setPOIFormisOpenModalShow(false)}} // Toggle the state
     aria-label="Edit POI"
-    className="h-full"
+    className={`h-full ${POIFormisOpenModalShow ?"opacity-0":" "}`}
     style={{ border: 'none', background: 'none' }} // No styles, functionality only
   >
   <img
@@ -315,7 +315,7 @@
   <button
     onClick={() =>  handleShowPOIEdit()} // Toggle the state
     aria-label="Edit POI"
-    className="h-full"
+    className={`h-full ${POIFormisOpenModalShow ?"opacity-0":" "} `}
     style={{ border: 'none', background: 'none' }} // No styles, functionality only
   >
     <img
@@ -326,7 +326,9 @@
   </button>
 
   {/* POI Label Mark */}
-  <button onClick={() => RoleServices.isAuth() ? handleBookmarkEvent('click') : setIsAuthPopUp(true)}>
+  <button onClick={() => RoleServices.isAuth() ? handleBookmarkEvent('click') : setIsAuthPopUp(true)}
+    className={POIFormisOpenModalShow ?"opacity-0":" "}
+  >
   <img
     src={isBookMarked? (isDarkMode ? POILabelDarkFillMark :POILabelFillMark): (isDarkMode ? POILabelDarkMark :POILabelMark)}
     alt="Location Mark"
@@ -341,7 +343,7 @@
     onClick={closePanel}
     className={`transition-colors cursor-pointer z-50 ${
       isDarkMode ? "text-white" : "text-green-900"
-    }`}  // Ensure it's clickable
+    } `}  // Ensure it's clickable
     aria-label="Close side panel"
     style={{ zIndex: 100 }} // Ensure the "X" button is on top
   >
