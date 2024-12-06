@@ -322,7 +322,7 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
                 <p className={`${ isDarkMode?"text-white font-400":"text-[#1365B1]"} underline text-sm laptop_s:text-[14px] laptop_lg:tett-[16px] cursor-pointer  font-medium`} onClick={() => setIsManageVisible(true)}>{ isLangArab?"إدارة العلامات المرجعية":"Manage Bookmarks"}</p>
               </span>
             ) : (
-              <div className={`flex justify-center  ${isLangArab?"gap-4":"space-x-9"}  items-center`}>
+              <div className={`flex   mobile_m_360:justify-center justify-between  ${isLangArab?"gap-4":"  mobile_m_360:space-x-9"} mobile_m_360:items-center`}>
                 
                 <button onClick={handleClose}
                   className={`w-auto py-3 text-[12px]   font-500 mobile_s:text-[10px] mobile_m:text-[12px] px-12 text-black ${isDarkMode?" bg-white":" bg-transparent border-[#909090]"}  border  rounded-lg`}
@@ -332,7 +332,7 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
                 <button
                   onClick={handleSave}
                   disabled={ids.length === 0}
-                  className={ids.length===0?"w-auto py-3   font-500 text-[#FFFFFF] px-9 mobile_s:px-6 mobile_m:px-6  sm:px-8 bg-custome-gray1 text-[12px] mobile_s:text-[10px] mobile_m:text-[12px]  border border-transparent rounded-lg":"w-auto py-3 px-9 mobile_s:px-6 mobile_m:px-6  sm:px-10 bg-custom-gradient text-[12px] mobile_s:text-[10px] mobile_m:text-[12px] border border-transparent rounded-lg"}
+                  className={ids.length===0?"w-auto py-3    font-500 text-[#FFFFFF] px-4 mobile_s:px-3 mobile_m_360:px-5 mobile_m:px-5  mobile_m_390:px-6  sm:px-8 bg-custome-gray1 text-[12px] mobile_s:text-[10px] mobile_m:text-[11px] mobile_m_390:text-[12px]   border border-transparent rounded-lg":"w-auto py-3 px-4 mobile_s:px-3 mobile_m_360:px-5 mobile_m:px-6  sm:px-10 bg-custom-gradient text-[12px] mobile_s:text-[10px] mobile_m:text-[11px] mobile_m_390:text-[12px]  border border-transparent rounded-lg"}
                 >
                   {isLangArab?"حفظ التغييرات":"Save Changes"}
                 </button>
