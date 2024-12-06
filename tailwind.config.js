@@ -40,7 +40,9 @@ export default {
         },
         screens: {
           mobile_s: "100px",
+          mobile_m_360:"360px",
           mobile_m: "375px",
+          mobile_m_390:"390px",
           mobile_m_3: "413px",
           mobile_l: "425px",tab:"768px",
           tab_s:"800px",

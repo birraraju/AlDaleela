@@ -123,43 +123,48 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
           <div
             key={user.rank}
             className={`flex flex-col items-center ${
-              index === 0 ? "absolute left-1/4 translate-x-1/4  -top-8" : ""
+              index === 0 ? isLangArab?"absolute right-1/4 -translate-x-[30%] sm:-translate-x-[27%]  -top-8" : "absolute left-1/4 translate-x-[30%] sm:translate-x-[23%]  -top-8" : ""
             }`}
           >
             <div className="relative flex flex-col justify-center items-center">
-          { user.profilePicture ? <svg
-      width="80"
-      height="80"
-      viewBox="0 0 105 105"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      xmlnsXlink="http://www.w3.org/1999/xlink"
-    >
-      <circle
-        cx="52.707"
-        cy="52.6445"
-        r="50.4465"
-        fill={`url(#pattern0_502_105402${user.rank})`}
-        stroke="#1498A6"
-        strokeWidth="3.47907"
-      />
-      <defs>
-        <pattern
-          id={`pattern0_502_105402${user.rank}`}
-          patternContentUnits="objectBoundingBox"
-          width="1"
-          height="1"
-        >
-          <use xlinkHref={`#image0_502_105402${user.rank}`} transform="scale(0.00195312)" />
-        </pattern>
-        <image
-          id={`image0_502_105402${user.rank}`}
-           width="512" height="512"
-           className=" object-cover"
-          href={user.profilePicture || men} // Replace with the actual image URL or path
-        />
-      </defs>
-    </svg>: <img src={men} alt={user.userName}  className=" h-24 w-20 " />}
+          { user.profilePicture ? 
+    //       <svg
+    //   width="80"
+    //   height="80"
+    //   viewBox="0 0 105 105"
+    //   fill="none"
+    //   xmlns="http://www.w3.org/2000/svg"
+    //   xmlnsXlink="http://www.w3.org/1999/xlink"
+    // >
+    //   <circle
+    //     cx="52.707"
+    //     cy="52.6445"
+    //     r="50.4465"
+    //     fill={`url(#pattern0_502_105402${user.rank})`}
+    //     stroke="#1498A6"
+    //     strokeWidth="3.47907"
+    //   />
+    //   <defs>
+    //     <pattern
+    //       id={`pattern0_502_105402${user.rank}`}
+    //       patternContentUnits="objectBoundingBox"
+    //       width="1"
+    //       height="1"
+    //     >
+    //       <use xlinkHref={`#image0_502_105402${user.rank}`} transform="scale(0.00195312)" />
+    //     </pattern>
+    //     <image
+    //       id={`image0_502_105402${user.rank}`}
+    //        width="512" height="512"
+    //        className=" object-cover"
+    //       href={user.profilePicture || men} // Replace with the actual image URL or path
+    //     />
+    //   </defs>
+    // </svg>
+    <div className=" w-[90px] h-[90px] rounded-full border border-[#1498A6]">
+    <img className=" object-cover h-full rounded-full border-2 border-[#1498A6] w-full" src={user.profilePicture || men} alt="" />
+    </div>
+    : <img src={men} alt={user.userName}  className=" h-24 w-20 " />}
                <img
                 src={ index === 0 ? Top1 : (index === 1 ? Top2 : (index === 2 && Top3))}
                 alt={user.userName}
