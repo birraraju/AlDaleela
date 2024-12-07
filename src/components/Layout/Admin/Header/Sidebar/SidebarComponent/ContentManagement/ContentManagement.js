@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import RoleServices from '../../../../../../servicces/RoleServices';
 import { useAuth } from "../../../../../../../Providers/AuthProvider/AuthProvider";
 import Pagination from "../../../../Layout/Pagination/PaginationBar"
+import StatsOverview from './stats-overview';
 
 
 const users = [
@@ -111,10 +112,15 @@ export default function UserManagement({role}) {
   return (
     <div className="flex h-[calc(100vh-6rem)]">
       
- <div  className={`p-8 rounded-lg shadow-sm flex flex-col flex-grow overflow-hidden ${
+ <div  className={`px-8 py-2 rounded-lg shadow-sm flex flex-col flex-grow overflow-hidden ${
         isDarkMode ? "bg-[#303031] bg-opacity-90" : "bg-white "
       } text-[#101828] backdrop-blur border-none`}>
-                <div className="flex justify-between items-center mb-6">
+
+        <StatsOverview totalRecords={100} 
+        approved={50} 
+        pending={40} 
+        rejected={10} />
+                <div className="flex justify-between items-center mb-2">
                 <h2 className={`text-[22px] font-500   ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#464646]"}`}>
                 {isLangArab ?"إدارة المحتوى":"Content Management"}</h2>
         </div>
