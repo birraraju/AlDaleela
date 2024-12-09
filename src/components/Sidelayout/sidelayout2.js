@@ -73,7 +73,7 @@ export default function SideLayout2({ children, onClose }) { //w-[${width}]
       // style={{ width, height }}
     >
       {isContentVisible && (
-        <div className={`relative sm:h-[65%] h-[98%] sm:w-full float-end sm:float-none w-[98%] rounded-2xl shadow-lg overflow-hidden border ${
+        <div className={`relative sm:h-[60%] laptop_s:h-[65%] h-[98%] sm:w-full float-end sm:float-none w-[98%] rounded-2xl shadow-lg overflow-hidden border ${
           isDarkMode
             ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
             : "bg-white bg-opacity-70 backdrop-blur-lg border-white" // Light mode styles
