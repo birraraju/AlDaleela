@@ -269,7 +269,7 @@ export default function Feedback({
                   isDarkMode ? "text-[#FFFFFF] bg-opacity-70" : "text-[#000000]"
                 }`}
               >
-                {isLangArab ? "سيء" : "Name"}
+                {isLangArab ? "اسم المستخدم" : "Name"}
               </label>
               <input
                 type="text"
