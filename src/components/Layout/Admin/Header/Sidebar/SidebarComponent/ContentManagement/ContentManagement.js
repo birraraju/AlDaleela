@@ -187,14 +187,14 @@ export default function UserManagement({role}) {
                 isLangArab ? "pr-2" : "pl-2"
               } ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#101828]"} whitespace-nowrap`}
             >
-              {user.username}
+              {user.email}
             </td>
             <td
               className={`py-4 font-500   text-[10px] sm:text-[12px] laptop_s:text-[14px] ${
                 isLangArab ? "pr-2" : "pl-2"
               } ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#101828]"} whitespace-nowrap`}
             >
-              {user.email}
+              {user.username}
             </td>
             <td
               dir={isLangArab && "ltr"}
