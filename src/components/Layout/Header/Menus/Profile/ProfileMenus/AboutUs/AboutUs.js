@@ -30,7 +30,7 @@ export default function SendFeedback({ setIsAboutUs, setIsPopoverOpen }) {
             ${isDarkMode ? "text-gray-300" : "text-[#505050]"}`}
         >
           {" "}
-          {isLangArab ? "حولنا" : "About us"}
+          {isLangArab ? "من نحن" : "About us"}
         </p>
       </div>
     </div>
