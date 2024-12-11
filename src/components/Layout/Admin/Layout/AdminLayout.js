@@ -9,6 +9,7 @@ import { useTheme } from '../../ThemeContext/ThemeContext'; // Import the theme 
 import { useNavigate } from 'react-router-dom';
 import RoleServices from '../../../servicces/RoleServices';
 import { useLocation } from 'react-router-dom';
+import PopModal from "../../../Common/SuccessFailureMessageModel";
 
 
 
@@ -19,6 +20,9 @@ const AdminLayout = ({role}) => {
   const [activeItem, setActiveItem] = useState("User Management");
   const { isDarkMode, isLangArab } = useTheme(); // Access the dark mode state
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isMsgStatus, setIsMsgStatus] = useState("");
+  const [modalMessage, setModalMessage] = useState("")
+const [isSuccess, setIsSuccess] = useState(false);
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -30,7 +34,9 @@ const AdminLayout = ({role}) => {
   const renderContent = () => {
     switch (activeItem) {
       case "User Management":
-        return <UserManagement />;
+        return <UserManagement setIsSuccess={setIsSuccess}
+        setIsMsgStatus={setIsMsgStatus}
+        setModalMessage={setModalMessage} />;
       case "Content Management":
         return <ContentManagement role={role} />;
       case "Feedback":
@@ -108,7 +114,7 @@ const AdminLayout = ({role}) => {
         <SidebarComponent activeItem={activeItem} setIsCollapsed={setIsCollapsed} isCollapsed={isCollapsed} onItemClick={handleItemClick} />
 
         {/* Main Content Area */}
-        <main className={`flex-1 pr-3  ${isCollapsed ?(isLangArab ? " pr-14" : " pl-14"):(isLangArab? "pr-52" :"pl-52")} py-1 overflow-y-auto`}>
+        <main className={`flex-1 ${isCollapsed ?(isLangArab ? " pr-20 pl-2 " : " pr-2 pl-20"):(isLangArab? "pr-52 pl-2" :" pr-2 pl-52")} py-1 overflow-y-auto`}>
         <div className="  rounded-lg shadow-lg max-h-full">
         {/* Dynamic content */}
             <div className="flex-1 overflow-auto">
@@ -116,6 +122,14 @@ const AdminLayout = ({role}) => {
             </div>
           </div>
         </main>
+        <PopModal
+            message={modalMessage} // Pass the message from state
+            success={isMsgStatus} // Pass "Success" or "Failed" status
+            isOpenModal={isSuccess} // Modal is open if either isSuccess or isFailure is true
+            onClose={() => {
+              setIsSuccess(false); // Close success modal
+            }}
+          />
       </div>
     </div>
   );

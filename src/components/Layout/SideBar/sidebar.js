@@ -13,8 +13,9 @@ import { useTheme } from "../ThemeContext/ThemeContext";
 import { useAuth } from "../../../Providers/AuthProvider/AuthProvider";
 import { useEffect, useState, useRef } from "react";
 import * as reactiveUtils from "@arcgis/core/core/reactiveUtils.js";
+import BookmarkWhite from '../../../assets/sidebarBookmark/bookmark.svg'
 
-export default function Sidebar() {
+export default function Sidebar({handleBasemapMenuItemClick}) {
   const { isDarkMode, isLangArab } = useTheme(); // Access the theme from context
   const { contextMapView, initialExtent, extentHistory, setExtentHistory, currentExtentIndex, setCurrentExtentIndex } = useAuth();
   const [panmode, setPanMode] = useState(true);
@@ -115,6 +116,19 @@ export default function Sidebar() {
     isLangArab ? "right-2" : "left-2"
   } ml-3 laptop_s:top-1/2 sm:top-64 sm:mt-2 laptop_s:mt-0 laptop_s:-translate-y-1/2 z-10 sm:flex hidden flex-col items-center space-y-2 bg-transparent p-2 rounded-full`}
 >
+  <button
+    onClick={handleBasemapMenuItemClick}
+    className="w-12 h-12 sm:w-10 sm:h-10 text-white rounded-full flex items-center justify-center transition-colors duration-200"
+  >
+    <img
+      src={isDarkMode ? HomeDark : Home}
+      alt="Home Icon"
+      className="w-10 h-10 sm:w-8 sm:h-8"
+    />
+    <div className="absolute py-6 flex-1 justify-between">
+      <img src={BookmarkWhite} alt="Home Sign" className="w-6 sm:w-4" />
+    </div>
+  </button>
   {/* Home Button */}
   <button
     onClick={handleHomeClick}

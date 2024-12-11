@@ -3,7 +3,7 @@ import { X } from "lucide-react"; // Import the close icon
 import "../../../../../../App.css"; // Import your CSS file
 import { useTheme } from "../../../../ThemeContext/ThemeContext"; // Import useTheme
 
-export default function GeneralInformation({ onClose }) {
+export default function GeneralFilterHeader({ onClose }) {
   const modalRef = useRef(null); // Create a ref for the modal
   const { isDarkMode, isLangArab } = useTheme(); // Access isDarkMode and isLangArab from context
 

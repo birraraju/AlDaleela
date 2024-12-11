@@ -397,7 +397,7 @@ export default function BasicInformation({
             <Button asChild disabled={!isFormValid()}>
               <div
                 onClick={isFormValid() ? handleUpdate : undefined}
-                className={`h-[40px] w-[122px]   cursor-pointer btn-gradient   font-500 text-[#FFFFFF] text-[14px] sm:rounded-xl rounded-md mt-4 tracking-wide ${
+                className={`h-[32px] w-[122px]   cursor-pointer btn-gradient   font-500 text-[#FFFFFF] text-[14px] sm:rounded-xl rounded-md mt-4 tracking-wide ${
                   isFormValid() ? "" : "opacity-50 cursor-not-allowed"
                 }`}
               >

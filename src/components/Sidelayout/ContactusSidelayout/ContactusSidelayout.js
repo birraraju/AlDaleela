@@ -39,22 +39,8 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
 
     <motion.div
   ref={containerRef}
-  // initial={{ x: "100%", opacity: 0 }}
-  // whileInView={{ 
-  //   x: isOpen ? 0 : (isLangArab ? " -102%" : "102%"), // Move to left if Arabic
-  //   opacity: 1 
-  // }}
-  // exit={{
-  //   x:
-  //     window.innerWidth >= 1024 // Large screens (1024px and above)
-  //       ? (isLangArab ? "-90%" : "100%")
-  //       : window.innerWidth >= 640 // Medium screens (640px to 1024px)
-  //       ? (isLangArab ? "-116%" : "116%")
-  //       : (isLangArab ? "-90%" : "100%"), // Small screens (below 640px)
-  //   opacity: 0,
-  // }}
-  // transition={{ ease: "easeInOut" }}
-    className={`p-4  sm:py-4  sm:h-[50vh] flip:h-[80vh]  laptop_s:h-[65vh] laptop_m:h-[70vh]  2xl:h-[70vh] laptop_lg:h-[50vh]  transition-transform duration-300 ease-in-out  fixed top-20 ${isLangArab?"left-1  h-[73vh] sm:left-16 laptop_s:left-6":"right-1 sm:right-16 h-[75vh] laptop_s:right-6"}  backdrop-blur rounded-3xl text-[#000000] ${
+ 
+    className={`p-4  sm:py-4  sm:h-[50vh] flip:h-[80vh]  laptop_s:h-[85vh] laptop_m:h-[70vh]  2xl:h-[70vh] laptop_lg:h-[50vh]  transition-transform duration-300 ease-in-out  fixed top-20 ${isLangArab?"left-1  h-[73vh] sm:left-16 laptop_s:left-6":"right-1 sm:right-16 h-[75vh] laptop_s:right-6"}  backdrop-blur rounded-3xl text-[#000000] ${
       isDarkMode
         ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none"
         : "bg-white bg-opacity-70 backdrop-blur-lg border-white"
@@ -229,29 +215,3 @@ export default function ContactUs({ setIsPopoverOpen, setIsContactUs }) {
   </div>
   );
 }
-
-// const ContactDetail = ({ icon, title, subtitle, description }) => (
-
-//   <div>
-//     {icon && (
-//       <h3 className="flex items-center mb-2 font-bold">
-//         <img src={icon} alt={title} className="h-5 w-5 mr-2" />
-//         <span className="  bg-custom-gradient bg-clip-text text-transparent text-lg">
-//           {title}
-//         </span>
-//       </h3>
-//     )}
-//     {subtitle && (
-//             <h4 className={`  font-500 mb-1 text-[14px] ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#667085]"}`}>
-//         {subtitle}
-//       </h4>
-//     )}
-//             <p className={`text-[16px]   font-500 ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#000000]"}`}>
-//             {description}
-//     </p>
-//   </div>
-// );
-
-// const SocialIcon = ({ src, alt }) => (
-//   <img src={src} alt={alt} className="h-6 w-6" />
-// );

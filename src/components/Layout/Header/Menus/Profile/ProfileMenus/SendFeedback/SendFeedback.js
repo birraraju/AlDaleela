@@ -19,7 +19,7 @@ export default function SendFeedback({ setIsFeedBack, setIsPopoverOpen }) {
         <img 
           src={isDarkMode ? DarkFeedback : feedback }
 
-           alt="Logo" className={` w-4 `} />        </div>
+           alt="Logo" className={` ${isLangArab?" w-5 ":"w-4 "}`} />        </div>
         <p
           className={`  ${
             isLangArab

@@ -9,7 +9,9 @@ import { IoEyeOff, IoEye } from "react-icons/io5";
 import { useTheme } from "../../../Layout/ThemeContext/ThemeContext"; // Import the theme context
 import createEmailBody from "../../../../components/email/emailTemplate";
 
-export default function Signup({ onClose, onSigninClick }) {
+export default function Signup({ onClose, onSigninClick,setIsSuccess,
+  setIsMsgStatus,
+  setModalMessage }) {
   const [formData, setFormData] = useState({
     username: "",
     firstName: "",
@@ -300,6 +302,8 @@ export default function Signup({ onClose, onSigninClick }) {
   const [filterText, setFilterText] = useState("");
   const [filterCode, setFilterCode] = useState("");
   const modalRef = useRef(null);
+  const CodeRef = useRef(null);
+  const CountryRef = useRef(null);
 
   const [isOpen, setIsOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState("");
@@ -328,6 +332,31 @@ export default function Signup({ onClose, onSigninClick }) {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, [onClose]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (CodeRef.current && !CodeRef.current.contains(event.target) && !isCodeOpen) {
+        setCodeOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (CountryRef.current && !CountryRef.current.contains(event.target) && !isOpen) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     const allFieldsFilled = Object.values(formData).every(
@@ -367,129 +396,6 @@ export default function Signup({ onClose, onSigninClick }) {
     setIsOpen(false);
   };
 
-  // const validateForm = (data) => {
-  //   const { password, confirmPassword,username,firstName,organization, phoneNumber,email} = data;
-  //   setErrorMessages({
-  //     password: "",
-  //     confirmPassword: "",
-  //     phoneNumber: "",
-  //     username: "",
-  //     firstName:"",
-  //  email:"",
-  //  organization:""
-  //   });
-
-  //   let valid = true;
-
-  //   // Check if all fields are filled
-  //   // const allFieldsFilled = Object.values(data).every((value) => value !== "");
-  //   // if (allFieldsFilled) {
-  //   //   setFormFilled(true)
-  //   // }
-
-  //   const CharacterRegex = /^[A-Za-z]+$/;
-  //   // Check password length
-
-  //   const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
-
-  //   const isPasswordValid = passwordRegex.test(password)
-  //   if (!isPasswordValid) {
-  //     valid = false;
-  //     setErrorMessages((prev) => ({
-  //       ...prev,
-  //       password: "Password Capital letter ,Number,Special character must be 8 character",
-  //     }));
-  //   }
-
-  //   // Check if passwords match
-  //   const doPasswordsMatch = password === confirmPassword;
-  //   if (!doPasswordsMatch) {
-  //     valid = false;
-  //     setErrorMessages((prev) => ({
-  //       ...prev,
-  //       confirmPassword: "Passwords do not match.",
-  //     }));
-  //   }
-
-  //   if(!organization){
-  //     valid = false;
-  //     setErrorMessages((prev) => ({
-  //       ...prev,
-  //       organization: "Organization required.",
-  //     }));
-  //   }else if(!CharacterRegex.test(organization)){
-  //     valid = false;
-  //     setErrorMessages((prev) => ({
-  //       ...prev,
-  //       organization: "organization should contain only alphabets.",
-  //     }));
-  //   }
-  //   // Check if the username already exists
-  //   const isUsernameAvailable = !usernameExists; // Ensure username does not exist
-  //   const usernameRegex = /^[A-Za-z]+$/;
-  //   if (!isUsernameAvailable) {
-  //     valid = false;
-  //     setErrorMessages((prev) => ({
-  //       ...prev,
-  //       username: "Username already exists.",
-  //     }));
-  //   }else if(!username){
-  //     setErrorMessages((prev)=>({
-  //       ...prev,
-  //       username:"Username is required"
-  //     }))
-  //   }else if (!usernameRegex.test(username)) {
-  //     valid = false;
-  //     setErrorMessages((prev) => ({
-  //       ...prev,
-  //       username: "Username should contain only alphabets.",
-  //     }));
-  //   }
-
-  //   if(!firstName){
-  //     valid = false;
-  //     setErrorMessages((prev) => ({
-  //       ...prev,
-  //       firstName: "firstName required",
-  //     }));
-  //   }else if(!usernameRegex.test(firstName)){
-  //     valid = false;
-  //     setErrorMessages((prev) => ({
-  //       ...prev,
-  //       firstName: "firstName should contain only alphabets.",
-  //     }));
-  //   }
-
-  //   // Check if phone number is exactly 10 limit and contains only numbers
-  //   const isPhoneNumberValid =
-  //     phoneNumber.length === 10 && /^\d+$/.test(phoneNumber);
-  //   if (!isPhoneNumberValid) {
-  //     valid = false;
-  //     setErrorMessages((prev) => ({
-  //       ...prev,
-  //       phoneNumber: "Phone number must be exactly 10 limit.",
-  //     }));
-  //   }
-
-  //   const regexEmail = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
-  //   const isEmailValid = regexEmail.test(email);
-
-  //   console.log("isEmailValid :>> ", isEmailValid);
-
-  //   if(!isEmailValid){
-  //     valid=false;
-  //     setErrorMessages((prev)=>({...prev,email:"Provide a valid email address."}))
-  //   }
-  //   // setFormIsValid(valid);
-  //   return valid;
-  // };
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   if (formIsValid) {
-  //     onSignupClick();
-  //   }
-  // };
 
   const validateForm = (data) => {
     const {
@@ -582,13 +488,22 @@ const validatePhoneNumber = (phoneNumber, limit) => {
 }
 
 // Phone Number Validation
-if (
-  !validPhoneCount ||
-  !validatePhoneNumber(phoneNumber, validPhoneCount)
-) {
+// if (
+//   !validPhoneCount ||
+//   !validatePhoneNumber(phoneNumber, validPhoneCount)
+// ){
+//   valid = false;
+//   errors.phoneNumber = `Please enter a phone number with ${validPhoneCount} digits`;
+// }
+
+if (!validPhoneCount) {
   valid = false;
-  errors.phoneNumber = `Please enter a phone number with ${validPhoneCount} digits`;
+  errors.phoneNumber = "Please enter a valid country code.";
+} else if (!validatePhoneNumber(phoneNumber, validPhoneCount)) {
+  valid = false;
+  errors.phoneNumber = `Please enter a phone number with ${validPhoneCount} digits.`;
 }
+
 
 
     // Phone Number Validation
@@ -691,11 +606,16 @@ if (
       const result = await response.json();
       if (result.success) {
         console.log("Email sent successfully:", result);
-        alert(
-          isLangArab
-            ? "تم إرسال البريد الإلكتروني بنجاح:"
-            : "Email sent successfully!"
-        );
+        setIsMsgStatus("Success");
+        setModalMessage(isLangArab
+          ? "تم إرسال بريد إلكتروني بنجاح إلى بريدك الإلكتروني المسجل. يرجى التحقق من صندوق الوارد للتحقق."
+          : "An email has been successfully sent to your registered email. Please check your inbox to verify.");
+        setIsSuccess(true);
+        // alert(
+        //   isLangArab
+        //     ? "تم إرسال البريد الإلكتروني بنجاح:"
+        //     : "Email sent successfully!"
+        // );
       } else {
         console.log(result.message || "Email sent failed, Please try again.");
       }
@@ -933,6 +853,7 @@ if (
                       }
                   {isCodeOpen && (
                       <ul
+                      ref={CodeRef}
                         className={`absolute mt-0.5 grid justify-start   max-w-24 px-2 py-1 max-h-[80px] overflow-y-auto rounded-md shadow-lg z-10 ${
                           isDarkMode
                             ? "bg-[#FFFFFF]  text-black"
@@ -1039,6 +960,7 @@ if (
                     {/* Dropdown Menu */}
                     {isOpen && (
                       <ul
+                      ref={CountryRef}
                         className={`absolute mt-0.5 w-full max-h-[80px] min-h-[40px] overflow-y-auto rounded-md shadow-lg z-10 ${
                           isDarkMode
                             ? "bg-[#FFFFFF]  text-black"

@@ -350,7 +350,10 @@ const Component = ({
         console.error("Error adding attachments:", error);
       }
     } else {
-      alert("Please upload files before proceeding."); // Optional alert for user feedback
+      setPOImessageShow( isLangArab?"يرجى تحميل الملفات قبل المتابعة.": "Please upload files before proceeding.");
+      setPOIFormsuccessShow("Failure"); // or "Failure" based on your logic
+      setPOIFormisOpenModalShow(true);
+      // alert("Please upload files before proceeding."); 
     }
   };
 
@@ -566,7 +569,7 @@ const Component = ({
         ) : (
           <>
             <div className=" relative">
-              {value && !isEditShowPOI && (
+              {(value && value !== " " && !isEditShowPOI) && (
                 <label
                   htmlFor={id}
                   className={`block  absolute ${
@@ -578,7 +581,7 @@ const Component = ({
                   {label}
                 </label>
               )}
-              <p
+             {(value && value !== " " && !isEditShowPOI) &&  <p
                 className={` border ${value ? "p-2" : "p-5"} ${
                   id === "organization" || id === "MunicipalityAr"
                     ? " font-cairo"
@@ -590,7 +593,7 @@ const Component = ({
                 {" "}
                 {/* {value?.length > 40 ? `${value.substring(0, 20)}` : value} */}
                 {value}
-              </p>
+              </p>}
             </div>
           </>
         ))
@@ -607,7 +610,7 @@ const Component = ({
           <>
             {renderFieldOrText(
               "organization",
-              isLangArab ? "منظمة" : "Organization",
+              isLangArab ? "الجهة" : "Organization",
               queryresults.features[0].attributes.organization,
               organizationOptions,
               "select"
@@ -624,7 +627,7 @@ const Component = ({
 
             {renderFieldOrText(
               "Class",
-              isLangArab ? "الفئة" : "Class",
+              isLangArab ? "النوع" : "Class",
               queryresults.features[0].attributes.Class,
               classOption,
               "select"
@@ -632,7 +635,7 @@ const Component = ({
 
             {renderFieldOrText(
               "MunicipalityAr",
-              isLangArab ? "البلدية" : "Municipality",
+              isLangArab ? "المدينة" : "Municipality",
               queryresults.features[0].attributes.MunicipalityAr,
               municipalityOptions,
               "select"
@@ -646,7 +649,7 @@ const Component = ({
 
             {renderFieldOrText(
               "City",
-              isLangArab ? "المدينة" : "City",
+              isLangArab ? "المنطقة" : "City",
               queryresults.features[0].attributes.City
             )}
 
@@ -660,7 +663,7 @@ const Component = ({
             {isShowMore &&
               renderFieldOrText(
                 "ClassD",
-                isLangArab ? "الفئة D" : "ClassD",
+                isLangArab ? "المعنى الجغرافي" : "ClassD",
                 queryresults.features[0].attributes.ClassD
               )}
 
@@ -701,25 +704,6 @@ const Component = ({
                 queryresults.features[0].attributes.stories
               )}
 
-            {/* {renderFieldOrText("organization", "Organization", queryresults.features[0].attributes.organization,organizationOptions, "select")}
-            {renderFieldOrText("name_en", "Name", queryresults.features[0].attributes.name_en)}
-            {renderFieldOrText("Class", "Class", queryresults.features[0].attributes.Class)}
-            {renderFieldOrText("ClassD", "ClassD", queryresults.features[0].attributes.ClassD)}
-            
-            {isShowMore && <>
-            {renderFieldOrText("Status", "Status", queryresults.features[0].attributes.Status,statusOptions, "select")}
-            {renderFieldOrText("Comment", "Comment", queryresults.features[0].attributes.Comment)}
-            {renderFieldOrText("description", "Description", queryresults.features[0].attributes.description)}
-            {renderFieldOrText("poems", "Poems", queryresults.features[0].attributes.poems)}
-            {renderFieldOrText("stories", "Stories", queryresults.features[0].attributes.stories)}
-
-            {renderFieldOrText("Classification", "Classification", queryresults.features[0].attributes.Classification,[],"text", true)}
-            {renderFieldOrText("MunicipalityAr", "Municipality", queryresults.features[0].attributes.MunicipalityAr, municipalityOptions,"select")}
-
-            {renderFieldOrText("Emirate", "Emirate", queryresults.features[0].attributes.Emirate)}
-            {renderFieldOrText("City", "City", queryresults.features[0].attributes.City)}
-
-            </>} */}
 
             {!isEditShowPOI &&
               // (videos.length > 0 || audios.length > 0 || images.length > 0) && (
@@ -988,11 +972,11 @@ const Component = ({
 
                 <div
                 dir={isLangArab && "rtl"}
-                className={`text-[12px] py-2 w-[95%] ${ !isShowMore && "absolute bottom-0"}  flex justify-center items-center  ${
+                className={`text-[12px] py-2 w-[95%] ${ (!isShowMore && !(videos.length > 0 || audios.length > 0 || images.length > 0)) && "absolute bottom-0"} gap-1  flex justify-center items-center  ${
                   isDarkMode ? "text-white" : "text-gray-500"
                 } sm:px-12 px-7`}
               >
-                X 54.2971051, Y 24.0622842
+                <span> X 54.2971051 </span> , <span>Y 24.0622842</span>
               </div>
 
             {/* {(videos.length > 0 || audios.length > 0 || images.length > 0) &&
@@ -1029,9 +1013,9 @@ const Component = ({
               <div dir={isLangArab && "rtl"} className={`flex  ${isLangArab?"justify-between":" justify-center"} py-1 space-x-8 items-center`}>
                 <button
                   onClick={() => setIsShowEditPOI(false)}
-                  className={`w-auto py-3 px-14 outline-none  text-xs ${
+                  className={`w-auto  px-10 py-3 sm:py-3 sm:px-14 outline-none  text-xs ${
                     isDarkMode ? " text-[#505050] bg-white" : "text-[#505050] bg-transparent"
-                  } border border-[#909090] rounded-lg`}
+                  } ${isLangArab && "mr-5"} border border-[#909090] rounded-lg`}
                 >
                   {isLangArab ? "يلغي" : "Cancel"}
                 </button>
@@ -1039,7 +1023,7 @@ const Component = ({
                   onClick={() => {
                     handleAttributesUpdate();
                   }}
-                  className="w-auto py-3 px-14 bg-custom-gradient text-white text-xs border border-transparent rounded-lg"
+                  className="w-auto px-10 py-3 sm:py-3 sm:px-14 bg-custom-gradient text-white text-xs border border-transparent rounded-lg"
                 >
                   {isLangArab ? "تحديث" : "Update"}
                 </button>

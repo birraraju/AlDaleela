@@ -17,7 +17,7 @@ import { useTheme } from "../Layout/ThemeContext/ThemeContext";
 
 
 
-const Component = ({mapview,isLangArab, selectedLayer, addPointGeometry, setFormShow,setPOIFormsuccessShow,setmessage,onClose,setPOIFormisOpenModalShow,isFormShow}) => {
+const Component = ({mapview,isLangArab,setIsMsgStatus,setModalMessage,setIsSuccess,selectedLayer, addPointGeometry, setFormShow,setPOIFormsuccessShow,setmessage,onClose,setPOIFormisOpenModalShow,isFormShow}) => {
 
   const [poiData, setPoiData] = useState({
     organization: "",
@@ -191,7 +191,10 @@ const Component = ({mapview,isLangArab, selectedLayer, addPointGeometry, setForm
       });
       mapview.graphics.add(pointGraphic);
     } else {
-      alert("Please enter valid coordinates.");
+      setIsMsgStatus("Failure");
+        setModalMessage("Please enter valid coordinates.");
+        setIsSuccess(true);
+      // alert("Please enter valid coordinates.");
     }
   };
 
@@ -385,25 +388,37 @@ const isValidFile = async (file) => {
   const isAudio = file.type === 'audio/mpeg' || file.type === 'audio/wav';
 
   if (!isImage && !isVideo && !isAudio) {
-    alert(` ${isLangArab ? "نوع الملف غير صالح. يُسمح فقط بصور JPEG و PNG و GIF، وملفات الصوت MP3 و WAV، وفيديو MP4.":"Invalid file type. Only JPEG, PNG, GIF images, MP3, WAV audio, and MP4 video are allowed."}`);
+    setIsMsgStatus("Failure");
+        setModalMessage(isLangArab ? "نوع الملف غير صالح. يُسمح فقط بصور JPEG و PNG و GIF، وملفات الصوت MP3 و WAV، وفيديو MP4.":"Invalid file type. Only JPEG, PNG, GIF images, MP3, WAV audio, and MP4 video are allowed.");
+        setIsSuccess(true);
+    // alert(` ${isLangArab ? "نوع الملف غير صالح. يُسمح فقط بصور JPEG و PNG و GIF، وملفات الصوت MP3 و WAV، وفيديو MP4.":"Invalid file type. Only JPEG, PNG, GIF images, MP3, WAV audio, and MP4 video are allowed."}`);
     return false;
   }
 
   if (isImage) {
     if (file.size > MAX_IMAGE_SIZE) {
-      alert(`${ isLangArab ?"حجم الصورة يجب أن يكون أقل من 10 ميجابايت.":"Image size must be under 10 MB."}`);
+      setIsMsgStatus("Failure");
+        setModalMessage(isLangArab ?"حجم الصورة يجب أن يكون أقل من 10 ميجابايت.":"Image size must be under 10 MB.");
+        setIsSuccess(true);
+      // alert(`${ isLangArab ?"حجم الصورة يجب أن يكون أقل من 10 ميجابايت.":"Image size must be under 10 MB."}`);
       return false;
     }
     // const isValidDimensions = await checkImageDimensions(file);
     // if (!isValidDimensions) return false;
   } else if (isVideo) {
     if (file.size > MAX_VIDEO_SIZE) {
-      alert(`${isLangArab?"يجب أن يكون حجم الفيديو أقل من 50 ميغابايت.":"Video size must be under 50 MB."}`);
+      setIsMsgStatus("Failure");
+      setModalMessage(isLangArab?"يجب أن يكون حجم الفيديو أقل من 50 ميغابايت.":"Video size must be under 50 MB.");
+      setIsSuccess(true);
+      // alert(`${isLangArab?"يجب أن يكون حجم الفيديو أقل من 50 ميغابايت.":"Video size must be under 50 MB."}`);
       return false;
     }
   } else if (isAudio) {
     if (file.size > MAX_AUDIO_SIZE) {
-      alert(`${isLangArab?"يجب أن يكون حجم الصوت أقل من 10 ميغابايت.":"Audio size must be under 10 MB."}`);
+      setIsMsgStatus("Failure");
+        setModalMessage(isLangArab?"يجب أن يكون حجم الصوت أقل من 10 ميغابايت.":"Audio size must be under 10 MB.");
+        setIsSuccess(true);
+      // alert(`${isLangArab?"يجب أن يكون حجم الصوت أقل من 10 ميغابايت.":"Audio size must be under 10 MB."}`);
       return false;
     }
   }
@@ -424,7 +439,10 @@ const handleFileChange = async (e) => {
   }
 
   if (validFiles.length !== selectedFiles.length) {
-    alert(`${isLangArab?"بعض الملفات لم تستوفِ المعايير المطلوبة ولم تتم إضافتها.":"Some files did not meet the required criteria and were not added."}`);
+    setIsMsgStatus("Failure");
+    setModalMessage(isLangArab?"بعض الملفات لم تستوفِ المعايير المطلوبة ولم تتم إضافتها.":"Some files did not meet the required criteria and were not added.");
+    setIsSuccess(true);
+    // alert(`${isLangArab?"بعض الملفات لم تستوفِ المعايير المطلوبة ولم تتم إضافتها.":"Some files did not meet the required criteria and were not added."}`);
   }
 
   setFiles((prevFiles) => [...prevFiles, ...validFiles]);
@@ -445,7 +463,10 @@ const handleDrop = async (e) => {
   }
 
   if (validFiles.length !== droppedFiles.length) {
-    alert(`${isLangArab?"بعض الملفات لم تستوفِ المعايير المطلوبة ولم تتم إضافتها.":"Some files did not meet the required criteria and were not added."}`);
+    setIsMsgStatus("Failure");
+        setModalMessage(isLangArab?"بعض الملفات لم تستوفِ المعايير المطلوبة ولم تتم إضافتها.":"Some files did not meet the required criteria and were not added.");
+        setIsSuccess(true);
+    // alert(`${isLangArab?"بعض الملفات لم تستوفِ المعايير المطلوبة ولم تتم إضافتها.":"Some files did not meet the required criteria and were not added."}`);
   }
 
   setFiles((prevFiles) => [...prevFiles, ...validFiles]);
@@ -691,7 +712,10 @@ const handleDrop = async (e) => {
         console.error("Error adding attachments:", error);
       }
     } else {
-      alert(`${isLangArab?"يرجى تحميل الملفات قبل المتابعة.":"Please upload files before proceeding."}`); // Optional alert for user feedback
+      setIsMsgStatus("Failure");
+        setModalMessage(isLangArab?"يرجى تحميل الملفات قبل المتابعة.":"Please upload files before proceeding.");
+        setIsSuccess(true);
+      // alert(`${isLangArab?"يرجى تحميل الملفات قبل المتابعة.":"Please upload files before proceeding."}`);
     }
   };
 

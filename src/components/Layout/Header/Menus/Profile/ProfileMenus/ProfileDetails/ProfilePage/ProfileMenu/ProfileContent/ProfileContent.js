@@ -12,7 +12,10 @@ export default function ProfileContent({
   setChangeCloseProfile,
   setProfileImage,
   profileImage,
-  setFile
+  setFile,
+  setIsSuccess,
+  setIsMsgStatus,
+  setModalMessage,
 }) {
   const { profiledetails } = useAuth();
   const { isDarkMode, isLangArab } = useTheme(); // Access the dark mode state
@@ -36,7 +39,12 @@ export default function ProfileContent({
         reader.readAsDataURL(selectedFile);
       } else {
         // If the file exceeds 2MB, alert the user
-        alert("File size should not exceed 2MB.");
+        setIsMsgStatus("Success");
+        setModalMessage(isLangArab
+          ? "يجب ألا يتجاوز حجم الملف 2 ميغابايت."
+          : "File size should not exceed 2MB.");
+        setIsSuccess(true);
+        // alert("File size should not exceed 2MB.");
         // Optionally, clear the input or reset it
         event.target.value = null; // This will reset the file input
       }

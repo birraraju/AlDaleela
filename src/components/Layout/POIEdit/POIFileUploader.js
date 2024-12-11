@@ -10,7 +10,8 @@ import { isDragActive } from 'framer-motion';
 import { useTheme } from '../ThemeContext/ThemeContext';
 
 
-const FileUploader = ({ POIFormUploader,isLangArab,setPOIFormisOpenModalShow,setPOImessageShow,setPOIFormsuccessShow, setPOIFormShow, setPOIUploaderShow, queryresults, uploadedFiles, setUploadedFiles }) => {
+const FileUploader = ({ POIFormUploader,isLangArab,setIsMsgStatus,
+  setModalMessage,setIsSuccess,setPOIFormisOpenModalShow,setPOImessageShow,setPOIFormsuccessShow, setPOIFormShow, setPOIUploaderShow, queryresults, uploadedFiles, setUploadedFiles }) => {
   const [files, setFiles] = useState([]); // Store the selected files
   //const [uploadedFiles, setUploadedFiles] = useState([]); // Store the uploaded files
   const [isDragging, setIsDragging] = useState(false);
@@ -45,13 +46,19 @@ const FileUploader = ({ POIFormUploader,isLangArab,setPOIFormisOpenModalShow,set
                         (file.type === 'video/mp4');
   
     if (!isValidType) {
-      alert(` ${isLangArab ? "نوع الملف غير صالح. يُسمح فقط بصور JPEG و PNG و GIF، وملفات الصوت MP3 و WAV، وفيديو MP4.":"Invalid file type. Only JPEG, PNG, GIF images, MP3, WAV audio, and MP4 video are allowed."}`);
+      setIsMsgStatus("Failure");
+        setModalMessage(isLangArab ? "نوع الملف غير صالح. يُسمح فقط بصور JPEG و PNG و GIF، وملفات الصوت MP3 و WAV، وفيديو MP4.":"Invalid file type. Only JPEG, PNG, GIF images, MP3, WAV audio, and MP4 video are allowed.");
+        setIsSuccess(true);
+      // alert(` ${isLangArab ? "نوع الملف غير صالح. يُسمح فقط بصور JPEG و PNG و GIF، وملفات الصوت MP3 و WAV، وفيديو MP4.":"Invalid file type. Only JPEG, PNG, GIF images, MP3, WAV audio, and MP4 video are allowed."}`);
       return false;
     }
   
     if (file.type.startsWith('image/')) {
       if (file.size > MAX_IMAGE_SIZE) {
-        alert(`${ isLangArab ?"حجم الصورة يجب أن يكون أقل من 10 ميجابايت.":"Image size must be under 10 MB."}`);
+        setIsMsgStatus("Failure");
+        setModalMessage(isLangArab ?"حجم الصورة يجب أن يكون أقل من 10 ميجابايت.":"Image size must be under 10 MB.");
+        setIsSuccess(true);
+        // alert(`${ isLangArab ?"حجم الصورة يجب أن يكون أقل من 10 ميجابايت.":"Image size must be under 10 MB."}`);
         return false;
       }
       // const isValidDimensions = await checkImageDimensions(file);
@@ -61,12 +68,18 @@ const FileUploader = ({ POIFormUploader,isLangArab,setPOIFormisOpenModalShow,set
       // }
     } else if (file.type.startsWith('audio/')) {
       if (file.size > MAX_AUDIO_SIZE) {
-        alert(`${isLangArab?"يجب أن يكون حجم الصوت أقل من 10 ميغابايت.":"Audio size must be under 10 MB."}`);
+        setIsMsgStatus("Failure");
+        setModalMessage(isLangArab?"يجب أن يكون حجم الصوت أقل من 10 ميغابايت.":"Audio size must be under 10 MB.");
+        setIsSuccess(true);
+        // alert(`${isLangArab?"يجب أن يكون حجم الصوت أقل من 10 ميغابايت.":"Audio size must be under 10 MB."}`);
         return false;
       }
     } else if (file.type.startsWith('video/')) {
       if (file.size > MAX_VIDEO_SIZE) {
-        alert(`${isLangArab?"يجب أن يكون حجم الفيديو أقل من 50 ميغابايت.":"Video size must be under 50 MB."}`);
+        setIsMsgStatus("Failure");
+        setModalMessage(isLangArab?"يجب أن يكون حجم الفيديو أقل من 50 ميغابايت.":"Video size must be under 50 MB.");
+        setIsSuccess(true);
+        // alert(`${isLangArab?"يجب أن يكون حجم الفيديو أقل من 50 ميغابايت.":"Video size must be under 50 MB."}`);
         return false;
       }
     }
@@ -188,7 +201,10 @@ const FileUploader = ({ POIFormUploader,isLangArab,setPOIFormisOpenModalShow,set
       setPOIUploaderShow(false);
       //setUploadedFiles([]); // Clear the uploaded files if necessary
     } else {
-      alert(`${isLangArab?"يرجى تحميل الملفات قبل المتابعة.":"Please upload files before proceeding."}`); // Optional alert for user feedback
+      setIsMsgStatus("Failure");
+        setModalMessage(isLangArab?"يرجى تحميل الملفات قبل المتابعة.":"Please upload files before proceeding.");
+        setIsSuccess(true);
+      // alert(`${isLangArab?"يرجى تحميل الملفات قبل المتابعة.":"Please upload files before proceeding."}`); 
     }
   };
   

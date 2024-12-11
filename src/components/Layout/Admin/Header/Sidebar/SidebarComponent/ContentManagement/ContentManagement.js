@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import RoleServices from '../../../../../../servicces/RoleServices';
 import { useAuth } from "../../../../../../../Providers/AuthProvider/AuthProvider";
 import Pagination from "../../../../Layout/Pagination/PaginationBar"
+import StatsOverview from './stats-overview';
 
 
 const users = [
@@ -111,11 +112,16 @@ export default function UserManagement({role}) {
   return (
     <div className="flex h-[calc(100vh-6rem)]">
       
- <div  className={`p-8 rounded-lg shadow-sm flex flex-col flex-grow overflow-hidden ${
+ <div  className={`px-8 py-2 rounded-lg shadow-sm flex flex-col flex-grow overflow-hidden ${
         isDarkMode ? "bg-[#303031] bg-opacity-90" : "bg-white "
       } text-[#101828] backdrop-blur border-none`}>
-                <div className="flex justify-between items-center mb-6">
-                <h2 className={`text-[22px] font-500   ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#464646]"}`}>
+
+        <StatsOverview totalRecords={100} 
+        approved={50} 
+        pending={40} 
+        rejected={10} />
+                <div className="flex justify-between items-center mb-2">
+                <h2 className={`text-[20px] font-500   ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#464646]"}`}>
                 {isLangArab ?"إدارة المحتوى":"Content Management"}</h2>
         </div>
 
@@ -159,7 +165,7 @@ export default function UserManagement({role}) {
               </span>
             </th>
           ))}
-          <th className="pb-3 laptop_s:p-2 sm:p-4"></th>
+          <th className="pb-3 laptop_s:p-4 laptop_m:p-2 sm:p-4"></th>
         </tr>
       </thead>
       <tbody>
@@ -181,14 +187,14 @@ export default function UserManagement({role}) {
                 isLangArab ? "pr-2" : "pl-2"
               } ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#101828]"} whitespace-nowrap`}
             >
-              {user.username}
+              {user.email}
             </td>
             <td
               className={`py-4 font-500   text-[10px] sm:text-[12px] laptop_s:text-[14px] ${
                 isLangArab ? "pr-2" : "pl-2"
               } ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#101828]"} whitespace-nowrap`}
             >
-              {user.email}
+              {user.username}
             </td>
             <td
               dir={isLangArab && "ltr"}
