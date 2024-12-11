@@ -6,12 +6,16 @@ import "./Footer.css";
 import { useTheme } from "../../Layout/ThemeContext/ThemeContext"; // Import the theme context
 import usePrevious from "../../../Providers/Hooks/usePrevious"; // Adjust the path
 import "react-tooltip/dist/react-tooltip.css";
+import Home from "../../../assets/navigations/imageSide2.png";
+import HomeDark from "../../../assets/navigations/dark.png"; // Dark theme image path
+import ShowPlus from '../../../assets/Footer/PlusShow.svg'
 
 export default function Footer({
   handleClose,
   handleMenuItemClick,
+  isPlusShow, setisPlusShow,
   setPopup,
-  resetTrigger,isExpanded, setIsExpanded
+  resetTrigger,isExpanded, setIsExpanded,
 }) {
   const [currentMenuPosition, setCurrentMenuPosition] = useState(0);
   const [currentItemDisplay, setCurrentItemDisplay] = useState("none");
@@ -37,109 +41,6 @@ export default function Footer({
     6: t(isLangArab ? "طباعة البيانات" : "Print"),
   };
 
-  // const handleFooterItemClick = useCallback(
-  //   (e, index, isExpanded) => {
-  //     e.preventDefault();
-  //     if(previousCount === null) setSelectedIndex(index);
-  //     if (  index === previousCount) return ;
-  //     console.log("Current footer index:", index);
-  //     if (index <= 4) {
-  //       setIsExpanded(false);
-  //     }
-
-  //     if (index >= 4) {
-  //       if (index === 4) {
-  //         setCurrentMenuPosition(0);
-  //         setCurrentItemDisplay("none");
-  //         setActiveMenuIndex(0);
-  //         setSelectedIndex(null);
-  //         setPopup(null);
-  //         setIsExpanded(true);
-
-  //         const menuBar = document.querySelector(".sc-bottom-bar");
-  //         if (menuBar) {
-  //           menuBar.style.backgroundPosition = ``;
-  //           menuBar.style.backgroundImage = document.body.classList.contains(
-  //             "theme-dark"
-  //           )
-  //             ? ""
-  //             : "";
-  //         }
-
-  //         menuItemsRef.current.forEach(
-  //           (item) => item && item.classList.remove("sc-current")
-  //         );
-
-  //         const menuIndicator = document.querySelector(".sc-nav-indicator");
-  //         if (menuIndicator) {
-  //           menuIndicator.style.left = "0px";
-  //         }
-  //       }
-  //     }
-
-  //     if (index < 4 || index === 5 || index === 6) {
-  //       const clickedElement = e.currentTarget;
-  //       const position = clickedElement.offsetLeft;
-  //       setCurrentMenuPosition(position);
-  //       setCurrentItemDisplay("block");
-
-  //       const menuIndicator = document.querySelector(".sc-nav-indicator");
-  //       if (menuIndicator) {
-  //         menuIndicator.style.left = `${position}px`;
-  //       }
-
-  //       const menuBar = document.querySelector(".sc-bottom-bar");
-  //       if (menuBar) {
-  //         let size = position - 11; // Default size assignment
-
-  //         // Check if the menu is expanded and set the position based on index and language
-  //         if (isExpanded) {
-  //           switch (index) {
-  //             case 0:
-  //               size = isLangArab ? position - 60 : position - 11;
-  //               break;
-  //             case 1:
-  //               size = isLangArab ? position - 65 : position - 7;
-  //               break;
-  //             case 2:
-  //               size = isLangArab ? position - 70 : position - 3;
-  //               break;
-  //             case 3:
-  //               size = isLangArab ? position - 75 : position + 3;
-  //               break;
-  //             case 4:
-  //             case 5:
-  //             case 6:
-  //               size = position - 11; // Same for indexes 4, 5, and 6
-  //               break;
-  //             default:
-  //               break;
-  //           }
-  //         }
-
-  //         // Apply the calculated size to the menuBar's background position
-  //         menuBar.style.backgroundPosition = `${size}px`;
-  //         menuBar.style.backgroundImage = document.body.classList.contains(
-  //           "theme-dark"
-  //         )
-  //           ? "radial-gradient(circle at 38px 4px, transparent 28px, rgba(0, 0, 0, 0.2) 29px)"
-  //           : "radial-gradient(circle at 38px 4px, transparent 28px, rgba(18, 69, 41, 0.2) 29px)";
-  //       }
-
-  //       setActiveMenuIndex(index);
-  //       setSelectedIndex(index);
-  //       menuItemsRef.current.forEach(
-  //         (item) => item && item.classList.remove("sc-current")
-  //       );
-  //       clickedElement.classList.add("sc-current");
-  //     }
-
-  //     if (index !== 4) {
-  //       handleMenuItemClick(e, index);
-  //     }
-  //   },
-  //   [handleMenuItemClick]
-  // );
 
   const handleFooterItemClick = useCallback(
     (e, index) => {
@@ -248,7 +149,7 @@ export default function Footer({
       setIsExpanded(false);
       setSelectedIndex(null);
 
-      const menuBar = document.querySelector(".sc-bottom-bar");
+      const menuBar = document.querySelector(isPlusShow ?".sc-Plus-bar":".sc-bottom-bar");
       if (menuBar) {
         menuBar.style.backgroundPosition = ``;
         menuBar.style.backgroundImage = document.body.classList.contains(
@@ -270,8 +171,9 @@ export default function Footer({
   }, [resetTrigger]);
 
   return (
-    <div
-      className={`sc-bottom-bar flex justify-between items-center tab:h-[55px]  sm:h-[60px] h-[50px] ${
+    <>
+ <div
+      className={`${ isPlusShow ? "sc-Plus-bar justify-center ":"sc-bottom-bar justify-between"} flex  items-center tab:h-[55px]  sm:h-[60px] h-[50px] ${
         isDarkMode ? "bg-[#152227CC]" : ""
       }  no-select ${
         isExpanded
@@ -279,13 +181,26 @@ export default function Footer({
           : " tab:w-[300px] sm:w-[300px] w-[300px]"
       }`}
     >
-      {isLangArab
+       { isPlusShow && <button
+    onClick={()=> setisPlusShow(false)}
+    className="w-12 h-12 sm:w-14 sm:h-14 relative text-white rounded-full flex items-center justify-center transition-colors duration-200"
+  >
+    <img
+      src={isDarkMode ? HomeDark : Home}
+      alt="Home Icon"
+      className="w-10 h-10 sm:w-[70%] sm:h-[70%]"
+    />
+    <div className="absolute py-6 flex-1 justify-center items-center left-3">
+      <img src={ShowPlus} alt="Home Sign" className="w-6 sm:w-[70%]" />
+    </div>
+  </button>}
+    {!isPlusShow &&  <> {isLangArab
         ? Array.from({ length: 7 })
             .map((_, index) => index) // Create an array of indices
             .reverse() // Reverse the order
             .map((index) => (
               <React.Fragment key={index}>
-                {index < 4 && (
+                {( (index > 1) &&  (index < 4)) && (
                   <div
                     className={`sc-menu-wrp ${
                       selectedIndex === index ? "sc-current" : ""
@@ -399,7 +314,7 @@ export default function Footer({
             ))
         : Array.from({ length: 7 }).map((_, index) => (
             <React.Fragment key={index}>
-              {index < 4 && (
+              {( (index > 0) &&  (index < 4)) && (
                 <div
                   className={`sc-menu-wrp ${
                     selectedIndex === index ? "sc-current" : ""
@@ -519,7 +434,9 @@ export default function Footer({
           display: currentItemDisplay,
         }}
       />
+      </>}
     </div>
+    </>
   );
 }
 

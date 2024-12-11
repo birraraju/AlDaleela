@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Searchbar from "../Searchbar/Searchbar";
 import Language from "./Language/Language";
 import Location from "./Location/Location";
+import FilterHeader from "./Location/FilterHeader";
 import Profile from "./Profile/Profile";
 import Stack from "./Stack/Stack";
 import ResponsiveSearch from '../../../../assets/Header/Searchbar/SearchBar/imageResponsiveSearch.png'
@@ -126,6 +127,10 @@ const Menus = ({
 
       {/* Location with status management */}
       <Location
+        isHeaderOpen={isHeaderOpen}
+        isLocationOpen={handleLocationStatus}
+      />
+      <FilterHeader
         isHeaderOpen={isHeaderOpen}
         isLocationOpen={handleLocationStatus}
       />
