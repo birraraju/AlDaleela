@@ -156,24 +156,27 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
 
   return (
     <>
-    <div dir={isLangArab ? "rtl" : "ltr"}>
-
+    {/* <div dir={isLangArab ? "rtl" : "ltr"}> */}
+  <div>
       <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
         <PopoverTrigger asChild>
         <div
             onClick={() => setIsPopoverOpen(true)}
             className={`relative  ${isDarkMode ? "sm:bg-black" : "sm:bg-white"} 
                         sm:bg-opacity-5 backdrop-blur rounded-full flex justify-between items-center 
-                        mobile_s:py-0.5 laptop_m:py-1 cursor-pointer ${isLangArab && " sm:mr-2 laptop_s:mr-0 laptop_m:mr-2 "}`}
+                        mobile_s:py-0.5 laptop_m:py-1 cursor-pointer `}
           >
-            <div className={`${isLangArab?"mr-1 ml-1":"ml-1"}  sm:hidden grid`}>
+            {/* <div className={`${isLangArab?"mr-1 ml-1":"ml-1"}  sm:hidden grid`}> */}
+            <div className="  sm:hidden grid"> 
             <img
               src={SmallLogo}
               alt="Profile"
               className="mobile_s:w-8 block sm:hidden laptop_m:w-9 text-black"
             />
             </div>
-            <div className={`${isLangArab?"mr-1 ml-1":"ml-1"} hidden sm:block`}>
+            
+            {/* <div className={`${isLangArab?"mr-1 ml-1":"ml-1"} hidden sm:block`}> */}
+            <div className="hidden sm:block">
               <img
                 //src={`${((role === "admin")||(role === "user")) ? AdminLogo : ProfileLogo}`} // الملف الشخصي
                 src={profiledetails && profiledetails.imageUrl ? profiledetails.imageUrl : AdminLogo}
@@ -186,13 +189,19 @@ const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => 
             </div> */}
             <div className="mobile_s:ml-2 hidden sm:block laptop_m:ml-2">
   <p
+    className="truncate max-w-[45px] laptop_s:max-w-max overflow-hidden text-ellipsis text-[9px] sm:text-[14px] laptop_s:text-[11px] laptop_m:text-[14px]"
+    
+    title={role !== null && profiledetails.username ? profiledetails.username : ""}
+  >
+  {/* <p
     className={`truncate max-w-[45px] laptop_s:max-w-max overflow-hidden text-ellipsis ${
       isLangArab
         ? "text-[9px] sm:text-[11px] laptop_s:text-[14px]"
         : "text-[9px] sm:text-[14px] laptop_s:text-[11px] laptop_m:text-[14px]"
     }`}
     title={role !== null && profiledetails.username ? profiledetails.username : ""}
-  >
+  > */}
+
     {role !== null
       ? profiledetails.username
         ? profiledetails.username
