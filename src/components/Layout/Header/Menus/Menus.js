@@ -51,51 +51,51 @@ const Menus = ({
   return (
     <div className="text-white flex justify-between z-10 items-center">
       
-      {isLangArab?(<>
+      {/* {isLangArab?(<>
 
-      {/* Profile with necessary props */}
+      
       <Profile
         isFooterOpen={isFooterOpen}
-        StackOpen={isStackOpen} // Pass the current state of Stack
-        isHeaderOpen={isHeaderOpen}
-        isProfileInOpen={handleProfileOpen} // Control profile state
+        StackOpen={isStackOpen} 
+        isProfileInOpen={handleProfileOpen}
       />
-      {/* Location with status management */}
+      
       <Location
         isHeaderOpen={isHeaderOpen}
         isLocationOpen={handleLocationStatus}
       />
 
-      {/* Language Component */}
+      
       <Language  />
 
-      {/* Stack with necessary props */}
+      
       <Stack
         isFooterOpen={isFooterOpen}
         isHeaderOpen={isHeaderOpen}
-        isStackOpen={toggleStackOpen} // Pass the current state of Stack
+        isStackOpen={toggleStackOpen}
         mapview={mapview}
         isProfileOpen={isProfileOpen}
         isSearchOpen={isSearchOpen}
         isLocationOpen={isLocationOpen}
       />
       
+      
+      <Searchbar
+        isHeaderOpen={isHeaderOpen}
+        isFooterOpen={isFooterOpen}
+        isSearchOpen={handleSearchOpen}
+        isSearchClose={handleSearchClose}
+        StackOpen={isStackOpen}
+        handleCloseResponsiveSearch={handleCloseResponsiveSearch} 
+      />
+
+    <div className=" sm:hidden grid" onClick={()=>handleResponsiveSearchHeader()} >
+    <img src={ResponsiveSearch}  alt="" className=" h-8" />
+    </div>
+      
+      </>): */}
+
       {/* Searchbar with necessary props */}
-      <Searchbar
-        isHeaderOpen={isHeaderOpen}
-        isFooterOpen={isFooterOpen}
-        isSearchOpen={handleSearchOpen}
-        isSearchClose={handleSearchClose}
-        StackOpen={isStackOpen}
-        handleCloseResponsiveSearch={handleCloseResponsiveSearch} // Ensure this prop is passed if needed
-      />
-
-    <div className=" sm:hidden grid" onClick={()=>handleResponsiveSearchHeader()} >
-    <img src={ResponsiveSearch}  alt="" className=" h-8" />
-    </div>
-      
-      </>):
-      (<>{/* Searchbar with necessary props */}
 
     <div className=" sm:hidden grid" onClick={()=>handleResponsiveSearchHeader()} >
     <img src={ResponsiveSearch}  alt="" className=" h-8" />
@@ -137,7 +137,6 @@ const Menus = ({
         isHeaderOpen={isHeaderOpen}
         isProfileInOpen={handleProfileOpen} // Control profile state
       />
-      </>)}
     </div>
   );
 };

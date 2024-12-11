@@ -121,7 +121,7 @@ export default function UserManagement({role}) {
         pending={40} 
         rejected={10} />
                 <div className="flex justify-between items-center mb-2">
-                <h2 className={`text-[22px] font-500   ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#464646]"}`}>
+                <h2 className={`text-[20px] font-500   ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#464646]"}`}>
                 {isLangArab ?"إدارة المحتوى":"Content Management"}</h2>
         </div>
 
