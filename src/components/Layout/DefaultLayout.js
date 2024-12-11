@@ -46,6 +46,8 @@ const DefaultLayout = ({role}) => {
   const [isSuccess, setIsSuccess] = useState(false);
   console.log("POI status Default:", isEditPOI);
   const { LayerId, objectid } = useParams();   
+  const [isPlusShow, setisPlusShow] = useState(true)
+
 
 
   const location = useLocation();
@@ -162,6 +164,7 @@ const DefaultLayout = ({role}) => {
     setResetFooter(true);
     setIsPOIAddShow(false)
     setIsEditPOI(false)
+    setisPlusShow(true)
     
     if(printWidget){
       printWidget.destroy(); // Destroy the widget
@@ -270,6 +273,11 @@ const DefaultLayout = ({role}) => {
     handleClearDropInAdmin(buttonLabels[index])
   };
 
+  const handleBasemapMenuItemClick = () => {
+    setPopup(renderComponent("Home"));
+    handleClearDropInAdmin("Home")
+  };
+
   const handleClearDropInAdmin=(index)=>{
     console.log("Sides Admin Footer Index Data:", index);
     if(sides && (sides !== index)){
@@ -319,13 +327,15 @@ const DefaultLayout = ({role}) => {
   return (
     <div className="flex flex-col h-screen bg-blue-100">
       <Header isFooterOpen={isFooterOpen} isHeaderOpen={handleClose} isSearchOpen={handleClose} mapview={mapview} />
-      <SideBar />
+      <SideBar handleBasemapMenuItemClick={handleBasemapMenuItemClick} />
 
       {popup && <div className="absolute z-50">{popup}</div>}
       {/* {isEditPOI && <POIEditLayout1/>} */}
       <div className="flex-1 relative overflow-hidden">
         <MapComponent setMapview={setMapview} mapview={mapview}/>
         <Footer
+        isPlusShow={isPlusShow} 
+        setisPlusShow={setisPlusShow}
         isExpanded={isExpanded} 
         setIsExpanded={setIsExpanded}
           handleMenuItemClick={handleMenuItemClick}
