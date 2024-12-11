@@ -93,9 +93,9 @@ const Searchbar = ({
           onChange={handleInputChange}
           className={`mobile_s:w-[22rem] ${isLangArab?"pr-14":"pl-14"}   mobile_m:w-[23rem] mobile_l:w-[27rem] tab:w-[22rem]  tab_s:w-[24rem] tab_l:w-[26rem] tab_l_1:w-[28rem]  laptop_s:w-[18rem] laptop_m:w-[22rem] mobile_s:h-9 laptop_s:h-7 laptop_m:h-8  border-none outline-none focus-visible:ring-0 focus-visible:ring-offset-0    relative z-[2] ${
              isDarkMode
-              ? "text-[#FFFFFFCC]"
+              ? "text-white"
               : "text-black border-none shadow-none"
-          } ${(inputClicked) ? " bg-transparent bg-opacity-25" : iscategory?" bg-white rounded-full bg-opacity-80 ": " bg-white rounded-full bg-opacity-25"}`}
+          } ${(inputClicked) ? " bg-transparent bg-opacity-25" : isDarkMode? (iscategory?"bg-gray-600 rounded-full bg-opacity-50 ": " bg-white rounded-full bg-opacity-25") : (iscategory?"bg-white rounded-full bg-opacity-80 ": " bg-white rounded-full bg-opacity-25")}`}
         />
 
         <Props
