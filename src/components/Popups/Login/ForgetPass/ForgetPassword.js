@@ -86,7 +86,7 @@ export default function ForgetPassword({ onClose, onBackToLogin, onSignup, onNex
       const result = await response.json();
       if (result.success) {
         setCode(result.data.code); // Store the code
-        setExpiryTime(result.data.expiryTime); // Set expiry time to 15 minute from now
+        setExpiryTime(result.data.expiryTime); 
         // setIsMsgStatus("Success");
         // setModalMessage(isLangArab
         //   ? "تم إرسال البريد الإلكتروني بنجاح:"

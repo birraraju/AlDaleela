@@ -545,7 +545,6 @@ if (!validPhoneCount) {
         phoneNumber: selectedCountry?.code + formData.phoneNumber  ,
         organization: formData.organization,
         country: formData.country,
-        //role: "user",
       };
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/Registration/signup`,

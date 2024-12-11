@@ -22,7 +22,6 @@ const MeasurementsComponent = ({ mapview }) => {
   const sanitizeCSS = (cssContent) => {
     return DOMPurify.sanitize(cssContent, { FORBID_ATTR: ["style"], FORBID_TAGS: ["script"] });
   };
-
   const styleShadowDropdown = () => {
     // Find the interaction container within the Shadow DOM
     const interactionContainer = document.querySelector(".interaction-container");

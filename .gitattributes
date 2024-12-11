@@ -1,3 +1,2 @@
 * text=auto
 *.svg -text
-*.rar filter=lfs diff=lfs merge=lfs -text

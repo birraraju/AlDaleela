@@ -30,7 +30,7 @@ const MapComponent = (props) => {
     if (mapDiv.current) {
       esriConfig.portalUrl = config.PortalUrl;  
       if(isLangArab){
-        webMap = new WebMap({
+        webMap = new WebMap({       
             portalItem: { // autocasts as new PortalItem()
                 id: config.ItemWebMapID // Replace with your Web Map ID
             }
@@ -121,7 +121,6 @@ const MapComponent = (props) => {
       };
     }
   }, [MapView, isLangArab]);
-
 
 
 // Function to handle identify based on the event

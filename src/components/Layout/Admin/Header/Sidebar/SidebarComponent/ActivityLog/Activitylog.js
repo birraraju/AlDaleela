@@ -53,6 +53,7 @@ useEffect(() => {
               'Content-Type': 'application/json', // Optionally specify content type
           }
       });
+        //const response = await fetch(`${process.env.REACT_APP_API_URL}/UserActivityLog/Getuseractivitylogs`); // Example API
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
