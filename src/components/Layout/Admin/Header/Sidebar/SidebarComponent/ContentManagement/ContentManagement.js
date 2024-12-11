@@ -43,6 +43,10 @@ export default function UserManagement({role}) {
   // const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9; // Number of items per page
+  const [totalRecords, setTotalRecords] = useState(0);
+  const [approvedRecords, setApprovedRecords] = useState(0);
+  const [pendingRecords, setPendingRecords] = useState(0);
+  const [rejectedRecords, setRejectedRecords] = useState(0);
 
   const handlePageChange = (selectedPage) => {
     setCurrentPage(selectedPage);
@@ -83,9 +87,13 @@ export default function UserManagement({role}) {
         }
         const result = await response.json();        
         if (result.success) {
-          const sortedItems = result.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+          const sortedItems = result.data.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
           setTotalItems(sortedItems.length)
           setData(sortedItems);
+          setTotalRecords(result.data.totalRecords);
+          setApprovedRecords(result.data.approvedCount);
+          setPendingRecords(result.data.pendingCount);
+          setRejectedRecords(result.data.rejectedCount);
         } else {
           console.log(result.message);
         }
@@ -116,10 +124,11 @@ export default function UserManagement({role}) {
         isDarkMode ? "bg-[#303031] bg-opacity-90" : "bg-white "
       } text-[#101828] backdrop-blur border-none`}>
 
-        <StatsOverview totalRecords={100} 
-        approved={50} 
-        pending={40} 
-        rejected={10} />
+        <StatsOverview totalRecords={totalRecords} 
+        approved={approvedRecords} 
+        pending={pendingRecords} 
+        rejected={rejectedRecords} />
+       
                 <div className="flex justify-between items-center mb-2">
                 <h2 className={`text-[20px] font-500   ${isDarkMode ? "text-[#FFFFFFCC]" : "text-[#464646]"}`}>
                 {isLangArab ?"إدارة المحتوى":"Content Management"}</h2>

@@ -97,6 +97,7 @@ const config = {
   ],
   PortalUrl: "https://devedp.ead.ae/portal",
   ItemWebMapID: "a4f3e0fc881e41c8bc9f14ceb880374f",
+  ItemWebMapIDEng: "1e4b6216e5f0496f8f28f5f1b830bb67",
   BaseUrl: "https://devedp.ead.ae/server/rest/services/AlDaleela/Al_Daleela/MapServer"
 };
 

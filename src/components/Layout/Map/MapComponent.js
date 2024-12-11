@@ -26,13 +26,24 @@ const MapComponent = (props) => {
 
   // useEffect to initialize the map once the component mounts
   useEffect(() => {
+    let webMap = null;
     if (mapDiv.current) {
       esriConfig.portalUrl = config.PortalUrl;  
-        const webMap = new WebMap({
+      if(isLangArab){
+        webMap = new WebMap({       
             portalItem: { // autocasts as new PortalItem()
                 id: config.ItemWebMapID // Replace with your Web Map ID
             }
         });
+      }
+      else{
+        webMap = new WebMap({
+            portalItem: { // autocasts as new PortalItem()
+                id: config.ItemWebMapIDEng // Replace with your Web Map ID
+            }
+        });
+      }
+        
 
         //const view = new View({
         //    container: mapRef.current,
@@ -109,8 +120,7 @@ const MapComponent = (props) => {
         }
       };
     }
-  }, [MapView]);
-
+  }, [MapView, isLangArab]);
 
 
 // Function to handle identify based on the event

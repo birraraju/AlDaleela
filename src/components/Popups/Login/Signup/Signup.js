@@ -545,7 +545,6 @@ if (!validPhoneCount) {
         phoneNumber: selectedCountry?.code + formData.phoneNumber  ,
         organization: formData.organization,
         country: formData.country,
-        role: "user",
       };
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/Registration/signup`,
@@ -558,7 +557,12 @@ if (!validPhoneCount) {
       const data = await response.json();
       if (data.success) {
         //console.log(data)
-        sendEmail(data.data);
+        //sendEmail(data.data);
+        setIsMsgStatus("Success");
+        setModalMessage(isLangArab
+          ? "تم إرسال بريد إلكتروني بنجاح إلى بريدك الإلكتروني المسجل. يرجى التحقق من صندوق الوارد للتحقق."
+          : "An email has been successfully sent to your registered email. Please check your inbox to verify.");
+        setIsSuccess(true);
         setUsernameExists(false);
         setEmailExists(false);
         onClose();

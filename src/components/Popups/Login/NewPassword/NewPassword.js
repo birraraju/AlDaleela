@@ -81,7 +81,7 @@ const newError={}
     }else if (formData.code !== code) { // Check if entered code matches the generated code
       newError.code = "Invalid code";
       valid = false;
-    } else if (Date.now() > expiryTime) { // Check if code has expired
+    } else if (Date.now() > new Date(expiryTime).getTime()) { // Check if code has expired
       newError.code = "Code has expired";
       valid = false;
     }   

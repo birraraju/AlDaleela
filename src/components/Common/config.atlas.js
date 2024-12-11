@@ -97,6 +97,7 @@ const config = {
     ],
     PortalUrl: "https://maps.smartgeoapps.com/portal",
     ItemWebMapID: "ac2003df385e4c1ead7d2243e3909c26",
+    ItemWebMapIDEng: "6493f4b157a4497c9efe7d990c0d64cd",
     BaseUrl: "https://maps.smartgeoapps.com/server/rest/services/AlDaleela/layer2/MapServer"
   };
   
