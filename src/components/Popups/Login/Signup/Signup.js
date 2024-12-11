@@ -488,13 +488,22 @@ const validatePhoneNumber = (phoneNumber, limit) => {
 }
 
 // Phone Number Validation
-if (
-  !validPhoneCount ||
-  !validatePhoneNumber(phoneNumber, validPhoneCount)
-) {
+// if (
+//   !validPhoneCount ||
+//   !validatePhoneNumber(phoneNumber, validPhoneCount)
+// ){
+//   valid = false;
+//   errors.phoneNumber = `Please enter a phone number with ${validPhoneCount} digits`;
+// }
+
+if (!validPhoneCount) {
   valid = false;
-  errors.phoneNumber = `Please enter a phone number with ${validPhoneCount} digits`;
+  errors.phoneNumber = "Please enter a valid country code.";
+} else if (!validatePhoneNumber(phoneNumber, validPhoneCount)) {
+  valid = false;
+  errors.phoneNumber = `Please enter a phone number with ${validPhoneCount} digits.`;
 }
+
 
 
     // Phone Number Validation

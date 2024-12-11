@@ -282,6 +282,19 @@ main {
     cursor: grab;
 }
 
+.sc-Plus-bar {
+    position: fixed;
+    padding: 5px 5px;
+    margin: auto;
+    left: 0;
+    margin-bottom: 20px;
+    bottom: 1px;
+    right: 0;
+    font-size: 26px;
+    border-radius: 50px;
+    cursor: grab;
+}
+
 
   /* Media query for smaller devices */
   @media (max-width: 600px) {
