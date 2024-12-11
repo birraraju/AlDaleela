@@ -70,6 +70,7 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
       setRole(data.data.role);
       localStorage.setItem("AldaleelaRole", data.data.role);
       localStorage.setItem("AldaleelaUserDetails:",JSON.stringify(data.data))
+      localStorage.setItem("token", data.data.token);
       setIsSuccess(true);
         setIsMsgStatus("Success");
         setModalMessage(isLangArab?"تم تسجيل الدخول بنجاح!":"Logged in Successfully !");

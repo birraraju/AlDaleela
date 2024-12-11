@@ -44,31 +44,36 @@ export default function ForgetPassword({ onClose, onBackToLogin, onSignup, onNex
   };
   const generateCode = async () => {
     // Generate the 8-character code first
-    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    let newCode = "";
-    for (let i = 0; i < 8; i++) {
-      newCode += characters.charAt(Math.floor(Math.random() * characters.length));
-    }
+    // const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    // let newCode = "";
+    // for (let i = 0; i < 8; i++) {
+    //   newCode += characters.charAt(Math.floor(Math.random() * characters.length));
+    // }
   
-    setCode(newCode); // Store the code
-    setExpiryTime(Date.now() + 15 * 60 * 1000); // Set expiry time to 15 minute from now
+    // setCode(newCode); // Store the code
+    // setExpiryTime(Date.now() + 15 * 60 * 1000); // Set expiry time to 15 minute from now
     //alert(newCode); // Show the generated code in an alert (for testing purposes)
   
     // Define the data to populate the email template
+    // const emailData = {
+    //   toEmail: formData.email,
+    //   subject: isLangArab ? "إعادة تعيين كلمة المرور الخاصة بك" : "Reset Your Password",
+    //   body: createForgotPasswordEmailBody({
+    //     username: formData.email,
+    //     code: newCode, // Use the generated code
+    //     message: isLangArab ? "تلقينا طلبا لإعادة تعيين كلمة المرور الخاصة بك. استخدم الرمز أدناه لإعادة تعيينه." :
+    //       "We received a request to reset your password. Use the code below to reset it.",
+    //   }),
+    // };
+
     const emailData = {
       toEmail: formData.email,
-      subject: isLangArab ? "إعادة تعيين كلمة المرور الخاصة بك" : "Reset Your Password",
-      body: createForgotPasswordEmailBody({
-        username: formData.email,
-        code: newCode, // Use the generated code
-        message: isLangArab ? "تلقينا طلبا لإعادة تعيين كلمة المرور الخاصة بك. استخدم الرمز أدناه لإعادة تعيينه." :
-          "We received a request to reset your password. Use the code below to reset it.",
-      }),
+      isLangArabic: isLangArab
     };
   
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/Email/send`,
+        `${process.env.REACT_APP_API_URL}/Email/ResetPasswordRequest`,
         {
           method: "POST",
           headers: {
@@ -80,6 +85,8 @@ export default function ForgetPassword({ onClose, onBackToLogin, onSignup, onNex
   
       const result = await response.json();
       if (result.success) {
+        setCode(result.data.code); // Store the code
+        setExpiryTime(result.data.expiryTime); // Set expiry time to 15 minute from now
         // setIsMsgStatus("Success");
         // setModalMessage(isLangArab
         //   ? "تم إرسال البريد الإلكتروني بنجاح:"

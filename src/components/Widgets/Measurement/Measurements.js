@@ -10,6 +10,7 @@ import { FaTrash } from "react-icons/fa";
 import { useAuth } from "../../../Providers/AuthProvider/AuthProvider";
 import { useTheme } from "../../Layout/ThemeContext/ThemeContext";
 import { transform } from "framer-motion";
+import DOMPurify from "dompurify";
 const MeasurementsComponent = ({ mapview }) => {
   const mapRef1 = useRef(null);
   const measurementRef = useRef(null); // Store reference to Measurement widget
@@ -17,6 +18,10 @@ const MeasurementsComponent = ({ mapview }) => {
   const [isAreaSelected, setIsAreaSelected] = useState(false);
   const {setMeasurementOpenWidget} = useAuth();
   const {isLangArab, isDarkMode} = useTheme()
+
+  const sanitizeCSS = (cssContent) => {
+    return DOMPurify.sanitize(cssContent, { FORBID_ATTR: ["style"], FORBID_TAGS: ["script"] });
+  };
 
   const styleShadowDropdown = () => {
     // Find the interaction container within the Shadow DOM
@@ -31,7 +36,7 @@ const MeasurementsComponent = ({ mapview }) => {
           const style = document.createElement("style");
 
           // Add custom styles for the select dropdown
-          style.textContent = `
+          style.textContent = sanitizeCSS(`
             .wrapper {
               max-height: 400px !important;
               overflow-y: auto !important;
@@ -44,7 +49,7 @@ const MeasurementsComponent = ({ mapview }) => {
               border-radius: 4px;
               padding: 8px;
             }
-          `;
+          `);
 
           // Append the style to the Shadow DOM
           shadowRoot.appendChild(style);

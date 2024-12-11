@@ -45,7 +45,14 @@ export default function UserActivityLog() {
 useEffect(() => {
   const fetchData = async () => {
     try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/UserActivityLog/Getuseractivitylogs`); // Example API
+        const token = localStorage.getItem("token");
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/UserActivityLog/Getuseractivitylogs`, {
+          method: 'GET', // or any other method like POST if needed
+          headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json', // Optionally specify content type
+          }
+      });
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
