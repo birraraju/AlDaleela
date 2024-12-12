@@ -40,7 +40,7 @@ export default function SearchContent({ inputClicked, iscategory,setIscategory, 
           let allFeatures = []; // Store all features for this layer
           let query = layer.createQuery();
           query.where = "1=1"; // Retrieve all records
-          query.outFields = ["name_en", "OBJECTID"]; // Fields to retrieve
+          query.outFields = ["name_en", "name_ar", "OBJECTID"]; // Fields to retrieve
           query.num = 2000; // Maximum records per query
   
           // Pagination: Fetch records in batches until all records are retrieved
@@ -63,7 +63,7 @@ export default function SearchContent({ inputClicked, iscategory,setIscategory, 
   
           // Map the results to the desired format
           const layerNames = allFeatures.map(feature => ({
-            Name: feature.attributes.name_en,
+            Name: isLangArab?feature.attributes.name_ar:feature.attributes.name_en,
             Objectid: feature.attributes.OBJECTID,
             LayerName: service.name
           }));
