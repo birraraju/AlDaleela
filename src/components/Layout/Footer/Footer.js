@@ -9,7 +9,7 @@ import "react-tooltip/dist/react-tooltip.css";
 import Home from "../../../assets/navigations/imageSide2.png";
 import HomeDark from "../../../assets/navigations/dark.png"; // Dark theme image path
 import ShowPlus from '../../../assets/Footer/PlusShow.svg'
-
+// akjsnjads
 export default function Footer({
   handleClose,
   handleMenuItemClick,
