@@ -125,16 +125,16 @@ const Menus = ({
       {/* Language Component */}
       <Language  />
 
-      {/* Location with status management */}
-      <Location
-        isHeaderOpen={isHeaderOpen}
-        isLocationOpen={handleLocationStatus}
-      />
+      
       <FilterHeader
         isHeaderOpen={isHeaderOpen}
         isLocationOpen={handleLocationStatus}
       />
-
+       {/* Location with status management */}
+        <Location
+          isHeaderOpen={isHeaderOpen}
+          isLocationOpen={handleLocationStatus}
+        />
       {/* Profile with necessary props */}
       <Profile
         isFooterOpen={isFooterOpen}

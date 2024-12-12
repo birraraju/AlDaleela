@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import GeneralFilterHeader from "./GeneralInformation/GeneralFilterHeader";
+import GeneralFilterInformation from "./GeneralInformation/GeneralFilterInformation";
 import FilterHeaderLogo from '../../../../../assets/Header/GeneralInformation/FilterUpdatedHeader.svg';
-import LocationColorLogo from '../../../../../assets/Header/GeneralInformation/Location-color.svg';
+import FilterupdatedColorLogo from '../../../../../assets/Header/GeneralInformation/filterUpdatedcolor-logo.svg';
 
 const FilterHeader = ({ isHeaderOpen,isLocationOpen }) => {
   const [showInfo, setShowInfo] = useState(false);
@@ -32,12 +32,12 @@ const FilterHeader = ({ isHeaderOpen,isLocationOpen }) => {
   onClick={handleClick}
       >
         <img
-          src={`${!showInfo ? FilterHeaderLogo: LocationColorLogo}`}
+          src={`${!showInfo ? FilterHeaderLogo: FilterupdatedColorLogo}`}
           alt=""
           className="mobile_s:w-4 laptop_m:w-4"
         />
       </div>
-      {showInfo && <GeneralFilterHeader onClose={handleClose} />}
+      {showInfo && <GeneralFilterInformation onClose={handleClose} />}
     </>
   );
 };

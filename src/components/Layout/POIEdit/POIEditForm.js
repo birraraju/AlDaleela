@@ -616,14 +616,7 @@ const Component = ({
               "select"
             )}
 
-            {renderFieldOrText(
-              "Classification",
-              isLangArab ? "التصنيف" : "Classification",
-              queryresults.features[0].attributes.Classification,
-              [],
-              "text",
-              true
-            )}
+           
 
             {renderFieldOrText(
               "Class",
@@ -633,6 +626,8 @@ const Component = ({
               "select"
             )}
 
+
+
             {renderFieldOrText(
               "MunicipalityAr",
               isLangArab ? "المدينة" : "Municipality",
@@ -641,24 +636,36 @@ const Component = ({
               "select"
             )}
 
-            {renderFieldOrText(
+            {/* {renderFieldOrText(
               "Emirate",
               isLangArab ? "الإمارة" : "Emirate",
               queryresults.features[0].attributes.Emirate
-            )}
+            )} */}
 
-            {renderFieldOrText(
-              "City",
-              isLangArab ? "المنطقة" : "City",
-              queryresults.features[0].attributes.City
-            )}
-
-            {isShowMore &&
+            {
               renderFieldOrText(
                 "name_en",
                 isLangArab ? "الاسم" : "Name",
                 queryresults.features[0].attributes.name_en
               )}
+
+             {isShowMore &&
+             renderFieldOrText(
+              "Classification",
+              isLangArab ? "التصنيف" : "Classification",
+              queryresults.features[0].attributes.Classification,
+              [],
+              "text",
+              true
+             )}
+
+
+              {isShowMore &&
+              renderFieldOrText(
+              "City",
+              isLangArab ? "المنطقة" : "City",
+              queryresults.features[0].attributes.City
+            )}
 
             {isShowMore &&
               renderFieldOrText(
