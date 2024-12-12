@@ -559,6 +559,7 @@ if (!validPhoneCount) {
         //console.log(data)
         //sendEmail(data.data);
         setIsMsgStatus("Success");
+        localStorage.getItem("token",data.data.token);
         setModalMessage(isLangArab
           ? "تم إرسال بريد إلكتروني بنجاح إلى بريدك الإلكتروني المسجل. يرجى التحقق من صندوق الوارد للتحقق."
           : "An email has been successfully sent to your registered email. Please check your inbox to verify.");
