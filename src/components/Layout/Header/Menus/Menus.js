@@ -22,6 +22,7 @@ const Menus = ({
   const [isProfileOpen, setProfileOpen] = useState(false); // State for Profile visibility
   const [isLocationOpen, setLocationOpen] = useState(false); // State for Location visibility
   const { isLangArab } = useTheme(); // Access the dark mode state
+  const [showInfo, setShowInfo] = useState(false);
 
 
   // Function to toggle the Stack component visibility
@@ -127,6 +128,8 @@ const Menus = ({
 
       
       <FilterHeader
+      showInfo={showInfo} 
+      setShowInfo={setShowInfo}
         isHeaderOpen={isHeaderOpen}
         isLocationOpen={handleLocationStatus}
       />
@@ -137,6 +140,8 @@ const Menus = ({
         />
       {/* Profile with necessary props */}
       <Profile
+       showInfo={showInfo} 
+       setShowInfo={setShowInfo}
         isFooterOpen={isFooterOpen}
         StackOpen={isStackOpen} // Pass the current state of Stack
         isHeaderOpen={isHeaderOpen}

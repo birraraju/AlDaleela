@@ -174,7 +174,7 @@ export default function Footer({
     <>
  <div
       className={`${ isPlusShow ? "sc-Plus-bar justify-center ":"sc-bottom-bar justify-between"} flex  items-center tab:h-[55px]  sm:h-[60px] h-[50px] ${
-        isDarkMode ? "bg-[#152227CC]" : ""
+        isDarkMode ? !isPlusShow &&  "bg-[#152227CC]" : ""
       }  no-select ${
         isExpanded
           ? " tab:w-[350px] sm:w-[300px] w-[300px] "

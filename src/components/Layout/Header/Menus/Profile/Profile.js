@@ -24,7 +24,7 @@ import { useNavigate } from 'react-router-dom';
 import Toast from '../../../../Common/taost';
 
 
-const Profile = ({  isFooterOpen, isHeaderOpen, StackOpen,isProfileInOpen }) => {
+const Profile = ({  isFooterOpen, isHeaderOpen,showInfo, setShowInfo, StackOpen,isProfileInOpen }) => {
   const [showAuthenticator, setShowAuthenticator] = useState(false);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [isLeaderboard, setIsLeaderboard] = useState(false);
