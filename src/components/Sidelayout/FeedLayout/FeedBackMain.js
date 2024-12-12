@@ -15,7 +15,7 @@ export default function SendFeedBack({
   const [isFullyClosed, setIsFullyClosed] = useState(false);
   const feedbackRef = useRef(null); // Ref for the feedback panel
   const { isDarkMode ,isLangArab} = useTheme(); // Access dark mode from theme context
-
+//  slkdfmkflas
   const toggleSideLayout = () => {
     setIsOpen(!isOpen);
   };
