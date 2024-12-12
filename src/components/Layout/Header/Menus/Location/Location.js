@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import GeneralFilterHeader from "./GeneralInformation/GeneralFilterHeader";
 import LocationupdatedLogo from '../../../../../assets/Header/GeneralInformation/updatedLocation.svg';
-import LocationupdatedColorLogo from '../../../../../assets/Header/GeneralInformation/updatedLocation-color.svg';
+// import LocationupdatedColorLogo from '../../../../../assets/Header/GeneralInformation/updatedLocation-color.svg';
 
 const Location = ({ isHeaderOpen,isLocationOpen }) => {
   const [showInfo, setShowInfo] = useState(false);
@@ -32,7 +32,7 @@ const Location = ({ isHeaderOpen,isLocationOpen }) => {
   onClick={handleClick}
       >
         <img
-          src={`${!showInfo ? LocationupdatedLogo: LocationupdatedColorLogo}`}
+          src={`${!showInfo ? LocationupdatedLogo: LocationupdatedLogo}`}
           alt=""
           className="mobile_s:w-4 laptop_m:w-4"
         />
