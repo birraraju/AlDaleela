@@ -200,7 +200,7 @@ export default function Footer({
             .reverse() // Reverse the order
             .map((index) => (
               <React.Fragment key={index}>
-                {( (index > 1) &&  (index < 4)) && (
+                {( (index > 0) &&  (index < 4)) && (
                   <div
                     className={`sc-menu-wrp ${
                       selectedIndex === index ? "sc-current" : ""
