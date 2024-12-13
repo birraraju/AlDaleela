@@ -91,7 +91,7 @@ const config = {
       id: "Satellite imagery",
       thumbnailImg: "./images/Satellite Imagery.png",
       baseLayers: [
-        "https://arcgis.sdi.abudhabi.ae/agshost/rest/services/Hosted/BaseMapAra_LightGray_WM/MapServer"
+        "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer"
       ]
     },
   ],
