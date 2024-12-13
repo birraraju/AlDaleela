@@ -12,6 +12,8 @@ import { useAuth } from "../../../Providers/AuthProvider/AuthProvider";
 import config from "../../Common/config"; // Import your config file
 import { UserActivityLog } from "../../Common/UserActivityLog";
 import { useTheme } from "../ThemeContext/ThemeContext";
+import RoleServices from '../../servicces/RoleServices';
+
 
 const Component = ({
   POIFormShow,
@@ -674,7 +676,7 @@ const Component = ({
                 queryresults.features[0].attributes.ClassD
               )}
 
-            {isShowMore &&
+            {(isShowMore && RoleServices.isAdmin()) &&
               renderFieldOrText(
                 "Status",
                 isLangArab ? "الحالة" : "Status",
@@ -683,7 +685,7 @@ const Component = ({
                 "select"
               )}
 
-            {isShowMore &&
+            {(isShowMore && RoleServices.isAdmin()) &&
               renderFieldOrText(
                 "Comment",
                 isLangArab ? "التعليق" : "Comment",
