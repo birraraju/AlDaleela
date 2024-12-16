@@ -205,18 +205,20 @@ export default function FilterInnerBody() {
     //alert("RedCancelClicked !");    
   };
   const setDefinitionExpressionForLayers = (layer, fieldName, fieldValue, layerNames) => {
-    // Check if the layer's title is in the list of layer names
     if (layerNames.includes(layer.title)) {
       if (fieldValue) {
-        // If a fieldValue is provided, construct the definition expression
-        layer.definitionExpression = `${fieldName} = '${fieldValue}'`;  // For string fields
+        // Apply filter to the selected layer
+        layer.definitionExpression = `${fieldName} = '${fieldValue}'`; // For string fields
       } else {
-        // If no fieldValue is provided, include all records (no filtering)
+        // Show all data for the selected layer if no fieldValue is provided
         layer.definitionExpression = "1=1";
       }
+    } else {
+      // Hide data for layers not in the list by setting an invalid filter
+      layer.definitionExpression = "1=0";
     }
   
-    // Recursively check and apply the definitionExpression to sub-layers if they exist
+    // Recursively apply the logic to sublayers, if they exist
     if (layer.sublayers && layer.sublayers.length > 0) {
       layer.sublayers.forEach(subLayer => {
         setDefinitionExpressionForLayers(subLayer, fieldName, fieldValue, layerNames);
@@ -227,124 +229,119 @@ export default function FilterInnerBody() {
   // This function handles form submission and applies the filter across layers
   const handleSubmitForm = () => {
     contextMapView.graphics.removeAll();
+  
     // Get the list of layer names to filter from your configuration (config)
     const layerNames = config.featureServices.map(service => service.name);
   
     // Assuming LayerTwoData is the field name and LayerThreeData is the field value to filter by
-    const fieldName = LayerTwoData;  // Field name (e.g., "Class")
+    const fieldName = LayerTwoData; // Field name (e.g., "Class")
     const fieldValue = LayerThreeData; // Field value (e.g., "CategoryA")
   
-    // Apply the filter to all layers in the map
-    contextMapView.map.layers.items.forEach(layer => {
-      // Apply the definition expression for each layer
-      setDefinitionExpressionForLayers(layer, fieldName, fieldValue, layerNames);
-    });
-    // Call the function with an array of layer names and the object ID
-    queryAndZoomToLayers(layerNames, `${fieldName} = '${fieldValue}'`);
-  };
-  const queryAndZoomToLayers = async (selectedLayerNames, whereCondition) => {
-    try {
-      // Loop through the selected layer names (up to three layers in your case)
-      for (const selectedLayerName of selectedLayerNames) {
-        // Find the layer configuration based on the selected name
-        const selectedLayerConfig = config.featureServices.find(
-          service => service.name === selectedLayerName
-        );
-    
-        if (!selectedLayerConfig) {
-          console.error(`Layer with name ${selectedLayerName} not found in configuration.`);
-          continue;  // Skip this layer if not found
-        }
-    
-        // Create a FeatureLayer instance for the selected layer
-        const featureLayer = new FeatureLayer({
-          url: selectedLayerConfig.url,
-          outFields: ["*"]
-        });
-    
-        // Query the selected layer using the OBJECTID
-        const feature = await featureLayer.queryFeatures({
-          where: whereCondition,
-          outFields: ["*"],
-          returnGeometry: true
-        });
-    
-         // Check if any features are found
-      if (feature.features.length > 0) {
-        /// Initialize combinedExtent with null or a new extent if necessary
-        let combinedExtent = null;
-        // Loop through all the features and add each one as a graphic
-        feature.features.forEach((f) => {
-          const featureGeometry = f.geometry;
+    // Get the name of the selected layer from LayerOneData
+    const selectedLayerName = LayerOneData; // Single layer name to filter (e.g., "Terrestrial")
   
-          // Add graphic for the feature
-          const pointGraphic = new Graphic({
+    // Filter all layers: show only the selected layer and hide others
+    contextMapView.map.layers.items.forEach(layer => {
+      if (layer.title === selectedLayerName) {
+        // Apply the definition expression to the selected layer
+        setDefinitionExpressionForLayers(layer, fieldName, fieldValue, [selectedLayerName]);
+      } else {
+        // Hide all other layers
+        setDefinitionExpressionForLayers(layer, fieldName, null, []);
+      }
+    });
+  
+    // Query and zoom to the selected layer with the specified filter
+    queryAndZoomToLayers(selectedLayerName, `${fieldName} = '${fieldValue}'`);
+  };
+  
+  const queryAndZoomToLayers = async (layerName, whereCondition) => {
+    try {
+      // Find the layer configuration for the specified name
+      const selectedLayerConfig = config.featureServices.find(
+        service => service.name === layerName
+      );
+  
+      if (!selectedLayerConfig) {
+        console.error(`Layer with name ${layerName} not found in configuration.`);
+        return; // Exit if the layer is not found
+      }
+  
+      // Create a FeatureLayer instance for the selected layer
+      const featureLayer = new FeatureLayer({
+        url: selectedLayerConfig.url,
+        outFields: ["*"]
+      });
+  
+      // Query the layer using the provided whereCondition
+      const result = await featureLayer.queryFeatures({
+        where: whereCondition,
+        outFields: ["*"],
+        returnGeometry: true
+      });
+  
+      // Check if features are found
+      if (result.features.length > 0) {
+        // Initialize extent for zooming
+        let combinedExtent = null;
+  
+        // Loop through features and add them as graphics
+        result.features.forEach(feature => {
+          const featureGeometry = feature.geometry;
+  
+          // Add the feature as a graphic
+          const graphic = new Graphic({
             geometry: featureGeometry,
             symbol: {
-              type: "simple-marker",
+              type: "simple-marker", // Customize as needed
+              color: [0, 255, 255, 0.5],
               outline: {
-                color: [0, 255, 255, 4],
-                width: 1
+                color: [0, 255, 255, 1],
+                width: 2
               }
             }
           });
+          contextMapView.graphics.add(graphic);
   
-          // Add graphic to the map
-          contextMapView.graphics.add(pointGraphic);
-           // Handle extent for Point geometry or other geometries
-           let featureExtent;
-           if (featureGeometry.type === "point") {
-             // For point geometry, manually create an extent around the point
-             if (featureGeometry) {
-               featureExtent = featureGeometry.extent ? featureGeometry.extent : featureGeometry.clone().extent;
-               // If no extent exists for the point, create a small extent around the point
-               if (!featureExtent) {
-                 featureExtent = new Extent({
-                   xmin: featureGeometry.x - 0.0001,
-                   ymin: featureGeometry.y - 0.0001,
-                   xmax: featureGeometry.x + 0.0001,
-                   ymax: featureGeometry.y + 0.0001,
-                   spatialReference: featureGeometry.spatialReference
-                 });
-               }
-             }
-           } else {
-             // For other geometries (Polyline, Polygon), use the existing extent
-             featureExtent = featureGeometry.extent;
-           }
-   
-           // If combinedExtent is null, initialize it with the first feature's extent
-           if (!combinedExtent) {
-             combinedExtent = featureExtent;
-           } else {
-             // Expand the combined extent to include this feature's geometry
-             combinedExtent = combinedExtent.union(featureExtent);
-           }
+          // Handle extent for point geometry or other geometries
+          let featureExtent;
+          if (featureGeometry.type === "point") {
+            // Create a small extent for point geometries
+            featureExtent = new Extent({
+              xmin: featureGeometry.x - 0.0001,
+              ymin: featureGeometry.y - 0.0001,
+              xmax: featureGeometry.x + 0.0001,
+              ymax: featureGeometry.y + 0.0001,
+              spatialReference: featureGeometry.spatialReference
+            });
+          } else {
+            // Use the existing extent for other geometries
+            featureExtent = featureGeometry.extent;
+          }
+  
+          // Combine extents for all features
+          if (!combinedExtent) {
+            combinedExtent = featureExtent;
+          } else {
+            combinedExtent = combinedExtent.union(featureExtent);
+          }
         });
-        // Zoom behavior: if only one feature, zoom to that feature's geometry; otherwise, zoom to combined extent
-        if (feature.features.length === 1) {
-          // Zoom to the single feature's geometry
-          const firstFeatureGeometry = feature.features[0].geometry;
-          await contextMapView.goTo({
-            target: firstFeatureGeometry,
-            zoom: 15  // Adjust zoom level as needed for a single feature
-          });
-        } else if (combinedExtent) {
-          // Zoom to the combined extent of all features
+  
+        // Zoom to the combined extent of the features
+        if (combinedExtent) {
           await contextMapView.goTo({
             target: combinedExtent,
-            zoom: 10  // Adjust zoom level to fit all features
+            zoom: 10 // Adjust zoom level as needed
           });
         }
-         
-        } else {
-          console.log(`No feature found with OBJECTID: ${whereCondition} in layer ${selectedLayerName}`);
-        }
+      } else {
+        console.warn(`No features found in layer "${layerName}" for condition "${whereCondition}".`);
       }
     } catch (error) {
-      console.error("Error querying layers:", error);
+      console.error("Error querying or zooming to the layer:", error);
     }
   };
+  
   return (
     <div className="relative h-full" dir={isLangArab ? "rtl" : "ltr"}>
       <div className={`z-50 ${isDarkMode ? "text-white" : "text-black"}`}>

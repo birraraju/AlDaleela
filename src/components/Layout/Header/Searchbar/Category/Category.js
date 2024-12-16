@@ -40,10 +40,11 @@ export default function Category({setInputValue, setShowSearchContent, inputClic
  
   const setDefinitionExpressionForLayers = (layer, className, layerNames) => {
     if (layerNames.includes(layer.title)) {
-      if(className == "All Categories") {
+      const classField = isLangArab ? "ClassAr" : "Class";
+      if (className === (isLangArab ? "جميع الفئات" : "All Categories")) {
         layer.definitionExpression = `1=1`;
       } else {
-        layer.definitionExpression = `Class = '${className}'`;
+        layer.definitionExpression = `${classField} = '${className}'`;
       }
     }
  
@@ -56,46 +57,55 @@ export default function Category({setInputValue, setShowSearchContent, inputClic
  
   useEffect(() => {
     const loadCategoryClasses = async () => {
-      const allCategoryClasses = new Set(["All Categories"]);
- 
+      const allCategoryClasses = new Set([isLangArab ? "جميع الفئات" : "All Categories"]);
+  
       for (const layerConfig of config.featureServices) {
         const featureLayer = new FeatureLayer({
           url: layerConfig.url,
           outFields: ["*"],
         });
- 
+  
         try {
           const query = featureLayer.createQuery();
           query.where = "1=1";
           query.returnGeometry = false;
- 
+  
+          // Use isLangArab to set the fields dynamically
+          const fieldName = isLangArab ? "ClassAr" : "Class";
+  
           query.outStatistics = [
             {
-              onStatisticField: "Class",
+              onStatisticField: fieldName,
               outStatisticFieldName: "uniqueClass",
-              statisticType: "count"
-            }
+              statisticType: "count",
+            },
           ];
-          query.groupByFieldsForStatistics = ["Class"];
- 
+          query.groupByFieldsForStatistics = [fieldName];
+  
           const results = await featureLayer.queryFeatures(query);
           const features = results.features;
- 
+  
+          // Add the correct attribute based on the language
           features.forEach(feature => {
-            if (feature.attributes.Class) {
-              allCategoryClasses.add(feature.attributes.Class);
+            const categoryClass = isLangArab 
+              ? feature.attributes.ClassAr 
+              : feature.attributes.Class;
+  
+            if (categoryClass) {
+              allCategoryClasses.add(categoryClass);
             }
           });
         } catch (error) {
           console.error(`Error querying layer "${layerConfig.name}":`, error);
         }
       }
- 
+  
       setCategoryClasses([...allCategoryClasses]);
     };
- 
+  
     loadCategoryClasses();
-  }, []);
+  }, [isLangArab]); // Add isLangArab as a dependency
+  
  
   const getScrollThumbHeight = () => {
     const { scrollHeight, clientHeight } = scrollInfo;

@@ -24,7 +24,7 @@ const config = {
     layerListServices: {
       english: [
         {
-          parent: {name:"Scale based",url: "https://maps.smartgeoapps.com/server/rest/services/AlDaleela/Al_Daleela_Features/MapServer/95", visible: true},
+          parent: {name:"Scale based Labelling",url: "https://maps.smartgeoapps.com/server/rest/services/AlDaleela/Al_Daleela_Features/MapServer/95", visible: true},
           children: [
             { name: "Island", id:"Scale_based_English_Island", url: "https://maps.smartgeoapps.com/server/rest/services/AlDaleela/Al_Daleela_Features/MapServer/91", visible: true },
             { name: "Marine", id:"Scale_based_English_Marine",url: "https://maps.smartgeoapps.com/server/rest/services/AlDaleela/Al_Daleela_Features/MapServer/119", visible: true },
@@ -46,7 +46,7 @@ const config = {
       ],
       arabic: [
         {
-          parent: {name:"على أساس النطاق",url: "https://maps.smartgeoapps.com/server/rest/services/AlDaleela/Al_Daleela_Features/MapServer/103", visible: true},
+          parent: {name:"التسمية حسب المقياس",url: "https://maps.smartgeoapps.com/server/rest/services/AlDaleela/Al_Daleela_Features/MapServer/103", visible: true},
           children: [
             { name: "جزيرة", url: "https://maps.smartgeoapps.com/server/rest/services/AlDaleela/Al_Daleela_Features/MapServer/102", visible: true },
             { name: "بحري", url: "https://maps.smartgeoapps.com/server/rest/services/AlDaleela/Al_Daleela_Features/MapServer/101", visible: true },
@@ -56,7 +56,7 @@ const config = {
           ]
         },
         {
-          parent: {name:"التجميع",url: "https://maps.smartgeoapps.com/server/rest/services/AlDaleela/Al_Daleela_Features/MapServer/104", visible: false},
+          parent: {name:"التكتل",url: "https://maps.smartgeoapps.com/server/rest/services/AlDaleela/Al_Daleela_Features/MapServer/104", visible: false},
           children: [
             { name: "جزيرة", url: "https://maps.smartgeoapps.com/server/rest/services/AlDaleela/Al_Daleela_Features/MapServer/2", visible: true },
             { name: "بحري", url: "https://maps.smartgeoapps.com/server/rest/services/AlDaleela/Al_Daleela_Features/MapServer/105", visible: true },
@@ -189,7 +189,7 @@ const config = {
       {
         title: "Satellite imagery",
         id: "Satellite imagery",
-        thumbnailImg: "./images/Satellite Imagery.png",
+        thumbnailImg: "./images/ESRI World Imagery.png",
         baseLayers: [
           "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer"
         ]
