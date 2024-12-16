@@ -142,7 +142,7 @@ const Component = ({
           }));
 
           switch (field.name) {
-            case "Organization":
+            case "organization":
               newOrganizationOptions.push(...options);
               break;
             case "Status":

@@ -818,7 +818,7 @@ const handleDrop = async (e) => {
 
               {/* Map over the options */}
               {options.map((option) => (
-                <option key={option.value} value={option.value}>
+                <option key={option.value} value={option.label}>
                   {option.label}
                 </option>
               ))}
@@ -828,7 +828,7 @@ const handleDrop = async (e) => {
       ) : (
         <input
           id={id}
-          value={value}
+          value={id === "organization" && !isNaN(value) ? "" : value}
           disabled={disable}
           onChange={handleChange}
           className="block w-full text-[13px] h-9 rounded-md p-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
