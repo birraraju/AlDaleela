@@ -149,7 +149,7 @@ useEffect(() => {
         {layers.map((category) => (
           <li key={category.parent.name}>
             <div
-              className={`font-bold cursor-pointer ${isLangArab ? "text-right" : "text-left"}`}
+              className={`font-500 cursor-pointer ${isLangArab ? "text-right" : "text-left"}`}
             >
               <span
                 className="mr-2"
