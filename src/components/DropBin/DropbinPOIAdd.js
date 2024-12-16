@@ -13,6 +13,7 @@ import { UserActivityLog } from "../Common/UserActivityLog";
 import UploadMedia from '../../assets/Droppedpin/UploadMediaIcon.svg'
 import CloseUploadedFile from '../../assets/POIEdit/FileUploadCancel.svg'
 import { useTheme } from "../Layout/ThemeContext/ThemeContext";
+import RoleServices from '../servicces/RoleServices';
 
 
 
@@ -62,6 +63,9 @@ const Component = ({mapview,isLangArab,setIsMsgStatus,setModalMessage,setIsSucce
   const [statusOptions, setStatusOptions] = useState([]);
   const [municipalityOptions, setMunicipalityOptions] = useState([]);
   const [classOption, setClassOptions] = useState([]);
+  const [classArOption, setClassArOptions] = useState([]);
+  
+  
 
   useEffect(() => {
     const fetchDomains = async () => {
@@ -90,6 +94,7 @@ const Component = ({mapview,isLangArab,setIsMsgStatus,setModalMessage,setIsSucce
         const newStatusOptions = [];
         const newMunicipalityOptions = [];
         const newClassOptions = [];
+        const newClassArOptions = [];
 
         domainFields.forEach((field) => {
           const options = field.domain.codedValues.map((codedValue) => ({
@@ -110,6 +115,9 @@ const Component = ({mapview,isLangArab,setIsMsgStatus,setModalMessage,setIsSucce
             case "Class":
               newClassOptions.push(...options);
               break;
+            case "ClassAr":
+              newClassArOptions.push(...options);
+              break;
             default:
               console.warn(`Unhandled field: ${field.fieldName}`);
           }
@@ -120,6 +128,8 @@ const Component = ({mapview,isLangArab,setIsMsgStatus,setModalMessage,setIsSucce
         setStatusOptions(newStatusOptions);
         setMunicipalityOptions(newMunicipalityOptions);
         setClassOptions(newClassOptions);
+        setClassArOptions(newClassArOptions)
+
 
         // Update poiData only if options are available
         if (newOrganizationOptions.length > 0) {
@@ -138,6 +148,8 @@ const Component = ({mapview,isLangArab,setIsMsgStatus,setModalMessage,setIsSucce
 
     fetchDomains(); // Call the async function
   }, []); // Empty dependency array to run once on mount
+
+
 
   // Function to update the point location based on the coordinates provided in the form
   const updatePointLocation = () => {
@@ -620,7 +632,7 @@ const handleDrop = async (e) => {
       description: poiData.description,
       poems: poiData.poems,
       stories: poiData.stories,
-      Classification: poiData.classification || selectedLayer,
+      Classification: poiData.classification  || selectedLayer,
       MunicipalityAr: poiData.municipality,
       Emirate: poiData.emirate,
       City: poiData.city,
@@ -856,41 +868,45 @@ const handleDrop = async (e) => {
         </button>
       </div>
       <div className="p-1 space-y-0.5">
-        {renderField(
+      {renderField("name", isLangArab ? "الاسم" : "Name", poiData.name)}
+        { isLangArab ?renderField(
           "organization",
           isLangArab ? "منظمة" : "Organization",
           poiData.organization,
           organizationOptions,
           "select"
+        ) : renderField(
+          "organization",
+          isLangArab ? "منظمة" : "Organization",
+          poiData.organization
         )}
-        {renderField("name", isLangArab ? "الاسم" : "Name", poiData.name)}
         {renderField("class", isLangArab ? "الفئة" : "Class", poiData.class,
-          classOption,
+                         isLangArab? classArOption : classOption,
           "select")}
         {renderField(
           "classD",
-          isLangArab ? "الفئة D" : "ClassD",
+          isLangArab ? "المعنى الجغرافي" : "Class Description",
           poiData.classD
         )}
-        {renderField(
+        {(!isLangArab && RoleServices.isAdmin()) &&  renderField(
           "status",
           isLangArab ? "الحالة" : "Status",
           poiData.status,
           statusOptions,
           "select"
         )}
-        {renderField(
+        { (!isLangArab && RoleServices.isAdmin()) &&  renderField(
           "comment",
           isLangArab ? "تعليق" : "Comment",
           poiData.comment
         )}
-        {renderField(
+        {/* { !isLangArab &&  renderField(
           "description",
           isLangArab ? "الوصف" : "Description",
           poiData.description
-        )}
-        {renderField("poems", isLangArab ? "الأشعار" : "Poems", poiData.poems)}
-        {renderField(
+        )} */}
+        { !isLangArab &&  renderField("poems", isLangArab ? "الأشعار" : "Poems", poiData.poems)}
+        { !isLangArab &&  renderField(
           "stories",
           isLangArab ? "القصص" : "Stories",
           poiData.stories
@@ -898,24 +914,30 @@ const handleDrop = async (e) => {
         {renderField(
           "classification",
           isLangArab ? "التصنيف" : "Classification",
-          poiData.classification || selectedLayer,
+          poiData.classification || isLangArab? selectedLayer[0] : selectedLayer[1],
           [],
           "text",
           true
         )}
-        {renderField(
+        { isLangArab?
+        renderField(
           "municipality",
-          isLangArab ? "البلدية" : "Municipality",
+          isLangArab ? "المدينة" : "Region",
           poiData.municipality,
           municipalityOptions,
           "select"
+        ) 
+        : renderField(
+          "municipality",
+          isLangArab ? "المدينة" : "Region",
+          poiData.municipality
         )}
-        {renderField(
+        {/* {renderField(
           "emirate",
           isLangArab ? "الإمارة" : "Emirate",
           poiData.emirate
-        )}
-        {renderField("city", isLangArab ? "المدينة" : "City", poiData.city)}
+        )} */}
+        {renderField("city",  isLangArab ? "المنطقة" : "Area", poiData.city)}
 
         {/* Coordinates Section */}
         <div className="space-y-2 pt-2 pb-6">

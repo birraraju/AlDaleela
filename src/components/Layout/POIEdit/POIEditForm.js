@@ -62,6 +62,8 @@ const Component = ({
   const [statusOptions, setStatusOptions] = useState([]);
   const [municipalityOptions, setMunicipalityOptions] = useState([]);
   const [classOption, setClassOptions] = useState([]);
+  const [classArOption, setClassArOptions] = useState([]);
+
 
   const audioRefs = useRef([]); // Array of refs for each audio
   const [playingIndex, setPlayingIndex] = useState(null); // Track which audio is playing
@@ -78,24 +80,24 @@ const Component = ({
 
       // Extract only the fields you want to update in poiData
       const updatedData = {
-        organization: attributes.organization,
-        name_en: attributes.name_en,
-        Class: attributes.Class,
-        ClassD: attributes.ClassD,
+        organization: isLangArab? attributes.organization : attributes.organization_En,
+        name_en: isLangArab?attributes.name_ar: attributes.name_en,
+        Class: isLangArab?attributes.ClassAr:attributes.Class,
+        ClassD: isLangArab? attributes.ClassD_Ar : attributes.ClassD,
         Status: attributes.Status,
         Comment: attributes.Comment,
         description: attributes.description,
         poems: attributes.poems,
         stories: attributes.stories,
-        Classification: attributes.Classification,
-        MunicipalityAr: attributes.MunicipalityAr,
-        Emirate: attributes.Emirate,
-        City: attributes.City,
+        Classification: isLangArab? attributes.Classification_ar : attributes.Classification,
+        MunicipalityAr: isLangArab? attributes.MunicipalityAr : attributes.Municipality,
+        Emirate: isLangArab? attributes.EmirateAr :attributes.Emirate,
+        City: isLangArab? attributes.CityAr : attributes.City,
       };
 
       setPoiData(updatedData);
     }
-  }, [queryresults]);
+  }, [queryresults,isLangArab]);
 
   useEffect(() => {
     if (isEditShowPOI) {
@@ -130,6 +132,8 @@ const Component = ({
         const newStatusOptions = [];
         const newMunicipalityOptions = [];
         const newClassOptions = [];
+        const newClassArOptions = [];
+
 
         domainFields.forEach((field) => {
           const options = field.domain.codedValues.map((codedValue) => ({
@@ -138,7 +142,7 @@ const Component = ({
           }));
 
           switch (field.name) {
-            case "organization":
+            case "Organization":
               newOrganizationOptions.push(...options);
               break;
             case "Status":
@@ -150,6 +154,9 @@ const Component = ({
             case "Class":
               newClassOptions.push(...options);
               break;
+            case "ClassAr":
+              newClassArOptions.push(...options);
+              break;
             default:
               console.warn(`Unhandled field: ${field.fieldName}`);
           }
@@ -160,6 +167,7 @@ const Component = ({
         setStatusOptions(newStatusOptions);
         setMunicipalityOptions(newMunicipalityOptions);
         setClassOptions(newClassOptions);
+        setClassArOptions(newClassArOptions)
       } catch (error) {
         console.error("Error fetching domains:", error);
       }
@@ -476,6 +484,8 @@ const Component = ({
     setPausedAt(0);
   };
 
+  console.log("POI organization:",organizationOptions)
+
   const renderFieldOrText = (
     id,
     label,
@@ -602,7 +612,7 @@ const Component = ({
       )}
     </div>
   );
-
+  console.log("Passed POI:", queryresults.features)
   return (
     <div className="w-full max-w-md bg-transparent overflow-y-auto ">
       <div className="p-2 space-y-1">
@@ -610,12 +620,23 @@ const Component = ({
           <p></p> // Display message if there are no features
         ) : (
           <>
-            {renderFieldOrText(
+          { isEditShowPOI && 
+              renderFieldOrText(
+                "name_en",
+                isLangArab ? "الاسم" : "Name",
+                isLangArab ? queryresults.features[0].attributes.name_ar : queryresults.features[0].attributes.name_en
+              )}
+
+            { isLangArab? renderFieldOrText(
               "organization",
               isLangArab ? "الجهة" : "Organization",
-              queryresults.features[0].attributes.organization,
+              isLangArab? queryresults.features[0].attributes.organization : queryresults.features[0].attributes.organization_En,
               organizationOptions,
               "select"
+            ) : renderFieldOrText(
+              "organization",
+              isLangArab ? "الجهة" : "Organization",
+              isLangArab? queryresults.features[0].attributes.organization : queryresults.features[0].attributes.organization_En
             )}
 
            
@@ -623,19 +644,23 @@ const Component = ({
             {renderFieldOrText(
               "Class",
               isLangArab ? "النوع" : "Class",
-              queryresults.features[0].attributes.Class,
-              classOption,
+              isLangArab? queryresults.features[0].attributes.ClassAr : queryresults.features[0].attributes.Class,
+               isLangArab? classArOption : classOption,
               "select"
             )}
 
 
 
-            {renderFieldOrText(
+            { isLangArab? renderFieldOrText(
               "MunicipalityAr",
-              isLangArab ? "المدينة" : "Municipality",
-              queryresults.features[0].attributes.MunicipalityAr,
+              isLangArab ? "المدينة" : "Region",
+              isLangArab ? queryresults.features[0].attributes.MunicipalityAr : queryresults.features[0].attributes.Municipality,
               municipalityOptions,
               "select"
+            ) : renderFieldOrText(
+              "MunicipalityAr",
+              isLangArab ? "المدينة" : "Region",
+               isLangArab ? queryresults.features[0].attributes.MunicipalityAr : queryresults.features[0].attributes.Municipality
             )}
 
             {/* {renderFieldOrText(
@@ -644,18 +669,56 @@ const Component = ({
               queryresults.features[0].attributes.Emirate
             )} */}
 
+
+
             {
               renderFieldOrText(
-                "name_en",
-                isLangArab ? "الاسم" : "Name",
-                queryresults.features[0].attributes.name_en
+                "ClassD",
+                isLangArab ? "المعنى الجغرافي" : "Class Description",
+                isLangArab ? queryresults.features[0].attributes.ClassD_Ar : queryresults.features[0].attributes.ClassD
               )}
 
+            {(RoleServices.isAdmin() && !isLangArab) &&
+              renderFieldOrText(
+                "Status",
+                isLangArab ? "الحالة" : "Status",
+                queryresults.features[0].attributes.Status,
+                statusOptions,
+                "select"
+              )}
+
+            {( RoleServices.isAdmin() && !isLangArab) &&
+              renderFieldOrText(
+                "Comment",
+                isLangArab ? "التعليق" : "Comment",
+                queryresults.features[0].attributes.Comment
+              )}
+
+            {/* {( !isLangArab) &&
+              renderFieldOrText(
+                "description",
+                isLangArab ? "الوصف" : "Description",
+                queryresults.features[0].attributes.description
+              )} */}
+
+            {
+              renderFieldOrText(
+                "poems",
+                isLangArab ? "القصائد" : "Poems",
+                queryresults.features[0].attributes.poems
+              )}
+
+            {
+              renderFieldOrText(
+                "stories",
+                isLangArab ? "القصص" : "Stories",
+                queryresults.features[0].attributes.stories
+              )}
              {isShowMore &&
              renderFieldOrText(
               "Classification",
               isLangArab ? "التصنيف" : "Classification",
-              queryresults.features[0].attributes.Classification,
+              isLangArab? queryresults.features[0].attributes.Classification_ar : queryresults.features[0].attributes.Classification,
               [],
               "text",
               true
@@ -665,54 +728,9 @@ const Component = ({
               {isShowMore &&
               renderFieldOrText(
               "City",
-              isLangArab ? "المنطقة" : "City",
-              queryresults.features[0].attributes.City
+              isLangArab ? "المنطقة" : "Area",
+              isLangArab ? queryresults.features[0].attributes.CityAr : queryresults.features[0].attributes.City
             )}
-
-            {isShowMore &&
-              renderFieldOrText(
-                "ClassD",
-                isLangArab ? "المعنى الجغرافي" : "ClassD",
-                queryresults.features[0].attributes.ClassD
-              )}
-
-            {(isShowMore && RoleServices.isAdmin()) &&
-              renderFieldOrText(
-                "Status",
-                isLangArab ? "الحالة" : "Status",
-                queryresults.features[0].attributes.Status,
-                statusOptions,
-                "select"
-              )}
-
-            {(isShowMore && RoleServices.isAdmin()) &&
-              renderFieldOrText(
-                "Comment",
-                isLangArab ? "التعليق" : "Comment",
-                queryresults.features[0].attributes.Comment
-              )}
-
-            {isShowMore &&
-              renderFieldOrText(
-                "description",
-                isLangArab ? "الوصف" : "Description",
-                queryresults.features[0].attributes.description
-              )}
-
-            {isShowMore &&
-              renderFieldOrText(
-                "poems",
-                isLangArab ? "القصائد" : "Poems",
-                queryresults.features[0].attributes.poems
-              )}
-
-            {isShowMore &&
-              renderFieldOrText(
-                "stories",
-                isLangArab ? "القصص" : "Stories",
-                queryresults.features[0].attributes.stories
-              )}
-
 
             {!isEditShowPOI &&
               // (videos.length > 0 || audios.length > 0 || images.length > 0) && (

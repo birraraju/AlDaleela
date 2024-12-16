@@ -27,10 +27,12 @@ export default function EditAddPOI({
   const panelRef = useRef(null);
   const { isDarkMode, isLangArab} = useTheme();
   const poiOptions = [
-    { label: "Terrestrial", isHighlighted: false, img: Terrestrial },
-    { label: "Marine", isHighlighted: false, img: Marine },
-    { label: "Island", isHighlighted: true, img: Island }
+    { label:  ["موقع بري", "Terrestrial"], isHighlighted: false, img: Terrestrial },
+    { label: ["موقع بحري", "Marine"], isHighlighted: false, img: Marine },
+    { label: ["جزيرة", "Island"], isHighlighted: true, img: Island }
   ];
+
+  
 
   const [selectedIndex, setSelectedIndex] = useState(null); // Track the selected item
 
@@ -123,7 +125,7 @@ export default function EditAddPOI({
             }`}
           >
             <img src={option.img} className="w-3" alt="Icon" />
-            <p className={` ${isDarkMode?" text-white":"text-[#101828]"}    font-500`}>{option.label}</p>
+            <p className={` ${isDarkMode?" text-white":"text-[#101828]"}    font-500`}>{ isLangArab?option.label[0]:option.label[1]}</p>
           </div>
         ))}
       </div>

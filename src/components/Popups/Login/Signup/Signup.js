@@ -380,6 +380,7 @@ export default function Signup({ onClose, onSigninClick,setIsSuccess,
 
   const handleFilterCodeChange=(e)=>{
     setFilterCode(e.target.value)
+    
   }
 
   // Filter the countries based on the input text
@@ -534,6 +535,8 @@ if (!validPhoneCount) {
   const onSignupClick = async () => {
     const formValid = validateForm(formData);
     if (!formValid) return;
+    setUsernameExists(false);
+    setEmailExists(false);
 
     try {
       const signupObj = {
@@ -555,22 +558,25 @@ if (!validPhoneCount) {
         }
       );
       const data = await response.json();
+      console.log("SignIn response:", data.success)
       if (data.success) {
         //console.log(data)
         //sendEmail(data.data);
         setIsMsgStatus("Success");
-        localStorage.getItem("token",data.data.token);
         setModalMessage(isLangArab
           ? "تم إرسال بريد إلكتروني بنجاح إلى بريدك الإلكتروني المسجل. يرجى التحقق من صندوق الوارد للتحقق."
           : "An email has been successfully sent to your registered email. Please check your inbox to verify.");
         setIsSuccess(true);
         setUsernameExists(false);
         setEmailExists(false);
+        localStorage.getItem("token",data.data.token);
         onClose();
       } else {
         if (data.message === "Username already exists.") {
           setUsernameExists(true);
+          
         }
+        
         if (data.message === "Email already exists.") {
           setEmailExists(true);
         }
@@ -691,6 +697,11 @@ if (!validPhoneCount) {
                       handleChange(e);
                     }}
                   />
+                  {usernameExists && (
+                    <p className=" text-sm" style={{ color: "red" }}>
+                      {"Username already exists."}
+                    </p>
+                  )}{" "}
                   {errorMessages.username && (
                     <p className=" text-xs" style={{ color: "red" }}>
                       {errorMessages.username}
@@ -858,7 +869,7 @@ if (!validPhoneCount) {
                       }
                   {isCodeOpen && (
                       <ul
-                      ref={CodeRef}
+                      // ref={CodeRef}
                         className={`absolute mt-0.5 grid justify-start   max-w-24 px-2 py-1 max-h-[80px] overflow-y-auto rounded-md shadow-lg z-10 ${
                           isDarkMode
                             ? "bg-[#FFFFFF]  text-black"
@@ -965,7 +976,7 @@ if (!validPhoneCount) {
                     {/* Dropdown Menu */}
                     {isOpen && (
                       <ul
-                      ref={CountryRef}
+                      // ref={CountryRef}
                         className={`absolute mt-0.5 w-full max-h-[80px] min-h-[40px] overflow-y-auto rounded-md shadow-lg z-10 ${
                           isDarkMode
                             ? "bg-[#FFFFFF]  text-black"
