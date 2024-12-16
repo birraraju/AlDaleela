@@ -25,15 +25,30 @@ export default function FilterInnerBody() {
   });
   useEffect(()=>{
     // Dynamically update Layers with names from featureServices
-    const updatedLayers = [...sampleData.Layers];
-    config.featureServices.forEach(service => {
-      updatedLayers.push(service.name);
-    });
+    // const updatedLayers = [...sampleData.Layers];
+    // config.featureServices.forEach(service => {
+    //   updatedLayers.push(service.name);
+    // });
+    // English and Arabic fields
+    const englishFields = [
+      { name: "Island", value: "Island" },
+      { name: "Marine", value: "Marine" },
+      { name: "Terrestrial", value: "Terrestrial" },
+    ];
+
+    const arabicFields = [
+      { name: "جزيرة", value: "Island" },
+      { name: "موقع بحري", value: "Marine" },
+      { name: "موقع بري", value: "Terrestrial" },
+    ];
+
+  // Render appropriate fields based on language
+  const fieldsToDisplay = isLangArab ? arabicFields : englishFields;
 
     // Use setSampleData to trigger a re-render
     setSampleData(prevState => ({
       ...prevState,
-      Layers: updatedLayers,
+      Layers: fieldsToDisplay,
     }));    
   },[])
 
@@ -43,24 +58,58 @@ export default function FilterInnerBody() {
       ...prevState,
       Layers2: [], // Clear the Layers array
     }));
-    const terrestrialLayer = config.featureServices.find(service => service.name === layername);
+    // English and Arabic fields
+    const englishFields = [
+      { name: "Organization", value: "organization_En" },
+      { name: "Name", value: "name_en" },
+      { name: "Class", value: "Class" },
+      { name: "Class Description", value: "ClassD" },
+      { name: "Status", value: "Status" },
+      { name: "Comment", value: "Comment" },
+      { name: "Description", value: "description" },
+      { name: "Poems", value: "poems" },
+      { name: "Stories", value: "stories" },
+      { name: "Classification", value: "Classification" },
+      { name: "Region", value: "Municipality" },
+      { name: "Emirate", value: "Emirate" },
+      { name: "Area", value: "City" },
+    ];
 
-    if (terrestrialLayer) {
-      const layer = new FeatureLayer({
-        url: terrestrialLayer.url,
-      });
+    const arabicFields = [
+      { name: "الجهة", value: "organization" },
+      { name: "اسم", value: "name_ar" },
+      { name: "النوع", value: "ClassAr" },
+      { name: "المعنى الجغرافي", value: "ClassD_Ar" },
+      { name: "المدينة", value: "MunicipalityAr" },
+      { name: "الإمارة", value: "EmirateAr" },
+      { name: "التصنيف", value: "Classification_ar" },
+      { name: "المنطقة", value: "CityAr" },
+    ];
 
-      layer.load().then(() => {
-        const fieldNames = layer.fields.map(field => field.name);
+  // Render appropriate fields based on language
+  const fieldsToDisplay = isLangArab ? arabicFields : englishFields;
+  setSampleData(prevState => ({
+    ...prevState,
+    Layer2: fieldsToDisplay,
+  }));
+    // const terrestrialLayer = config.featureServices.find(service => service.name === layername);
 
-        setSampleData(prevState => ({
-          ...prevState,
-          Layer2: fieldNames,
-        }));
-      }).catch(error => {
-        console.error("Error loading FeatureLayer: ", error);
-      });
-    }
+    // if (terrestrialLayer) {
+    //   const layer = new FeatureLayer({
+    //     url: terrestrialLayer.url,
+    //   });
+
+    //   layer.load().then(() => {
+    //     const fieldNames = layer.fields.map(field => field.name);
+
+    //     setSampleData(prevState => ({
+    //       ...prevState,
+    //       Layer2: fieldNames,
+    //     }));
+    //   }).catch(error => {
+    //     console.error("Error loading FeatureLayer: ", error);
+    //   });
+    //}
   }
 
   const onChaneFileds = (fieldname) => {
@@ -90,7 +139,7 @@ export default function FilterInnerBody() {
       // Execute the query
       layer.queryFeatures(query).then(result => {
         // Dynamically access the field's values
-        const queryValues = result.features.map(feature => feature.attributes[fieldname]);
+        const queryValues = [...new Set(result.features.map(feature => feature.attributes[fieldname]))];
   
         // Update Layer3 with the new values
         setSampleData(prevState => ({
@@ -108,6 +157,13 @@ export default function FilterInnerBody() {
     setLayerOneData("--empty--");
     setLayerTwoData("--empty--");
     setLayerThreeData("--empty--");
+     // Reset only the necessary parts of the sampleData state
+    setSampleData(prevState => ({
+      ...prevState,
+      Layers: prevState.Layers, // Preserve Layers
+      Layer2: [], // Preserve Layer2
+      Layer3: []  // Preserve Layer3
+    }));
     contextMapView.graphics.removeAll();
     const layerNames = config.featureServices.map(service => service.name);
 
@@ -115,6 +171,7 @@ export default function FilterInnerBody() {
       // Apply the filter to layers, clearing or setting expressions
       setDefinitionExpressionForLayersToClear(layer, null, null, layerNames, false);
     });
+    
   };
   const setDefinitionExpressionForLayersToClear = (layer, fieldName, fieldValue, layerNames, clearExpression = false) => {
     // If the 'clearExpression' flag is true, clear the definitionExpression for all layers
@@ -289,128 +346,86 @@ export default function FilterInnerBody() {
     }
   };
   return (
-    <div className=" relative h-full" dir={isLangArab ? "rtl" : "ltr"}>
+    <div className="relative h-full" dir={isLangArab ? "rtl" : "ltr"}>
       <div className={`z-50 ${isDarkMode ? "text-white" : "text-black"}`}>
-        <div className=" max-h-[calc(100vh-100px)] overflow-y-auto">
+        <div className="max-h-[calc(100vh-100px)] overflow-y-auto">
           {/* Layer 1 */}
-          <div className="flex justify-between gap-3 w-full ">
+          <div className="flex justify-between gap-3 w-full">
             <span className="space-y-2 w-full">
-              <div
-                className="flex items-center justify-between cursor-pointer text-[13px] h-9 w-full rounded-md p-2 text-black bg-[#FFFFFF] border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                onClick={() => setActiveLayer1(!activeLayer1)}
+              <select
+                className="text-[13px] h-9 w-full rounded-md p-2 text-black bg-[#FFFFFF] border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                value={LayerOneData}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setLayerOneData(value);
+                  onChangeLayers(value);
+                }}
               >
-                <p>{LayerOneData}</p>
-                <span>
-                  {activeLayer1 ? (
-                    <FaChevronUp className="text-gray-500" />
-                  ) : (
-                    <FaChevronDown className="text-gray-500" />
-                  )}
-                </span>
-              </div>
-              {activeLayer1 && (
-                <div
-                  className={`block text-[13px] max-h-[100px] min-h-[100px] overflow-y-scroll w-full rounded-md p-2 text-black bg-[#FFFFFF] border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500`}
-                >
-                  {sampleData.Layers.map((item) => (
-                    <div
-                      key={item}
-                      className="cursor-pointer hover:bg-gray-200 border border-transparent rounded-md p-1"
-                      onClick={() => {
-                        setLayerOneData(item);
-                        setActiveLayer1(false);
-                        onChangeLayers(item);
-                      }}
-                    >
-                      {item}
-                    </div>
-                  ))}
-                </div>
-              )}
+                <option value="--empty--" disabled>
+                --empty--
+                </option>
+                {sampleData.Layers && sampleData.Layers.map((item) => (
+                  <option key={item.value} value={item.value}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
             </span>
-
+  
             {/* Layer 2 */}
             <span className="space-y-2 w-full">
-              <div
-                className="flex items-center justify-between cursor-pointer block text-[13px] h-9 w-full rounded-md p-2 text-black bg-[#FFFFFF] border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                onClick={() => setActiveLayer2(!activeLayer2)}
+              <select
+                className="text-[13px] h-9 w-full rounded-md p-2 text-black bg-[#FFFFFF] border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                value={LayerTwoData}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setLayerTwoData(value);
+                  onChaneFileds(value);
+                }}
               >
-                <p>{LayerTwoData}</p>
-                <span>
-                  {activeLayer2 ? (
-                    <FaChevronUp className="text-gray-500" />
-                  ) : (
-                    <FaChevronDown className="text-gray-500" />
-                  )}
-                </span>
-              </div>
-              {activeLayer2 && (
-                <div
-                className={`block text-[13px] max-h-[100px] min-h-[100px] overflow-y-scroll w-full rounded-md p-2 text-black bg-[#FFFFFF] border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500`}
-              >
-                  {sampleData.Layer2.map((item) => (
-                    <div
-                      key={item}
-                      className="cursor-pointer border border-transparent rounded-md hover:bg-gray-200 p-1"
-                      onClick={() => {
-                        setLayerTwoData(item);
-                        setActiveLayer2(false);
-                        onChaneFileds(item);
-                      }}
-                    >
-                      {item}
-                    </div>
-                  ))}
-                </div>
-              )}
+                <option value="--empty--" disabled>
+                --empty--
+                </option>
+                {sampleData.Layer2 && sampleData.Layer2.map((item) => (
+                  <option key={item.value} value={item.value}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
             </span>
-
+  
             {/* Layer 3 */}
             <span className="space-y-2 w-full">
-              <div
-                className="flex items-center justify-between cursor-pointer block text-[13px] h-9 w-full rounded-md p-2 text-black bg-[#FFFFFF] border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                onClick={() => setActiveLayer3(!activeLayer3)}
+              <select
+                className="text-[13px] h-9 w-full rounded-md p-2 text-black bg-[#FFFFFF] border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                value={LayerThreeData}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setLayerThreeData(value);
+                }}
               >
-                <p>{LayerThreeData}</p>
-                <span>
-                  {activeLayer3 ? (
-                    <FaChevronUp className="text-gray-500" />
-                  ) : (
-                    <FaChevronDown className="text-gray-500" />
-                  )}
-                </span>
-              </div>
-              {activeLayer3 && (
-               <div
-               className={`block text-[13px] max-h-[100px] min-h-[100px] overflow-y-scroll w-full rounded-md p-2 text-black bg-[#FFFFFF] border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500`}
-             >
-                  {sampleData.Layer3.map((item) => (
-                    <div
-                      key={item}
-                      className="cursor-pointer border border-transparent rounded-md hover:bg-gray-200 p-1"
-                      onClick={() => {
-                        setLayerThreeData(item);
-                        setActiveLayer3(false);
-                      }}
-                    >
-                      {item}
-                    </div>
-                  ))}
-                </div>
-              )}
+                <option value="--empty--" disabled>
+                --empty--
+                </option>
+                {sampleData.Layer3 && sampleData.Layer3.map((item) => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
             </span>
-            <span className=" w-[10%] flex justify-center relative items-center">
-              {" "}
+  
+            <span className="w-[10%] flex justify-center relative items-center">
               <button
                 onClick={handleCloseRedClick}
-                className=" absolute top-2 w-[100%]"
+                className="absolute top-2 w-[100%]"
               >
                 <img src={RedClose} className="w-[100%]" alt="" />
               </button>
             </span>
           </div>
         </div>
-
+  
         {/* Action Buttons */}
         <div className="flex pt-6 absolute gap-3 right-2 bottom-0 justify-between items-baseline px-4 sm:px-2">
           <button
@@ -446,4 +461,5 @@ export default function FilterInnerBody() {
       </div>
     </div>
   );
+  
 }
