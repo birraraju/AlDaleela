@@ -149,7 +149,7 @@ useEffect(() => {
         {layers.map((category) => (
           <li key={category.parent.name}>
             <div
-              className={`font-500 cursor-pointer ${isLangArab ? "text-right" : "text-left"}`}
+              className={` cursor-pointer ${isLangArab ? "text-right" : "text-left"}`}
             >
               <span
                 className="mr-2"
@@ -181,7 +181,7 @@ useEffect(() => {
                     <span
                       className={`${
                         isLangArab ? "ml-2" : "mr-2"
-                      } h-5 w-5 rounded-sm border border-gray-400 bg-white peer-checked:bg-[#69A9C2] 
+                      } h-4 w-4 rounded-sm border border-gray-400 bg-white peer-checked:bg-[#69A9C2] 
                                  flex items-center justify-center transition-colors duration-300 cursor-pointer`}
                       onClick={() => toggleLayerVisibility(child.url)}
                     >

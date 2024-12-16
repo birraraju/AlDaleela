@@ -183,7 +183,7 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
         ))}
       </div>
 
-      <div className="space-y-4 mt-10 sm:mt-7 laptop_s:mt-10 overflow-y-auto sm:h-[48%] laptop_s:h-[55%] h-[55%]">
+      <div className="space-y-4 mt-10 laptop_l_2:mt-7 laptop_m:mt-10 sm:mt-7 laptop_s:mt-10 overflow-y-auto sm:h-[48%] laptop_l_2:h-[49%] laptop_m:h-[55%] laptop_s:h-[55%] h-[55%]">
         {data.slice(3).map((user, index) => (
           <div
             key={user.rank}
