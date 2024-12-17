@@ -148,7 +148,7 @@ export default function UserManagement({role}) {
         <tr className="text-left text-sm    font-500 text-[#667085] border-b">
           {[
             { label: isLangArab ? "اسم المستخدم" : "Username" },
-            { label: isLangArab ? "معرف البريد الإلكتروني" : "Email id" },
+            { label: isLangArab ? "معرف البريد الإلكتروني" : "Email ID" },
             { label: isLangArab ? "التاريخ والوقت" : "  Date and Time" },
             { label: isLangArab ? "اسم النقطة المهمة" : "POI Name" },
             { label: isLangArab ? "منظمة" : "Organization" },

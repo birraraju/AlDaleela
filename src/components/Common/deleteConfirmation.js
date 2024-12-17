@@ -22,9 +22,10 @@ export default function DeleteConfirmation({isLangArab,isShowConfirmation,Label,
                 </div>
                 
                 <h1 className={`text-start py-4 text-lg font-semibold ${isDarkMode?"text-[#FFFFFFCC]":"text-black"}`}>
-                {isLangArab?"تأكيد للحذف":"Confirm to Delete"} { Label === "user" ?(isLangArab?"مستخدم": "User") :(isLangArab?"ملاحظات":"FeedBack")}
+                {/* {isLangArab?"تأكيد للحذف":"Confirm to Delete"} { Label === "user" ?(isLangArab?"مستخدم": "User") :(isLangArab?"ملاحظات":"Feedback")} */}
+                Confirm Deletion
                 </h1>
-                <h2 className={` text-sm ${isDarkMode?"text-[#FFFFFFCC]":"text-black/65"}`}>{isLangArab?"هل أنت متأكد أنك تريد حذف هذا":"Are you sure you want to delete this"} { Label === "user" ?(isLangArab?"مستخدم": "User") :(isLangArab?"ملاحظات":"FeedBack")}? {isLangArab?"هذا الإجراء لا يمكن":"This action cannot"} <br/> {isLangArab?"يمكن التراجع عنه":"be undone"}</h2>
+                <h2 className={` text-sm ${isDarkMode?"text-[#FFFFFFCC]":"text-black/65"}`}>{isLangArab?"هل أنت متأكد أنك تريد حذف هذا":"Are you sure you want to delete this"} { Label === "user" ?(isLangArab?"مستخدم": "User") :(isLangArab?"ملاحظات":"Feedback")}? {isLangArab?"هذا الإجراء لا يمكن":"This action cannot"} <br/> {isLangArab?"يمكن التراجع عنه":"be undone"}</h2>
                     <div className=" flex gap-3 pt-4 ">
                 <button
                     className="w-full  py-2 rounded-lg bg-white text-black/85 border border-gray-500 font-medium"

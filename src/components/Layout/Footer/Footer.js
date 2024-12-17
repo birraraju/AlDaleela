@@ -37,8 +37,8 @@ export default function Footer({
     2: t(isLangArab ? "القياس" : "Measurement"),
     3: t(isLangArab ? "دبوس مُنقَطِع" : "Dropped Pin"),
     4: t(isLangArab ? "مشاركة" : "Share"),
-    5: t(isLangArab ? "تصدير البيانات" : "Export"),
-    6: t(isLangArab ? "طباعة البيانات" : "Print"),
+    5: t(isLangArab ? "تصدير البيانات" : "Export Map"),
+    6: t(isLangArab ? "طباعة البيانات" : "Print Map"),
   };
 
 

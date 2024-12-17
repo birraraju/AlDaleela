@@ -120,8 +120,8 @@ export default function EditAddPOI({
           <div
             key={index}
             onClick={() => {handleSelect(index, option.label);}} // Set selected index on click
-            className={`flex gap-2 px-2 py-1 cursor-pointer ${
-              selectedIndex === index ? "bg-[#DFE2E3]" : ""
+            className={`flex gap-2 px-2   rounded-md py-1 cursor-pointer ${
+              selectedIndex === index ? (isDarkMode?" bg-black/50": "bg-[#DFE2E3]") : ""
             }`}
           >
             <img src={option.img} className="w-3" alt="Icon" />

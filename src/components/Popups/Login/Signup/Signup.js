@@ -569,8 +569,9 @@ if (!validPhoneCount) {
         setIsSuccess(true);
         setUsernameExists(false);
         setEmailExists(false);
-        localStorage.getItem("token",data.data.token);
         onClose();
+        localStorage.getItem("token",data.data.token);
+       
       } else {
         if (data.message === "Username already exists.") {
           setUsernameExists(true);
@@ -959,13 +960,18 @@ if (!validPhoneCount) {
                     </select> */}
                     {/* Dropdown Header */}
                     {!isOpen ? <p onClick={toggleDropdown}
-                      className={`w-full h-[48px] flex items-center  px-3 py-1.5 rounded-xl text-sm appearance-none border transition-colors ${
+                      className={`w-full h-[48px] flex items-center relative  px-3 py-1.5 rounded-xl text-sm appearance-none border transition-colors ${
                         isDarkMode
                           ? "bg-[#FFFFFF]  text-black border-transparent "
                           : "bg-white text-black border-transparent"
                       }`}
                     >
-                      {selectedValue || (isLangArab ? "الدولة" : "Country")}
+                      {selectedValue || (isLangArab ? "الدولة" : "Country")} 
+                      <img
+                      src={CountryDropdown}
+                      alt="Dropdown"
+                      className= {`mx-1 absolute ${ isLangArab?" left-2":"right-2"}`}
+                    />
                     </p>:  <input type="text" value={filterText}
           onChange={handleFilterChange} className={`w-full h-[48px] flex items-center  px-3 py-1.5 rounded-xl text-sm appearance-none border transition-colors ${
                         isDarkMode

@@ -515,11 +515,7 @@ const Component = ({
             id={id}
             value={poiData[id]}
             onChange={handleChange}
-            className={` ${
-              id === "organization" || id === "MunicipalityAr"
-                ? " font-cairo"
-                : ""
-            } block w-full p-2 rounded-md text-black text-[13px] h-9 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500`}
+            className={` block w-full p-2 rounded-md text-black text-[13px] h-9 border-gray-300 ${ isDarkMode?" bg-white/80":"bg-[#FFFFFF]"} shadow-sm focus:border-indigo-500 focus:ring-indigo-500`}
           >
             {options.length > 0 && (
               <>
@@ -546,18 +542,14 @@ const Component = ({
             value={poiData[id]}
             disabled={disable}
             onChange={handleChange}
-            className={` ${
-              id === "organization" || id === "MunicipalityAr"
-                ? " font-cairo"
-                : ""
-            } block text-[13px] h-9 w-full rounded-md p-2 text-black bg-[#FFFFFF] border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500`}
+            className={` block text-[13px] h-9 w-full rounded-md p-2 text-black ${ isDarkMode?" bg-white/80":"bg-[#FFFFFF]"} border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500`}
           />
         )
       ) : (
         value &&
         (value?.length > 30 ? (
           <>
-            <div dir={isLangArab && "rtl"} className=" border flex flex-col p-2 border-transparent rounded-md  bg-[#FFFFFF]">
+            <div dir={isLangArab && "rtl"} className={`border flex flex-col p-2 border-transparent rounded-md  ${ isDarkMode?" bg-white/80":"bg-[#FFFFFF]"}`}>
               {value && !isEditShowPOI && (
                  <label
                  htmlFor={id}
@@ -569,9 +561,7 @@ const Component = ({
                </label>
               )}
               <p
-      className={`input-fields break-words  ${
-        (id === "organization" || id === "MunicipalityAr") ? "font-cairo font-700" : " font-600 "
-      } ${isLangArab ? "text-left" : "text-rigth"} 
+      className={`input-fields break-words font-600  ${isLangArab ? "text-left" : "text-rigth"} 
          h-auto w-full text-[14px] rounded-lg text-[#399C72] `}
     >
       {value}
@@ -594,13 +584,9 @@ const Component = ({
                 </label>
               )}
              {(value && value !== " " && !isEditShowPOI) &&  <p
-                className={` border ${value ? "p-2" : "p-5"} ${
-                  id === "organization" || id === "MunicipalityAr"
-                    ? " font-cairo"
-                    : ""
-                }   input-fields ${
+                className={` border ${value ? "p-2" : "p-5"}    input-fields ${
                   isLangArab ? "text-left" : "text-right"
-                } w-auto    laptop_s:h-[39px]    h-9 text-[14px] rounded-lg text-[#399C72] font-600 bg-[#FFFFFF]`}
+                } w-auto    laptop_s:h-[39px]    h-9 text-[14px] rounded-lg text-[#399C72] font-600 ${ isDarkMode?" bg-white/80":"bg-[#FFFFFF]"}`}
               >
                 {" "}
                 {/* {value?.length > 40 ? `${value.substring(0, 20)}` : value} */}

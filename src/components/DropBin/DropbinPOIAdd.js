@@ -132,15 +132,15 @@ const Component = ({mapview,isLangArab,setIsMsgStatus,setModalMessage,setIsSucce
 
 
         // Update poiData only if options are available
-        if (newOrganizationOptions.length > 0) {
-          setPoiData((prevState) => ({
-            ...prevState,
-            organization: newOrganizationOptions[0].value, // Update organization
-            status: newStatusOptions[0]?.value || "", // Update status
-            municipality: newMunicipalityOptions[0]?.value || "", // Update municipality
-            class: newClassOptions[0]?.value || "", // Update class
-          }));
-        }
+        // if (newOrganizationOptions.length > 0) {
+        //   setPoiData((prevState) => ({
+        //     ...prevState,
+        //     organization: newOrganizationOptions[0].value, 
+        //     status: newStatusOptions[0]?.value || "", 
+        //     municipality: newMunicipalityOptions[0]?.value || "", 
+        //     class: newClassOptions[0]?.value || "", 
+        //   }));
+        // }
       } catch (error) {
         console.error("Error fetching domains:", error);
       }
@@ -790,7 +790,7 @@ const handleDrop = async (e) => {
             }   
   }
 
-
+console.log("Point Initial data:", poiData)
   const renderField = (
     id,
     label,
@@ -815,7 +815,7 @@ const handleDrop = async (e) => {
             <>
               {/* Display the first item directly if you want a placeholder */}
               {/* <option value="" disabled>Select an option</option> Placeholder */}
-
+              <option value=" "></option>
               {/* Map over the options */}
               {options.map((option) => (
                 <option key={option.value} value={option.label}>

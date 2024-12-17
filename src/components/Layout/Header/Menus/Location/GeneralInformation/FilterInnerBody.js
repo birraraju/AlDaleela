@@ -8,6 +8,7 @@ import FeatureLayer from "@arcgis/core/layers/FeatureLayer.js";
 import { useAuth } from "../../../../../../Providers/AuthProvider/AuthProvider";
 import Graphic from "@arcgis/core/Graphic";
 import Extent from "@arcgis/core/geometry/Extent";
+import RoleServices from "../../../../../servicces/RoleServices";
 
 export default function FilterInnerBody() {
   const { isDarkMode, isLangArab } = useTheme();
@@ -59,13 +60,13 @@ export default function FilterInnerBody() {
       Layers2: [], // Clear the Layers array
     }));
     // English and Arabic fields
-    const englishFields = [
+
+    const AdminEn = [
       { name: "Area", value: "City" },
       { name: "Class", value: "Class" },
       { name: "Class Description", value: "ClassD" },
       { name: "Classification", value: "Classification" },
       { name: "Comment", value: "Comment" },
-      { name: "Description", value: "description" },
       { name: "Name", value: "name_en" },
       { name: "Organization", value: "organization_En" },
       { name: "Poems", value: "poems" },
@@ -74,6 +75,20 @@ export default function FilterInnerBody() {
       { name: "Stories", value: "stories" },
    
     ];
+    const UserEn = [
+      { name: "Area", value: "City" },
+      { name: "Class", value: "Class" },
+      { name: "Class Description", value: "ClassD" },
+      { name: "Classification", value: "Classification" },
+      { name: "Description", value: "description" },
+      { name: "Name", value: "name_en" },
+      { name: "Organization", value: "organization_En" },
+      { name: "Poems", value: "poems" },
+      { name: "Region", value: "Municipality" },
+      { name: "Stories", value: "stories" },
+   
+    ];
+    const englishFields = RoleServices.isAdmin()? AdminEn: UserEn
     // { name: "Emirate", value: "Emirate" },
     // { name: "الإمارة", value: "EmirateAr" },
 
@@ -406,7 +421,9 @@ export default function FilterInnerBody() {
                 <option value="--empty--" disabled>
                 
                 </option>
-                {sampleData.Layer3 && sampleData.Layer3.map((item) => (
+                {sampleData.Layer3 &&  [...sampleData.Layer3]
+    .filter((item) => item !== null && item !== undefined) // Remove null or undefined values
+    .sort((a, b) => a.localeCompare(b)).map((item) => (
                   <option key={item} value={item}>
                     {item}
                   </option>

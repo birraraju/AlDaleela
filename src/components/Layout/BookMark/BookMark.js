@@ -118,7 +118,7 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
             } 
             else {
               localbookmarks.push({
-                src: Book1,
+                src:"",
                 title: nameEng,
                 id: feature.id,
                 objectid: feature.objectid,
@@ -267,12 +267,17 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
   {(bookmarks.length > 0) ? bookmarks.map((image, index) => (
     <div key={image.id} className="relative flex flex-col  items-center">
       {/* Image and title section */}
-      <div onClick={() => handleZoomtoLocation(image.id, image.objectid, image.layername)} className=" relative sm:w-28 w-[96%] h-20  sm:h-24 flex flex-col items-center ">
-        <img
+      <div onClick={() => handleZoomtoLocation(image.id, image.objectid, image.layername)} className={`relative  sm:w-28 w-[96%] h-20  sm:h-24 flex flex-col items-center`}>
+        { image.src ?<img
           src={image.src}
           alt={image.title}
           className=" sm:w-full w-[100%]   sm:h-full object-cover shadow-xl rounded-md"
-        />
+        /> : 
+        <span className={` ${ isDarkMode?" bg-[#152227CC]":"bg-white/80"} w-full flex justify-center items-center h-[80%] rounded-md`}>
+          <img src={BookMarkGreen} className=' w-7 h-7' alt="" />
+        </span>
+        }
+        
         <h3 className="text-start   font-500 w-full border text-[#FFFFFF] text-[10px] sm:text-[12px]  border-transparent rounded-md absolute bg-[#504848] h-6 justify-start items-center pl-2 flex bottom-0  leading-4 break-words">
         {image.title?.length > 12 ? `${image.title.substring(0, 15)}` : image.title}
         </h3>
