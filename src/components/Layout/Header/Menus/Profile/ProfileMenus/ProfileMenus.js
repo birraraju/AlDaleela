@@ -5,6 +5,7 @@ import Contribution from "./Contribution/Contribution"; // Import Contribution c
 import Leaderboard from "./Leaderboard/Leaderboard";
 import SendFeedback from "./SendFeedback/SendFeedback";
 import ThemeToggle from "./ThemeToggle/ThemeToggle";
+import Roleservices from '../../../../../servicces/RoleServices'
 
 import { useTheme } from "../../../../ThemeContext/ThemeContext";
 
@@ -54,7 +55,7 @@ export default function ProfileMenus({
             setIsPopoverOpen={setIsPopoverOpen}
             setIsContribution={setIsContribution} // Handle Contribution
           />
-          {role === "admin" && <Administration />}
+          { Roleservices.isAdmin() && <Administration />}
           
         </>
       )}

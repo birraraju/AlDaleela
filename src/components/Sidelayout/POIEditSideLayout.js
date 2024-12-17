@@ -290,7 +290,9 @@
           <div className="p-2 overflow-y-auto h-full relative">
             {children || (<>
               {!POIShareShow && queryresults !== "" && <div dir={isLangArab && "rtl"} className={`absolute top-3 w-[95%]  ${!isLangArab && "left-4"} flex   gap-x-1`}>
-                <img src={isDarkMode ? DarkLocation : Location }alt="Location" className={`"h-6 w-5" ${isLangArab && "mr-1 sm:mr-2"} ${POIFormisOpenModalShow ?"opacity-0":" "}`} />
+                { isDarkMode ?<img src={DarkLocation}alt="Location" className={`"h-7 w-8 " ${isLangArab && "mr-1 sm:mr-2"} ${POIFormisOpenModalShow ?"opacity-0":" "}`} />
+                :
+                <img src={Location }alt="Location" className={`"h-6 w-5" ${isLangArab && "mr-1 sm:mr-2"} ${POIFormisOpenModalShow ?"opacity-0":" "}`} />}
                 <p className={`font-semibold    ${
                       isDarkMode ? "text-white" : "text-gray-600"
                     }`}> <h1 className={` font-cairo text-[20px] ${POIFormisOpenModalShow ?"opacity-0":" "}`}>{queryresults.features[0].attributes.name_ar}</h1>

@@ -262,8 +262,8 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
   };
 
   return (
-    <div className="relative grid grid-cols-1 h-full">
-      <div className="grid grid-cols-3 justify-start pt-[1rem]  h-[81%] tab_s:h-[87%] laptop_s:h-[76%] overflow-y-auto items-start gap-y-4 gap-x-0"style={{ marginTop: '-10px' }}>
+    <div className="relative grid grid-cols-1  h-full">
+      <div className="grid grid-cols-3 justify-start pt-[1rem]  h-[81%] tab_s:h-[87%] laptop_s:h-[76%] overflow-y-auto items-start gap-y-4 gap-x-0">
   {(bookmarks.length > 0) ? bookmarks.map((image, index) => (
     <div key={image.id} className="relative flex flex-col  items-center">
       {/* Image and title section */}

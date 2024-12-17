@@ -412,7 +412,7 @@ export default function FilterInnerBody() {
               </select>
             </span>
   
-            <span className="w-[10%] flex justify-center relative items-center">
+            <span className="w-[10%] hidden  justify-center relative items-center">
               <button
                 onClick={handleCloseRedClick}
                 className="absolute top-2 w-[100%]"

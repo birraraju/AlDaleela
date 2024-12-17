@@ -6,7 +6,7 @@ export default function Logo() {
   const { isLangArab } = useTheme(); // Access the dark mode state
 
   return (
-    <div className="w-40 h-8 sm:h-8 laptop_s:h-10 laptop_m:h-[40px]">
+    <div className=" laptop_s:w-40  sm:w-32 w-40 h-8  flex sm:h-8 laptop_s:h-10 laptop_m:h-[40px]">
       <img
         src={logo}
         alt="Company Logo" // Update this to a meaningful description

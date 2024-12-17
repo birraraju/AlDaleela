@@ -74,7 +74,7 @@ const BasemapGalleryComponent = ({ mapview }) => {
   return (
     <div
       id="basemapDiv"
-      className={`sm:-mt-[150%] tab_s:-mt-[145%] tab_m:-mt-[130%] tab_l_1:-mt-[120%] flip:-mt-[105%] laptop_l:-mt-[130%] laptop_l_2:-mt-[100%] laptop_l_2:h-[300px]   laptop_s:h-[420px] laptop_m:-mt-[130%] laptop_m:h-[420px] 2xl:-mt-[110%] mobile_m:-mt-[165%] mobile_m_3:-mt-[185%] mobile_m_4:-mt-[170%]  mobile_l:-mt-[170%]   sm:h-[600px] h-[530px] mobile_s:-mt-[135%] -mt-[185%] bg-transparent overflow-y-auto ${isDarkMode ? 'dark-mode' : ''}`}
+      className={`sm:-mt-[150%] tab_s:-mt-[145%] tab_m:-mt-[130%] tab_l_1:-mt-[120%] flip:-mt-[105%] laptop_l:-mt-[130%] laptop_l_2:-mt-[107%] laptop_l_2:h-[300px]   laptop_s:h-[420px] laptop_m:-mt-[130%] laptop_m:h-[420px] 2xl:-mt-[110%] mobile_m:-mt-[165%] mobile_m_3:-mt-[185%] mobile_m_4:-mt-[170%]  mobile_l:-mt-[170%]   sm:h-[600px] h-[530px] mobile_s:-mt-[135%] -mt-[185%] bg-transparent overflow-y-auto ${isDarkMode ? 'dark-mode' : ''}`}
     >
       
       <div ref={mapRef1} />

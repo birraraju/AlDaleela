@@ -52,6 +52,7 @@
     color: inherit !important; /* Ensures the color remains unchanged */
 }
 
+
 /* Ensure hover does not change text color */
 .esri-basemap-gallery__item-title:hover {
     color: inherit; /* Keeps the color the same as the default */
@@ -61,18 +62,38 @@
 .esri-basemap-gallery__item[aria-checked="true"] .esri-basemap-gallery__item-title,
 .esri-basemap-gallery__item.active .esri-basemap-gallery__item-title {
     color: inherit !important; /* Keeps the color same as default */
+    outline: none;
+}
+/* Remove black border on focus */
+.esri-basemap-gallery__item:focus {
+    outline: none !important;
 }
 
-/* Dark mode overrides */
+/* Custom focus styles */
+.esri-basemap-gallery__item:focus {
+    outline: 2px solid var(--focus-color, #4a90e2); /* Replace with a color variable or hex code */
+    outline-offset: 2px; /* Adds space between the outline and element */
+}
+
+
+/* Dark mode: Default title color */
 .dark-mode .esri-basemap-gallery__item-title {
-    color: white; /* Text color in dark mode */
+    color: white; /* Default text color in dark mode */
 }
 
-.dark-mode .esri-basemap-gallery__item-title:hover,
-.dark-mode .esri-basemap-gallery__item[aria-checked="true"] .esri-basemap-gallery__item-title {
-    color: #6e6e6e !important; /* Ensures no change in dark mode */
+/* Dark mode: Selected item title color */
+.dark-mode .esri-basemap-gallery__item[aria-checked="true"] .esri-basemap-gallery__item-title,
+.dark-mode .esri-basemap-gallery__item.active .esri-basemap-gallery__item-title {
+    color: #6e6e6e; /* Color for selected items */
 }
 
-.dark-mode .esri-basemap-gallery__item:hover .esri-basemap-gallery__item-title {
-    color: #6e6e6e !important; /* Ensures hover doesn't affect color in dark mode */
+/* Dark mode: Hover styles for non-selected items */
+.dark-mode .esri-basemap-gallery__item:hover:not([aria-checked="true"]) .esri-basemap-gallery__item-title {
+    color: white !important; /* Ensures hover color for non-selected items */
+}
+
+/* Dark mode: Hover styles for selected items */
+.dark-mode .esri-basemap-gallery__item[aria-checked="true"]:hover .esri-basemap-gallery__item-title,
+.dark-mode .esri-basemap-gallery__item.active:hover .esri-basemap-gallery__item-title {
+    color: #6e6e6e !important; /* Keeps the color as #6e6e6e for selected items on hover */
 }

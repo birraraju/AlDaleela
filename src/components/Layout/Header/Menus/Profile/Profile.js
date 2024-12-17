@@ -163,7 +163,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen,showInfo, setShowInfo, StackOpen,
         <div
             onClick={() => setIsPopoverOpen(true)}
             className={`relative  ${isDarkMode ? "sm:bg-black" : "sm:bg-white"} 
-                        sm:bg-opacity-5 backdrop-blur rounded-full flex justify-between items-center 
+                        sm:bg-opacity-5 backdrop-blur  rounded-full flex justify-between items-center 
                         mobile_s:py-0.5 laptop_m:py-1 cursor-pointer `}
           >
             {/* <div className={`${isLangArab?"mr-1 ml-1":"ml-1"}  sm:hidden grid`}> */}
@@ -181,13 +181,13 @@ const Profile = ({  isFooterOpen, isHeaderOpen,showInfo, setShowInfo, StackOpen,
                 //src={`${((role === "admin")||(role === "user")) ? AdminLogo : ProfileLogo}`} // الملف الشخصي
                 src={profiledetails && profiledetails.imageUrl ? profiledetails.imageUrl : AdminLogo}
                 alt="Profile"
-                className="mobile_s:w-14 mobile_s:h-7 tab_l:w-10 tab_l_1:w-7  tab:w-20 tab:h-7 tab:h- laptop_s:w-6 laptop_s:h-6 laptop_m:w-6 laptop_m:h-6 w-8 h-8 rounded-full object-cover"
+                className="mobile_s:w-7 mobile_s:h-7  tab_l:w-9 tab_l_1:w-7  tab:w-10 tab:h-7 tab:h- laptop_s:w-6 laptop_s:h-6 laptop_m:w-6 laptop_m:h-6 w-8 h-8 rounded-full object-cover"
               />
             </div>
             {/* <div className="mobile_s:ml-2 hidden sm:block laptop_m:ml-2">
               <p className= {` ${isLangArab?"text-[9px] sm:text-[11px] laptop_s:text-[14px]":"text-[9px] sm:text-[14px] laptop_s:text-[11px] laptop_m:text-[14px] "} `}>{role !== null ? (profiledetails.username ? profiledetails.username: profiledetails.username === "" && profiledetails.firstName) : (isLangArab ? "الملف الشخصي":"Profile")}</p>
             </div> */}
-            <div className="mobile_s:ml-2 hidden sm:block laptop_m:ml-2">
+            <div className="mobile_s:ml-2 hidden  laptop_s:block laptop_m:ml-2">
   <p
     className="truncate max-w-[45px] laptop_s:max-w-max overflow-hidden text-ellipsis text-[9px] sm:text-[14px] laptop_s:text-[11px] laptop_m:text-[14px]"
     
@@ -212,7 +212,7 @@ const Profile = ({  isFooterOpen, isHeaderOpen,showInfo, setShowInfo, StackOpen,
   </p>
 </div>
 
-            <div className="mobile_s:mx-2 sm:block hidden laptop_m:mx-2">
+            <div className="mobile_s:mx-2  laptop_s:block hidden laptop_m:mx-2">
               <IoMdArrowDropdown
                 className={`text-xl ${isPopoverOpen && "rotate-360"} transition-all ease-in-out duration-500`}
               />
