@@ -149,7 +149,7 @@ useEffect(() => {
         {layers.map((category) => (
           <li key={category.parent.name}>
             <div
-              className={` cursor-pointer ${isLangArab ? "text-right" : "text-left"}`}
+              className={` cursor-pointer font-500 flex items-center ${isLangArab ? "text-right" : "text-left"}`}
             >
               <span
                 className="mr-2"
@@ -162,15 +162,37 @@ useEffect(() => {
                 type="checkbox"
                 checked={parentVisibility[category.parent.name]}
                 onChange={() => toggleParentVisibility(category.parent.name, category.children, category.parent.url)}
-                className="mr-2"
+                className="hidden peer"
               />
+              <span
+                      className={`${
+                        isLangArab ? "ml-2 " : "mr-2"
+                      } h-4 w-4 rounded-sm border border-gray-400 bg-white peer-checked:bg-[#69A9C2] 
+                                 flex items-center justify-center transition-colors duration-300 cursor-pointer`}
+                      onClick={() => toggleParentVisibility(category.parent.name, category.children, category.parent.url)}
+                    >
+                      {parentVisibility[category.parent.name] && (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-4 w-4 font-bold text-white"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      )}
+                    </span>
               {category.parent.name}
             </div>
 
             {expandedParent[category.parent.name] && (
-              <ul className="ml-4">
+              <ul className={`${ isLangArab?" mr-6": "ml-6"}`}>
                 {category.children.map((child) => (
-                  <li key={child.url} className="flex items-center mb-2">
+                  <li key={child.url} className="flex items-center mb-1">
                     <input
                       type="checkbox"
                       checked={layerVisibility[child.url]}

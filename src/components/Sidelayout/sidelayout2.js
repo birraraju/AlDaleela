@@ -115,7 +115,7 @@ export default function SideLayout2({ children, onClose }) { //w-[${width}]
       )}
 
       {/* Toggle button, this should always remain visible */}
-      <div className={`absolute top-4 ${isLangArab?"-right-7":"-left-6"}`}>
+      <div className={`absolute hidden sm:block top-4 ${isLangArab?"-right-7":"-left-6"}`}>
         <button
           onClick={toggleSideLayout}
           className="relative w-8 h-32 focus:outline-none"

@@ -52,7 +52,7 @@ const FeedbackData = ({ user, onClose, isLangArab }) => {
           <hr className="border-t border-gray-300 my-4" />
           <div className="flex flex-wrap py-5 la gap-6 sm:gap-20 laptop_s:gap-28">
             <div>
-              <p className={` ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"} text-[14px] font-normal `}>{isLangArab?"اسم المرسل":"Sender Name"}</p>
+              <p className={` ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"} text-[14px] font-normal `}>{isLangArab?"اسم المرسل":"Username"}</p>
               <p className={` ${isDarkMode?" text-[#FFFFFFCC]":" "} text-[14px] font-medium`}>{user.username}</p>
             </div>
             <div>
