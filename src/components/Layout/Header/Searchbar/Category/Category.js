@@ -44,7 +44,12 @@ export default function Category({setInputValue, setShowSearchContent, inputClic
       if (className === (isLangArab ? "جميع الفئات" : "All Categories")) {
         layer.definitionExpression = `1=1`;
       } else {
-        layer.definitionExpression = `${classField} = '${className}'`;
+        if(isLangArab){
+          layer.definitionExpression = `${classField} = N'${className}'`;   
+        }
+        else{
+          layer.definitionExpression = `${classField} = '${className}'`;          
+        }
       }
     }
  

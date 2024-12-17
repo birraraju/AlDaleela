@@ -224,8 +224,13 @@ export default function FilterInnerBody() {
   const setDefinitionExpressionForLayers = (layer, fieldName, fieldValue, layerNames) => {
     if (layerNames.includes(layer.title)) {
       if (fieldValue) {
-        // Apply filter to the selected layer
-        layer.definitionExpression = `${fieldName} = '${fieldValue}'`; // For string fields
+        if(isLangArab){
+          layer.definitionExpression = `${fieldName} = N'${fieldValue}'`; // For string fields
+        }
+        else{
+          // Apply filter to the selected layer
+          layer.definitionExpression = `${fieldName} = '${fieldValue}'`; // For string fields
+        }
       } else {
         // Show all data for the selected layer if no fieldValue is provided
         layer.definitionExpression = "1=1";
@@ -259,17 +264,27 @@ export default function FilterInnerBody() {
   
     // Filter all layers: show only the selected layer and hide others
     contextMapView.map.layers.items.forEach(layer => {
-      if (layer.title === selectedLayerName) {
-        // Apply the definition expression to the selected layer
-        setDefinitionExpressionForLayers(layer, fieldName, fieldValue, [selectedLayerName]);
-      } else {
-        // Hide all other layers
-        setDefinitionExpressionForLayers(layer, fieldName, null, []);
-      }
+      // Apply the definition expression to the selected layer
+      setDefinitionExpressionForLayers(layer, fieldName, fieldValue, [selectedLayerName]);
+      // if (layer.title === selectedLayerName) {
+      //   // Apply the definition expression to the selected layer
+      //   setDefinitionExpressionForLayers(layer, fieldName, fieldValue, [selectedLayerName]);
+      // } else {
+      //   // Hide all other layers
+      //   setDefinitionExpressionForLayers(layer, fieldName, null, []);
+      // }
     });
+    let whereCondition = null;
+    if(isLangArab){
+      whereCondition = `${fieldName} = N'${fieldValue}'`; // For string fields
+    }
+    else{
+      // Apply filter to the selected layer
+      whereCondition = `${fieldName} = '${fieldValue}'`; // For string fields
+    }
   
     // Query and zoom to the selected layer with the specified filter
-    queryAndZoomToLayers(selectedLayerName, `${fieldName} = '${fieldValue}'`);
+    queryAndZoomToLayers(selectedLayerName, whereCondition);
   };
   
   const queryAndZoomToLayers = async (layerName, whereCondition) => {

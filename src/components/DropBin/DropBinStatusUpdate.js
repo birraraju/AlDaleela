@@ -59,22 +59,48 @@ const DropBinStatusUpdate = ({setMessage,isLangArab,setFormShow,isDarkMode,setPO
            const attributes = features[0].attributes;
             // Extract only the fields you want to update in poiData
             const updatedData = {
-              organization: attributes.organization,
-              name_en: attributes.name_en,
-              Class: attributes.Class,
-              ClassD: attributes.ClassD,
-              Status: attributes.Status,
-              Comment: attributes.Comment,
-              description: attributes.description,
-              poems: attributes.poems,
-              stories: attributes.stories,
-              Classification: attributes.Classification,
-              MunicipalityAr: attributes.MunicipalityAr,
-              Emirate: attributes.Emirate,
-              City: attributes.City,
+              organization: dropPinObjectId.isLanguageArabic ? attributes.organization 
+                              : attributes.organization_En,
+            
+              name: dropPinObjectId.isLanguageArabic 
+                              ? attributes.name_ar 
+                              : attributes.name_en,
+            
+              Class: dropPinObjectId.isLanguageArabic 
+                              ? attributes.ClassAr 
+                              : attributes.Class,
+            
+              ClassD: dropPinObjectId.isLanguageArabic 
+                              ? attributes.ClassD_Ar 
+                              : attributes.ClassD,
+            
+              Status: dropPinObjectId.isLanguageArabic? "":attributes.Status,
+              Comment: dropPinObjectId.isLanguageArabic? "":attributes.Comment,
+            
+              //description: attributes.description,
+            
+              poems: dropPinObjectId.isLanguageArabic? "":
+                      attributes.poems,
+            
+              stories: dropPinObjectId.isLanguageArabic? "":
+                      attributes.stories,
+            
+              Classification: dropPinObjectId.isLanguageArabic 
+                              ? attributes.Classification_ar 
+                              : attributes.Classification,
+            
+              Municipality: dropPinObjectId.isLanguageArabic
+                              ? attributes.MunicipalityAr 
+                              : attributes.Municipality,
+            
+              //Emirate: attributes.Emirate,
+              City: dropPinObjectId.isLanguageArabic
+                              ? attributes.CityAr 
+                              : attributes.City,
             };
-
+            
             setPoiData(updatedData);
+            
             // Wrap goTo in a try-catch to handle interruptions
             try {
               await contextMapView.when(() => {
@@ -289,25 +315,61 @@ const DropBinStatusUpdate = ({setMessage,isLangArab,setFormShow,isDarkMode,setPO
         }
   
         const results = await response.json();
-        if(results.success){              
+        if(results.success){    
+          const rawData = results.data[0];
+
+          // Check if Arabic values are available by verifying any critical Arabic field
+          const isArabicDataAvailable = rawData.nameAr && rawData.organizationAr;
+          
+          const updatedData = dropPinObjectId.isLanguageArabic
+            ? {
+                // Arabic keys
+                OBJECTID: rawData.featureObjectId,
+                organization: rawData.organizationAr,
+                name_ar: rawData.nameAr,
+                ClassAr: rawData.classAr,
+                ClassD_Ar: rawData.classDAr,
+                Classification_ar: rawData.classificationDAr,
+                MunicipalityAr: rawData.municipalityAr,
+                CityAr: rawData.cityAr,
+                Isadminapproved: 1,
+              }
+            : {
+                // English keys
+                OBJECTID: rawData.featureObjectId,
+                organization_En: rawData.organizationEn,
+                name_en: rawData.nameEn,
+                Class: rawData.class,
+                ClassD: rawData.classD,
+                Status: rawData.status,
+                Comment: rawData.comment,
+                //description: rawData.description,
+                poems: rawData.poems,
+                stories: rawData.stories,
+                Classification: rawData.classification,
+                Municipality: rawData.municipality,
+                //Emirate: rawData.emirate,
+                City: rawData.city,
+                Isadminapproved: 1,
+              };          
           // Extract only the fields you want to update in poiData
-              const updatedData = {
-                OBJECTID: results.data[0].featureObjectId,
-                organization: results.data[0].organizationEn,
-                name_en: results.data[0].nameEn,
-                Class: results.data[0].class,
-                ClassD: results.data[0].classD,
-                Status: results.data[0].status,
-                Comment: results.data[0].comment,
-                description: results.data[0].description,
-                poems: results.data[0].poems,
-                stories: results.data[0].stories,
-                Classification: results.data[0].classification,
-                MunicipalityAr: results.data[0].municipality,
-                Emirate: results.data[0].emirate,
-                City: results.data[0].city,
-                Isadminapproved:1
-              };
+              // const updatedData = {
+              //   OBJECTID: results.data[0].featureObjectId,
+              //   organization: results.data[0].organizationEn,
+              //   name_en: results.data[0].nameEn,
+              //   Class: results.data[0].class,
+              //   ClassD: results.data[0].classD,
+              //   Status: results.data[0].status,
+              //   Comment: results.data[0].comment,
+              //   //description: results.data[0].description,
+              //   poems: results.data[0].poems,
+              //   stories: results.data[0].stories,
+              //   Classification: results.data[0].classification,
+              //   MunicipalityAr: results.data[0].municipality,
+              //   //Emirate: results.data[0].emirate,
+              //   City: results.data[0].city,
+              //   Isadminapproved:1
+              // };
               await handlePrivousDataInserted(updatedData);
               if(results.data[0].attachementsObjectIds){
                 await removeAttachments(results.data[0].featureObjectId, results.data[0].attachementsObjectIds)   
@@ -474,19 +536,20 @@ const DropBinStatusUpdate = ({setMessage,isLangArab,setFormShow,isDarkMode,setPO
         {renderField("Stories", poiData.stories)}
         {renderField("Classification", poiData.Classification)}
         {renderField("Municipality", poiData.MunicipalityAr)}
-        {renderField("Emirate", poiData.Emirate)} */}
-        {renderField(isLangArab ? "منظمة" : "Organization", poiData.organization)}
-{renderField(isLangArab ? "الاسم" : "Name", poiData.name_en)}
+        {renderField("Emirate", poiData.Emirate)} */}        
+{renderField(isLangArab ? "الاسم" : "Name", poiData.name)}
+{renderField(isLangArab ? "منظمة" : "Organization", poiData.organization)}
 {renderField(isLangArab ? "الفئة" : "Class", poiData.Class)}
-{renderField(isLangArab ? "الفئة D" : "ClassD", poiData.ClassD)}
+{renderField(isLangArab ? "المعنى الجغرافي" : "Class Description", poiData.ClassD)}
 {renderField(isLangArab ? "الحالة" : "Status", poiData.Status)}
 {renderField(isLangArab ? "تعليق" : "Comment", poiData.Comment)}
-{renderField(isLangArab ? "الوصف" : "Description", poiData.description)}
+{/* {renderField(isLangArab ? "الوصف" : "Description", poiData.description)} */}
 {renderField(isLangArab ? "الأشعار" : "Poems", poiData.poems)}
 {renderField(isLangArab ? "القصص" : "Stories", poiData.stories)}
 {renderField(isLangArab ? "التصنيف" : "Classification", poiData.Classification)}
-{renderField(isLangArab ? "البلدية" : "Municipality", poiData.MunicipalityAr)}
-{renderField(isLangArab ? "الإمارة" : "Emirate", poiData.Emirate)}
+{renderField(isLangArab ? "المدينة" : "Region", poiData.Municipality)}
+{renderField(isLangArab ? "المنطقة" : "Area", poiData.City)}
+{/* {renderField(isLangArab ? "الإمارة" : "Emirate", poiData.Emirate)} */}
 
 
         {/* ============================= new mediao playing ========================= */}
