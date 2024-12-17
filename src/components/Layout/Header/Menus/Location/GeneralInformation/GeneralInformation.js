@@ -125,7 +125,7 @@ export default function GeneralInformation({ onClose }) {
               </tr>
             </thead>
             <tbody>
-              {(isLangArab ? tableArabicsData : tableData).map((row, index) => (
+              {(isLangArab ? [...tableArabicsData].sort((a, b) => a.class.localeCompare(b.class, 'ar')) : [...tableData].sort((a, b) => a.class.localeCompare(b.class))).map((row, index) => (
                 <tr
                   key={index}
                   className={

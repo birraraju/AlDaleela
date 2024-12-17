@@ -149,7 +149,7 @@ export default function UserManagement({role}) {
           {[
             { label: isLangArab ? "اسم المستخدم" : "Username" },
             { label: isLangArab ? "معرف البريد الإلكتروني" : "Email id" },
-            { label: isLangArab ? "التاريخ والوقت" : "Date & time" },
+            { label: isLangArab ? "التاريخ والوقت" : "  Date and Time" },
             { label: isLangArab ? "اسم النقطة المهمة" : "POI Name" },
             { label: isLangArab ? "منظمة" : "Organization" },
             { label: isLangArab ? "تصنيف" : "Classification" },

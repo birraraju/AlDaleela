@@ -60,30 +60,32 @@ export default function FilterInnerBody() {
     }));
     // English and Arabic fields
     const englishFields = [
-      { name: "Organization", value: "organization_En" },
-      { name: "Name", value: "name_en" },
+      { name: "Area", value: "City" },
       { name: "Class", value: "Class" },
       { name: "Class Description", value: "ClassD" },
-      { name: "Status", value: "Status" },
+      { name: "Classification", value: "Classification" },
       { name: "Comment", value: "Comment" },
       { name: "Description", value: "description" },
+      { name: "Name", value: "name_en" },
+      { name: "Organization", value: "organization_En" },
       { name: "Poems", value: "poems" },
-      { name: "Stories", value: "stories" },
-      { name: "Classification", value: "Classification" },
       { name: "Region", value: "Municipality" },
-      { name: "Emirate", value: "Emirate" },
-      { name: "Area", value: "City" },
+      { name: "Status", value: "Status" },
+      { name: "Stories", value: "stories" },
+   
     ];
+    // { name: "Emirate", value: "Emirate" },
+    // { name: "الإمارة", value: "EmirateAr" },
 
     const arabicFields = [
-      { name: "الجهة", value: "organization" },
-      { name: "اسم", value: "name_ar" },
+      { name: "المنطقة", value: "CityAr" },
       { name: "النوع", value: "ClassAr" },
       { name: "المعنى الجغرافي", value: "ClassD_Ar" },
-      { name: "المدينة", value: "MunicipalityAr" },
-      { name: "الإمارة", value: "EmirateAr" },
       { name: "التصنيف", value: "Classification_ar" },
-      { name: "المنطقة", value: "CityAr" },
+      { name: "اسم", value: "name_ar" },
+      { name: "الجهة", value: "organization" },
+      { name: "المدينة", value: "MunicipalityAr" },
+      
     ];
 
   // Render appropriate fields based on language
@@ -374,7 +376,7 @@ export default function FilterInnerBody() {
                 }}
               >
                 <option value="--empty--" disabled>
-                --empty--
+                
                 </option>
                 {sampleData.Layers && sampleData.Layers.map((item) => (
                   <option key={item.value} value={item.value}>
@@ -396,7 +398,7 @@ export default function FilterInnerBody() {
                 }}
               >
                 <option value="--empty--" disabled>
-                --empty--
+                
                 </option>
                 {sampleData.Layer2 && sampleData.Layer2.map((item) => (
                   <option key={item.value} value={item.value}>
@@ -417,7 +419,7 @@ export default function FilterInnerBody() {
                 }}
               >
                 <option value="--empty--" disabled>
-                --empty--
+                
                 </option>
                 {sampleData.Layer3 && sampleData.Layer3.map((item) => (
                   <option key={item} value={item}>

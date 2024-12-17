@@ -46,7 +46,7 @@ export default function Sidebar({ activeItem, onItemClick,isCollapsed, setIsColl
           
           <nav  className="pt-6 px-3 flex-1">
             <ul className={` space-y-2`}>
-              {[{LabelContent:(isLangArab?"إدارة المستخدمين":"User Management"), active:"User Management"}, {LabelContent:(isLangArab ? "إدارة المحتوى" :"Content Management"),active:"Content Management"},{LabelContent:(isLangArab ? "ردود الفعل":"Feedback"), active:"Feedback"}, {LabelContent:(isLangArab?"سجل نشاط المستخدم":"User Activity Log"),active:"User Activity Log"}].map((item) => (
+              {[{LabelContent:(isLangArab?"إدارة المستخدمين":"User Management"), active:"User Management"}, {LabelContent:(isLangArab ? "إدارة المحتوى" :"Content Management"),active:"Content Management"},{LabelContent:(isLangArab ? "ردود الفعل":"FeedBack"), active:"Feedback"}, {LabelContent:(isLangArab?"سجل نشاط المستخدم":"User Activity Log"),active:"User Activity Log"}].map((item) => (
                 <li key={item.active}>
                   <button
                     className={`w-full   font-500 text-[12px] text-[#FFFFFF] text-left px-4 py-2 rounded  ${
