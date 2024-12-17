@@ -9,39 +9,51 @@ import config from '../../Common/config'; // Import your config file
 
 const BasemapGalleryComponent = ({ mapview }) => {
   const mapRef1 = useRef(null); // Specify type for useRef
-  const { isDarkMode } = useTheme(); // Access the dark mode state
+  const { isDarkMode, isLangArab } = useTheme(); // Access the dark mode state
 
 
   useEffect(() => {
     if (mapview && mapRef1.current) {
-      console.log(mapview);
-      // const basemapGallery = new BasemapGallery({
-      //   view: mapview,
-      //   container: mapRef1.current,
-      // });
-      const basemaps = config.basemaps.map((basemapConfig) => {
+      // Select basemaps based on the current language
+      const basemapConfig = isLangArab ? config.basemapsConfig.Arabic : config.basemapsConfig.English;
+  
+      // Create new basemap instances
+      const newBasemaps = basemapConfig.map((basemap) => {
         return new Basemap({
-          title: basemapConfig.title,
-          id: basemapConfig.id,
-          baseLayers: basemapConfig.baseLayers.map(
+          title: basemap.title,
+          id: basemap.id,
+          baseLayers: basemap.baseLayers.map(
             (url) => new TileLayer({ url }) // Create TileLayer instances
           ),
-          thumbnailUrl:require(`${basemapConfig.thumbnailImg}`) 
+          thumbnailUrl: require(`${basemap.thumbnailImg}`) // Dynamically load thumbnail
         });
       });
-      // Add the basemap gallery
-      const basemapGallery = new BasemapGallery({
-        view: mapview,
-        source: basemaps,
-        container: mapRef1.current
-      });
-      
-      // Cleanup on component unmount
-      return () => {
-        // basemapGallery.destroy();
-      };
+  
+      let basemapGallery = mapRef1.current.__basemapGallery;
+  
+      if (!basemapGallery) {
+        // Initialize the BasemapGallery if it doesn't exist
+        basemapGallery = new BasemapGallery({
+          view: mapview,
+          container: mapRef1.current
+        });
+        mapRef1.current.__basemapGallery = basemapGallery;
+      }
+  
+      // Update the source of the BasemapGallery
+      basemapGallery.source = newBasemaps; // Directly set the source with the new basemaps
     }
-  }, [mapview]); // Include mapview in the dependency array
+  
+    // Cleanup on component unmount
+    return () => {
+      if (mapRef1.current?.__basemapGallery) {
+        mapRef1.current.__basemapGallery.source = []; // Clear the basemaps when unmounting
+      }
+    };
+  }, [mapview, isLangArab]); // Run when mapview or language changes
+  
+  
+  
 
   // MutationObserver logic to handle dynamic grid styling
   useEffect(() => {
