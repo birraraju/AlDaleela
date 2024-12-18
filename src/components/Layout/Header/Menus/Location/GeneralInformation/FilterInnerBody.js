@@ -455,14 +455,14 @@ export default function FilterInnerBody() {
               </select>
             </span>
   
-            <span className="w-[10%]   justify-center relative items-center">
+            {/* <span className="w-[10%]   justify-center relative items-center">
               <button
                 onClick={handleCloseRedClick}
                 className="absolute top-2 w-[100%]"
               >
                 <img src={RedClose} className="w-[100%]" alt="" />
               </button>
-            </span>
+            </span> */}
           </div>
         </div>
   
@@ -478,7 +478,7 @@ export default function FilterInnerBody() {
                 : "border-[#909090] text-[#505050]"
             }`}
           >
-            {isLangArab ? "إلغاء" : "Cancel"}
+            {isLangArab ? "واضح" : "Clear"}
           </button>
           <button
             onClick={handleSubmitForm}

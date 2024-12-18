@@ -22,18 +22,25 @@ const Component = ({mapview,isLangArab,setIsMsgStatus,setModalMessage,setIsSucce
 
   const [poiData, setPoiData] = useState({
     organization: "",
+    organization_ar: "",
     name: "",
+    name_Ar: "",
     class: "",
+    class_Ar: "",
     classD: "",
+    classD_Ar: "",
     status: "",
     comment: "",
     description: "",
     poems: "",
     stories: "",
     classification: selectedLayer,
+    classification_Ar: selectedLayer,
     municipality: "",
+    municipality_Ar: "",
     emirate: "",
     city: "",
+    city_Ar: "",
     coordinateType: "dms",
     dms: {
       pointx: { degrees: "", minutes: "", seconds: "" },
@@ -585,10 +592,16 @@ const handleDrop = async (e) => {
   //   validationErrors.organization = isLangArab ? "حقل المنظمة مطلوب" : "Organization Field is Required";
   //   isValid = false;
   // }
-  if (!poiData.name) {
-    validationErrors.name = isLangArab ? "حقل الاسم مطلوب" : "Name Field is Required";
-    isValid = false;
+  if (!poiData.name || !poiData.name_Ar  ) {
+    if(!poiData.name){
+      validationErrors.name =  "Name Field is Required";
+
+    }else if(!poiData.name_Ar){
+      validationErrors.name_Ar =  "حقل الاسم مطلوب";
+    }
+       isValid = false;
   }
+  
   // if (!poiData.class) {
   //   validationErrors.class = isLangArab ? "حقل الفئة مطلوب" : "Class Field is Required";
   //   isValid = false;
@@ -920,36 +933,48 @@ console.log("Point Initial data:", poiData)
         </button>
       </div>
       <div className="p-1 space-y-0.5">
-      {renderField("name", isLangArab ? "الاسم" : "Name", poiData.name)}
-        { isLangArab ?renderField(
+      {renderField("name",  "Name", poiData.name)}
+      {renderField("name_Ar","الاسم", poiData.name_Ar)}
+
+      {renderField(
           "organization",
-          isLangArab ? "منظمة" : "Organization",
-          poiData.organization,
-          organizationOptions,
-          "select"
-        ) : renderField(
-          "organization",
-          isLangArab ? "منظمة" : "Organization",
+          "Organization",
           poiData.organization
         )}
-        {renderField("class", isLangArab ? "الفئة" : "Class", poiData.class,
-                         isLangArab? classArOption : classOption,
+        { renderField(
+          "organization_ar",
+         "منظمة",
+          poiData.organization_ar,
+          organizationOptions,
+          "select"
+        ) } 
+       
+        {renderField("class",  "Class", poiData.class,
+                          classOption,
+          "select")}
+          {renderField("class_Ar",  "الفئة", poiData.class_Ar,
+                        classArOption ,
           "select")}
         {renderField(
           "classD",
-          isLangArab ? "المعنى الجغرافي" : "Class Description",
+           "Class Description",
           poiData.classD
         )}
-        {(!isLangArab && RoleServices.isAdmin()) &&  renderField(
+        {renderField(
+          "classD_Ar",
+           "المعنى الجغرافي" ,
+          poiData.classD_Ar
+        )}
+        {( RoleServices.isAdmin()) &&  renderField(
           "status",
-          isLangArab ? "الحالة" : "Status",
+           "Status",
           poiData.status,
           statusOptions,
           "select"
         )}
-        { (!isLangArab && RoleServices.isAdmin()) &&  renderField(
+        { (RoleServices.isAdmin()) &&  renderField(
           "comment",
-          isLangArab ? "تعليق" : "Comment",
+          "Comment",
           poiData.comment
         )}
         {/* { !isLangArab &&  renderField(
@@ -957,39 +982,53 @@ console.log("Point Initial data:", poiData)
           isLangArab ? "الوصف" : "Description",
           poiData.description
         )} */}
-        { !isLangArab &&  renderField("poems", isLangArab ? "الأشعار" : "Poems", poiData.poems)}
-        { !isLangArab &&  renderField(
+        {  renderField("poems", "Poems", poiData.poems)}
+        {  renderField(
           "stories",
-          isLangArab ? "القصص" : "Stories",
+          "Stories",
           poiData.stories
         )}
         {renderField(
           "classification",
-          isLangArab ? "التصنيف" : "Classification",
-          poiData.classification || isLangArab? selectedLayer[0] : selectedLayer[1],
+           "Classification",
+          poiData.classification ||  selectedLayer[1],
           [],
           "text",
           true
         )}
-        { isLangArab?
-        renderField(
+        {renderField(
+          "classification_Ar",
+         "التصنيف" ,
+          poiData.classification_Ar || selectedLayer[0] ,
+          [],
+          "text",
+          true
+        )}
+
+{
+         renderField(
           "municipality",
-          isLangArab ? "المدينة" : "Region",
-          poiData.municipality,
-          municipalityOptions,
-          "select"
-        ) 
-        : renderField(
-          "municipality",
-          isLangArab ? "المدينة" : "Region",
+        "Region",
           poiData.municipality
         )}
+
+        { 
+        renderField(
+          "municipality_Ar",
+         "المدينة" ,
+          poiData.municipality_Ar,
+          municipalityOptions,
+          "select"
+        ) }
+        
         {/* {renderField(
           "emirate",
           isLangArab ? "الإمارة" : "Emirate",
           poiData.emirate
         )} */}
-        {renderField("city",  isLangArab ? "المنطقة" : "Area", poiData.city)}
+        {renderField("city",  "Area", poiData.city)}
+        {renderField("city_Ar",  "المنطقة", poiData.city_Ar)}
+
 
         {/* Coordinates Section */}
         <div className="space-y-2 pt-2 pb-6">

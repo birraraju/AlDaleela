@@ -171,7 +171,7 @@ export default function Footer({
                 size = isLangArab ? position - 29 : position - 29;
                 break;
               case 3:
-                size = isLangArab ? position - 10 : position - 10;
+                size = isLangArab ? position - 210 : position - 210;
                 break;
               case 4:
               case 5:
@@ -247,8 +247,8 @@ export default function Footer({
       alt="Home Icon"
       className="w-10 h-10 sm:w-[70%] sm:h-[70%]"
     />
-    <div className="absolute py-6 flex-1 justify-center items-center left-3">
-      <img src={ShowPlus} alt="Home Sign" className="w-6 sm:w-[70%]" />
+    <div className="absolute py-6 flex-1 justify-center items-center right-0">
+      <img src={ShowPlus} alt="Home Sign" className="w-6 sm:w-[75%]" />
     </div>
   </button>}
     {!isPlusShow &&  <> {isLangArab
@@ -256,7 +256,7 @@ export default function Footer({
         .map((_, index) => 6 - index) // Reverse indices for Arabic
         .map((index) => (
               <React.Fragment key={index}>
-                {( (index > 0) &&  (index < 3)) &&   (
+                {( (index > 0) &&  (index < (isExpanded? 4 : 3))) &&   (
                   
                   <div
                     className={`sc-menu-wrp ${
@@ -407,7 +407,7 @@ export default function Footer({
             ))
         : Array.from({ length: 7 }).map((_, index) => (
             <React.Fragment key={index}>
-              {( (index > 0) &&  (index < 3)) && (
+              {( (index > 0) &&  (index <  (isExpanded? 4 : 3))) && (
                 <div
                   className={`sc-menu-wrp ${
                     selectedIndex === index ? "sc-current" : ""

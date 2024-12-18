@@ -553,55 +553,8 @@ const Component = ({
     <div
       className={` ${!isEditShowPOI && " relative"} z-50`}
     >
-      {isEditShowPOI && (
-        <label
-        dir={isLangArab && "rtl"}
-          htmlFor={id}
-          className={`block  text-[14px] font-medium ${
-            isDarkMode ? "text-white" : "text-gray-700"
-          }`}
-        >
-          {label}
-        </label>
-      )}
-      {isEditShowPOI ? (
-        inputType === "select" ? (
-          <select
-          dir={isLangArab && "rtl"}
-            id={id}
-            value={poiData[id]}
-            onChange={handleChange}
-            className={` block w-full p-2 rounded-md text-black text-[13px] h-9 border-gray-300 ${ isDarkMode?" bg-white/80":"bg-[#FFFFFF]"} shadow-sm focus:border-indigo-500 focus:ring-indigo-500`}
-          >
-            {options.length > 0 && (
-              <>
-                {/* Display the first item directly if you want a placeholder */}
-                {/* <option value="" disabled>Select an option</option> Placeholder */}
-
-                {/* Map over the options */}
-                {options.map((option) => (
-                  <option
-                    key={option.value}
-                    className="  "
-                    value={option.value}
-                  >
-                    {option.label}
-                  </option>
-                ))}
-              </>
-            )}
-          </select>
-        ) : (
-          <input
-          dir={isLangArab && "rtl"}
-            id={id}
-            value={poiData[id]}
-            disabled={disable}
-            onChange={handleChange}
-            className={` block text-[13px] h-9 w-full rounded-md p-2 text-black ${ isDarkMode?" bg-white/80":"bg-[#FFFFFF]"} border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500`}
-          />
-        )
-      ) : (
+     
+      { !isEditShowPOI && (
         value &&
         (value?.length > 30 ? (
           <>
@@ -654,6 +607,70 @@ const Component = ({
       )}
     </div>
   );
+
+  const renderFieldOrTextEdit = (
+    id,
+    label,
+    value,
+    options = [],
+    inputType = "text",
+    disable
+  ) => (
+    <div
+      className={` ${!isEditShowPOI && " relative"} z-50`}
+    >
+      {isEditShowPOI && (
+        <label
+        dir={isLangArab && "rtl"}
+          htmlFor={id}
+          className={`block  text-[14px] font-medium ${
+            isDarkMode ? "text-white" : "text-gray-700"
+          }`}
+        >
+          {label}
+        </label>
+      )}
+      {isEditShowPOI && (
+        inputType === "select" ? (
+          <select
+          dir={isLangArab && "rtl"}
+            id={id}
+            value={poiData[id]}
+            onChange={handleChange}
+            className={` block w-full p-2 rounded-md text-black text-[13px] h-9 border-gray-300 ${ isDarkMode?" bg-white/80":"bg-[#FFFFFF]"} shadow-sm focus:border-indigo-500 focus:ring-indigo-500`}
+          >
+            {options.length > 0 && (
+              <>
+                {/* Display the first item directly if you want a placeholder */}
+                {/* <option value="" disabled>Select an option</option> Placeholder */}
+
+                {/* Map over the options */}
+                {options.map((option) => (
+                  <option
+                    key={option.value}
+                    className="  "
+                    value={option.value}
+                  >
+                    {option.label}
+                  </option>
+                ))}
+              </>
+            )}
+          </select>
+        ) : (
+          <input
+          dir={isLangArab && "rtl"}
+            id={id}
+            value={poiData[id]}
+            disabled={disable}
+            onChange={handleChange}
+            className={` block text-[13px] h-9 w-full rounded-md p-2 text-black ${ isDarkMode?" bg-white/80":"bg-[#FFFFFF]"} border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500`}
+          />
+        )
+      ) }
+  
+    </div>
+  );
   console.log("Passed POI:", queryresults.features)
   return (
     <div className="w-full max-w-md bg-transparent overflow-y-auto ">
@@ -669,6 +686,19 @@ const Component = ({
                 isLangArab ? queryresults.features[0].attributes.name_ar : queryresults.features[0].attributes.name_en
               )}
 
+          { isEditShowPOI && 
+              renderFieldOrTextEdit(
+                "name_en",
+                 "Name",
+             queryresults.features[0].attributes.name_en
+              )}
+              { isEditShowPOI && 
+              renderFieldOrTextEdit(
+                "name_en",
+                 "الاسم" ,
+                 queryresults.features[0].attributes.name_ar 
+              )}
+  {/* ================= organization  datas====================================================================== */}
             { isLangArab? renderFieldOrText(
               "organization",
               isLangArab ? "الجهة" : "Organization",
@@ -681,6 +711,23 @@ const Component = ({
               isLangArab? queryresults.features[0].attributes.organization : queryresults.features[0].attributes.organization_En
             )}
 
+{renderFieldOrTextEdit(
+              "organization",
+              "Organization",
+               queryresults.features[0].attributes.organization_En
+            )}
+
+          { renderFieldOrTextEdit(
+              "organization",
+               "الجهة",
+               queryresults.features[0].attributes.organization,
+              organizationOptions,
+              "select"
+            ) } 
+            
+  {/* ================= Class  datas====================================================================== */}
+
+
            
 
             {renderFieldOrText(
@@ -690,6 +737,23 @@ const Component = ({
                isLangArab? classArOption : classOption,
               "select"
             )}
+             {renderFieldOrTextEdit(
+              "Class",
+              "Class",
+              queryresults.features[0].attributes.Class,
+              classOption,
+              "select"
+            )}
+
+{renderFieldOrTextEdit(
+              "Class",
+             "النوع" ,
+              queryresults.features[0].attributes.ClassAr ,
+              classArOption ,
+              "select"
+            )}
+  {/* ================= Region  datas====================================================================== */}
+
 
 
 
@@ -704,13 +768,29 @@ const Component = ({
               isLangArab ? "المدينة" : "Region",
                isLangArab ? queryresults.features[0].attributes.MunicipalityAr : queryresults.features[0].attributes.Municipality
             )}
+            
+            {renderFieldOrTextEdit(
+              "MunicipalityAr",
+               "Region",
+                 queryresults.features[0].attributes.Municipality
+            )}
 
+
+            {  renderFieldOrTextEdit(
+              "MunicipalityAr",
+               "المدينة" ,
+              queryresults.features[0].attributes.MunicipalityAr,
+              municipalityOptions,
+              "select"
+            ) } 
+            
             {/* {renderFieldOrText(
               "Emirate",
               isLangArab ? "الإمارة" : "Emirate",
               queryresults.features[0].attributes.Emirate
             )} */}
 
+  {/* ================= Class Description  datas====================================================================== */}
 
 
             {
@@ -719,8 +799,21 @@ const Component = ({
                 isLangArab ? "المعنى الجغرافي" : "Class Description",
                 isLangArab ? queryresults.features[0].attributes.ClassD_Ar : queryresults.features[0].attributes.ClassD
               )}
+               {
+              renderFieldOrTextEdit(
+                "ClassD",
+                 "Class Description",
+                 queryresults.features[0].attributes.ClassD
+              )}
+               {
+              renderFieldOrTextEdit(
+                "ClassD",
+                "المعنى الجغرافي" ,
+                queryresults.features[0].attributes.ClassD_Ar 
+              )}
+  {/* ================= Status   datas====================================================================== */}
 
-            {(RoleServices.isAdmin() && !isLangArab) &&
+  {(RoleServices.isAdmin() && !isLangArab) &&
               renderFieldOrText(
                 "Status",
                 isLangArab ? "الحالة" : "Status",
@@ -728,13 +821,28 @@ const Component = ({
                 statusOptions,
                 "select"
               )}
-
-            {( RoleServices.isAdmin() && !isLangArab) &&
+            {(RoleServices.isAdmin()) &&
+              renderFieldOrTextEdit(
+                "Status",
+                 "Status",
+                queryresults.features[0].attributes.Status,
+                statusOptions,
+                "select"
+              )}
+  {/* =================  Comment  datas====================================================================== */}
+  {( RoleServices.isAdmin() && !isLangArab) &&
               renderFieldOrText(
                 "Comment",
                 isLangArab ? "التعليق" : "Comment",
                 queryresults.features[0].attributes.Comment
               )}
+            {( RoleServices.isAdmin()) &&
+              renderFieldOrTextEdit(
+                "Comment",
+                 "Comment",
+                queryresults.features[0].attributes.Comment
+              )}
+  {/* =================  Poems  datas====================================================================== */}
 
             {/* {( !isLangArab) &&
               renderFieldOrText(
@@ -742,20 +850,34 @@ const Component = ({
                 isLangArab ? "الوصف" : "Description",
                 queryresults.features[0].attributes.description
               )} */}
-
-            {!isLangArab &&
+              {!isLangArab &&
               renderFieldOrText(
                 "poems",
                 isLangArab ? "القصائد" : "Poems",
                 queryresults.features[0].attributes.poems
               )}
-
-            {!isLangArab &&
+            {
+              renderFieldOrTextEdit(
+                "poems",
+                 "Poems",
+                queryresults.features[0].attributes.poems
+              )}
+  {/* =================  Stories  datas====================================================================== */}
+  {!isLangArab &&
               renderFieldOrText(
                 "stories",
                 isLangArab ? "القصص" : "Stories",
                 queryresults.features[0].attributes.stories
               )}
+
+            {
+              renderFieldOrTextEdit(
+                "stories",
+                 "Stories",
+                queryresults.features[0].attributes.stories
+              )}
+  {/* =================  Classification  datas====================================================================== */}
+
              {isShowMore &&
              renderFieldOrText(
               "Classification",
@@ -765,6 +887,25 @@ const Component = ({
               "text",
               true
              )}
+               {isShowMore &&
+             renderFieldOrTextEdit(
+              "Classification",
+               "Classification",
+              queryresults.features[0].attributes.Classification,
+              [],
+              "text",
+              true
+             )}
+               {isShowMore &&
+             renderFieldOrTextEdit(
+              "Classification",
+               "التصنيف" ,
+              queryresults.features[0].attributes.Classification_ar ,
+              [],
+              "text",
+              true
+             )}
+  {/* =================  Area  datas====================================================================== */}
 
 
               {isShowMore &&
@@ -773,6 +914,19 @@ const Component = ({
               isLangArab ? "المنطقة" : "Area",
               isLangArab ? queryresults.features[0].attributes.CityAr : queryresults.features[0].attributes.City
             )}
+            {isShowMore &&
+              renderFieldOrTextEdit(
+              "City",
+             "Area",
+               queryresults.features[0].attributes.City
+            )}
+            {isShowMore &&
+              renderFieldOrTextEdit(
+              "City",
+               "المنطقة" ,
+               queryresults.features[0].attributes.CityAr
+            )}
+  {/* =================  End  ====================================================================== */}
 
             {!isEditShowPOI &&
               // (videos.length > 0 || audios.length > 0 || images.length > 0) && (
