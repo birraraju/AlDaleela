@@ -50,7 +50,6 @@ export default function Footer({
       // Prevent recalculation when clicking the same index consecutively
       if (index === selectedIndex) return;
 
-      console.log("Current footer index:", index);
       
       
       // Handle resetting logic for index 4
@@ -121,6 +120,7 @@ export default function Footer({
               break;
           }
         }
+        console.log("Current footer size:", size, index);
 
         menuBar.style.backgroundPosition = `${size}px`;
         menuBar.style.backgroundImage = document.body.classList.contains(
@@ -142,6 +142,60 @@ export default function Footer({
     },
     [selectedIndex, isLangArab, isExpanded, handleMenuItemClick]
   );
+
+  useEffect(() => {
+    if (selectedIndex === previousCount) {
+      const selectedElement = menuItemsRef.current[selectedIndex];
+      if (selectedElement) {
+        const position = selectedElement.offsetLeft;
+        setCurrentMenuPosition(position);
+  
+        const menuIndicator = document.querySelector(".sc-nav-indicator");
+        if (menuIndicator) {
+          menuIndicator.style.left = `${position}px`;
+        }
+  
+        const menuBar = document.querySelector(".sc-bottom-bar");
+        if (menuBar) {
+          let size = position - 29; // Default size adjustment
+  
+          if (isExpanded) {
+            switch (selectedIndex) {
+              case 0:
+                size = isLangArab ? position - 8 : position - 11;
+                break;
+              case 1:
+                size = isLangArab ? position - 28 : position - 28;
+                break;
+              case 2:
+                size = isLangArab ? position - 29 : position - 29;
+                break;
+              case 3:
+                size = isLangArab ? position - 10 : position - 10;
+                break;
+              case 4:
+              case 5:
+              case 6:
+                size = position - 29;
+                break;
+              default:
+                break;
+            }
+          }
+  
+          menuBar.style.backgroundPosition = `${size}px`;
+          menuBar.style.backgroundImage = document.body.classList.contains(
+            "theme-dark"
+          )
+            ? "radial-gradient(circle at 38px 4px, transparent 28px, rgba(0, 0, 0, 0.2) 29px)"
+            : isDarkMode
+            ? "radial-gradient(circle at 38px 4px, transparent 28px, rgba(0, 0, 0, 0.2) 29px)"
+            : "radial-gradient(circle at 38px 4px, transparent 28px, rgba(18, 69, 41, 0.2) 29px)";
+        }
+      }
+    }
+  }, [isLangArab, selectedIndex, isExpanded, isDarkMode]);
+  
 
   useEffect(() => {
     if (resetTrigger) {
