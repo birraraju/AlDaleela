@@ -76,21 +76,21 @@ export default function GeneralInformation({ onClose }) {
                 {isLangArab ? (
                   <>
                     <th
-                      className={`px-4 py-2 text-left font-medium text-[14px] ${
+                      className={`px-4 py-2 text-right font-medium text-[14px] ${
                         isDarkMode ? "text-gray-200" : "text-[#667085]"
                       }`}
                     >
                       الوصف
                     </th>
                     <th
-                      className={`px-4 py-2 text-left font-medium text-[14px] ${
+                      className={`px-4 py-2 text-right font-medium text-[14px] ${
                         isDarkMode ? "text-gray-200" : "text-[#667085]"
                       }`}
                     >
                       التصنيف
                     </th>
                     <th
-                      className={`px-4 py-2 text-left font-medium text-[14px] ${
+                      className={`px-4 py-2 text-right font-medium text-[14px] ${
                         isDarkMode ? "text-gray-200" : "text-[#667085]"
                       }`}
                     >
@@ -139,6 +139,7 @@ export default function GeneralInformation({ onClose }) {
                   {isLangArab ? (
                     <>
                       <td
+                      dir={isLangArab && "rtl"}
                         className={`px-4 py-2   font-medium text-[14px] ${
                           isDarkMode ? "text-white" : "text-black"
                         }`}
@@ -146,6 +147,7 @@ export default function GeneralInformation({ onClose }) {
                         {row.description}
                       </td>
                       <td
+                       dir={isLangArab && "rtl"}
                         className={`px-4 py-2   font-medium text-[14px] ${
                           isDarkMode ? "text-white" : "text-black"
                         }`}
@@ -153,6 +155,7 @@ export default function GeneralInformation({ onClose }) {
                         {row.class}
                       </td>
                       <td
+                       dir={isLangArab && "rtl"}
                         className={`px-4 py-2   font-medium text-[14px] ${
                           isDarkMode ? "text-white" : "text-black"
                         }`}
