@@ -13,6 +13,7 @@ import { UserActivityLog } from "../Common/UserActivityLog";
 import UploadMedia from '../../assets/Droppedpin/UploadMediaIcon.svg'
 import CloseUploadedFile from '../../assets/POIEdit/FileUploadCancel.svg'
 import { useTheme } from "../Layout/ThemeContext/ThemeContext";
+import RoleServices from '../servicces/RoleServices';
 
 
 
@@ -62,6 +63,9 @@ const Component = ({mapview,isLangArab,setIsMsgStatus,setModalMessage,setIsSucce
   const [statusOptions, setStatusOptions] = useState([]);
   const [municipalityOptions, setMunicipalityOptions] = useState([]);
   const [classOption, setClassOptions] = useState([]);
+  const [classArOption, setClassArOptions] = useState([]);
+  
+  
 
   useEffect(() => {
     const fetchDomains = async () => {
@@ -90,6 +94,7 @@ const Component = ({mapview,isLangArab,setIsMsgStatus,setModalMessage,setIsSucce
         const newStatusOptions = [];
         const newMunicipalityOptions = [];
         const newClassOptions = [];
+        const newClassArOptions = [];
 
         domainFields.forEach((field) => {
           const options = field.domain.codedValues.map((codedValue) => ({
@@ -110,6 +115,9 @@ const Component = ({mapview,isLangArab,setIsMsgStatus,setModalMessage,setIsSucce
             case "Class":
               newClassOptions.push(...options);
               break;
+            case "ClassAr":
+              newClassArOptions.push(...options);
+              break;
             default:
               console.warn(`Unhandled field: ${field.fieldName}`);
           }
@@ -120,24 +128,44 @@ const Component = ({mapview,isLangArab,setIsMsgStatus,setModalMessage,setIsSucce
         setStatusOptions(newStatusOptions);
         setMunicipalityOptions(newMunicipalityOptions);
         setClassOptions(newClassOptions);
+        setClassArOptions(newClassArOptions)
+
 
         // Update poiData only if options are available
-        if (newOrganizationOptions.length > 0) {
-          setPoiData((prevState) => ({
-            ...prevState,
-            organization: newOrganizationOptions[0].value, // Update organization
-            status: newStatusOptions[0]?.value || "", // Update status
-            municipality: newMunicipalityOptions[0]?.value || "", // Update municipality
-            class: newClassOptions[0]?.value || "", // Update class
-          }));
-        }
+        // if (newOrganizationOptions.length > 0) {
+        //   setPoiData((prevState) => ({
+        //     ...prevState,
+        //     organization: newOrganizationOptions[0].value, 
+        //     status: newStatusOptions[0]?.value || "", 
+        //     municipality: newMunicipalityOptions[0]?.value || "", 
+        //     class: newClassOptions[0]?.value || "", 
+        //   }));
+        // }
+        // if (newOrganizationOptions.length > 0) {
+        //   setPoiData((prevState) => ({
+        //     ...prevState,
+        //     organization: newOrganizationOptions[0].value, // Update organization
+        //     status: newStatusOptions[0]?.value || "", // Update status
+        //     municipality: newMunicipalityOptions[0]?.value || "", // Update municipality
+        //     class: isLangArab?newClassArOptions[0]?.value:newClassOptions[0]?.value, // Update class
+        //   }));
+        // }
       } catch (error) {
         console.error("Error fetching domains:", error);
       }
     };
 
     fetchDomains(); // Call the async function
-  }, []); // Empty dependency array to run once on mount
+  }, [isLangArab]); // Empty dependency array to run once on mount
+
+  // useEffect(()=>{
+  //   setPoiData((prevState) => ({
+  //     ...prevState,
+  //     class: isLangArab?classArOption[0]?.value:classOption[0]?.value, // Update class
+  //   }));
+  // },[isLangArab])
+
+
 
   // Function to update the point location based on the coordinates provided in the form
   const updatePointLocation = () => {
@@ -608,24 +636,38 @@ const handleDrop = async (e) => {
     console.error("Validation errors:", validationErrors);
     return; // Stop submission
   }
-
-    // Extract only the fields you want to update in poiData
-    const updatedData = {
+  let updatedData = null;
+  if(isLangArab){
+    updatedData = {
       organization: poiData.organization,
+        name_ar: poiData.name,
+        ClassAr: poiData.class,
+        ClassD_Ar: poiData.classD,
+        Classification_ar: selectedLayer[0],
+        MunicipalityAr: poiData.municipality,
+        CityAr: poiData.city,
+        Isadminapproved: 2,
+    }
+  }
+  else{
+    // Extract only the fields you want to update in poiData
+    updatedData = {
+      organization_En: poiData.organization,
       name_en: poiData.name,
       Class: poiData.class,
       ClassD: poiData.classD,
       Status: poiData.status,
       Comment: poiData.comment,
-      description: poiData.description,
+      //description: poiData.description,
       poems: poiData.poems,
       stories: poiData.stories,
-      Classification: poiData.classification || selectedLayer,
-      MunicipalityAr: poiData.municipality,
-      Emirate: poiData.emirate,
+      Classification: selectedLayer[1],
+      Municipality: poiData.municipality,
+      //Emirate: poiData.emirate,
       City: poiData.city,
       Isadminapproved: 2,
     };
+  }
     // Find the URL for the layer that includes "Terrestrial" in its name
     const LayerConfig = config.featureServices.find((service) =>
       selectedLayer.includes(service.name)
@@ -720,9 +762,29 @@ const handleDrop = async (e) => {
   };
 
   const handleStoreFeatureData = async(attachmentIds, LayerUrl, FeatureObjectId) =>{
-      
+    let FeatureData = null;    
+    if(isLangArab){
+      FeatureData = {
+        Username: profiledetails.username,
+        Email: profiledetails.email,
+        FeatureObjectId: FeatureObjectId,
+        OrganizationAr: poiData.organization || "",
+        NameAr: poiData.name || "",
+        ClassAr: poiData.class || "",
+        ClassDAr: poiData.classD || "",
+        ClassificationDAr: selectedLayer[0] || "",
+        MunicipalityAr: poiData.municipality || "",
+        CityAr: poiData.city || "",
+        AttachementsObjectIds: attachmentIds,
+        ApprovalStatus: "Pending",
+        featureServiceURL: LayerUrl,
+        POIOperation: "Add Feature",
+        isLanguageArabic:isLangArab
+      };
+        }
+        else{
           // Extract only the fields you want to update in poiData
-          const FeatureData = {
+          FeatureData = {
             Username: profiledetails.username,
             Email: profiledetails.email,
             FeatureObjectId: FeatureObjectId,
@@ -732,18 +794,20 @@ const handleDrop = async (e) => {
             ClassD: poiData.classD || "",
             Status: poiData.status || "",
             Comment: poiData.comment || "",
-            Description: poiData.description || "",
+            //Description: poiData.description || "",
             Poems: poiData.poems || "",
             stories: poiData.stories || "",
-            Classification: poiData.classification || "",
+            Classification: selectedLayer[1] || "",
             Municipality: poiData.municipality || "",
-            Emirate: poiData.emirate || "",
+            //Emirate: poiData.emirate || "",
             City: poiData.city || "",
             AttachementsObjectIds:attachmentIds,
             ApprovalStatus: "Pending",
             featureServiceURL:LayerUrl,
-            POIOperation:"Add Feature"
+            POIOperation:"Add Feature",
+            isLanguageArabic:isLangArab
           };
+        }
           try {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/FeatureServiceData/featureservicedatainsert`, {
                 method: 'POST',
@@ -778,7 +842,7 @@ const handleDrop = async (e) => {
             }   
   }
 
-
+console.log("Point Initial data:", poiData)
   const renderField = (
     id,
     label,
@@ -803,10 +867,10 @@ const handleDrop = async (e) => {
             <>
               {/* Display the first item directly if you want a placeholder */}
               {/* <option value="" disabled>Select an option</option> Placeholder */}
-
+              <option value=" "></option>
               {/* Map over the options */}
               {options.map((option) => (
-                <option key={option.value} value={option.value}>
+                <option key={option.value} value={option.label}>
                   {option.label}
                 </option>
               ))}
@@ -816,7 +880,7 @@ const handleDrop = async (e) => {
       ) : (
         <input
           id={id}
-          value={value}
+          value={id === "organization" && !isNaN(value) ? "" : value}
           disabled={disable}
           onChange={handleChange}
           className="block w-full text-[13px] h-9 rounded-md p-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
@@ -856,41 +920,45 @@ const handleDrop = async (e) => {
         </button>
       </div>
       <div className="p-1 space-y-0.5">
-        {renderField(
+      {renderField("name", isLangArab ? "الاسم" : "Name", poiData.name)}
+        { isLangArab ?renderField(
           "organization",
           isLangArab ? "منظمة" : "Organization",
           poiData.organization,
           organizationOptions,
           "select"
+        ) : renderField(
+          "organization",
+          isLangArab ? "منظمة" : "Organization",
+          poiData.organization
         )}
-        {renderField("name", isLangArab ? "الاسم" : "Name", poiData.name)}
         {renderField("class", isLangArab ? "الفئة" : "Class", poiData.class,
-          classOption,
+                         isLangArab? classArOption : classOption,
           "select")}
         {renderField(
           "classD",
-          isLangArab ? "الفئة D" : "ClassD",
+          isLangArab ? "المعنى الجغرافي" : "Class Description",
           poiData.classD
         )}
-        {renderField(
+        {(!isLangArab && RoleServices.isAdmin()) &&  renderField(
           "status",
           isLangArab ? "الحالة" : "Status",
           poiData.status,
           statusOptions,
           "select"
         )}
-        {renderField(
+        { (!isLangArab && RoleServices.isAdmin()) &&  renderField(
           "comment",
           isLangArab ? "تعليق" : "Comment",
           poiData.comment
         )}
-        {renderField(
+        {/* { !isLangArab &&  renderField(
           "description",
           isLangArab ? "الوصف" : "Description",
           poiData.description
-        )}
-        {renderField("poems", isLangArab ? "الأشعار" : "Poems", poiData.poems)}
-        {renderField(
+        )} */}
+        { !isLangArab &&  renderField("poems", isLangArab ? "الأشعار" : "Poems", poiData.poems)}
+        { !isLangArab &&  renderField(
           "stories",
           isLangArab ? "القصص" : "Stories",
           poiData.stories
@@ -898,24 +966,30 @@ const handleDrop = async (e) => {
         {renderField(
           "classification",
           isLangArab ? "التصنيف" : "Classification",
-          poiData.classification || selectedLayer,
+          poiData.classification || isLangArab? selectedLayer[0] : selectedLayer[1],
           [],
           "text",
           true
         )}
-        {renderField(
+        { isLangArab?
+        renderField(
           "municipality",
-          isLangArab ? "البلدية" : "Municipality",
+          isLangArab ? "المدينة" : "Region",
           poiData.municipality,
           municipalityOptions,
           "select"
+        ) 
+        : renderField(
+          "municipality",
+          isLangArab ? "المدينة" : "Region",
+          poiData.municipality
         )}
-        {renderField(
+        {/* {renderField(
           "emirate",
           isLangArab ? "الإمارة" : "Emirate",
           poiData.emirate
-        )}
-        {renderField("city", isLangArab ? "المدينة" : "City", poiData.city)}
+        )} */}
+        {renderField("city",  isLangArab ? "المنطقة" : "Area", poiData.city)}
 
         {/* Coordinates Section */}
         <div className="space-y-2 pt-2 pb-6">

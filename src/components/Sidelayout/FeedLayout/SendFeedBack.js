@@ -23,10 +23,10 @@ export default function Feedback({
   setIsFeedBack,
   setIsPopoverOpen,
 }) {
-  const [rating, setRating] = useState("-");
-  const [fbname, setfbname] = useState("-");
-  const [fbemail, setfbemail] = useState("-");
-  const [fbcomments, setfbcomments] = useState("-");
+  const [rating, setRating] = useState("");
+  const [fbname, setfbname] = useState("");
+  const [fbemail, setfbemail] = useState("");
+  const [fbcomments, setfbcomments] = useState("");
   const [errors, setErrors] = useState({});
   const { isDarkMode, isLangArab } = useTheme();
   // const [isValid,setIsValid]=useState(false)
@@ -36,7 +36,7 @@ export default function Feedback({
   console.log("fbcomments :>> ", fbcomments);
 
   const validate = () => {
-    return fbname && fbemail && fbcomments && rating !== "-";
+    return (fbname && fbemail && fbcomments && rating);
   };
 
 
@@ -145,7 +145,7 @@ export default function Feedback({
     if (!validate()) return; // Stop if validation fails
   
     // Only perform email validation if fbemail is not empty
-    if (fbemail !== "-") {
+    if (fbemail) {
       console.log("Feedback email:", fbemail)
       const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
       const isEmailValid = emailRegex.test(fbemail);
@@ -263,13 +263,13 @@ export default function Feedback({
             <div>
               <label
                 htmlFor="name"
-                className={`block    font-500 mb-1 transition-colors ${
+                className={` flex gap-1    font-500 mb-1 transition-colors ${
                   isLangArab ? "text-[14px] mr-2" : "text-[14px]" // Increased text size for Arabic
                 } ${
                   isDarkMode ? "text-[#FFFFFF] bg-opacity-70" : "text-[#000000]"
                 }`}
               >
-                {isLangArab ? "اسم المستخدم" : "Name"}
+                {isLangArab ? "اسم المستخدم" : "Name"}<span className="text-red-500 ">*</span>
               </label>
               <input
                 type="text"
@@ -300,14 +300,14 @@ export default function Feedback({
             <div>
               <label
                 htmlFor="email"
-                className={`block    font-500 mb-1 transition-colors ${
+                className={`flex gap-1    font-500 mb-1 transition-colors ${
                   isLangArab ? "text-[13px] mr-2" : "text-[13px]" // Increased text size for Arabic
                 } ${
                   isDarkMode ? "text-[#FFFFFF] bg-opacity-70" : "text-[#000000]"
                 }`}
               >
                 {" "}
-                {isLangArab ? "البريد الإلكتروني" : "Email"}
+                {isLangArab ? "البريد الإلكتروني" : "Email"}<span className="text-red-500 ">*</span>
               </label>
               <input
                 type="email"
@@ -341,7 +341,7 @@ export default function Feedback({
             <div>
               <label
                 htmlFor="thoughts"
-                className={`block    font-500 mb-1 transition-colors ${
+                className={`flex gap-1    font-500 mb-1 transition-colors ${
                   isLangArab ? "text-[13px] mr-2" : "text-[14px]" // Increased text size for Arabic
                 } ${
                   isDarkMode ? "text-[#FFFFFF] bg-opacity-70" : "text-[#000000]"
@@ -350,7 +350,7 @@ export default function Feedback({
                 {" "}
                 {isLangArab
                   ? "يرجى مشاركة أفكارك للتحسين"
-                  : "Please share your thoughts to improve"}
+                  : "Please share your thoughts to improve"}<span className="text-red-500 ">*</span>
               </label>
               <textarea
                 id="thoughts"

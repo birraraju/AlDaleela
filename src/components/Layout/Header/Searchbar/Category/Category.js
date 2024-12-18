@@ -40,10 +40,16 @@ export default function Category({setInputValue, setShowSearchContent, inputClic
  
   const setDefinitionExpressionForLayers = (layer, className, layerNames) => {
     if (layerNames.includes(layer.title)) {
-      if(className == "All Categories") {
+      const classField = isLangArab ? "ClassAr" : "Class";
+      if (className === (isLangArab ? "جميع الفئات" : "All Categories")) {
         layer.definitionExpression = `1=1`;
       } else {
-        layer.definitionExpression = `Class = '${className}'`;
+        if(isLangArab){
+          layer.definitionExpression = `${classField} = N'${className}'`;   
+        }
+        else{
+          layer.definitionExpression = `${classField} = '${className}'`;          
+        }
       }
     }
  
@@ -56,46 +62,55 @@ export default function Category({setInputValue, setShowSearchContent, inputClic
  
   useEffect(() => {
     const loadCategoryClasses = async () => {
-      const allCategoryClasses = new Set(["All Categories"]);
- 
+      const allCategoryClasses = new Set([isLangArab ? "جميع الفئات" : "All Categories"]);
+  
       for (const layerConfig of config.featureServices) {
         const featureLayer = new FeatureLayer({
           url: layerConfig.url,
           outFields: ["*"],
         });
- 
+  
         try {
           const query = featureLayer.createQuery();
           query.where = "1=1";
           query.returnGeometry = false;
- 
+  
+          // Use isLangArab to set the fields dynamically
+          const fieldName = isLangArab ? "ClassAr" : "Class";
+  
           query.outStatistics = [
             {
-              onStatisticField: "Class",
+              onStatisticField: fieldName,
               outStatisticFieldName: "uniqueClass",
-              statisticType: "count"
-            }
+              statisticType: "count",
+            },
           ];
-          query.groupByFieldsForStatistics = ["Class"];
- 
+          query.groupByFieldsForStatistics = [fieldName];
+  
           const results = await featureLayer.queryFeatures(query);
           const features = results.features;
- 
+  
+          // Add the correct attribute based on the language
           features.forEach(feature => {
-            if (feature.attributes.Class) {
-              allCategoryClasses.add(feature.attributes.Class);
+            const categoryClass = isLangArab 
+              ? feature.attributes.ClassAr 
+              : feature.attributes.Class;
+  
+            if (categoryClass) {
+              allCategoryClasses.add(categoryClass);
             }
           });
         } catch (error) {
           console.error(`Error querying layer "${layerConfig.name}":`, error);
         }
       }
- 
+  
       setCategoryClasses([...allCategoryClasses]);
     };
- 
+  
     loadCategoryClasses();
-  }, []);
+  }, [isLangArab]); // Add isLangArab as a dependency
+  
  
   const getScrollThumbHeight = () => {
     const { scrollHeight, clientHeight } = scrollInfo;
@@ -123,7 +138,7 @@ export default function Category({setInputValue, setShowSearchContent, inputClic
         setShowSearchContent(false);
         setInputValue("");
       }}
-      className={`rounded-full font-omnes font-500 w-[79px] mobile_s:w-[90px] tab:w-[90px] tab_m:w-[97px] tab_l:w-[102px] laptop_s:w-[75px] laptop_m:w-[90px] laptop_s:rounded-3xl laptop_m:rounded-full flex text-xs justify-evenly items-center mobile_s:px-2 laptop_s:px-1 laptop_m:px-1 laptop_s:py-1  laptop_m:py-3 py-0.5 sm:h-5 tab:h-7  laptop_s:h-5 laptop_m:h-6  h-7 bg-[#C8C8C899] bg-opacity-50 ${
+      className={`rounded-full font-omnes font-500 w-[79px] mobile_s:w-[90px] tab:w-[88px] tab_m:w-[97px] tab_l:w-[102px] laptop_s:w-[75px] laptop_m:w-[90px] laptop_s:rounded-3xl laptop_m:rounded-full flex text-xs justify-evenly items-center mobile_s:px-2 laptop_s:px-1 laptop_m:px-1 laptop_s:py-1  laptop_m:py-3 py-0.5 sm:h-5 tab:h-7  laptop_s:h-5 laptop_m:h-6  h-7 bg-[#C8C8C899] bg-opacity-50 ${
         isDarkMode ? "text-white" : "text-[#000000]"
       } z-[10] relative`} // Added relative positioning and z-index
     >

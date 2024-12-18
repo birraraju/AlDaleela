@@ -209,10 +209,10 @@ const Feedback = () => {
         {isLangArab ? "اسم المستخدم" : "Username"}
       </th>
       <th className={`pb-3 p-2 font-500   text-[14px] ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
-        {isLangArab ? "معرف البريد الإلكتروني" : "Email id"}
+        {isLangArab ? "معرف البريد الإلكتروني" : "Email ID"}
       </th>
       <th className={`pb-3 p-2 font-500   text-[14px] ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
-        {isLangArab ? "تاريخ التقديم" : "Submission date"}
+        {isLangArab ? "تاريخ التقديم" : "Submission Date"}
       </th>
       <th className={`pb-3 p-2 flex justify-center items-center font-500   text-[14px] ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
         {isLangArab ? "فعل" : "Action"}

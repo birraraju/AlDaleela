@@ -8,88 +8,244 @@ export default function LayersList({ onClose, mapview }) {
   const layersListRef = useRef(null);
   const { isDarkMode, isLangArab } = useTheme(); // Access isDarkMode and language from context
   const [layerVisibility, setLayerVisibility] = useState({});
-  const layersRef = useRef({}); // Store references to layers for easy access
-  console.log("Layer List:", config)
+  const [parentVisibility, setParentVisibility] = useState({});
+  const [expandedParent, setExpandedParent] = useState({});
 
-  useEffect(() => {
-    // Filter existing WebMap layers based on config and set visibility control
-    const mapLayers = mapview.map.layers;
-    config.layerListServices.forEach((service) => {
-      const layer = mapLayers.find((layer) => layer.title === service.name);
-      if (layer) {
-        layersRef.current[service.name] = layer; // Store each layer in layersRef
-      }
+ // Set initial visibility from the configuration file and update when language changes
+useEffect(() => {
+  const initialParentVisibility = {};
+  const initialLayerVisibility = {};
+
+  // Choose the correct language configuration based on isLangArab
+  const selectedLanguageConfig = isLangArab
+    ? config.layerListServices.arabic
+    : config.layerListServices.english;
+
+  selectedLanguageConfig.forEach((category) => {
+    initialParentVisibility[category.parent.name] = category.parent.visible;
+    category.children.forEach((child) => {
+      initialLayerVisibility[child.url] = child.visible;
     });
+  });
 
-    // Set initial visibility state for each layer based on the config (use the 'visible' property from config)
-    const initialVisibility = Object.fromEntries(
-      config.layerListServices.map((service) => [
-        service.name,
-        service.visible, // Set initial visibility from config
-      ])
-    );
-    setLayerVisibility(initialVisibility);
+  setParentVisibility(initialParentVisibility);
+  setLayerVisibility(initialLayerVisibility);
+}, [isLangArab]); // Add isLangArab as a dependency
 
-    // Cleanup on component unmount
-    return () => {
-      layersRef.current = {};
-    };
-  }, [mapview]);
-
+  // Toggle visibility of individual layers
   const toggleLayerVisibility = (layerName) => {
     setLayerVisibility((prevVisibility) => {
       const newVisibility = !prevVisibility[layerName];
+  
+      // Iterate through all layers in the map
+      mapview.map.layers.items.forEach((layer) => {
+        // Check if the parent layer matches by title (partial match)
+        if (layer.url && layer.url == layerName) {
+          // Update the parent layer visibility
+          layer.visible = newVisibility;
+        }
+  
+        // Check for sublayers in the parent layer
+        if (layer.sublayers) {
+          // Iterate through all sublayers
+          layer.sublayers.forEach((sublayer) => {
+            if (sublayer.url && sublayer.url == layerName) {
+              // Update the visibility of the matching sublayer
+              sublayer.visible = newVisibility;
+            }
+  
+            // Recursively check nested sublayers
+            const updateNestedSublayers = (nestedSublayer) => {
+              if (nestedSublayer.sublayers) {
+                nestedSublayer.sublayers.forEach((nested) => {
+                  if (nested.url && nested.url == layerName) {
+                    nested.visible = newVisibility;
+                  }
+                  // Further recursive check for deeply nested sublayers
+                  if (nested.sublayers) {
+                    updateNestedSublayers(nested);
+                  }
+                });
+              }
+            };
+  
+            // Call the recursive function
+            updateNestedSublayers(sublayer);
+          });
+        }
+      });
+  
+      // Update the state to reflect the new visibility
+      return { ...prevVisibility, [layerName]: newVisibility };
+    });
+  };
+
+  // Toggle visibility of parent layers and their children
+  const toggleParentVisibility = (parentName, children, layerName) => {
+    setParentVisibility((prevVisibility) => {
+      const newParentVisibility = !prevVisibility[parentName];
 
       // Iterate through all layers in the map
       mapview.map.layers.items.forEach((layer) => {
         // Check if the parent layer matches by title (partial match)
-        if (layer.title && layer.title.includes(layerName)) {
+        if (layer.url && layer.url == layerName) {
           // Update the parent layer visibility
-          layer.visible = newVisibility;
-
-          // Check if the layer has sublayers
-          if (layer.sublayers) {
-            // Iterate through all sublayers and check their titles for the match
-            layer.sublayers.forEach((sublayer) => {
-              if (sublayer.title && sublayer.title.includes(layerName)) {
-                // Update the visibility of the matching sublayer
-                sublayer.visible = newVisibility;
-              }
-            });
-          }
-        } else if (layer.sublayers) {
-          // In case the parent layer's title doesn't match, check its sublayers
+          layer.visible = newParentVisibility;
+        }
+  
+        // Check for sublayers in the parent layer
+        if (layer.sublayers) {
+          // Iterate through all sublayers
           layer.sublayers.forEach((sublayer) => {
-            if (sublayer.title && sublayer.title.includes(layerName)) {
+            if (sublayer.url && sublayer.url == layerName) {
               // Update the visibility of the matching sublayer
-              sublayer.visible = newVisibility;
+              sublayer.visible = newParentVisibility;
             }
+  
+            // Recursively check nested sublayers
+            const updateNestedSublayers = (nestedSublayer) => {
+              if (nestedSublayer.sublayers) {
+                nestedSublayer.sublayers.forEach((nested) => {
+                  if (nested.url && nested.url == layerName) {
+                    nested.visible = newParentVisibility;
+                  }
+                  // Further recursive check for deeply nested sublayers
+                  if (nested.sublayers) {
+                    updateNestedSublayers(nested);
+                  }
+                });
+              }
+            };
+  
+            // Call the recursive function
+            updateNestedSublayers(sublayer);
           });
         }
       });
 
-      // Update the state to reflect the new visibility
-      return { ...prevVisibility, [layerName]: newVisibility };
+      // Update child layers' visibility state
+      const updatedLayerVisibility = { ...layerVisibility };
+      children.forEach((child) => {
+        updatedLayerVisibility[child.url] = newParentVisibility;
+      });
+
+      //setLayerVisibility(updatedLayerVisibility);
+      return { ...prevVisibility, [parentName]: newParentVisibility };
     });
+  };
+
+  // Toggle parent expansion
+  const toggleParent = (parentName) => {
+    setExpandedParent((prevState) => ({
+      ...prevState,
+      [parentName]: !prevState[parentName],
+    }));
+  };
+
+  // Render the layer list
+  const renderLayerList = (layers) => {
+    return (
+      <ul>
+        {layers.map((category) => (
+          <li key={category.parent.name}>
+            <div
+              className={` cursor-pointer font-500 flex items-center ${isLangArab ? "text-right" : "text-left"}`}
+            >
+              <span
+                className="mr-2"
+                onClick={() => toggleParent(category.parent.name)}
+              >
+                {expandedParent[category.parent.name] ? "▼" : "▶"}
+              </span>
+
+              <input
+                type="checkbox"
+                checked={parentVisibility[category.parent.name]}
+                onChange={() => toggleParentVisibility(category.parent.name, category.children, category.parent.url)}
+                className="hidden peer"
+              />
+              <span
+                      className={`${
+                        isLangArab ? "ml-2 " : "mr-2"
+                      } h-4 w-4 rounded-sm border border-gray-400 bg-white peer-checked:bg-[#69A9C2] 
+                                 flex items-center justify-center transition-colors duration-300 cursor-pointer`}
+                      onClick={() => toggleParentVisibility(category.parent.name, category.children, category.parent.url)}
+                    >
+                      {parentVisibility[category.parent.name] && (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-4 w-4 font-bold text-white"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      )}
+                    </span>
+              {category.parent.name}
+            </div>
+
+            {expandedParent[category.parent.name] && (
+              <ul className={`${ isLangArab?" mr-6": "ml-6"}`}>
+                {category.children.map((child) => (
+                  <li key={child.url} className="flex items-center mb-1">
+                    <input
+                      type="checkbox"
+                      checked={layerVisibility[child.url]}
+                      onChange={() => toggleLayerVisibility(child.url)}
+                      className="hidden peer"
+                      id={`checkbox-${child.url}`}
+                    />
+                    <span
+                      className={`${
+                        isLangArab ? "ml-2" : "mr-2"
+                      } h-4 w-4 rounded-sm border border-gray-400 bg-white peer-checked:bg-[#69A9C2] 
+                                 flex items-center justify-center transition-colors duration-300 cursor-pointer`}
+                      onClick={() => toggleLayerVisibility(child.url)}
+                    >
+                      {layerVisibility[child.url] && (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-4 w-4 font-bold text-white"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      )}
+                    </span>
+                    <label htmlFor={`checkbox-${child.url}`}>{child.name}</label>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))}
+      </ul>
+    );
   };
 
   return (
     <div dir={isLangArab && "rtl"} className="flex items-center justify-center z-10">
       <div
         ref={layersListRef}
-        className={`fixed ${isLangArab ? "left-12" : "right-12"} top-32 sm:top-14 laptop_s:top-20 h-96 p-4 rounded-lg shadow-lg w-96 transition-colors duration-300
+        className={`fixed ${isLangArab ? "left-12" : "right-12"} top-32 sm:top-14 laptop_s:top-20 h-[430px] p-4 rounded-lg shadow-lg w-96 transition-colors duration-300
           ${isDarkMode ? "bg-[rgba(96,96,96,0.8)] text-white" : "bg-white bg-opacity-95 text-black"}`}
       >
         <div>
-          <h1
-            className={`  text-[16px] font-medium ${
-              isLangArab ? "text-right" : "text-left"
-            }`}
-          >
+          <h1 className={`text-[16px] font-medium ${isLangArab ? "text-right" : "text-left"}`}>
             {isLangArab ? "قائمة الطبقات" : "Layer List"}
           </h1>
           <button
-            className={`absolute top-4 ${isLangArab ? "left-4" : "right-4"}  ${
+            className={`absolute top-4 ${isLangArab ? "left-4" : "right-4"} ${
               isDarkMode ? "text-[#FFFFFFFF] text-opacity-80" : "text-gray-800"
             }`}
             onClick={onClose}
@@ -97,57 +253,18 @@ export default function LayersList({ onClose, mapview }) {
             <X className="h-6 w-6" />
           </button>
         </div>
-
         <div
           className={`my-2 h-[1px] w-full transition-colors duration-300 ${
             isDarkMode ? "bg-white bg-opacity-50" : "bg-black bg-opacity-20"
           }`}
         ></div>
-
-        {/* Custom Layer List */}
-        <ul>
-          {config.layerListServices.map((service) => (
-            <li key={service.name} className="flex items-center mb-2">
-            <input
-              type="checkbox"
-              checked={layerVisibility[service.name]}
-              onChange={() => toggleLayerVisibility(service.name)}
-              className={`hidden peer  `} // Hides the default checkbox
-              id={`checkbox-${service.name}`}
-            />
-            <span
-              className={`${isLangArab?"ml-2":"mr-2"} h-5 w-5 rounded-sm border border-gray-400 bg-white peer-checked:bg-[#69A9C2] 
-                         flex items-center justify-center transition-colors duration-300 cursor-pointer`}
-              onClick={() => toggleLayerVisibility(service.name)}
-            >
-              {/* Checkmark icon appears only when the checkbox is checked */}
-              {layerVisibility[service.name] && (
-                <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4 font-bold text-white"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              )}
-            </span>
-            <label
-              htmlFor={`checkbox-${service.name}`}
-              className={`   font-500 text-[14px]`}
-            >
-              {service.name === "Protected" ? "Protected_Area" :service.name ==="Pearl"?"Pearl_sites_2024":service.name}
-              {/* {service.name} */}
-            </label>
-          </li>
-          
-          
-          ))}
-        </ul>
+        <div>
+        <div>
+        {isLangArab
+          ? renderLayerList(config.layerListServices.arabic)
+          : renderLayerList(config.layerListServices.english)}
+      </div>
+        </div>
       </div>
     </div>
   );

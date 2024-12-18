@@ -8,6 +8,7 @@ import FeatureLayer from "@arcgis/core/layers/FeatureLayer.js";
 import { useAuth } from "../../../../../../Providers/AuthProvider/AuthProvider";
 import Graphic from "@arcgis/core/Graphic";
 import Extent from "@arcgis/core/geometry/Extent";
+import RoleServices from "../../../../../servicces/RoleServices";
 
 export default function FilterInnerBody() {
   const { isDarkMode, isLangArab } = useTheme();
@@ -25,15 +26,30 @@ export default function FilterInnerBody() {
   });
   useEffect(()=>{
     // Dynamically update Layers with names from featureServices
-    const updatedLayers = [...sampleData.Layers];
-    config.featureServices.forEach(service => {
-      updatedLayers.push(service.name);
-    });
+    // const updatedLayers = [...sampleData.Layers];
+    // config.featureServices.forEach(service => {
+    //   updatedLayers.push(service.name);
+    // });
+    // English and Arabic fields
+    const englishFields = [
+      { name: "Island", value: "Island" },
+      { name: "Marine", value: "Marine" },
+      { name: "Terrestrial", value: "Terrestrial" },
+    ];
+
+    const arabicFields = [
+      { name: "جزيرة", value: "Island" },
+      { name: "موقع بحري", value: "Marine" },
+      { name: "موقع بري", value: "Terrestrial" },
+    ];
+
+  // Render appropriate fields based on language
+  const fieldsToDisplay = isLangArab ? arabicFields : englishFields;
 
     // Use setSampleData to trigger a re-render
     setSampleData(prevState => ({
       ...prevState,
-      Layers: updatedLayers,
+      Layers: fieldsToDisplay,
     }));    
   },[])
 
@@ -43,24 +59,74 @@ export default function FilterInnerBody() {
       ...prevState,
       Layers2: [], // Clear the Layers array
     }));
-    const terrestrialLayer = config.featureServices.find(service => service.name === layername);
+    // English and Arabic fields
 
-    if (terrestrialLayer) {
-      const layer = new FeatureLayer({
-        url: terrestrialLayer.url,
-      });
+    const AdminEn = [
+      { name: "Area", value: "City" },
+      { name: "Class", value: "Class" },
+      { name: "Class Description", value: "ClassD" },
+      { name: "Classification", value: "Classification" },
+      { name: "Comment", value: "Comment" },
+      { name: "Name", value: "name_en" },
+      { name: "Organization", value: "organization_En" },
+      { name: "Poems", value: "poems" },
+      { name: "Region", value: "Municipality" },
+      { name: "Status", value: "Status" },
+      { name: "Stories", value: "stories" },
+   
+    ];
+    const UserEn = [
+      { name: "Area", value: "City" },
+      { name: "Class", value: "Class" },
+      { name: "Class Description", value: "ClassD" },
+      { name: "Classification", value: "Classification" },
+      { name: "Description", value: "description" },
+      { name: "Name", value: "name_en" },
+      { name: "Organization", value: "organization_En" },
+      { name: "Poems", value: "poems" },
+      { name: "Region", value: "Municipality" },
+      { name: "Stories", value: "stories" },
+   
+    ];
+    const englishFields = RoleServices.isAdmin()? AdminEn: UserEn
+    // { name: "Emirate", value: "Emirate" },
+    // { name: "الإمارة", value: "EmirateAr" },
 
-      layer.load().then(() => {
-        const fieldNames = layer.fields.map(field => field.name);
+    const arabicFields = [
+      { name: "المنطقة", value: "CityAr" },
+      { name: "النوع", value: "ClassAr" },
+      { name: "المعنى الجغرافي", value: "ClassD_Ar" },
+      { name: "التصنيف", value: "Classification_ar" },
+      { name: "اسم", value: "name_ar" },
+      { name: "الجهة", value: "organization" },
+      { name: "المدينة", value: "MunicipalityAr" },
+      
+    ];
 
-        setSampleData(prevState => ({
-          ...prevState,
-          Layer2: fieldNames,
-        }));
-      }).catch(error => {
-        console.error("Error loading FeatureLayer: ", error);
-      });
-    }
+  // Render appropriate fields based on language
+  const fieldsToDisplay = isLangArab ? arabicFields : englishFields;
+  setSampleData(prevState => ({
+    ...prevState,
+    Layer2: fieldsToDisplay,
+  }));
+    // const terrestrialLayer = config.featureServices.find(service => service.name === layername);
+
+    // if (terrestrialLayer) {
+    //   const layer = new FeatureLayer({
+    //     url: terrestrialLayer.url,
+    //   });
+
+    //   layer.load().then(() => {
+    //     const fieldNames = layer.fields.map(field => field.name);
+
+    //     setSampleData(prevState => ({
+    //       ...prevState,
+    //       Layer2: fieldNames,
+    //     }));
+    //   }).catch(error => {
+    //     console.error("Error loading FeatureLayer: ", error);
+    //   });
+    //}
   }
 
   const onChaneFileds = (fieldname) => {
@@ -90,7 +156,7 @@ export default function FilterInnerBody() {
       // Execute the query
       layer.queryFeatures(query).then(result => {
         // Dynamically access the field's values
-        const queryValues = result.features.map(feature => feature.attributes[fieldname]);
+        const queryValues = [...new Set(result.features.map(feature => feature.attributes[fieldname]))];
   
         // Update Layer3 with the new values
         setSampleData(prevState => ({
@@ -108,6 +174,13 @@ export default function FilterInnerBody() {
     setLayerOneData("--empty--");
     setLayerTwoData("--empty--");
     setLayerThreeData("--empty--");
+     // Reset only the necessary parts of the sampleData state
+    setSampleData(prevState => ({
+      ...prevState,
+      Layers: prevState.Layers, // Preserve Layers
+      Layer2: [], // Preserve Layer2
+      Layer3: []  // Preserve Layer3
+    }));
     contextMapView.graphics.removeAll();
     const layerNames = config.featureServices.map(service => service.name);
 
@@ -115,6 +188,7 @@ export default function FilterInnerBody() {
       // Apply the filter to layers, clearing or setting expressions
       setDefinitionExpressionForLayersToClear(layer, null, null, layerNames, false);
     });
+    
   };
   const setDefinitionExpressionForLayersToClear = (layer, fieldName, fieldValue, layerNames, clearExpression = false) => {
     // If the 'clearExpression' flag is true, clear the definitionExpression for all layers
@@ -145,21 +219,37 @@ export default function FilterInnerBody() {
   };
 
   const handleCloseRedClick = () => {
-    //alert("RedCancelClicked !");    
+    setLayerOneData("--empty--");
+    setLayerTwoData("--empty--");
+    setLayerThreeData("--empty--");
+     // Reset only the necessary parts of the sampleData state
+    setSampleData(prevState => ({
+      ...prevState,
+      Layers: prevState.Layers, // Preserve Layers
+      Layer2: [], // Preserve Layer2
+      Layer3: []  // Preserve Layer3
+    }));
   };
   const setDefinitionExpressionForLayers = (layer, fieldName, fieldValue, layerNames) => {
-    // Check if the layer's title is in the list of layer names
     if (layerNames.includes(layer.title)) {
       if (fieldValue) {
-        // If a fieldValue is provided, construct the definition expression
-        layer.definitionExpression = `${fieldName} = '${fieldValue}'`;  // For string fields
+        if(isLangArab){
+          layer.definitionExpression = `${fieldName} = N'${fieldValue}'`; // For string fields
+        }
+        else{
+          // Apply filter to the selected layer
+          layer.definitionExpression = `${fieldName} = '${fieldValue}'`; // For string fields
+        }
       } else {
-        // If no fieldValue is provided, include all records (no filtering)
+        // Show all data for the selected layer if no fieldValue is provided
         layer.definitionExpression = "1=1";
       }
+    } else {
+      // Hide data for layers not in the list by setting an invalid filter
+      layer.definitionExpression = "1=0";
     }
   
-    // Recursively check and apply the definitionExpression to sub-layers if they exist
+    // Recursively apply the logic to sublayers, if they exist
     if (layer.sublayers && layer.sublayers.length > 0) {
       layer.sublayers.forEach(subLayer => {
         setDefinitionExpressionForLayers(subLayer, fieldName, fieldValue, layerNames);
@@ -170,247 +260,219 @@ export default function FilterInnerBody() {
   // This function handles form submission and applies the filter across layers
   const handleSubmitForm = () => {
     contextMapView.graphics.removeAll();
+  
     // Get the list of layer names to filter from your configuration (config)
     const layerNames = config.featureServices.map(service => service.name);
   
     // Assuming LayerTwoData is the field name and LayerThreeData is the field value to filter by
-    const fieldName = LayerTwoData;  // Field name (e.g., "Class")
+    const fieldName = LayerTwoData; // Field name (e.g., "Class")
     const fieldValue = LayerThreeData; // Field value (e.g., "CategoryA")
   
-    // Apply the filter to all layers in the map
+    // Get the name of the selected layer from LayerOneData
+    const selectedLayerName = LayerOneData; // Single layer name to filter (e.g., "Terrestrial")
+  
+    // Filter all layers: show only the selected layer and hide others
     contextMapView.map.layers.items.forEach(layer => {
-      // Apply the definition expression for each layer
-      setDefinitionExpressionForLayers(layer, fieldName, fieldValue, layerNames);
+      // Apply the definition expression to the selected layer
+      setDefinitionExpressionForLayers(layer, fieldName, fieldValue, [selectedLayerName]);
+      // if (layer.title === selectedLayerName) {
+      //   // Apply the definition expression to the selected layer
+      //   setDefinitionExpressionForLayers(layer, fieldName, fieldValue, [selectedLayerName]);
+      // } else {
+      //   // Hide all other layers
+      //   setDefinitionExpressionForLayers(layer, fieldName, null, []);
+      // }
     });
-    // Call the function with an array of layer names and the object ID
-    queryAndZoomToLayers(layerNames, `${fieldName} = '${fieldValue}'`);
+    let whereCondition = null;
+    if(isLangArab){
+      whereCondition = `${fieldName} = N'${fieldValue}'`; // For string fields
+    }
+    else{
+      // Apply filter to the selected layer
+      whereCondition = `${fieldName} = '${fieldValue}'`; // For string fields
+    }
+  
+    // Query and zoom to the selected layer with the specified filter
+    queryAndZoomToLayers(selectedLayerName, whereCondition);
   };
-  const queryAndZoomToLayers = async (selectedLayerNames, whereCondition) => {
+  
+  const queryAndZoomToLayers = async (layerName, whereCondition) => {
     try {
-      // Loop through the selected layer names (up to three layers in your case)
-      for (const selectedLayerName of selectedLayerNames) {
-        // Find the layer configuration based on the selected name
-        const selectedLayerConfig = config.featureServices.find(
-          service => service.name === selectedLayerName
-        );
-    
-        if (!selectedLayerConfig) {
-          console.error(`Layer with name ${selectedLayerName} not found in configuration.`);
-          continue;  // Skip this layer if not found
-        }
-    
-        // Create a FeatureLayer instance for the selected layer
-        const featureLayer = new FeatureLayer({
-          url: selectedLayerConfig.url,
-          outFields: ["*"]
-        });
-    
-        // Query the selected layer using the OBJECTID
-        const feature = await featureLayer.queryFeatures({
-          where: whereCondition,
-          outFields: ["*"],
-          returnGeometry: true
-        });
-    
-         // Check if any features are found
-      if (feature.features.length > 0) {
-        /// Initialize combinedExtent with null or a new extent if necessary
-        let combinedExtent = null;
-        // Loop through all the features and add each one as a graphic
-        feature.features.forEach((f) => {
-          const featureGeometry = f.geometry;
+      // Find the layer configuration for the specified name
+      const selectedLayerConfig = config.featureServices.find(
+        (service) => service.name === layerName
+      );
   
-          // Add graphic for the feature
-          const pointGraphic = new Graphic({
-            geometry: featureGeometry,
-            symbol: {
-              type: "simple-marker",
-              outline: {
-                color: [0, 255, 255, 4],
-                width: 1
-              }
+      if (!selectedLayerConfig) {
+        console.error(`Layer with name ${layerName} not found in configuration.`);
+        return; // Exit if the layer is not found
+      }
+  
+      // Create a FeatureLayer instance for the selected layer
+      const featureLayer = new FeatureLayer({
+        url: selectedLayerConfig.url,
+        outFields: ["*"]
+      });
+  
+      // Query the layer using the provided whereCondition
+      const result = await featureLayer.queryFeatures({
+        where: whereCondition,
+        outFields: ["*"],
+        returnGeometry: true
+      });
+  
+      // Check if features are found
+      if (result.features.length === 0) {
+        console.warn(`No features found in layer "${layerName}" for condition "${whereCondition}".`);
+        return;
+      }
+  
+      // Initialize extent for zooming
+      let combinedExtent = null;
+  
+      // Loop through features and process geometries
+      result.features.forEach((feature) => {
+        const featureGeometry = feature.geometry;
+  
+        if (!featureGeometry) {
+          console.warn("Feature with null geometry encountered. Skipping...");
+          return; // Skip features with null geometry
+        }
+  
+        // Add the feature as a graphic
+        const graphic = new Graphic({
+          geometry: featureGeometry,
+          symbol: {
+            type: "simple-marker", // Customize symbol as needed
+            color: [0, 255, 255, 0.5],
+            outline: {
+              color: [0, 255, 255, 1],
+              width: 2
             }
-          });
-  
-          // Add graphic to the map
-          contextMapView.graphics.add(pointGraphic);
-           // Handle extent for Point geometry or other geometries
-           let featureExtent;
-           if (featureGeometry.type === "point") {
-             // For point geometry, manually create an extent around the point
-             if (featureGeometry) {
-               featureExtent = featureGeometry.extent ? featureGeometry.extent : featureGeometry.clone().extent;
-               // If no extent exists for the point, create a small extent around the point
-               if (!featureExtent) {
-                 featureExtent = new Extent({
-                   xmin: featureGeometry.x - 0.0001,
-                   ymin: featureGeometry.y - 0.0001,
-                   xmax: featureGeometry.x + 0.0001,
-                   ymax: featureGeometry.y + 0.0001,
-                   spatialReference: featureGeometry.spatialReference
-                 });
-               }
-             }
-           } else {
-             // For other geometries (Polyline, Polygon), use the existing extent
-             featureExtent = featureGeometry.extent;
-           }
-   
-           // If combinedExtent is null, initialize it with the first feature's extent
-           if (!combinedExtent) {
-             combinedExtent = featureExtent;
-           } else {
-             // Expand the combined extent to include this feature's geometry
-             combinedExtent = combinedExtent.union(featureExtent);
-           }
+          }
         });
-        // Zoom behavior: if only one feature, zoom to that feature's geometry; otherwise, zoom to combined extent
-        if (feature.features.length === 1) {
-          // Zoom to the single feature's geometry
-          const firstFeatureGeometry = feature.features[0].geometry;
-          await contextMapView.goTo({
-            target: firstFeatureGeometry,
-            zoom: 15  // Adjust zoom level as needed for a single feature
+        contextMapView.graphics.add(graphic);
+  
+        // Calculate extent based on geometry type
+        let featureExtent = null;
+        if (featureGeometry.type === "point") {
+          // Create a small extent for point geometries
+          featureExtent = new Extent({
+            xmin: featureGeometry.x - 0.0001,
+            ymin: featureGeometry.y - 0.0001,
+            xmax: featureGeometry.x + 0.0001,
+            ymax: featureGeometry.y + 0.0001,
+            spatialReference: featureGeometry.spatialReference
           });
-        } else if (combinedExtent) {
-          // Zoom to the combined extent of all features
-          await contextMapView.goTo({
-            target: combinedExtent,
-            zoom: 10  // Adjust zoom level to fit all features
-          });
-        }
-         
         } else {
-          console.log(`No feature found with OBJECTID: ${whereCondition} in layer ${selectedLayerName}`);
+          // Use the existing extent for other geometries
+          featureExtent = featureGeometry.extent;
         }
+  
+        // Combine extents for all features
+        combinedExtent = combinedExtent
+          ? combinedExtent.union(featureExtent)
+          : featureExtent;
+      });
+  
+      // Zoom to the combined extent of the features
+      if (combinedExtent) {
+        const bufferedExtent = combinedExtent.expand(1.2); // Optional: Add a small buffer to the extent
+        await contextMapView.goTo({
+          target: bufferedExtent,
+          animate: true // Smooth zoom animation
+        });
       }
     } catch (error) {
-      console.error("Error querying layers:", error);
+      console.error("Error querying or zooming to the layer:", error);
     }
   };
+  
+  
+  
   return (
-    <div className=" relative h-full" dir={isLangArab ? "rtl" : "ltr"}>
+    <div className="relative h-full" dir={isLangArab ? "rtl" : "ltr"}>
       <div className={`z-50 ${isDarkMode ? "text-white" : "text-black"}`}>
-        <div className=" max-h-[calc(100vh-100px)] overflow-y-auto">
+        <div className="max-h-[calc(100vh-100px)] overflow-y-auto">
           {/* Layer 1 */}
-          <div className="flex justify-between gap-3 w-full ">
+          <div className="flex justify-between gap-3 w-full">
             <span className="space-y-2 w-full">
-              <div
-                className="flex items-center justify-between cursor-pointer text-[13px] h-9 w-full rounded-md p-2 text-black bg-[#FFFFFF] border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                onClick={() => setActiveLayer1(!activeLayer1)}
+              <select
+                className="text-[13px] h-9 w-full rounded-md p-2 text-black bg-[#FFFFFF] border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                value={LayerOneData}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setLayerOneData(value);
+                  onChangeLayers(value);
+                }}
               >
-                <p>{LayerOneData}</p>
-                <span>
-                  {activeLayer1 ? (
-                    <FaChevronUp className="text-gray-500" />
-                  ) : (
-                    <FaChevronDown className="text-gray-500" />
-                  )}
-                </span>
-              </div>
-              {activeLayer1 && (
-                <div
-                  className={`block text-[13px] max-h-[100px] min-h-[100px] overflow-y-scroll w-full rounded-md p-2 text-black bg-[#FFFFFF] border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500`}
-                >
-                  {sampleData.Layers.map((item) => (
-                    <div
-                      key={item}
-                      className="cursor-pointer hover:bg-gray-200 border border-transparent rounded-md p-1"
-                      onClick={() => {
-                        setLayerOneData(item);
-                        setActiveLayer1(false);
-                        onChangeLayers(item);
-                      }}
-                    >
-                      {item}
-                    </div>
-                  ))}
-                </div>
-              )}
+                <option value="--empty--" disabled>
+                
+                </option>
+                {sampleData.Layers && sampleData.Layers.map((item) => (
+                  <option key={item.value} value={item.value}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
             </span>
-
+  
             {/* Layer 2 */}
             <span className="space-y-2 w-full">
-              <div
-                className="flex items-center justify-between cursor-pointer block text-[13px] h-9 w-full rounded-md p-2 text-black bg-[#FFFFFF] border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                onClick={() => setActiveLayer2(!activeLayer2)}
+              <select
+                className="text-[13px] h-9 w-full rounded-md p-2 text-black bg-[#FFFFFF] border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                value={LayerTwoData}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setLayerTwoData(value);
+                  onChaneFileds(value);
+                }}
               >
-                <p>{LayerTwoData}</p>
-                <span>
-                  {activeLayer2 ? (
-                    <FaChevronUp className="text-gray-500" />
-                  ) : (
-                    <FaChevronDown className="text-gray-500" />
-                  )}
-                </span>
-              </div>
-              {activeLayer2 && (
-                <div
-                className={`block text-[13px] max-h-[100px] min-h-[100px] overflow-y-scroll w-full rounded-md p-2 text-black bg-[#FFFFFF] border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500`}
-              >
-                  {sampleData.Layer2.map((item) => (
-                    <div
-                      key={item}
-                      className="cursor-pointer border border-transparent rounded-md hover:bg-gray-200 p-1"
-                      onClick={() => {
-                        setLayerTwoData(item);
-                        setActiveLayer2(false);
-                        onChaneFileds(item);
-                      }}
-                    >
-                      {item}
-                    </div>
-                  ))}
-                </div>
-              )}
+                <option value="--empty--" disabled>
+                
+                </option>
+                {sampleData.Layer2 && sampleData.Layer2.map((item) => (
+                  <option key={item.value} value={item.value}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
             </span>
-
+  
             {/* Layer 3 */}
             <span className="space-y-2 w-full">
-              <div
-                className="flex items-center justify-between cursor-pointer block text-[13px] h-9 w-full rounded-md p-2 text-black bg-[#FFFFFF] border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                onClick={() => setActiveLayer3(!activeLayer3)}
+              <select
+                className="text-[13px] h-9 w-full rounded-md p-2 text-black bg-[#FFFFFF] border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                value={LayerThreeData}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setLayerThreeData(value);
+                }}
               >
-                <p>{LayerThreeData}</p>
-                <span>
-                  {activeLayer3 ? (
-                    <FaChevronUp className="text-gray-500" />
-                  ) : (
-                    <FaChevronDown className="text-gray-500" />
-                  )}
-                </span>
-              </div>
-              {activeLayer3 && (
-               <div
-               className={`block text-[13px] max-h-[100px] min-h-[100px] overflow-y-scroll w-full rounded-md p-2 text-black bg-[#FFFFFF] border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500`}
-             >
-                  {sampleData.Layer3.map((item) => (
-                    <div
-                      key={item}
-                      className="cursor-pointer border border-transparent rounded-md hover:bg-gray-200 p-1"
-                      onClick={() => {
-                        setLayerThreeData(item);
-                        setActiveLayer3(false);
-                      }}
-                    >
-                      {item}
-                    </div>
-                  ))}
-                </div>
-              )}
+                <option value="--empty--" disabled>
+                
+                </option>
+                {sampleData.Layer3 &&  [...sampleData.Layer3]
+    .filter((item) => item !== null && item !== undefined) // Remove null or undefined values
+    .sort((a, b) => a.localeCompare(b)).map((item) => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
             </span>
-            <span className=" w-[10%] flex justify-center relative items-center">
-              {" "}
+  
+            <span className="w-[10%]   justify-center relative items-center">
               <button
                 onClick={handleCloseRedClick}
-                className=" absolute top-2 w-[100%]"
+                className="absolute top-2 w-[100%]"
               >
                 <img src={RedClose} className="w-[100%]" alt="" />
               </button>
             </span>
           </div>
         </div>
-
+  
         {/* Action Buttons */}
         <div className="flex pt-6 absolute gap-3 right-2 bottom-0 justify-between items-baseline px-4 sm:px-2">
           <button
@@ -446,4 +508,5 @@ export default function FilterInnerBody() {
       </div>
     </div>
   );
+  
 }

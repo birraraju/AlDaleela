@@ -163,7 +163,7 @@ export default function SideLayout6({
                   : " text-[#505050]"
               } `}
             >
-              {isLangArab ? "طباعة" : "Print"}
+              {isLangArab ? "طباعة" : "Print Map"}
             </p>
           )}
         </div>
@@ -196,12 +196,12 @@ export default function SideLayout6({
                 clipPath="url(#clip0_4011_11301)"
                 transform="scale(-1, 1) translate(-64, 0)" // Flipping horizontally
               >
-                <path
-                  d="M3.82642 130.396L3.82598 244.617C3.82594 252.779 6.14893 260.773 10.5235 267.664L70.7275 362.497V8.50244L10.1031 108.027C5.99796 114.766 3.82645 122.505 3.82642 130.396Z"
-                  fill={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "#EBEFF2"}
-                  stroke={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "#EEF3F7"}
-                  strokeWidth="6"
-                />
+               <path
+                d="M3.82642 130.396L3.82598 244.617C3.82594 252.779 6.14893 260.773 10.5235 267.664L70.7275 362.497V8.50244L10.1031 108.027C5.99796 114.766 3.82645 122.505 3.82642 130.396Z"
+                fill={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "rgba(255, 255, 255, 0.7)"}
+                stroke="none"
+                strokeWidth="0"
+              />
               </g>
               <defs>
                 <clipPath id="clip0_4011_11301">
@@ -223,12 +223,12 @@ export default function SideLayout6({
               }}
             >
               <g clipPath="url(#clip0_4011_11301)">
-                <path
-                  d="M3.82642 130.396L3.82598 244.617C3.82594 252.779 6.14893 260.773 10.5235 267.664L70.7275 362.497V8.50244L10.1031 108.027C5.99796 114.766 3.82645 122.505 3.82642 130.396Z"
-                  fill={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "#EBEFF2"}
-                  stroke={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "#EEF3F7"}
-                  strokeWidth="6"
-                />
+               <path
+                d="M3.82642 130.396L3.82598 244.617C3.82594 252.779 6.14893 260.773 10.5235 267.664L70.7275 362.497V8.50244L10.1031 108.027C5.99796 114.766 3.82645 122.505 3.82642 130.396Z"
+                fill={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "rgba(255, 255, 255, 0.7)"}
+                stroke="none"
+                strokeWidth="0"
+              />
               </g>
               <defs>
                 <clipPath id="clip0_4011_11301">

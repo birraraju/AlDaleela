@@ -19,7 +19,7 @@ const MapComponent = (props) => {
   const [lat, setLat] = useState(null);
   const [lon, setLon] = useState(null);
   const [scale, setScale] = useState(null);
-  const {setconrextMapView, setinitialExtent,setIsEditPOI, setPopupSelectedGeo} = useAuth();
+  const {setconrextMapView, contextMapView, setinitialExtent,setIsEditPOI, setPopupSelectedGeo} = useAuth();
   const {isLangArab} = useTheme()
 
   const {setMapview, MapView} = props;
@@ -29,21 +29,25 @@ const MapComponent = (props) => {
     let webMap = null;
     if (mapDiv.current) {
       esriConfig.portalUrl = config.PortalUrl;  
-      if(isLangArab){
-        webMap = new WebMap({       
-            portalItem: { // autocasts as new PortalItem()
-                id: config.ItemWebMapID // Replace with your Web Map ID
-            }
-        });
-      }
-      else{
+      // if(isLangArab){
+      //   webMap = new WebMap({       
+      //       portalItem: { // autocasts as new PortalItem()
+      //           id: config.ItemWebMapID // Replace with your Web Map ID
+      //       }
+      //   });
+      // }
+      // else{
+      //   webMap = new WebMap({
+      //       portalItem: { // autocasts as new PortalItem()
+      //           id: config.ItemWebMapIDEng // Replace with your Web Map ID
+      //       }
+      //   });
+      // }
         webMap = new WebMap({
             portalItem: { // autocasts as new PortalItem()
                 id: config.ItemWebMapIDEng // Replace with your Web Map ID
             }
         });
-      }
-        
 
         //const view = new View({
         //    container: mapRef.current,
@@ -120,14 +124,59 @@ const MapComponent = (props) => {
         }
       };
     }
-  }, [MapView, isLangArab]);
+  }, [MapView]);
+  useEffect(() => {
+  if (contextMapView) {
+    if(contextMapView.map){
+      contextMapView.map.layers.forEach((layer) => {
+        if (isLangArab) {
+          // Check layer title for Arabic language and toggle visibility
+          if (layer.title && layer.title.includes("English")) {
+            layer.visible = false;
+          } else if (layer.title && layer.title.includes("Arabic")) {
+            layer.visible = true;
+          }
+        } else {
+          // Check layer title for English language and toggle visibility
+          if (layer.title && layer.title.includes("Arabic")) {
+            layer.visible = false;
+          } else if (layer.title && layer.title.includes("English")) {
+            layer.visible = true;
+          }
+        }
+  
+        // Handle sublayers if present
+        if (layer.sublayers) {
+          layer.sublayers.forEach((sublayer) => {
+            const sublayerTitle = sublayer.title ? sublayer.title : "";
+            if (isLangArab) {
+              if (sublayerTitle.includes("English")) {
+                sublayer.visible = false;
+              } else if (sublayerTitle.includes("Arabic")) {
+                sublayer.visible = true;
+              }
+            } else {
+              if (sublayerTitle.includes("Arabic")) {
+                sublayer.visible = false;
+              } else if (sublayerTitle.includes("English")) {
+                sublayer.visible = true;
+              }
+            }
+          });
+        }
+      });
+    }    
+  }
+}, [isLangArab, contextMapView]);
+
+  
 
 
 // Function to handle identify based on the event
 const handleIdentify = async(event, mapview) => {
   // Define the fixed identify URL and layer IDs
   const identifyURL = config.BaseUrl;
-  const layerIds = [91, 1, 93];
+  const layerIds = [91, 119, 93];
 
   const groupedResults = {}; // Object to hold results grouped by layer name
 
@@ -171,11 +220,19 @@ const handleMapClick = (view) => async(event) => {
           zoom: 15 // Adjust the zoom level as needed
         });
         // Create a symbol for drawing the point
+        // let markerSymbol = {
+        //   type: "simple-marker",
+        //   outline: {
+        //     color: [0, 255, 255, 4],
+        //     width: 1
+        //   }
+        // }
         let markerSymbol = {
-          type: "simple-marker",
+          type: "simple-marker", // Customize symbol as needed
+          color: [0, 255, 255, 0.5],
           outline: {
-            color: [0, 255, 255, 4],
-            width: 1
+            color: [0, 255, 255, 1],
+            width: 2
           }
         }
         

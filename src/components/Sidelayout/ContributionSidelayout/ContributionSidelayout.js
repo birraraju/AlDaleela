@@ -153,7 +153,7 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
         </div>
       </div>
 
-      <div className={`px-1 py-3 sm:w-[350px]  laptop_s:w-[325px] w-[320px] max-h-[calc(79vh-200px)]  overflow-y-auto mt-2 ${featureServiceData.length !== 0 && 'min-h-[350px]'}`}>
+      <div className={`px-1 py-3 sm:w-[350px]  laptop_s:w-[325px] w-[320px] max-h-[calc(79vh-200px)]  overflow-y-auto mt-2 ${(!featureServiceData.length > 0) ? 'min-h-[350px]':'min-h-[320px]'}`}>
         <div
           className={`grid   grid-cols-3 gap-4 font-medium text-[12px] mb-2 px-4 ${
             isDarkMode ? "text-gray-300" : "text-gray-600"
@@ -239,6 +239,85 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
 
           </div>
         ))}
+        {/* {featureServiceData.length > 0 && (
+  <div
+    key={0}
+    className={`grid grid-cols-3 gap-4 py-5 text-sm px-4 ${
+      0 % 2 === 0 ? "bg-[#D5E5DE] bg-opacity-30" : "bg-transparent"
+    } ${isLangArab ? "text-right" : "text-left"}`}
+  >
+    <div
+      className={`font-500 sm:text-[13px] text-[10px] ${
+        isDarkMode ? "text-[#FFFFFFCC]" : "text-[#101828]"
+      }`}
+    >
+      {isLangArab
+        ? new Date(featureServiceData[0].createdAt).toLocaleDateString("ar-EG", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+          }).replace(/\//g, "-")
+        : new Date(featureServiceData[0].createdAt).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+          }).replace(/\//g, "-")}
+    </div>
+
+    <div
+      className={`font-500 sm:text-[12px] laptop_s:text-[13px] text-[9px] ${
+        isDarkMode ? "text-[#FFFFFFCC]" : "text-[#3E3E3E]"
+      }`}
+    >
+      {featureServiceData[0].nameEn}
+    </div>
+
+    <div className="flex justify-between gap-x-2 sm:gap-x-3 laptop_s:gap-x-0 items-center">
+      <span
+        className={`${
+          featureServiceData[0].approvalStatus === "Approved"
+            ? `${
+                isDarkMode
+                  ? "text-white/70"
+                  : "bg-custom-gradient"
+              } ${
+                isLangArab
+                  ? "sm:text-[12px] text-[14px]"
+                  : "sm:text-[12px] text-[14px]"
+              } font-500 bg-clip-text text-transparent`
+            : featureServiceData[0].approvalStatus === "Rejected"
+            ? "text-red-500 sm:text-[12px] text-[14px] font-500"
+            : `${
+                isDarkMode ? "text-white/70" : "text-[#EFB45D]"
+              } sm:text-[13px] text-[14px] font-500`
+        }`}
+      >
+        {featureServiceData[0].approvalStatus === "Approved" &&
+          (isLangArab ? "معتمد" : "Approved")}
+        {featureServiceData[0].approvalStatus === "Pending" &&
+          (isLangArab ? "قيد الانتظار" : "Pending")}
+        {featureServiceData[0].approvalStatus === "Rejected" &&
+          (isLangArab ? "مرفوض" : "Rejected")}
+      </span>
+      <button
+        onClick={() => handleOpenPOIEdit(featureServiceData[0])}
+        disabled={featureServiceData[0].approvalStatus !== "Approved"}
+        className={`${
+          featureServiceData[0].approvalStatus !== "Approved"
+            ? "opacity-50 cursor-not-allowed"
+            : ""
+        }`}
+      >
+        <img
+          src={loc}
+          alt="Location icon"
+          className="sm:w-5 w-5 sm:h-5 h-4 cursor-pointer"
+        />
+      </button>
+    </div>
+  </div>
+)} */}
+
       </div>
       {/* Toggle button */}
       <div className={`absolute top-12 ${isLangArab ? "-right-7" : "-left-6"} sm:block hidden`}>
@@ -265,11 +344,11 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
                 transform="scale(-1, 1) translate(-64, 0)" // Flipping horizontally for Arabic
               >
                 <path
-                  d="M3.82642 130.396L3.82598 244.617C3.82594 252.779 6.14893 260.773 10.5235 267.664L70.7275 362.497V8.50244L10.1031 108.027C5.99796 114.766 3.82645 122.505 3.82642 130.396Z"
-                  fill={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "#EBEFF2"}
-                  stroke={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "#EEF3F7"}
-                  strokeWidth="6"
-                />
+                d="M3.82642 130.396L3.82598 244.617C3.82594 252.779 6.14893 260.773 10.5235 267.664L70.7275 362.497V8.50244L10.1031 108.027C5.99796 114.766 3.82645 122.505 3.82642 130.396Z"
+                fill={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "rgba(255, 255, 255, 0.7)"}
+                stroke="none"
+                strokeWidth="0"
+              />
               </g>
               <defs>
                 <clipPath id="clip0_4011_11301">
@@ -292,9 +371,9 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
             >
               <path
                 d="M3.82642 130.396L3.82598 244.617C3.82594 252.779 6.14893 260.773 10.5235 267.664L70.7275 362.497V8.50244L10.1031 108.027C5.99796 114.766 3.82645 122.505 3.82642 130.396Z"
-                fill={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "#EBEFF2"}
-                stroke={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "#EEF3F7"}
-                strokeWidth="6"
+                fill={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "rgba(255, 255, 255, 0.7)"}
+                stroke="none"
+                strokeWidth="0"
               />
             </svg>
           )}

@@ -60,7 +60,7 @@ export default function GeneralFilterHeader({setShowInfo,
         className={`relative h-[620px] sm:h-[400px] laptop_s:h-[400px] sm:w-full sm:float-none w-[99%] float-end rounded-2xl shadow-lg overflow-scroll border ${isLangArab?"laptop_s:sm:h-[625px] ":"laptop_s:sm:h-[620px] "} ${
 
           isDarkMode
-            ? "bg-[#000000] bg-opacity-80 border-none" // Dark mode styles
+            ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none" // Dark mode styles
             : "bg-white bg-opacity-70 backdrop-blur-lg border-white" // Light mode styles
         }`}
       >
@@ -141,8 +141,8 @@ export default function GeneralFilterHeader({setShowInfo,
             <g clipPath="url(#clip0_4011_11301)">
               <path
                 d="M3.82642 130.396L3.82598 244.617C3.82594 252.779 6.14893 260.773 10.5235 267.664L70.7275 362.497V8.50244L10.1031 108.027C5.99796 114.766 3.82645 122.505 3.82642 130.396Z"
-                fill={isDarkMode ? "#000000" : "#EBEFF2"} // Updated for dark mode
-                stroke={isDarkMode ? "#000000" : "#EEF3F7"}
+                fill={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "#EBEFF2"}
+          stroke={isDarkMode ? "rgba(96, 96, 96, 0.8)" : "#EEF3F7"}
                 strokeWidth="6"
               />
             </g>

@@ -9,6 +9,7 @@ import "react-tooltip/dist/react-tooltip.css";
 import Home from "../../../assets/navigations/imageSide2.png";
 import HomeDark from "../../../assets/navigations/dark.png"; // Dark theme image path
 import ShowPlus from '../../../assets/Footer/PlusShow.svg'
+import RoleServices from "../../servicces/RoleServices";
 // akjsnjads
 export default function Footer({
   handleClose,
@@ -37,8 +38,8 @@ export default function Footer({
     2: t(isLangArab ? "القياس" : "Measurement"),
     3: t(isLangArab ? "دبوس مُنقَطِع" : "Dropped Pin"),
     4: t(isLangArab ? "مشاركة" : "Share"),
-    5: t(isLangArab ? "تصدير البيانات" : "Export"),
-    6: t(isLangArab ? "طباعة البيانات" : "Print"),
+    5: t(isLangArab ? "تصدير البيانات" : "Export Map"),
+    6: t(isLangArab ? "طباعة البيانات" : "Print Map"),
   };
 
 
@@ -49,8 +50,8 @@ export default function Footer({
       // Prevent recalculation when clicking the same index consecutively
       if (index === selectedIndex) return;
 
-      console.log("Current footer index:", index);
-
+      
+      
       // Handle resetting logic for index 4
       if (index === 4) {
         setCurrentMenuPosition(0);
@@ -119,6 +120,7 @@ export default function Footer({
               break;
           }
         }
+        console.log("Current footer size:", size, index);
 
         menuBar.style.backgroundPosition = `${size}px`;
         menuBar.style.backgroundImage = document.body.classList.contains(
@@ -142,12 +144,67 @@ export default function Footer({
   );
 
   useEffect(() => {
+    if (selectedIndex === previousCount) {
+      const selectedElement = menuItemsRef.current[selectedIndex];
+      if (selectedElement) {
+        const position = selectedElement.offsetLeft;
+        setCurrentMenuPosition(position);
+  
+        const menuIndicator = document.querySelector(".sc-nav-indicator");
+        if (menuIndicator) {
+          menuIndicator.style.left = `${position}px`;
+        }
+  
+        const menuBar = document.querySelector(".sc-bottom-bar");
+        if (menuBar) {
+          let size = position - 29; // Default size adjustment
+  
+          if (isExpanded) {
+            switch (selectedIndex) {
+              case 0:
+                size = isLangArab ? position - 8 : position - 11;
+                break;
+              case 1:
+                size = isLangArab ? position - 28 : position - 28;
+                break;
+              case 2:
+                size = isLangArab ? position - 29 : position - 29;
+                break;
+              case 3:
+                size = isLangArab ? position - 10 : position - 10;
+                break;
+              case 4:
+              case 5:
+              case 6:
+                size = position - 29;
+                break;
+              default:
+                break;
+            }
+          }
+  
+          menuBar.style.backgroundPosition = `${size}px`;
+          menuBar.style.backgroundImage = document.body.classList.contains(
+            "theme-dark"
+          )
+            ? "radial-gradient(circle at 38px 4px, transparent 28px, rgba(0, 0, 0, 0.2) 29px)"
+            : isDarkMode
+            ? "radial-gradient(circle at 38px 4px, transparent 28px, rgba(0, 0, 0, 0.2) 29px)"
+            : "radial-gradient(circle at 38px 4px, transparent 28px, rgba(18, 69, 41, 0.2) 29px)";
+        }
+      }
+    }
+  }, [isLangArab, selectedIndex, isExpanded, isDarkMode]);
+  
+
+  useEffect(() => {
     if (resetTrigger) {
       setCurrentMenuPosition(0);
       setCurrentItemDisplay("none");
       setActiveMenuIndex(0);
       setIsExpanded(false);
       setSelectedIndex(null);
+      console.log("Cancel Footer Clear Triggered Footer!")
 
       const menuBar = document.querySelector(isPlusShow ?".sc-Plus-bar":".sc-bottom-bar");
       if (menuBar) {
@@ -196,11 +253,11 @@ export default function Footer({
   </button>}
     {!isPlusShow &&  <> {isLangArab
         ? Array.from({ length: 7 })
-            .map((_, index) => index) // Create an array of indices
-            .reverse() // Reverse the order
-            .map((index) => (
+        .map((_, index) => 6 - index) // Reverse indices for Arabic
+        .map((index) => (
               <React.Fragment key={index}>
-                {( (index > 0) &&  (index < 4)) && (
+                {( (index > 0) &&  (index < 3)) &&   (
+                  
                   <div
                     className={`sc-menu-wrp ${
                       selectedIndex === index ? "sc-current" : ""
@@ -237,6 +294,42 @@ export default function Footer({
                     </button>
                   </div>
                 )}
+                 {((index === 3) && RoleServices.isAuth() ) && (
+                <div
+                  className={`sc-menu-wrp ${isExpanded ? "hidden" : ""}`}
+                  ref={(el) => (menuItemsRef.current[index] = el)}
+                  onClick={(e) => handleFooterItemClick(e, index, isExpanded)}
+                  data-tooltip-id={`tooltip-${index}`}
+                  // onClickCapture={handleMouseEnter}
+                >
+                  <button
+                    className="sc-menu-item bg-transparent border-4 w-12"
+                    data-tooltip-content={headingsMap[index]}
+                    data-tooltip-id={`tooltip-${index}`}
+                  >
+                    <img
+                      src={
+                        isDarkMode
+                          ? `${process.env.PUBLIC_URL}/Footer/dark/darkicon${
+                              index + 1
+                            }.svg`
+                          : `${process.env.PUBLIC_URL}/Footer/icon${
+                              index + 1
+                            }.svg`
+                      }
+                      className="icon"
+                      alt={`Icon ${index + 1}`}
+                      style={{ width: "200px", height: "200px" }}
+                    />
+                    <ReactTooltip
+                      id={`tooltip-${index}`}
+                      
+                      place="top"
+                      className="ToolTipEnvi z-30"
+                    />
+                  </button>
+                </div>
+              )}
                 {index === 4 && (
                   <div
                     className={`sc-menu-wrp ${isExpanded ? "hidden" : ""}`}
@@ -314,7 +407,7 @@ export default function Footer({
             ))
         : Array.from({ length: 7 }).map((_, index) => (
             <React.Fragment key={index}>
-              {( (index > 0) &&  (index < 4)) && (
+              {( (index > 0) &&  (index < 3)) && (
                 <div
                   className={`sc-menu-wrp ${
                     selectedIndex === index ? "sc-current" : ""
@@ -325,6 +418,42 @@ export default function Footer({
                 >
                   <button
                     className="sc-menu-item"
+                    data-tooltip-content={headingsMap[index]}
+                    data-tooltip-id={`tooltip-${index}`}
+                  >
+                    <img
+                      src={
+                        isDarkMode
+                          ? `${process.env.PUBLIC_URL}/Footer/dark/darkicon${
+                              index + 1
+                            }.svg`
+                          : `${process.env.PUBLIC_URL}/Footer/icon${
+                              index + 1
+                            }.svg`
+                      }
+                      className="icon"
+                      alt={`Icon ${index + 1}`}
+                      style={{ width: "200px", height: "200px" }}
+                    />
+                    <ReactTooltip
+                      id={`tooltip-${index}`}
+                      
+                      place="top"
+                      className="ToolTipEnvi z-30"
+                    />
+                  </button>
+                </div>
+              )}
+               {((index === 3) && RoleServices.isAuth() ) && (
+                <div
+                  className={`sc-menu-wrp ${isExpanded ? "hidden" : ""}`}
+                  ref={(el) => (menuItemsRef.current[index] = el)}
+                  onClick={(e) => handleFooterItemClick(e, index, isExpanded)}
+                  data-tooltip-id={`tooltip-${index}`}
+                  // onClickCapture={handleMouseEnter}
+                >
+                  <button
+                    className="sc-menu-item bg-transparent border-4 w-12"
                     data-tooltip-content={headingsMap[index]}
                     data-tooltip-id={`tooltip-${index}`}
                   >

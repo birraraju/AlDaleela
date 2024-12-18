@@ -108,6 +108,40 @@ const PrintComponent = ({ mapview }) => {
     // Cleanup observer on unmount
     return () => buttonObserver.disconnect();
   }, []);
+
+  useEffect(() => {
+    const buttonObserver = new MutationObserver(() => {
+      // Safely check for the calcite-button and its shadowRoot
+      const calciteButton = document.querySelector('calcite-button');
+      if (calciteButton?.shadowRoot) {
+        // Access button and anchor elements inside the shadow DOM
+        const buttons = calciteButton.shadowRoot.querySelectorAll('button');
+        const anchors = calciteButton.shadowRoot.querySelectorAll('a');
+  
+        // Overwrite styles for buttons
+        buttons.forEach((button) => {
+          button.style.backgroundColor = 'white'; // Custom background color
+          button.style.color = 'black'; // Custom text color
+        });
+  
+        // Overwrite styles for anchors
+        anchors.forEach((anchor) => {
+          anchor.style.backgroundColor = 'white'; // Custom background color
+          anchor.style.color = 'black'; // Custom text color
+        });
+      }
+    });
+  
+    // Start observing the body or container where the button is rendered
+    const bodyNode = document.querySelector('body');
+    if (bodyNode) {
+      buttonObserver.observe(bodyNode, { childList: true, subtree: true });
+    }
+  
+    // Cleanup observer on unmount
+    return () => buttonObserver.disconnect();
+  }, []);
+  
   
 
   return <div className=" sm:-mt-[500px] tab:-mt-[100%] h-[400px] laptop_s:h-[353px] overflow-auto   laptop_s:-mt-[365px] laptop_m:-mt-[400px] laptop_lg:-mt-[130%] laptop_lg_2:-mt-[120%] -mt-[420px]" id="printDiv" ref={printRef} />;

@@ -12,6 +12,8 @@ import { useAuth } from "../../../Providers/AuthProvider/AuthProvider";
 import config from "../../Common/config"; // Import your config file
 import { UserActivityLog } from "../../Common/UserActivityLog";
 import { useTheme } from "../ThemeContext/ThemeContext";
+import RoleServices from '../../servicces/RoleServices';
+
 
 const Component = ({
   POIFormShow,
@@ -60,6 +62,8 @@ const Component = ({
   const [statusOptions, setStatusOptions] = useState([]);
   const [municipalityOptions, setMunicipalityOptions] = useState([]);
   const [classOption, setClassOptions] = useState([]);
+  const [classArOption, setClassArOptions] = useState([]);
+
 
   const audioRefs = useRef([]); // Array of refs for each audio
   const [playingIndex, setPlayingIndex] = useState(null); // Track which audio is playing
@@ -76,24 +80,24 @@ const Component = ({
 
       // Extract only the fields you want to update in poiData
       const updatedData = {
-        organization: attributes.organization,
-        name_en: attributes.name_en,
-        Class: attributes.Class,
-        ClassD: attributes.ClassD,
+        organization: isLangArab? attributes.organization : attributes.organization_En,
+        name_en: isLangArab?attributes.name_ar: attributes.name_en,
+        Class: isLangArab?attributes.ClassAr:attributes.Class,
+        ClassD: isLangArab? attributes.ClassD_Ar : attributes.ClassD,
         Status: attributes.Status,
         Comment: attributes.Comment,
         description: attributes.description,
         poems: attributes.poems,
         stories: attributes.stories,
-        Classification: attributes.Classification,
-        MunicipalityAr: attributes.MunicipalityAr,
-        Emirate: attributes.Emirate,
-        City: attributes.City,
+        Classification: isLangArab? attributes.Classification_ar : attributes.Classification,
+        MunicipalityAr: isLangArab? attributes.MunicipalityAr : attributes.Municipality,
+        Emirate: isLangArab? attributes.EmirateAr :attributes.Emirate,
+        City: isLangArab? attributes.CityAr : attributes.City,
       };
 
       setPoiData(updatedData);
     }
-  }, [queryresults]);
+  }, [queryresults,isLangArab]);
 
   useEffect(() => {
     if (isEditShowPOI) {
@@ -128,6 +132,8 @@ const Component = ({
         const newStatusOptions = [];
         const newMunicipalityOptions = [];
         const newClassOptions = [];
+        const newClassArOptions = [];
+
 
         domainFields.forEach((field) => {
           const options = field.domain.codedValues.map((codedValue) => ({
@@ -148,6 +154,9 @@ const Component = ({
             case "Class":
               newClassOptions.push(...options);
               break;
+            case "ClassAr":
+              newClassArOptions.push(...options);
+              break;
             default:
               console.warn(`Unhandled field: ${field.fieldName}`);
           }
@@ -158,6 +167,7 @@ const Component = ({
         setStatusOptions(newStatusOptions);
         setMunicipalityOptions(newMunicipalityOptions);
         setClassOptions(newClassOptions);
+        setClassArOptions(newClassArOptions)
       } catch (error) {
         console.error("Error fetching domains:", error);
       }
@@ -257,7 +267,41 @@ const Component = ({
       Isadminapproved: 2,
     };
     //console.log(files);
-    updateAttributes(featureLayerURL, objectid, updatedFields);
+    //const attributes = queryresults.features[0].attributes;
+    let finalUpdatedFields = null;
+    if(isLangArab){
+      finalUpdatedFields={
+        organization: updatedFields.organization,
+        name_ar: updatedFields.name_en,
+        ClassAr: updatedFields.Class,
+        ClassD_Ar: updatedFields.ClassD,
+        Classification_ar: updatedFields.Classification,
+        MunicipalityAr: updatedFields.MunicipalityAr,
+        CityAr: updatedFields.City,
+        OBJECTID: objectid,
+        Isadminapproved: 2,
+      }
+    }
+    else{
+      finalUpdatedFields={
+        organization_En: updatedFields.organization,
+        name_en: updatedFields.name_en,
+        Class: updatedFields.Class,
+        ClassD: updatedFields.ClassD,
+        Status: updatedFields.Status,
+        Comment: updatedFields.Comment,
+        //description: attributes.description,
+        poems: updatedFields.poems,
+        stories: updatedFields.stories,
+        Classification: updatedFields.Classification,
+        Municipality: updatedFields.MunicipalityAr,
+        //Emirate: isLangArab? attributes.EmirateAr :attributes.Emirate,
+        City: updatedFields.City,
+        OBJECTID: objectid,
+        Isadminapproved: 2,
+      }
+    }
+    updateAttributes(featureLayerURL, objectid, finalUpdatedFields);
   };
 
   const updateAttributes = async (
@@ -359,30 +403,52 @@ const Component = ({
 
   const handleStoreFeatureData = async (attachmentIds, LayerUrl) => {
     const attributes = queryresults.features[0].attributes;
-
-    // Extract only the fields you want to update in poiData
-    const FeatureData = {
-      Username: profiledetails.username,
-      Email: profiledetails.email,
-      FeatureObjectId: attributes.OBJECTID,
-      OrganizationEn: attributes.organization || "",
-      NameEn: attributes.name_en || "",
-      Class: attributes.Class || "",
-      ClassD: attributes.ClassD || "",
-      Status: attributes.Status || "",
-      Comment: attributes.Comment || "",
-      Description: attributes.description || "",
-      Poems: attributes.poems || "",
-      stories: attributes.stories || "",
-      Classification: attributes.Classification || "",
-      MunicipalityAr: attributes.MunicipalityAr || "",
-      Emirate: attributes.Emirate || "",
-      City: attributes.City || "",
-      AttachementsObjectIds: attachmentIds,
-      ApprovalStatus: "Pending",
-      featureServiceURL: LayerUrl,
-      POIOperation: "Update Feature",
-    };
+    let FeatureData = null;
+    if(isLangArab){
+      FeatureData = {
+        Username: profiledetails.username,
+        Email: profiledetails.email,
+        FeatureObjectId: attributes.OBJECTID,
+        OrganizationAr: attributes.organization || "",
+        NameAr: attributes.name_ar || "",
+        ClassAr: attributes.ClassAr || "",
+        ClassDAr: attributes.ClassD_Ar || "",
+        ClassificationDAr: attributes.Classification_ar || "",
+        MunicipalityAr: attributes.MunicipalityAr || "",
+        CityAr: attributes.CityAr || "",
+        AttachementsObjectIds: attachmentIds,
+        ApprovalStatus: "Pending",
+        featureServiceURL: LayerUrl,
+        POIOperation: "Update Feature",
+        isLanguageArabic:isLangArab
+      };
+    }
+    else{
+      // Extract only the fields you want to update in poiData
+      FeatureData = {
+        Username: profiledetails.username,
+        Email: profiledetails.email,
+        FeatureObjectId: attributes.OBJECTID,
+        OrganizationEn: attributes.organization_En || "",
+        NameEn: attributes.name_en || "",
+        Class: attributes.Class || "",
+        ClassD: attributes.ClassD || "",
+        Status: attributes.Status || "",
+        Comment: attributes.Comment || "",
+        //Description: attributes.description || "",
+        Poems: attributes.poems || "",
+        stories: attributes.stories || "",
+        Classification: attributes.Classification || "",
+        Municipality: attributes.Municipality || "",
+        //Emirate: attributes.Emirate || "",
+        City: attributes.City || "",
+        AttachementsObjectIds: attachmentIds,
+        ApprovalStatus: "Pending",
+        featureServiceURL: LayerUrl,
+        POIOperation: "Update Feature",
+        isLanguageArabic:isLangArab
+      };
+    }
     try {
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/FeatureServiceData/featureservicedatainsert`,
@@ -474,6 +540,8 @@ const Component = ({
     setPausedAt(0);
   };
 
+  console.log("POI organization:",organizationOptions)
+
   const renderFieldOrText = (
     id,
     label,
@@ -503,11 +571,7 @@ const Component = ({
             id={id}
             value={poiData[id]}
             onChange={handleChange}
-            className={` ${
-              id === "organization" || id === "MunicipalityAr"
-                ? " font-cairo"
-                : ""
-            } block w-full p-2 rounded-md text-black text-[13px] h-9 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500`}
+            className={` block w-full p-2 rounded-md text-black text-[13px] h-9 border-gray-300 ${ isDarkMode?" bg-white/80":"bg-[#FFFFFF]"} shadow-sm focus:border-indigo-500 focus:ring-indigo-500`}
           >
             {options.length > 0 && (
               <>
@@ -534,18 +598,14 @@ const Component = ({
             value={poiData[id]}
             disabled={disable}
             onChange={handleChange}
-            className={` ${
-              id === "organization" || id === "MunicipalityAr"
-                ? " font-cairo"
-                : ""
-            } block text-[13px] h-9 w-full rounded-md p-2 text-black bg-[#FFFFFF] border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500`}
+            className={` block text-[13px] h-9 w-full rounded-md p-2 text-black ${ isDarkMode?" bg-white/80":"bg-[#FFFFFF]"} border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500`}
           />
         )
       ) : (
         value &&
         (value?.length > 30 ? (
           <>
-            <div dir={isLangArab && "rtl"} className=" border flex flex-col p-2 border-transparent rounded-md  bg-[#FFFFFF]">
+            <div dir={isLangArab && "rtl"} className={`border flex flex-col p-2 border-transparent rounded-md  ${ isDarkMode?" bg-white/80":"bg-[#FFFFFF]"}`}>
               {value && !isEditShowPOI && (
                  <label
                  htmlFor={id}
@@ -557,9 +617,7 @@ const Component = ({
                </label>
               )}
               <p
-      className={`input-fields break-words  ${
-        (id === "organization" || id === "MunicipalityAr") ? "font-cairo font-700" : " font-600 "
-      } ${isLangArab ? "text-left" : "text-rigth"} 
+      className={`input-fields break-words font-600  ${isLangArab ? "text-left" : "text-rigth"} 
          h-auto w-full text-[14px] rounded-lg text-[#399C72] `}
     >
       {value}
@@ -582,13 +640,9 @@ const Component = ({
                 </label>
               )}
              {(value && value !== " " && !isEditShowPOI) &&  <p
-                className={` border ${value ? "p-2" : "p-5"} ${
-                  id === "organization" || id === "MunicipalityAr"
-                    ? " font-cairo"
-                    : ""
-                }   input-fields ${
+                className={` border ${value ? "p-2" : "p-5"}    input-fields ${
                   isLangArab ? "text-left" : "text-right"
-                } w-auto    laptop_s:h-[39px]    h-9 text-[14px] rounded-lg text-[#399C72] font-600 bg-[#FFFFFF]`}
+                } w-auto    laptop_s:h-[39px]    h-9 text-[14px] rounded-lg text-[#399C72] font-600 ${ isDarkMode?" bg-white/80":"bg-[#FFFFFF]"}`}
               >
                 {" "}
                 {/* {value?.length > 40 ? `${value.substring(0, 20)}` : value} */}
@@ -600,7 +654,7 @@ const Component = ({
       )}
     </div>
   );
-
+  console.log("Passed POI:", queryresults.features)
   return (
     <div className="w-full max-w-md bg-transparent overflow-y-auto ">
       <div className="p-2 space-y-1">
@@ -608,12 +662,23 @@ const Component = ({
           <p></p> // Display message if there are no features
         ) : (
           <>
-            {renderFieldOrText(
+          { isEditShowPOI && 
+              renderFieldOrText(
+                "name_en",
+                isLangArab ? "الاسم" : "Name",
+                isLangArab ? queryresults.features[0].attributes.name_ar : queryresults.features[0].attributes.name_en
+              )}
+
+            { isLangArab? renderFieldOrText(
               "organization",
               isLangArab ? "الجهة" : "Organization",
-              queryresults.features[0].attributes.organization,
+              isLangArab? queryresults.features[0].attributes.organization : queryresults.features[0].attributes.organization_En,
               organizationOptions,
               "select"
+            ) : renderFieldOrText(
+              "organization",
+              isLangArab ? "الجهة" : "Organization",
+              isLangArab? queryresults.features[0].attributes.organization : queryresults.features[0].attributes.organization_En
             )}
 
            
@@ -621,19 +686,23 @@ const Component = ({
             {renderFieldOrText(
               "Class",
               isLangArab ? "النوع" : "Class",
-              queryresults.features[0].attributes.Class,
-              classOption,
+              isLangArab? queryresults.features[0].attributes.ClassAr : queryresults.features[0].attributes.Class,
+               isLangArab? classArOption : classOption,
               "select"
             )}
 
 
 
-            {renderFieldOrText(
+            { isLangArab? renderFieldOrText(
               "MunicipalityAr",
-              isLangArab ? "المدينة" : "Municipality",
-              queryresults.features[0].attributes.MunicipalityAr,
+              isLangArab ? "المدينة" : "Region",
+              isLangArab ? queryresults.features[0].attributes.MunicipalityAr : queryresults.features[0].attributes.Municipality,
               municipalityOptions,
               "select"
+            ) : renderFieldOrText(
+              "MunicipalityAr",
+              isLangArab ? "المدينة" : "Region",
+               isLangArab ? queryresults.features[0].attributes.MunicipalityAr : queryresults.features[0].attributes.Municipality
             )}
 
             {/* {renderFieldOrText(
@@ -642,18 +711,56 @@ const Component = ({
               queryresults.features[0].attributes.Emirate
             )} */}
 
+
+
             {
               renderFieldOrText(
-                "name_en",
-                isLangArab ? "الاسم" : "Name",
-                queryresults.features[0].attributes.name_en
+                "ClassD",
+                isLangArab ? "المعنى الجغرافي" : "Class Description",
+                isLangArab ? queryresults.features[0].attributes.ClassD_Ar : queryresults.features[0].attributes.ClassD
               )}
 
+            {(RoleServices.isAdmin() && !isLangArab) &&
+              renderFieldOrText(
+                "Status",
+                isLangArab ? "الحالة" : "Status",
+                queryresults.features[0].attributes.Status,
+                statusOptions,
+                "select"
+              )}
+
+            {( RoleServices.isAdmin() && !isLangArab) &&
+              renderFieldOrText(
+                "Comment",
+                isLangArab ? "التعليق" : "Comment",
+                queryresults.features[0].attributes.Comment
+              )}
+
+            {/* {( !isLangArab) &&
+              renderFieldOrText(
+                "description",
+                isLangArab ? "الوصف" : "Description",
+                queryresults.features[0].attributes.description
+              )} */}
+
+            {!isLangArab &&
+              renderFieldOrText(
+                "poems",
+                isLangArab ? "القصائد" : "Poems",
+                queryresults.features[0].attributes.poems
+              )}
+
+            {!isLangArab &&
+              renderFieldOrText(
+                "stories",
+                isLangArab ? "القصص" : "Stories",
+                queryresults.features[0].attributes.stories
+              )}
              {isShowMore &&
              renderFieldOrText(
               "Classification",
               isLangArab ? "التصنيف" : "Classification",
-              queryresults.features[0].attributes.Classification,
+              isLangArab? queryresults.features[0].attributes.Classification_ar : queryresults.features[0].attributes.Classification,
               [],
               "text",
               true
@@ -663,54 +770,9 @@ const Component = ({
               {isShowMore &&
               renderFieldOrText(
               "City",
-              isLangArab ? "المنطقة" : "City",
-              queryresults.features[0].attributes.City
+              isLangArab ? "المنطقة" : "Area",
+              isLangArab ? queryresults.features[0].attributes.CityAr : queryresults.features[0].attributes.City
             )}
-
-            {isShowMore &&
-              renderFieldOrText(
-                "ClassD",
-                isLangArab ? "المعنى الجغرافي" : "ClassD",
-                queryresults.features[0].attributes.ClassD
-              )}
-
-            {isShowMore &&
-              renderFieldOrText(
-                "Status",
-                isLangArab ? "الحالة" : "Status",
-                queryresults.features[0].attributes.Status,
-                statusOptions,
-                "select"
-              )}
-
-            {isShowMore &&
-              renderFieldOrText(
-                "Comment",
-                isLangArab ? "التعليق" : "Comment",
-                queryresults.features[0].attributes.Comment
-              )}
-
-            {isShowMore &&
-              renderFieldOrText(
-                "description",
-                isLangArab ? "الوصف" : "Description",
-                queryresults.features[0].attributes.description
-              )}
-
-            {isShowMore &&
-              renderFieldOrText(
-                "poems",
-                isLangArab ? "القصائد" : "Poems",
-                queryresults.features[0].attributes.poems
-              )}
-
-            {isShowMore &&
-              renderFieldOrText(
-                "stories",
-                isLangArab ? "القصص" : "Stories",
-                queryresults.features[0].attributes.stories
-              )}
-
 
             {!isEditShowPOI &&
               // (videos.length > 0 || audios.length > 0 || images.length > 0) && (

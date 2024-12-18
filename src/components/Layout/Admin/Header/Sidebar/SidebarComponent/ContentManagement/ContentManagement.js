@@ -105,12 +105,12 @@ export default function UserManagement({role}) {
     fetchData();
   }, [data]); 
 
-  const handleDropPin = (objectID, featureServiceURL,id, POIOperation, featureObjectId) => {
+  const handleDropPin = (objectID, featureServiceURL,id, POIOperation, featureObjectId, language) => {
       navigate({
         pathname: `/${process.env.REACT_APP_BASE_URL}`,
         search: `?sides=POIApproval`,
       });
-      setDropPinObjectId({objectID:objectID, featureServiceURL:featureServiceURL, id:id, POIOperation:POIOperation, featureObjectId:featureObjectId});
+      setDropPinObjectId({objectID:objectID, featureServiceURL:featureServiceURL, id:id, POIOperation:POIOperation, featureObjectId:featureObjectId, isLanguageArabic:language});
     console.log("Admin DroppedPin clicked");
   };
   
@@ -148,8 +148,8 @@ export default function UserManagement({role}) {
         <tr className="text-left text-sm    font-500 text-[#667085] border-b">
           {[
             { label: isLangArab ? "اسم المستخدم" : "Username" },
-            { label: isLangArab ? "معرف البريد الإلكتروني" : "Email id" },
-            { label: isLangArab ? "التاريخ والوقت" : "Date & time" },
+            { label: isLangArab ? "معرف البريد الإلكتروني" : "Email ID" },
+            { label: isLangArab ? "التاريخ والوقت" : "  Date and Time" },
             { label: isLangArab ? "اسم النقطة المهمة" : "POI Name" },
             { label: isLangArab ? "منظمة" : "Organization" },
             { label: isLangArab ? "تصنيف" : "Classification" },
@@ -218,28 +218,32 @@ export default function UserManagement({role}) {
                 isLangArab ? "pr-2" : "pl-2"
               } ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#101828]"} whitespace-nowrap`}
             >
-              {user.nameEn}
+              {/* {user.nameEn} */}
+              {user.nameAr && user.nameAr.trim() !== "" ? user.nameAr : user.nameEn}
             </td>
             <td
               className={`py-4 font-500   text-[10px] sm:text-[12px] laptop_s:text-[14px] ${
                 isLangArab ? "pr-2" : "pl-2"
               } ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#101828]"} whitespace-nowrap`}
             >
-              {user.organizationEn}
+              {/* {user.organizationEn} */}
+              {user.organizationAr && user.organizationAr.trim() !== "" ? user.organizationAr : user.organizationEn}
             </td>
             <td
               className={`py-4 font-500   text-[10px] sm:text-[12px] laptop_s:text-[14px] ${
                 isLangArab ? "pr-2" : "pl-2"
               } ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#101828]"} whitespace-nowrap`}
             >
-              {user.classification}
+              {/* {user.classification} */}
+              {user.classificationDAr && user.classificationDAr.trim() !== "" ? user.classificationDAr : user.classification}
             </td>
             <td
               className={`py-4 font-500   text-[10px] sm:text-[12px] laptop_s:text-[14px] ${
                 isLangArab ? "pr-2" : "pl-2"
               } ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#101828]"} whitespace-nowrap`}
             >
-              {user.municipality}
+              {/* {user.municipality} */}
+              {user.municipalityAr && user.municipalityAr.trim() !== "" ? user.municipalityAr : user.municipality}
             </td>
             <td
               className={`py-4 font-500   text-[10px] sm:text-[12px] laptop_s:text-[14px] ${
@@ -258,7 +262,8 @@ export default function UserManagement({role}) {
                     user.featureServiceURL,
                     user.id,
                     user.poiOperation,
-                    user.featureObjectId
+                    user.featureObjectId,
+                    user.isLanguageArabic
                   );
                 }}
                 className="text-red-500 hover:text-red-600"

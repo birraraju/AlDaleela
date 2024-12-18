@@ -47,6 +47,7 @@ const DefaultLayout = ({role}) => {
   console.log("POI status Default:", isEditPOI);
   const { LayerId, objectid } = useParams();   
   const [isPlusShow, setisPlusShow] = useState(true)
+  
 
 
 
@@ -161,10 +162,12 @@ const DefaultLayout = ({role}) => {
   const handleClose = () => {  
 
     setPopup(null);
-    setResetFooter(true);
-    setIsPOIAddShow(false)
     setIsEditPOI(false)
     setisPlusShow(true)
+    setResetFooter(true);
+    setIsPOIAddShow(false)
+    
+    // console.log("Cancel Footer Clear Triggered!")
     
     if(printWidget){
       printWidget.destroy(); // Destroy the widget
@@ -194,6 +197,8 @@ const DefaultLayout = ({role}) => {
   }
   //  AthenticatePopLogin
   const renderComponent = (name) => {
+
+    
     if(printWidget){
       printWidget.destroy(); // Destroy the widget
       setprintWidget(null); // Set to null to reset the state
@@ -291,13 +296,10 @@ const DefaultLayout = ({role}) => {
   useEffect(()=>{
     if(isEditPOI){
       setPopup(renderComponent("POIEdit"));
-      setResetFooter(true);
-      setIsExpanded(false)
-    }
-    else if(!isEditPOI && !sides){
-      setPopup(renderComponent(""));
     }
   },[isEditPOI])
+
+ 
 
   useEffect(()=>{
     if(isAuthPopUp){

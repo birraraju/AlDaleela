@@ -9,39 +9,51 @@ import config from '../../Common/config'; // Import your config file
 
 const BasemapGalleryComponent = ({ mapview }) => {
   const mapRef1 = useRef(null); // Specify type for useRef
-  const { isDarkMode } = useTheme(); // Access the dark mode state
+  const { isDarkMode, isLangArab } = useTheme(); // Access the dark mode state
 
 
   useEffect(() => {
     if (mapview && mapRef1.current) {
-      console.log(mapview);
-      // const basemapGallery = new BasemapGallery({
-      //   view: mapview,
-      //   container: mapRef1.current,
-      // });
-      const basemaps = config.basemaps.map((basemapConfig) => {
+      // Select basemaps based on the current language
+      const basemapConfig = isLangArab ? config.basemapsConfig.Arabic : config.basemapsConfig.English;
+  
+      // Create new basemap instances
+      const newBasemaps = basemapConfig.map((basemap) => {
         return new Basemap({
-          title: basemapConfig.title,
-          id: basemapConfig.id,
-          baseLayers: basemapConfig.baseLayers.map(
+          title: basemap.title,
+          id: basemap.id,
+          baseLayers: basemap.baseLayers.map(
             (url) => new TileLayer({ url }) // Create TileLayer instances
           ),
-          thumbnailUrl:require(`${basemapConfig.thumbnailImg}`) 
+          thumbnailUrl: require(`${basemap.thumbnailImg}`) // Dynamically load thumbnail
         });
       });
-      // Add the basemap gallery
-      const basemapGallery = new BasemapGallery({
-        view: mapview,
-        source: basemaps,
-        container: mapRef1.current
-      });
-      
-      // Cleanup on component unmount
-      return () => {
-        // basemapGallery.destroy();
-      };
+  
+      let basemapGallery = mapRef1.current.__basemapGallery;
+  
+      if (!basemapGallery) {
+        // Initialize the BasemapGallery if it doesn't exist
+        basemapGallery = new BasemapGallery({
+          view: mapview,
+          container: mapRef1.current
+        });
+        mapRef1.current.__basemapGallery = basemapGallery;
+      }
+  
+      // Update the source of the BasemapGallery
+      basemapGallery.source = newBasemaps; // Directly set the source with the new basemaps
     }
-  }, [mapview]); // Include mapview in the dependency array
+  
+    // Cleanup on component unmount
+    return () => {
+      if (mapRef1.current?.__basemapGallery) {
+        mapRef1.current.__basemapGallery.source = []; // Clear the basemaps when unmounting
+      }
+    };
+  }, [mapview, isLangArab]); // Run when mapview or language changes
+  
+  
+  
 
   // MutationObserver logic to handle dynamic grid styling
   useEffect(() => {
@@ -74,7 +86,7 @@ const BasemapGalleryComponent = ({ mapview }) => {
   return (
     <div
       id="basemapDiv"
-      className={`sm:-mt-[150%] tab_s:-mt-[145%] tab_m:-mt-[130%] tab_l_1:-mt-[120%] flip:-mt-[105%] laptop_l:-mt-[130%] laptop_l_2:-mt-[110%] laptop_l_2:h-[410px]   laptop_s:h-[420px] laptop_m:-mt-[130%] laptop_m:h-[420px] 2xl:-mt-[110%] mobile_m:-mt-[165%] mobile_m_3:-mt-[185%] mobile_m_4:-mt-[170%]  mobile_l:-mt-[170%]   sm:h-[600px] h-[530px] mobile_s:-mt-[135%] -mt-[185%] bg-transparent overflow-y-auto ${isDarkMode ? 'dark-mode' : ''}`}
+      className={`sm:-mt-[150%] tab_s:-mt-[145%] tab_m:-mt-[130%] tab_l_1:-mt-[120%] flip:-mt-[105%] laptop_l:-mt-[130%] laptop_l_2:-mt-[107%] laptop_l_2:h-[300px]   laptop_s:h-[420px] laptop_m:-mt-[130%] laptop_m:h-[420px] 2xl:-mt-[110%] mobile_m:-mt-[165%] mobile_m_3:-mt-[185%] mobile_m_4:-mt-[170%]  mobile_l:-mt-[170%]   sm:h-[600px] h-[530px] mobile_s:-mt-[135%] -mt-[185%] bg-transparent overflow-y-auto ${isDarkMode ? 'dark-mode' : ''}`}
     >
       
       <div ref={mapRef1} />

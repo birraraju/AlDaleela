@@ -107,21 +107,21 @@ const Header = ({  isFooterOpen, isHeaderOpen, mapview}) => {
     // </header>)}
     // </>
     <header
-      className={`text-white sm:pr-10 laptop_s:pr-1 laptop_m: px-2 laptop_s:px-0.5 laptop_m:px-2 py-1.5 laptop_s:py-1 laptop_m:py-1.5 z-30 flex items-center justify-between z-8 w-screen 
+      className={`text-white sm:pr-10 laptop_s:pr-1  px-1 laptop_s:px-0.5 laptop_m:px-2 py-1.5 laptop_s:py-1 laptop_m:py-1.5 z-30 flex items-center justify-between z-8 w-screen 
         ${isDarkMode ? 'bg-dark-gradient' : 'bg-custom-gradient'}`
       }
     >
       {/* Logo Section */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-4 laptop_s:space-x-2 laptop_m:space-x-4">
-          <div className="mr-4">
+      {!SearchResponsive && <div className="flex items-center justify-between">
+        <div className="flex  sm:space-x-0 laptop_s:space-x-2 laptop_m:space-x-4">
+          <div className="">
             <Logo />
           </div>
-          <div className="border-r border-gray-400 h-7"></div>
+          <div className="border-r hidden sm:block border-gray-400 h-7"></div>
             <Logo2 />
         </div>
          {/* Add any other content or components you need here */}
-      </div>
+      </div>}
 
       {/* Menus Section */}
      {!SearchResponsive && <div className={`flex items-center`}>

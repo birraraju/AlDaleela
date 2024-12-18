@@ -136,13 +136,13 @@ const paginatedData = data.slice((currentPage - 1) * itemsPerPage, currentPage *
               <th className={`pb-3 p-2 font-500   text-[14px]  ${isLangArab?"pr-2":"pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
               {isLangArab?"اسم المستخدم":"User Name"}</th>
               <th className={`pb-3 p-2 font-500   text-[14px]  ${isLangArab?"pl-2":"pr-2"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
-              {isLangArab?"معرف البريد الإلكتروني":"Email id"}</th>
+              {isLangArab?"معرف البريد الإلكتروني":"Email ID"}</th>
               <th className={`pb-3 p-2 font-500   text-[14px]  ${isLangArab?"pl-2":"pr-32"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
-              {isLangArab?"التاريخ والوقت":"Date & Time"}</th>
+              {isLangArab?"التاريخ والوقت":"  Date and Time"}</th>
               <th className={`pb-3 p-2 font-500   text-[14px]  ${isLangArab?"pl-2":"pr-4"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
               {isLangArab?"عنوان IP":"IP Address"}</th>
               <th className={`pb-3 p-2 font-500   text-[14px]  ${isLangArab?"pl-2":"pr-10"} ${isDarkMode ? "text-[#FFFFFF]" : "text-[#667085]"}`}>
-              {isLangArab?"فعل":"Action"}</th>
+              {isLangArab?"فعل":"Activity"}</th>
               </tr>
             </thead>
             <tbody>
