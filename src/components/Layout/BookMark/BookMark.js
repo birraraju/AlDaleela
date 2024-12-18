@@ -168,12 +168,13 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
       
       // Create a symbol for drawing the point
       let markerSymbol = {
-        type: "simple-marker",
-        outline: {
-          color: [0, 255, 255, 4],
-          width: 1
+          type: "simple-marker", // Customize symbol as needed
+          color: [0, 255, 255, 0.5],
+          outline: {
+            color: [0, 255, 255, 1],
+            width: 2
+          }
         }
-      }
       
       // Create a graphic and add the geometry and symbol to it
       let pointGraphic = new Graphic({
