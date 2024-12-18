@@ -130,10 +130,11 @@ export default function SearchContent({ inputClicked, iscategory,setIscategory, 
         const pointGraphic = new Graphic({
           geometry: feature.features[0].geometry,
           symbol: {
-            type: "simple-marker",
+            type: "simple-marker", // Customize symbol as needed
+            color: [0, 255, 255, 0.5],
             outline: {
-              color: [0, 255, 255, 4],
-              width: 1
+              color: [0, 255, 255, 1],
+              width: 2
             }
           }
         });

@@ -220,11 +220,19 @@ const handleMapClick = (view) => async(event) => {
           zoom: 15 // Adjust the zoom level as needed
         });
         // Create a symbol for drawing the point
+        // let markerSymbol = {
+        //   type: "simple-marker",
+        //   outline: {
+        //     color: [0, 255, 255, 4],
+        //     width: 1
+        //   }
+        // }
         let markerSymbol = {
-          type: "simple-marker",
+          type: "simple-marker", // Customize symbol as needed
+          color: [0, 255, 255, 0.5],
           outline: {
-            color: [0, 255, 255, 4],
-            width: 1
+            color: [0, 255, 255, 1],
+            width: 2
           }
         }
         
