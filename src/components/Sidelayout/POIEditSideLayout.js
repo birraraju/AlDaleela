@@ -302,7 +302,7 @@
   <button
     onClick={() => {setPOIShareShow(true);setPOIFormShow(false);setPOIFormisOpenModalShow(false)}} // Toggle the state
     aria-label="Edit POI"
-    className={`h-full ${POIFormisOpenModalShow ?"opacity-0":" "}`}
+    className={`h-full  ${POIFormisOpenModalShow ?"opacity-0":" "}`}
     style={{ border: 'none', background: 'none' }} // No styles, functionality only
   >
   <img
@@ -317,7 +317,7 @@
   <button
     onClick={() =>  handleShowPOIEdit()} // Toggle the state
     aria-label="Edit POI"
-    className={`h-full ${POIFormisOpenModalShow ?"opacity-0":" "} `}
+    className={`h-full ${!RoleServices.isAuth() && " hidden"} ${POIFormisOpenModalShow ?"opacity-0":" "} `}
     style={{ border: 'none', background: 'none' }} // No styles, functionality only
   >
     <img

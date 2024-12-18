@@ -219,7 +219,16 @@ export default function FilterInnerBody() {
   };
 
   const handleCloseRedClick = () => {
-    //alert("RedCancelClicked !");    
+    setLayerOneData("--empty--");
+    setLayerTwoData("--empty--");
+    setLayerThreeData("--empty--");
+     // Reset only the necessary parts of the sampleData state
+    setSampleData(prevState => ({
+      ...prevState,
+      Layers: prevState.Layers, // Preserve Layers
+      Layer2: [], // Preserve Layer2
+      Layer3: []  // Preserve Layer3
+    }));
   };
   const setDefinitionExpressionForLayers = (layer, fieldName, fieldValue, layerNames) => {
     if (layerNames.includes(layer.title)) {
@@ -453,7 +462,7 @@ export default function FilterInnerBody() {
               </select>
             </span>
   
-            <span className="w-[10%] hidden  justify-center relative items-center">
+            <span className="w-[10%]   justify-center relative items-center">
               <button
                 onClick={handleCloseRedClick}
                 className="absolute top-2 w-[100%]"

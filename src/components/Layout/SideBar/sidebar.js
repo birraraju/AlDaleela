@@ -186,22 +186,6 @@ export default function Sidebar({handleBasemapMenuItemClick}) {
     </div>
   </button>
 
-  {/* Right Arrow Button */}
-  <button
-    onClick={handleNextLevelClick}
-    ref={zoomNextBtn}
-    className="w-12 h-12 sm:w-10 sm:h-10 text-white rounded-full flex items-center justify-center transition-colors duration-200"
-  >
-    <img
-      src={isDarkMode ? HomeDark : Home}
-      alt="Right Arrow Icon"
-      className="w-10 h-10 sm:w-8 sm:h-8"
-    />
-    <div className="absolute py-6 flex-1 justify-between">
-      <img src={RightArrow} alt="Right Arrow" className="w-3 sm:w-2" />
-    </div>
-  </button>
-
   {/* Left Arrow Button */}
   <button
     onClick={handlePreviousLevelClick}
@@ -215,6 +199,22 @@ export default function Sidebar({handleBasemapMenuItemClick}) {
     />
     <div className="absolute py-6 flex-1 justify-between">
       <img src={LeftArrow} alt="Left Arrow" className="w-3 sm:w-2 mr-1" />
+    </div>
+  </button>
+
+  {/* Right Arrow Button */}
+  <button
+    onClick={handleNextLevelClick}
+    ref={zoomNextBtn}
+    className="w-12 h-12 sm:w-10 sm:h-10 text-white rounded-full flex items-center justify-center transition-colors duration-200"
+  >
+    <img
+      src={isDarkMode ? HomeDark : Home}
+      alt="Right Arrow Icon"
+      className="w-10 h-10 sm:w-8 sm:h-8"
+    />
+    <div className="absolute py-6 flex-1 justify-between">
+      <img src={RightArrow} alt="Right Arrow" className="w-3 sm:w-2" />
     </div>
   </button>
 </div>
