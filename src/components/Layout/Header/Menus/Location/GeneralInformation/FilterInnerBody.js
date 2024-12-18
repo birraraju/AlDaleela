@@ -291,7 +291,7 @@ export default function FilterInnerBody() {
     try {
       // Find the layer configuration for the specified name
       const selectedLayerConfig = config.featureServices.find(
-        service => service.name === layerName
+        (service) => service.name === layerName
       );
   
       if (!selectedLayerConfig) {
@@ -313,66 +313,73 @@ export default function FilterInnerBody() {
       });
   
       // Check if features are found
-      if (result.features.length > 0) {
-        // Initialize extent for zooming
-        let combinedExtent = null;
+      if (result.features.length === 0) {
+        console.warn(`No features found in layer "${layerName}" for condition "${whereCondition}".`);
+        return;
+      }
   
-        // Loop through features and add them as graphics
-        result.features.forEach(feature => {
-          const featureGeometry = feature.geometry;
+      // Initialize extent for zooming
+      let combinedExtent = null;
   
-          // Add the feature as a graphic
-          const graphic = new Graphic({
-            geometry: featureGeometry,
-            symbol: {
-              type: "simple-marker", // Customize as needed
-              color: [0, 255, 255, 0.5],
-              outline: {
-                color: [0, 255, 255, 1],
-                width: 2
-              }
+      // Loop through features and process geometries
+      result.features.forEach((feature) => {
+        const featureGeometry = feature.geometry;
+  
+        if (!featureGeometry) {
+          console.warn("Feature with null geometry encountered. Skipping...");
+          return; // Skip features with null geometry
+        }
+  
+        // Add the feature as a graphic
+        const graphic = new Graphic({
+          geometry: featureGeometry,
+          symbol: {
+            type: "simple-marker", // Customize symbol as needed
+            color: [0, 255, 255, 0.5],
+            outline: {
+              color: [0, 255, 255, 1],
+              width: 2
             }
-          });
-          contextMapView.graphics.add(graphic);
-  
-          // Handle extent for point geometry or other geometries
-          let featureExtent;
-          if (featureGeometry.type === "point") {
-            // Create a small extent for point geometries
-            featureExtent = new Extent({
-              xmin: featureGeometry.x - 0.0001,
-              ymin: featureGeometry.y - 0.0001,
-              xmax: featureGeometry.x + 0.0001,
-              ymax: featureGeometry.y + 0.0001,
-              spatialReference: featureGeometry.spatialReference
-            });
-          } else {
-            // Use the existing extent for other geometries
-            featureExtent = featureGeometry.extent;
-          }
-  
-          // Combine extents for all features
-          if (!combinedExtent) {
-            combinedExtent = featureExtent;
-          } else {
-            combinedExtent = combinedExtent.union(featureExtent);
           }
         });
+        contextMapView.graphics.add(graphic);
   
-        // Zoom to the combined extent of the features
-        if (combinedExtent) {
-          await contextMapView.goTo({
-            target: combinedExtent,
-            zoom: 10 // Adjust zoom level as needed
+        // Calculate extent based on geometry type
+        let featureExtent = null;
+        if (featureGeometry.type === "point") {
+          // Create a small extent for point geometries
+          featureExtent = new Extent({
+            xmin: featureGeometry.x - 0.0001,
+            ymin: featureGeometry.y - 0.0001,
+            xmax: featureGeometry.x + 0.0001,
+            ymax: featureGeometry.y + 0.0001,
+            spatialReference: featureGeometry.spatialReference
           });
+        } else {
+          // Use the existing extent for other geometries
+          featureExtent = featureGeometry.extent;
         }
-      } else {
-        console.warn(`No features found in layer "${layerName}" for condition "${whereCondition}".`);
+  
+        // Combine extents for all features
+        combinedExtent = combinedExtent
+          ? combinedExtent.union(featureExtent)
+          : featureExtent;
+      });
+  
+      // Zoom to the combined extent of the features
+      if (combinedExtent) {
+        const bufferedExtent = combinedExtent.expand(1.2); // Optional: Add a small buffer to the extent
+        await contextMapView.goTo({
+          target: bufferedExtent,
+          animate: true // Smooth zoom animation
+        });
       }
     } catch (error) {
       console.error("Error querying or zooming to the layer:", error);
     }
   };
+  
+  
   
   return (
     <div className="relative h-full" dir={isLangArab ? "rtl" : "ltr"}>
