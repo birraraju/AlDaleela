@@ -157,7 +157,7 @@ export default function SearchContent({ inputClicked, iscategory,setIscategory, 
 
   return (
     <div
-      className={` mobile_s:w-[22rem]  mobile_m:w-[23rem] mobile_l:w-[27rem]  tab:w-[20rem] tab_s:w-[22rem] tab_l:w-[24rem] tab_l_1:w-[28rem]  laptop_s:w-[18rem] laptop_m:w-[22rem] rounded-2xl mb-8 absolute top-0 left-0 h-80 ${
+      className={` mobile_s:w-[22rem]  mobile_m:w-[23rem] mobile_l:w-[27rem]  tab:w-[20rem] tab_s:w-[22rem] tab_m:w-[24rem] tab_l:w-[24rem] tab_l_1:w-[28rem]  laptop_s:w-[18rem] laptop_m:w-[22rem] rounded-2xl mb-8 absolute top-0 left-0 h-80 ${
         isDarkMode ? "bg-[#606060CC] text-black" : "bg-white text-black"
       } bg-opacity-70 backdrop-blur-lg z-[1]`}
     >

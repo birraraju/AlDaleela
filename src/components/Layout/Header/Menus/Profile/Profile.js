@@ -149,6 +149,8 @@ const Profile = ({  isFooterOpen, isHeaderOpen,showInfo, setShowInfo, StackOpen,
     setRole(null);
     setprofiledetails(null);
     UserActivityLog(profiledetails, "Logged out")
+     // Refresh the page
+     window.location.reload();
   };
 
   // console.log("Profile Data:1",isProfileData," 2",isChangePassword,"3",isSuccess)

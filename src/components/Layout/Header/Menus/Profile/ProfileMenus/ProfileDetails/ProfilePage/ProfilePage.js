@@ -4,7 +4,7 @@ import ProfileContent from "./ProfileMenu/ProfileContent/ProfileContent";
 import ProfileHeader from "./ProfileMenu/ProfileHeader/ProfileHeader";
 import { useAuth } from "../../../../../../../../Providers/AuthProvider/AuthProvider";
 import SampleImageProfile from "../../../../../../../../assets/Header/Profile/ProfileDetails/Profile.svg"
-
+import { useTheme } from "../../../../../../ThemeContext/ThemeContext";
 export default function ProfilePage({
   setIsPopoverOpen,
   setIsEditProfile,
@@ -20,11 +20,12 @@ export default function ProfilePage({
   const [profileImage, setProfileImage] = useState(SampleImageProfile); // State to manage the profile image
   const [file, setFile] = useState(null);
   const {profiledetails} = useAuth()
+  const {isLangArab} = useTheme()
   useEffect(() => {
 
   },[profiledetails]);
   return (
-    <div>
+    <div dir={ isLangArab && "rtl"}>
       <ProfileHeader
         setIsProfileData={setIsProfileData}
         setIsProfile={setIsProfile}

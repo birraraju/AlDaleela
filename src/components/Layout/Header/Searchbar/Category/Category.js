@@ -148,7 +148,7 @@ export default function Category({setInputValue, setShowSearchContent, inputClic
 
     {isOpen && (
       <div
-        className="absolute w-[100px] h-44"
+        className={`absolute ${ isLangArab? " left-0.5 sm:left-0 ":" right-0.5 sm:right-0"}  w-[100px] h-44`}
         style={{
           top: '2.5rem', // Adjust the dropdown’s position relative to the button
           zIndex: 9, // Ensure dropdown appears below the button

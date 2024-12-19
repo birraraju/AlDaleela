@@ -1233,12 +1233,12 @@ const Component = ({
 
             {/* Action Buttons */}
             {isEditShowPOI && (
-              <div dir={isLangArab && "rtl"} className={`flex  ${isLangArab?"justify-between":" justify-center"} py-1 space-x-8 items-center`}>
+              <div dir={isLangArab && "rtl"} className={`flex  justify-between  py-1  items-center`}>
                 <button
                   onClick={() => setIsShowEditPOI(false)}
-                  className={`w-auto  px-10 py-3 sm:py-3 sm:px-14 outline-none  text-xs ${
-                    isDarkMode ? " text-[#505050] bg-white" : "text-[#505050] bg-transparent"
-                  } ${isLangArab && "mr-5"} border border-[#909090] rounded-lg`}
+                  className={`w-[45%]  px-10 py-3 sm:py-3 sm:px-14 outline-none  text-xs laptop_s:text-sm ${
+                    isDarkMode ? " text-[#505050] bg-white/90" : "text-[#505050] bg-transparent"
+                  } ${isLangArab && " "} border border-[#909090] rounded-lg`}
                 >
                   {isLangArab ? "يلغي" : "Cancel"}
                 </button>
@@ -1246,7 +1246,7 @@ const Component = ({
                   onClick={() => {
                     handleAttributesUpdate();
                   }}
-                  className="w-auto px-10 py-3 sm:py-3 sm:px-14 bg-custom-gradient text-white text-xs border border-transparent rounded-lg"
+                  className="w-[45%] px-10 py-3 sm:py-3 sm:px-14 bg-custom-gradient text-white text-xs laptop_s:text-sm border border-transparent rounded-lg"
                 >
                   {isLangArab ? "تحديث" : "Update"}
                 </button>

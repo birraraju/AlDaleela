@@ -154,7 +154,7 @@ export default function ContributionPopup({ setIsPopoverOpen, setIsContribution 
         </div>
       </div>
 
-      <div className={`px-1 py-3 sm:w-[350px]  laptop_s:w-[325px] w-[320px] max-h-[calc(79vh-200px)]  overflow-y-auto mt-2 ${(!featureServiceData.length > 0) ? 'min-h-[350px]':'min-h-[320px]'}`}>
+      <div className={`px-1 py-3 sm:w-[350px]  laptop_s:w-[325px] w-[320px] max-h-[350px]  overflow-y-auto mt-2 ${(!featureServiceData.length > 0) ? 'min-h-[350px]':'min-h-[320px]'}`}>
         <div
           className={`grid   grid-cols-3 gap-4 font-medium text-[12px] mb-2 px-4 ${
             isDarkMode ? "text-gray-300" : "text-gray-600"

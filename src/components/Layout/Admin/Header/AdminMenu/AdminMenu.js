@@ -12,7 +12,7 @@ const Menus = ({ isFooteropen, isHeaderOpen }) => {
   };
 
   return (
-    <div className="text-white flex justify-between z-10 items-center">
+    <div className="text-white flex justify-between z-10 gap-2 items-center">
       {close && <Stack isFooteropen={isFooteropen} isHeaderOpen={isHeaderOpen} isStackOpen={handleStackOpen} />}
       <Language isHeaderOpen={isHeaderOpen} />
       <Profile isFooteropen={isFooteropen} stackOpen={stackOpen} isHeaderOpen={isHeaderOpen} />

@@ -240,15 +240,15 @@ export default function Footer({
     >
        { isPlusShow && <button
     onClick={()=> setisPlusShow(false)}
-    className="w-12 h-12 sm:w-14 sm:h-14 relative text-white rounded-full flex items-center justify-center transition-colors duration-200"
+    className="w-14 h-14 sm:w-14 sm:h-14 relative text-white rounded-full flex items-center justify-center transition-colors duration-200"
   >
     <img
       src={isDarkMode ? HomeDark : Home}
       alt="Home Icon"
-      className="w-10 h-10 sm:w-[70%] sm:h-[70%]"
+      className="w-[70%] h-[70%] sm:w-[70%] sm:h-[70%]"
     />
     <div className="absolute py-6 flex-1 justify-center items-center right-0">
-      <img src={ShowPlus} alt="Home Sign" className="w-6 sm:w-[75%]" />
+      <img src={ShowPlus} alt="Home Sign" className="w-[75%] sm:w-[75%]" />
     </div>
   </button>}
     {!isPlusShow &&  <> {isLangArab

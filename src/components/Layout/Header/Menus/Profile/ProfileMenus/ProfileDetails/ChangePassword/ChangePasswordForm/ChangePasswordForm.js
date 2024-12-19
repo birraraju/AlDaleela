@@ -127,7 +127,7 @@ export default function ChangePasswordForm({setIsProfileData,setModalMessage,set
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="sm:space-y-3 space-y-6 sm:p-2 p-2">
+      <form dir={isLangArab && "rtl"} onSubmit={form.handleSubmit(onSubmit)} className="sm:space-y-3 space-y-6 sm:p-2 p-2">
         {/* Current Password */}
         <FormField
           control={form.control}

@@ -118,7 +118,7 @@ export default function ForgetPassword({ onClose, onBackToLogin, onSignup, onNex
   // }, [expiryTime]);
 
   return (
-    <div className="fixed sm:inset-10 flex items-center justify-center z-50 sm:p-4 px-1">
+    <div dir={isLangArab && "rtl"} className="fixed sm:inset-10 flex items-center justify-center z-50 sm:p-4 px-1">
       <div
         ref={modalRef}
         className={`p-9 sm:p-12 md:p-12 mb-12 rounded-2xl border shadow-lg w-full max-w-sm relative transition-colors duration-300 ${
@@ -141,7 +141,7 @@ export default function ForgetPassword({ onClose, onBackToLogin, onSignup, onNex
               className={`flex items-center text-[14px] ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} hover:underline mb-4 mt-8 sm:mt-12`}
               onClick={onBackToLogin}
             >
-              <ChevronLeft className={`w-6 h-6 mr-1 ${isDarkMode ? 'text-white' : 'text-black'}`} />
+              <ChevronLeft className={`w-6 h-6 ${isLangArab && " rotate-180"} mr-1 ${isDarkMode ? 'text-white' : 'text-black'}`} />
               {isLangArab?"العودة لتسجيل الدخول":"Back to sign in"}
             </button>
             <h2 className={`text-[24px] sm:text-[28px] font-medium ${isDarkMode ? 'text-white' : 'text-black'} mb-2`}>{isLangArab?"هل نسيت كلمة السر":"Forgot Password"}</h2>

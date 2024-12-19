@@ -166,34 +166,7 @@ const MeasurementsComponent = ({ mapview }) => {
 
   return (
     <div id="measurementDiv" className="measurement bg-transparent     py-5">
-      {/* <div id="toolbarDiv" className="esri-component esri-widget flex justify-between w-full items-center py-2 px-1">
-      <div className="flex esri-component esri-widget flex-row h-12  items-center bg-black/5 border w-full  border-transparent rounded-lg justify-between border-gray-300">
-                <label
-                  htmlFor="Toggle3"
-                  className="inline-flex bg-black/10 py-1   items-center px-1 rounded-lg text-black cursor-pointer dark:text-gray-100"
-                >
-                  <span 
-                    onClick={() => {handleClickDistance()}}   
-                    className={`flex items-center  px-1 py-2 font-medium text-black text-[10px] rounded-md ${
-                      isDistanceSelected ? "bg-white" :  ""
-                    } dark:bg-violet-600 peer-checked:dark:bg-gray-700`}
-                  >
-                    <img src={isDarkMode?isDistanceSelected?Measurment: DarkMeasurment : Measurment} alt="Distance" className={`w-5 ${isLangArab?"ml -1 sm:ml-2":"mr-1 sm:mr-2"}`} />
-                    <button id="distance" className={` font-500 ${isDistanceSelected? (isDarkMode ?" text-[#404040]":"text-[#404040]"):(isDarkMode?" text-white ":"text-[#404040]")}`} title="Distance Measurement Tool">{isLangArab?"قياس المسافة":"Distance Measurement"}</button>
-                  </span>
-                  <span
-                    onClick={() => {handleClickArea()}}
-                    className={`flex items-center  ml-1 pl-1 sm:pr-5 pr-1 py-2 text-[10px] rounded-md ${
-                        isAreaSelected ? "bg-white" : ""
-                    } dark:bg-gray-700 peer-checked:dark:bg-violet-600`}
-                  >
-                    <img src={isDarkMode ? isAreaSelected?AreaMeasurment:DarkAreaMeasurement : AreaMeasurment} alt="Area" className={`w-5 ${isLangArab?"ml -1 sm:ml-2":"mr-1 sm:mr-2"}`} />
-                    <button id="area" className={ `    font-500 ${isAreaSelected? (isDarkMode ?" text-[#404040]":"text-[#404040]"):(isDarkMode?" text-white ":"text-[#404040]")}`} title="Area Measurement Tool">{isLangArab?"قياس المساحة":"Area Measurement"}</button>
-                  </span>
-                </label>
-              </div>        
-        <button id="clear" onClick={()=>{handleClear()}} className=" text-red-500 border border-none rounded-lg w-6 h-9 flex justify-center items-center" title="Clear Measurements"><FaTrash className=" w-3 h-9" /></button>
-      </div> */}
+      
       <div
   id="toolbarDiv"
   className="esri-component esri-widget flex justify-between w-full items-center py-2 px-1"

@@ -639,7 +639,7 @@ if (!validPhoneCount) {
   return (
     <div
       dir={isLangArab && "rtl"}
-      className="fixed sm:inset-10 inset-1 flex items-center justify-center z-50 mb-6"
+      className="fixed sm:inset-10 inset-x-1 top-14 flex items-center justify-center z-50 mb-6"
     >
       <div
         ref={modalRef}
@@ -667,18 +667,18 @@ if (!validPhoneCount) {
               />
             </div>
             <h2
-              className={`font-omnes text-[28px] font-medium leading-tight text-left mb-1 ${
+              className={` text-[28px] font-medium leading-tight ${ isLangArab? "text-right":"text-left"} mb-1 ${
                 isDarkMode ? "text-white" : "text-black"
               }`}
             >
               {isLangArab ? "تسجيل" : "Sign Up"}
             </h2>
             <p
-              className={`font-omnes text-[15px] font-light leading-tight text-left mb-3 text-${
+              className={` text-[15px] font-light leading-tight ${ isLangArab? "text-right":"text-left"} mb-3 text-${
                 isDarkMode ? "[#FFFFFFCC]" : "gray-600"
               } `}
             >
-              Please create your account
+              { isLangArab?"يرجى إنشاء حسابك":"Please create your account"}
             </p>
             <form className="space-y-1 laptop_lg:space-y-2 ">
               <div className="grid sm:grid-cols-2 grid-cols-1 gap-2">

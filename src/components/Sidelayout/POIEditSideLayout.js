@@ -276,7 +276,7 @@
     return (
       <div
         className={`fixed top-20 w-[95%] ${POIShareShow?"-[65%] laptop_s:w-[400px]": POIFormisOpenModalShow ?" ":"h-[90%]"} sm:w-[400px] laptop_s:w-[400px]  ${ isLangArab?"left-3 sm:left-16 laptop_s:left-6":"right-3 sm:right-16 laptop_s:right-6"} transition-transform duration-300 ease-in-out ${
-          isOpen ? "translate-x-0" : ( isLangArab?"-translate-x-[106%]":"translate-x-[106%]")
+          isOpen ? "translate-x-0" : ( isLangArab?" sm:-translate-x-[116%] laptop_s:-translate-x-[106%]":" sm:translate-x-[116%]  laptop_s:translate-x-[106%]")
         }`}
         // style={{ width, height, zIndex: 50 }}  // Ensure it's above other elements
         ref={containerRef}  // Reference to the panel
@@ -309,7 +309,7 @@
     
     src={PoiEditShare} // isDarkMode check was redundant as both conditions had the same value
     alt="Share Location"
-    className={`h-full ${isDarkMode ?"invert brightness-0 text-white ":" "} `}
+    className={`h-full  ${isDarkMode ?"invert brightness-0 text-white ":" "} `}
   />
   </button>
 

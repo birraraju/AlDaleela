@@ -93,7 +93,7 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
     //   opacity: 0 
     // }}
     // transition={{ ease: "easeInOut" }}
-      className={`px-4 py-4 fixed sm:top-20 top-12 ${isLangArab?"sm:left-10 laptop_s:left-6 left-4":"sm:right-10 laptop_s:right-6 right-4"} sm:h-[45vh] laptop_s:h-[80vh] h-[85vh] sm:w-[20rem] laptop_s:w-[20rem] w-[21rem] ${
+      className={`px-4 py-4 fixed sm:top-20 top-12 ${isLangArab?"sm:left-10 laptop_s:left-6 left-4":"sm:right-10 laptop_s:right-6 right-4"} sm:h-[50vh] tab_s:h-[45vh] laptop_s:h-[80vh] h-[85vh] sm:w-[20rem] laptop_s:w-[20rem] w-[21rem] ${
         isDarkMode
           ? "bg-[rgba(96,96,96,0.8)] bg-opacity-80 border-none"
           : "bg-white bg-opacity-70 backdrop-blur-lg border-none"
@@ -123,7 +123,7 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
           <div
             key={user.rank}
             className={`flex flex-col items-center ${
-              index === 0 ? isLangArab?"absolute right-1/4 -translate-x-[30%] sm:-translate-x-[27%]  -top-8" : "absolute left-1/4 translate-x-[30%] sm:translate-x-[23%]  -top-8" : ""
+              index === 0 ? isLangArab?"absolute right-1/4 -translate-x-[39%] sm:-translate-x-[35%]  -top-8" : "absolute left-1/4 translate-x-[39%] sm:translate-x-[35%]  -top-8" : ""
             }`}
           >
             <div className="relative flex flex-col justify-center items-center">
@@ -183,7 +183,7 @@ export default function LeaderboardSlideout({ setIsPopoverOpen, setIsLeaderboard
         ))}
       </div>
 
-      <div className="space-y-4 mt-10 laptop_l_2:mt-7 laptop_m:mt-10 sm:mt-7 laptop_s:mt-10 overflow-y-auto sm:h-[48%] laptop_l_2:h-[49%] laptop_m:h-[55%] laptop_s:h-[55%] h-[55%]">
+      <div className="space-y-4 mt-10 laptop_l_2:mt-7 laptop_m:mt-10 sm:mt-7 tab_s:mt-5 tab_m:mt-7 laptop_s:mt-10 overflow-y-auto sm:h-[48%] tab_s:h-[57%] tab_m:h-[48%]  laptop_l_2:h-[49%] laptop_m:h-[55%] laptop_s:h-[55%] h-[55%]">
         {data.slice(3).map((user, index) => (
           <div
             key={user.rank}

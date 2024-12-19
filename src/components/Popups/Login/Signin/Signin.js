@@ -30,7 +30,7 @@ export default function Signin({ onClose, onSignupClick, onForgotPasswordClick,s
   }, [onClose]);
 
   return (
-    <div className="fixed sm:inset-10 inset-1 z-50 flex items-center justify-center">
+    <div dir={isLangArab && "rtl"} className="fixed sm:inset-10 inset-1 z-50 flex items-center justify-center">
 
       <div className="absolute inset-10 pointer-events-none"></div> {/* Backdrop with no pointer events */}
       <div
@@ -48,10 +48,10 @@ export default function Signin({ onClose, onSignupClick, onForgotPasswordClick,s
         <div className="flex justify-center mb-4">
           <img src={ isDarkMode? Darklogo :Logo} alt="Logo" className="h-12" />
         </div>
-        <h2 className={`  text-[28px] leading-tight text-${isDarkMode ? '[#FFFFFFCC] text-opacity-80' : 'black'} mb-1 font-medium`}>
+        <h2 className={`  ${ isLangArab?" right-4":" left-4"}   text-[28px] leading-tight text-${isDarkMode ? '[#FFFFFFCC] text-opacity-80' : 'black'} mb-1 font-medium`}>
           {isLangArab?"مرحبًا بعودتك":"Welcome Back"}
         </h2>
-        <p className={`  text-[14px] font-[400] text-${isDarkMode ? '[#FFFFFFCC]' : 'gray-500'} leading-5 mb-6`}>
+        <p className={`  ${ isLangArab? " right-4 ":"left-4"}  text-[14px] font-[400] text-${isDarkMode ? '[#FFFFFFCC]' : 'gray-500'} leading-5 mb-6`}>
           {isLangArab?"يرجى تسجيل الدخول إلى حسابك":"Please sign in to your account"}
         </p>
 
