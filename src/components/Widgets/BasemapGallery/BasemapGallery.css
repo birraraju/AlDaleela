@@ -5,6 +5,22 @@
 .esri-basemap-gallery__item {
     background-color: transparent;
 }
+.esri-basemap-gallery:focus-within {
+    z-index: 1;
+    outline-offset: 0px;
+    outline: none;
+}
+
+.esri-basemap-gallery__item-content {
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+    padding-block: 2px;
+    padding-inline: 11px;
+    display: flex;
+    min-height: 50px;
+}
+
 
 /* Styles for gallery items */
 .MapGallerycontent .card-wrapper, 
@@ -35,16 +51,16 @@
 
 /* Title default styles */
 .esri-basemap-gallery__item-title {
-    color: #6e6e6e; /* Default text color */
-    justify-content: center;
-    align-items: center;
+    color: #6e6e6e; 
+    text-align: initial !important;
+    align-items: initial !important;
+    justify-content: initial !important;
     width: 100%;
-    height: 80%; /* Ensures the title fills the height of its container */
+    height: 80%; 
     padding: 2px;
     font-size: 11px;
     transition: color 0.25s ease-in-out, font-weight 0.25s ease-in-out;
     display: flex;
-    text-align: center; /* Centers the text horizontally */
 }
 
 /* Prevent title color change when hovering over <li> */

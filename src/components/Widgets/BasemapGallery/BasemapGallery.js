@@ -64,8 +64,9 @@ const BasemapGalleryComponent = ({ mapview }) => {
         container.style.display = 'grid';
         container.style.gridTemplateColumns = 'repeat(auto-fill, minmax(120px, 1fr))'; // auto-fill with minmax columns
         container.style.gap = '5px'; // Gap between the grid items
-        container.style.paddingBlock = '0px'; // Assuming you want no padding block-wise, change if needed
-        container.style.paddingInline = '10px'; // Padding on the left and right
+        container.style.padding = '10px';
+        // container.style.paddingBlock = '0px'; 
+        // container.style.paddingInline = '10px'; 
       }
     });
   
