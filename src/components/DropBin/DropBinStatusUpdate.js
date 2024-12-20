@@ -15,17 +15,25 @@ import Graphic from '@arcgis/core/Graphic';
 const DropBinStatusUpdate = ({setMessage,isLangArab,setFormShow,isDarkMode,setPOIFormIsOpenModalShow,setPOIFormSuccessShow,isFormShow}) => {
   const [poiData, setPoiData] = useState({
     organization: "",
+    organization_En: "",
     name_en: "",
+    name_ar :"",
     Class: "",
+    ClassAr:"",
     ClassD: "",
+    ClassD_Ar:"",
     Status: "",
     Comment: "",
-    description: "",
+    //description: "",
     poems: "",
     stories: "",
     Classification: "",
+    Classification_ar:"",
     MunicipalityAr: "",
-    Emirate: ""
+    MunicipalityAr: "Al Dhafra",
+    //Emirate: "",
+    City: "Western Region",
+    CityAr:"",
   });
   const {dropPinObjectId, contextMapView} = useAuth();
   const [images, setimages] = useState([])
@@ -59,44 +67,26 @@ const DropBinStatusUpdate = ({setMessage,isLangArab,setFormShow,isDarkMode,setPO
            const attributes = features[0].attributes;
             // Extract only the fields you want to update in poiData
             const updatedData = {
-              organization: dropPinObjectId.isLanguageArabic ? attributes.organization 
-                              : attributes.organization_En,
-            
-              name: dropPinObjectId.isLanguageArabic 
-                              ? attributes.name_ar 
-                              : attributes.name_en,
-            
-              Class: dropPinObjectId.isLanguageArabic 
-                              ? attributes.ClassAr 
-                              : attributes.Class,
-            
-              ClassD: dropPinObjectId.isLanguageArabic 
-                              ? attributes.ClassD_Ar 
-                              : attributes.ClassD,
-            
-              Status: dropPinObjectId.isLanguageArabic? "":attributes.Status,
-              Comment: dropPinObjectId.isLanguageArabic? "":attributes.Comment,
-            
-              //description: attributes.description,
-            
-              poems: dropPinObjectId.isLanguageArabic? "":
-                      attributes.poems,
-            
-              stories: dropPinObjectId.isLanguageArabic? "":
-                      attributes.stories,
-            
-              Classification: dropPinObjectId.isLanguageArabic 
-                              ? attributes.Classification_ar 
-                              : attributes.Classification,
-            
-              Municipality: dropPinObjectId.isLanguageArabic
-                              ? attributes.MunicipalityAr 
-                              : attributes.Municipality,
-            
+              organization:  attributes.organization,
+              organization_En: attributes.organization_En,
+              name_en: attributes.name_en,
+              name_ar: attributes.name_ar,            
+              Class: attributes.Class,
+              ClassAr: attributes.ClassAr,            
+              ClassD: attributes.ClassD,
+              ClassD_Ar: attributes.ClassD_Ar,            
+              Status: attributes.Status,
+              Comment: attributes.Comment,            
+              //description: attributes.description,            
+              poems: attributes.poems,            
+              stories: attributes.stories,            
+              Classification: attributes.Classification,
+              Classification_ar: attributes.Classification_ar,            
+              Municipality: attributes.Municipality,
+              MunicipalityAr: attributes.MunicipalityAr,            
               //Emirate: attributes.Emirate,
-              City: dropPinObjectId.isLanguageArabic
-                              ? attributes.CityAr 
-                              : attributes.City,
+              City: attributes.City,
+              CityAr: attributes.CityAr,
             };
             
             setPoiData(updatedData);
@@ -319,24 +309,40 @@ const DropBinStatusUpdate = ({setMessage,isLangArab,setFormShow,isDarkMode,setPO
           const rawData = results.data[0];
 
           // Check if Arabic values are available by verifying any critical Arabic field
-          const isArabicDataAvailable = rawData.nameAr && rawData.organizationAr;
+          //const isArabicDataAvailable = rawData.nameAr && rawData.organizationAr;
           
-          const updatedData = dropPinObjectId.isLanguageArabic
-            ? {
-                // Arabic keys
-                OBJECTID: rawData.featureObjectId,
-                organization: rawData.organizationAr,
-                name_ar: rawData.nameAr,
-                ClassAr: rawData.classAr,
-                ClassD_Ar: rawData.classDAr,
-                Classification_ar: rawData.classificationDAr,
-                MunicipalityAr: rawData.municipalityAr,
-                CityAr: rawData.cityAr,
-                Isadminapproved: 1,
-              }
-            : {
-                // English keys
-                OBJECTID: rawData.featureObjectId,
+          // const updatedData = dropPinObjectId.isLanguageArabic
+          //   ? {
+          //       // Arabic keys
+          //       OBJECTID: rawData.featureObjectId,
+          //       organization: rawData.organizationAr,
+          //       name_ar: rawData.nameAr,
+          //       ClassAr: rawData.classAr,
+          //       ClassD_Ar: rawData.classDAr,
+          //       Classification_ar: rawData.classificationDAr,
+          //       MunicipalityAr: rawData.municipalityAr,
+          //       CityAr: rawData.cityAr,
+          //       Isadminapproved: 1,
+          //     }
+          //   : {
+          //       // English keys
+          //       OBJECTID: rawData.featureObjectId,
+          //       organization_En: rawData.organizationEn,
+          //       name_en: rawData.nameEn,
+          //       Class: rawData.class,
+          //       ClassD: rawData.classD,
+          //       Status: rawData.status,
+          //       Comment: rawData.comment,
+          //       //description: rawData.description,
+          //       poems: rawData.poems,
+          //       stories: rawData.stories,
+          //       Classification: rawData.classification,
+          //       Municipality: rawData.municipality,
+          //       //Emirate: rawData.emirate,
+          //       City: rawData.city,
+          //       Isadminapproved: 1,
+          //     };   
+              const updatedData ={OBJECTID: rawData.featureObjectId,
                 organization_En: rawData.organizationEn,
                 name_en: rawData.nameEn,
                 Class: rawData.class,
@@ -350,8 +356,15 @@ const DropBinStatusUpdate = ({setMessage,isLangArab,setFormShow,isDarkMode,setPO
                 Municipality: rawData.municipality,
                 //Emirate: rawData.emirate,
                 City: rawData.city,
+                organization: rawData.organizationAr,
+                name_ar: rawData.nameAr,
+                ClassAr: rawData.classAr,
+                ClassD_Ar: rawData.classDAr,
+                Classification_ar: rawData.classificationDAr,
+                MunicipalityAr: rawData.municipalityAr,
+                CityAr: rawData.cityAr,
                 Isadminapproved: 1,
-              };          
+              }       
           // Extract only the fields you want to update in poiData
               // const updatedData = {
               //   OBJECTID: results.data[0].featureObjectId,
@@ -537,18 +550,25 @@ const DropBinStatusUpdate = ({setMessage,isLangArab,setFormShow,isDarkMode,setPO
         {renderField("Classification", poiData.Classification)}
         {renderField("Municipality", poiData.MunicipalityAr)}
         {renderField("Emirate", poiData.Emirate)} */}        
-{renderField(isLangArab ? "الاسم" : "Name", poiData.name)}
-{renderField(isLangArab ? "منظمة" : "Organization", poiData.organization)}
-{renderField(isLangArab ? "الفئة" : "Class", poiData.Class)}
-{renderField(isLangArab ? "المعنى الجغرافي" : "Class Description", poiData.ClassD)}
-{renderField(isLangArab ? "الحالة" : "Status", poiData.Status)}
-{renderField(isLangArab ? "تعليق" : "Comment", poiData.Comment)}
+{renderField("Name", poiData.name_en)}
+{renderField("الاسم", poiData.name_ar)}
+{renderField("Organization", poiData.organization_En)}
+{renderField("منظمة", poiData.organization)}
+{renderField("Class", poiData.Class)}
+{renderField("الفئة", poiData.ClassAr)}
+{renderField("Class Description", poiData.ClassD)}
+{renderField("المعنى الجغرافي", poiData.ClassD_Ar)}
+{renderField("Status", poiData.Status)}
+{renderField("Comment", poiData.Comment)}
 {/* {renderField(isLangArab ? "الوصف" : "Description", poiData.description)} */}
-{renderField(isLangArab ? "الأشعار" : "Poems", poiData.poems)}
-{renderField(isLangArab ? "القصص" : "Stories", poiData.stories)}
-{renderField(isLangArab ? "التصنيف" : "Classification", poiData.Classification)}
-{renderField(isLangArab ? "المدينة" : "Region", poiData.Municipality)}
-{renderField(isLangArab ? "المنطقة" : "Area", poiData.City)}
+{renderField("Poems", poiData.poems)}
+{renderField("Stories", poiData.stories)}
+{renderField("Classification", poiData.Classification)}
+{renderField("التصنيف", poiData.Classification_ar)}
+{renderField("Region", poiData.Municipality)}
+{renderField("المدينة", poiData.MunicipalityAr)}
+{renderField("Area", poiData.City)}
+{renderField("المنطقة", poiData.CityAr)}
 {/* {renderField(isLangArab ? "الإمارة" : "Emirate", poiData.Emirate)} */}
 
 

@@ -25,7 +25,7 @@ export default function PhotoContent({setInputClicked,setIscategory}) {
   
         try {
           const query = layer.createQuery();
-          query.where = "1=1";
+          query.where = "Isadminapproved!=2";
           query.returnGeometry = true;
           query.outFields = ["*"];
           const results = await layer.queryFeatures(query);

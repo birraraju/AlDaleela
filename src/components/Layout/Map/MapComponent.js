@@ -188,6 +188,7 @@ const handleIdentify = async(event, mapview) => {
   identifyParams.layerOption = 'visible'; // Option to identify only visible layers
   identifyParams.geometry = event.geometry ?? event.mapPoint; // Use the provided geometry or map point
   identifyParams.mapExtent = mapview.extent; // Set the map extent
+  identifyParams.where = "Isadminapproved= 1"
 
   // Execute the identify operation
   // Execute the identify operation
