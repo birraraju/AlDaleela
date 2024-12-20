@@ -1346,10 +1346,10 @@ console.log("Point Initial data:", poiData)
         )}
 
         {/* Action Buttons */}
-        <div className="flex justify-between px-4 sm:px-1 laptop_s:space-x-4  space-x-8 items-center pt-4 pb-16">
+        <div className="flex justify-between items-center pt-4 pb-16">
           <button
             onClick={onClose}
-            className={`w-auto py-3 px-9 laptop_s:px-12  ${isDarkMode?"bg-white border-white":"bg-transparent border-black"} text-xs border  rounded-lg`}
+            className={`w-[45%] py-3 px-9 laptop_s:px-12  ${isDarkMode?"bg-white border-white":"bg-transparent border-black"} text-xs border  rounded-lg`}
           >
             {isLangArab ? "يلغي" : "Cancel"}
           </button>
@@ -1358,7 +1358,7 @@ console.log("Point Initial data:", poiData)
             disabled={!buttonDisable}
             className={` ${
               !buttonDisable
-                ? "w-auto py-3 px-9 laptop_s:px-12 bg-custome-gray1 text-white text-xs border border-gray-300 rounded-lg"
+                ? "w-[45%] py-3 px-9 laptop_s:px-12 bg-custome-gray1 text-white text-xs border border-gray-300 rounded-lg"
                 : "w-auto py-3 px-9 bg-custom-gradient text-xs border text-white border-gray-300 rounded-lg"
             }`}
           >

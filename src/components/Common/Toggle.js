@@ -26,11 +26,11 @@ const LanguageSelector = () => {
         className={`absolute sm:top-1 left-1 mobile_s:w-5 laptop_s:w-4 laptop_s:h-4 laptop_m:w-6 mobile_s:h-5 laptop_m:h-6
           bg-white rounded-full opacity-30
           transition-transform duration-350 ease-in-out
-          ${isLangArab ? "mobile_s:translate-x-9 tab:translate-x-7 tab_l:translate-x-9 mobile_l:translate-x-9 laptop_s:translate-x-6 laptop_m:translate-x-8" : "translate-x-0"}`}
+          ${isLangArab ? "mobile_s:translate-x-9 tab:translate-x-8  tab_l:translate-x-8 mobile_l:translate-x-9 laptop_s:translate-x-6 laptop_m:translate-x-8" : "translate-x-0"}`}
       ></div>
       <span
         className={`z-10 mobile_s:text-xs laptop_s:text-[10px] laptop_m:text-[14px]
-          ${isLangArab ? "ml-auto mobile_s:pr-8 laptop_s:pr-[22px] laptop_m:pr-7" : "sm:pl-8  laptop_s:pl-6 laptop_m:pl-8 pl-9"}
+          ${isLangArab ? "ml-1  sm:pr-8 pr-7 tab:pr-7  laptop_s:pr-[22px] laptop_m:pr-7" : "sm:pl-8 tab:pl-6 mr-0  tab:mr-1   laptop_s:pl-5  laptop_m:pl-7 pl-8"}
           ${isLangArab ? "text-[16px] font-400" : "text-[16px] font-400"}`}
       >
         {isLangArab ? "عربي" : "ENG"}

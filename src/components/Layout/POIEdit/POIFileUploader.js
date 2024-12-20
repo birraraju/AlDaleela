@@ -349,7 +349,7 @@ const FileUploader = ({ POIFormUploader,isLangArab,setIsMsgStatus,
         <button
           onClick={() => { handleUploadFile()
           }}
-          className="w-auto m-3 py-3 px-9 bg-custom-gradient text-xs border border-gray-300 rounded-lg"
+          className="w-auto m-3 py-3 text-white px-9 bg-custom-gradient text-xs border border-gray-300 rounded-lg"
         >
           {isLangArab?"رفع":"Upload"}
         </button>

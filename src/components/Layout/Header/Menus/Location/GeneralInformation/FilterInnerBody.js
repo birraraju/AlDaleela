@@ -24,6 +24,8 @@ export default function FilterInnerBody() {
     Layer2: [],
     Layer3: [],
   });
+
+  console.log("Filter Layer Three data:", sampleData.Layer3);
   useEffect(()=>{
     // Dynamically update Layers with names from featureServices
     // const updatedLayers = [...sampleData.Layers];
@@ -453,7 +455,7 @@ export default function FilterInnerBody() {
                 
                 </option>
                 {sampleData.Layer3 &&  [...sampleData.Layer3]
-    .filter((item) => item !== null && item !== undefined) // Remove null or undefined values
+    .filter((item) => item !== null && item !== undefined && item !== "" && item !== " ") // Remove null or undefined values
     .sort((a, b) => a.localeCompare(b)).map((item) => (
                   <option key={item} value={item}>
                     {item}

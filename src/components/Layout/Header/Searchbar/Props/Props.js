@@ -17,7 +17,7 @@ export default function Props({
     <>
       {/* Search Icon */}
       <div dir={ isLangArab && "rtl"} className="relative flex justify-between items-center z-[2]">
-        <Label htmlFor="search" className={`absolute mobile_s:-top-7 laptop_s:-top-[24px] laptop_m:-top-[24px] ${isLangArab?"right-3":"left-3"}`}>
+        <Label htmlFor="search" className={`absolute mobile_s:-top-7  ${inputClicked  ?" laptop_s:-top-[22px] laptop_m:-top-[24px] ":"laptop_s:-top-[24px] laptop_m:-top-[24px] "}  ${isLangArab?"right-3":"left-3"}`}>
           <img
             src={`${process.env.PUBLIC_URL}/Header/Searchbar/search-${inputClicked || iscategory ? isDarkMode?"white.svg": "black.svg" : "white.svg"}`}
             alt=""

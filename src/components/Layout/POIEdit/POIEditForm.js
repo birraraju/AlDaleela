@@ -1043,7 +1043,7 @@ const Component = ({
                       {videos.map((video, index) => (
                         <div
                           key={index}
-                          className="relative h-[90px] rounded-lg overflow-hidden"
+                          className="relative m-2 h-[90px] w-full rounded-lg overflow-hidden"
                         >
                           {/* Video thumbnail with poster */}
                           <video
