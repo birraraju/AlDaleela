@@ -34,6 +34,76 @@ export default function Signup({ onClose, onSigninClick,setIsSuccess,
     country: "",
   });
 
+  const ArabiccountriesTexts = [
+    { country: "أفغانستان" }, { country: "ألبانيا" }, { country: "الجزائر" },
+    { country: "أندورا" }, { country: "أنغولا" }, { country: "أنتيغوا وبربودا" },
+    { country: "الأرجنتين" }, { country: "أرمينيا" }, { country: "أستراليا" },
+    { country: "النمسا" }, { country: "أذربيجان" }, { country: "الباهاماس" },
+    { country: "البحرين" }, { country: "بنغلاديش" }, { country: "بربادوس" },
+    { country: "بيلاروسيا" }, { country: "بلجيكا" }, { country: "بليز" },
+    { country: "بنين" }, { country: "بوتان" }, { country: "بوليفيا" },
+    { country: "البوسنة والهرسك" }, { country: "بوتسوانا" }, { country: "البرازيل" },
+    { country: "بروناي" }, { country: "بلغاريا" }, { country: "بوركينا فاسو" },
+    { country: "بوروندي" }, { country: "الرأس الأخضر" }, { country: "كمبوديا" },
+    { country: "الكاميرون" }, { country: "كندا" }, { country: "جمهورية أفريقيا الوسطى" },
+    { country: "تشاد" }, { country: "تشيلي" }, { country: "الصين" }, { country: "كولومبيا" },
+    { country: "جزر القمر" }, { country: "كوستاريكا" }, { country: "كرواتيا" },
+    { country: "كوبا" }, { country: "قبرص" }, { country: "جمهورية التشيك" },
+    { country: "جمهورية الكونغو الديمقراطية" }, { country: "الدنمارك" }, 
+    { country: "جيبوتي" }, { country: "دومينيكا" }, { country: "جمهورية الدومينيكان" },
+    { country: "الإكوادور" }, { country: "مصر" }, { country: "السلفادور" },
+    { country: "غينيا الاستوائية" }, { country: "إريتريا" }, { country: "إستونيا" },
+    { country: "إسواتيني" }, { country: "إثيوبيا" }, { country: "فيجي" },
+    { country: "فنلندا" }, { country: "فرنسا" }, { country: "الغابون" },
+    { country: "غامبيا" }, { country: "جورجيا" }, { country: "ألمانيا" },
+    { country: "غانا" }, { country: "اليونان" }, { country: "غرينادا" },
+    { country: "غواتيمالا" }, { country: "غينيا" }, { country: "غينيا بيساو" },
+    { country: "غيانا" }, { country: "هايتي" }, { country: "هندوراس" },
+    { country: "المجر" }, { country: "أيسلندا" }, { country: "الهند" },
+    { country: "إندونيسيا" }, { country: "إيران" }, { country: "العراق" },
+    { country: "أيرلندا" }, { country: "إسرائيل" }, { country: "إيطاليا" },
+    { country: "ساحل العاج" }, { country: "جامايكا" }, { country: "اليابان" },
+    { country: "الأردن" }, { country: "كازاخستان" }, { country: "كينيا" },
+    { country: "كيريباتي" }, { country: "كوريا الشمالية" }, { country: "كوريا الجنوبية" },
+    { country: "الكويت" }, { country: "قيرغيزستان" }, { country: "لاوس" },
+    { country: "لاتفيا" }, { country: "لبنان" }, { country: "ليسوتو" },
+    { country: "ليبيريا" }, { country: "ليبيا" }, { country: "ليختنشتاين" },
+    { country: "ليتوانيا" }, { country: "لوكسمبورغ" }, { country: "مدغشقر" },
+    { country: "مالاوي" }, { country: "ماليزيا" }, { country: "المالديف" },
+    { country: "مالي" }, { country: "مالطا" }, { country: "جزر مارشال" },
+    { country: "موريتانيا" }, { country: "موريشيوس" }, { country: "المكسيك" },
+    { country: "ميكرونيزيا" }, { country: "مولدوفا" }, { country: "موناكو" },
+    { country: "منغوليا" }, { country: "الجبل الأسود" }, { country: "المغرب" },
+    { country: "موزمبيق" }, { country: "ميانمار (بورما)" }, { country: "ناميبيا" },
+    { country: "ناورو" }, { country: "نيبال" }, { country: "هولندا" },
+    { country: "نيوزيلندا" }, { country: "نيكاراغوا" }, { country: "النيجر" },
+    { country: "نيجيريا" }, { country: "مقدونيا الشمالية" }, 
+    { country: "النرويج" }, { country: "عمان" }, { country: "باكستان" },
+    { country: "بالاو" }, { country: "بنما" }, { country: "بابوا غينيا الجديدة" },
+    { country: "باراغواي" }, { country: "بيرو" }, { country: "الفلبين" },
+    { country: "بولندا" }, { country: "البرتغال" }, { country: "قطر" },
+    { country: "رومانيا" }, { country: "روسيا" }, { country: "رواندا" },
+    { country: "سانت كيتس ونيفيس" }, { country: "سانت لوسيا" },
+    { country: "سانت فنسنت وجزر غرينادين" }, { country: "ساموا" },
+    { country: "سان مارينو" }, { country: "ساو تومي وبرينسيبي" },
+    { country: "المملكة العربية السعودية" }, { country: "السنغال" }, { country: "صربيا" },
+    { country: "سيشل" }, { country: "سيراليون" }, { country: "سنغافورة" },
+    { country: "سلوفاكيا" }, { country: "سلوفينيا" }, { country: "جزر سليمان" },
+    { country: "الصومال" }, { country: "جنوب أفريقيا" }, { country: "جنوب السودان" },
+    { country: "إسبانيا" }, { country: "سريلانكا" }, { country: "السودان" },
+    { country: "سورينام" }, { country: "السويد" }, { country: "سويسرا" },
+    { country: "سوريا" }, { country: "تايوان" }, { country: "طاجيكستان" },
+    { country: "تنزانيا" }, { country: "تايلاند" }, { country: "تيمور الشرقية" },
+    { country: "توغو" }, { country: "تونغا" }, { country: "ترينيداد وتوباغو" },
+    { country: "تونس" }, { country: "تركيا" }, { country: "تركمانستان" },
+    { country: "توفالو" }, { country: "أوغندا" }, { country: "أوكرانيا" },
+    { country: "الإمارات العربية المتحدة" }, { country: "المملكة المتحدة" },
+    { country: "الولايات المتحدة" }, { country: "أوروغواي" }, { country: "أوزبكستان" },
+    { country: "فانواتو" }, { country: "الفاتيكان" }, { country: "فنزويلا" },
+    { country: "فيتنام" }, { country: "اليمن" }, { country: "زامبيا" },
+    { country: "زيمبابوي" }
+];
+
   const countries = [
     { country: "Afghanistan" }, { country: "Albania" }, { country: "Algeria" },
     { country: "Andorra" }, { country: "Angola" }, { country: "Antigua and Barbuda" },
@@ -383,10 +453,13 @@ export default function Signup({ onClose, onSigninClick,setIsSuccess,
     
   }
 
+  const CountryInitialContainer = isLangArab ? ArabiccountriesTexts : countries
+
   // Filter the countries based on the input text
-  const filteredCountries = countries.filter((country) =>
+  const filteredCountries = CountryInitialContainer.filter((country) =>
     country.country.toLowerCase().includes(filterText.toLowerCase())
   );
+
 
   const filterCountryCodes = countriesCode.filter((code)=> code.code.toLowerCase().includes(filterCode.toLowerCase()))
 
@@ -411,9 +484,14 @@ export default function Signup({ onClose, onSigninClick,setIsSuccess,
     } = data;
 
     const CharacterRegex = /^[A-Za-z]+$/;
+    const ArabicCharacterRegex = /^[\u0600-\u06FF\s]+$/; // Matches Arabic letters and spaces.
+
     const passwordRegex =
       /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const ArabicpasswordRegex = /^(?=.*[\u0600-\u06FF])(?=.*\d)(?=.*[!@#$%^&*])[\u0600-\u06FF\d!@#$%^&*]{8,}$/;
+
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
 
     let errors = {
       password: "",
@@ -428,18 +506,74 @@ export default function Signup({ onClose, onSigninClick,setIsSuccess,
     let valid = true;
 
     // Password Validation
-    if (!passwordRegex.test(password)) {
-      valid = false;
-      errors.password =
-        "Password must be at least 8 characters long and include an uppercase letter, a lowercase letter, a number, and a special character.";
-    }
+   
 
     if (password !== confirmPassword) {
       valid = false;
       errors.confirmPassword = "Password doesn't match.";
     }
 
-    // Organization Validation
+    
+
+    // Username Validation
+
+    if(isLangArab){
+      if (!username) {
+        valid = false;
+        errors.username = "Please enter your first name.";
+      } else if (!ArabicCharacterRegex.test(username)) {
+        valid = false;
+        errors.username = "Username should contain only alphabets.";
+      }
+
+      if (!firstName) {
+        valid = false;
+        errors.firstName = "Please enter your last name.";
+      } else if (!ArabicCharacterRegex.test(firstName)) {
+        valid = false;
+        errors.firstName = "First name should contain only alphabets.";
+      }
+
+      // Organization Validation
+    if (!organization) {
+      valid = false;
+      errors.organization = "Please enter your organization name.";
+    } else if (!ArabicCharacterRegex.test(organization)) {
+      valid = false;
+      errors.organization = "Please enter your organization name.";
+    }
+
+    if (!ArabicpasswordRegex.test(password)) {
+      valid = false;
+      errors.password =
+        "Password must be at least 8 characters long and include an uppercase letter, a lowercase letter, a number, and a special character.";
+    }
+
+    // Email Validation
+    if (!emailRegex.test(email)) {
+      valid = false;
+      errors.email =
+        "Please enter a valid email address (e.g., example@domain.com).";
+    }
+  
+    }else{
+      if (!username) {
+        valid = false;
+        errors.username = "Please enter your first name.";
+      } else if (!CharacterRegex.test(username)) {
+        valid = false;
+        errors.username = "Username should contain only alphabets.";
+      }
+
+      if (!firstName) {
+        valid = false;
+        errors.firstName = "Please enter your last name.";
+      } else if (!CharacterRegex.test(firstName)) {
+        valid = false;
+        errors.firstName = "First name should contain only alphabets.";
+      }
+
+      // Organization Validation
     if (!organization) {
       valid = false;
       errors.organization = "Please enter your organization name.";
@@ -448,28 +582,28 @@ export default function Signup({ onClose, onSigninClick,setIsSuccess,
       errors.organization = "Please enter your organization name.";
     }
 
-    // Username Validation
-    if (!username) {
+    if (!passwordRegex.test(password)) {
       valid = false;
-      errors.username = "Please enter your first name.";
-    } else if (!CharacterRegex.test(username)) {
-      valid = false;
-      errors.username = "Username should contain only alphabets.";
+      errors.password =
+        "Password must be at least 8 characters long and include an uppercase letter, a lowercase letter, a number, and a special character.";
     }
+
+    // Email Validation
+    if (!emailRegex.test(email)) {
+      valid = false;
+      errors.email =
+        "Please enter a valid email address (e.g., example@domain.com).";
+    }
+  
+    }
+    
     // else if (!usernameExists) {
     //   valid = false;
     //   errors.username = "Username already exists.";
     // }
 
     // First Name Validation
-    if (!firstName) {
-      valid = false;
-      errors.firstName = "Please enter your last name.";
-    } else if (!CharacterRegex.test(firstName)) {
-      valid = false;
-      errors.firstName = "First name should contain only alphabets.";
-    }
-
+    
     const validPhoneCount = selectedCountry?.limit; // Get the limit (number of limit)
 
 // Function to handle range or fixed number limit
@@ -516,12 +650,7 @@ if (!validPhoneCount) {
     //   errors.phoneNumber = `Please enter a ${validPhoneCount}-digit number`;
     // }
 
-    // Email Validation
-    if (!emailRegex.test(email)) {
-      valid = false;
-      errors.email =
-        "Please enter a valid email address (e.g., example@domain.com).";
-    }
+    
 
     if (country === "") {
       valid = false;
