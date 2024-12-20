@@ -113,7 +113,7 @@ const Header = ({  isFooterOpen, isHeaderOpen, mapview}) => {
     >
       {/* Logo Section */}
       {!SearchResponsive && <div className="flex items-center justify-between">
-        <div className="flex  sm:space-x-0 laptop_s:space-x-2 laptop_m:space-x-4">
+        <div className="flex laptop_s:justify-between laptop_s:items-center   sm:space-x-0 laptop_s:space-x-2 laptop_m:space-x-4">
           <div className="">
             <Logo />
           </div>

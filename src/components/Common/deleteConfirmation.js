@@ -12,7 +12,7 @@ export default function DeleteConfirmation({isLangArab,isShowConfirmation,Label,
                 
                 {/* Close Button */}
                 <X
-                    className={`absolute top-4 right-4 ${isDarkMode?"text-[#FFFFFFCC]":"text-gray-600"}  cursor-pointer`}
+                    className={`absolute top-4 ${ isLangArab?"left-4":"right-4"} ${isDarkMode?"text-[#FFFFFFCC]":"text-gray-600"}  cursor-pointer`}
                     onClick={handleDeleteCancel}
                     aria-label="Cancel"
                 />

@@ -182,7 +182,7 @@ export default function Sidebar({handleBasemapMenuItemClick}) {
       className="w-10 h-10 sm:w-8 sm:h-8"
     />
     <div className="absolute py-6 flex-1 justify-between">
-      <img src={Hand} alt="Hand Sign" className="w-4 sm:w-3 mr-1" />
+      <img src={Hand} alt="Hand Sign" className="w-4 sm:w-3.5 mr-1" />
     </div>
   </button>
 
@@ -198,7 +198,7 @@ export default function Sidebar({handleBasemapMenuItemClick}) {
       className="w-10 h-10 sm:w-8 sm:h-8"
     />
     <div className="absolute py-6 flex-1 justify-between">
-      <img src={LeftArrow} alt="Left Arrow" className="w-3 sm:w-2 mr-1" />
+      <img src={LeftArrow} alt="Left Arrow" className="w-3 sm:w-2.5 mr-1" />
     </div>
   </button>
 
@@ -214,7 +214,7 @@ export default function Sidebar({handleBasemapMenuItemClick}) {
       className="w-10 h-10 sm:w-8 sm:h-8"
     />
     <div className="absolute py-6 flex-1 justify-between">
-      <img src={RightArrow} alt="Right Arrow" className="w-3 sm:w-2" />
+      <img src={RightArrow} alt="Right Arrow" className="w-3 sm:w-2.5" />
     </div>
   </button>
 </div>

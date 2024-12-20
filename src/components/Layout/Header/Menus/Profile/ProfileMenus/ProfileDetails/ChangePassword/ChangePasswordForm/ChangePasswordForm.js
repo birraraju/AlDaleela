@@ -92,7 +92,7 @@ export default function ChangePasswordForm({setIsProfileData,setModalMessage,set
         //console.log(values);
         UserActivityLog(profiledetails, "Change Password")
         setIsSuccess(true);
-        setModalMessage("Password Change Scuccessfully")
+        setModalMessage("Password changed successfully.")
 
         setIsProfile(false);
         setIsChangePassword(false);
