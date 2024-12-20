@@ -31,7 +31,7 @@ export default function GeneralInformation({ onClose }) {
   };
 
   return (
-    <div className="fixed inset-10 sm:inset-5 laptop_s:inset-10 z-50 flex items-center justify-center ">
+    <div className={`fixed ${isLangArab? " inset-0 top-40":" mobile_m_3:inset-x-10 inset-x-14 top-11"}  sm:top-0  sm:inset-5 laptop_s:inset-10 z-50 flex items-center justify-center`}>
       <div className="fixed inset-10 z-50 " onClick={onClose}></div> {/* Overlay to close on click */}
       <div
         ref={modalRef} // Attach the ref to the modal
@@ -45,13 +45,13 @@ export default function GeneralInformation({ onClose }) {
         <div>
   <h1
     className={`text-[16px]   font-500 ${
-      isLangArab ? "text-right" : "text-left"
+      isLangArab ? " sm:text-right text-center " : " text-center sm:text-left"
     }`}
   >
     {isLangArab ? "معلومات عامة" : "General Information"}
   </h1>
   <button
-    className={`absolute top-4 ${isLangArab ? "left-4" : "right-4"}  ${
+    className={`absolute top-4 ${isLangArab ? "left-4" : " mobile_m_3:right-4 right-7 "}  ${
       isDarkMode ? "text-gray-400" : "text-gray-600"
     }`}
     onClick={onClose}
@@ -69,14 +69,14 @@ export default function GeneralInformation({ onClose }) {
         ></div>
 
         {/* Scrollable table with visible scrollbar */}
-        <div className="scroll-container mr-1 h-[25rem] overflow-y-scroll">
-          <table className="w-full mt-2 text-[14px]">
+        <div className="scroll-container mr-1 sm:h-[25rem] h-[38rem] mobile_m_3:h-[45rem] overflow-y-scroll">
+          <table className=" w-full mt-2 text-[14px]"> 
             <thead>
               <tr>
                 {isLangArab ? (
                   <>
                     <th
-                      className={`px-4 py-2 text-right font-medium text-[14px] ${
+                      className={` px-4 py-2 text-right font-medium text-[14px] ${
                         isDarkMode ? "text-gray-200" : "text-[#667085]"
                       }`}
                     >

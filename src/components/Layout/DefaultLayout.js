@@ -29,6 +29,7 @@ import config from "../Common/config"
 import Graphic from '@arcgis/core/Graphic';
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer"; 
 import PopModal from "../Common/SuccessFailureMessageModel";
+import { MediaPlayer } from '../Common/PopupMediaPlayer/MediaPlayer';
 
 
 const DefaultLayout = ({role}) => {
@@ -332,6 +333,7 @@ const DefaultLayout = ({role}) => {
       <SideBar handleBasemapMenuItemClick={handleBasemapMenuItemClick} />
 
       {popup && <div className="absolute z-50">{popup}</div>}
+      <MediaPlayer/>
       {/* {isEditPOI && <POIEditLayout1/>} */}
       <div className="flex-1 relative overflow-hidden">
         <MapComponent setMapview={setMapview} mapview={mapview}/>

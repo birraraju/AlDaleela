@@ -13,6 +13,7 @@ import config from "../../Common/config"; // Import your config file
 import { UserActivityLog } from "../../Common/UserActivityLog";
 import { useTheme } from "../ThemeContext/ThemeContext";
 import RoleServices from '../../servicces/RoleServices';
+// import { MediaPlayer } from '../../Common/PopupMediaPlayer/MediaPlayer';
 
 
 const Component = ({
@@ -54,6 +55,7 @@ const Component = ({
   });
   const { profiledetails, contextMapView } = useAuth();
   const [isShowMore, setIsShowMore] = useState(false);
+ 
 
   //const organizationOptions = ["DMT", "Org 2", "Org 3", "Org 4"];
   const classOptions = ["Zubara", "Option 2", "Option 3"];
@@ -75,7 +77,7 @@ const Component = ({
   const audioRefs = useRef([]); // Array of refs for each audio
   const [playingIndex, setPlayingIndex] = useState(null); // Track which audio is playing
   const [pausedAt, setPausedAt] = useState(0); // Tracks the paused position
-  const { isDarkMode } = useTheme();
+  const { isDarkMode ,isPlayerOpen, setIsPlayerOpen,mediaType, setMediaType,mediaSource, setMediaSource} = useTheme();
 
   useEffect(() => {
     if (
@@ -583,6 +585,12 @@ const Component = ({
     setPausedAt(0);
   };
 
+  const handleMediaPlay = (Source,mediaType,mediastatus)=>{
+    setMediaType(mediaType);
+    setMediaSource(Source);
+    setIsPlayerOpen(mediastatus);
+  }
+
   console.log("POI organization:",organizationOptions)
 
   const renderFieldOrText = (
@@ -716,6 +724,7 @@ const Component = ({
   );
   console.log("Passed POI:", queryresults.features)
   return (
+    <>  
     <div className="w-full max-w-md bg-transparent overflow-y-auto ">
       <div className="p-2 space-y-1">
         {!queryresults.features || queryresults.features.length === 0 ? (
@@ -1008,6 +1017,7 @@ const Component = ({
                       images.map((image, index) => (
                         <div
                           key={index}
+                          onClick={()=> handleMediaPlay(`${image.url}`,"image",true)}
                           className="relative m-2 w-full h-[90px] rounded-lg overflow-hidden"
                         >
                           <img
@@ -1044,6 +1054,7 @@ const Component = ({
                         <div
                           key={index}
                           className="relative m-2 h-[90px] w-full rounded-lg overflow-hidden"
+                          onClick={()=> handleMediaPlay(`${video.url}`,"video",true)}
                         >
                           {/* Video thumbnail with poster */}
                           <video
@@ -1299,6 +1310,7 @@ const Component = ({
         )}
       </div>
     </div>
+    </>
   );
 };
 

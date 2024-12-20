@@ -13,6 +13,11 @@ export const ThemeProvider = ({ children }) => {
   const [isPOIAddShow,setIsPOIAddShow]=useState(false);
   const [showToast, setShowToast] = useState(false)
   const[toastMessage, setToastMessage] = useState("")
+  const [isGeneralInfo,setIsGeneralInfo] = useState(false)
+  const [isStackInfo,setIsStockInfo] = useState(false)
+  const [isPlayerOpen, setIsPlayerOpen] = useState(false);
+  const [mediaType, setMediaType] = useState(""); // "image" or "video"
+  const [mediaSource, setMediaSource] = useState("");
   
 
 // Load theme preference from localStorage on mount
@@ -72,7 +77,7 @@ if (isDarkMode) {
   };
 
   return (
-    <ThemeContext.Provider value={{isLangArab,setIsPOIAddShow,showToast, setShowToast,toastMessage, setToastMessage,isPOIAddShow, isDarkMode,isLogin,isSignup,setIsLogin,setsSignup, toggleTheme,toggleLanguage }}>
+    <ThemeContext.Provider value={{isLangArab,isPlayerOpen, setIsPlayerOpen,mediaType, setMediaType,mediaSource, setMediaSource,setIsPOIAddShow,isGeneralInfo,setIsGeneralInfo,isStackInfo,setIsStockInfo,showToast, setShowToast,toastMessage, setToastMessage,isPOIAddShow, isDarkMode,isLogin,isSignup,setIsLogin,setsSignup, toggleTheme,toggleLanguage }}>
       {children}
     </ThemeContext.Provider>
   );
