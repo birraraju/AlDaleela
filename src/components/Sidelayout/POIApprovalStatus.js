@@ -19,6 +19,7 @@ export default function POIApprovalStatus({ children, onClose, mapview }) {
   const [message, setMessage] = useState("");
   const [POIFormSuccessShow, setPOIFormSuccessShow] = useState("");
   const [POIFormIsOpenModalShow, setPOIFormIsOpenModalShow] = useState(false);
+  const[POINames,setPOINames] = useState({Name_En:"",Name_Ar:""})
   const navigate = useNavigate();
 
   // Toggles the side panel sliding in and out
@@ -66,7 +67,7 @@ export default function POIApprovalStatus({ children, onClose, mapview }) {
           <div className="flex w-[70%] justify-start items-center gap-x-1">
             <img src={isDarkMode ? DarkLocation : Location} alt="Location" className=" w-[32px] h-[32px]" />
             <p className={`font-600 text-[15px]    ${isDarkMode ? "text-white" : "text-[#505050]"}`}>
-              <h2 className="text-[12px]">Barqa Rashid</h2>
+              <h2 className="text-[12px]">{ isLangArab ? POINames?.Name_Ar : POINames?.Name_En}</h2>
             </p>
           </div>
           {isFormShow && <div>
@@ -90,7 +91,7 @@ export default function POIApprovalStatus({ children, onClose, mapview }) {
           {children || (
             <>
               <div className="overflow-y-auto  h-[79%]">
-                <StatuesUpdatePOI isLangArab={isLangArab} isDarkMode={isDarkMode} setMessage={setMessage} setFormShow={setFormShow} setPOIFormIsOpenModalShow={setPOIFormIsOpenModalShow} setPOIFormSuccessShow={setPOIFormSuccessShow} isFormShow={isFormShow} />
+                <StatuesUpdatePOI isLangArab={isLangArab} setPOINames={setPOINames} isDarkMode={isDarkMode} setMessage={setMessage} setFormShow={setFormShow} setPOIFormIsOpenModalShow={setPOIFormIsOpenModalShow} setPOIFormSuccessShow={setPOIFormSuccessShow} isFormShow={isFormShow} />
                 <POIEditFileUploaderStatusModel
                   message={message}
                   label={"Approval"}

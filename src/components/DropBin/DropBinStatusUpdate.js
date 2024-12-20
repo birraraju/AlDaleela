@@ -12,7 +12,7 @@ import { useAuth } from "../../Providers/AuthProvider/AuthProvider";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";  
 import Graphic from '@arcgis/core/Graphic';
 
-const DropBinStatusUpdate = ({setMessage,isLangArab,setFormShow,isDarkMode,setPOIFormIsOpenModalShow,setPOIFormSuccessShow,isFormShow}) => {
+const DropBinStatusUpdate = ({setMessage,setPOINames,isLangArab,setFormShow,isDarkMode,setPOIFormIsOpenModalShow,setPOIFormSuccessShow,isFormShow}) => {
   const [poiData, setPoiData] = useState({
     organization: "",
     organization_En: "",
@@ -90,6 +90,12 @@ const DropBinStatusUpdate = ({setMessage,isLangArab,setFormShow,isDarkMode,setPO
             };
             
             setPoiData(updatedData);
+            setPOINames(prevState => ({
+              ...prevState,
+              Name_En: attributes.name_en,
+              Name_Ar: attributes.name_ar
+            }));
+            
             
             // Wrap goTo in a try-catch to handle interruptions
             try {

@@ -148,7 +148,7 @@ export default function GeneralInformation({ onClose }) {
                       </td>
                       <td
                        dir={isLangArab && "rtl"}
-                        className={`px-4 py-2   font-medium text-[14px] ${
+                        className={`px-4 py-2    font-medium text-[14px] ${
                           isDarkMode ? "text-white" : "text-black"
                         }`}
                       >
@@ -173,7 +173,7 @@ export default function GeneralInformation({ onClose }) {
                         {index + 1}
                       </td>
                       <td
-                        className={`px-4 py-2   font-medium text-[14px] ${
+                        className={`px-4 py-2 capitalize   font-medium text-[14px] ${
                           isDarkMode ? "text-white" : "text-black"
                         }`}
                       >

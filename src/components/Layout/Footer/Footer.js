@@ -256,7 +256,7 @@ export default function Footer({
         .map((_, index) => 6 - index) // Reverse indices for Arabic
         .map((index) => (
               <React.Fragment key={index}>
-                {( (index > 0) &&  (index < (isExpanded? 4 : 3))) &&   (
+                {( (index > 0) &&  (index < ((isExpanded && RoleServices.isAuth())? 4 : 3))) &&   (
                   
                   <div
                     className={`sc-menu-wrp ${
@@ -407,7 +407,7 @@ export default function Footer({
             ))
         : Array.from({ length: 7 }).map((_, index) => (
             <React.Fragment key={index}>
-              {( (index > 0) &&  (index <  (isExpanded? 4 : 3))) && (
+              {( (index > 0) &&  (index <  ((isExpanded && RoleServices.isAuth()) ? 4 : 3))) && (
                 <div
                   className={`sc-menu-wrp ${
                     selectedIndex === index ? "sc-current" : ""
