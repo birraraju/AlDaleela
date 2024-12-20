@@ -11,7 +11,7 @@ export default function PopModal({ message, success, isOpenModal, onClose }) {
   if (!isOpenModal) return null; // Modal won't render if not open
 
   return (
-    <div className="fixed hidden inset-0  items-center justify-center bg-transparent z-50">
+    <div className="fixed flex  inset-0  bg-black items-center justify-center bg-transparent z-50">
       <div className={`${isDarkMode?"bg-[rgba(96,96,96,0.8)]":"bg-white"} p-8 rounded-lg shadow-lg flex flex-col items-center gap-6 w-[90%] sm:w-[400px] min-h-[300px]`}>
         {/* Display the appropriate image based on success value */}
         <img
