@@ -139,13 +139,14 @@
       }
       if(res){
         try {
-          if(res.features[0].attributes.name_en === undefined){
-            res.features[0].attributes.name_en= "Bookmarks"
-          }
+          // if(res.features[0].attributes.name_en === undefined){
+          //   res.features[0].attributes.name_en= "Bookmarks"
+          // }
           const bookmarkObj ={
             email:profiledetails.email,
             username:profiledetails.username,
-            title:res.features[0].attributes.name_en,
+            title:res.features[0].attributes.name_en && res.features[0].attributes.name_en.trim() || "Bookmark",
+            titlear:res.features[0].attributes.name_ar && res.features[0].attributes.name_ar.trim() || "الإشارات المرجعية",
             layername:res.features[0].layer.title,
             objectid:res.features[0].attributes.OBJECTID
           }

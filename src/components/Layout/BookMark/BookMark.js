@@ -83,6 +83,7 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
         res.data.forEach(feature => {
           const objectId = feature.objectid;
           const nameEng = feature.title;
+          const nameAr = feature.titlear;
           
           // Check if the feature's layername matches the current layer's name
           if (feature.layername.includes(layer.name)) {
@@ -97,6 +98,7 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
                   localbookmarks.push({
                     src: attachment.url,
                     title: nameEng,
+                    titlear: nameAr,
                     id: feature.id,
                     objectid: feature.objectid,
                     layername: feature.layername
@@ -120,6 +122,7 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
               localbookmarks.push({
                 src:"",
                 title: nameEng,
+                titlear: nameAr,
                 id: feature.id,
                 objectid: feature.objectid,
                 layername: feature.layername
@@ -271,7 +274,7 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
       <div onClick={() => handleZoomtoLocation(image.id, image.objectid, image.layername)} className={`relative  sm:w-28 w-[96%] h-20  sm:h-24 flex flex-col items-center`}>
         { image.src ?<img
           src={image.src}
-          alt={image.title}
+          alt={isLangArab?image.titlear:image.title}
           className=" sm:w-full w-[100%]   sm:h-full object-cover shadow-xl rounded-md"
         /> : 
         <span className={` ${ isDarkMode?" bg-[#152227CC]":"bg-white/80"} w-full flex justify-center items-center h-[80%] rounded-md`}>
@@ -279,8 +282,8 @@ const Popup1 = ({isDarkMode,isLangArab,BookMarkGreen,DarkBookMarkGreen,setIsMana
         </span>
         }
         
-        <h3 className="text-start   font-500 w-full border text-[#FFFFFF] text-[10px] sm:text-[12px]  border-transparent rounded-md absolute bg-[#504848] h-6 justify-start items-center pl-2 flex bottom-0  leading-4 break-words">
-        {image.title?.length > 12 ? `${image.title.substring(0, 15)}` : image.title}
+        <h3 className="text-start font-500 w-full border text-[#FFFFFF] text-[10px] sm:text-[12px] border-transparent rounded-md absolute bg-[#504848] h-6 justify-start items-center pl-2 flex bottom-0 leading-4 break-words">
+          {isLangArab ? (image.titlear && image.titlear.length > 12 ? `${image.titlear.substring(0, 15)}...` : image.titlear) : (image.title && image.title.length > 12 ? `${image.title.substring(0, 15)}...` : image.title)}
         </h3>
         {/* <div className="absolute w-full pl-1 bottom-4 flex">
               {image.icon.map((icons, iconIndex) => (
