@@ -16,6 +16,7 @@ export default function ForgetPassword({ onClose, onBackToLogin, onSignup, onNex
 
   const modalRef = useRef(null);
   const { isDarkMode, isLangArab } = useTheme(); // Access the dark mode state
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -37,10 +38,38 @@ export default function ForgetPassword({ onClose, onBackToLogin, onSignup, onNex
 
 
   console.log('formData.email :>> ', formData.email);
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     console.log('Reset password for:', formData.email);
-    onNext(formData.email);
+    const emailData = {
+      email: formData.email
+    };
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/Registration/check-email`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData.email),
+        }
+      );
+  
+      const result = await response.json();
+      if (result.success) {
+        //setCode(result.data.code); // Store the code
+        //setExpiryTime(result.data.expiryTime); 
+        onNext(formData.email);
+        generateCode();
+      } else {
+        //console.log(result.message || "Email sending failed. Please try again.");
+        setMessage(result.message); // Display success message
+      }
+    } catch (error) {
+      console.error("Error sending email:", error);
+    }
+    //onNext(formData.email);
   };
   const generateCode = async () => {
     // Generate the 8-character code first
@@ -155,9 +184,9 @@ export default function ForgetPassword({ onClose, onBackToLogin, onSignup, onNex
                 placeholder={isLangArab?"أدخل بريدك الإلكتروني":"Enter your Email id"}
                 onChange={handleChange}
               />
+              {message  && <span className="text-red-500 text-xs">{message}</span>}
               <button
                 type="submit"
-                onClick={generateCode}
                 className={`w-full py-3 rounded-xl transition duration-300 text-sm ${
                   formData.email
                     ? 'bg-gradient-to-r from-[#036068] via-[#596451] to-[#1199A8] text-white'

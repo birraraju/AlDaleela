@@ -22,7 +22,7 @@ const Component = ({mapview,isLangArab,setIsMsgStatus,setModalMessage,setIsSucce
 
   const [poiData, setPoiData] = useState({
     organization: "",
-    organization_ar: "",
+    organization_En: "",
     name: "",
     name_Ar: "",
     class: "",
@@ -31,14 +31,14 @@ const Component = ({mapview,isLangArab,setIsMsgStatus,setModalMessage,setIsSucce
     classD_Ar: "",
     status: "",
     comment: "",
-    description: "",
+    //description: "",
     poems: "",
     stories: "",
     classification: selectedLayer,
     classification_Ar: selectedLayer,
     municipality: "",
     municipality_Ar: "",
-    emirate: "",
+    //emirate: "",
     city: "",
     city_Ar: "",
     coordinateType: "dms",
@@ -649,38 +649,60 @@ const handleDrop = async (e) => {
     console.error("Validation errors:", validationErrors);
     return; // Stop submission
   }
-  let updatedData = null;
-  if(isLangArab){
-    updatedData = {
-      organization: poiData.organization,
-        name_ar: poiData.name,
-        ClassAr: poiData.class,
-        ClassD_Ar: poiData.classD,
+  let updatedData = { 
+    organization_En: poiData.organization_En,
+    name_en: poiData.name,
+    Class: poiData.class,
+    ClassD: poiData.classD,
+    Status: poiData.status,
+    Comment: poiData.comment,
+    //description: poiData.description,
+    poems: poiData.poems,
+    stories: poiData.stories,
+    Classification: selectedLayer[1],
+    Municipality: poiData.municipality,
+    //Emirate: poiData.emirate,
+    City: poiData.city,
+    organization: poiData.organization,
+        name_ar: poiData.name_Ar,
+        ClassAr: poiData.class_Ar,
+        ClassD_Ar: poiData.classD_Ar,
         Classification_ar: selectedLayer[0],
-        MunicipalityAr: poiData.municipality,
-        CityAr: poiData.city,
-        Isadminapproved: 2,
-    }
-  }
-  else{
-    // Extract only the fields you want to update in poiData
-    updatedData = {
-      organization_En: poiData.organization,
-      name_en: poiData.name,
-      Class: poiData.class,
-      ClassD: poiData.classD,
-      Status: poiData.status,
-      Comment: poiData.comment,
-      //description: poiData.description,
-      poems: poiData.poems,
-      stories: poiData.stories,
-      Classification: selectedLayer[1],
-      Municipality: poiData.municipality,
-      //Emirate: poiData.emirate,
-      City: poiData.city,
-      Isadminapproved: 2,
-    };
-  }
+        MunicipalityAr: poiData.municipality_Ar,
+        CityAr: poiData.city_Ar,
+    Isadminapproved: 2,
+  };
+  // if(isLangArab){
+  //   updatedData = {
+  //     organization: poiData.organization,
+  //       name_ar: poiData.name,
+  //       ClassAr: poiData.class,
+  //       ClassD_Ar: poiData.classD,
+  //       Classification_ar: selectedLayer[0],
+  //       MunicipalityAr: poiData.municipality,
+  //       CityAr: poiData.city,
+  //       Isadminapproved: 2,
+  //   }
+  // }
+  // else{
+  //   // Extract only the fields you want to update in poiData
+  //   updatedData = {
+  //     organization_En: poiData.organization,
+  //     name_en: poiData.name,
+  //     Class: poiData.class,
+  //     ClassD: poiData.classD,
+  //     Status: poiData.status,
+  //     Comment: poiData.comment,
+  //     //description: poiData.description,
+  //     poems: poiData.poems,
+  //     stories: poiData.stories,
+  //     Classification: selectedLayer[1],
+  //     Municipality: poiData.municipality,
+  //     //Emirate: poiData.emirate,
+  //     City: poiData.city,
+  //     Isadminapproved: 2,
+  //   };
+  // }
     // Find the URL for the layer that includes "Terrestrial" in its name
     const LayerConfig = config.featureServices.find((service) =>
       selectedLayer.includes(service.name)
@@ -775,52 +797,81 @@ const handleDrop = async (e) => {
   };
 
   const handleStoreFeatureData = async(attachmentIds, LayerUrl, FeatureObjectId) =>{
-    let FeatureData = null;    
-    if(isLangArab){
-      FeatureData = {
-        Username: profiledetails.username,
-        Email: profiledetails.email,
-        FeatureObjectId: FeatureObjectId,
-        OrganizationAr: poiData.organization || "",
-        NameAr: poiData.name || "",
-        ClassAr: poiData.class || "",
-        ClassDAr: poiData.classD || "",
+    let FeatureData = {
+      Username: profiledetails.username,
+      Email: profiledetails.email,
+      FeatureObjectId: FeatureObjectId,
+      OrganizationEn: poiData.organization_En || "",
+      NameEn: poiData.name || "",
+      Class: poiData.class || "",
+      ClassD: poiData.classD || "",
+      Status: poiData.status || "",
+      Comment: poiData.comment || "",
+      //Description: poiData.description || "",
+      Poems: poiData.poems || "",
+      stories: poiData.stories || "",
+      Classification: selectedLayer[1] || "",
+      Municipality: poiData.municipality || "",
+      //Emirate: poiData.emirate || "",
+      City: poiData.city || "",
+      OrganizationAr: poiData.organization || "",
+        NameAr: poiData.name_Ar || "",
+        ClassAr: poiData.class_Ar || "",
+        ClassDAr: poiData.classD_Ar || "",
         ClassificationDAr: selectedLayer[0] || "",
-        MunicipalityAr: poiData.municipality || "",
-        CityAr: poiData.city || "",
-        AttachementsObjectIds: attachmentIds,
-        ApprovalStatus: "Pending",
-        featureServiceURL: LayerUrl,
-        POIOperation: "Add Feature",
-        isLanguageArabic:isLangArab
-      };
-        }
-        else{
-          // Extract only the fields you want to update in poiData
-          FeatureData = {
-            Username: profiledetails.username,
-            Email: profiledetails.email,
-            FeatureObjectId: FeatureObjectId,
-            OrganizationEn: poiData.organization || "",
-            NameEn: poiData.name || "",
-            Class: poiData.class || "",
-            ClassD: poiData.classD || "",
-            Status: poiData.status || "",
-            Comment: poiData.comment || "",
-            //Description: poiData.description || "",
-            Poems: poiData.poems || "",
-            stories: poiData.stories || "",
-            Classification: selectedLayer[1] || "",
-            Municipality: poiData.municipality || "",
-            //Emirate: poiData.emirate || "",
-            City: poiData.city || "",
-            AttachementsObjectIds:attachmentIds,
-            ApprovalStatus: "Pending",
-            featureServiceURL:LayerUrl,
-            POIOperation:"Add Feature",
-            isLanguageArabic:isLangArab
-          };
-        }
+        MunicipalityAr: poiData.municipality_Ar || "",
+        CityAr: poiData.city_Ar || "",
+      AttachementsObjectIds:attachmentIds,
+      ApprovalStatus: "Pending",
+      featureServiceURL:LayerUrl,
+      POIOperation:"Add Feature",
+      isLanguageArabic:isLangArab
+    };    
+    // if(isLangArab){
+    //   FeatureData = {
+    //     Username: profiledetails.username,
+    //     Email: profiledetails.email,
+    //     FeatureObjectId: FeatureObjectId,
+    //     OrganizationAr: poiData.organization || "",
+    //     NameAr: poiData.name || "",
+    //     ClassAr: poiData.class || "",
+    //     ClassDAr: poiData.classD || "",
+    //     ClassificationDAr: selectedLayer[0] || "",
+    //     MunicipalityAr: poiData.municipality || "",
+    //     CityAr: poiData.city || "",
+    //     AttachementsObjectIds: attachmentIds,
+    //     ApprovalStatus: "Pending",
+    //     featureServiceURL: LayerUrl,
+    //     POIOperation: "Add Feature",
+    //     isLanguageArabic:isLangArab
+    //   };
+    //     }
+    //     else{
+    //       // Extract only the fields you want to update in poiData
+    //       FeatureData = {
+    //         Username: profiledetails.username,
+    //         Email: profiledetails.email,
+    //         FeatureObjectId: FeatureObjectId,
+    //         OrganizationEn: poiData.organization || "",
+    //         NameEn: poiData.name || "",
+    //         Class: poiData.class || "",
+    //         ClassD: poiData.classD || "",
+    //         Status: poiData.status || "",
+    //         Comment: poiData.comment || "",
+    //         //Description: poiData.description || "",
+    //         Poems: poiData.poems || "",
+    //         stories: poiData.stories || "",
+    //         Classification: selectedLayer[1] || "",
+    //         Municipality: poiData.municipality || "",
+    //         //Emirate: poiData.emirate || "",
+    //         City: poiData.city || "",
+    //         AttachementsObjectIds:attachmentIds,
+    //         ApprovalStatus: "Pending",
+    //         featureServiceURL:LayerUrl,
+    //         POIOperation:"Add Feature",
+    //         isLanguageArabic:isLangArab
+    //       };
+    //     }
           try {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/FeatureServiceData/featureservicedatainsert`, {
                 method: 'POST',
@@ -937,14 +988,14 @@ console.log("Point Initial data:", poiData)
       {renderField("name_Ar","الاسم", poiData.name_Ar)}
 
       {renderField(
-          "organization",
+          "organization_En",
           "Organization",
-          poiData.organization
+          poiData.organization_En
         )}
         { renderField(
-          "organization_ar",
+          "organization",
          "منظمة",
-          poiData.organization_ar,
+          poiData.organization,
           organizationOptions,
           "select"
         ) } 

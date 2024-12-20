@@ -219,7 +219,7 @@ export default function UserManagement({role}) {
               } ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#101828]"} whitespace-nowrap`}
             >
               {/* {user.nameEn} */}
-              {user.nameAr && user.nameAr.trim() !== "" ? user.nameAr : user.nameEn}
+              {isLangArab ? user.nameAr : user.nameEn}
             </td>
             <td
               className={`py-4 font-500   text-[10px] sm:text-[12px] laptop_s:text-[14px] ${
@@ -227,7 +227,7 @@ export default function UserManagement({role}) {
               } ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#101828]"} whitespace-nowrap`}
             >
               {/* {user.organizationEn} */}
-              {user.organizationAr && user.organizationAr.trim() !== "" ? user.organizationAr : user.organizationEn}
+              {isLangArab ? user.organizationAr : user.organizationEn}
             </td>
             <td
               className={`py-4 font-500   text-[10px] sm:text-[12px] laptop_s:text-[14px] ${
@@ -235,7 +235,7 @@ export default function UserManagement({role}) {
               } ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#101828]"} whitespace-nowrap`}
             >
               {/* {user.classification} */}
-              {user.classificationDAr && user.classificationDAr.trim() !== "" ? user.classificationDAr : user.classification}
+              {isLangArab? user.classificationDAr : user.classification}
             </td>
             <td
               className={`py-4 font-500   text-[10px] sm:text-[12px] laptop_s:text-[14px] ${
@@ -243,7 +243,7 @@ export default function UserManagement({role}) {
               } ${isDarkMode ? "text-[#FFFFFF] text-opacity-60" : "text-[#101828]"} whitespace-nowrap`}
             >
               {/* {user.municipality} */}
-              {user.municipalityAr && user.municipalityAr.trim() !== "" ? user.municipalityAr : user.municipality}
+              {isLangArab? user.municipalityAr : user.municipality}
             </td>
             <td
               className={`py-4 font-500   text-[10px] sm:text-[12px] laptop_s:text-[14px] ${

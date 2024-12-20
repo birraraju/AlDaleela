@@ -39,7 +39,7 @@ export default function SearchContent({ inputClicked, iscategory,setIscategory, 
   
           let allFeatures = []; // Store all features for this layer
           let query = layer.createQuery();
-          query.where = "1=1"; // Retrieve all records
+          query.where = "Isadminapproved!=2"; // Retrieve all records
           query.outFields = ["name_en", "name_ar", "OBJECTID"]; // Fields to retrieve
           query.num = 2000; // Maximum records per query
   
