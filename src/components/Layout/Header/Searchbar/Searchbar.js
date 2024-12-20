@@ -4,6 +4,7 @@ import Category from "./Category/Category"; // Adjust the import path as needed
 import Props from "./Props/Props"; // Adjust the import path as needed
 import SearchContent from "./SearchContent/SearchContent"; // Adjust the import path as needed
 import { useTheme } from "../../ThemeContext/ThemeContext"; // Adjust the import path as needed
+import { useAuth } from "../../../../Providers/AuthProvider/AuthProvider";
 
 const Searchbar = ({
   isSearchOpen,
@@ -17,7 +18,8 @@ const Searchbar = ({
   const [inputClicked, setInputClicked] = useState(false);
   const [iscategory, setIscategory] = useState(false);
   const [ShowSearchContent,setShowSearchContent]= useState(false)
-
+  const {isEditPOI,setIsEditPOI} = useAuth();
+  
   const contentRef = useRef(null);
   const { isDarkMode,isLangArab } = useTheme(); // Access the dark mode state
 
@@ -46,7 +48,16 @@ const Searchbar = ({
         isSearchClose();
       }
     }
-  }, [inputClicked, isHeaderOpen, isSearchOpen, isSearchClose]);
+    if(isEditPOI){
+      handleCloseInputField();
+    }
+  }, [inputClicked,isEditPOI, isHeaderOpen, isSearchOpen, isSearchClose]);
+
+  // useEffect(()=>{
+  //   if(isEditPOI){
+  //     handleCloseResponsiveSearch()
+  //   }
+  // },[isEditPOI])
 
   // Handle click outside to close the input and category
   useEffect(() => {
@@ -56,6 +67,7 @@ const Searchbar = ({
         setShowSearchContent(false)
         setInputValue("")
         setIscategory(false);
+        handleCloseResponsiveSearch();
 
       }
     }
@@ -79,6 +91,19 @@ const Searchbar = ({
     setInputValue(e.target.value);
   };
 
+  const handleInputFieldClicked =()=>{
+    setInputClicked(true);
+    setIscategory(true);
+    setShowSearchContent(true)
+    setIsEditPOI(false);
+  }
+
+  const handleCloseInputField = ()=>{
+    setInputClicked(false);
+    setIscategory(false);
+    setShowSearchContent(false)
+  }
+
   return (
     <div dir={isLangArab && "rtl"} className={`mobile_s:mr-2 laptop_s:mr-0.5 ${SearchResponsive ? "grid" : "sm:grid hidden"} laptop_m:mr-2 mr-4`}>
       <div className="relative" ref={contentRef}>
@@ -86,9 +111,7 @@ const Searchbar = ({
           id="search"
           value={inputValue?.length > 18 ? `${inputValue.substring(0, 17)}` : inputValue}
           onClick={() => {
-            setInputClicked(true);
-            setIscategory(true);
-            setShowSearchContent(true)
+            handleInputFieldClicked()
           }}
           onChange={handleInputChange}
           className={`mobile_s:w-[22rem] ${isLangArab?"pr-14":"pl-14"}   mobile_m:w-[23rem] mobile_l:w-[27rem] tab:w-[20rem] tab_s:w-[22rem]   tab_m:w-[24rem] tab_l:w-[24rem] tab_l_1:w-[28rem]  laptop_s:w-[18rem] laptop_m:w-[22rem] mobile_s:h-9 laptop_s:h-7 laptop_m:h-8  border-none outline-none focus-visible:ring-0 focus-visible:ring-offset-0    relative z-[2] ${

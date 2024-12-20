@@ -214,7 +214,7 @@ export default function Feedback({
       <div className={`z-50  ${isDarkMode ? "text-white" : "text-black"} `}>
         <div className=" sm:space-y-4 space-y-2 max-h-[calc(100vh-100px)] overflow-y-auto ">
           <div className="flex gap-2 flex-col sm:gap-0 items-center justify-between">
-            <div className="flex  flex-row gap-2 ">
+            <div className="flex  flex-row gap-2 mobile_m:gap-3  mobile_m_3:gap-5 tab:gap-2  ">
               {ratings.map((item) => (
                 <button
                   key={item.value}
