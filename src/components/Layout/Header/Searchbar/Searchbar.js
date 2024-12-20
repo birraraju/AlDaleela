@@ -84,7 +84,7 @@ const Searchbar = ({
       <div className="relative" ref={contentRef}>
         <Input
           id="search"
-          value={inputValue?.length > 20 ? `${inputValue.substring(0, 15)}` : inputValue}
+          value={inputValue?.length > 18 ? `${inputValue.substring(0, 17)}` : inputValue}
           onClick={() => {
             setInputClicked(true);
             setIscategory(true);

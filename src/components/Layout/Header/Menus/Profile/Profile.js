@@ -150,7 +150,9 @@ const Profile = ({  isFooterOpen, isHeaderOpen,showInfo, setShowInfo, StackOpen,
     setprofiledetails(null);
     UserActivityLog(profiledetails, "Logged out")
      // Refresh the page
-     window.location.reload();
+     navigate({
+      pathname: `/${process.env.REACT_APP_BASE_URL}`,
+    });
   };
 
   // console.log("Profile Data:1",isProfileData," 2",isChangePassword,"3",isSuccess)

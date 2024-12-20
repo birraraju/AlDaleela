@@ -273,6 +273,11 @@
     }
     console.log("Edit POI Status:", userBookmarkIds)
 
+    const ArabicHeaderName = (queryresults?.features && queryresults.features[0]?.attributes?.name_ar) || '';
+const EnglishHeaderName = (queryresults?.features && queryresults.features[0]?.attributes?.name_en) || '';
+
+
+
     return (
       <div
         className={`fixed top-20 w-[95%] ${POIShareShow?"-[65%] laptop_s:w-[400px]": POIFormisOpenModalShow ?" ":"h-[90%]"} sm:w-[400px] laptop_s:w-[400px]  ${ isLangArab?"left-3 sm:left-16 laptop_s:left-6":"right-3 sm:right-16 laptop_s:right-6"} transition-transform duration-300 ease-in-out ${
@@ -295,8 +300,8 @@
                 <img src={Location}alt="Location" className={`"h-7 w-5" ${isLangArab && "mr-1 sm:mr-2"} ${POIFormisOpenModalShow ?"opacity-0":" "}`} />}
                 <p className={`font-semibold    ${
                       isDarkMode ? "text-white" : "text-gray-600"
-                    }`}> <h1 className={` font-cairo text-[20px] ${POIFormisOpenModalShow ?"opacity-0":" "}`}>{queryresults.features[0].attributes.name_ar}</h1>
-                    <h2 className={` text-[16px] ${POIFormisOpenModalShow ?"opacity-0":" "}`}>{queryresults.features[0].attributes.name_en}</h2></p>
+                    }`}> <h1 className={` font-cairo text-[20px] ${POIFormisOpenModalShow ?"opacity-0":" "}`}>{ArabicHeaderName?.length > 20 ? `${ArabicHeaderName.substring(0, (isLangArab? 50 : 40))}` : ArabicHeaderName}</h1>
+                    <h2 className={` text-[16px] ${POIFormisOpenModalShow ?"opacity-0":" "}`}>{EnglishHeaderName?.length > 20 ? `${EnglishHeaderName.substring(0, 50)}` : EnglishHeaderName}</h2></p>
                     {!POIShareShow && <div className={`flex justify-center items-center absolute ${isLangArab?"-left-1":"right-3"} -top-2   p-2 transition-colors h-10 cursor-pointer z-50 `}>
   {/* POI Share Icon */}
   <button

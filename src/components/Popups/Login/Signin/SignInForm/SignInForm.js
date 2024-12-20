@@ -174,7 +174,7 @@ export default function SignInForm({ onForgotPasswordClick, onSignupClick, onClo
             {/* <Checkbox className={`${isDarkMode ? "bg-gray-400 border-gray-700" : "bg-white"}`} /> */}
             <label onClick={()=>{setIsRemember((pre)=> !pre)}}><img src={isRemember?ClickRemember:NotClickRemember} className={`${isLangArab?"mx-1":" "} w-4 h-4`} alt="" /></label>
             <label className={`${isDarkMode ? ' text-white/80' : ' text-black/90'} text-[14px] font-[400]`}>
-              {(form.formState.isValid) ? "Remember me" : isLangArab ? "البقاء مسجلًا":"Stay logged in"}
+              {(form.formState.isValid) ? isLangArab?"تذكرنى": "Remember me" : isLangArab ? "البقاء مسجلًا":"Stay logged in"}
             </label>
           </div>
 
