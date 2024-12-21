@@ -64,7 +64,7 @@ export default function ForgetPassword({ onClose, onBackToLogin, onSignup, onNex
         generateCode();
       } else {
         //console.log(result.message || "Email sending failed. Please try again.");
-        setMessage(result.message); // Display success message
+        setMessage( isLangArab? result.message === "The email is not associated with any account." && "عنوان البريد الإلكتروني الذي أدخلته غير مرتبط بأي حساب":result.message); // Display success message
       }
     } catch (error) {
       console.error("Error sending email:", error);
