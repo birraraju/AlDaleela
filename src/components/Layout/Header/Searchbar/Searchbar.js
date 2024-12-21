@@ -72,9 +72,14 @@ const Searchbar = ({
       }
     }
 
-    document.addEventListener("mousedown", handleClickOutside);
+    if (window.innerWidth > 782) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      if (window.innerWidth > 782) {
+        document.removeEventListener("mousedown", handleClickOutside);
+      }
     };
   }, []);
 
@@ -105,7 +110,7 @@ const Searchbar = ({
   }
 
   return (
-    <div dir={isLangArab && "rtl"} className={`mobile_s:mr-2 laptop_s:mr-0.5 ${SearchResponsive ? "grid" : "sm:grid hidden"} laptop_m:mr-2 mr-4`}>
+    <div dir={isLangArab && "rtl"} className={`mobile_s:mr-2 z-[2000] laptop_s:mr-0.5 ${SearchResponsive ? "grid" : "sm:grid hidden"} laptop_m:mr-2 mr-4`}>
       <div className="relative" ref={contentRef}>
         <Input
           id="search"
