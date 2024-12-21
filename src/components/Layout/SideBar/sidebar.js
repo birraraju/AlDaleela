@@ -21,7 +21,7 @@ import StackLogoColor from '../../../assets/Header/Layerlist/StackColor.svg';
 
 export default function Sidebar({handleBasemapMenuItemClick}) {
   const { isDarkMode, isLangArab ,isGeneralInfo,setIsGeneralInfo,isStackInfo,setIsStockInfo} = useTheme(); // Access the theme from context
-  const { contextMapView, initialExtent, extentHistory, setExtentHistory, currentExtentIndex, setCurrentExtentIndex } = useAuth();
+  const { contextMapView, initialExtent,isEditPOI, extentHistory, setExtentHistory, currentExtentIndex, setCurrentExtentIndex } = useAuth();
   const [panmode, setPanMode] = useState(true);
   const [showInfo, setShowInfo] = useState(false);
   // Mutable refs for extent history
@@ -119,7 +119,7 @@ export default function Sidebar({handleBasemapMenuItemClick}) {
     <div
   className={`fixed ${
     isLangArab ? "right-2" : " sm:left-2 "
-  } ml-3 laptop_s:top-1/2 sm:top-64  top-20 sm:mt-2 laptop_s:mt-0 laptop_s:-translate-y-1/2 z-10 flex  flex-col items-center space-y-2 bg-transparent p-2 rounded-full`}
+  } ml-3 laptop_s:top-1/2 sm:top-64  top-20 sm:mt-2 laptop_s:mt-0 laptop_s:-translate-y-1/2 z-10 ${isEditPOI?" hidden sm:flex":"flex"}  flex-col items-center space-y-2 bg-transparent p-2 rounded-full`}
 >
       <div
   className={`bg-white  sm:hidden flex rounded-full z-40  mobile_s:h-9 tab:h-7  laptop_s:h-7 laptop_s:w-7 tab:p-1 laptop_s:p-0  laptop_s:mr-0.5  laptop_m:h-8 mobile_s:w-9 laptop_m:w-8 mobile_s:mr-2 tab:mr-0.5  laptop_m:mr-2 justify-center items-center cursor-pointer`} 

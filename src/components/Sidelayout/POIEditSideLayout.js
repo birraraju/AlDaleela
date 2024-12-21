@@ -281,7 +281,7 @@ const EnglishHeaderName = (queryresults?.features && queryresults.features[0]?.a
 
     return (
       <div
-        className={`fixed top-20 w-[95%] ${POIShareShow?"-[65%] laptop_s:w-[400px]": POIFormisOpenModalShow ?" ":"h-[90%]"} sm:w-[400px] laptop_s:w-[400px]  ${ isLangArab?"left-3 sm:left-16 laptop_s:left-6":"right-3 sm:right-16 laptop_s:right-6"} transition-transform duration-300 ease-in-out ${
+        className={`fixed z-[4000] top-20 w-[95%] ${POIShareShow?"-[65%] laptop_s:w-[400px]": POIFormisOpenModalShow ?" ":"h-[90%]"} sm:w-[400px] laptop_s:w-[400px]  ${ isLangArab?"left-3 sm:left-16 laptop_s:left-6":"right-3 sm:right-16 laptop_s:right-6"} transition-transform duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : ( isLangArab?" sm:-translate-x-[116%] laptop_s:-translate-x-[106%]":" sm:translate-x-[116%]  laptop_s:translate-x-[106%]")
         }`}
         // style={{ width, height, zIndex: 50 }}  // Ensure it's above other elements
@@ -295,7 +295,7 @@ const EnglishHeaderName = (queryresults?.features && queryresults.features[0]?.a
           {/* Content */}
           <div className="p-2  h-full relative">
             {children || (<>
-              {!POIShareShow && queryresults !== "" && <div dir={isLangArab && "rtl"} className={` fixed top-3 w-[95%]  ${!isLangArab && "left-4"} flex   gap-x-1`}>
+              {!POIShareShow && queryresults !== "" && <div dir={isLangArab && "rtl"} className={` fixed top-3 w-[80%] sm:w-[99%] laptop_s:w-[99%]   flex   gap-x-1`}>
                 { isDarkMode ?<img src={Location}alt="Location" className={`"h-7 w-8 " ${isLangArab && "mr-1 sm:mr-2"} ${POIFormisOpenModalShow ?"opacity-0":" "}`} />
                 :
                 <img src={Location}alt="Location" className={`"h-7 w-5" ${isLangArab && "mr-1 sm:mr-2"} ${POIFormisOpenModalShow ?"opacity-0":" "}`} />}
