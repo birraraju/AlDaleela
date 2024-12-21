@@ -911,12 +911,13 @@ console.log("Point Initial data:", poiData)
     id,
     label,
     value,
+    Lang,
     options = [],
     inputType = "text",
     disable
   ) => (
-    <div className="space-y-1">
-      <label htmlFor={id} className={`block text-[11px]  ${isDarkMode?"text-white":"text-[#303030]"}    font-500`}>
+    <div dir={Lang=== "Arb" && "rtl"} className="space-y-1">
+      <label htmlFor={id} className={`block text-[14px] font-medium ${Lang=== "Arb" ?" font-cairo": " font-omnes"}  ${isDarkMode?"text-white":"text-[#303030]"}    font-500`}>
         {label} {((label === "Name")||( label === "الاسم")) && <span className="text-red-500 ">*</span>}
       </label>
       {inputType === "select" ? (
@@ -925,7 +926,7 @@ console.log("Point Initial data:", poiData)
           value={value} // Bind to the state value
           disabled={disable} // Disable the dropdown
           onChange={handleChange}
-          className={` ${((id === "organization")||(id === "municipality")) ?" font-cairo":"" } block w-full p-2 h-[42px]   bg-white font-500 rounded-md text-[13px] border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500`}
+          className={`  block w-full p-2 h-[42px] ${Lang=== "Arb" ?" font-cairo": " font-omnes"}   bg-white font-500 rounded-md text-[13px] border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500`}
         >
           {options.length > 0 && (
             <>
@@ -947,7 +948,7 @@ console.log("Point Initial data:", poiData)
           value={id === "organization" && !isNaN(value) ? "" : value}
           disabled={disable}
           onChange={handleChange}
-          className="block w-full text-[13px] h-9 rounded-md p-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          className={` ${Lang=== "Arb" ?" font-cairo": " font-omnes"}  block w-full text-[13px]  h-9 rounded-md p-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500`}
         />
       )}
        {/* Error Display */}
@@ -984,37 +985,37 @@ console.log("Point Initial data:", poiData)
         </button>
       </div>
       <div className="p-1 space-y-0.5">
-      {renderField("name",  "Name", poiData.name)}
-      {renderField("name_Ar","الاسم", poiData.name_Ar)}
+      {renderField("name",  "Name", poiData.name,"Eng")}
+      {renderField("name_Ar","الاسم", poiData.name_Ar,"Arb")}
 
       {renderField(
           "organization_En",
           "Organization",
-          poiData.organization_En
+          poiData.organization_En,"Eng"
         )}
         { renderField(
           "organization",
          "منظمة",
-          poiData.organization,
+          poiData.organization,"Arb",
           organizationOptions,
           "select"
         ) } 
        
-        {renderField("class",  "Class", poiData.class,
+        {renderField("class",  "Class", poiData.class,"Eng",
                           classOption,
           "select")}
-          {renderField("class_Ar",  "الفئة", poiData.class_Ar,
+          {renderField("class_Ar",  "الفئة", poiData.class_Ar,"Arb",
                         classArOption ,
           "select")}
         {renderField(
           "classD",
            "Class Description",
-          poiData.classD
+          poiData.classD,"Eng"
         )}
         {renderField(
           "classD_Ar",
            "المعنى الجغرافي" ,
-          poiData.classD_Ar
+          poiData.classD_Ar,"Arb"
         )}
         {( RoleServices.isAdmin()) &&  renderField(
           "status",
@@ -1037,12 +1038,13 @@ console.log("Point Initial data:", poiData)
         {  renderField(
           "stories",
           "Stories",
-          poiData.stories
+          poiData.stories,"Eng"
         )}
         {renderField(
           "classification",
            "Classification",
           poiData.classification ||  selectedLayer[1],
+          "Eng",
           [],
           "text",
           true
@@ -1051,6 +1053,7 @@ console.log("Point Initial data:", poiData)
           "classification_Ar",
          "التصنيف" ,
           poiData.classification_Ar || selectedLayer[0] ,
+          "Arb",
           [],
           "text",
           true
@@ -1060,14 +1063,14 @@ console.log("Point Initial data:", poiData)
          renderField(
           "municipality",
         "Region",
-          poiData.municipality
+          poiData.municipality,"Eng"
         )}
 
         { 
         renderField(
           "municipality_Ar",
          "المدينة" ,
-          poiData.municipality_Ar,
+          poiData.municipality_Ar,"Arb",
           municipalityOptions,
           "select"
         ) }
@@ -1077,8 +1080,8 @@ console.log("Point Initial data:", poiData)
           isLangArab ? "الإمارة" : "Emirate",
           poiData.emirate
         )} */}
-        {renderField("city",  "Area", poiData.city)}
-        {renderField("city_Ar",  "المنطقة", poiData.city_Ar)}
+        {renderField("city",  "Area", poiData.city,"Eng")}
+        {renderField("city_Ar",  "المنطقة", poiData.city_Ar,"Arb")}
 
 
         {/* Coordinates Section */}

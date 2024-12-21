@@ -597,6 +597,7 @@ const Component = ({
     id,
     label,
     value,
+    Lang,
     options = [],
     inputType = "text",
     disable
@@ -609,11 +610,11 @@ const Component = ({
         value &&
         (value?.length > 30 ? (
           <>
-            <div dir={isLangArab && "rtl"} className={`border flex flex-col p-2 border-transparent rounded-md  ${ isDarkMode?" bg-white/80":"bg-[#FFFFFF]"}`}>
+            <div dir={Lang === "Arb" && "rtl"} className={`border flex flex-col p-2 border-transparent rounded-md  ${ isDarkMode?" bg-white/80":"bg-[#FFFFFF]"}`}>
               {value && !isEditShowPOI && (
                  <label
                  htmlFor={id}
-                 className={`block text-[14px] font-semibold ${
+                 className={`block text-[14px] ${Lang === "Arb"?" font-cairo":" font-omnes"} font-semibold ${
                    isDarkMode ? "text-[#303030]" : "text-[#303030]"
                  }`}
                >
@@ -621,7 +622,7 @@ const Component = ({
                </label>
               )}
               <p
-      className={`input-fields break-words font-600  ${isLangArab ? "text-left" : "text-rigth"} 
+      className={`input-fields  ${Lang === "Arb"?" font-cairo":" font-omnes"} break-words font-600  ${Lang === "Arb" ? "text-left" : "text-rigth"} 
          h-auto w-full text-[14px] rounded-lg text-[#399C72] `}
     >
       {value}
@@ -634,8 +635,8 @@ const Component = ({
               {(value && value !== " " && !isEditShowPOI) && (
                 <label
                   htmlFor={id}
-                  className={`block  absolute ${
-                    isLangArab ? " right-2" : " left-2"
+                  className={`block   ${Lang === "Arb"?" font-cairo":" font-omnes"} absolute ${
+                    Lang === "Arb" ? " right-2" : " left-2"
                   } top-2  text-[14px]  font-semibold ${
                     isDarkMode ? " text-[#303030]" : " text-[#303030]"
                   }`}
@@ -644,8 +645,8 @@ const Component = ({
                 </label>
               )}
              {(value && value !== " " && !isEditShowPOI) &&  <p
-                className={` border ${value ? "p-2" : "p-5"}    input-fields ${
-                  isLangArab ? "text-left" : "text-right"
+                className={` border ${value ? "p-2" : "p-5"}   ${Lang === "Arb"?" font-cairo":" font-omnes"}  input-fields ${
+                  Lang === "Arb" ? "text-left" : "text-right"
                 } w-auto    laptop_s:h-[39px]    h-9 text-[14px] rounded-lg text-[#399C72] font-600 ${ isDarkMode?" bg-white/80":"bg-[#FFFFFF]"}`}
               >
                 {" "}
@@ -663,6 +664,7 @@ const Component = ({
     id,
     label,
     value,
+    Lang,
     options = [],
     inputType = "text",
     disable
@@ -672,9 +674,9 @@ const Component = ({
     >
       {isEditShowPOI && (
         <label
-        dir={isLangArab && "rtl"}
+        dir={Lang === "Arb" && "rtl"}
           htmlFor={id}
-          className={`block  text-[14px] font-medium ${
+          className={`block  ${Lang === "Arb"?" font-cairo":" font-omnes"} text-[14px] font-medium ${
             isDarkMode ? "text-white" : "text-gray-700"
           }`}
         >
@@ -684,11 +686,11 @@ const Component = ({
       {isEditShowPOI && (
         inputType === "select" ? (
           <select
-          dir={isLangArab && "rtl"}
+          dir={Lang === "Arb" && "rtl"}
             id={id}
             value={poiData[id]}
             onChange={handleChange}
-            className={` block w-full p-2 rounded-md text-black text-[13px] h-9 border-gray-300 ${ isDarkMode?" bg-white/80":"bg-[#FFFFFF]"} shadow-sm focus:border-indigo-500 focus:ring-indigo-500`}
+            className={` block w-full p-2 ${Lang === "Arb"?" font-cairo":" font-omnes"} rounded-md text-black text-[13px] h-9 border-gray-300 ${ isDarkMode?" bg-white/80":"bg-[#FFFFFF]"} shadow-sm focus:border-indigo-500 focus:ring-indigo-500`}
           >
             {options.length > 0 && (
               <>
@@ -710,12 +712,12 @@ const Component = ({
           </select>
         ) : (
           <input
-          dir={isLangArab && "rtl"}
+          dir={Lang === "Arb" && "rtl"}
             id={id}
             value={poiData[id]}
             disabled={disable}
             onChange={handleChange}
-            className={` block text-[13px] h-9 w-full rounded-md p-2 text-black ${ isDarkMode?" bg-white/80":"bg-[#FFFFFF]"} border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500`}
+            className={` block text-[13px]  ${Lang === "Arb"?" font-cairo":" font-omnes"} h-9 w-full rounded-md p-2 text-black ${ isDarkMode?" bg-white/80":"bg-[#FFFFFF]"} border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500`}
           />
         )
       ) }
@@ -742,16 +744,18 @@ const Component = ({
               renderFieldOrTextEdit(
                 "name_en",
                  "Name",
-             queryresults.features[0].attributes.name_en
+             queryresults.features[0].attributes.name_en,
+             "Eng"
               )}
               { isEditShowPOI && 
               renderFieldOrTextEdit(
                 "name_ar",
                  "الاسم" ,
-                 queryresults.features[0].attributes.name_ar 
+                 queryresults.features[0].attributes.name_ar ,
+                 "Arb"
               )}
   {/* ================= organization  datas====================================================================== */}
-            { isLangArab? renderFieldOrText(
+            {/* { isLangArab? renderFieldOrText(
               "organization",
               isLangArab ? "الجهة" : "Organization",
               isLangArab? queryresults.features[0].attributes.organization : queryresults.features[0].attributes.organization_En,
@@ -761,18 +765,35 @@ const Component = ({
               "organization",
               isLangArab ? "الجهة" : "Organization",
               isLangArab? queryresults.features[0].attributes.organization : queryresults.features[0].attributes.organization_En
+            )} */}
+
+
+ {  renderFieldOrText(
+              "organization",
+               "Organization",
+               queryresults.features[0].attributes.organization_En,
+               "Eng"
+             
+            ) }
+            { renderFieldOrText(
+              "organization",
+           "الجهة" ,
+               queryresults.features[0].attributes.organization,
+               "Arb"
             )}
 
 {renderFieldOrTextEdit(
               "organization_En",
               "Organization",
-               queryresults.features[0].attributes.organization_En
+               queryresults.features[0].attributes.organization_En,
+               "Eng"
             )}
 
           { renderFieldOrTextEdit(
               "organization",
                "الجهة",
                queryresults.features[0].attributes.organization,
+               "Arb",
               organizationOptions,
               "select"
             ) } 
@@ -784,15 +805,21 @@ const Component = ({
 
             {renderFieldOrText(
               "Class",
-              isLangArab ? "النوع" : "Class",
-              isLangArab? queryresults.features[0].attributes.ClassAr : queryresults.features[0].attributes.Class,
-               isLangArab? classArOption : classOption,
-              "select"
+              "Class",
+           queryresults.features[0].attributes.Class,
+              "Eng"
+            )}
+            {renderFieldOrText(
+              "Class",
+              "النوع" ,
+              queryresults.features[0].attributes.ClassAr ,
+            "Arb"
             )}
              {renderFieldOrTextEdit(
               "Class",
               "Class",
               queryresults.features[0].attributes.Class,
+              "Eng",
               classOption,
               "select"
             )}
@@ -801,6 +828,7 @@ const Component = ({
               "ClassAr",
              "النوع" ,
               queryresults.features[0].attributes.ClassAr ,
+              "Arb",
               classArOption ,
               "select"
             )}
@@ -809,22 +837,24 @@ const Component = ({
 
 
 
-            { isLangArab? renderFieldOrText(
+            { renderFieldOrText(
               "MunicipalityAr",
-              isLangArab ? "المدينة" : "Region",
-              isLangArab ? queryresults.features[0].attributes.MunicipalityAr : queryresults.features[0].attributes.Municipality,
-              municipalityOptions,
-              "select"
-            ) : renderFieldOrText(
+            "Region",
+              queryresults.features[0].attributes.Municipality,
+              "Eng"
+            ) } 
+            {renderFieldOrText(
               "MunicipalityAr",
-              isLangArab ? "المدينة" : "Region",
-               isLangArab ? queryresults.features[0].attributes.MunicipalityAr : queryresults.features[0].attributes.Municipality
+              "المدينة" ,
+             queryresults.features[0].attributes.MunicipalityAr,
+             "Arb"
             )}
             
             {renderFieldOrTextEdit(
               "Municipality",
                "Region",
-                 queryresults.features[0].attributes.Municipality
+                 queryresults.features[0].attributes.Municipality,
+                 "Eng"
             )}
 
 
@@ -832,6 +862,7 @@ const Component = ({
               "MunicipalityAr",
                "المدينة" ,
               queryresults.features[0].attributes.MunicipalityAr,
+              "Arb",
               municipalityOptions,
               "select"
             ) } 
@@ -848,20 +879,30 @@ const Component = ({
             {
               renderFieldOrText(
                 "ClassD",
-                isLangArab ? "المعنى الجغرافي" : "Class Description",
-                isLangArab ? queryresults.features[0].attributes.ClassD_Ar : queryresults.features[0].attributes.ClassD
+                "Class Description",
+               queryresults.features[0].attributes.ClassD,
+               "Eng"
+              )}
+               {
+              renderFieldOrText(
+                "ClassD",
+                 "المعنى الجغرافي" ,
+               queryresults.features[0].attributes.ClassD_Ar,
+               "Arb"
               )}
                {
               renderFieldOrTextEdit(
                 "ClassD",
                  "Class Description",
-                 queryresults.features[0].attributes.ClassD
+                 queryresults.features[0].attributes.ClassD,
+                 "Eng"
               )}
                {
               renderFieldOrTextEdit(
                 "ClassD_Ar",
                 "المعنى الجغرافي" ,
-                queryresults.features[0].attributes.ClassD_Ar 
+                queryresults.features[0].attributes.ClassD_Ar ,
+                "Arb"
               )}
   {/* ================= Status   datas====================================================================== */}
 
@@ -935,15 +976,27 @@ const Component = ({
               "Classification",
               isLangArab ? "التصنيف" : "Classification",
               isLangArab? queryresults.features[0].attributes.Classification_ar : queryresults.features[0].attributes.Classification,
+              "Eng",
               [],
               "text",
               true
              )}
+              {isShowMore &&
+             renderFieldOrText(
+              "Classification",
+              "التصنيف" ,
+               queryresults.features[0].attributes.Classification_ar,
+              "Arb",
+              [],
+              "text",
+              true
+             )}
+             
                {isShowMore &&
              renderFieldOrTextEdit(
               "Classification",
                "Classification",
-              queryresults.features[0].attributes.Classification,
+              queryresults.features[0].attributes.Classification,"Eng",
               [],
               "text",
               true
@@ -952,7 +1005,7 @@ const Component = ({
              renderFieldOrTextEdit(
               "Classification_ar",
                "التصنيف" ,
-              queryresults.features[0].attributes.Classification_ar ,
+              queryresults.features[0].attributes.Classification_ar ,"Arb",
               [],
               "text",
               true
@@ -963,20 +1016,28 @@ const Component = ({
               {isShowMore &&
               renderFieldOrText(
               "City",
-              isLangArab ? "المنطقة" : "Area",
-              isLangArab ? queryresults.features[0].attributes.CityAr : queryresults.features[0].attributes.City
+              "Area",
+               queryresults.features[0].attributes.City,
+               "Eng"
+            )}
+             {isShowMore &&
+              renderFieldOrText(
+              "City",
+            "المنطقة",
+              queryresults.features[0].attributes.CityAr ,
+              "Arb"
             )}
             {isShowMore &&
               renderFieldOrTextEdit(
               "City",
              "Area",
-               queryresults.features[0].attributes.City
+               queryresults.features[0].attributes.City,"Eng"
             )}
             {isShowMore &&
               renderFieldOrTextEdit(
               "CityAr",
                "المنطقة" ,
-               queryresults.features[0].attributes.CityAr
+               queryresults.features[0].attributes.CityAr,"Arb"
             )}
   {/* =================  End  ====================================================================== */}
 

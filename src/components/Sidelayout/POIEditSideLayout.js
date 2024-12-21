@@ -293,9 +293,9 @@ const EnglishHeaderName = (queryresults?.features && queryresults.features[0]?.a
               : "bg-white bg-opacity-80 border-white"
           }`}>
           {/* Content */}
-          <div className="p-2 overflow-y-auto h-full relative">
+          <div className="p-2  h-full relative">
             {children || (<>
-              {!POIShareShow && queryresults !== "" && <div dir={isLangArab && "rtl"} className={`absolute top-3 w-[95%]  ${!isLangArab && "left-4"} flex   gap-x-1`}>
+              {!POIShareShow && queryresults !== "" && <div dir={isLangArab && "rtl"} className={` fixed top-3 w-[95%]  ${!isLangArab && "left-4"} flex   gap-x-1`}>
                 { isDarkMode ?<img src={Location}alt="Location" className={`"h-7 w-8 " ${isLangArab && "mr-1 sm:mr-2"} ${POIFormisOpenModalShow ?"opacity-0":" "}`} />
                 :
                 <img src={Location}alt="Location" className={`"h-7 w-5" ${isLangArab && "mr-1 sm:mr-2"} ${POIFormisOpenModalShow ?"opacity-0":" "}`} />}
@@ -358,7 +358,7 @@ const EnglishHeaderName = (queryresults?.features && queryresults.features[0]?.a
     <X className="h-5 w-6" />
   </button>
 </div>}       </div>}
-              <div className={`${POIShareShow?"mt-3":"mt-20"} overflow-y-auto`}>
+              <div className={`${POIShareShow?"mt-3":"mt-16 "} pb-14 h-[96%] overflow-y-auto`}>
                 {/* {(!isEditShowPOI && !POIShareShow) && <div dir={isLangArab && "rtl"} className=" w-[95%] flex justify-end items-center"><span className=" flex justify-between gap-0.5  items-center"> <button onClick={handleLeftPOIPoint}><img src={ isDarkMode?DarkLeftArrow:LeftArrow} alt="" className={`w-2.5 ${isLangArab && " rotate-180"} h-2.5`} /></button> <span className= {`flex justify-between gap-0.5 items-center ${ isDarkMode?"text-white":"text-[#808080]"} font-500 text-[12px]`}><p>{POIPoints.CurrentPoint}</p> <p>of</p> <p>{POIPoints.TotalPoints}</p></span>  <button onClick={handleRigthPOIPoint} ><img src={ isDarkMode?DarkRigthArrow: RigthArrow} alt="" className={`w-2.5 ${isLangArab && " rotate-180"} h-2.5 ${isDarkMode && " text-white"} `} /></button></span></div>} */}
               {POIShareShow && <POShareForm  onClose={()=>{setPOIFormShow(true);setPOIShareShow(false);}} queryresults={queryresults}/>}
              {(isEditShowPOI||POIFormShow) && <POIEditForm isLangArab={isLangArab} isEditShowPOI={isEditShowPOI}  setIsShowEditPOI={setIsShowEditPOI}  POIFormShow={POIFormShow} setPOIFormShow={setPOIFormShow} setPOIUploaderShow={setPOIUploaderShow} queryresults={queryresults} setIsEditPOI={setIsEditPOI} uploadedFiles={uploadedFiles} setPOImessageShow={setPOImessageShow} setPOIFormsuccessShow={setPOIFormsuccessShow} setPOIFormisOpenModalShow={setPOIFormisOpenModalShow} setUploadedFiles={setUploadedFiles}/>}

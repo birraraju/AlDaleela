@@ -713,7 +713,7 @@ const DropBinStatusUpdate = ({setMessage,setPOINames,isLangArab,setFormShow,isDa
                   audios.map((audio, index) => (
                     <div
                       key={index}
-                      className="flex p-2 h-10 bg-gray-300 rounded-full justify-start items-center overflow-hidden"
+                      className="flex p-2 h-10 my-1 bg-gray-300 rounded-full justify-start items-center overflow-hidden"
                     >
                       <button onClick={() => handlePlayAudio(index)}>
                         {playingIndex === index ? (

@@ -65,7 +65,7 @@ export default function POIApprovalStatus({ children, onClose, mapview }) {
         {/* Sticky Dropped Pin */}
         <div className="sticky top-4 z-10 p-4 bg-opacity-70">
           <div className="flex w-[70%] justify-start items-center gap-x-1">
-            <img src={isDarkMode ? DarkLocation : Location} alt="Location" className=" w-[32px] h-[32px]" />
+            <img src={isDarkMode ? Location : Location} alt="Location" className=" w-[32px] h-[32px]" />
             <p className={`font-600 text-[15px]    ${isDarkMode ? "text-white" : "text-[#505050]"}`}>
               <h2 className="text-[12px]">{ isLangArab ? POINames?.Name_Ar : POINames?.Name_En}</h2>
             </p>
